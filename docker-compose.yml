@@ -11,7 +11,7 @@
 version: "2.1"
 
 services:
-  ## Third-party services
+  # Third-party services
   elasticsearch:
     container_name: edx.devstack.elasticsearch
     image: elasticsearch:1.5.2
@@ -41,7 +41,7 @@ services:
     volumes:
       - ./.dev/volumes/mysql:/var/lib/mysql
 
-  ## edX services
+  # edX services
   credentials:
     command: /edx/app/credentials/devstack.sh start
     container_name: edx.devstack.credentials
