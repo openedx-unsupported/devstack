@@ -1,0 +1,95 @@
+# This file contains all of the services for an edX installation. See https://docs.docker.com/compose/compose-file/
+# for the appropriate syntax and definitions.
+#
+# Housekeeping Rules:
+# - Group third-party and edX services separately
+# - Alphabetize services in the groups
+# - Alphabetize individual configuration options for each service
+# - Every service's container name should be prefixed with "edx.devstack." to avoid conflicts with other containers
+#   that might be running for the same service.
+
+version: "2.1"
+
+services:
+  ## Third-party services
+  elasticsearch:
+    container_name: edx.devstack.elasticsearch
+    image: elasticsearch:1.5.2
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - ./.dev/volumes/elasticsearch/data:/usr/share/elasticsearch/data
+      - ./.dev/volumes/elasticsearch/logs:/usr/share/elasticsearch/logs
+      - ./.dev/volumes/elasticsearch/plugins:/usr/share/elasticsearch/plugins
+
+  memcached:
+    container_name: edx.devstack.memcached
+    image: memcached:1.4.24
+    ports:
+      - "11211:11211"
+
+  mysql:
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci
+    container_name: edx.devstack.mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ""
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    image: mysql:5.6
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./.dev/volumes/mysql:/var/lib/mysql
+
+  ## edX services
+  credentials:
+    command: /edx/app/credentials/devstack.sh start
+    container_name: edx.devstack.credentials
+    depends_on:
+      - mysql
+      - memcached
+      - discovery
+    environment:
+      ENABLE_DJANGO_TOOLBAR: 1
+    image: edxops/credentials:latest
+    ports:
+      - "18150:18150"
+
+  discovery:
+    command: /edx/app/discovery/devstack.sh start
+    container_name: edx.devstack.discovery
+    depends_on:
+      - mysql
+      - elasticsearch
+      - memcached
+    environment:
+      TEST_ELASTICSEARCH_URL: "http://edx.devstack.elasticsearch:9200"
+      ENABLE_DJANGO_TOOLBAR: 1
+    image: edxops/discovery:latest
+    ports:
+      - "18381:18381"
+
+  ecommerce:
+    command: /edx/app/ecommerce/devstack.sh start
+    container_name: edx.devstack.ecommerce
+    depends_on:
+      - mysql
+      - memcached
+      - discovery
+    environment:
+      ENABLE_DJANGO_TOOLBAR: 1
+    image: edxops/ecommerce:latest
+    ports:
+      - "18130:18130"
+
+  programs:
+    command: /edx/app/programs/devstack.sh start
+    container_name: edx.devstack.programs
+    depends_on:
+      - mysql
+      - memcached
+    environment:
+      ENABLE_DJANGO_TOOLBAR: 1
+    image: edxops/programs:latest
+    ports:
+      - "18140:18140"
