@@ -93,3 +93,5 @@ ENV/
 
 # PyCharm
 .idea/
+
+.dev/
