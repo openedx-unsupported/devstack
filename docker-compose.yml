@@ -13,15 +13,16 @@ version: "2.1"
 services:
   # Third-party services
   elasticsearch:
+    build:
+      context: .
+      dockerfile: ./docker/elasticsearch/Dockerfile
     container_name: edx.devstack.elasticsearch
-    image: elasticsearch:1.5.2
     ports:
       - "9200:9200"
       - "9300:9300"
     volumes:
       - ./.dev/volumes/elasticsearch/data:/usr/share/elasticsearch/data
       - ./.dev/volumes/elasticsearch/logs:/usr/share/elasticsearch/logs
-      - ./.dev/volumes/elasticsearch/plugins:/usr/share/elasticsearch/plugins
 
   memcached:
     container_name: edx.devstack.memcached
