@@ -17,3 +17,6 @@ devstack.start:     ## Start all services
 
 devstack.stop:      ## Stop all services
 	docker-compose stop
+
+requirements:       ## Install requirements
+	pip install -r requirements.txt
