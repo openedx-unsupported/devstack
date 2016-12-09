@@ -1,4 +1,4 @@
-.PHONY: devstack.reset devstack.start devstack.stop help
+.PHONY: devstack.reset devstack.start devstack.stop help requirements validate
 
 help: ## Display this help message
 	@echo "Please use \`make <target>' where <target> is one of"
@@ -20,3 +20,6 @@ devstack.stop:      ## Stop all services
 
 requirements:       ## Install requirements
 	pip install -r requirements.txt
+
+validate:           ## Validate the devstack configuration
+	docker-compose config
