@@ -3,6 +3,9 @@
 # Ensure the containers are started
 docker-compose up -d
 
+# Create the databases and users
+docker exec -i edx.devstack.mysql mysql -uroot < provision.sql
+
 # Create superusers that can access the services without the need for single sign-on
 # NOTE: If the users already exist, errors will be raised (in the Django shell), but execution of this provisioning
 # script will continue.
