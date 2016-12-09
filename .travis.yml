@@ -1,0 +1,15 @@
+sudo: required
+
+language: python
+
+python:
+  - "3.5"
+
+services:
+  - docker
+
+before_install:
+  - make requirements
+
+script:
+  - make validate
