@@ -41,7 +41,6 @@ services:
       - "3306:3306"
     volumes:
       - ./.dev/volumes/mysql:/var/lib/mysql
-      - ./.dev/sql:/docker-entrypoint-initdb.d
 
   # edX services
   credentials:
