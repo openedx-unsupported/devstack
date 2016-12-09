@@ -11,6 +11,7 @@ above the one housing this file.
 import concurrent.futures
 import logging
 from logging.config import dictConfig
+import os
 from os.path import join, abspath, dirname
 import re
 import subprocess
@@ -52,27 +53,29 @@ class Repo:
         match = re.match(r'.*edx/(?P<name>.*).git', self.clone_url)
         self.name = match.group('name')
 
+        parent_path = dirname(dirname(abspath(__file__)))
+        self.path = join(parent_path, self.name)
+
     def clone(self):
         """Clone the repo."""
-        parent_path = dirname(dirname(abspath(__file__)))
-        clone_path = join(parent_path, self.name)
-        subprocess.run(['git', 'clone', self.clone_url, clone_path], check=True)
+        subprocess.run(['git', 'clone', self.clone_url, self.path], check=True)
+
+    @property
+    def exists(self):
+        """Determine if the repo is already checked out."""
+        return os.path.exists(self.path)
 
 
 if __name__ == '__main__':
     with open('settings.yml') as f:
         settings = yaml.load(f)
 
-    repos = [Repo(clone_url) for clone_url in settings['repos']]
-
-    logger.info(
-        'Cloning. Target repos are: {}.'.format(
-            ', '.join(repo.name for repo in repos)
-        )
-    )
-
     with concurrent.futures.ThreadPoolExecutor() as executor:
-        for repo in repos:
-            executor.submit(repo.clone)
+        repos = [Repo(clone_url) for clone_url in settings['repos']]
 
-    logger.info('Cloning complete.')
+        for repo in repos:
+            if repo.exists:
+                logger.info('Repo [{name}] found at [{path}].'.format(name=repo.name, path=repo.path))
+            else:
+                logger.info('Repo [{name}] not found. Cloning to [{path}].'.format(name=repo.name, path=repo.path))
+                executor.submit(repo.clone)
