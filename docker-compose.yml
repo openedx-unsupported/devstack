@@ -53,7 +53,7 @@ services:
       - discovery
     environment:
       ENABLE_DJANGO_TOOLBAR: 1
-    image: edxops/credentials:latest
+    image: edxops/credentials:devstack
     ports:
       - "18150:18150"
     volumes:
@@ -69,7 +69,7 @@ services:
     environment:
       TEST_ELASTICSEARCH_URL: "http://edx.devstack.elasticsearch:9200"
       ENABLE_DJANGO_TOOLBAR: 1
-    image: edxops/discovery:latest
+    image: edxops/discovery:devstack
     ports:
       - "18381:18381"
     volumes:
@@ -84,7 +84,7 @@ services:
       - discovery
     environment:
       ENABLE_DJANGO_TOOLBAR: 1
-    image: edxops/ecommerce:latest
+    image: edxops/ecommerce:devstack
     ports:
       - "18130:18130"
     volumes:
@@ -98,7 +98,7 @@ services:
       - memcached
     environment:
       ENABLE_DJANGO_TOOLBAR: 1
-    image: edxops/programs:latest
+    image: edxops/programs:devstack
     ports:
       - "18140:18140"
     volumes:
