@@ -1,4 +1,4 @@
-.PHONY: clone devstack.reset devstack.start devstack.stop help requirements validate
+.PHONY: clone devstack.provision devstack.reset devstack.start devstack.stop help requirements validate
 
 help: ## Display this help message
 	@echo "Please use \`make <target>' where <target> is one of"
@@ -11,6 +11,9 @@ clone: ## Clone service repos
 # print the actual service names.
 devstack.open.%: clone   ## Open a shell into the specified service container
 	docker exec -it edx.devstack.$* env TERM=$(TERM) /edx/app/$*/devstack.sh open
+
+devstack.provision: ## Provision all services
+	./provision.sh
 
 devstack.reset: ## Remove all service containers
 	docker-compose down
