@@ -9,7 +9,7 @@ clone: ## Clone service repos
 
 # TODO Print out help for this target. Even better if we can iterate over the services in docker-compose.yml, and
 # print the actual service names.
-devstack.open.%: clone   ## Open a shell into the specified service container
+devstack.open.%: ## Open a shell into the specified service container
 	docker exec -it edx.devstack.$* env TERM=$(TERM) /edx/app/$*/devstack.sh open
 
 devstack.provision: ## Provision all services
