@@ -18,14 +18,11 @@ devstack.provision: ## Provision all services
 devstack.reset: ## Remove all service containers
 	docker-compose down
 
-devstack.start: loopback ## Start all services
+devstack.start: ## Start all services
 	docker-compose up
 
 devstack.stop: ## Stop all services
 	docker-compose stop
-
-loopback: ## Create loopback alias
-	./loopback.sh
 
 requirements: ## Install requirements
 	pip install -r requirements.txt

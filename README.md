@@ -6,7 +6,9 @@ This project is meant to replace the traditional Vagrant VM "devstack" with a mu
 
 ## Getting Started
 
-All of the services can be run by following the steps below.
+All of the services can be run by following the steps below. Note that since we are running many containers, you should
+configure Docker with a sufficient amount of resources. Our testing found that [configuring Docker for Mac](https://docs.docker.com/docker-for-mac/#/advanced)
+ with 2 CPUs and 4GB of memory works well.
 
 1. The Docker Compose file mounts a host volume for each service's executing code. The host directory is expected to be
    a sibling of this directory. For example, if this repo is cloned to `~/workspace/devstack`, host volumes will be
@@ -37,29 +39,4 @@ After the services have started, if you need shell access to one of the services
 
 ```
 $ make devstack.open.discovery
-```
-
-## Loopback Alias
-
-Containers making requests to the LMS and Studio must communicate with ports exposed on the host system by the Vagrant VM. (This assumes that the LMS and Studio are still running in the traditional Vagrant-based devstack.)
-
-This is fine on Linux, but doesn't work out of the box on OS X. Attempting to access localhost on a container will result
-in talking to the Docker for Mac HyperKit VM, not the host machine.
-
-While it's true that you can get this to work by accessing your Mac's external IP from your containers, this isn't ideal because
-it won't work if you have no network access on your host. Your external IP also changes as you switch networks, meaning you'd have
-to change the IP accessed by your containers every time you changed networks.
-
-A better solution, borrowed from the [Docker forums](https://forums.docker.com/t/access-host-not-vm-from-inside-container/11747/10),
-is to give your host a fixed address by creating a [loopback](http://askubuntu.com/questions/247625/what-is-the-loopback-device-and-how-do-i-use-it)
-alias. This is done for you by the `devstack.start` target.
-
-The result is a fixed IP which your containers can use to access ports on your host machine. Note that the underlying script uses `sudo`;
-adding IP addresses requires root access. Also note that the alias will not survive a host reboot, which is why the `devstack.start` target
-always attempts to set up the loopback for you.
-
-Part of the loopback alias setup includes adding a line to the `/etc/hosts` file on your machine. If you want to stop using devstack, you can clean this up by opening your `/etc/hosts` file and removing this line:
-
-```
-10.254.254.254 docker.host
 ```

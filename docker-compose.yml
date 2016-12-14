@@ -29,6 +29,14 @@ services:
     # ports:
     #   - "11211:11211"
 
+  mongo:
+    container_name: edx.devstack.mongo
+    image: mongo:2.6.5
+    # ports:
+    #  - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
   mysql:
     command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci
     container_name: edx.devstack.mysql
@@ -67,9 +75,6 @@ services:
     environment:
       TEST_ELASTICSEARCH_URL: "http://edx.devstack.elasticsearch:9200"
       ENABLE_DJANGO_TOOLBAR: 1
-    extra_hosts:
-      # For server-to-server calls.
-      - "docker.host:10.254.254.254"
     image: edxops/discovery:devstack
     ports:
       - "18381:18381"
@@ -91,6 +96,20 @@ services:
     volumes:
       - ../ecommerce:/edx/app/ecommerce/ecommerce
 
+  edxapp:
+    command: /edx/app/edxapp/devstack.sh start
+    container_name: edx.devstack.edxapp
+    depends_on:
+      - mysql
+      - memcached
+      - mongo
+    image: edxops/edxapp:devstack
+    ports:
+      - "18000:18000"
+      - "18010:18010"
+    volumes:
+      - ../edx-platform:/edx/app/edxapp/edx-platform
+
   programs:
     command: /edx/app/programs/devstack.sh start
     container_name: edx.devstack.programs
@@ -107,4 +126,5 @@ services:
 
 volumes:
   elasticsearch_data:
+  mongo_data:
   mysql_data:
