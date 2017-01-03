@@ -2,6 +2,8 @@
 
 Get up and running quickly with edX services.
 
+This project is meant to replace the traditional Vagrant VM "devstack" with a multi-container approach driven by Docker Compose. You should run any Make targets described below on your local machine, not from within a VM.
+
 ## Getting Started
 
 All of the services can be run by following the steps below.
@@ -30,7 +32,7 @@ $ make devstack.open.discovery
 
 ## Loopback Alias
 
-Containers making requests to the LMS and Studio must communicate with ports exposed on the host system by the Vagrant VM.
+Containers making requests to the LMS and Studio must communicate with ports exposed on the host system by the Vagrant VM. (This assumes that the LMS and Studio are still running in the traditional Vagrant-based devstack.)
 
 This is fine on Linux, but doesn't work out of the box on OS X. Attempting to access localhost on a container will result
 in talking to the Docker for Mac HyperKit VM, not the host machine.
