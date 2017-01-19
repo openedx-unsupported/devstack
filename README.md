@@ -8,7 +8,16 @@ This project is meant to replace the traditional Vagrant VM "devstack" with a mu
 
 All of the services can be run by following the steps below.
 
-1. Run the provision command, if you haven't already, to configure the various services with super-users (for
+1. The Docker Compose file mounts a host volume for each service's executing code. The host directory is expected to be
+   a sibling of this directory. For example, if this repo is cloned to `~/workspace/devstack`, host volumes will be
+   expected in `~/workspace/course-discovery`, `~/workspace/ecommerce`, etc. These repos can be cloned with the command
+   below.
+
+   ```
+   $ make clone
+   ```
+
+2. Run the provision command, if you haven't already, to configure the various services with super-users (for
    development without the auth service) and tenants (for multi-tenancy).
 
    The username and password for the superusers are both "edx". You can access the services directly via Django admin
@@ -18,7 +27,7 @@ All of the services can be run by following the steps below.
     $ make devstack.provision
     ```
 
-2. Start the services.
+3. Start the services.
 
     ```
     $ make devstack.start

@@ -18,7 +18,7 @@ devstack.provision: ## Provision all services
 devstack.reset: ## Remove all service containers
 	docker-compose down
 
-devstack.start: ## Start all services
+devstack.start: loopback ## Start all services
 	docker-compose up
 
 devstack.stop: ## Stop all services
