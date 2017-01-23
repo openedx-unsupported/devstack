@@ -49,8 +49,7 @@ docker exec -t edx.devstack.discovery bash -c 'source /edx/app/discovery/discove
 # TODO Create credentials tenant (ECOM-6566)
 
 # Compile static assets. We do this last since it takes the longest.
-# NOTE: Programs has no static assets.
-services=('credentials' 'discovery' 'ecommerce')
+services=('credentials' 'discovery' 'ecommerce' 'programs')
 for service in "${services[@]}"
 do
     echo -e "${GREEN}Compiling static assets for ${service}...${NC}"
