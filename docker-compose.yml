@@ -13,17 +13,15 @@ version: "2.1"
 services:
   # Third-party services
   elasticsearch:
-    build:
-      context: .
-      dockerfile: ./docker/elasticsearch/Dockerfile
     container_name: edx.devstack.elasticsearch
+    image: clintonb/elasticsearch
     # TODO: What to do about these forwarded ports? They'll conflict with ports forwarded by the Vagrant VM.
     # ports:
     #   - "9200:9200"
     #   - "9300:9300"
     volumes:
-      - ./.dev/volumes/elasticsearch/data:/usr/share/elasticsearch/data
-      - ./.dev/volumes/elasticsearch/logs:/usr/share/elasticsearch/logs
+      - elasticsearch_data:/usr/share/elasticsearch/data
+      - elasticsearch_data:/usr/share/elasticsearch/logs
 
   memcached:
     container_name: edx.devstack.memcached
@@ -41,7 +39,7 @@ services:
     # ports:
     #   - "3306:3306"
     volumes:
-      - ./.dev/volumes/mysql:/var/lib/mysql
+      - mysql_data:/var/lib/mysql
 
   # edX services
   credentials:
@@ -106,3 +104,7 @@ services:
       - "18140:18140"
     volumes:
       - ../programs:/edx/app/programs/programs
+
+volumes:
+  elasticsearch_data:
+  mysql_data:
