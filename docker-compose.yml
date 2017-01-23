@@ -14,7 +14,7 @@ services:
   # Third-party services
   elasticsearch:
     container_name: edx.devstack.elasticsearch
-    image: clintonb/elasticsearch
+    image: edxops/elasticsearch:devstack
     # TODO: What to do about these forwarded ports? They'll conflict with ports forwarded by the Vagrant VM.
     # ports:
     #   - "9200:9200"
