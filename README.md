@@ -62,3 +62,4 @@ There is still work to be done before this is ready for full release to the Open
 1. Align with [OEP-5](http://open-edx-proposals.readthedocs.io/en/latest/oep-0005.html)
 2. Finish provisioning all services
 3. Load demo data
+4. PyCharm debugging
