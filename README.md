@@ -63,3 +63,4 @@ There is still work to be done before this is ready for full release to the Open
 2. Finish provisioning all services
 3. Load demo data
 4. PyCharm debugging
+5. Merge devstack settings for edxapp (https://github.com/edx/edx-platform/pull/14376), and reactivate host volume
