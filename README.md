@@ -9,6 +9,14 @@ limited at the moment, so it may take a while to respond to issues.
 
 You should run any Make targets described below on your local machine, _not_ from within a VM.
 
+## Prerequisites
+
+This project was developed and tested using **Docker 1.13+**. If you are using OS X, please use [Docker for Mac](https://docs.docker.com/docker-for-mac/).
+Previous Mac-based tools (e.g. boot2docker) are not supported.
+
+[Docker for Windows](https://docs.docker.com/docker-for-windows/) may work but has not been tested and is _not supported_.
+
+
 ## Getting Started
 
 All of the services can be run by following the steps below. Note that since we are running many containers, you should
@@ -46,3 +54,11 @@ For example to access the Catalog/Course Discovery Service, you can run:
 ```
 $ make devstack.open.discovery
 ```
+
+## Remaining Work
+
+There is still work to be done before this is ready for full release to the Open edX community. Here are the major items:
+
+1. Align with [OEP-5](http://open-edx-proposals.readthedocs.io/en/latest/oep-0005.html)
+2. Finish provisioning all services
+3. Load demo data
