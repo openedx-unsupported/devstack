@@ -1,8 +1,13 @@
-# devstack
+# edX Devstack
 
 Get up and running quickly with edX services.
 
-This project is meant to replace the traditional Vagrant VM "devstack" with a multi-container approach driven by Docker Compose. You should run any Make targets described below on your local machine, not from within a VM.
+If you are seeking info on the Vagrant-based devstack, please see https://openedx.atlassian.net/wiki/display/OpenOPS/Running+Devstack.
+This project is meant to replace the traditional Vagrant-based devstack with a multi-container approach driven by [Docker
+Compose](https://docs.docker.com/compose/). It is still in the alpha/beta testing phase. Support for this project is
+limited at the moment, so it may take a while to respond to issues.
+
+You should run any Make targets described below on your local machine, _not_ from within a VM.
 
 ## Getting Started
 
@@ -23,7 +28,7 @@ configure Docker with a sufficient amount of resources. Our testing found that [
    development without the auth service) and tenants (for multi-tenancy).
 
    The username and password for the superusers are both "edx". You can access the services directly via Django admin
-   at the `/admin` path.
+   at the `/admin/` path, or login via single sign-on at `/login/`.
 
     ```
     $ make devstack.provision
@@ -36,6 +41,7 @@ configure Docker with a sufficient amount of resources. Our testing found that [
     ```
 
 After the services have started, if you need shell access to one of the services, run `make devstack.open.<service>`.
+For example to access the Catalog/Course Discovery Service, you can run:
 
 ```
 $ make devstack.open.discovery
