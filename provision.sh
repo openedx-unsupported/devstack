@@ -43,11 +43,11 @@ docker-compose up -d
 ./load-db.sh edxapp_csmh
 
 # Run edxapp migrations first since they are needed for the service users and OAuth clients
-docker exec -t edx.devstack.edxapp  bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && paver update_db --settings devstack'
+docker exec -t edx.devstack.edxapp  bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && paver update_db --settings devstack_docker'
 
 # Create a superuser for edxapp
-docker exec -t edx.devstack.edxapp  bash -c 'source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack manage_user edx edx@example.com --superuser --staff'
-docker exec -t edx.devstack.edxapp  bash -c 'source /edx/app/edxapp/edxapp_env && echo "from django.contrib.auth import get_user_model; User = get_user_model(); user = User.objects.get(username=\"edx\"); user.set_password(\"edx\"); user.save()" | python /edx/app/edxapp/edx-platform/manage.py lms shell  --settings=devstack' &
+docker exec -t edx.devstack.edxapp  bash -c 'source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack_docker manage_user edx edx@example.com --superuser --staff'
+docker exec -t edx.devstack.edxapp  bash -c 'source /edx/app/edxapp/edxapp_env && echo "from django.contrib.auth import get_user_model; User = get_user_model(); user = User.objects.get(username=\"edx\"); user.set_password(\"edx\"); user.save()" | python /edx/app/edxapp/edx-platform/manage.py lms shell  --settings=devstack_docker' &
 
 # We must fake an associative array for Bash 3 users
 services=('credentials:18150' 'discovery:18381' 'ecommerce:18130' 'programs:18140')
@@ -64,8 +64,8 @@ do
 	docker exec -t edx.devstack.${name}  bash -c 'source /edx/app/$1/$1_env && echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser(\"edx\", \"edx@example.com\", \"edx\") if not User.objects.filter(username=\"edx\").exists() else None" | python /edx/app/$1/$1/manage.py shell' -- "$name" &
 
     echo -e "${GREEN}Creating service user and OAuth client for ${name}...${NC}"
-    docker exec -t edx.devstack.edxapp  bash -c 'source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack manage_user $1_worker $1_worker@example.com --staff' -- "$name" &
-    docker exec -t edx.devstack.edxapp  bash -c 'source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack create_oauth2_client "http://localhost:$2" "http://localhost:$2/complete/edx-oidc/" confidential --client_name $1 --client_id "$1-key" --client_secret "$1-secret" --trusted --logout_uri "http://localhost:$2/logout/" --username $1_worker' -- "$name" "$port" &
+    docker exec -t edx.devstack.edxapp  bash -c 'source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack_docker manage_user $1_worker $1_worker@example.com --staff' -- "$name" &
+    docker exec -t edx.devstack.edxapp  bash -c 'source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack_docker create_oauth2_client "http://localhost:$2" "http://localhost:$2/complete/edx-oidc/" confidential --client_name $1 --client_id "$1-key" --client_secret "$1-secret" --trusted --logout_uri "http://localhost:$2/logout/" --username $1_worker' -- "$name" "$port" &
 done
 
 
@@ -91,6 +91,6 @@ done
 # TODO Consider loading demo course/users via Ansible play?
 
 # Save the longest for last...
-docker exec -t edx.devstack.edxapp  bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && paver update_assets --settings devstack'
+docker exec -t edx.devstack.edxapp  bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && paver update_assets --settings devstack_docker'
 
 echo -e "${GREEN}Provisioning complete!${NC}"
