@@ -91,8 +91,6 @@ do
     docker exec -t edx.devstack.${name}  bash -c 'source /edx/app/$1/$1_env && cd /edx/app/$1/$1/ && make static' -- "$name" &
 done
 
-# TODO Consider loading demo course/users via Ansible play?
-
 # Save the longest for last...
 docker exec -t edx.devstack.edxapp  bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && paver update_assets --settings devstack_docker'
 
