@@ -46,7 +46,7 @@ configure Docker with a sufficient amount of resources. Our testing found that [
   (devstack)$ make clone
   ```
 
-3. Run the provision command, if you haven't already, to configure the various services with super-users (for
+3. Run the provision command, if you haven't already, to configure the various services with superusers (for
    development without the auth service) and tenants (for multi-tenancy).
 
    The username and password for the superusers are both "edx". You can access the services directly via Django admin
@@ -68,6 +68,25 @@ For example to access the Catalog/Course Discovery Service, you can run:
 ```
 (devstack)$ make devstack.open.discovery
 ```
+
+## Usernames and Passwords
+
+The provisioning script creates a Django superuser for every service.
+
+    Email: edx@example.com
+    Username: edx
+    Password: edx
+
+The LMS also includes demo accounts. The passwords for each of these accounts is `edx`.
+
+
+| Username | Email                |
+|----------|----------------------|
+| audit    | audit@example.com    |
+| honor    | honor@example.com    |
+| staff    | staff@example.com    |
+| verified | verified@example.com |
+
 
 ## Remaining Work
 
