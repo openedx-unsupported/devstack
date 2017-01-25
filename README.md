@@ -88,6 +88,20 @@ The LMS also includes demo accounts. The passwords for each of these accounts is
 | verified | verified@example.com |
 
 
+## Service URLs
+
+Each service is accessible at `localhost` on a specific port. The table below provides links to the homepage of each
+service. Since some services are not meant to be user-facing, the "homepage" may be the API root.
+
+| Service           | URL                                                                    |
+|-------------------|------------------------------------------------------------------------|
+| Credentials       | [http://localhost:18150/api/v2/](http://localhost:18150/api/v2/)       |
+| Catalog/Discovery | [http://localhost:18381/api-docs/](http://localhost:18381/api-docs/)   |
+| E-Commerce/Otto   | [http://localhost:18130/dashboard/](http://localhost:18130/dashboard/) |
+| LMS               | [http://localhost:18000/](http://localhost:18000/)                     |
+| Programs          | [http://localhost:18140/api/v1/](http://localhost:18140/api/v1/)       |
+| Studio/CMS        | [http://localhost:18010/](http://localhost:18010/)                     |
+
 ## Remaining Work
 
 There is still work to be done before this is ready for full release to the Open edX community. Here are the major items:
