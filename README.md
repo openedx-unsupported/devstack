@@ -23,50 +23,36 @@ All of the services can be run by following the steps below. Note that since we 
 configure Docker with a sufficient amount of resources. Our testing found that [configuring Docker for Mac](https://docs.docker.com/docker-for-mac/#/advanced)
  with 2 CPUs and 4GB of memory works well.
 
-1. Create a Python 3 `virtualenv`. If you're using [virtualenvwrapper](https://virtualenvwrapper.readthedocs.io
-), you can do this with:
+1. The Docker Compose file mounts a host volume for each service's executing code. The host directory is expected to be
+  a sibling of this directory. For example, if this repo is cloned to `~/workspace/devstack`, host volumes will be
+  expected in `~/workspace/course-discovery`, `~/workspace/ecommerce`, etc. These repos can be cloned with the command
+  below.
 
   ```
-  $ mkvirtualenv devstack --python=$(which python3)
+  $ make clone
   ```
 
-  Source the virtualenv and install requirements:
+2. Run the provision command, if you haven't already, to configure the various services with superusers (for
+  development without the auth service) and tenants (for multi-tenancy).
+
+  The username and password for the superusers are both "edx". You can access the services directly via Django admin
+  at the `/admin/` path, or login via single sign-on at `/login/`.
 
   ```
-  $ workon devstack
-  (devstack)$ make requirements
+  $ make devstack.provision
   ```
 
-2. The Docker Compose file mounts a host volume for each service's executing code. The host directory is expected to be
-   a sibling of this directory. For example, if this repo is cloned to `~/workspace/devstack`, host volumes will be
-   expected in `~/workspace/course-discovery`, `~/workspace/ecommerce`, etc. These repos can be cloned with the command
-   below.
+3. Start the services.
 
   ```
-  (devstack)$ make clone
+  $ make devstack.start
   ```
-
-3. Run the provision command, if you haven't already, to configure the various services with superusers (for
-   development without the auth service) and tenants (for multi-tenancy).
-
-   The username and password for the superusers are both "edx". You can access the services directly via Django admin
-   at the `/admin/` path, or login via single sign-on at `/login/`.
-
-   ```
-   (devstack)$ make devstack.provision
-   ```
-
-4. Start the services.
-
-    ```
-    (devstack)$ make devstack.start
-    ```
 
 After the services have started, if you need shell access to one of the services, run `make devstack.open.<service>`.
 For example to access the Catalog/Course Discovery Service, you can run:
 
 ```
-(devstack)$ make devstack.open.discovery
+$ make devstack.open.discovery
 ```
 
 ## Usernames and Passwords
