@@ -25,7 +25,7 @@ do
     if [ -d "$name" ]; then
         printf "The [%s] repo is already checked out. Continuing.\n" $name
     else
-        git clone $repo
+        git clone --depth 1 $repo
     fi
     cd - &> /dev/null
 done
