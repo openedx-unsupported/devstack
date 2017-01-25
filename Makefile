@@ -5,7 +5,7 @@ help: ## Display this help message
 	@perl -nle'print $& if m{^[\.a-zA-Z_-]+:.*?## .*$$}' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m  %-25s\033[0m %s\n", $$1, $$2}'
 
 clone: ## Clone service repos
-	./clone.py
+	./clone.sh
 
 # TODO Print out help for this target. Even better if we can iterate over the services in docker-compose.yml, and
 # print the actual service names.
