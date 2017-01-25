@@ -102,6 +102,33 @@ service. Since some services are not meant to be user-facing, the "homepage" may
 | Programs          | [http://localhost:18140/api/v1/](http://localhost:18140/api/v1/)       |
 | Studio/CMS        | [http://localhost:18010/](http://localhost:18010/)                     |
 
+
+## Useful Commands
+
+Sometimes you may need to restart a particular application server. Rather than restarting the entire devstack or the
+individual container, you can instruct [Supervisor](http://supervisord.org/) to restart just the nginx and application
+servers with one command.
+
+If you are already working in the shell of a container run:
+
+```
+$ /edx/app/supervisor/venvs/supervisor/bin/supervisorctl restart all
+```
+
+Alternatively, if you are not working from a shell inside a container run:
+
+```
+$ docker exec -t edx.devstack.<service>  bash -c '/edx/app/supervisor/venvs/supervisor/bin/supervisorctl restart all'
+```
+
+`<service>` should be replaced with one of the following:
+
+* credentials
+* discovery
+* ecommerce
+* edxapp
+* programs
+
 ## Remaining Work
 
 There is still work to be done before this is ready for full release to the Open edX community. Here are the major items:
