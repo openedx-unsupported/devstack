@@ -53,7 +53,7 @@ docker exec -t edx.devstack.edxapp  bash -c 'source /edx/app/edxapp/edxapp_env &
 docker exec -t edx.devstack.edxapp  bash -c '/edx/app/edx_ansible/venvs/edx_ansible/bin/ansible-playbook /edx/app/edx_ansible/edx_ansible/playbooks/edx-east/demo.yml -v -c local -i "127.0.0.1," --extra-vars="COMMON_EDXAPP_SETTINGS=devstack_docker"' &
 
 # We must fake an associative array for Bash 3 users
-services=('credentials:18150' 'discovery:18381' 'ecommerce:18130' 'programs:18140')
+services=('credentials:18150' 'discovery:18381' 'ecommerce:18130')
 
 for service in "${services[@]}"
 do
@@ -77,7 +77,7 @@ done
 docker exec -t edx.devstack.ecommerce bash -c 'source /edx/app/ecommerce/ecommerce_env && python /edx/app/ecommerce/ecommerce/manage.py oscar_populate_countries' &
 
 # TODO Create discovery tenant with correct credentials (ECOM-6565)
-docker exec -t edx.devstack.discovery bash -c 'source /edx/app/discovery/discovery_env && python /edx/app/discovery/discovery/manage.py create_or_update_partner --code edx --name edX --courses-api-url "http://edx.devstack.edxapp:18000/api/courses/v1/" --ecommerce-api-url "http://edx.devstack.ecommerce:18130/api/v2/" --organizations-api-url "http://edx.devstack.edxapp:18000/api/organizations/v0/" --programs-api-url "http://edx.devstack.programs:18140/api/v1/" --oidc-url-root "http://edx.devstack.edxapp:18000/oauth2" --oidc-key discovery-key --oidc-secret discovery-secret' &
+docker exec -t edx.devstack.discovery bash -c 'source /edx/app/discovery/discovery_env && python /edx/app/discovery/discovery/manage.py create_or_update_partner --code edx --name edX --courses-api-url "http://edx.devstack.edxapp:18000/api/courses/v1/" --ecommerce-api-url "http://edx.devstack.ecommerce:18130/api/v2/" --organizations-api-url "http://edx.devstack.edxapp:18000/api/organizations/v0/" --oidc-url-root "http://edx.devstack.edxapp:18000/oauth2" --oidc-key discovery-key --oidc-secret discovery-secret' &
 
 # TODO Create credentials tenant (ECOM-6566)
 
