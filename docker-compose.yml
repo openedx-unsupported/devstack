@@ -110,20 +110,6 @@ services:
 #    volumes:
 #      - ../edx-platform:/edx/app/edxapp/edx-platform
 
-  programs:
-    command: /edx/app/programs/devstack.sh start
-    container_name: edx.devstack.programs
-    depends_on:
-      - mysql
-      - memcached
-    environment:
-      ENABLE_DJANGO_TOOLBAR: 1
-    image: edxops/programs:devstack
-    ports:
-      - "18140:18140"
-    volumes:
-      - ../programs:/edx/app/programs/programs
-
 volumes:
   elasticsearch_data:
   mongo_data:

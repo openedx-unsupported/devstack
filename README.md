@@ -85,7 +85,6 @@ service. Since some services are not meant to be user-facing, the "homepage" may
 | Catalog/Discovery | [http://localhost:18381/api-docs/](http://localhost:18381/api-docs/)   |
 | E-Commerce/Otto   | [http://localhost:18130/dashboard/](http://localhost:18130/dashboard/) |
 | LMS               | [http://localhost:18000/](http://localhost:18000/)                     |
-| Programs          | [http://localhost:18140/api/v1/](http://localhost:18140/api/v1/)       |
 | Studio/CMS        | [http://localhost:18010/](http://localhost:18010/)                     |
 
 
@@ -113,7 +112,6 @@ $ docker exec -t edx.devstack.<service>  bash -c '/edx/app/supervisor/venvs/supe
 * discovery
 * ecommerce
 * edxapp
-* programs
 
 ## Remaining Work
 
