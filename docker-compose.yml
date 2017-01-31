@@ -107,8 +107,8 @@ services:
     ports:
       - "18000:18000"
       - "18010:18010"
-#    volumes:
-#      - ../edx-platform:/edx/app/edxapp/edx-platform
+    volumes:
+      - ../edx-platform:/edx/app/edxapp/edx-platform
 
 volumes:
   elasticsearch_data:
