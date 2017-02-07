@@ -98,6 +98,9 @@ do
 done
 
 # Save the longest for last...
-time docker exec -t edx.devstack.edxapp  bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && paver update_assets --settings devstack_docker'
+docker exec -t edx.devstack.edxapp  bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && paver update_assets --settings devstack_docker'
+
+# Wait for all of the forked processes to exit
+wait
 
 echo -e "${GREEN}Provisioning complete!${NC}"
