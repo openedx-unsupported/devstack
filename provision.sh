@@ -60,6 +60,9 @@ do
     name=${service%%:*}
     port=${service#*:}
 
+    echo -e "${GREEN}Installing requirements for ${name}...${NC}"
+    docker exec -t edx.devstack.${name}  bash -c 'source /edx/app/$1/$1_env && cd /edx/app/$1/$1/ && make requirements' -- "$name"
+
     echo -e "${GREEN}Running migrations for ${name}...${NC}"
     docker exec -t edx.devstack.${name}  bash -c 'source /edx/app/$1/$1_env && cd /edx/app/$1/$1/ && make migrate' -- "$name"
 
@@ -92,6 +95,6 @@ do
 done
 
 # Save the longest for last...
-docker exec -t edx.devstack.edxapp  bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && paver update_assets --settings devstack_docker'
+time docker exec -t edx.devstack.edxapp  bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && paver update_assets --settings devstack_docker'
 
 echo -e "${GREEN}Provisioning complete!${NC}"
