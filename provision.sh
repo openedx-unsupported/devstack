@@ -49,6 +49,9 @@ docker exec -t edx.devstack.edxapp  bash -c 'source /edx/app/edxapp/edxapp_env &
 docker exec -t edx.devstack.edxapp  bash -c 'source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack_docker manage_user edx edx@example.com --superuser --staff'
 docker exec -t edx.devstack.edxapp  bash -c 'source /edx/app/edxapp/edxapp_env && echo "from django.contrib.auth import get_user_model; User = get_user_model(); user = User.objects.get(username=\"edx\"); user.set_password(\"edx\"); user.save()" | python /edx/app/edxapp/edx-platform/manage.py lms shell  --settings=devstack_docker' &
 
+# Enable the LMS-E-Commerce integration
+docker exec -t edx.devstack.edxapp  bash -c 'source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack_docker configure_commerce' &
+
 # Create demo course and users
 docker exec -t edx.devstack.edxapp  bash -c '/edx/app/edx_ansible/venvs/edx_ansible/bin/ansible-playbook /edx/app/edx_ansible/edx_ansible/playbooks/edx-east/demo.yml -v -c local -i "127.0.0.1," --extra-vars="COMMON_EDXAPP_SETTINGS=devstack_docker"' &
 
@@ -75,8 +78,8 @@ do
 done
 
 
-# TODO Create ecommerce tenant (ECOM-6564)
-# Use create_or_update_site (https://github.com/edx/ecommerce/blob/master/ecommerce/core/management/commands/create_or_update_site.py)
+# Configure ecommerce
+docker exec -t edx.devstack.ecommerce bash -c 'source /edx/app/ecommerce/ecommerce_env && python /edx/app/ecommerce/ecommerce/manage.py create_or_update_site --site-id=1 --site-domain=localhost:18130 --partner-code=edX --partner-name="Open edX" --lms-url-root=http://edx.devstack.edxapp:18000 --theme-scss-path=sass/themes/edx.scss --payment-processors=cybersource,paypal --client-id=ecommerce-key --client-secret=ecommerce-secret --from-email staff@example.com' &
 docker exec -t edx.devstack.ecommerce bash -c 'source /edx/app/ecommerce/ecommerce_env && python /edx/app/ecommerce/ecommerce/manage.py oscar_populate_countries' &
 
 # TODO Create discovery tenant with correct credentials (ECOM-6565)
