@@ -42,7 +42,8 @@ configure Docker with a sufficient amount of resources. Our testing found that [
   $ make devstack.provision
   ```
 
-3. Start the services.
+3. Start the services. By default this command will use host directories for source code. This is known to be slow on
+   macOS. macOS users should follow the steps below for Docker Sync to avoid this performance hit.
 
   ```
   $ make devstack.start
@@ -54,6 +55,25 @@ For example to access the Catalog/Course Discovery Service, you can run:
 ```
 $ make devstack.open.discovery
 ```
+
+### Docker Sync
+
+Docker for Mac has known filesystem issues that significantly decrease performance. In order to mitigate these issues,
+we use [Docker Sync](https://github.com/EugenMayer/docker-sync/wiki) to synchronize file data from the host machine to
+the containers. Follow the steps below to setup Docker Sync.
+
+1. Ensure all containers are stopped.
+```
+$ make devstack.stop
+```
+
+2. Follow the installation instructions at https://github.com/EugenMayer/docker-sync/wiki to install Docker Sync.
+
+3. Run Docker Sync and devstack.
+```
+$ make devstack.start.sync
+```
+
 
 ## Usernames and Passwords
 
