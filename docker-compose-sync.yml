@@ -1,0 +1,25 @@
+version: "2.1"
+
+services:
+  credentials:
+    volumes:
+      - credentials-sync:/edx/app/credentials/credentials:rw
+  discovery:
+      volumes:
+        - discovery-sync:/edx/app/discovery/discovery:rw
+  ecommerce:
+    volumes:
+      - ecommerce-sync:/edx/app/ecommerce/ecommerce:rw
+  edxapp:
+    volumes:
+      - credentials-sync:/edx/app/edxapp/edx-platform:rw
+
+volumes:
+  credentials-sync:
+    external: true
+  discovery-sync:
+    external: true
+  ecommerce-sync:
+    external: true
+  edxapp-sync:
+    external: true
