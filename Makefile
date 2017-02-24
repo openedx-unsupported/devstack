@@ -29,8 +29,11 @@ devstack.provision: ## Provision all services
 devstack.reset: ## Remove all service containers
 	docker-compose down
 
-devstack.start: ## Start all services
-	docker-compose up
+devstack.start: ## Start all services (with host volumes)
+	docker-compose -f docker-compose.yml -f docker-compose-host.yml up
+
+devstack.start.sync: ## Start all services (with docker-sync)
+	docker-sync-stack start
 
 devstack.stop: ## Stop all services
 	docker-compose stop

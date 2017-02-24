@@ -1,0 +1,15 @@
+version: "2.1"
+
+services:
+  credentials:
+    volumes:
+      - ../credentials:/edx/app/credentials/credentials
+  discovery:
+      volumes:
+      - ../course-discovery:/edx/app/discovery/discovery
+  ecommerce:
+    volumes:
+      - ../ecommerce:/edx/app/ecommerce/ecommerce
+  edxapp:
+    volumes:
+      - ../edx-platform:/edx/app/edxapp/edx-platform
