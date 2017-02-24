@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.6.32, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 5.6.35, for Linux (x86_64)
 --
 -- Host: localhost    Database: ecommerce
 -- ------------------------------------------------------
--- Server version	5.6.32
+-- Server version	5.6.35
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -81,11 +81,11 @@ CREATE TABLE `address_useraddress` (
   `country_id` varchar(2) NOT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `address_useraddress_user_id_733690a214958def_uniq` (`user_id`,`hash`),
-  KEY `add_country_id_2b88c9a59bb9e5a6_fk_address_country_iso_3166_1_a2` (`country_id`),
+  UNIQUE KEY `address_useraddress_user_id_9d1738c7_uniq` (`user_id`,`hash`),
+  KEY `address_use_country_id_fa26a249_fk_address_country_iso_3166_1_a2` (`country_id`),
   KEY `address_useraddress_0800fc57` (`hash`),
-  CONSTRAINT `add_country_id_2b88c9a59bb9e5a6_fk_address_country_iso_3166_1_a2` FOREIGN KEY (`country_id`) REFERENCES `address_country` (`iso_3166_1_a2`),
-  CONSTRAINT `address_useraddres_user_id_243fe927c5df790e_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
+  CONSTRAINT `address_use_country_id_fa26a249_fk_address_country_iso_3166_1_a2` FOREIGN KEY (`country_id`) REFERENCES `address_country` (`iso_3166_1_a2`),
+  CONSTRAINT `address_useraddress_user_id_6edf0244_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -114,7 +114,7 @@ CREATE TABLE `analytics_productrecord` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `product_id` (`product_id`),
   KEY `analytics_productrecord_81a5c7b1` (`num_purchases`),
-  CONSTRAINT `analytics_pr_product_id_6a783f9d2ad3b0b8_fk_catalogue_product_id` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`)
+  CONSTRAINT `analytics_productrec_product_id_dad3a871_fk_catalogue_product_id` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -141,8 +141,8 @@ CREATE TABLE `analytics_userproductview` (
   PRIMARY KEY (`id`),
   KEY `analytics_userproductview_9bea82de` (`product_id`),
   KEY `analytics_userproductview_e8701ad4` (`user_id`),
-  CONSTRAINT `analytics_us_product_id_4069af89b2f55c13_fk_catalogue_product_id` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`),
-  CONSTRAINT `analytics_userprod_user_id_4087a6b710f8c4b6_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
+  CONSTRAINT `analytics_userproduc_product_id_a55b87ad_fk_catalogue_product_id` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`),
+  CONSTRAINT `analytics_userproductview_user_id_5e49a8b1_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -176,7 +176,7 @@ CREATE TABLE `analytics_userrecord` (
   KEY `analytics_userrecord_29bdb5ea` (`num_orders`),
   KEY `analytics_userrecord_89bb6879` (`num_order_lines`),
   KEY `analytics_userrecord_25cd4b4a` (`num_order_items`),
-  CONSTRAINT `analytics_userrecor_user_id_cae614d9855117a_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
+  CONSTRAINT `analytics_userrecord_user_id_702cff4c_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -201,9 +201,9 @@ CREATE TABLE `analytics_usersearch` (
   `date_created` datetime(6) NOT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `analytics_usersear_user_id_7e760309211b811b_fk_ecommerce_user_id` (`user_id`),
+  KEY `analytics_usersearch_user_id_1775992d_fk_ecommerce_user_id` (`user_id`),
   KEY `analytics_usersearch_1b1cc7f0` (`query`),
-  CONSTRAINT `analytics_usersear_user_id_7e760309211b811b_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
+  CONSTRAINT `analytics_usersearch_user_id_1775992d_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -250,10 +250,10 @@ CREATE TABLE `auth_group_permissions` (
   `group_id` int(11) NOT NULL,
   `permission_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `group_id` (`group_id`,`permission_id`),
-  KEY `auth_group__permission_id_1f49ccbbdc69d2fc_fk_auth_permission_id` (`permission_id`),
-  CONSTRAINT `auth_group__permission_id_1f49ccbbdc69d2fc_fk_auth_permission_id` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
-  CONSTRAINT `auth_group_permission_group_id_689710a9a73b7457_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`)
+  UNIQUE KEY `auth_group_permissions_group_id_0cd325b0_uniq` (`group_id`,`permission_id`),
+  KEY `auth_group_permissi_permission_id_84c5c92e_fk_auth_permission_id` (`permission_id`),
+  CONSTRAINT `auth_group_permissi_permission_id_84c5c92e_fk_auth_permission_id` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
+  CONSTRAINT `auth_group_permissions_group_id_b120cbf9_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -278,9 +278,9 @@ CREATE TABLE `auth_permission` (
   `content_type_id` int(11) NOT NULL,
   `codename` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `content_type_id` (`content_type_id`,`codename`),
-  CONSTRAINT `auth__content_type_id_508cf46651277a81_fk_django_content_type_id` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=379 DEFAULT CHARSET=utf8;
+  UNIQUE KEY `auth_permission_content_type_id_01ab375a_uniq` (`content_type_id`,`codename`),
+  CONSTRAINT `auth_permissi_content_type_id_2f476e4b_fk_django_content_type_id` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=382 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -289,7 +289,7 @@ CREATE TABLE `auth_permission` (
 
 LOCK TABLES `auth_permission` WRITE;
 /*!40000 ALTER TABLE `auth_permission` DISABLE KEYS */;
-INSERT INTO `auth_permission` VALUES (1,'Can add kv store',1,'add_kvstore'),(2,'Can change kv store',1,'change_kvstore'),(3,'Can delete kv store',1,'delete_kvstore'),(4,'Can add content type',2,'add_contenttype'),(5,'Can change content type',2,'change_contenttype'),(6,'Can delete content type',2,'delete_contenttype'),(7,'Can add permission',3,'add_permission'),(8,'Can change permission',3,'change_permission'),(9,'Can delete permission',3,'delete_permission'),(10,'Can add group',4,'add_group'),(11,'Can change group',4,'change_group'),(12,'Can delete group',4,'delete_group'),(13,'Can add site configuration',5,'add_siteconfiguration'),(14,'Can change site configuration',5,'change_siteconfiguration'),(15,'Can delete site configuration',5,'delete_siteconfiguration'),(16,'Can add user',6,'add_user'),(17,'Can change user',6,'change_user'),(18,'Can delete user',6,'delete_user'),(19,'Can add user',7,'add_client'),(20,'Can change user',7,'change_client'),(21,'Can delete user',7,'delete_client'),(22,'Can add Country',8,'add_country'),(23,'Can change Country',8,'change_country'),(24,'Can delete Country',8,'delete_country'),(25,'Can add User address',9,'add_useraddress'),(26,'Can change User address',9,'change_useraddress'),(27,'Can delete User address',9,'delete_useraddress'),(28,'Can add log entry',10,'add_logentry'),(29,'Can change log entry',10,'change_logentry'),(30,'Can delete log entry',10,'delete_logentry'),(31,'Can add Attribute option',11,'add_attributeoption'),(32,'Can change Attribute option',11,'change_attributeoption'),(33,'Can delete Attribute option',11,'delete_attributeoption'),(34,'Can add Product',12,'add_product'),(35,'Can change Product',12,'change_product'),(36,'Can delete Product',12,'delete_product'),(37,'Can add Option',13,'add_option'),(38,'Can change Option',13,'change_option'),(39,'Can delete Option',13,'delete_option'),(40,'Can add Product class',14,'add_productclass'),(41,'Can change Product class',14,'change_productclass'),(42,'Can delete Product class',14,'delete_productclass'),(43,'Can add Category',15,'add_category'),(44,'Can change Category',15,'change_category'),(45,'Can delete Category',15,'delete_category'),(46,'Can add catalog',16,'add_catalog'),(47,'Can change catalog',16,'change_catalog'),(48,'Can delete catalog',16,'delete_catalog'),(49,'Can add Product recommendation',17,'add_productrecommendation'),(50,'Can change Product recommendation',17,'change_productrecommendation'),(51,'Can delete Product recommendation',17,'delete_productrecommendation'),(52,'Can add Product attribute',18,'add_productattribute'),(53,'Can change Product attribute',18,'change_productattribute'),(54,'Can delete Product attribute',18,'delete_productattribute'),(55,'Can add Attribute option group',19,'add_attributeoptiongroup'),(56,'Can change Attribute option group',19,'change_attributeoptiongroup'),(57,'Can delete Attribute option group',19,'delete_attributeoptiongroup'),(58,'Can add Product image',20,'add_productimage'),(59,'Can change Product image',20,'change_productimage'),(60,'Can delete Product image',20,'delete_productimage'),(61,'Can add Product attribute value',21,'add_productattributevalue'),(62,'Can change Product attribute value',21,'change_productattributevalue'),(63,'Can delete Product attribute value',21,'delete_productattributevalue'),(64,'Can add Product category',22,'add_productcategory'),(65,'Can change Product category',22,'change_productcategory'),(66,'Can delete Product category',22,'delete_productcategory'),(67,'Can add historical Product attribute value',23,'add_historicalproductattributevalue'),(68,'Can change historical Product attribute value',23,'change_historicalproductattributevalue'),(69,'Can delete historical Product attribute value',23,'delete_historicalproductattributevalue'),(70,'Can add historical Product',24,'add_historicalproduct'),(71,'Can change historical Product',24,'change_historicalproduct'),(72,'Can delete historical Product',24,'delete_historicalproduct'),(73,'Can add User product view',25,'add_userproductview'),(74,'Can change User product view',25,'change_userproductview'),(75,'Can delete User product view',25,'delete_userproductview'),(76,'Can add User record',26,'add_userrecord'),(77,'Can change User record',26,'change_userrecord'),(78,'Can delete User record',26,'delete_userrecord'),(79,'Can add User search query',27,'add_usersearch'),(80,'Can change User search query',27,'change_usersearch'),(81,'Can delete User search query',27,'delete_usersearch'),(82,'Can add Product record',28,'add_productrecord'),(83,'Can change Product record',28,'change_productrecord'),(84,'Can delete Product record',28,'delete_productrecord'),(85,'Can add site',29,'add_site'),(86,'Can change site',29,'change_site'),(87,'Can delete site',29,'delete_site'),(88,'Can add historical Stock record',30,'add_historicalstockrecord'),(89,'Can change historical Stock record',30,'change_historicalstockrecord'),(90,'Can delete historical Stock record',30,'delete_historicalstockrecord'),(91,'Can add Partner',31,'add_partner'),(92,'Can change Partner',31,'change_partner'),(93,'Can delete Partner',31,'delete_partner'),(94,'Can add Partner address',32,'add_partneraddress'),(95,'Can change Partner address',32,'change_partneraddress'),(96,'Can delete Partner address',32,'delete_partneraddress'),(97,'Can add Stock record',33,'add_stockrecord'),(98,'Can change Stock record',33,'change_stockrecord'),(99,'Can delete Stock record',33,'delete_stockrecord'),(100,'Can add Stock alert',34,'add_stockalert'),(101,'Can change Stock alert',34,'change_stockalert'),(102,'Can delete Stock alert',34,'delete_stockalert'),(103,'Can add Product alert',35,'add_productalert'),(104,'Can change Product alert',35,'change_productalert'),(105,'Can delete Product alert',35,'delete_productalert'),(106,'Can add Email',36,'add_email'),(107,'Can change Email',36,'change_email'),(108,'Can delete Email',36,'delete_email'),(109,'Can add Communication event type',37,'add_communicationeventtype'),(110,'Can change Communication event type',37,'change_communicationeventtype'),(111,'Can delete Communication event type',37,'delete_communicationeventtype'),(112,'Can add Notification',38,'add_notification'),(113,'Can change Notification',38,'change_notification'),(114,'Can delete Notification',38,'delete_notification'),(115,'Can add basket attribute',39,'add_basketattribute'),(116,'Can change basket attribute',39,'change_basketattribute'),(117,'Can delete basket attribute',39,'delete_basketattribute'),(118,'Can add basket attribute type',40,'add_basketattributetype'),(119,'Can change basket attribute type',40,'change_basketattributetype'),(120,'Can delete basket attribute type',40,'delete_basketattributetype'),(121,'Can add Basket',41,'add_basket'),(122,'Can change Basket',41,'change_basket'),(123,'Can delete Basket',41,'delete_basket'),(124,'Can add Basket line',42,'add_line'),(125,'Can change Basket line',42,'change_line'),(126,'Can delete Basket line',42,'delete_line'),(127,'Can add Line attribute',43,'add_lineattribute'),(128,'Can change Line attribute',43,'change_lineattribute'),(129,'Can delete Line attribute',43,'delete_lineattribute'),(130,'Can add Line Price',44,'add_lineprice'),(131,'Can change Line Price',44,'change_lineprice'),(132,'Can delete Line Price',44,'delete_lineprice'),(133,'Can add Shipping address',45,'add_shippingaddress'),(134,'Can change Shipping address',45,'change_shippingaddress'),(135,'Can delete Shipping address',45,'delete_shippingaddress'),(136,'Can add Billing address',46,'add_billingaddress'),(137,'Can change Billing address',46,'change_billingaddress'),(138,'Can delete Billing address',46,'delete_billingaddress'),(139,'Can add Shipping Event',47,'add_shippingevent'),(140,'Can change Shipping Event',47,'change_shippingevent'),(141,'Can delete Shipping Event',47,'delete_shippingevent'),(142,'Can add Order Line',48,'add_line'),(143,'Can change Order Line',48,'change_line'),(144,'Can delete Order Line',48,'delete_line'),(145,'Can add Payment Event',49,'add_paymentevent'),(146,'Can change Payment Event',49,'change_paymentevent'),(147,'Can delete Payment Event',49,'delete_paymentevent'),(148,'Can add Communication Event',50,'add_communicationevent'),(149,'Can change Communication Event',50,'change_communicationevent'),(150,'Can delete Communication Event',50,'delete_communicationevent'),(151,'Can add Order Note',51,'add_ordernote'),(152,'Can change Order Note',51,'change_ordernote'),(153,'Can delete Order Note',51,'delete_ordernote'),(154,'Can add Order',52,'add_order'),(155,'Can change Order',52,'change_order'),(156,'Can delete Order',52,'delete_order'),(157,'Can add Payment Event Quantity',53,'add_paymenteventquantity'),(158,'Can change Payment Event Quantity',53,'change_paymenteventquantity'),(159,'Can delete Payment Event Quantity',53,'delete_paymenteventquantity'),(160,'Can add Shipping Event Type',54,'add_shippingeventtype'),(161,'Can change Shipping Event Type',54,'change_shippingeventtype'),(162,'Can delete Shipping Event Type',54,'delete_shippingeventtype'),(163,'Can add Shipping Event Quantity',55,'add_shippingeventquantity'),(164,'Can change Shipping Event Quantity',55,'change_shippingeventquantity'),(165,'Can delete Shipping Event Quantity',55,'delete_shippingeventquantity'),(166,'Can add Payment Event Type',56,'add_paymenteventtype'),(167,'Can change Payment Event Type',56,'change_paymenteventtype'),(168,'Can delete Payment Event Type',56,'delete_paymenteventtype'),(169,'Can add Line Attribute',57,'add_lineattribute'),(170,'Can change Line Attribute',57,'change_lineattribute'),(171,'Can delete Line Attribute',57,'delete_lineattribute'),(172,'Can add Order Discount',58,'add_orderdiscount'),(173,'Can change Order Discount',58,'change_orderdiscount'),(174,'Can delete Order Discount',58,'delete_orderdiscount'),(175,'Can add range product',59,'add_rangeproduct'),(176,'Can change range product',59,'change_rangeproduct'),(177,'Can delete range product',59,'delete_rangeproduct'),(178,'Can add Benefit',60,'add_benefit'),(179,'Can change Benefit',60,'change_benefit'),(180,'Can delete Benefit',60,'delete_benefit'),(181,'Can add Multibuy discount benefit',60,'add_multibuydiscountbenefit'),(182,'Can change Multibuy discount benefit',60,'change_multibuydiscountbenefit'),(183,'Can delete Multibuy discount benefit',60,'delete_multibuydiscountbenefit'),(184,'Can add Range',61,'add_range'),(185,'Can change Range',61,'change_range'),(186,'Can delete Range',61,'delete_range'),(187,'Can add Condition',62,'add_condition'),(188,'Can change Condition',62,'change_condition'),(189,'Can delete Condition',62,'delete_condition'),(190,'Can add shipping benefit',60,'add_shippingbenefit'),(191,'Can change shipping benefit',60,'change_shippingbenefit'),(192,'Can delete shipping benefit',60,'delete_shippingbenefit'),(193,'Can add Shipping percentage discount benefit',60,'add_shippingpercentagediscountbenefit'),(194,'Can change Shipping percentage discount benefit',60,'change_shippingpercentagediscountbenefit'),(195,'Can delete Shipping percentage discount benefit',60,'delete_shippingpercentagediscountbenefit'),(196,'Can add Conditional offer',63,'add_conditionaloffer'),(197,'Can change Conditional offer',63,'change_conditionaloffer'),(198,'Can delete Conditional offer',63,'delete_conditionaloffer'),(199,'Can add Shipping absolute discount benefit',60,'add_shippingabsolutediscountbenefit'),(200,'Can change Shipping absolute discount benefit',60,'change_shippingabsolutediscountbenefit'),(201,'Can delete Shipping absolute discount benefit',60,'delete_shippingabsolutediscountbenefit'),(202,'Can add Percentage discount benefit',60,'add_percentagediscountbenefit'),(203,'Can change Percentage discount benefit',60,'change_percentagediscountbenefit'),(204,'Can delete Percentage discount benefit',60,'delete_percentagediscountbenefit'),(205,'Can add Absolute discount benefit',60,'add_absolutediscountbenefit'),(206,'Can change Absolute discount benefit',60,'change_absolutediscountbenefit'),(207,'Can delete Absolute discount benefit',60,'delete_absolutediscountbenefit'),(208,'Can add Coverage Condition',62,'add_coveragecondition'),(209,'Can change Coverage Condition',62,'change_coveragecondition'),(210,'Can delete Coverage Condition',62,'delete_coveragecondition'),(211,'Can add Range Product Uploaded File',64,'add_rangeproductfileupload'),(212,'Can change Range Product Uploaded File',64,'change_rangeproductfileupload'),(213,'Can delete Range Product Uploaded File',64,'delete_rangeproductfileupload'),(214,'Can add Fixed price benefit',60,'add_fixedpricebenefit'),(215,'Can change Fixed price benefit',60,'change_fixedpricebenefit'),(216,'Can delete Fixed price benefit',60,'delete_fixedpricebenefit'),(217,'Can add Fixed price shipping benefit',60,'add_shippingfixedpricebenefit'),(218,'Can change Fixed price shipping benefit',60,'change_shippingfixedpricebenefit'),(219,'Can delete Fixed price shipping benefit',60,'delete_shippingfixedpricebenefit'),(220,'Can add Value condition',62,'add_valuecondition'),(221,'Can change Value condition',62,'change_valuecondition'),(222,'Can delete Value condition',62,'delete_valuecondition'),(223,'Can add Count condition',62,'add_countcondition'),(224,'Can change Count condition',62,'change_countcondition'),(225,'Can delete Count condition',62,'delete_countcondition'),(226,'Can add Voucher Application',65,'add_voucherapplication'),(227,'Can change Voucher Application',65,'change_voucherapplication'),(228,'Can delete Voucher Application',65,'delete_voucherapplication'),(229,'Can add Voucher',66,'add_voucher'),(230,'Can change Voucher',66,'change_voucher'),(231,'Can delete Voucher',66,'delete_voucher'),(232,'Can add course',67,'add_course'),(233,'Can change course',67,'change_course'),(234,'Can delete course',67,'delete_course'),(235,'Can add sample',68,'add_sample'),(236,'Can change sample',68,'change_sample'),(237,'Can delete sample',68,'delete_sample'),(238,'Can add switch',69,'add_switch'),(239,'Can change switch',69,'change_switch'),(240,'Can delete switch',69,'delete_switch'),(241,'Can add flag',70,'add_flag'),(242,'Can change flag',70,'change_flag'),(243,'Can delete flag',70,'delete_flag'),(244,'Can add flat page',71,'add_flatpage'),(245,'Can change flat page',71,'change_flatpage'),(246,'Can delete flat page',71,'delete_flatpage'),(247,'Can add session',72,'add_session'),(248,'Can change session',72,'change_session'),(249,'Can delete session',72,'delete_session'),(250,'Can add business client',73,'add_businessclient'),(251,'Can change business client',73,'change_businessclient'),(252,'Can delete business client',73,'delete_businessclient'),(253,'Can add historical course',74,'add_historicalcourse'),(254,'Can change historical course',74,'change_historicalcourse'),(255,'Can delete historical course',74,'delete_historicalcourse'),(256,'Can add historical invoice',75,'add_historicalinvoice'),(257,'Can change historical invoice',75,'change_historicalinvoice'),(258,'Can delete historical invoice',75,'delete_historicalinvoice'),(259,'Can add invoice',76,'add_invoice'),(260,'Can change invoice',76,'change_invoice'),(261,'Can delete invoice',76,'delete_invoice'),(262,'Can add referral',77,'add_referral'),(263,'Can change referral',77,'change_referral'),(264,'Can delete referral',77,'delete_referral'),(265,'Can add site theme',78,'add_sitetheme'),(266,'Can change site theme',78,'change_sitetheme'),(267,'Can delete site theme',78,'delete_sitetheme'),(268,'Can add historical refund',79,'add_historicalrefund'),(269,'Can change historical refund',79,'change_historicalrefund'),(270,'Can delete historical refund',79,'delete_historicalrefund'),(271,'Can add refund',80,'add_refund'),(272,'Can change refund',80,'change_refund'),(273,'Can delete refund',80,'delete_refund'),(274,'Can add historical refund line',81,'add_historicalrefundline'),(275,'Can change historical refund line',81,'change_historicalrefundline'),(276,'Can delete historical refund line',81,'delete_historicalrefundline'),(277,'Can add refund line',82,'add_refundline'),(278,'Can change refund line',82,'change_refundline'),(279,'Can delete refund line',82,'delete_refundline'),(280,'Can add Order and Item Charge',83,'add_orderanditemcharges'),(281,'Can change Order and Item Charge',83,'change_orderanditemcharges'),(282,'Can delete Order and Item Charge',83,'delete_orderanditemcharges'),(283,'Can add Weight-based Shipping Method',84,'add_weightbased'),(284,'Can change Weight-based Shipping Method',84,'change_weightbased'),(285,'Can delete Weight-based Shipping Method',84,'delete_weightbased'),(286,'Can add Weight Band',85,'add_weightband'),(287,'Can change Weight Band',85,'change_weightband'),(288,'Can delete Weight Band',85,'delete_weightband'),(289,'Can add Product review',86,'add_productreview'),(290,'Can change Product review',86,'change_productreview'),(291,'Can delete Product review',86,'delete_productreview'),(292,'Can add Vote',87,'add_vote'),(293,'Can change Vote',87,'change_vote'),(294,'Can delete Vote',87,'delete_vote'),(295,'Can add Payment Processor Response',88,'add_paymentprocessorresponse'),(296,'Can change Payment Processor Response',88,'change_paymentprocessorresponse'),(297,'Can delete Payment Processor Response',88,'delete_paymentprocessorresponse'),(298,'Can add Source',89,'add_source'),(299,'Can change Source',89,'change_source'),(300,'Can delete Source',89,'delete_source'),(301,'Can add paypal web profile',90,'add_paypalwebprofile'),(302,'Can change paypal web profile',90,'change_paypalwebprofile'),(303,'Can delete paypal web profile',90,'delete_paypalwebprofile'),(304,'Can add Paypal Processor Configuration',91,'add_paypalprocessorconfiguration'),(305,'Can change Paypal Processor Configuration',91,'change_paypalprocessorconfiguration'),(306,'Can delete Paypal Processor Configuration',91,'delete_paypalprocessorconfiguration'),(307,'Can add Transaction',92,'add_transaction'),(308,'Can change Transaction',92,'change_transaction'),(309,'Can delete Transaction',92,'delete_transaction'),(310,'Can add Source Type',93,'add_sourcetype'),(311,'Can change Source Type',93,'change_sourcetype'),(312,'Can delete Source Type',93,'delete_sourcetype'),(313,'Can add Bankcard',94,'add_bankcard'),(314,'Can change Bankcard',94,'change_bankcard'),(315,'Can delete Bankcard',94,'delete_bankcard'),(316,'Can add historical Order',106,'add_historicalorder'),(317,'Can change historical Order',106,'change_historicalorder'),(318,'Can delete historical Order',106,'delete_historicalorder'),(319,'Can add historical Order Line',107,'add_historicalline'),(320,'Can change historical Order Line',107,'change_historicalline'),(321,'Can delete historical Order Line',107,'delete_historicalline'),(322,'Can add Page Promotion',108,'add_pagepromotion'),(323,'Can change Page Promotion',108,'change_pagepromotion'),(324,'Can delete Page Promotion',108,'delete_pagepromotion'),(325,'Can add Keyword Promotion',109,'add_keywordpromotion'),(326,'Can change Keyword Promotion',109,'change_keywordpromotion'),(327,'Can delete Keyword Promotion',109,'delete_keywordpromotion'),(328,'Can add Raw HTML',110,'add_rawhtml'),(329,'Can change Raw HTML',110,'change_rawhtml'),(330,'Can delete Raw HTML',110,'delete_rawhtml'),(331,'Can add Image',111,'add_image'),(332,'Can change Image',111,'change_image'),(333,'Can delete Image',111,'delete_image'),(334,'Can add Multi Image',112,'add_multiimage'),(335,'Can change Multi Image',112,'change_multiimage'),(336,'Can delete Multi Image',112,'delete_multiimage'),(337,'Can add Single product',113,'add_singleproduct'),(338,'Can change Single product',113,'change_singleproduct'),(339,'Can delete Single product',113,'delete_singleproduct'),(340,'Can add Hand Picked Product List',114,'add_handpickedproductlist'),(341,'Can change Hand Picked Product List',114,'change_handpickedproductlist'),(342,'Can delete Hand Picked Product List',114,'delete_handpickedproductlist'),(343,'Can add Ordered product',115,'add_orderedproduct'),(344,'Can change Ordered product',115,'change_orderedproduct'),(345,'Can delete Ordered product',115,'delete_orderedproduct'),(346,'Can add Automatic product list',116,'add_automaticproductlist'),(347,'Can change Automatic product list',116,'change_automaticproductlist'),(348,'Can delete Automatic product list',116,'delete_automaticproductlist'),(349,'Can add Ordered Product List',117,'add_orderedproductlist'),(350,'Can change Ordered Product List',117,'change_orderedproductlist'),(351,'Can delete Ordered Product List',117,'delete_orderedproductlist'),(352,'Can add Tabbed Block',118,'add_tabbedblock'),(353,'Can change Tabbed Block',118,'change_tabbedblock'),(354,'Can delete Tabbed Block',118,'delete_tabbedblock'),(355,'Can add coupon vouchers',119,'add_couponvouchers'),(356,'Can change coupon vouchers',119,'change_couponvouchers'),(357,'Can delete coupon vouchers',119,'delete_couponvouchers'),(358,'Can add order line vouchers',120,'add_orderlinevouchers'),(359,'Can change order line vouchers',120,'change_orderlinevouchers'),(360,'Can delete order line vouchers',120,'delete_orderlinevouchers'),(361,'Can add Wish List',121,'add_wishlist'),(362,'Can change Wish List',121,'change_wishlist'),(363,'Can delete Wish List',121,'delete_wishlist'),(364,'Can add Wish list line',122,'add_line'),(365,'Can change Wish list line',122,'change_line'),(366,'Can delete Wish list line',122,'delete_line'),(367,'Can add user social auth',123,'add_usersocialauth'),(368,'Can change user social auth',123,'change_usersocialauth'),(369,'Can delete user social auth',123,'delete_usersocialauth'),(370,'Can add nonce',124,'add_nonce'),(371,'Can change nonce',124,'change_nonce'),(372,'Can delete nonce',124,'delete_nonce'),(373,'Can add association',125,'add_association'),(374,'Can change association',125,'change_association'),(375,'Can delete association',125,'delete_association'),(376,'Can add code',126,'add_code'),(377,'Can change code',126,'change_code'),(378,'Can delete code',126,'delete_code');
+INSERT INTO `auth_permission` VALUES (1,'Can add content type',1,'add_contenttype'),(2,'Can change content type',1,'change_contenttype'),(3,'Can delete content type',1,'delete_contenttype'),(4,'Can add permission',2,'add_permission'),(5,'Can change permission',2,'change_permission'),(6,'Can delete permission',2,'delete_permission'),(7,'Can add group',3,'add_group'),(8,'Can change group',3,'change_group'),(9,'Can delete group',3,'delete_group'),(10,'Can add site configuration',4,'add_siteconfiguration'),(11,'Can change site configuration',4,'change_siteconfiguration'),(12,'Can delete site configuration',4,'delete_siteconfiguration'),(13,'Can add user',5,'add_user'),(14,'Can change user',5,'change_user'),(15,'Can delete user',5,'delete_user'),(16,'Can add user',6,'add_client'),(17,'Can change user',6,'change_client'),(18,'Can delete user',6,'delete_client'),(19,'Can add Country',7,'add_country'),(20,'Can change Country',7,'change_country'),(21,'Can delete Country',7,'delete_country'),(22,'Can add User address',8,'add_useraddress'),(23,'Can change User address',8,'change_useraddress'),(24,'Can delete User address',8,'delete_useraddress'),(25,'Can add log entry',9,'add_logentry'),(26,'Can change log entry',9,'change_logentry'),(27,'Can delete log entry',9,'delete_logentry'),(28,'Can add Attribute option',10,'add_attributeoption'),(29,'Can change Attribute option',10,'change_attributeoption'),(30,'Can delete Attribute option',10,'delete_attributeoption'),(31,'Can add Product',11,'add_product'),(32,'Can change Product',11,'change_product'),(33,'Can delete Product',11,'delete_product'),(34,'Can add Option',12,'add_option'),(35,'Can change Option',12,'change_option'),(36,'Can delete Option',12,'delete_option'),(37,'Can add Product class',13,'add_productclass'),(38,'Can change Product class',13,'change_productclass'),(39,'Can delete Product class',13,'delete_productclass'),(40,'Can add Category',14,'add_category'),(41,'Can change Category',14,'change_category'),(42,'Can delete Category',14,'delete_category'),(43,'Can add catalog',15,'add_catalog'),(44,'Can change catalog',15,'change_catalog'),(45,'Can delete catalog',15,'delete_catalog'),(46,'Can add Product recommendation',16,'add_productrecommendation'),(47,'Can change Product recommendation',16,'change_productrecommendation'),(48,'Can delete Product recommendation',16,'delete_productrecommendation'),(49,'Can add Product attribute',17,'add_productattribute'),(50,'Can change Product attribute',17,'change_productattribute'),(51,'Can delete Product attribute',17,'delete_productattribute'),(52,'Can add Attribute option group',18,'add_attributeoptiongroup'),(53,'Can change Attribute option group',18,'change_attributeoptiongroup'),(54,'Can delete Attribute option group',18,'delete_attributeoptiongroup'),(55,'Can add Product image',19,'add_productimage'),(56,'Can change Product image',19,'change_productimage'),(57,'Can delete Product image',19,'delete_productimage'),(58,'Can add Product attribute value',20,'add_productattributevalue'),(59,'Can change Product attribute value',20,'change_productattributevalue'),(60,'Can delete Product attribute value',20,'delete_productattributevalue'),(61,'Can add Product category',21,'add_productcategory'),(62,'Can change Product category',21,'change_productcategory'),(63,'Can delete Product category',21,'delete_productcategory'),(64,'Can add historical Product attribute value',22,'add_historicalproductattributevalue'),(65,'Can change historical Product attribute value',22,'change_historicalproductattributevalue'),(66,'Can delete historical Product attribute value',22,'delete_historicalproductattributevalue'),(67,'Can add historical Product',23,'add_historicalproduct'),(68,'Can change historical Product',23,'change_historicalproduct'),(69,'Can delete historical Product',23,'delete_historicalproduct'),(70,'Can add User product view',24,'add_userproductview'),(71,'Can change User product view',24,'change_userproductview'),(72,'Can delete User product view',24,'delete_userproductview'),(73,'Can add User record',25,'add_userrecord'),(74,'Can change User record',25,'change_userrecord'),(75,'Can delete User record',25,'delete_userrecord'),(76,'Can add User search query',26,'add_usersearch'),(77,'Can change User search query',26,'change_usersearch'),(78,'Can delete User search query',26,'delete_usersearch'),(79,'Can add Product record',27,'add_productrecord'),(80,'Can change Product record',27,'change_productrecord'),(81,'Can delete Product record',27,'delete_productrecord'),(82,'Can add site',28,'add_site'),(83,'Can change site',28,'change_site'),(84,'Can delete site',28,'delete_site'),(85,'Can add historical Stock record',29,'add_historicalstockrecord'),(86,'Can change historical Stock record',29,'change_historicalstockrecord'),(87,'Can delete historical Stock record',29,'delete_historicalstockrecord'),(88,'Can add Partner',30,'add_partner'),(89,'Can change Partner',30,'change_partner'),(90,'Can delete Partner',30,'delete_partner'),(91,'Can add Partner address',31,'add_partneraddress'),(92,'Can change Partner address',31,'change_partneraddress'),(93,'Can delete Partner address',31,'delete_partneraddress'),(94,'Can add Stock record',32,'add_stockrecord'),(95,'Can change Stock record',32,'change_stockrecord'),(96,'Can delete Stock record',32,'delete_stockrecord'),(97,'Can add Stock alert',33,'add_stockalert'),(98,'Can change Stock alert',33,'change_stockalert'),(99,'Can delete Stock alert',33,'delete_stockalert'),(100,'Can add Product alert',34,'add_productalert'),(101,'Can change Product alert',34,'change_productalert'),(102,'Can delete Product alert',34,'delete_productalert'),(103,'Can add Email',35,'add_email'),(104,'Can change Email',35,'change_email'),(105,'Can delete Email',35,'delete_email'),(106,'Can add Communication event type',36,'add_communicationeventtype'),(107,'Can change Communication event type',36,'change_communicationeventtype'),(108,'Can delete Communication event type',36,'delete_communicationeventtype'),(109,'Can add Notification',37,'add_notification'),(110,'Can change Notification',37,'change_notification'),(111,'Can delete Notification',37,'delete_notification'),(112,'Can add basket attribute',38,'add_basketattribute'),(113,'Can change basket attribute',38,'change_basketattribute'),(114,'Can delete basket attribute',38,'delete_basketattribute'),(115,'Can add basket attribute type',39,'add_basketattributetype'),(116,'Can change basket attribute type',39,'change_basketattributetype'),(117,'Can delete basket attribute type',39,'delete_basketattributetype'),(118,'Can add Basket',40,'add_basket'),(119,'Can change Basket',40,'change_basket'),(120,'Can delete Basket',40,'delete_basket'),(121,'Can add Basket line',41,'add_line'),(122,'Can change Basket line',41,'change_line'),(123,'Can delete Basket line',41,'delete_line'),(124,'Can add Line attribute',42,'add_lineattribute'),(125,'Can change Line attribute',42,'change_lineattribute'),(126,'Can delete Line attribute',42,'delete_lineattribute'),(127,'Can add Line Price',43,'add_lineprice'),(128,'Can change Line Price',43,'change_lineprice'),(129,'Can delete Line Price',43,'delete_lineprice'),(130,'Can add Shipping address',44,'add_shippingaddress'),(131,'Can change Shipping address',44,'change_shippingaddress'),(132,'Can delete Shipping address',44,'delete_shippingaddress'),(133,'Can add Billing address',45,'add_billingaddress'),(134,'Can change Billing address',45,'change_billingaddress'),(135,'Can delete Billing address',45,'delete_billingaddress'),(136,'Can add Shipping Event',46,'add_shippingevent'),(137,'Can change Shipping Event',46,'change_shippingevent'),(138,'Can delete Shipping Event',46,'delete_shippingevent'),(139,'Can add Order Line',47,'add_line'),(140,'Can change Order Line',47,'change_line'),(141,'Can delete Order Line',47,'delete_line'),(142,'Can add Payment Event',48,'add_paymentevent'),(143,'Can change Payment Event',48,'change_paymentevent'),(144,'Can delete Payment Event',48,'delete_paymentevent'),(145,'Can add Communication Event',49,'add_communicationevent'),(146,'Can change Communication Event',49,'change_communicationevent'),(147,'Can delete Communication Event',49,'delete_communicationevent'),(148,'Can add Order Note',50,'add_ordernote'),(149,'Can change Order Note',50,'change_ordernote'),(150,'Can delete Order Note',50,'delete_ordernote'),(151,'Can add Order',51,'add_order'),(152,'Can change Order',51,'change_order'),(153,'Can delete Order',51,'delete_order'),(154,'Can add Payment Event Quantity',52,'add_paymenteventquantity'),(155,'Can change Payment Event Quantity',52,'change_paymenteventquantity'),(156,'Can delete Payment Event Quantity',52,'delete_paymenteventquantity'),(157,'Can add Shipping Event Type',53,'add_shippingeventtype'),(158,'Can change Shipping Event Type',53,'change_shippingeventtype'),(159,'Can delete Shipping Event Type',53,'delete_shippingeventtype'),(160,'Can add Shipping Event Quantity',54,'add_shippingeventquantity'),(161,'Can change Shipping Event Quantity',54,'change_shippingeventquantity'),(162,'Can delete Shipping Event Quantity',54,'delete_shippingeventquantity'),(163,'Can add Payment Event Type',55,'add_paymenteventtype'),(164,'Can change Payment Event Type',55,'change_paymenteventtype'),(165,'Can delete Payment Event Type',55,'delete_paymenteventtype'),(166,'Can add Line Attribute',56,'add_lineattribute'),(167,'Can change Line Attribute',56,'change_lineattribute'),(168,'Can delete Line Attribute',56,'delete_lineattribute'),(169,'Can add Order Discount',57,'add_orderdiscount'),(170,'Can change Order Discount',57,'change_orderdiscount'),(171,'Can delete Order Discount',57,'delete_orderdiscount'),(172,'Can add range product',58,'add_rangeproduct'),(173,'Can change range product',58,'change_rangeproduct'),(174,'Can delete range product',58,'delete_rangeproduct'),(175,'Can add Benefit',59,'add_benefit'),(176,'Can change Benefit',59,'change_benefit'),(177,'Can delete Benefit',59,'delete_benefit'),(178,'Can add Multibuy discount benefit',59,'add_multibuydiscountbenefit'),(179,'Can change Multibuy discount benefit',59,'change_multibuydiscountbenefit'),(180,'Can delete Multibuy discount benefit',59,'delete_multibuydiscountbenefit'),(181,'Can add Range',60,'add_range'),(182,'Can change Range',60,'change_range'),(183,'Can delete Range',60,'delete_range'),(184,'Can add Condition',61,'add_condition'),(185,'Can change Condition',61,'change_condition'),(186,'Can delete Condition',61,'delete_condition'),(187,'Can add shipping benefit',59,'add_shippingbenefit'),(188,'Can change shipping benefit',59,'change_shippingbenefit'),(189,'Can delete shipping benefit',59,'delete_shippingbenefit'),(190,'Can add Shipping percentage discount benefit',59,'add_shippingpercentagediscountbenefit'),(191,'Can change Shipping percentage discount benefit',59,'change_shippingpercentagediscountbenefit'),(192,'Can delete Shipping percentage discount benefit',59,'delete_shippingpercentagediscountbenefit'),(193,'Can add Conditional offer',62,'add_conditionaloffer'),(194,'Can change Conditional offer',62,'change_conditionaloffer'),(195,'Can delete Conditional offer',62,'delete_conditionaloffer'),(196,'Can add Shipping absolute discount benefit',59,'add_shippingabsolutediscountbenefit'),(197,'Can change Shipping absolute discount benefit',59,'change_shippingabsolutediscountbenefit'),(198,'Can delete Shipping absolute discount benefit',59,'delete_shippingabsolutediscountbenefit'),(199,'Can add Percentage discount benefit',59,'add_percentagediscountbenefit'),(200,'Can change Percentage discount benefit',59,'change_percentagediscountbenefit'),(201,'Can delete Percentage discount benefit',59,'delete_percentagediscountbenefit'),(202,'Can add Absolute discount benefit',59,'add_absolutediscountbenefit'),(203,'Can change Absolute discount benefit',59,'change_absolutediscountbenefit'),(204,'Can delete Absolute discount benefit',59,'delete_absolutediscountbenefit'),(205,'Can add Coverage Condition',61,'add_coveragecondition'),(206,'Can change Coverage Condition',61,'change_coveragecondition'),(207,'Can delete Coverage Condition',61,'delete_coveragecondition'),(208,'Can add Range Product Uploaded File',63,'add_rangeproductfileupload'),(209,'Can change Range Product Uploaded File',63,'change_rangeproductfileupload'),(210,'Can delete Range Product Uploaded File',63,'delete_rangeproductfileupload'),(211,'Can add Fixed price benefit',59,'add_fixedpricebenefit'),(212,'Can change Fixed price benefit',59,'change_fixedpricebenefit'),(213,'Can delete Fixed price benefit',59,'delete_fixedpricebenefit'),(214,'Can add Fixed price shipping benefit',59,'add_shippingfixedpricebenefit'),(215,'Can change Fixed price shipping benefit',59,'change_shippingfixedpricebenefit'),(216,'Can delete Fixed price shipping benefit',59,'delete_shippingfixedpricebenefit'),(217,'Can add Value condition',61,'add_valuecondition'),(218,'Can change Value condition',61,'change_valuecondition'),(219,'Can delete Value condition',61,'delete_valuecondition'),(220,'Can add Count condition',61,'add_countcondition'),(221,'Can change Count condition',61,'change_countcondition'),(222,'Can delete Count condition',61,'delete_countcondition'),(223,'Can add Voucher Application',64,'add_voucherapplication'),(224,'Can change Voucher Application',64,'change_voucherapplication'),(225,'Can delete Voucher Application',64,'delete_voucherapplication'),(226,'Can add Voucher',65,'add_voucher'),(227,'Can change Voucher',65,'change_voucher'),(228,'Can delete Voucher',65,'delete_voucher'),(229,'Can add course',66,'add_course'),(230,'Can change course',66,'change_course'),(231,'Can delete course',66,'delete_course'),(232,'Can add sample',67,'add_sample'),(233,'Can change sample',67,'change_sample'),(234,'Can delete sample',67,'delete_sample'),(235,'Can add switch',68,'add_switch'),(236,'Can change switch',68,'change_switch'),(237,'Can delete switch',68,'delete_switch'),(238,'Can add flag',69,'add_flag'),(239,'Can change flag',69,'change_flag'),(240,'Can delete flag',69,'delete_flag'),(241,'Can add flat page',70,'add_flatpage'),(242,'Can change flat page',70,'change_flatpage'),(243,'Can delete flat page',70,'delete_flatpage'),(244,'Can add session',71,'add_session'),(245,'Can change session',71,'change_session'),(246,'Can delete session',71,'delete_session'),(247,'Can add business client',72,'add_businessclient'),(248,'Can change business client',72,'change_businessclient'),(249,'Can delete business client',72,'delete_businessclient'),(250,'Can add historical course',73,'add_historicalcourse'),(251,'Can change historical course',73,'change_historicalcourse'),(252,'Can delete historical course',73,'delete_historicalcourse'),(253,'Can add historical invoice',74,'add_historicalinvoice'),(254,'Can change historical invoice',74,'change_historicalinvoice'),(255,'Can delete historical invoice',74,'delete_historicalinvoice'),(256,'Can add invoice',75,'add_invoice'),(257,'Can change invoice',75,'change_invoice'),(258,'Can delete invoice',75,'delete_invoice'),(259,'Can add referral',76,'add_referral'),(260,'Can change referral',76,'change_referral'),(261,'Can delete referral',76,'delete_referral'),(262,'Can add site theme',77,'add_sitetheme'),(263,'Can change site theme',77,'change_sitetheme'),(264,'Can delete site theme',77,'delete_sitetheme'),(265,'Can add historical refund',78,'add_historicalrefund'),(266,'Can change historical refund',78,'change_historicalrefund'),(267,'Can delete historical refund',78,'delete_historicalrefund'),(268,'Can add refund',79,'add_refund'),(269,'Can change refund',79,'change_refund'),(270,'Can delete refund',79,'delete_refund'),(271,'Can add historical refund line',80,'add_historicalrefundline'),(272,'Can change historical refund line',80,'change_historicalrefundline'),(273,'Can delete historical refund line',80,'delete_historicalrefundline'),(274,'Can add refund line',81,'add_refundline'),(275,'Can change refund line',81,'change_refundline'),(276,'Can delete refund line',81,'delete_refundline'),(277,'Can add Order and Item Charge',82,'add_orderanditemcharges'),(278,'Can change Order and Item Charge',82,'change_orderanditemcharges'),(279,'Can delete Order and Item Charge',82,'delete_orderanditemcharges'),(280,'Can add Weight-based Shipping Method',83,'add_weightbased'),(281,'Can change Weight-based Shipping Method',83,'change_weightbased'),(282,'Can delete Weight-based Shipping Method',83,'delete_weightbased'),(283,'Can add Weight Band',84,'add_weightband'),(284,'Can change Weight Band',84,'change_weightband'),(285,'Can delete Weight Band',84,'delete_weightband'),(286,'Can add Product review',85,'add_productreview'),(287,'Can change Product review',85,'change_productreview'),(288,'Can delete Product review',85,'delete_productreview'),(289,'Can add Vote',86,'add_vote'),(290,'Can change Vote',86,'change_vote'),(291,'Can delete Vote',86,'delete_vote'),(292,'Can add Payment Processor Response',87,'add_paymentprocessorresponse'),(293,'Can change Payment Processor Response',87,'change_paymentprocessorresponse'),(294,'Can delete Payment Processor Response',87,'delete_paymentprocessorresponse'),(295,'Can add Source',88,'add_source'),(296,'Can change Source',88,'change_source'),(297,'Can delete Source',88,'delete_source'),(298,'Can add paypal web profile',89,'add_paypalwebprofile'),(299,'Can change paypal web profile',89,'change_paypalwebprofile'),(300,'Can delete paypal web profile',89,'delete_paypalwebprofile'),(301,'Can add Paypal Processor Configuration',90,'add_paypalprocessorconfiguration'),(302,'Can change Paypal Processor Configuration',90,'change_paypalprocessorconfiguration'),(303,'Can delete Paypal Processor Configuration',90,'delete_paypalprocessorconfiguration'),(304,'Can add SDN Check Failure',91,'add_sdncheckfailure'),(305,'Can change SDN Check Failure',91,'change_sdncheckfailure'),(306,'Can delete SDN Check Failure',91,'delete_sdncheckfailure'),(307,'Can add Transaction',92,'add_transaction'),(308,'Can change Transaction',92,'change_transaction'),(309,'Can delete Transaction',92,'delete_transaction'),(310,'Can add Source Type',93,'add_sourcetype'),(311,'Can change Source Type',93,'change_sourcetype'),(312,'Can delete Source Type',93,'delete_sourcetype'),(313,'Can add Bankcard',94,'add_bankcard'),(314,'Can change Bankcard',94,'change_bankcard'),(315,'Can delete Bankcard',94,'delete_bankcard'),(316,'Can add historical Order',106,'add_historicalorder'),(317,'Can change historical Order',106,'change_historicalorder'),(318,'Can delete historical Order',106,'delete_historicalorder'),(319,'Can add historical Order Line',107,'add_historicalline'),(320,'Can change historical Order Line',107,'change_historicalline'),(321,'Can delete historical Order Line',107,'delete_historicalline'),(322,'Can add Page Promotion',108,'add_pagepromotion'),(323,'Can change Page Promotion',108,'change_pagepromotion'),(324,'Can delete Page Promotion',108,'delete_pagepromotion'),(325,'Can add Keyword Promotion',109,'add_keywordpromotion'),(326,'Can change Keyword Promotion',109,'change_keywordpromotion'),(327,'Can delete Keyword Promotion',109,'delete_keywordpromotion'),(328,'Can add Raw HTML',110,'add_rawhtml'),(329,'Can change Raw HTML',110,'change_rawhtml'),(330,'Can delete Raw HTML',110,'delete_rawhtml'),(331,'Can add Image',111,'add_image'),(332,'Can change Image',111,'change_image'),(333,'Can delete Image',111,'delete_image'),(334,'Can add Multi Image',112,'add_multiimage'),(335,'Can change Multi Image',112,'change_multiimage'),(336,'Can delete Multi Image',112,'delete_multiimage'),(337,'Can add Single product',113,'add_singleproduct'),(338,'Can change Single product',113,'change_singleproduct'),(339,'Can delete Single product',113,'delete_singleproduct'),(340,'Can add Hand Picked Product List',114,'add_handpickedproductlist'),(341,'Can change Hand Picked Product List',114,'change_handpickedproductlist'),(342,'Can delete Hand Picked Product List',114,'delete_handpickedproductlist'),(343,'Can add Ordered product',115,'add_orderedproduct'),(344,'Can change Ordered product',115,'change_orderedproduct'),(345,'Can delete Ordered product',115,'delete_orderedproduct'),(346,'Can add Automatic product list',116,'add_automaticproductlist'),(347,'Can change Automatic product list',116,'change_automaticproductlist'),(348,'Can delete Automatic product list',116,'delete_automaticproductlist'),(349,'Can add Ordered Product List',117,'add_orderedproductlist'),(350,'Can change Ordered Product List',117,'change_orderedproductlist'),(351,'Can delete Ordered Product List',117,'delete_orderedproductlist'),(352,'Can add Tabbed Block',118,'add_tabbedblock'),(353,'Can change Tabbed Block',118,'change_tabbedblock'),(354,'Can delete Tabbed Block',118,'delete_tabbedblock'),(355,'Can add coupon vouchers',119,'add_couponvouchers'),(356,'Can change coupon vouchers',119,'change_couponvouchers'),(357,'Can delete coupon vouchers',119,'delete_couponvouchers'),(358,'Can add order line vouchers',120,'add_orderlinevouchers'),(359,'Can change order line vouchers',120,'change_orderlinevouchers'),(360,'Can delete order line vouchers',120,'delete_orderlinevouchers'),(361,'Can add Wish List',121,'add_wishlist'),(362,'Can change Wish List',121,'change_wishlist'),(363,'Can delete Wish List',121,'delete_wishlist'),(364,'Can add Wish list line',122,'add_line'),(365,'Can change Wish list line',122,'change_line'),(366,'Can delete Wish list line',122,'delete_line'),(367,'Can add kv store',123,'add_kvstore'),(368,'Can change kv store',123,'change_kvstore'),(369,'Can delete kv store',123,'delete_kvstore'),(370,'Can add user social auth',124,'add_usersocialauth'),(371,'Can change user social auth',124,'change_usersocialauth'),(372,'Can delete user social auth',124,'delete_usersocialauth'),(373,'Can add nonce',125,'add_nonce'),(374,'Can change nonce',125,'change_nonce'),(375,'Can delete nonce',125,'delete_nonce'),(376,'Can add association',126,'add_association'),(377,'Can change association',126,'change_association'),(378,'Can delete association',126,'delete_association'),(379,'Can add code',127,'add_code'),(380,'Can change code',127,'change_code'),(381,'Can delete code',127,'delete_code');
 /*!40000 ALTER TABLE `auth_permission` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -305,13 +305,13 @@ CREATE TABLE `basket_basket` (
   `date_created` datetime(6) NOT NULL,
   `date_merged` datetime(6) DEFAULT NULL,
   `date_submitted` datetime(6) DEFAULT NULL,
-  `owner_id` int(11) DEFAULT NULL,
+  `owner_id` int(11),
   `site_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `basket_basket_5e7b1936` (`owner_id`),
   KEY `basket_basket_9365d6e7` (`site_id`),
-  CONSTRAINT `basket_basket_owner_id_74ddb970811da304_fk_ecommerce_user_id` FOREIGN KEY (`owner_id`) REFERENCES `ecommerce_user` (`id`),
-  CONSTRAINT `basket_basket_site_id_181f3afc5bf1818f_fk_django_site_id` FOREIGN KEY (`site_id`) REFERENCES `django_site` (`id`)
+  CONSTRAINT `basket_basket_owner_id_3a018de5_fk_ecommerce_user_id` FOREIGN KEY (`owner_id`) REFERENCES `ecommerce_user` (`id`),
+  CONSTRAINT `basket_basket_site_id_c45bd035_fk_django_site_id` FOREIGN KEY (`site_id`) REFERENCES `django_site` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -335,10 +335,10 @@ CREATE TABLE `basket_basket_vouchers` (
   `basket_id` int(11) NOT NULL,
   `voucher_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `basket_id` (`basket_id`,`voucher_id`),
-  KEY `basket_basket__voucher_id_19c9200c130f453a_fk_voucher_voucher_id` (`voucher_id`),
-  CONSTRAINT `basket_basket__voucher_id_19c9200c130f453a_fk_voucher_voucher_id` FOREIGN KEY (`voucher_id`) REFERENCES `voucher_voucher` (`id`),
-  CONSTRAINT `basket_basket_vou_basket_id_46809860fe0f2349_fk_basket_basket_id` FOREIGN KEY (`basket_id`) REFERENCES `basket_basket` (`id`)
+  UNIQUE KEY `basket_basket_vouchers_basket_id_0731eee2_uniq` (`basket_id`,`voucher_id`),
+  KEY `basket_basket_vouchers_voucher_id_c2b66981_fk_voucher_voucher_id` (`voucher_id`),
+  CONSTRAINT `basket_basket_vouchers_basket_id_f857c2f8_fk_basket_basket_id` FOREIGN KEY (`basket_id`) REFERENCES `basket_basket` (`id`),
+  CONSTRAINT `basket_basket_vouchers_voucher_id_c2b66981_fk_voucher_voucher_id` FOREIGN KEY (`voucher_id`) REFERENCES `voucher_voucher` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -363,11 +363,11 @@ CREATE TABLE `basket_basketattribute` (
   `attribute_type_id` int(11) NOT NULL,
   `basket_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `basket_basketattribute_basket_id_3fd09a582bd20aa4_uniq` (`basket_id`,`attribute_type_id`),
+  UNIQUE KEY `basket_basketattribute_basket_id_a6c168f8_uniq` (`basket_id`,`attribute_type_id`),
   KEY `basket_basketattribute_d3163989` (`attribute_type_id`),
   KEY `basket_basketattribute_afdeaea9` (`basket_id`),
-  CONSTRAINT `D1fb5edd4fb5f09448375a1cd3c4b7a1` FOREIGN KEY (`attribute_type_id`) REFERENCES `basket_basketattributetype` (`id`),
-  CONSTRAINT `basket_basketattr_basket_id_1dddefa059d92895_fk_basket_basket_id` FOREIGN KEY (`basket_id`) REFERENCES `basket_basket` (`id`)
+  CONSTRAINT `bask_attribute_type_id_822adc5d_fk_basket_basketattributetype_id` FOREIGN KEY (`attribute_type_id`) REFERENCES `basket_basketattributetype` (`id`),
+  CONSTRAINT `basket_basketattribute_basket_id_55c452f8_fk_basket_basket_id` FOREIGN KEY (`basket_id`) REFERENCES `basket_basket` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -422,14 +422,14 @@ CREATE TABLE `basket_line` (
   `product_id` int(11) NOT NULL,
   `stockrecord_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `basket_line_basket_id_7d0d707a7fd92c45_uniq` (`basket_id`,`line_reference`),
+  UNIQUE KEY `basket_line_basket_id_8977e974_uniq` (`basket_id`,`line_reference`),
   KEY `basket_line_767217f5` (`line_reference`),
   KEY `basket_line_afdeaea9` (`basket_id`),
   KEY `basket_line_9bea82de` (`product_id`),
   KEY `basket_line_271c5733` (`stockrecord_id`),
-  CONSTRAINT `basket_line_basket_id_33f070119c0cd86_fk_basket_basket_id` FOREIGN KEY (`basket_id`) REFERENCES `basket_basket` (`id`),
-  CONSTRAINT `basket_line_product_id_283cae99af410be8_fk_catalogue_product_id` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`),
-  CONSTRAINT `basket_stockrecord_id_7335383654703c38_fk_partner_stockrecord_id` FOREIGN KEY (`stockrecord_id`) REFERENCES `partner_stockrecord` (`id`)
+  CONSTRAINT `basket_line_basket_id_b615c905_fk_basket_basket_id` FOREIGN KEY (`basket_id`) REFERENCES `basket_basket` (`id`),
+  CONSTRAINT `basket_line_product_id_303d743e_fk_catalogue_product_id` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`),
+  CONSTRAINT `basket_line_stockrecord_id_7039d8a4_fk_partner_stockrecord_id` FOREIGN KEY (`stockrecord_id`) REFERENCES `partner_stockrecord` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -454,10 +454,10 @@ CREATE TABLE `basket_lineattribute` (
   `line_id` int(11) NOT NULL,
   `option_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `basket_lineattribute_line_id_7342a1870e7f4e05_fk_basket_line_id` (`line_id`),
+  KEY `basket_lineattribute_line_id_c41e0cdf_fk_basket_line_id` (`line_id`),
   KEY `basket_lineattribute_28df3725` (`option_id`),
-  CONSTRAINT `basket_lineatt_option_id_61a93d0109cbadce_fk_catalogue_option_id` FOREIGN KEY (`option_id`) REFERENCES `catalogue_option` (`id`),
-  CONSTRAINT `basket_lineattribute_line_id_7342a1870e7f4e05_fk_basket_line_id` FOREIGN KEY (`line_id`) REFERENCES `basket_line` (`id`)
+  CONSTRAINT `basket_lineattribute_line_id_c41e0cdf_fk_basket_line_id` FOREIGN KEY (`line_id`) REFERENCES `basket_line` (`id`),
+  CONSTRAINT `basket_lineattribute_option_id_9387a3f7_fk_catalogue_option_id` FOREIGN KEY (`option_id`) REFERENCES `catalogue_option` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -481,8 +481,9 @@ CREATE TABLE `catalogue_attributeoption` (
   `option` varchar(255) NOT NULL,
   `group_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `catalogue_attributeoption_group_id_7a8f6c11_uniq` (`group_id`,`option`),
   KEY `catalogue_attributeoption_0e939a4f` (`group_id`),
-  CONSTRAINT `c_group_id_15d15061b9ea4562_fk_catalogue_attributeoptiongroup_id` FOREIGN KEY (`group_id`) REFERENCES `catalogue_attributeoptiongroup` (`id`)
+  CONSTRAINT `catalogue_group_id_3d4a5e24_fk_catalogue_attributeoptiongroup_id` FOREIGN KEY (`group_id`) REFERENCES `catalogue_attributeoptiongroup` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -528,8 +529,8 @@ CREATE TABLE `catalogue_catalog` (
   `name` varchar(255) NOT NULL,
   `partner_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `catalogue_cata_partner_id_53a27252e109a075_fk_partner_partner_id` (`partner_id`),
-  CONSTRAINT `catalogue_cata_partner_id_53a27252e109a075_fk_partner_partner_id` FOREIGN KEY (`partner_id`) REFERENCES `partner_partner` (`id`)
+  KEY `catalogue_catalog_partner_id_eeba0b62_fk_partner_partner_id` (`partner_id`),
+  CONSTRAINT `catalogue_catalog_partner_id_eeba0b62_fk_partner_partner_id` FOREIGN KEY (`partner_id`) REFERENCES `partner_partner` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -553,10 +554,11 @@ CREATE TABLE `catalogue_catalog_stock_records` (
   `catalog_id` int(11) NOT NULL,
   `stockrecord_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `catalog_id` (`catalog_id`,`stockrecord_id`),
-  KEY `catalo_stockrecord_id_10f95d188efaa560_fk_partner_stockrecord_id` (`stockrecord_id`),
-  CONSTRAINT `catalo_stockrecord_id_10f95d188efaa560_fk_partner_stockrecord_id` FOREIGN KEY (`stockrecord_id`) REFERENCES `partner_stockrecord` (`id`),
-  CONSTRAINT `catalogue_ca_catalog_id_7820c68e954a2310_fk_catalogue_catalog_id` FOREIGN KEY (`catalog_id`) REFERENCES `catalogue_catalog` (`id`)
+  UNIQUE KEY `catalogue_catalog_stock_records_catalog_id_f363d53b_uniq` (`catalog_id`,`stockrecord_id`),
+  KEY `catalogue_catalog_stock_records_stockrecord_id_e480f401_uniq` (`stockrecord_id`),
+  KEY `catalogue_catalog_stock_records_catalog_id_8fa6c918_uniq` (`catalog_id`),
+  CONSTRAINT `catalogue_cata_stockrecord_id_e480f401_fk_partner_stockrecord_id` FOREIGN KEY (`stockrecord_id`) REFERENCES `partner_stockrecord` (`id`),
+  CONSTRAINT `catalogue_catalog_st_catalog_id_8fa6c918_fk_catalogue_catalog_id` FOREIGN KEY (`catalog_id`) REFERENCES `catalogue_catalog` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -625,14 +627,14 @@ CREATE TABLE `catalogue_historicalproduct` (
   `history_user_id` int(11) DEFAULT NULL,
   `parent_id` int(11) DEFAULT NULL,
   `product_class_id` int(11) DEFAULT NULL,
-  `expires` datetime(6) DEFAULT NULL,
+  `expires` datetime(6),
   PRIMARY KEY (`history_id`),
-  KEY `catalogue__history_user_id_257030d10a1d3184_fk_ecommerce_user_id` (`history_user_id`),
+  KEY `catalogue_historic_history_user_id_4ea2c15a_fk_ecommerce_user_id` (`history_user_id`),
   KEY `catalogue_historicalproduct_b80bb774` (`id`),
   KEY `catalogue_historicalproduct_2f9e567e` (`upc`),
   KEY `catalogue_historicalproduct_2dbcba41` (`slug`),
   KEY `catalogue_historicalproduct_9474e4b5` (`date_updated`),
-  CONSTRAINT `catalogue__history_user_id_257030d10a1d3184_fk_ecommerce_user_id` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
+  CONSTRAINT `catalogue_historic_history_user_id_4ea2c15a_fk_ecommerce_user_id` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -671,9 +673,9 @@ CREATE TABLE `catalogue_historicalproductattributevalue` (
   `product_id` int(11) DEFAULT NULL,
   `value_option_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`history_id`),
-  KEY `catalogue__history_user_id_1df684fbc48d669f_fk_ecommerce_user_id` (`history_user_id`),
+  KEY `catalogue_historic_history_user_id_34610f3f_fk_ecommerce_user_id` (`history_user_id`),
   KEY `catalogue_historicalproductattributevalue_b80bb774` (`id`),
-  CONSTRAINT `catalogue__history_user_id_1df684fbc48d669f_fk_ecommerce_user_id` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
+  CONSTRAINT `catalogue_historic_history_user_id_34610f3f_fk_ecommerce_user_id` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -728,10 +730,10 @@ CREATE TABLE `catalogue_product` (
   `date_created` datetime(6) NOT NULL,
   `date_updated` datetime(6) NOT NULL,
   `is_discountable` tinyint(1) NOT NULL,
-  `parent_id` int(11) DEFAULT NULL,
-  `product_class_id` int(11) DEFAULT NULL,
-  `course_id` varchar(255) DEFAULT NULL,
-  `expires` datetime(6) DEFAULT NULL,
+  `parent_id` int(11),
+  `product_class_id` int(11),
+  `course_id` varchar(255),
+  `expires` datetime(6),
   PRIMARY KEY (`id`),
   UNIQUE KEY `upc` (`upc`),
   KEY `catalogue_product_2dbcba41` (`slug`),
@@ -739,9 +741,9 @@ CREATE TABLE `catalogue_product` (
   KEY `catalogue_product_6be37982` (`parent_id`),
   KEY `catalogue_product_c6619e6f` (`product_class_id`),
   KEY `catalogue_product_ea134da7` (`course_id`),
-  CONSTRAINT `c_product_class_id_423660034e393d81_fk_catalogue_productclass_id` FOREIGN KEY (`product_class_id`) REFERENCES `catalogue_productclass` (`id`),
-  CONSTRAINT `catalogue_pro_parent_id_3513f469b6da50ee_fk_catalogue_product_id` FOREIGN KEY (`parent_id`) REFERENCES `catalogue_product` (`id`),
-  CONSTRAINT `catalogue_produc_course_id_7cd4bd3c0b10e809_fk_courses_course_id` FOREIGN KEY (`course_id`) REFERENCES `courses_course` (`id`)
+  CONSTRAINT `catalogue_product_class_id_0c6c5b54_fk_catalogue_productclass_id` FOREIGN KEY (`product_class_id`) REFERENCES `catalogue_productclass` (`id`),
+  CONSTRAINT `catalogue_product_course_id_1918bc6b_fk_courses_course_id` FOREIGN KEY (`course_id`) REFERENCES `courses_course` (`id`),
+  CONSTRAINT `catalogue_product_parent_id_9bfd2382_fk_catalogue_product_id` FOREIGN KEY (`parent_id`) REFERENCES `catalogue_product` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -765,10 +767,10 @@ CREATE TABLE `catalogue_product_product_options` (
   `product_id` int(11) NOT NULL,
   `option_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `product_id` (`product_id`,`option_id`),
-  KEY `catalogue_prod_option_id_3c86d91145e1eda2_fk_catalogue_option_id` (`option_id`),
-  CONSTRAINT `catalogue_pr_product_id_36290bcd1abb306d_fk_catalogue_product_id` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`),
-  CONSTRAINT `catalogue_prod_option_id_3c86d91145e1eda2_fk_catalogue_option_id` FOREIGN KEY (`option_id`) REFERENCES `catalogue_option` (`id`)
+  UNIQUE KEY `catalogue_product_product_options_product_id_9b3abb31_uniq` (`product_id`,`option_id`),
+  KEY `catalogue_product_prod_option_id_ff470e13_fk_catalogue_option_id` (`option_id`),
+  CONSTRAINT `catalogue_product_pr_product_id_ad2b46bd_fk_catalogue_product_id` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`),
+  CONSTRAINT `catalogue_product_prod_option_id_ff470e13_fk_catalogue_option_id` FOREIGN KEY (`option_id`) REFERENCES `catalogue_option` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -794,13 +796,13 @@ CREATE TABLE `catalogue_productattribute` (
   `type` varchar(20) NOT NULL,
   `required` tinyint(1) NOT NULL,
   `option_group_id` int(11) DEFAULT NULL,
-  `product_class_id` int(11) DEFAULT NULL,
+  `product_class_id` int(11),
   PRIMARY KEY (`id`),
-  KEY `ee81dd8e018daf46989580657aa2c5f2` (`option_group_id`),
+  KEY `ca_option_group_id_6b422dc2_fk_catalogue_attributeoptiongroup_id` (`option_group_id`),
   KEY `catalogue_productattribute_c1336794` (`code`),
   KEY `catalogue_productattribute_c6619e6f` (`product_class_id`),
-  CONSTRAINT `c_product_class_id_1362a591cb94a410_fk_catalogue_productclass_id` FOREIGN KEY (`product_class_id`) REFERENCES `catalogue_productclass` (`id`),
-  CONSTRAINT `ee81dd8e018daf46989580657aa2c5f2` FOREIGN KEY (`option_group_id`) REFERENCES `catalogue_attributeoptiongroup` (`id`)
+  CONSTRAINT `ca_option_group_id_6b422dc2_fk_catalogue_attributeoptiongroup_id` FOREIGN KEY (`option_group_id`) REFERENCES `catalogue_attributeoptiongroup` (`id`),
+  CONSTRAINT `catalogue_product_class_id_7af808ec_fk_catalogue_productclass_id` FOREIGN KEY (`product_class_id`) REFERENCES `catalogue_productclass` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -836,14 +838,14 @@ CREATE TABLE `catalogue_productattributevalue` (
   `product_id` int(11) NOT NULL,
   `value_option_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `catalogue_productattributeval_attribute_id_2577af51bd9ad6d8_uniq` (`attribute_id`,`product_id`),
-  KEY `D0e0df13f5db7d43bdbab175073e15d0` (`entity_content_type_id`),
-  KEY `catalogue_pr_product_id_627870505f32fefb_fk_catalogue_product_id` (`product_id`),
-  KEY `df82639e31ada55e647d697296f3915a` (`value_option_id`),
-  CONSTRAINT `D0e0df13f5db7d43bdbab175073e15d0` FOREIGN KEY (`entity_content_type_id`) REFERENCES `django_content_type` (`id`),
-  CONSTRAINT `c_attribute_id_52017edc0eb6d798_fk_catalogue_productattribute_id` FOREIGN KEY (`attribute_id`) REFERENCES `catalogue_productattribute` (`id`),
-  CONSTRAINT `catalogue_pr_product_id_627870505f32fefb_fk_catalogue_product_id` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`),
-  CONSTRAINT `df82639e31ada55e647d697296f3915a` FOREIGN KEY (`value_option_id`) REFERENCES `catalogue_attributeoption` (`id`)
+  UNIQUE KEY `catalogue_productattributevalue_attribute_id_1e8e7112_uniq` (`attribute_id`,`product_id`),
+  KEY `catalo_entity_content_type_id_f7186ab5_fk_django_content_type_id` (`entity_content_type_id`),
+  KEY `catalogue_productatt_product_id_a03cd90e_fk_catalogue_product_id` (`product_id`),
+  KEY `catalog_value_option_id_21026066_fk_catalogue_attributeoption_id` (`value_option_id`),
+  CONSTRAINT `catalo_entity_content_type_id_f7186ab5_fk_django_content_type_id` FOREIGN KEY (`entity_content_type_id`) REFERENCES `django_content_type` (`id`),
+  CONSTRAINT `catalog_value_option_id_21026066_fk_catalogue_attributeoption_id` FOREIGN KEY (`value_option_id`) REFERENCES `catalogue_attributeoption` (`id`),
+  CONSTRAINT `catalogue_attribute_id_0287c1e7_fk_catalogue_productattribute_id` FOREIGN KEY (`attribute_id`) REFERENCES `catalogue_productattribute` (`id`),
+  CONSTRAINT `catalogue_productatt_product_id_a03cd90e_fk_catalogue_product_id` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -867,10 +869,10 @@ CREATE TABLE `catalogue_productcategory` (
   `category_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `catalogue_productcategory_product_id_5010e6207ddeddfe_uniq` (`product_id`,`category_id`),
-  KEY `catalogue__category_id_62892d4b1ea04730_fk_catalogue_category_id` (`category_id`),
-  CONSTRAINT `catalogue__category_id_62892d4b1ea04730_fk_catalogue_category_id` FOREIGN KEY (`category_id`) REFERENCES `catalogue_category` (`id`),
-  CONSTRAINT `catalogue_pr_product_id_6615a148819eab3a_fk_catalogue_product_id` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`)
+  UNIQUE KEY `catalogue_productcategory_product_id_8f0dbfe2_uniq` (`product_id`,`category_id`),
+  KEY `catalogue_productc_category_id_176db535_fk_catalogue_category_id` (`category_id`),
+  CONSTRAINT `catalogue_productc_category_id_176db535_fk_catalogue_category_id` FOREIGN KEY (`category_id`) REFERENCES `catalogue_category` (`id`),
+  CONSTRAINT `catalogue_productcat_product_id_846a4061_fk_catalogue_product_id` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -921,10 +923,10 @@ CREATE TABLE `catalogue_productclass_options` (
   `productclass_id` int(11) NOT NULL,
   `option_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `productclass_id` (`productclass_id`,`option_id`),
-  KEY `catalogue_prod_option_id_53b23c145a0e7ae1_fk_catalogue_option_id` (`option_id`),
-  CONSTRAINT `ca_productclass_id_19b3f6278fef360d_fk_catalogue_productclass_id` FOREIGN KEY (`productclass_id`) REFERENCES `catalogue_productclass` (`id`),
-  CONSTRAINT `catalogue_prod_option_id_53b23c145a0e7ae1_fk_catalogue_option_id` FOREIGN KEY (`option_id`) REFERENCES `catalogue_option` (`id`)
+  UNIQUE KEY `catalogue_productclass_options_productclass_id_2266c635_uniq` (`productclass_id`,`option_id`),
+  KEY `catalogue_productclass_option_id_b099542c_fk_catalogue_option_id` (`option_id`),
+  CONSTRAINT `catalogue__productclass_id_732df4c8_fk_catalogue_productclass_id` FOREIGN KEY (`productclass_id`) REFERENCES `catalogue_productclass` (`id`),
+  CONSTRAINT `catalogue_productclass_option_id_b099542c_fk_catalogue_option_id` FOREIGN KEY (`option_id`) REFERENCES `catalogue_option` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -951,8 +953,8 @@ CREATE TABLE `catalogue_productimage` (
   `date_created` datetime(6) NOT NULL,
   `product_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `catalogue_productimage_product_id_13868d064d886d95_uniq` (`product_id`,`display_order`),
-  CONSTRAINT `catalogue_pr_product_id_139fa42825e67bb0_fk_catalogue_product_id` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`)
+  UNIQUE KEY `catalogue_productimage_product_id_2df78171_uniq` (`product_id`,`display_order`),
+  CONSTRAINT `catalogue_productima_product_id_49474fe8_fk_catalogue_product_id` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -977,10 +979,10 @@ CREATE TABLE `catalogue_productrecommendation` (
   `primary_id` int(11) NOT NULL,
   `recommendation_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `catalogue_productrecommendation_primary_id_7bcb067d85969ce3_uniq` (`primary_id`,`recommendation_id`),
-  KEY `catal_recommendation_id_238400b019a404e0_fk_catalogue_product_id` (`recommendation_id`),
-  CONSTRAINT `catal_recommendation_id_238400b019a404e0_fk_catalogue_product_id` FOREIGN KEY (`recommendation_id`) REFERENCES `catalogue_product` (`id`),
-  CONSTRAINT `catalogue_pr_primary_id_3ca4b79abcaac002_fk_catalogue_product_id` FOREIGN KEY (`primary_id`) REFERENCES `catalogue_product` (`id`)
+  UNIQUE KEY `catalogue_productrecommendation_primary_id_da1fdf43_uniq` (`primary_id`,`recommendation_id`),
+  KEY `catalogue_pro_recommendation_id_daf8ae95_fk_catalogue_product_id` (`recommendation_id`),
+  CONSTRAINT `catalogue_pro_recommendation_id_daf8ae95_fk_catalogue_product_id` FOREIGN KEY (`recommendation_id`) REFERENCES `catalogue_product` (`id`),
+  CONSTRAINT `catalogue_productrec_primary_id_6e51a55c_fk_catalogue_product_id` FOREIGN KEY (`primary_id`) REFERENCES `catalogue_product` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1025,7 +1027,7 @@ UNLOCK TABLES;
 CREATE TABLE `core_client` (
   `user_ptr_id` int(11) NOT NULL,
   PRIMARY KEY (`user_ptr_id`),
-  CONSTRAINT `core_client_user_ptr_id_784121111bb60d22_fk_ecommerce_user_id` FOREIGN KEY (`user_ptr_id`) REFERENCES `ecommerce_user` (`id`)
+  CONSTRAINT `core_client_user_ptr_id_e5908bcf_fk_ecommerce_user_id` FOREIGN KEY (`user_ptr_id`) REFERENCES `ecommerce_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1052,22 +1054,27 @@ CREATE TABLE `core_siteconfiguration` (
   `partner_id` int(11) NOT NULL,
   `site_id` int(11) NOT NULL,
   `oauth_settings` longtext NOT NULL,
-  `segment_key` varchar(255) DEFAULT NULL,
-  `from_email` varchar(255) DEFAULT NULL,
+  `segment_key` varchar(255),
+  `from_email` varchar(255),
   `enable_enrollment_codes` tinyint(1) NOT NULL,
   `payment_support_email` varchar(255) NOT NULL,
   `payment_support_url` varchar(255) NOT NULL,
   `affiliate_cookie_name` varchar(255) NOT NULL,
   `utm_cookie_name` varchar(255) NOT NULL,
   `enable_otto_receipt_page` tinyint(1) NOT NULL,
-  `client_side_payment_processor` varchar(255) DEFAULT NULL,
+  `client_side_payment_processor` varchar(255),
+  `send_refund_notifications` tinyint(1) NOT NULL,
+  `enable_sdn_check` tinyint(1) NOT NULL,
+  `sdn_api_key` varchar(255) NOT NULL,
+  `sdn_api_list` varchar(255) NOT NULL,
+  `sdn_api_url` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `core_siteconfiguration_site_id_6d898a4104ef1631_uniq` (`site_id`,`partner_id`),
-  UNIQUE KEY `core_siteconfiguration_site_id_430b5095155db758_uniq` (`site_id`),
-  KEY `core_siteconfi_partner_id_6fd09f8adc3aafd8_fk_partner_partner_id` (`partner_id`),
-  CONSTRAINT `core_siteconfi_partner_id_6fd09f8adc3aafd8_fk_partner_partner_id` FOREIGN KEY (`partner_id`) REFERENCES `partner_partner` (`id`),
-  CONSTRAINT `core_siteconfiguratio_site_id_430b5095155db758_fk_django_site_id` FOREIGN KEY (`site_id`) REFERENCES `django_site` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  UNIQUE KEY `core_siteconfiguration_site_id_1c7390ef_uniq` (`site_id`,`partner_id`),
+  UNIQUE KEY `core_siteconfiguration_site_id_3124a87d_uniq` (`site_id`),
+  KEY `core_siteconfiguration_partner_id_75739217_fk_partner_partner_id` (`partner_id`),
+  CONSTRAINT `core_siteconfiguration_partner_id_75739217_fk_partner_partner_id` FOREIGN KEY (`partner_id`) REFERENCES `partner_partner` (`id`),
+  CONSTRAINT `core_siteconfiguration_site_id_3124a87d_fk_django_site_id` FOREIGN KEY (`site_id`) REFERENCES `django_site` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1076,6 +1083,7 @@ CREATE TABLE `core_siteconfiguration` (
 
 LOCK TABLES `core_siteconfiguration` WRITE;
 /*!40000 ALTER TABLE `core_siteconfiguration` DISABLE KEYS */;
+INSERT INTO `core_siteconfiguration` VALUES (1,'http://edx.devstack.edxapp:18000','sass/themes/edx.scss','cybersource,paypal',1,1,'{\"SOCIAL_AUTH_EDX_OIDC_ID_TOKEN_DECRYPTION_KEY\":\"ecommerce-secret\",\"SOCIAL_AUTH_EDX_OIDC_URL_ROOT\":\"http://edx.devstack.edxapp:18000/oauth2\",\"SOCIAL_AUTH_EDX_OIDC_ISSUERS\":[\"http://edx.devstack.edxapp:18000\"],\"SOCIAL_AUTH_EDX_OIDC_KEY\":\"ecommerce-key\",\"SOCIAL_AUTH_EDX_OIDC_SECRET\":\"ecommerce-secret\"}',NULL,'staff@example.com',0,'support@example.com','','','',0,NULL,0,0,'','','');
 /*!40000 ALTER TABLE `core_siteconfiguration` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1088,8 +1096,8 @@ UNLOCK TABLES;
 CREATE TABLE `courses_course` (
   `id` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `thumbnail_url` varchar(200) DEFAULT NULL,
-  `verification_deadline` datetime(6) DEFAULT NULL,
+  `thumbnail_url` varchar(200),
+  `verification_deadline` datetime(6),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1116,12 +1124,12 @@ CREATE TABLE `courses_historicalcourse` (
   `history_date` datetime(6) NOT NULL,
   `history_type` varchar(1) NOT NULL,
   `history_user_id` int(11) DEFAULT NULL,
-  `thumbnail_url` varchar(200) DEFAULT NULL,
-  `verification_deadline` datetime(6) DEFAULT NULL,
+  `thumbnail_url` varchar(200),
+  `verification_deadline` datetime(6),
   PRIMARY KEY (`history_id`),
-  KEY `courses_hi_history_user_id_2c90172d7dfa04da_fk_ecommerce_user_id` (`history_user_id`),
+  KEY `courses_historical_history_user_id_5aca3c34_fk_ecommerce_user_id` (`history_user_id`),
   KEY `courses_historicalcourse_b80bb774` (`id`),
-  CONSTRAINT `courses_hi_history_user_id_2c90172d7dfa04da_fk_ecommerce_user_id` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
+  CONSTRAINT `courses_historical_history_user_id_5aca3c34_fk_ecommerce_user_id` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1179,8 +1187,8 @@ CREATE TABLE `customer_email` (
   `date_sent` datetime(6) NOT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `customer_email_user_id_8eeb3a31aa9371c_fk_ecommerce_user_id` (`user_id`),
-  CONSTRAINT `customer_email_user_id_8eeb3a31aa9371c_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
+  KEY `customer_email_user_id_a69ad588_fk_ecommerce_user_id` (`user_id`),
+  CONSTRAINT `customer_email_user_id_a69ad588_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1210,10 +1218,10 @@ CREATE TABLE `customer_notification` (
   `recipient_id` int(11) NOT NULL,
   `sender_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `customer_noti_recipient_id_2a3e81b6f1125b41_fk_ecommerce_user_id` (`recipient_id`),
-  KEY `customer_notific_sender_id_327cbc8fe9128da8_fk_ecommerce_user_id` (`sender_id`),
-  CONSTRAINT `customer_noti_recipient_id_2a3e81b6f1125b41_fk_ecommerce_user_id` FOREIGN KEY (`recipient_id`) REFERENCES `ecommerce_user` (`id`),
-  CONSTRAINT `customer_notific_sender_id_327cbc8fe9128da8_fk_ecommerce_user_id` FOREIGN KEY (`sender_id`) REFERENCES `ecommerce_user` (`id`)
+  KEY `customer_notification_recipient_id_d99de5c8_fk_ecommerce_user_id` (`recipient_id`),
+  KEY `customer_notification_sender_id_affa1632_fk_ecommerce_user_id` (`sender_id`),
+  CONSTRAINT `customer_notification_recipient_id_d99de5c8_fk_ecommerce_user_id` FOREIGN KEY (`recipient_id`) REFERENCES `ecommerce_user` (`id`),
+  CONSTRAINT `customer_notification_sender_id_affa1632_fk_ecommerce_user_id` FOREIGN KEY (`sender_id`) REFERENCES `ecommerce_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1234,7 +1242,7 @@ UNLOCK TABLES;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `customer_productalert` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `email` varchar(75) NOT NULL,
+  `email` varchar(254) NOT NULL,
   `key` varchar(128) NOT NULL,
   `status` varchar(20) NOT NULL,
   `date_created` datetime(6) NOT NULL,
@@ -1244,12 +1252,12 @@ CREATE TABLE `customer_productalert` (
   `product_id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `customer_pro_product_id_76d688fb01b70d57_fk_catalogue_product_id` (`product_id`),
-  KEY `customer_productal_user_id_6fc3d0dd9c8130b4_fk_ecommerce_user_id` (`user_id`),
+  KEY `customer_productaler_product_id_7e529a41_fk_catalogue_product_id` (`product_id`),
+  KEY `customer_productalert_user_id_677ad6d6_fk_ecommerce_user_id` (`user_id`),
   KEY `customer_productalert_0c83f57c` (`email`),
   KEY `customer_productalert_3c6e0b8a` (`key`),
-  CONSTRAINT `customer_pro_product_id_76d688fb01b70d57_fk_catalogue_product_id` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`),
-  CONSTRAINT `customer_productal_user_id_6fc3d0dd9c8130b4_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
+  CONSTRAINT `customer_productaler_product_id_7e529a41_fk_catalogue_product_id` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`),
+  CONSTRAINT `customer_productalert_user_id_677ad6d6_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1278,10 +1286,10 @@ CREATE TABLE `django_admin_log` (
   `content_type_id` int(11) DEFAULT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `djang_content_type_id_697914295151027a_fk_django_content_type_id` (`content_type_id`),
-  KEY `django_admin_log_user_id_52fdd58701c5f563_fk_ecommerce_user_id` (`user_id`),
-  CONSTRAINT `djang_content_type_id_697914295151027a_fk_django_content_type_id` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`),
-  CONSTRAINT `django_admin_log_user_id_52fdd58701c5f563_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
+  KEY `django_admin__content_type_id_c4bce8eb_fk_django_content_type_id` (`content_type_id`),
+  KEY `django_admin_log_user_id_c564eba6_fk_ecommerce_user_id` (`user_id`),
+  CONSTRAINT `django_admin__content_type_id_c4bce8eb_fk_django_content_type_id` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`),
+  CONSTRAINT `django_admin_log_user_id_c564eba6_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1305,8 +1313,8 @@ CREATE TABLE `django_content_type` (
   `app_label` varchar(100) NOT NULL,
   `model` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `django_content_type_app_label_45f3b1d93ec8c61c_uniq` (`app_label`,`model`)
-) ENGINE=InnoDB AUTO_INCREMENT=127 DEFAULT CHARSET=utf8;
+  UNIQUE KEY `django_content_type_app_label_76bd3d3b_uniq` (`app_label`,`model`)
+) ENGINE=InnoDB AUTO_INCREMENT=128 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1315,7 +1323,7 @@ CREATE TABLE `django_content_type` (
 
 LOCK TABLES `django_content_type` WRITE;
 /*!40000 ALTER TABLE `django_content_type` DISABLE KEYS */;
-INSERT INTO `django_content_type` VALUES (8,'address','country'),(9,'address','useraddress'),(10,'admin','logentry'),(28,'analytics','productrecord'),(25,'analytics','userproductview'),(26,'analytics','userrecord'),(27,'analytics','usersearch'),(4,'auth','group'),(3,'auth','permission'),(41,'basket','basket'),(39,'basket','basketattribute'),(40,'basket','basketattributetype'),(42,'basket','line'),(43,'basket','lineattribute'),(11,'catalogue','attributeoption'),(19,'catalogue','attributeoptiongroup'),(16,'catalogue','catalog'),(15,'catalogue','category'),(24,'catalogue','historicalproduct'),(23,'catalogue','historicalproductattributevalue'),(13,'catalogue','option'),(12,'catalogue','product'),(18,'catalogue','productattribute'),(21,'catalogue','productattributevalue'),(22,'catalogue','productcategory'),(14,'catalogue','productclass'),(20,'catalogue','productimage'),(17,'catalogue','productrecommendation'),(2,'contenttypes','contenttype'),(73,'core','businessclient'),(7,'core','client'),(5,'core','siteconfiguration'),(6,'core','user'),(67,'courses','course'),(74,'courses','historicalcourse'),(37,'customer','communicationeventtype'),(36,'customer','email'),(38,'customer','notification'),(35,'customer','productalert'),(71,'flatpages','flatpage'),(75,'invoice','historicalinvoice'),(76,'invoice','invoice'),(99,'offer','absolutediscountbenefit'),(60,'offer','benefit'),(62,'offer','condition'),(63,'offer','conditionaloffer'),(96,'offer','countcondition'),(104,'offer','coveragecondition'),(105,'offer','fixedpricebenefit'),(101,'offer','multibuydiscountbenefit'),(103,'offer','percentagediscountbenefit'),(61,'offer','range'),(59,'offer','rangeproduct'),(64,'offer','rangeproductfileupload'),(102,'offer','shippingabsolutediscountbenefit'),(100,'offer','shippingbenefit'),(95,'offer','shippingfixedpricebenefit'),(98,'offer','shippingpercentagediscountbenefit'),(97,'offer','valuecondition'),(46,'order','billingaddress'),(50,'order','communicationevent'),(107,'order','historicalline'),(106,'order','historicalorder'),(48,'order','line'),(57,'order','lineattribute'),(44,'order','lineprice'),(52,'order','order'),(58,'order','orderdiscount'),(51,'order','ordernote'),(49,'order','paymentevent'),(53,'order','paymenteventquantity'),(56,'order','paymenteventtype'),(45,'order','shippingaddress'),(47,'order','shippingevent'),(55,'order','shippingeventquantity'),(54,'order','shippingeventtype'),(30,'partner','historicalstockrecord'),(31,'partner','partner'),(32,'partner','partneraddress'),(34,'partner','stockalert'),(33,'partner','stockrecord'),(94,'payment','bankcard'),(88,'payment','paymentprocessorresponse'),(91,'payment','paypalprocessorconfiguration'),(90,'payment','paypalwebprofile'),(89,'payment','source'),(93,'payment','sourcetype'),(92,'payment','transaction'),(116,'promotions','automaticproductlist'),(114,'promotions','handpickedproductlist'),(111,'promotions','image'),(109,'promotions','keywordpromotion'),(112,'promotions','multiimage'),(115,'promotions','orderedproduct'),(117,'promotions','orderedproductlist'),(108,'promotions','pagepromotion'),(110,'promotions','rawhtml'),(113,'promotions','singleproduct'),(118,'promotions','tabbedblock'),(77,'referrals','referral'),(79,'refund','historicalrefund'),(81,'refund','historicalrefundline'),(80,'refund','refund'),(82,'refund','refundline'),(86,'reviews','productreview'),(87,'reviews','vote'),(72,'sessions','session'),(83,'shipping','orderanditemcharges'),(85,'shipping','weightband'),(84,'shipping','weightbased'),(29,'sites','site'),(125,'social_auth','association'),(126,'social_auth','code'),(124,'social_auth','nonce'),(123,'social_auth','usersocialauth'),(78,'theming','sitetheme'),(1,'thumbnail','kvstore'),(119,'voucher','couponvouchers'),(120,'voucher','orderlinevouchers'),(66,'voucher','voucher'),(65,'voucher','voucherapplication'),(70,'waffle','flag'),(68,'waffle','sample'),(69,'waffle','switch'),(122,'wishlists','line'),(121,'wishlists','wishlist');
+INSERT INTO `django_content_type` VALUES (7,'address','country'),(8,'address','useraddress'),(9,'admin','logentry'),(27,'analytics','productrecord'),(24,'analytics','userproductview'),(25,'analytics','userrecord'),(26,'analytics','usersearch'),(3,'auth','group'),(2,'auth','permission'),(40,'basket','basket'),(38,'basket','basketattribute'),(39,'basket','basketattributetype'),(41,'basket','line'),(42,'basket','lineattribute'),(10,'catalogue','attributeoption'),(18,'catalogue','attributeoptiongroup'),(15,'catalogue','catalog'),(14,'catalogue','category'),(23,'catalogue','historicalproduct'),(22,'catalogue','historicalproductattributevalue'),(12,'catalogue','option'),(11,'catalogue','product'),(17,'catalogue','productattribute'),(20,'catalogue','productattributevalue'),(21,'catalogue','productcategory'),(13,'catalogue','productclass'),(19,'catalogue','productimage'),(16,'catalogue','productrecommendation'),(1,'contenttypes','contenttype'),(72,'core','businessclient'),(6,'core','client'),(4,'core','siteconfiguration'),(5,'core','user'),(66,'courses','course'),(73,'courses','historicalcourse'),(36,'customer','communicationeventtype'),(35,'customer','email'),(37,'customer','notification'),(34,'customer','productalert'),(70,'flatpages','flatpage'),(74,'invoice','historicalinvoice'),(75,'invoice','invoice'),(99,'offer','absolutediscountbenefit'),(59,'offer','benefit'),(61,'offer','condition'),(62,'offer','conditionaloffer'),(96,'offer','countcondition'),(104,'offer','coveragecondition'),(105,'offer','fixedpricebenefit'),(101,'offer','multibuydiscountbenefit'),(103,'offer','percentagediscountbenefit'),(60,'offer','range'),(58,'offer','rangeproduct'),(63,'offer','rangeproductfileupload'),(102,'offer','shippingabsolutediscountbenefit'),(100,'offer','shippingbenefit'),(95,'offer','shippingfixedpricebenefit'),(98,'offer','shippingpercentagediscountbenefit'),(97,'offer','valuecondition'),(45,'order','billingaddress'),(49,'order','communicationevent'),(107,'order','historicalline'),(106,'order','historicalorder'),(47,'order','line'),(56,'order','lineattribute'),(43,'order','lineprice'),(51,'order','order'),(57,'order','orderdiscount'),(50,'order','ordernote'),(48,'order','paymentevent'),(52,'order','paymenteventquantity'),(55,'order','paymenteventtype'),(44,'order','shippingaddress'),(46,'order','shippingevent'),(54,'order','shippingeventquantity'),(53,'order','shippingeventtype'),(29,'partner','historicalstockrecord'),(30,'partner','partner'),(31,'partner','partneraddress'),(33,'partner','stockalert'),(32,'partner','stockrecord'),(94,'payment','bankcard'),(87,'payment','paymentprocessorresponse'),(90,'payment','paypalprocessorconfiguration'),(89,'payment','paypalwebprofile'),(91,'payment','sdncheckfailure'),(88,'payment','source'),(93,'payment','sourcetype'),(92,'payment','transaction'),(116,'promotions','automaticproductlist'),(114,'promotions','handpickedproductlist'),(111,'promotions','image'),(109,'promotions','keywordpromotion'),(112,'promotions','multiimage'),(115,'promotions','orderedproduct'),(117,'promotions','orderedproductlist'),(108,'promotions','pagepromotion'),(110,'promotions','rawhtml'),(113,'promotions','singleproduct'),(118,'promotions','tabbedblock'),(76,'referrals','referral'),(78,'refund','historicalrefund'),(80,'refund','historicalrefundline'),(79,'refund','refund'),(81,'refund','refundline'),(85,'reviews','productreview'),(86,'reviews','vote'),(71,'sessions','session'),(82,'shipping','orderanditemcharges'),(84,'shipping','weightband'),(83,'shipping','weightbased'),(28,'sites','site'),(126,'social_auth','association'),(127,'social_auth','code'),(125,'social_auth','nonce'),(124,'social_auth','usersocialauth'),(77,'theming','sitetheme'),(123,'thumbnail','kvstore'),(119,'voucher','couponvouchers'),(120,'voucher','orderlinevouchers'),(65,'voucher','voucher'),(64,'voucher','voucherapplication'),(69,'waffle','flag'),(67,'waffle','sample'),(68,'waffle','switch'),(122,'wishlists','line'),(121,'wishlists','wishlist');
 /*!40000 ALTER TABLE `django_content_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1358,10 +1366,10 @@ CREATE TABLE `django_flatpage_sites` (
   `flatpage_id` int(11) NOT NULL,
   `site_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `flatpage_id` (`flatpage_id`,`site_id`),
-  KEY `django_flatpage_sites_site_id_481dafa7c6e850d9_fk_django_site_id` (`site_id`),
-  CONSTRAINT `django_flatpa_flatpage_id_7b4e76c0a3a9d13a_fk_django_flatpage_id` FOREIGN KEY (`flatpage_id`) REFERENCES `django_flatpage` (`id`),
-  CONSTRAINT `django_flatpage_sites_site_id_481dafa7c6e850d9_fk_django_site_id` FOREIGN KEY (`site_id`) REFERENCES `django_site` (`id`)
+  UNIQUE KEY `django_flatpage_sites_flatpage_id_0d29d9d1_uniq` (`flatpage_id`,`site_id`),
+  KEY `django_flatpage_sites_site_id_bfd8ea84_fk_django_site_id` (`site_id`),
+  CONSTRAINT `django_flatpage_sites_flatpage_id_078bbc8b_fk_django_flatpage_id` FOREIGN KEY (`flatpage_id`) REFERENCES `django_flatpage` (`id`),
+  CONSTRAINT `django_flatpage_sites_site_id_bfd8ea84_fk_django_site_id` FOREIGN KEY (`site_id`) REFERENCES `django_site` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1386,7 +1394,7 @@ CREATE TABLE `django_migrations` (
   `name` varchar(255) NOT NULL,
   `applied` datetime(6) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=142 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=168 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1395,7 +1403,7 @@ CREATE TABLE `django_migrations` (
 
 LOCK TABLES `django_migrations` WRITE;
 /*!40000 ALTER TABLE `django_migrations` DISABLE KEYS */;
-INSERT INTO `django_migrations` VALUES (1,'contenttypes','0001_initial','2016-12-18 04:03:16.282587'),(2,'auth','0001_initial','2016-12-18 04:03:17.315193'),(3,'core','0001_initial','2016-12-18 04:03:18.608790'),(4,'address','0001_initial','2016-12-18 04:03:19.636959'),(5,'admin','0001_initial','2016-12-18 04:03:20.207246'),(6,'catalogue','0001_initial','2016-12-18 04:03:29.177587'),(7,'analytics','0001_initial','2016-12-18 04:03:30.683152'),(8,'analytics','0002_auto_20140827_1705','2016-12-18 04:03:32.692106'),(9,'contenttypes','0002_remove_content_type_name','2016-12-18 04:03:33.921471'),(10,'auth','0002_alter_permission_name_max_length','2016-12-18 04:03:34.345927'),(11,'auth','0003_alter_user_email_max_length','2016-12-18 04:03:34.547076'),(12,'auth','0004_alter_user_username_opts','2016-12-18 04:03:34.744735'),(13,'auth','0005_alter_user_last_login_null','2016-12-18 04:03:34.966918'),(14,'auth','0006_require_contenttypes_0002','2016-12-18 04:03:34.986177'),(15,'sites','0001_initial','2016-12-18 04:03:35.140851'),(16,'partner','0001_initial','2016-12-18 04:03:39.653503'),(17,'customer','0001_initial','2016-12-18 04:03:42.251883'),(18,'basket','0001_initial','2016-12-18 04:03:43.109214'),(19,'basket','0002_auto_20140827_1705','2016-12-18 04:03:47.301705'),(20,'order','0001_initial','2016-12-18 04:04:06.895378'),(21,'offer','0001_initial','2016-12-18 04:04:14.134365'),(22,'voucher','0001_initial','2016-12-18 04:04:16.322574'),(23,'basket','0003_basket_vouchers','2016-12-18 04:04:17.338006'),(24,'basket','0004_auto_20141007_2032','2016-12-18 04:04:17.758782'),(25,'basket','0005_auto_20150709_1205','2016-12-18 04:04:18.702274'),(26,'basket','0006_basket_site','2016-12-18 04:04:19.556409'),(27,'basket','0007_auto_20160907_2040','2016-12-18 04:04:22.019880'),(28,'partner','0002_auto_20141007_2032','2016-12-18 04:04:22.453326'),(29,'partner','0003_auto_20150223_1130','2016-12-18 04:04:22.471070'),(30,'courses','0001_initial','2016-12-18 04:04:22.607049'),(31,'catalogue','0002_auto_20150223_1052','2016-12-18 04:04:22.655266'),(32,'catalogue','0003_product_course','2016-12-18 04:04:23.646857'),(33,'catalogue','0004_auto_20150609_0129','2016-12-18 04:04:29.373173'),(34,'partner','0004_auto_20150609_1215','2016-12-18 04:04:30.787213'),(35,'partner','0005_auto_20150610_1355','2016-12-18 04:04:31.675098'),(36,'partner','0006_auto_20150709_1205','2016-12-18 04:04:32.525517'),(37,'partner','0007_auto_20150914_0841','2016-12-18 04:04:33.241770'),(38,'partner','0008_auto_20150914_1057','2016-12-18 04:04:33.879615'),(39,'catalogue','0005_auto_20150610_1355','2016-12-18 04:04:36.073124'),(40,'catalogue','0006_credit_provider_attr','2016-12-18 04:04:36.129106'),(41,'catalogue','0007_auto_20150709_1205','2016-12-18 04:04:38.325253'),(42,'catalogue','0008_auto_20150709_1254','2016-12-18 04:04:39.421247'),(43,'catalogue','0009_credit_hours_attr','2016-12-18 04:04:39.482308'),(44,'catalogue','0010_catalog','2016-12-18 04:04:40.726882'),(45,'catalogue','0011_auto_20151019_0639','2016-12-18 04:04:41.802947'),(46,'catalogue','0012_enrollment_code_product_class','2016-12-18 04:04:41.820614'),(47,'catalogue','0013_coupon_product_class','2016-12-18 04:04:41.907980'),(48,'catalogue','0014_alter_couponvouchers_attribute','2016-12-18 04:04:41.968972'),(49,'catalogue','0015_default_categories','2016-12-18 04:04:42.200130'),(50,'catalogue','0016_coupon_note_attribute','2016-12-18 04:04:42.246472'),(51,'catalogue','0017_enrollment_code_product_class','2016-12-18 04:04:42.328454'),(52,'catalogue','0018_auto_20160530_0134','2016-12-18 04:04:42.948312'),(53,'catalogue','0019_enrollment_code_idverifyreq_attribute','2016-12-18 04:04:43.006322'),(54,'catalogue','0020_auto_20161025_1446','2016-12-18 04:04:43.599076'),(55,'waffle','0001_initial','2016-12-18 04:04:46.132605'),(56,'core','0002_auto_20150826_1455','2016-12-18 04:04:49.931965'),(57,'core','0003_auto_20150914_1120','2016-12-18 04:04:52.716412'),(58,'core','0004_auto_20150915_1023','2016-12-18 04:04:53.340904'),(59,'core','0005_auto_20150924_0123','2016-12-18 04:04:53.406897'),(60,'core','0006_add_service_user','2016-12-18 04:04:53.459359'),(61,'core','0007_auto_20151005_1333','2016-12-18 04:04:53.528671'),(62,'core','0008_client','2016-12-18 04:04:54.123572'),(63,'core','0009_service_user_privileges','2016-12-18 04:04:54.435557'),(64,'core','0010_add_async_sample','2016-12-18 04:04:54.495322'),(65,'core','0011_siteconfiguration_oauth_settings','2016-12-18 04:04:54.938423'),(66,'core','0012_businessclient','2016-12-18 04:04:55.097803'),(67,'core','0013_siteconfiguration_segment_key','2016-12-18 04:04:55.605114'),(68,'core','0014_enrollment_code_switch','2016-12-18 04:04:55.685403'),(69,'core','0015_siteconfiguration_from_email','2016-12-18 04:04:56.154399'),(70,'core','0016_siteconfiguration_enable_enrollment_codes','2016-12-18 04:04:56.631615'),(71,'core','0017_siteconfiguration_payment_support_email','2016-12-18 04:04:57.118803'),(72,'core','0018_siteconfiguration_payment_support_url','2016-12-18 04:04:57.624157'),(73,'core','0019_auto_20161012_1404','2016-12-18 04:04:58.657298'),(74,'core','0020_siteconfiguration_enable_otto_receipt_page','2016-12-18 04:04:59.271477'),(75,'core','0021_siteconfiguration_client_side_payment_processor','2016-12-18 04:04:59.893517'),(76,'core','0022_auto_20161108_2101','2016-12-18 04:05:00.401092'),(77,'courses','0002_historicalcourse','2016-12-18 04:05:01.318706'),(78,'courses','0003_auto_20150618_1108','2016-12-18 04:05:02.720986'),(79,'courses','0004_auto_20150803_1406','2016-12-18 04:05:04.015037'),(80,'customer','0002_auto_20160517_0930','2016-12-18 04:05:04.467839'),(81,'flatpages','0001_initial','2016-12-18 04:05:05.652013'),(82,'order','0002_auto_20141007_2032','2016-12-18 04:05:06.157522'),(83,'order','0003_auto_20150224_1520','2016-12-18 04:05:06.221689'),(84,'order','0004_order_payment_processor','2016-12-18 04:05:06.959701'),(85,'order','0005_deprecate_order_payment_processor','2016-12-18 04:05:07.710436'),(86,'order','0006_paymentevent_processor_name','2016-12-18 04:05:08.408287'),(87,'order','0007_create_history_tables','2016-12-18 04:05:10.400496'),(88,'order','0008_delete_order_payment_processor','2016-12-18 04:05:11.909369'),(89,'order','0009_auto_20150709_1205','2016-12-18 04:05:14.155114'),(90,'invoice','0001_initial','2016-12-18 04:05:15.636079'),(91,'invoice','0002_auto_20160324_1919','2016-12-18 04:05:19.748153'),(92,'invoice','0003_auto_20160616_0657','2016-12-18 04:05:28.435786'),(93,'offer','0002_range_catalog','2016-12-18 04:05:29.505749'),(94,'offer','0003_auto_20160517_1247','2016-12-18 04:05:30.963539'),(95,'offer','0004_auto_20160530_0944','2016-12-18 04:05:31.841458'),(96,'offer','0005_conditionaloffer_email_domains','2016-12-18 04:05:32.634103'),(97,'offer','0006_auto_20161025_1446','2016-12-18 04:05:33.239964'),(98,'offer','0007_auto_20161026_0856','2016-12-18 04:05:34.367241'),(99,'order','0010_auto_20160529_2245','2016-12-18 04:05:36.353232'),(100,'order','0011_auto_20161025_1446','2016-12-18 04:05:36.674527'),(101,'partner','0009_partner_enable_sailthru','2016-12-18 04:05:37.279896'),(102,'partner','0010_auto_20161025_1446','2016-12-18 04:05:37.718906'),(103,'payment','0001_initial','2016-12-18 04:05:41.281280'),(104,'payment','0002_auto_20141007_2032','2016-12-18 04:05:42.473720'),(105,'payment','0003_create_payment_processor_response','2016-12-18 04:05:44.164954'),(106,'payment','0004_source_card_type','2016-12-18 04:05:44.902078'),(107,'payment','0005_paypalwebprofile','2016-12-18 04:05:45.080686'),(108,'payment','0006_enable_payment_processors','2016-12-18 04:05:45.166603'),(109,'payment','0007_add_cybersource_level23_sample','2016-12-18 04:05:45.316214'),(110,'payment','0008_remove_cybersource_level23_sample','2016-12-18 04:05:45.414205'),(111,'payment','0009_auto_20161025_1446','2016-12-18 04:05:46.430042'),(112,'payment','0010_create_client_side_checkout_flag','2016-12-18 04:05:46.528291'),(113,'payment','0011_paypalprocessorconfiguration','2016-12-18 04:05:46.673418'),(114,'payment','0012_auto_20161109_1456','2016-12-18 04:05:46.726888'),(115,'promotions','0001_initial','2016-12-18 04:05:54.500617'),(116,'promotions','0002_auto_20150604_1450','2016-12-18 04:05:55.867411'),(117,'referrals','0001_initial','2016-12-18 04:05:57.013446'),(118,'referrals','0002_auto_20161011_1728','2016-12-18 04:06:05.297418'),(119,'referrals','0003_auto_20161027_1738','2016-12-18 04:06:06.179025'),(120,'refund','0001_squashed_0002_auto_20150515_2220','2016-12-18 04:06:10.781321'),(121,'refund','0002_auto_20151214_1017','2016-12-18 04:06:13.373931'),(122,'reviews','0001_initial','2016-12-18 04:06:17.490300'),(123,'sailthru','0001_initial','2016-12-18 04:06:17.550739'),(124,'sailthru','0002_add_basket_attribute_type','2016-12-18 04:06:17.607480'),(125,'sessions','0001_initial','2016-12-18 04:06:17.826020'),(126,'shipping','0001_initial','2016-12-18 04:06:22.019865'),(127,'shipping','0002_auto_20150604_1450','2016-12-18 04:06:24.979527'),(128,'default','0001_initial','2016-12-18 04:06:28.530172'),(129,'default','0002_add_related_name','2016-12-18 04:06:29.310271'),(130,'default','0003_alter_email_max_length','2016-12-18 04:06:29.615478'),(131,'default','0004_auto_20160423_0400','2016-12-18 04:06:30.148768'),(132,'social_auth','0005_auto_20160727_2333','2016-12-18 04:06:30.272818'),(133,'theming','0001_initial','2016-12-18 04:06:31.149525'),(134,'voucher','0002_couponvouchers','2016-12-18 04:06:32.637008'),(135,'voucher','0003_orderlinevouchers','2016-12-18 04:06:34.169634'),(136,'voucher','0004_auto_20160517_0930','2016-12-18 04:06:35.299659'),(137,'wishlists','0001_initial','2016-12-18 04:06:39.094049'),(138,'social_auth','0001_initial','2016-12-18 04:06:39.127548'),(139,'social_auth','0003_alter_email_max_length','2016-12-18 04:06:39.150292'),(140,'social_auth','0004_auto_20160423_0400','2016-12-18 04:06:39.168629'),(141,'social_auth','0002_add_related_name','2016-12-18 04:06:39.186805');
+INSERT INTO `django_migrations` VALUES (1,'contenttypes','0001_initial','2017-02-24 06:31:13.678196'),(2,'auth','0001_initial','2017-02-24 06:31:15.287707'),(3,'core','0001_initial','2017-02-24 06:31:16.721508'),(4,'address','0001_initial','2017-02-24 06:31:17.726601'),(5,'admin','0001_initial','2017-02-24 06:31:18.314867'),(6,'admin','0002_logentry_remove_auto_add','2017-02-24 06:31:18.376871'),(7,'catalogue','0001_initial','2017-02-24 06:31:26.576201'),(8,'analytics','0001_initial','2017-02-24 06:31:27.890220'),(9,'analytics','0002_auto_20140827_1705','2017-02-24 06:31:29.379369'),(10,'contenttypes','0002_remove_content_type_name','2017-02-24 06:31:29.815071'),(11,'auth','0002_alter_permission_name_max_length','2017-02-24 06:31:30.094953'),(12,'auth','0003_alter_user_email_max_length','2017-02-24 06:31:30.148331'),(13,'auth','0004_alter_user_username_opts','2017-02-24 06:31:30.198566'),(14,'auth','0005_alter_user_last_login_null','2017-02-24 06:31:30.250255'),(15,'auth','0006_require_contenttypes_0002','2017-02-24 06:31:30.265322'),(16,'auth','0007_alter_validators_add_error_messages','2017-02-24 06:31:30.315242'),(17,'sites','0001_initial','2017-02-24 06:31:30.425736'),(18,'partner','0001_initial','2017-02-24 06:31:33.441342'),(19,'customer','0001_initial','2017-02-24 06:31:35.517013'),(20,'basket','0001_initial','2017-02-24 06:31:36.134822'),(21,'basket','0002_auto_20140827_1705','2017-02-24 06:31:39.462322'),(22,'order','0001_initial','2017-02-24 06:31:53.594327'),(23,'offer','0001_initial','2017-02-24 06:31:59.796314'),(24,'voucher','0001_initial','2017-02-24 06:32:01.920349'),(25,'basket','0003_basket_vouchers','2017-02-24 06:32:02.683827'),(26,'basket','0004_auto_20141007_2032','2017-02-24 06:32:02.820915'),(27,'basket','0005_auto_20150709_1205','2017-02-24 06:32:03.450491'),(28,'basket','0006_basket_site','2017-02-24 06:32:04.017849'),(29,'basket','0007_auto_20160907_2040','2017-02-24 06:32:05.540394'),(30,'basket','0008_auto_20170215_2224','2017-02-24 06:32:05.689426'),(31,'basket','0009_auto_20170215_2229','2017-02-24 06:32:06.046091'),(32,'partner','0002_auto_20141007_2032','2017-02-24 06:32:06.195423'),(33,'partner','0003_auto_20150223_1130','2017-02-24 06:32:06.213225'),(34,'courses','0001_initial','2017-02-24 06:32:06.359577'),(35,'catalogue','0002_auto_20150223_1052','2017-02-24 06:32:06.426509'),(36,'catalogue','0003_product_course','2017-02-24 06:32:07.124085'),(37,'catalogue','0004_auto_20150609_0129','2017-02-24 06:32:09.814295'),(38,'partner','0004_auto_20150609_1215','2017-02-24 06:32:11.579727'),(39,'partner','0005_auto_20150610_1355','2017-02-24 06:32:12.220029'),(40,'partner','0006_auto_20150709_1205','2017-02-24 06:32:12.890305'),(41,'partner','0007_auto_20150914_0841','2017-02-24 06:32:13.435216'),(42,'partner','0008_auto_20150914_1057','2017-02-24 06:32:13.746745'),(43,'catalogue','0005_auto_20150610_1355','2017-02-24 06:32:15.306738'),(44,'catalogue','0006_credit_provider_attr','2017-02-24 06:32:15.347852'),(45,'catalogue','0007_auto_20150709_1205','2017-02-24 06:32:16.823040'),(46,'catalogue','0008_auto_20150709_1254','2017-02-24 06:32:17.518448'),(47,'catalogue','0009_credit_hours_attr','2017-02-24 06:32:17.567067'),(48,'catalogue','0010_catalog','2017-02-24 06:32:18.637355'),(49,'catalogue','0011_auto_20151019_0639','2017-02-24 06:32:19.519298'),(50,'catalogue','0012_enrollment_code_product_class','2017-02-24 06:32:19.539064'),(51,'catalogue','0013_coupon_product_class','2017-02-24 06:32:19.592068'),(52,'catalogue','0014_alter_couponvouchers_attribute','2017-02-24 06:32:19.632447'),(53,'catalogue','0015_default_categories','2017-02-24 06:32:19.815535'),(54,'catalogue','0016_coupon_note_attribute','2017-02-24 06:32:19.853581'),(55,'catalogue','0017_enrollment_code_product_class','2017-02-24 06:32:19.901006'),(56,'catalogue','0018_auto_20160530_0134','2017-02-24 06:32:20.053557'),(57,'catalogue','0019_enrollment_code_idverifyreq_attribute','2017-02-24 06:32:20.100272'),(58,'catalogue','0020_auto_20161025_1446','2017-02-24 06:32:20.248394'),(59,'catalogue','0021_auto_20170215_2224','2017-02-24 06:32:20.714334'),(60,'catalogue','0022_auto_20170215_2229','2017-02-24 06:32:20.865779'),(61,'catalogue','0023_auto_20170215_2234','2017-02-24 06:32:21.019964'),(62,'waffle','0001_initial','2017-02-24 06:32:22.983010'),(63,'core','0002_auto_20150826_1455','2017-02-24 06:32:24.790842'),(64,'core','0003_auto_20150914_1120','2017-02-24 06:32:25.743734'),(65,'core','0004_auto_20150915_1023','2017-02-24 06:32:26.248772'),(66,'core','0005_auto_20150924_0123','2017-02-24 06:32:26.298015'),(67,'core','0006_add_service_user','2017-02-24 06:32:26.336614'),(68,'core','0007_auto_20151005_1333','2017-02-24 06:32:26.388741'),(69,'core','0008_client','2017-02-24 06:32:26.991756'),(70,'core','0009_service_user_privileges','2017-02-24 06:32:27.366063'),(71,'core','0010_add_async_sample','2017-02-24 06:32:27.410339'),(72,'core','0011_siteconfiguration_oauth_settings','2017-02-24 06:32:27.710236'),(73,'core','0012_businessclient','2017-02-24 06:32:27.839188'),(74,'core','0013_siteconfiguration_segment_key','2017-02-24 06:32:28.224134'),(75,'core','0014_enrollment_code_switch','2017-02-24 06:32:28.264756'),(76,'core','0015_siteconfiguration_from_email','2017-02-24 06:32:28.628458'),(77,'core','0016_siteconfiguration_enable_enrollment_codes','2017-02-24 06:32:28.992838'),(78,'core','0017_siteconfiguration_payment_support_email','2017-02-24 06:32:29.426998'),(79,'core','0018_siteconfiguration_payment_support_url','2017-02-24 06:32:29.786572'),(80,'core','0019_auto_20161012_1404','2017-02-24 06:32:30.691234'),(81,'core','0020_siteconfiguration_enable_otto_receipt_page','2017-02-24 06:32:31.018247'),(82,'core','0021_siteconfiguration_client_side_payment_processor','2017-02-24 06:32:31.411206'),(83,'core','0022_auto_20161108_2101','2017-02-24 06:32:31.544336'),(84,'core','0023_siteconfiguration_send_refund_notifications','2017-02-24 06:32:31.888015'),(85,'core','0024_auto_20170208_1520','2017-02-24 06:32:33.435439'),(86,'core','0025_auto_20170214_0003','2017-02-24 06:32:33.569312'),(87,'core','0026_auto_20170215_2234','2017-02-24 06:32:33.718888'),(88,'courses','0002_historicalcourse','2017-02-24 06:32:34.341544'),(89,'courses','0003_auto_20150618_1108','2017-02-24 06:32:35.225334'),(90,'courses','0004_auto_20150803_1406','2017-02-24 06:32:35.826182'),(91,'customer','0002_auto_20160517_0930','2017-02-24 06:32:36.005439'),(92,'customer','0003_auto_20170215_2229','2017-02-24 06:32:36.423186'),(93,'flatpages','0001_initial','2017-02-24 06:32:37.367254'),(94,'order','0002_auto_20141007_2032','2017-02-24 06:32:37.555261'),(95,'order','0003_auto_20150224_1520','2017-02-24 06:32:37.744948'),(96,'order','0004_order_payment_processor','2017-02-24 06:32:38.207669'),(97,'order','0005_deprecate_order_payment_processor','2017-02-24 06:32:38.638636'),(98,'order','0006_paymentevent_processor_name','2017-02-24 06:32:38.997229'),(99,'order','0007_create_history_tables','2017-02-24 06:32:40.266918'),(100,'order','0008_delete_order_payment_processor','2017-02-24 06:32:41.207208'),(101,'order','0009_auto_20150709_1205','2017-02-24 06:32:41.570415'),(102,'invoice','0001_initial','2017-02-24 06:32:42.597330'),(103,'invoice','0002_auto_20160324_1919','2017-02-24 06:32:45.848646'),(104,'invoice','0003_auto_20160616_0657','2017-02-24 06:32:51.092505'),(105,'invoice','0004_auto_20170215_2234','2017-02-24 06:32:52.479010'),(106,'offer','0002_range_catalog','2017-02-24 06:32:53.561467'),(107,'offer','0003_auto_20160517_1247','2017-02-24 06:32:54.279775'),(108,'offer','0004_auto_20160530_0944','2017-02-24 06:32:55.073360'),(109,'offer','0005_conditionaloffer_email_domains','2017-02-24 06:32:55.616150'),(110,'offer','0006_auto_20161025_1446','2017-02-24 06:32:55.816493'),(111,'offer','0007_auto_20161026_0856','2017-02-24 06:32:56.293557'),(112,'offer','0008_range_course_catalog','2017-02-24 06:32:56.918354'),(113,'offer','0009_range_enterprise_customer','2017-02-24 06:32:57.330700'),(114,'offer','0010_auto_20170215_2224','2017-02-24 06:32:57.608382'),(115,'order','0010_auto_20160529_2245','2017-02-24 06:32:57.805073'),(116,'order','0011_auto_20161025_1446','2017-02-24 06:32:57.986906'),(117,'order','0012_auto_20170215_2224','2017-02-24 06:32:58.180138'),(118,'order','0013_auto_20170215_2229','2017-02-24 06:32:59.270780'),(119,'partner','0009_partner_enable_sailthru','2017-02-24 06:32:59.683894'),(120,'partner','0010_auto_20161025_1446','2017-02-24 06:32:59.868600'),(121,'payment','0001_initial','2017-02-24 06:33:02.281461'),(122,'payment','0002_auto_20141007_2032','2017-02-24 06:33:02.559403'),(123,'payment','0003_create_payment_processor_response','2017-02-24 06:33:03.454331'),(124,'payment','0004_source_card_type','2017-02-24 06:33:03.861385'),(125,'payment','0005_paypalwebprofile','2017-02-24 06:33:03.997155'),(126,'payment','0006_enable_payment_processors','2017-02-24 06:33:04.054160'),(127,'payment','0007_add_cybersource_level23_sample','2017-02-24 06:33:04.118786'),(128,'payment','0008_remove_cybersource_level23_sample','2017-02-24 06:33:04.173193'),(129,'payment','0009_auto_20161025_1446','2017-02-24 06:33:04.568246'),(130,'payment','0010_create_client_side_checkout_flag','2017-02-24 06:33:04.614755'),(131,'payment','0011_paypalprocessorconfiguration','2017-02-24 06:33:04.738098'),(132,'payment','0012_auto_20161109_1456','2017-02-24 06:33:04.777041'),(133,'payment','0013_sdncheckfailure','2017-02-24 06:33:04.926800'),(134,'payment','0014_sdncheckfailure_site','2017-02-24 06:33:05.569898'),(135,'payment','0015_auto_20170215_2229','2017-02-24 06:33:06.013124'),(136,'promotions','0001_initial','2017-02-24 06:33:11.900417'),(137,'promotions','0002_auto_20150604_1450','2017-02-24 06:33:12.829239'),(138,'referrals','0001_initial','2017-02-24 06:33:13.772337'),(139,'referrals','0002_auto_20161011_1728','2017-02-24 06:33:17.027281'),(140,'referrals','0003_auto_20161027_1738','2017-02-24 06:33:17.476221'),(141,'referrals','0004_auto_20170215_2234','2017-02-24 06:33:18.592080'),(142,'refund','0001_squashed_0002_auto_20150515_2220','2017-02-24 06:33:21.850927'),(143,'refund','0002_auto_20151214_1017','2017-02-24 06:33:22.813726'),(144,'reviews','0001_initial','2017-02-24 06:33:25.278833'),(145,'reviews','0002_update_email_length','2017-02-24 06:33:25.737694'),(146,'sailthru','0001_initial','2017-02-24 06:33:25.781334'),(147,'sailthru','0002_add_basket_attribute_type','2017-02-24 06:33:25.829728'),(148,'sessions','0001_initial','2017-02-24 06:33:26.030648'),(149,'shipping','0001_initial','2017-02-24 06:33:29.010842'),(150,'shipping','0002_auto_20150604_1450','2017-02-24 06:33:30.611875'),(151,'sites','0002_alter_domain_unique','2017-02-24 06:33:31.180879'),(152,'default','0001_initial','2017-02-24 06:33:32.693319'),(153,'default','0002_add_related_name','2017-02-24 06:33:33.232585'),(154,'default','0003_alter_email_max_length','2017-02-24 06:33:33.517811'),(155,'default','0004_auto_20160423_0400','2017-02-24 06:33:33.953712'),(156,'social_auth','0005_auto_20160727_2333','2017-02-24 06:33:34.084494'),(157,'theming','0001_initial','2017-02-24 06:33:34.651811'),(158,'thumbnail','0001_initial','2017-02-24 06:33:34.781280'),(159,'voucher','0002_couponvouchers','2017-02-24 06:33:35.947546'),(160,'voucher','0003_orderlinevouchers','2017-02-24 06:33:37.099165'),(161,'voucher','0004_auto_20160517_0930','2017-02-24 06:33:38.439554'),(162,'wishlists','0001_initial','2017-02-24 06:33:41.026611'),(163,'wishlists','0002_auto_20160111_1108','2017-02-24 06:33:41.438325'),(164,'social_auth','0001_initial','2017-02-24 06:33:41.467555'),(165,'social_auth','0003_alter_email_max_length','2017-02-24 06:33:41.484949'),(166,'social_auth','0004_auto_20160423_0400','2017-02-24 06:33:41.503212'),(167,'social_auth','0002_add_related_name','2017-02-24 06:33:41.521038');
 /*!40000 ALTER TABLE `django_migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1433,7 +1441,8 @@ CREATE TABLE `django_site` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `domain` varchar(100) NOT NULL,
   `name` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `django_site_domain_a2e37b91_uniq` (`domain`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1443,7 +1452,7 @@ CREATE TABLE `django_site` (
 
 LOCK TABLES `django_site` WRITE;
 /*!40000 ALTER TABLE `django_site` DISABLE KEYS */;
-INSERT INTO `django_site` VALUES (1,'example.com','example.com');
+INSERT INTO `django_site` VALUES (1,'localhost:18130','example.com');
 /*!40000 ALTER TABLE `django_site` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1478,7 +1487,7 @@ CREATE TABLE `ecommerce_user` (
 
 LOCK TABLES `ecommerce_user` WRITE;
 /*!40000 ALTER TABLE `ecommerce_user` DISABLE KEYS */;
-INSERT INTO `ecommerce_user` VALUES (1,'!dlgbz1sXIEyGTfDKdPWOP3x9kdIZxuzpNy6UoZW5',NULL,0,'ecommerce_worker','','','',1,1,'2016-12-18 04:04:53.437900',NULL,NULL),(2,'pbkdf2_sha256$20000$lsE2meQclcWW$s7YBNC3SpcOlOH1yTRDlCoaM3hZdyrqWhtYxSNtRQwo=',NULL,1,'edx','','','edx@example.com',1,1,'2016-12-18 04:07:33.338939',NULL,NULL);
+INSERT INTO `ecommerce_user` VALUES (1,'!42oN0cVUBMItncLvnRbTrT0DwGiqmBdGkX5PkIJW',NULL,0,'ecommerce_worker','','','',1,1,'2017-02-24 06:32:26.319475',NULL,NULL),(2,'pbkdf2_sha256$24000$ObcwrQ5pn1rI$1QlZnr3qa2x0p8ISYszEDIzg47KbfNs8buYCDYG7LuY=',NULL,1,'edx','','','edx@example.com',1,1,'2017-02-24 06:40:16.548891',NULL,NULL);
 /*!40000 ALTER TABLE `ecommerce_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1493,10 +1502,10 @@ CREATE TABLE `ecommerce_user_groups` (
   `user_id` int(11) NOT NULL,
   `group_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `user_id` (`user_id`,`group_id`),
-  KEY `ecommerce_user_groups_group_id_6090bf9742d30982_fk_auth_group_id` (`group_id`),
-  CONSTRAINT `ecommerce_user_gro_user_id_2361cfaa2be9a5bb_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`),
-  CONSTRAINT `ecommerce_user_groups_group_id_6090bf9742d30982_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`)
+  UNIQUE KEY `ecommerce_user_groups_user_id_2a9a583d_uniq` (`user_id`,`group_id`),
+  KEY `ecommerce_user_groups_group_id_a8fd9cb8_fk_auth_group_id` (`group_id`),
+  CONSTRAINT `ecommerce_user_groups_group_id_a8fd9cb8_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`),
+  CONSTRAINT `ecommerce_user_groups_user_id_60d58887_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1520,10 +1529,10 @@ CREATE TABLE `ecommerce_user_user_permissions` (
   `user_id` int(11) NOT NULL,
   `permission_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `user_id` (`user_id`,`permission_id`),
-  KEY `ecommerce_u_permission_id_29bd724b63b3aaed_fk_auth_permission_id` (`permission_id`),
-  CONSTRAINT `ecommerce_u_permission_id_29bd724b63b3aaed_fk_auth_permission_id` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
-  CONSTRAINT `ecommerce_user_use_user_id_5fe2026e52f077d9_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
+  UNIQUE KEY `ecommerce_user_user_permissions_user_id_6d807de6_uniq` (`user_id`,`permission_id`),
+  KEY `ecommerce_user_user_permission_id_4dc38e40_fk_auth_permission_id` (`permission_id`),
+  CONSTRAINT `ecommerce_user_user_permis_user_id_0ceec4a8_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`),
+  CONSTRAINT `ecommerce_user_user_permission_id_4dc38e40_fk_auth_permission_id` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1533,7 +1542,7 @@ CREATE TABLE `ecommerce_user_user_permissions` (
 
 LOCK TABLES `ecommerce_user_user_permissions` WRITE;
 /*!40000 ALTER TABLE `ecommerce_user_user_permissions` DISABLE KEYS */;
-INSERT INTO `ecommerce_user_user_permissions` VALUES (1,1,155);
+INSERT INTO `ecommerce_user_user_permissions` VALUES (1,1,152);
 /*!40000 ALTER TABLE `ecommerce_user_user_permissions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1553,20 +1562,20 @@ CREATE TABLE `invoice_historicalinvoice` (
   `history_type` varchar(1) NOT NULL,
   `basket_id` int(11) DEFAULT NULL,
   `history_user_id` int(11) DEFAULT NULL,
-  `business_client_id` int(11) DEFAULT NULL,
-  `order_id` int(11) DEFAULT NULL,
-  `discount_type` varchar(255) DEFAULT NULL,
-  `discount_value` int(10) unsigned DEFAULT NULL,
-  `number` varchar(255) DEFAULT NULL,
-  `payment_date` datetime(6) DEFAULT NULL,
-  `tax_deducted_source` int(10) unsigned DEFAULT NULL,
-  `type` varchar(255) DEFAULT NULL,
+  `business_client_id` int(11),
+  `order_id` int(11),
+  `discount_type` varchar(255),
+  `discount_value` int(10) unsigned,
+  `number` varchar(255),
+  `payment_date` datetime(6),
+  `tax_deducted_source` int(10) unsigned,
+  `type` varchar(255),
   PRIMARY KEY (`history_id`),
-  KEY `invoice_his_history_user_id_247d98979ddffd8_fk_ecommerce_user_id` (`history_user_id`),
+  KEY `invoice_historical_history_user_id_65f31e67_fk_ecommerce_user_id` (`history_user_id`),
   KEY `invoice_historicalinvoice_b80bb774` (`id`),
   KEY `invoice_historicalinvoice_8b99fbf1` (`business_client_id`),
   KEY `invoice_historicalinvoice_69dfcb07` (`order_id`),
-  CONSTRAINT `invoice_his_history_user_id_247d98979ddffd8_fk_ecommerce_user_id` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
+  CONSTRAINT `invoice_historical_history_user_id_65f31e67_fk_ecommerce_user_id` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1591,21 +1600,21 @@ CREATE TABLE `invoice_invoice` (
   `modified` datetime(6) NOT NULL,
   `state` varchar(255) NOT NULL,
   `basket_id` int(11) DEFAULT NULL,
-  `business_client_id` int(11) DEFAULT NULL,
-  `order_id` int(11) DEFAULT NULL,
-  `discount_type` varchar(255) DEFAULT NULL,
-  `discount_value` int(10) unsigned DEFAULT NULL,
-  `number` varchar(255) DEFAULT NULL,
-  `payment_date` datetime(6) DEFAULT NULL,
-  `tax_deducted_source` int(10) unsigned DEFAULT NULL,
-  `type` varchar(255) DEFAULT NULL,
+  `business_client_id` int(11),
+  `order_id` int(11),
+  `discount_type` varchar(255),
+  `discount_value` int(10) unsigned,
+  `number` varchar(255),
+  `payment_date` datetime(6),
+  `tax_deducted_source` int(10) unsigned,
+  `type` varchar(255),
   PRIMARY KEY (`id`),
-  KEY `invoice_invoice_basket_id_93d8600326c64b0_fk_basket_basket_id` (`basket_id`),
   KEY `invoice_invoice_8b99fbf1` (`business_client_id`),
   KEY `invoice_invoice_69dfcb07` (`order_id`),
-  CONSTRAINT `in_business_client_id_67ae380b607560f7_fk_core_businessclient_id` FOREIGN KEY (`business_client_id`) REFERENCES `core_businessclient` (`id`),
-  CONSTRAINT `invoice_invoice_basket_id_93d8600326c64b0_fk_basket_basket_id` FOREIGN KEY (`basket_id`) REFERENCES `basket_basket` (`id`),
-  CONSTRAINT `invoice_invoice_order_id_751dfefc4ed10c11_fk_order_order_id` FOREIGN KEY (`order_id`) REFERENCES `order_order` (`id`)
+  KEY `invoice_invoice_basket_id_8795b83e_fk_basket_basket_id` (`basket_id`),
+  CONSTRAINT `invoice_in_business_client_id_44a4b698_fk_core_businessclient_id` FOREIGN KEY (`business_client_id`) REFERENCES `core_businessclient` (`id`),
+  CONSTRAINT `invoice_invoice_basket_id_8795b83e_fk_basket_basket_id` FOREIGN KEY (`basket_id`) REFERENCES `basket_basket` (`id`),
+  CONSTRAINT `invoice_invoice_order_id_c5fc9ae9_fk_order_order_id` FOREIGN KEY (`order_id`) REFERENCES `order_order` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1630,11 +1639,10 @@ CREATE TABLE `offer_benefit` (
   `value` decimal(12,2) DEFAULT NULL,
   `max_affected_items` int(10) unsigned DEFAULT NULL,
   `proxy_class` varchar(255) DEFAULT NULL,
-  `range_id` int(11) DEFAULT NULL,
+  `range_id` int(11),
   PRIMARY KEY (`id`),
-  UNIQUE KEY `proxy_class` (`proxy_class`),
   KEY `offer_benefit_ee6537b7` (`range_id`),
-  CONSTRAINT `offer_benefit_range_id_449c339162094d2d_fk_offer_range_id` FOREIGN KEY (`range_id`) REFERENCES `offer_range` (`id`)
+  CONSTRAINT `offer_benefit_range_id_ab19c5ab_fk_offer_range_id` FOREIGN KEY (`range_id`) REFERENCES `offer_range` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1658,11 +1666,11 @@ CREATE TABLE `offer_condition` (
   `type` varchar(128) NOT NULL,
   `value` decimal(12,2) DEFAULT NULL,
   `proxy_class` varchar(255) DEFAULT NULL,
-  `range_id` int(11) DEFAULT NULL,
+  `range_id` int(11),
   PRIMARY KEY (`id`),
   UNIQUE KEY `proxy_class` (`proxy_class`),
   KEY `offer_condition_ee6537b7` (`range_id`),
-  CONSTRAINT `offer_condition_range_id_33cd055e7a47188b_fk_offer_range_id` FOREIGN KEY (`range_id`) REFERENCES `offer_range` (`id`)
+  CONSTRAINT `offer_condition_range_id_b023a2aa_fk_offer_range_id` FOREIGN KEY (`range_id`) REFERENCES `offer_range` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1702,14 +1710,14 @@ CREATE TABLE `offer_conditionaloffer` (
   `date_created` datetime(6) NOT NULL,
   `benefit_id` int(11) NOT NULL,
   `condition_id` int(11) NOT NULL,
-  `email_domains` varchar(255) DEFAULT NULL,
+  `email_domains` varchar(255),
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
   UNIQUE KEY `slug` (`slug`),
-  KEY `offer_conditiona_benefit_id_4c6a38cd195b8af3_fk_offer_benefit_id` (`benefit_id`),
-  KEY `offer_condit_condition_id_542cc60fe002425b_fk_offer_condition_id` (`condition_id`),
-  CONSTRAINT `offer_condit_condition_id_542cc60fe002425b_fk_offer_condition_id` FOREIGN KEY (`condition_id`) REFERENCES `offer_condition` (`id`),
-  CONSTRAINT `offer_conditiona_benefit_id_4c6a38cd195b8af3_fk_offer_benefit_id` FOREIGN KEY (`benefit_id`) REFERENCES `offer_benefit` (`id`)
+  KEY `offer_conditionaloffer_benefit_id_f43f68b5_fk_offer_benefit_id` (`benefit_id`),
+  KEY `offer_conditionaloff_condition_id_e6baa945_fk_offer_condition_id` (`condition_id`),
+  CONSTRAINT `offer_conditionaloff_condition_id_e6baa945_fk_offer_condition_id` FOREIGN KEY (`condition_id`) REFERENCES `offer_condition` (`id`),
+  CONSTRAINT `offer_conditionaloffer_benefit_id_f43f68b5_fk_offer_benefit_id` FOREIGN KEY (`benefit_id`) REFERENCES `offer_benefit` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1737,15 +1745,17 @@ CREATE TABLE `offer_range` (
   `includes_all_products` tinyint(1) NOT NULL,
   `proxy_class` varchar(255) DEFAULT NULL,
   `date_created` datetime(6) NOT NULL,
-  `catalog_id` int(11) DEFAULT NULL,
+  `catalog_id` int(11),
   `catalog_query` longtext,
   `course_seat_types` varchar(255) DEFAULT NULL,
+  `course_catalog` int(10) unsigned,
+  `enterprise_customer` char(32),
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
   UNIQUE KEY `slug` (`slug`),
   UNIQUE KEY `proxy_class` (`proxy_class`),
   KEY `offer_range_89ed0239` (`catalog_id`),
-  CONSTRAINT `offer_range_catalog_id_954e143d34bea09_fk_catalogue_catalog_id` FOREIGN KEY (`catalog_id`) REFERENCES `catalogue_catalog` (`id`)
+  CONSTRAINT `offer_range_catalog_id_10237996_fk_catalogue_catalog_id` FOREIGN KEY (`catalog_id`) REFERENCES `catalogue_catalog` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1769,10 +1779,10 @@ CREATE TABLE `offer_range_classes` (
   `range_id` int(11) NOT NULL,
   `productclass_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `range_id` (`range_id`,`productclass_id`),
-  KEY `of_productclass_id_65f7da29711eeec3_fk_catalogue_productclass_id` (`productclass_id`),
-  CONSTRAINT `of_productclass_id_65f7da29711eeec3_fk_catalogue_productclass_id` FOREIGN KEY (`productclass_id`) REFERENCES `catalogue_productclass` (`id`),
-  CONSTRAINT `offer_range_classes_range_id_5495157c5dba3c7e_fk_offer_range_id` FOREIGN KEY (`range_id`) REFERENCES `offer_range` (`id`)
+  UNIQUE KEY `offer_range_classes_range_id_28eeefae_uniq` (`range_id`,`productclass_id`),
+  KEY `offer_rang_productclass_id_6f6de46d_fk_catalogue_productclass_id` (`productclass_id`),
+  CONSTRAINT `offer_rang_productclass_id_6f6de46d_fk_catalogue_productclass_id` FOREIGN KEY (`productclass_id`) REFERENCES `catalogue_productclass` (`id`),
+  CONSTRAINT `offer_range_classes_range_id_7d3e573e_fk_offer_range_id` FOREIGN KEY (`range_id`) REFERENCES `offer_range` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1796,10 +1806,10 @@ CREATE TABLE `offer_range_excluded_products` (
   `range_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `range_id` (`range_id`,`product_id`),
-  KEY `offer_range__product_id_2f40e4200a81b141_fk_catalogue_product_id` (`product_id`),
-  CONSTRAINT `offer_range__product_id_2f40e4200a81b141_fk_catalogue_product_id` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`),
-  CONSTRAINT `offer_range_excluded_range_id_5abba188eab514d5_fk_offer_range_id` FOREIGN KEY (`range_id`) REFERENCES `offer_range` (`id`)
+  UNIQUE KEY `offer_range_excluded_products_range_id_eb1cfe87_uniq` (`range_id`,`product_id`),
+  KEY `offer_range_excluded_product_id_78c49bfc_fk_catalogue_product_id` (`product_id`),
+  CONSTRAINT `offer_range_excluded_product_id_78c49bfc_fk_catalogue_product_id` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`),
+  CONSTRAINT `offer_range_excluded_product_range_id_cce4a032_fk_offer_range_id` FOREIGN KEY (`range_id`) REFERENCES `offer_range` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1823,10 +1833,10 @@ CREATE TABLE `offer_range_included_categories` (
   `range_id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `range_id` (`range_id`,`category_id`),
-  KEY `offer_rang_category_id_19d122d4c8545b33_fk_catalogue_category_id` (`category_id`),
-  CONSTRAINT `offer_rang_category_id_19d122d4c8545b33_fk_catalogue_category_id` FOREIGN KEY (`category_id`) REFERENCES `catalogue_category` (`id`),
-  CONSTRAINT `offer_range_included__range_id_1b1a361d9d238ad_fk_offer_range_id` FOREIGN KEY (`range_id`) REFERENCES `offer_range` (`id`)
+  UNIQUE KEY `offer_range_included_categories_range_id_a661d336_uniq` (`range_id`,`category_id`),
+  KEY `offer_range_includ_category_id_c61569a5_fk_catalogue_category_id` (`category_id`),
+  CONSTRAINT `offer_range_includ_category_id_c61569a5_fk_catalogue_category_id` FOREIGN KEY (`category_id`) REFERENCES `catalogue_category` (`id`),
+  CONSTRAINT `offer_range_included_categor_range_id_1b616138_fk_offer_range_id` FOREIGN KEY (`range_id`) REFERENCES `offer_range` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1851,10 +1861,10 @@ CREATE TABLE `offer_rangeproduct` (
   `product_id` int(11) NOT NULL,
   `range_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `offer_rangeproduct_range_id_5c42c8babf2c26b_uniq` (`range_id`,`product_id`),
-  KEY `offer_rangep_product_id_6adb31809117d5c3_fk_catalogue_product_id` (`product_id`),
-  CONSTRAINT `offer_rangep_product_id_6adb31809117d5c3_fk_catalogue_product_id` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`),
-  CONSTRAINT `offer_rangeproduct_range_id_3bd65d61f6fb09df_fk_offer_range_id` FOREIGN KEY (`range_id`) REFERENCES `offer_range` (`id`)
+  UNIQUE KEY `offer_rangeproduct_range_id_c46b1be8_uniq` (`range_id`,`product_id`),
+  KEY `offer_rangeproduct_product_id_723b3ea3_fk_catalogue_product_id` (`product_id`),
+  CONSTRAINT `offer_rangeproduct_product_id_723b3ea3_fk_catalogue_product_id` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`),
+  CONSTRAINT `offer_rangeproduct_range_id_ee358495_fk_offer_range_id` FOREIGN KEY (`range_id`) REFERENCES `offer_range` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1887,10 +1897,10 @@ CREATE TABLE `offer_rangeproductfileupload` (
   `range_id` int(11) NOT NULL,
   `uploaded_by_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `offer_rangeproductfi_range_id_50ea275ceeecc99c_fk_offer_range_id` (`range_id`),
-  KEY `offer_range_uploaded_by_id_7e7a62fa1b3f0c59_fk_ecommerce_user_id` (`uploaded_by_id`),
-  CONSTRAINT `offer_range_uploaded_by_id_7e7a62fa1b3f0c59_fk_ecommerce_user_id` FOREIGN KEY (`uploaded_by_id`) REFERENCES `ecommerce_user` (`id`),
-  CONSTRAINT `offer_rangeproductfi_range_id_50ea275ceeecc99c_fk_offer_range_id` FOREIGN KEY (`range_id`) REFERENCES `offer_range` (`id`)
+  KEY `offer_rangeproductfileupload_range_id_c055ebf8_fk_offer_range_id` (`range_id`),
+  KEY `offer_rangeproductf_uploaded_by_id_c01a3250_fk_ecommerce_user_id` (`uploaded_by_id`),
+  CONSTRAINT `offer_rangeproductf_uploaded_by_id_c01a3250_fk_ecommerce_user_id` FOREIGN KEY (`uploaded_by_id`) REFERENCES `ecommerce_user` (`id`),
+  CONSTRAINT `offer_rangeproductfileupload_range_id_c055ebf8_fk_offer_range_id` FOREIGN KEY (`range_id`) REFERENCES `offer_range` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1923,8 +1933,8 @@ CREATE TABLE `order_billingaddress` (
   `search_text` longtext NOT NULL,
   `country_id` varchar(2) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `ord_country_id_3748ef9a5677c2c1_fk_address_country_iso_3166_1_a2` (`country_id`),
-  CONSTRAINT `ord_country_id_3748ef9a5677c2c1_fk_address_country_iso_3166_1_a2` FOREIGN KEY (`country_id`) REFERENCES `address_country` (`iso_3166_1_a2`)
+  KEY `order_billi_country_id_17f57dca_fk_address_country_iso_3166_1_a2` (`country_id`),
+  CONSTRAINT `order_billi_country_id_17f57dca_fk_address_country_iso_3166_1_a2` FOREIGN KEY (`country_id`) REFERENCES `address_country` (`iso_3166_1_a2`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1949,10 +1959,10 @@ CREATE TABLE `order_communicationevent` (
   `event_type_id` int(11) NOT NULL,
   `order_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `f3c44c0cdb976b5625481f2fdede8f57` (`event_type_id`),
+  KEY `ord_event_type_id_4bc9ee29_fk_customer_communicationeventtype_id` (`event_type_id`),
   KEY `order_communicationevent_69dfcb07` (`order_id`),
-  CONSTRAINT `f3c44c0cdb976b5625481f2fdede8f57` FOREIGN KEY (`event_type_id`) REFERENCES `customer_communicationeventtype` (`id`),
-  CONSTRAINT `order_communicatione_order_id_500bca2fc2baacb0_fk_order_order_id` FOREIGN KEY (`order_id`) REFERENCES `order_order` (`id`)
+  CONSTRAINT `ord_event_type_id_4bc9ee29_fk_customer_communicationeventtype_id` FOREIGN KEY (`event_type_id`) REFERENCES `customer_communicationeventtype` (`id`),
+  CONSTRAINT `order_communicationevent_order_id_94e784ac_fk_order_order_id` FOREIGN KEY (`order_id`) REFERENCES `order_order` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1999,9 +2009,9 @@ CREATE TABLE `order_historicalline` (
   `product_id` int(11) DEFAULT NULL,
   `stockrecord_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`history_id`),
-  KEY `order_histo_history_user_id_e935ed524492409_fk_ecommerce_user_id` (`history_user_id`),
+  KEY `order_historicalli_history_user_id_0dc6d8a8_fk_ecommerce_user_id` (`history_user_id`),
   KEY `order_historicalline_b80bb774` (`id`),
-  CONSTRAINT `order_histo_history_user_id_e935ed524492409_fk_ecommerce_user_id` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
+  CONSTRAINT `order_historicalli_history_user_id_0dc6d8a8_fk_ecommerce_user_id` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2031,7 +2041,7 @@ CREATE TABLE `order_historicalorder` (
   `shipping_method` varchar(128) NOT NULL,
   `shipping_code` varchar(128) NOT NULL,
   `status` varchar(100) NOT NULL,
-  `guest_email` varchar(75) NOT NULL,
+  `guest_email` varchar(254) NOT NULL,
   `date_placed` datetime(6) NOT NULL,
   `history_id` int(11) NOT NULL AUTO_INCREMENT,
   `history_date` datetime(6) NOT NULL,
@@ -2043,11 +2053,11 @@ CREATE TABLE `order_historicalorder` (
   `site_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`history_id`),
-  KEY `order_hist_history_user_id_73541b4be072e484_fk_ecommerce_user_id` (`history_user_id`),
+  KEY `order_historicalor_history_user_id_107abb44_fk_ecommerce_user_id` (`history_user_id`),
   KEY `order_historicalorder_b80bb774` (`id`),
   KEY `order_historicalorder_b1bc248a` (`number`),
   KEY `order_historicalorder_90e84921` (`date_placed`),
-  CONSTRAINT `order_hist_history_user_id_73541b4be072e484_fk_ecommerce_user_id` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
+  CONSTRAINT `order_historicalor_history_user_id_107abb44_fk_ecommerce_user_id` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2086,18 +2096,18 @@ CREATE TABLE `order_line` (
   `status` varchar(255) NOT NULL,
   `est_dispatch_date` date DEFAULT NULL,
   `order_id` int(11) NOT NULL,
-  `partner_id` int(11) DEFAULT NULL,
-  `product_id` int(11) DEFAULT NULL,
-  `stockrecord_id` int(11) DEFAULT NULL,
+  `partner_id` int(11),
+  `product_id` int(11),
+  `stockrecord_id` int(11),
   PRIMARY KEY (`id`),
   KEY `order_line_69dfcb07` (`order_id`),
   KEY `order_line_4e98b6eb` (`partner_id`),
   KEY `order_line_9bea82de` (`product_id`),
   KEY `order_line_271c5733` (`stockrecord_id`),
-  CONSTRAINT `order__stockrecord_id_3d43d2c9d3c4cead_fk_partner_stockrecord_id` FOREIGN KEY (`stockrecord_id`) REFERENCES `partner_stockrecord` (`id`),
-  CONSTRAINT `order_line_order_id_419b4779ab1b2c44_fk_order_order_id` FOREIGN KEY (`order_id`) REFERENCES `order_order` (`id`),
-  CONSTRAINT `order_line_partner_id_4f32db65ffdc9bc8_fk_partner_partner_id` FOREIGN KEY (`partner_id`) REFERENCES `partner_partner` (`id`),
-  CONSTRAINT `order_line_product_id_7ac413b808fdbe0d_fk_catalogue_product_id` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`)
+  CONSTRAINT `order_line_order_id_b9148391_fk_order_order_id` FOREIGN KEY (`order_id`) REFERENCES `order_order` (`id`),
+  CONSTRAINT `order_line_partner_id_258a2fb9_fk_partner_partner_id` FOREIGN KEY (`partner_id`) REFERENCES `partner_partner` (`id`),
+  CONSTRAINT `order_line_product_id_e620902d_fk_catalogue_product_id` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`),
+  CONSTRAINT `order_line_stockrecord_id_1d65aff5_fk_partner_stockrecord_id` FOREIGN KEY (`stockrecord_id`) REFERENCES `partner_stockrecord` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2123,10 +2133,10 @@ CREATE TABLE `order_lineattribute` (
   `line_id` int(11) NOT NULL,
   `option_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `order_lineattribute_line_id_361105dcc9876c7c_fk_order_line_id` (`line_id`),
-  KEY `order_lineattr_option_id_4a223782d95984a5_fk_catalogue_option_id` (`option_id`),
-  CONSTRAINT `order_lineattr_option_id_4a223782d95984a5_fk_catalogue_option_id` FOREIGN KEY (`option_id`) REFERENCES `catalogue_option` (`id`),
-  CONSTRAINT `order_lineattribute_line_id_361105dcc9876c7c_fk_order_line_id` FOREIGN KEY (`line_id`) REFERENCES `order_line` (`id`)
+  KEY `order_lineattribute_line_id_adf6dd87_fk_order_line_id` (`line_id`),
+  KEY `order_lineattribute_option_id_b54d597c_fk_catalogue_option_id` (`option_id`),
+  CONSTRAINT `order_lineattribute_line_id_adf6dd87_fk_order_line_id` FOREIGN KEY (`line_id`) REFERENCES `order_line` (`id`),
+  CONSTRAINT `order_lineattribute_option_id_b54d597c_fk_catalogue_option_id` FOREIGN KEY (`option_id`) REFERENCES `catalogue_option` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2155,10 +2165,10 @@ CREATE TABLE `order_lineprice` (
   `line_id` int(11) NOT NULL,
   `order_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `order_lineprice_line_id_42df16f62bd792af_fk_order_line_id` (`line_id`),
+  KEY `order_lineprice_line_id_2de52446_fk_order_line_id` (`line_id`),
   KEY `order_lineprice_69dfcb07` (`order_id`),
-  CONSTRAINT `order_lineprice_line_id_42df16f62bd792af_fk_order_line_id` FOREIGN KEY (`line_id`) REFERENCES `order_line` (`id`),
-  CONSTRAINT `order_lineprice_order_id_6a6e2d71fc788284_fk_order_order_id` FOREIGN KEY (`order_id`) REFERENCES `order_order` (`id`)
+  CONSTRAINT `order_lineprice_line_id_2de52446_fk_order_line_id` FOREIGN KEY (`line_id`) REFERENCES `order_line` (`id`),
+  CONSTRAINT `order_lineprice_order_id_66792e56_fk_order_order_id` FOREIGN KEY (`order_id`) REFERENCES `order_order` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2188,26 +2198,26 @@ CREATE TABLE `order_order` (
   `shipping_method` varchar(128) NOT NULL,
   `shipping_code` varchar(128) NOT NULL,
   `status` varchar(100) NOT NULL,
-  `guest_email` varchar(75) NOT NULL,
+  `guest_email` varchar(254) NOT NULL,
   `date_placed` datetime(6) NOT NULL,
   `basket_id` int(11) DEFAULT NULL,
   `billing_address_id` int(11) DEFAULT NULL,
-  `shipping_address_id` int(11) DEFAULT NULL,
-  `site_id` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
+  `shipping_address_id` int(11),
+  `site_id` int(11),
+  `user_id` int(11),
   PRIMARY KEY (`id`),
   UNIQUE KEY `number` (`number`),
-  KEY `order_order_basket_id_3fdb3912d02cb39c_fk_basket_basket_id` (`basket_id`),
-  KEY `o_billing_address_id_413696bbd40ac2ff_fk_order_billingaddress_id` (`billing_address_id`),
+  KEY `order_order_basket_id_8b0acbb2_fk_basket_basket_id` (`basket_id`),
+  KEY `order_ord_billing_address_id_8fe537cf_fk_order_billingaddress_id` (`billing_address_id`),
   KEY `order_order_90e84921` (`date_placed`),
   KEY `order_order_8fb9ffec` (`shipping_address_id`),
   KEY `order_order_9365d6e7` (`site_id`),
   KEY `order_order_e8701ad4` (`user_id`),
-  CONSTRAINT `D94ae911c3671773e2202bbfca3ffb8e` FOREIGN KEY (`shipping_address_id`) REFERENCES `order_shippingaddress` (`id`),
-  CONSTRAINT `o_billing_address_id_413696bbd40ac2ff_fk_order_billingaddress_id` FOREIGN KEY (`billing_address_id`) REFERENCES `order_billingaddress` (`id`),
-  CONSTRAINT `order_order_basket_id_3fdb3912d02cb39c_fk_basket_basket_id` FOREIGN KEY (`basket_id`) REFERENCES `basket_basket` (`id`),
-  CONSTRAINT `order_order_site_id_7c5b367997322009_fk_django_site_id` FOREIGN KEY (`site_id`) REFERENCES `django_site` (`id`),
-  CONSTRAINT `order_order_user_id_350d9d363b4b7f2f_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
+  CONSTRAINT `order_o_shipping_address_id_57e64931_fk_order_shippingaddress_id` FOREIGN KEY (`shipping_address_id`) REFERENCES `order_shippingaddress` (`id`),
+  CONSTRAINT `order_ord_billing_address_id_8fe537cf_fk_order_billingaddress_id` FOREIGN KEY (`billing_address_id`) REFERENCES `order_billingaddress` (`id`),
+  CONSTRAINT `order_order_basket_id_8b0acbb2_fk_basket_basket_id` FOREIGN KEY (`basket_id`) REFERENCES `basket_basket` (`id`),
+  CONSTRAINT `order_order_site_id_e27f3526_fk_django_site_id` FOREIGN KEY (`site_id`) REFERENCES `django_site` (`id`),
+  CONSTRAINT `order_order_user_id_7cf9bc2b_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2238,10 +2248,10 @@ CREATE TABLE `order_orderdiscount` (
   `message` longtext NOT NULL,
   `order_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `order_orderdiscount_order_id_74eee63bc9b32980_fk_order_order_id` (`order_id`),
+  KEY `order_orderdiscount_order_id_bc91e123_fk_order_order_id` (`order_id`),
   KEY `order_orderdiscount_9eeed246` (`offer_name`),
   KEY `order_orderdiscount_08e4f7cd` (`voucher_code`),
-  CONSTRAINT `order_orderdiscount_order_id_74eee63bc9b32980_fk_order_order_id` FOREIGN KEY (`order_id`) REFERENCES `order_order` (`id`)
+  CONSTRAINT `order_orderdiscount_order_id_bc91e123_fk_order_order_id` FOREIGN KEY (`order_id`) REFERENCES `order_order` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2269,10 +2279,10 @@ CREATE TABLE `order_ordernote` (
   `order_id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `order_ordernote_order_id_65637e2418771857_fk_order_order_id` (`order_id`),
-  KEY `order_ordernote_user_id_86a59b68ba6447d_fk_ecommerce_user_id` (`user_id`),
-  CONSTRAINT `order_ordernote_order_id_65637e2418771857_fk_order_order_id` FOREIGN KEY (`order_id`) REFERENCES `order_order` (`id`),
-  CONSTRAINT `order_ordernote_user_id_86a59b68ba6447d_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
+  KEY `order_ordernote_order_id_7d97583d_fk_order_order_id` (`order_id`),
+  KEY `order_ordernote_user_id_48d7a672_fk_ecommerce_user_id` (`user_id`),
+  CONSTRAINT `order_ordernote_order_id_7d97583d_fk_order_order_id` FOREIGN KEY (`order_id`) REFERENCES `order_order` (`id`),
+  CONSTRAINT `order_ordernote_user_id_48d7a672_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2298,15 +2308,15 @@ CREATE TABLE `order_paymentevent` (
   `date_created` datetime(6) NOT NULL,
   `event_type_id` int(11) NOT NULL,
   `order_id` int(11) NOT NULL,
-  `shipping_event_id` int(11) DEFAULT NULL,
-  `processor_name` varchar(32) DEFAULT NULL,
+  `shipping_event_id` int(11),
+  `processor_name` varchar(32),
   PRIMARY KEY (`id`),
   KEY `order_paymentevent_5e891baf` (`event_type_id`),
   KEY `order_paymentevent_69dfcb07` (`order_id`),
   KEY `order_paymentevent_78cafb71` (`shipping_event_id`),
-  CONSTRAINT `ord_shipping_event_id_2387ec9d4c55ca00_fk_order_shippingevent_id` FOREIGN KEY (`shipping_event_id`) REFERENCES `order_shippingevent` (`id`),
-  CONSTRAINT `orde_event_type_id_30d2e580e1d682f4_fk_order_paymenteventtype_id` FOREIGN KEY (`event_type_id`) REFERENCES `order_paymenteventtype` (`id`),
-  CONSTRAINT `order_paymentevent_order_id_42d3803ca07e2418_fk_order_order_id` FOREIGN KEY (`order_id`) REFERENCES `order_order` (`id`)
+  CONSTRAINT `order_payme_shipping_event_id_213dcfb8_fk_order_shippingevent_id` FOREIGN KEY (`shipping_event_id`) REFERENCES `order_shippingevent` (`id`),
+  CONSTRAINT `order_paymen_event_type_id_568c7161_fk_order_paymenteventtype_id` FOREIGN KEY (`event_type_id`) REFERENCES `order_paymenteventtype` (`id`),
+  CONSTRAINT `order_paymentevent_order_id_395b3e82_fk_order_order_id` FOREIGN KEY (`order_id`) REFERENCES `order_order` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2331,10 +2341,10 @@ CREATE TABLE `order_paymenteventquantity` (
   `event_id` int(11) NOT NULL,
   `line_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `order_paymenteventquantity_event_id_71c85d21cf10e2a9_uniq` (`event_id`,`line_id`),
-  KEY `order_paymenteventquan_line_id_2641216f31e00d64_fk_order_line_id` (`line_id`),
-  CONSTRAINT `order_paymente_event_id_1fd0b26db2b9e09_fk_order_paymentevent_id` FOREIGN KEY (`event_id`) REFERENCES `order_paymentevent` (`id`),
-  CONSTRAINT `order_paymenteventquan_line_id_2641216f31e00d64_fk_order_line_id` FOREIGN KEY (`line_id`) REFERENCES `order_line` (`id`)
+  UNIQUE KEY `order_paymenteventquantity_event_id_765c5209_uniq` (`event_id`,`line_id`),
+  KEY `order_paymenteventquantity_line_id_df44b021_fk_order_line_id` (`line_id`),
+  CONSTRAINT `order_paymenteventqua_event_id_a540165a_fk_order_paymentevent_id` FOREIGN KEY (`event_id`) REFERENCES `order_paymentevent` (`id`),
+  CONSTRAINT `order_paymenteventquantity_line_id_df44b021_fk_order_line_id` FOREIGN KEY (`line_id`) REFERENCES `order_line` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2394,8 +2404,8 @@ CREATE TABLE `order_shippingaddress` (
   `notes` longtext NOT NULL,
   `country_id` varchar(2) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `ord_country_id_7c66bd4e282d4fcf_fk_address_country_iso_3166_1_a2` (`country_id`),
-  CONSTRAINT `ord_country_id_7c66bd4e282d4fcf_fk_address_country_iso_3166_1_a2` FOREIGN KEY (`country_id`) REFERENCES `address_country` (`iso_3166_1_a2`)
+  KEY `order_shipp_country_id_29abf9a0_fk_address_country_iso_3166_1_a2` (`country_id`),
+  CONSTRAINT `order_shipp_country_id_29abf9a0_fk_address_country_iso_3166_1_a2` FOREIGN KEY (`country_id`) REFERENCES `address_country` (`iso_3166_1_a2`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2423,8 +2433,8 @@ CREATE TABLE `order_shippingevent` (
   PRIMARY KEY (`id`),
   KEY `order_shippingevent_5e891baf` (`event_type_id`),
   KEY `order_shippingevent_69dfcb07` (`order_id`),
-  CONSTRAINT `ord_event_type_id_71e47410f9647141_fk_order_shippingeventtype_id` FOREIGN KEY (`event_type_id`) REFERENCES `order_shippingeventtype` (`id`),
-  CONSTRAINT `order_shippingevent_order_id_68b1b0f1be0500e3_fk_order_order_id` FOREIGN KEY (`order_id`) REFERENCES `order_order` (`id`)
+  CONSTRAINT `order_shipp_event_type_id_9f1efb20_fk_order_shippingeventtype_id` FOREIGN KEY (`event_type_id`) REFERENCES `order_shippingeventtype` (`id`),
+  CONSTRAINT `order_shippingevent_order_id_8c031fb6_fk_order_order_id` FOREIGN KEY (`order_id`) REFERENCES `order_order` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2449,10 +2459,10 @@ CREATE TABLE `order_shippingeventquantity` (
   `event_id` int(11) NOT NULL,
   `line_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `order_shippingeventquantity_event_id_7d8b3647671b075e_uniq` (`event_id`,`line_id`),
-  KEY `order_shippingeventqua_line_id_391505a0fa0abef7_fk_order_line_id` (`line_id`),
-  CONSTRAINT `order_shippi_event_id_7765e7fe70caea64_fk_order_shippingevent_id` FOREIGN KEY (`event_id`) REFERENCES `order_shippingevent` (`id`),
-  CONSTRAINT `order_shippingeventqua_line_id_391505a0fa0abef7_fk_order_line_id` FOREIGN KEY (`line_id`) REFERENCES `order_line` (`id`)
+  UNIQUE KEY `order_shippingeventquantity_event_id_91687107_uniq` (`event_id`,`line_id`),
+  KEY `order_shippingeventquantity_line_id_3b089ee0_fk_order_line_id` (`line_id`),
+  CONSTRAINT `order_shippingeventq_event_id_1c7fb9c7_fk_order_shippingevent_id` FOREIGN KEY (`event_id`) REFERENCES `order_shippingevent` (`id`),
+  CONSTRAINT `order_shippingeventquantity_line_id_3b089ee0_fk_order_line_id` FOREIGN KEY (`line_id`) REFERENCES `order_line` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2516,10 +2526,10 @@ CREATE TABLE `partner_historicalstockrecord` (
   `partner_id` int(11) DEFAULT NULL,
   `product_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`history_id`),
-  KEY `partner_hi_history_user_id_47e781174f2b3f47_fk_ecommerce_user_id` (`history_user_id`),
+  KEY `partner_historical_history_user_id_eda90769_fk_ecommerce_user_id` (`history_user_id`),
   KEY `partner_historicalstockrecord_b80bb774` (`id`),
   KEY `partner_historicalstockrecord_9474e4b5` (`date_updated`),
-  CONSTRAINT `partner_hi_history_user_id_47e781174f2b3f47_fk_ecommerce_user_id` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
+  CONSTRAINT `partner_historical_history_user_id_eda90769_fk_ecommerce_user_id` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2547,7 +2557,7 @@ CREATE TABLE `partner_partner` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `code` (`code`),
   UNIQUE KEY `short_code` (`short_code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2556,6 +2566,7 @@ CREATE TABLE `partner_partner` (
 
 LOCK TABLES `partner_partner` WRITE;
 /*!40000 ALTER TABLE `partner_partner` DISABLE KEYS */;
+INSERT INTO `partner_partner` VALUES (1,'edX','Open edX','edX',1);
 /*!40000 ALTER TABLE `partner_partner` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2570,10 +2581,10 @@ CREATE TABLE `partner_partner_users` (
   `partner_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `partner_id` (`partner_id`,`user_id`),
-  KEY `partner_partner_us_user_id_216882a7741d5a52_fk_ecommerce_user_id` (`user_id`),
-  CONSTRAINT `partner_partne_partner_id_63b121e5c6d97f4a_fk_partner_partner_id` FOREIGN KEY (`partner_id`) REFERENCES `partner_partner` (`id`),
-  CONSTRAINT `partner_partner_us_user_id_216882a7741d5a52_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
+  UNIQUE KEY `partner_partner_users_partner_id_9e5c0517_uniq` (`partner_id`,`user_id`),
+  KEY `partner_partner_users_user_id_d75d6e40_fk_ecommerce_user_id` (`user_id`),
+  CONSTRAINT `partner_partner_users_partner_id_1883dfd9_fk_partner_partner_id` FOREIGN KEY (`partner_id`) REFERENCES `partner_partner` (`id`),
+  CONSTRAINT `partner_partner_users_user_id_d75d6e40_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2607,10 +2618,10 @@ CREATE TABLE `partner_partneraddress` (
   `country_id` varchar(2) NOT NULL,
   `partner_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `par_country_id_781c73d5cc70eb3e_fk_address_country_iso_3166_1_a2` (`country_id`),
-  KEY `partner_partner_partner_id_54787daca128952_fk_partner_partner_id` (`partner_id`),
-  CONSTRAINT `par_country_id_781c73d5cc70eb3e_fk_address_country_iso_3166_1_a2` FOREIGN KEY (`country_id`) REFERENCES `address_country` (`iso_3166_1_a2`),
-  CONSTRAINT `partner_partner_partner_id_54787daca128952_fk_partner_partner_id` FOREIGN KEY (`partner_id`) REFERENCES `partner_partner` (`id`)
+  KEY `partner_par_country_id_02c4f979_fk_address_country_iso_3166_1_a2` (`country_id`),
+  KEY `partner_partneraddress_partner_id_59551b0a_fk_partner_partner_id` (`partner_id`),
+  CONSTRAINT `partner_par_country_id_02c4f979_fk_address_country_iso_3166_1_a2` FOREIGN KEY (`country_id`) REFERENCES `address_country` (`iso_3166_1_a2`),
+  CONSTRAINT `partner_partneraddress_partner_id_59551b0a_fk_partner_partner_id` FOREIGN KEY (`partner_id`) REFERENCES `partner_partner` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2638,7 +2649,7 @@ CREATE TABLE `partner_stockalert` (
   `stockrecord_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `partner_stockalert_271c5733` (`stockrecord_id`),
-  CONSTRAINT `partner_stockrecord_id_c1298620d4e8adb_fk_partner_stockrecord_id` FOREIGN KEY (`stockrecord_id`) REFERENCES `partner_stockrecord` (`id`)
+  CONSTRAINT `partner_stocka_stockrecord_id_68ad503a_fk_partner_stockrecord_id` FOREIGN KEY (`stockrecord_id`) REFERENCES `partner_stockrecord` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2672,11 +2683,11 @@ CREATE TABLE `partner_stockrecord` (
   `partner_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `partner_stockrecord_partner_id_4faf51cd0ce15682_uniq` (`partner_id`,`partner_sku`),
-  KEY `partner_stoc_product_id_3aa87eeff9d8a80b_fk_catalogue_product_id` (`product_id`),
+  UNIQUE KEY `partner_stockrecord_partner_id_8441e010_uniq` (`partner_id`,`partner_sku`),
+  KEY `partner_stockrecord_product_id_62fd9e45_fk_catalogue_product_id` (`product_id`),
   KEY `partner_stockrecord_9474e4b5` (`date_updated`),
-  CONSTRAINT `partner_stoc_product_id_3aa87eeff9d8a80b_fk_catalogue_product_id` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`),
-  CONSTRAINT `partner_stockr_partner_id_6dc7a684b7bf6856_fk_partner_partner_id` FOREIGN KEY (`partner_id`) REFERENCES `partner_partner` (`id`)
+  CONSTRAINT `partner_stockrecord_partner_id_4155a586_fk_partner_partner_id` FOREIGN KEY (`partner_id`) REFERENCES `partner_partner` (`id`),
+  CONSTRAINT `partner_stockrecord_product_id_62fd9e45_fk_catalogue_product_id` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2704,8 +2715,8 @@ CREATE TABLE `payment_bankcard` (
   `partner_reference` varchar(255) NOT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `payment_bankcard_user_id_2fbace85ccaf6406_fk_ecommerce_user_id` (`user_id`),
-  CONSTRAINT `payment_bankcard_user_id_2fbace85ccaf6406_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
+  KEY `payment_bankcard_user_id_08e1d04c_fk_ecommerce_user_id` (`user_id`),
+  CONSTRAINT `payment_bankcard_user_id_08e1d04c_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2732,10 +2743,10 @@ CREATE TABLE `payment_paymentprocessorresponse` (
   `created` datetime(6) NOT NULL,
   `basket_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `payment_paymentprocessorresp_processor_name_44723067fce53254_idx` (`processor_name`,`transaction_id`),
-  KEY `payment_paymentpr_basket_id_6e5b6d68eb27c77c_fk_basket_basket_id` (`basket_id`),
+  KEY `payment_paymentprocessorresponse_processor_name_c62034f3_idx` (`processor_name`,`transaction_id`),
+  KEY `payment_paymentprocessorr_basket_id_ff3d36a2_fk_basket_basket_id` (`basket_id`),
   KEY `payment_paymentprocessorresponse_e2fa5388` (`created`),
-  CONSTRAINT `payment_paymentpr_basket_id_6e5b6d68eb27c77c_fk_basket_basket_id` FOREIGN KEY (`basket_id`) REFERENCES `basket_basket` (`id`)
+  CONSTRAINT `payment_paymentprocessorr_basket_id_ff3d36a2_fk_basket_basket_id` FOREIGN KEY (`basket_id`) REFERENCES `basket_basket` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2794,6 +2805,36 @@ LOCK TABLES `payment_paypalwebprofile` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `payment_sdncheckfailure`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `payment_sdncheckfailure` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `full_name` varchar(255) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `country` varchar(2) NOT NULL,
+  `sdn_check_response` longtext NOT NULL,
+  `site_id` int(11),
+  PRIMARY KEY (`id`),
+  KEY `payment_sdncheckfailure_9365d6e7` (`site_id`),
+  CONSTRAINT `payment_sdncheckfailure_site_id_202cf400_fk_django_site_id` FOREIGN KEY (`site_id`) REFERENCES `django_site` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `payment_sdncheckfailure`
+--
+
+LOCK TABLES `payment_sdncheckfailure` WRITE;
+/*!40000 ALTER TABLE `payment_sdncheckfailure` DISABLE KEYS */;
+/*!40000 ALTER TABLE `payment_sdncheckfailure` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `payment_source`
 --
 
@@ -2805,16 +2846,16 @@ CREATE TABLE `payment_source` (
   `amount_allocated` decimal(12,2) NOT NULL,
   `amount_debited` decimal(12,2) NOT NULL,
   `amount_refunded` decimal(12,2) NOT NULL,
-  `reference` varchar(128) NOT NULL,
+  `reference` varchar(255) NOT NULL,
   `label` varchar(128) NOT NULL,
   `order_id` int(11) NOT NULL,
   `source_type_id` int(11) NOT NULL,
-  `card_type` varchar(255) DEFAULT NULL,
+  `card_type` varchar(255),
   PRIMARY KEY (`id`),
-  KEY `payment_source_order_id_7b79e8c352550a9f_fk_order_order_id` (`order_id`),
+  KEY `payment_source_order_id_6b7f2215_fk_order_order_id` (`order_id`),
   KEY `payment_source_ed5cb66b` (`source_type_id`),
-  CONSTRAINT `payment_source_order_id_7b79e8c352550a9f_fk_order_order_id` FOREIGN KEY (`order_id`) REFERENCES `order_order` (`id`),
-  CONSTRAINT `payment_source_type_id_7c2576fef8fe5b73_fk_payment_sourcetype_id` FOREIGN KEY (`source_type_id`) REFERENCES `payment_sourcetype` (`id`)
+  CONSTRAINT `payment_source_order_id_6b7f2215_fk_order_order_id` FOREIGN KEY (`order_id`) REFERENCES `order_order` (`id`),
+  CONSTRAINT `payment_source_source_type_id_700828fe_fk_payment_sourcetype_id` FOREIGN KEY (`source_type_id`) REFERENCES `payment_sourcetype` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2866,8 +2907,8 @@ CREATE TABLE `payment_transaction` (
   `date_created` datetime(6) NOT NULL,
   `source_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `payment_transact_source_id_62a77f3472114bb9_fk_payment_source_id` (`source_id`),
-  CONSTRAINT `payment_transact_source_id_62a77f3472114bb9_fk_payment_source_id` FOREIGN KEY (`source_id`) REFERENCES `payment_source` (`id`)
+  KEY `payment_transaction_source_id_c5ac31e8_fk_payment_source_id` (`source_id`),
+  CONSTRAINT `payment_transaction_source_id_c5ac31e8_fk_payment_source_id` FOREIGN KEY (`source_id`) REFERENCES `payment_source` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2976,8 +3017,8 @@ CREATE TABLE `promotions_keywordpromotion` (
   `filter` varchar(200) NOT NULL,
   `content_type_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `promo_content_type_id_5263f43817f7f542_fk_django_content_type_id` (`content_type_id`),
-  CONSTRAINT `promo_content_type_id_5263f43817f7f542_fk_django_content_type_id` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`)
+  KEY `promotions_ke_content_type_id_91959aa4_fk_django_content_type_id` (`content_type_id`),
+  CONSTRAINT `promotions_ke_content_type_id_91959aa4_fk_django_content_type_id` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -3024,10 +3065,11 @@ CREATE TABLE `promotions_multiimage_images` (
   `multiimage_id` int(11) NOT NULL,
   `image_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `multiimage_id` (`multiimage_id`,`image_id`),
-  KEY `promotions_mult_image_id_43db841908b2f050_fk_promotions_image_id` (`image_id`),
-  CONSTRAINT `promo_multiimage_id_5c121d63478f73ce_fk_promotions_multiimage_id` FOREIGN KEY (`multiimage_id`) REFERENCES `promotions_multiimage` (`id`),
-  CONSTRAINT `promotions_mult_image_id_43db841908b2f050_fk_promotions_image_id` FOREIGN KEY (`image_id`) REFERENCES `promotions_image` (`id`)
+  UNIQUE KEY `promotions_multiimage_images_multiimage_id_29363bca_uniq` (`multiimage_id`,`image_id`),
+  KEY `promotions_multiimage_images_image_id_bb6eca34_uniq` (`image_id`),
+  KEY `promotions_multiimage_images_multiimage_id_62ed9a9f_uniq` (`multiimage_id`),
+  CONSTRAINT `promotions_mu_multiimage_id_62ed9a9f_fk_promotions_multiimage_id` FOREIGN KEY (`multiimage_id`) REFERENCES `promotions_multiimage` (`id`),
+  CONSTRAINT `promotions_multiimage_i_image_id_bb6eca34_fk_promotions_image_id` FOREIGN KEY (`image_id`) REFERENCES `promotions_image` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -3052,11 +3094,11 @@ CREATE TABLE `promotions_orderedproduct` (
   `list_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `promotions_orderedproduct_list_id_37d6675dc717b620_uniq` (`list_id`,`product_id`),
+  UNIQUE KEY `promotions_orderedproduct_list_id_1e22874a_uniq` (`list_id`,`product_id`),
   KEY `promotions_orderedproduct_4da3e820` (`list_id`),
   KEY `promotions_orderedproduct_9bea82de` (`product_id`),
-  CONSTRAINT `list_id_444fecc458ce046a_fk_promotions_handpickedproductlist_id` FOREIGN KEY (`list_id`) REFERENCES `promotions_handpickedproductlist` (`id`),
-  CONSTRAINT `promotions_or_product_id_cd28624cf774b34_fk_catalogue_product_id` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`)
+  CONSTRAINT `promotio_list_id_94f390b0_fk_promotions_handpickedproductlist_id` FOREIGN KEY (`list_id`) REFERENCES `promotions_handpickedproductlist` (`id`),
+  CONSTRAINT `promotions_orderedpr_product_id_94dede36_fk_catalogue_product_id` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -3081,8 +3123,8 @@ CREATE TABLE `promotions_orderedproductlist` (
   `tabbed_block_id` int(11) NOT NULL,
   PRIMARY KEY (`handpickedproductlist_ptr_id`),
   KEY `promotions_orderedproductlist_1f46f425` (`tabbed_block_id`),
-  CONSTRAINT `D7dc95a31fc510889dbe6b78d6be9adc` FOREIGN KEY (`handpickedproductlist_ptr_id`) REFERENCES `promotions_handpickedproductlist` (`id`),
-  CONSTRAINT `pr_tabbed_block_id_161cbac03ca7677a_fk_promotions_tabbedblock_id` FOREIGN KEY (`tabbed_block_id`) REFERENCES `promotions_tabbedblock` (`id`)
+  CONSTRAINT `D0960c2dac786e2180c5e16db0f3bf02` FOREIGN KEY (`handpickedproductlist_ptr_id`) REFERENCES `promotions_handpickedproductlist` (`id`),
+  CONSTRAINT `promotions_tabbed_block_id_a018e8d5_fk_promotions_tabbedblock_id` FOREIGN KEY (`tabbed_block_id`) REFERENCES `promotions_tabbedblock` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -3111,9 +3153,9 @@ CREATE TABLE `promotions_pagepromotion` (
   `page_url` varchar(128) NOT NULL,
   `content_type_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `promot_content_type_id_543b3d3d3af6caf_fk_django_content_type_id` (`content_type_id`),
+  KEY `promotions_pa_content_type_id_00707bff_fk_django_content_type_id` (`content_type_id`),
   KEY `promotions_pagepromotion_072c6e88` (`page_url`),
-  CONSTRAINT `promot_content_type_id_543b3d3d3af6caf_fk_django_content_type_id` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`)
+  CONSTRAINT `promotions_pa_content_type_id_00707bff_fk_django_content_type_id` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -3164,8 +3206,8 @@ CREATE TABLE `promotions_singleproduct` (
   `date_created` datetime(6) NOT NULL,
   `product_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `promotions_s_product_id_7ecad2f2be6785d6_fk_catalogue_product_id` (`product_id`),
-  CONSTRAINT `promotions_s_product_id_7ecad2f2be6785d6_fk_catalogue_product_id` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`)
+  KEY `promotions_singlepro_product_id_d7ad5e03_fk_catalogue_product_id` (`product_id`),
+  CONSTRAINT `promotions_singlepro_product_id_d7ad5e03_fk_catalogue_product_id` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -3214,7 +3256,7 @@ CREATE TABLE `referrals_referral` (
   `affiliate_id` varchar(255) NOT NULL,
   `basket_id` int(11) DEFAULT NULL,
   `order_id` int(11) DEFAULT NULL,
-  `site_id` int(11) DEFAULT NULL,
+  `site_id` int(11),
   `utm_campaign` varchar(255) NOT NULL,
   `utm_content` varchar(255) NOT NULL,
   `utm_created_at` datetime(6) DEFAULT NULL,
@@ -3225,9 +3267,9 @@ CREATE TABLE `referrals_referral` (
   UNIQUE KEY `basket_id` (`basket_id`),
   UNIQUE KEY `order_id` (`order_id`),
   KEY `referrals_referral_9365d6e7` (`site_id`),
-  CONSTRAINT `referrals_referra_basket_id_3781d55b7e02a9c6_fk_basket_basket_id` FOREIGN KEY (`basket_id`) REFERENCES `basket_basket` (`id`),
-  CONSTRAINT `referrals_referral_order_id_6361145afb459d2b_fk_order_order_id` FOREIGN KEY (`order_id`) REFERENCES `order_order` (`id`),
-  CONSTRAINT `referrals_referral_site_id_3f736591500924a1_fk_django_site_id` FOREIGN KEY (`site_id`) REFERENCES `django_site` (`id`)
+  CONSTRAINT `referrals_referral_basket_id_25e1749e_fk_basket_basket_id` FOREIGN KEY (`basket_id`) REFERENCES `basket_basket` (`id`),
+  CONSTRAINT `referrals_referral_order_id_170fad6d_fk_order_order_id` FOREIGN KEY (`order_id`) REFERENCES `order_order` (`id`),
+  CONSTRAINT `referrals_referral_site_id_2ba3a624_fk_django_site_id` FOREIGN KEY (`site_id`) REFERENCES `django_site` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -3260,9 +3302,9 @@ CREATE TABLE `refund_historicalrefund` (
   `order_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`history_id`),
-  KEY `refund_his_history_user_id_6ddb440a6c4150cc_fk_ecommerce_user_id` (`history_user_id`),
+  KEY `refund_historicalr_history_user_id_c1853b09_fk_ecommerce_user_id` (`history_user_id`),
   KEY `refund_historicalrefund_b80bb774` (`id`),
-  CONSTRAINT `refund_his_history_user_id_6ddb440a6c4150cc_fk_ecommerce_user_id` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
+  CONSTRAINT `refund_historicalr_history_user_id_c1853b09_fk_ecommerce_user_id` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -3293,12 +3335,12 @@ CREATE TABLE `refund_historicalrefundline` (
   `history_type` varchar(1) NOT NULL,
   `history_user_id` int(11) DEFAULT NULL,
   `order_line_id` int(11) DEFAULT NULL,
-  `refund_id` int(11) DEFAULT NULL,
+  `refund_id` int(11),
   PRIMARY KEY (`history_id`),
-  KEY `refund_hist_history_user_id_4483f4185837402_fk_ecommerce_user_id` (`history_user_id`),
+  KEY `refund_historicalr_history_user_id_1b172964_fk_ecommerce_user_id` (`history_user_id`),
   KEY `refund_historicalrefundline_b80bb774` (`id`),
   KEY `refund_historicalrefundline_cd7a5ec5` (`refund_id`),
-  CONSTRAINT `refund_hist_history_user_id_4483f4185837402_fk_ecommerce_user_id` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
+  CONSTRAINT `refund_historicalr_history_user_id_1b172964_fk_ecommerce_user_id` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -3327,10 +3369,10 @@ CREATE TABLE `refund_refund` (
   `order_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `refund_refund_order_id_53ede17610312a47_fk_order_order_id` (`order_id`),
-  KEY `refund_refund_user_id_707067ea382e6df3_fk_ecommerce_user_id` (`user_id`),
-  CONSTRAINT `refund_refund_order_id_53ede17610312a47_fk_order_order_id` FOREIGN KEY (`order_id`) REFERENCES `order_order` (`id`),
-  CONSTRAINT `refund_refund_user_id_707067ea382e6df3_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
+  KEY `refund_refund_order_id_44bf4b92_fk_order_order_id` (`order_id`),
+  KEY `refund_refund_user_id_f10f8f2a_fk_ecommerce_user_id` (`user_id`),
+  CONSTRAINT `refund_refund_order_id_44bf4b92_fk_order_order_id` FOREIGN KEY (`order_id`) REFERENCES `order_order` (`id`),
+  CONSTRAINT `refund_refund_user_id_f10f8f2a_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -3359,10 +3401,10 @@ CREATE TABLE `refund_refundline` (
   `order_line_id` int(11) NOT NULL,
   `refund_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `refund_refundlin_order_line_id_6424676f12f22271_fk_order_line_id` (`order_line_id`),
-  KEY `refund_refundline_refund_id_de28863d9bde7ae_fk_refund_refund_id` (`refund_id`),
-  CONSTRAINT `refund_refundlin_order_line_id_6424676f12f22271_fk_order_line_id` FOREIGN KEY (`order_line_id`) REFERENCES `order_line` (`id`),
-  CONSTRAINT `refund_refundline_refund_id_de28863d9bde7ae_fk_refund_refund_id` FOREIGN KEY (`refund_id`) REFERENCES `refund_refund` (`id`)
+  KEY `refund_refundline_order_line_id_f775827b_fk_order_line_id` (`order_line_id`),
+  KEY `refund_refundline_refund_id_a1fc3ad0_fk_refund_refund_id` (`refund_id`),
+  CONSTRAINT `refund_refundline_order_line_id_f775827b_fk_order_line_id` FOREIGN KEY (`order_line_id`) REFERENCES `order_line` (`id`),
+  CONSTRAINT `refund_refundline_refund_id_a1fc3ad0_fk_refund_refund_id` FOREIGN KEY (`refund_id`) REFERENCES `refund_refund` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -3387,7 +3429,7 @@ CREATE TABLE `reviews_productreview` (
   `title` varchar(255) NOT NULL,
   `body` longtext NOT NULL,
   `name` varchar(255) NOT NULL,
-  `email` varchar(75) NOT NULL,
+  `email` varchar(254) NOT NULL,
   `homepage` varchar(200) NOT NULL,
   `status` smallint(6) NOT NULL,
   `total_votes` int(11) NOT NULL,
@@ -3396,11 +3438,11 @@ CREATE TABLE `reviews_productreview` (
   `product_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `reviews_productreview_product_id_2dbdd3287f68dc33_uniq` (`product_id`,`user_id`),
-  KEY `reviews_productrev_user_id_706f739ddcd1e789_fk_ecommerce_user_id` (`user_id`),
+  UNIQUE KEY `reviews_productreview_product_id_c4fdc4cd_uniq` (`product_id`,`user_id`),
+  KEY `reviews_productreview_user_id_8acb5ddd_fk_ecommerce_user_id` (`user_id`),
   KEY `reviews_productreview_979acfd1` (`delta_votes`),
-  CONSTRAINT `reviews_prod_product_id_3d87cf5f0f9d099a_fk_catalogue_product_id` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`),
-  CONSTRAINT `reviews_productrev_user_id_706f739ddcd1e789_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
+  CONSTRAINT `reviews_productrevie_product_id_52e52a32_fk_catalogue_product_id` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`),
+  CONSTRAINT `reviews_productreview_user_id_8acb5ddd_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -3426,10 +3468,10 @@ CREATE TABLE `reviews_vote` (
   `review_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `reviews_vote_user_id_75acca213178559b_uniq` (`user_id`,`review_id`),
-  KEY `reviews_vo_review_id_2924a65bdf9b082_fk_reviews_productreview_id` (`review_id`),
-  CONSTRAINT `reviews_vo_review_id_2924a65bdf9b082_fk_reviews_productreview_id` FOREIGN KEY (`review_id`) REFERENCES `reviews_productreview` (`id`),
-  CONSTRAINT `reviews_vote_user_id_67d2dce94046a805_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
+  UNIQUE KEY `reviews_vote_user_id_bb858939_uniq` (`user_id`,`review_id`),
+  KEY `reviews_vote_review_id_371b2d8d_fk_reviews_productreview_id` (`review_id`),
+  CONSTRAINT `reviews_vote_review_id_371b2d8d_fk_reviews_productreview_id` FOREIGN KEY (`review_id`) REFERENCES `reviews_productreview` (`id`),
+  CONSTRAINT `reviews_vote_user_id_5fb87b53_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -3482,10 +3524,10 @@ CREATE TABLE `shipping_orderanditemcharges_countries` (
   `orderanditemcharges_id` int(11) NOT NULL,
   `country_id` varchar(2) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `orderanditemcharges_id` (`orderanditemcharges_id`,`country_id`),
-  KEY `shi_country_id_6427960716333ddc_fk_address_country_iso_3166_1_a2` (`country_id`),
-  CONSTRAINT `D4781fcfcea3dae82b272c91a62b305e` FOREIGN KEY (`orderanditemcharges_id`) REFERENCES `shipping_orderanditemcharges` (`id`),
-  CONSTRAINT `shi_country_id_6427960716333ddc_fk_address_country_iso_3166_1_a2` FOREIGN KEY (`country_id`) REFERENCES `address_country` (`iso_3166_1_a2`)
+  UNIQUE KEY `shipping_orderanditemcharge_orderanditemcharges_id_9f0c9c8f_uniq` (`orderanditemcharges_id`,`country_id`),
+  KEY `shipping_or_country_id_30387f2e_fk_address_country_iso_3166_1_a2` (`country_id`),
+  CONSTRAINT `D7d640886e5bf6acefe7155c1048828a` FOREIGN KEY (`orderanditemcharges_id`) REFERENCES `shipping_orderanditemcharges` (`id`),
+  CONSTRAINT `shipping_or_country_id_30387f2e_fk_address_country_iso_3166_1_a2` FOREIGN KEY (`country_id`) REFERENCES `address_country` (`iso_3166_1_a2`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -3511,7 +3553,7 @@ CREATE TABLE `shipping_weightband` (
   `method_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `shipping_weightband_836f12fb` (`method_id`),
-  CONSTRAINT `shipping_w_method_id_4ad1280fd58ce538_fk_shipping_weightbased_id` FOREIGN KEY (`method_id`) REFERENCES `shipping_weightbased` (`id`)
+  CONSTRAINT `shipping_weightban_method_id_b699a1ba_fk_shipping_weightbased_id` FOREIGN KEY (`method_id`) REFERENCES `shipping_weightbased` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -3562,10 +3604,10 @@ CREATE TABLE `shipping_weightbased_countries` (
   `weightbased_id` int(11) NOT NULL,
   `country_id` varchar(2) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `weightbased_id` (`weightbased_id`,`country_id`),
-  KEY `shi_country_id_357014e9a25eac38_fk_address_country_iso_3166_1_a2` (`country_id`),
-  CONSTRAINT `shi_country_id_357014e9a25eac38_fk_address_country_iso_3166_1_a2` FOREIGN KEY (`country_id`) REFERENCES `address_country` (`iso_3166_1_a2`),
-  CONSTRAINT `shipp_weightbased_id_584cd63ef43d6c55_fk_shipping_weightbased_id` FOREIGN KEY (`weightbased_id`) REFERENCES `shipping_weightbased` (`id`)
+  UNIQUE KEY `shipping_weightbased_countries_weightbased_id_de8c5e42_uniq` (`weightbased_id`,`country_id`),
+  KEY `shipping_we_country_id_06117384_fk_address_country_iso_3166_1_a2` (`country_id`),
+  CONSTRAINT `shipping_we_country_id_06117384_fk_address_country_iso_3166_1_a2` FOREIGN KEY (`country_id`) REFERENCES `address_country` (`iso_3166_1_a2`),
+  CONSTRAINT `shipping_weig_weightbased_id_93e3132f_fk_shipping_weightbased_id` FOREIGN KEY (`weightbased_id`) REFERENCES `shipping_weightbased` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -3593,7 +3635,7 @@ CREATE TABLE `social_auth_association` (
   `lifetime` int(11) NOT NULL,
   `assoc_type` varchar(64) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `social_auth_association_server_url_17bf7e87f2968244_uniq` (`server_url`,`handle`)
+  UNIQUE KEY `social_auth_association_server_url_078befa2_uniq` (`server_url`,`handle`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -3618,7 +3660,7 @@ CREATE TABLE `social_auth_code` (
   `code` varchar(32) NOT NULL,
   `verified` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `social_auth_code_email_75f27066d057e3b6_uniq` (`email`,`code`),
+  UNIQUE KEY `social_auth_code_email_801b2d02_uniq` (`email`,`code`),
   KEY `social_auth_code_c1336794` (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -3644,7 +3686,7 @@ CREATE TABLE `social_auth_nonce` (
   `timestamp` int(11) NOT NULL,
   `salt` varchar(65) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `social_auth_nonce_server_url_36601f978463b4_uniq` (`server_url`,`timestamp`,`salt`)
+  UNIQUE KEY `social_auth_nonce_server_url_f6284463_uniq` (`server_url`,`timestamp`,`salt`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -3670,9 +3712,9 @@ CREATE TABLE `social_auth_usersocialauth` (
   `extra_data` longtext NOT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `social_auth_usersocialauth_provider_2f763109e2c4a1fb_uniq` (`provider`,`uid`),
-  KEY `social_auth_userso_user_id_193b2d80880502b2_fk_ecommerce_user_id` (`user_id`),
-  CONSTRAINT `social_auth_userso_user_id_193b2d80880502b2_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
+  UNIQUE KEY `social_auth_usersocialauth_provider_e6b5e668_uniq` (`provider`,`uid`),
+  KEY `social_auth_usersocialauth_user_id_17d28448_fk_ecommerce_user_id` (`user_id`),
+  CONSTRAINT `social_auth_usersocialauth_user_id_17d28448_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -3696,8 +3738,8 @@ CREATE TABLE `theming_sitetheme` (
   `theme_dir_name` varchar(255) NOT NULL,
   `site_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `theming_sitetheme_site_id_4fccdacaebfeb01f_fk_django_site_id` (`site_id`),
-  CONSTRAINT `theming_sitetheme_site_id_4fccdacaebfeb01f_fk_django_site_id` FOREIGN KEY (`site_id`) REFERENCES `django_site` (`id`)
+  KEY `theming_sitetheme_site_id_fe93d039_fk_django_site_id` (`site_id`),
+  CONSTRAINT `theming_sitetheme_site_id_fe93d039_fk_django_site_id` FOREIGN KEY (`site_id`) REFERENCES `django_site` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -3742,8 +3784,8 @@ CREATE TABLE `voucher_couponvouchers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `coupon_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `voucher_coupo_coupon_id_6389ceff3982ad06_fk_catalogue_product_id` (`coupon_id`),
-  CONSTRAINT `voucher_coupo_coupon_id_6389ceff3982ad06_fk_catalogue_product_id` FOREIGN KEY (`coupon_id`) REFERENCES `catalogue_product` (`id`)
+  KEY `voucher_couponvoucher_coupon_id_44356128_fk_catalogue_product_id` (`coupon_id`),
+  CONSTRAINT `voucher_couponvoucher_coupon_id_44356128_fk_catalogue_product_id` FOREIGN KEY (`coupon_id`) REFERENCES `catalogue_product` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -3767,10 +3809,10 @@ CREATE TABLE `voucher_couponvouchers_vouchers` (
   `couponvouchers_id` int(11) NOT NULL,
   `voucher_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `couponvouchers_id` (`couponvouchers_id`,`voucher_id`),
-  KEY `voucher_coupon_voucher_id_5db29962b448e2b0_fk_voucher_voucher_id` (`voucher_id`),
-  CONSTRAINT `v_couponvouchers_id_ebda79a16ce0af8_fk_voucher_couponvouchers_id` FOREIGN KEY (`couponvouchers_id`) REFERENCES `voucher_couponvouchers` (`id`),
-  CONSTRAINT `voucher_coupon_voucher_id_5db29962b448e2b0_fk_voucher_voucher_id` FOREIGN KEY (`voucher_id`) REFERENCES `voucher_voucher` (`id`)
+  UNIQUE KEY `voucher_couponvouchers_vouchers_couponvouchers_id_390b5a38_uniq` (`couponvouchers_id`,`voucher_id`),
+  KEY `voucher_couponvouchers_voucher_id_d5507ed9_fk_voucher_voucher_id` (`voucher_id`),
+  CONSTRAINT `voucher__couponvouchers_id_ebe4c993_fk_voucher_couponvouchers_id` FOREIGN KEY (`couponvouchers_id`) REFERENCES `voucher_couponvouchers` (`id`),
+  CONSTRAINT `voucher_couponvouchers_voucher_id_d5507ed9_fk_voucher_voucher_id` FOREIGN KEY (`voucher_id`) REFERENCES `voucher_voucher` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -3793,8 +3835,8 @@ CREATE TABLE `voucher_orderlinevouchers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `line_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `voucher_orderlinevouch_line_id_400342ab34feafaf_fk_order_line_id` (`line_id`),
-  CONSTRAINT `voucher_orderlinevouch_line_id_400342ab34feafaf_fk_order_line_id` FOREIGN KEY (`line_id`) REFERENCES `order_line` (`id`)
+  KEY `voucher_orderlinevouchers_line_id_fa3dbd8e_fk_order_line_id` (`line_id`),
+  CONSTRAINT `voucher_orderlinevouchers_line_id_fa3dbd8e_fk_order_line_id` FOREIGN KEY (`line_id`) REFERENCES `order_line` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -3818,10 +3860,11 @@ CREATE TABLE `voucher_orderlinevouchers_vouchers` (
   `orderlinevouchers_id` int(11) NOT NULL,
   `voucher_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `orderlinevouchers_id` (`orderlinevouchers_id`,`voucher_id`),
-  KEY `voucher_orderl_voucher_id_2e1249d662a019e9_fk_voucher_voucher_id` (`voucher_id`),
-  CONSTRAINT `bd5611e69c881bcc95b6e4e650d152cd` FOREIGN KEY (`orderlinevouchers_id`) REFERENCES `voucher_orderlinevouchers` (`id`),
-  CONSTRAINT `voucher_orderl_voucher_id_2e1249d662a019e9_fk_voucher_voucher_id` FOREIGN KEY (`voucher_id`) REFERENCES `voucher_voucher` (`id`)
+  UNIQUE KEY `voucher_orderlinevouchers_vou_orderlinevouchers_id_2a30647d_uniq` (`orderlinevouchers_id`,`voucher_id`),
+  KEY `voucher_orderlinevouchers_vouchers_voucher_id_b8820f35_uniq` (`voucher_id`),
+  KEY `voucher_orderlinevouchers_vou_orderlinevouchers_id_c916ee3a_uniq` (`orderlinevouchers_id`),
+  CONSTRAINT `vo_orderlinevouchers_id_c916ee3a_fk_voucher_orderlinevouchers_id` FOREIGN KEY (`orderlinevouchers_id`) REFERENCES `voucher_orderlinevouchers` (`id`),
+  CONSTRAINT `voucher_orderlinevouch_voucher_id_b8820f35_fk_voucher_voucher_id` FOREIGN KEY (`voucher_id`) REFERENCES `voucher_voucher` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -3876,10 +3919,10 @@ CREATE TABLE `voucher_voucher_offers` (
   `voucher_id` int(11) NOT NULL,
   `conditionaloffer_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `voucher_id` (`voucher_id`,`conditionaloffer_id`),
-  KEY `f0962885ad9ea319b17d8a3ab65b1bc0` (`conditionaloffer_id`),
-  CONSTRAINT `f0962885ad9ea319b17d8a3ab65b1bc0` FOREIGN KEY (`conditionaloffer_id`) REFERENCES `offer_conditionaloffer` (`id`),
-  CONSTRAINT `voucher_vouche_voucher_id_18996085b5c7192c_fk_voucher_voucher_id` FOREIGN KEY (`voucher_id`) REFERENCES `voucher_voucher` (`id`)
+  UNIQUE KEY `voucher_voucher_offers_voucher_id_01628a7f_uniq` (`voucher_id`,`conditionaloffer_id`),
+  KEY `vouche_conditionaloffer_id_f9682bfb_fk_offer_conditionaloffer_id` (`conditionaloffer_id`),
+  CONSTRAINT `vouche_conditionaloffer_id_f9682bfb_fk_offer_conditionaloffer_id` FOREIGN KEY (`conditionaloffer_id`) REFERENCES `offer_conditionaloffer` (`id`),
+  CONSTRAINT `voucher_voucher_offers_voucher_id_7f9c575d_fk_voucher_voucher_id` FOREIGN KEY (`voucher_id`) REFERENCES `voucher_voucher` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -3905,12 +3948,12 @@ CREATE TABLE `voucher_voucherapplication` (
   `user_id` int(11) DEFAULT NULL,
   `voucher_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `voucher_voucherappli_order_id_5dcb3ce35f8e76d0_fk_order_order_id` (`order_id`),
-  KEY `voucher_voucherapp_user_id_6ab9212ced39aaa4_fk_ecommerce_user_id` (`user_id`),
-  KEY `voucher_vouche_voucher_id_298aa75cf02a99a0_fk_voucher_voucher_id` (`voucher_id`),
-  CONSTRAINT `voucher_vouche_voucher_id_298aa75cf02a99a0_fk_voucher_voucher_id` FOREIGN KEY (`voucher_id`) REFERENCES `voucher_voucher` (`id`),
-  CONSTRAINT `voucher_voucherapp_user_id_6ab9212ced39aaa4_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`),
-  CONSTRAINT `voucher_voucherappli_order_id_5dcb3ce35f8e76d0_fk_order_order_id` FOREIGN KEY (`order_id`) REFERENCES `order_order` (`id`)
+  KEY `voucher_voucherapplication_order_id_30248a05_fk_order_order_id` (`order_id`),
+  KEY `voucher_voucherapplication_user_id_df53a393_fk_ecommerce_user_id` (`user_id`),
+  KEY `voucher_voucherapplica_voucher_id_5204edb7_fk_voucher_voucher_id` (`voucher_id`),
+  CONSTRAINT `voucher_voucherapplica_voucher_id_5204edb7_fk_voucher_voucher_id` FOREIGN KEY (`voucher_id`) REFERENCES `voucher_voucher` (`id`),
+  CONSTRAINT `voucher_voucherapplication_order_id_30248a05_fk_order_order_id` FOREIGN KEY (`order_id`) REFERENCES `order_order` (`id`),
+  CONSTRAINT `voucher_voucherapplication_user_id_df53a393_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -3955,7 +3998,7 @@ CREATE TABLE `waffle_flag` (
 
 LOCK TABLES `waffle_flag` WRITE;
 /*!40000 ALTER TABLE `waffle_flag` DISABLE KEYS */;
-INSERT INTO `waffle_flag` VALUES (1,'enable_client_side_checkout',NULL,NULL,0,1,0,0,'',0,'This flag determines if the integrated/client-side checkout flow should be enabled.','2016-12-18 04:05:46.508755','2016-12-18 04:05:46.508769');
+INSERT INTO `waffle_flag` VALUES (1,'enable_client_side_checkout',NULL,NULL,0,1,0,0,'',0,'This flag determines if the integrated/client-side checkout flow should be enabled.','2017-02-24 06:33:04.596856','2017-02-24 06:33:04.596869');
 /*!40000 ALTER TABLE `waffle_flag` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -3970,10 +4013,10 @@ CREATE TABLE `waffle_flag_groups` (
   `flag_id` int(11) NOT NULL,
   `group_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `flag_id` (`flag_id`,`group_id`),
-  KEY `waffle_flag_groups_group_id_1d214ce64ae3698d_fk_auth_group_id` (`group_id`),
-  CONSTRAINT `waffle_flag_groups_flag_id_3d040eff1615da33_fk_waffle_flag_id` FOREIGN KEY (`flag_id`) REFERENCES `waffle_flag` (`id`),
-  CONSTRAINT `waffle_flag_groups_group_id_1d214ce64ae3698d_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`)
+  UNIQUE KEY `waffle_flag_groups_flag_id_8ba0c71b_uniq` (`flag_id`,`group_id`),
+  KEY `waffle_flag_groups_group_id_a97c4f66_fk_auth_group_id` (`group_id`),
+  CONSTRAINT `waffle_flag_groups_flag_id_c11c0c05_fk_waffle_flag_id` FOREIGN KEY (`flag_id`) REFERENCES `waffle_flag` (`id`),
+  CONSTRAINT `waffle_flag_groups_group_id_a97c4f66_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -3997,10 +4040,10 @@ CREATE TABLE `waffle_flag_users` (
   `flag_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `flag_id` (`flag_id`,`user_id`),
-  KEY `waffle_flag_users_user_id_3c8ba20de859cb5_fk_ecommerce_user_id` (`user_id`),
-  CONSTRAINT `waffle_flag_users_flag_id_fe9e88f3072acde_fk_waffle_flag_id` FOREIGN KEY (`flag_id`) REFERENCES `waffle_flag` (`id`),
-  CONSTRAINT `waffle_flag_users_user_id_3c8ba20de859cb5_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
+  UNIQUE KEY `waffle_flag_users_flag_id_b46f76b0_uniq` (`flag_id`,`user_id`),
+  KEY `waffle_flag_users_user_id_8026df9b_fk_ecommerce_user_id` (`user_id`),
+  CONSTRAINT `waffle_flag_users_flag_id_833c37b0_fk_waffle_flag_id` FOREIGN KEY (`flag_id`) REFERENCES `waffle_flag` (`id`),
+  CONSTRAINT `waffle_flag_users_user_id_8026df9b_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -4038,7 +4081,7 @@ CREATE TABLE `waffle_sample` (
 
 LOCK TABLES `waffle_sample` WRITE;
 /*!40000 ALTER TABLE `waffle_sample` DISABLE KEYS */;
-INSERT INTO `waffle_sample` VALUES (1,'async_order_fulfillment',0.0,'Determines what percentage of orders are fulfilled asynchronously.','2016-12-18 04:04:54.475051','2016-12-18 04:04:54.475064');
+INSERT INTO `waffle_sample` VALUES (1,'async_order_fulfillment',0.0,'Determines what percentage of orders are fulfilled asynchronously.','2017-02-24 06:32:27.391146','2017-02-24 06:32:27.391158');
 /*!40000 ALTER TABLE `waffle_sample` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -4067,7 +4110,7 @@ CREATE TABLE `waffle_switch` (
 
 LOCK TABLES `waffle_switch` WRITE;
 /*!40000 ALTER TABLE `waffle_switch` DISABLE KEYS */;
-INSERT INTO `waffle_switch` VALUES (1,'publish_course_modes_to_lms',1,'','2016-12-18 04:04:53.381587','2016-12-18 04:04:53.381599'),(3,'create_enrollment_codes',0,'','2016-12-18 04:04:55.651463','2016-12-18 04:04:55.651475'),(4,'payment_processor_active_cybersource',1,'','2016-12-18 04:05:45.126262','2016-12-18 04:05:45.126313'),(5,'payment_processor_active_paypal',1,'','2016-12-18 04:05:45.130037','2016-12-18 04:05:45.130050'),(6,'sailthru_enable',0,'','2016-12-18 04:06:17.531029','2016-12-18 04:06:17.531055');
+INSERT INTO `waffle_switch` VALUES (1,'publish_course_modes_to_lms',1,'','2017-02-24 06:32:26.280033','2017-02-24 06:32:26.280045'),(3,'create_enrollment_codes',0,'','2017-02-24 06:32:28.248445','2017-02-24 06:32:28.248457'),(4,'payment_processor_active_cybersource',1,'','2017-02-24 06:33:04.025145','2017-02-24 06:33:04.025157'),(5,'payment_processor_active_paypal',1,'','2017-02-24 06:33:04.025961','2017-02-24 06:33:04.025969'),(6,'sailthru_enable',0,'','2017-02-24 06:33:25.762226','2017-02-24 06:33:25.762244');
 /*!40000 ALTER TABLE `waffle_switch` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -4084,11 +4127,11 @@ CREATE TABLE `wishlists_line` (
   `product_id` int(11) DEFAULT NULL,
   `wishlist_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `wishlists_line_wishlist_id_53bbce7b453dfacc_uniq` (`wishlist_id`,`product_id`),
-  KEY `wishlists_li_product_id_470a9463fc5f5b83_fk_catalogue_product_id` (`product_id`),
+  UNIQUE KEY `wishlists_line_wishlist_id_78f04673_uniq` (`wishlist_id`,`product_id`),
+  KEY `wishlists_line_product_id_9d6d9b37_fk_catalogue_product_id` (`product_id`),
   KEY `wishlists_line_e2f8e270` (`wishlist_id`),
-  CONSTRAINT `wishlists__wishlist_id_6632a3c6e1ec8370_fk_wishlists_wishlist_id` FOREIGN KEY (`wishlist_id`) REFERENCES `wishlists_wishlist` (`id`),
-  CONSTRAINT `wishlists_li_product_id_470a9463fc5f5b83_fk_catalogue_product_id` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`)
+  CONSTRAINT `wishlists_line_product_id_9d6d9b37_fk_catalogue_product_id` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`),
+  CONSTRAINT `wishlists_line_wishlist_id_4cffe302_fk_wishlists_wishlist_id` FOREIGN KEY (`wishlist_id`) REFERENCES `wishlists_wishlist` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -4116,8 +4159,8 @@ CREATE TABLE `wishlists_wishlist` (
   `owner_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `key` (`key`),
-  KEY `wishlists_wishlis_owner_id_3033ec0075490f56_fk_ecommerce_user_id` (`owner_id`),
-  CONSTRAINT `wishlists_wishlis_owner_id_3033ec0075490f56_fk_ecommerce_user_id` FOREIGN KEY (`owner_id`) REFERENCES `ecommerce_user` (`id`)
+  KEY `wishlists_wishlist_owner_id_d5464c62_fk_ecommerce_user_id` (`owner_id`),
+  CONSTRAINT `wishlists_wishlist_owner_id_d5464c62_fk_ecommerce_user_id` FOREIGN KEY (`owner_id`) REFERENCES `ecommerce_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -4139,4 +4182,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-12-18  5:19:50
+-- Dump completed on 2017-02-24 13:35:19
