@@ -55,6 +55,31 @@ For example to access the Catalog/Course Discovery Service, you can run:
 $ make devstack.open.discovery
 ```
 
+### Docker Sync
+
+Docker for Mac has known filesystem issues that significantly decrease performance. In order to mitigate these issues,
+we use [Docker Sync](https://github.com/EugenMayer/docker-sync/wiki) to synchronize file data from the host machine to
+the containers. Follow the steps below to setup Docker Sync.
+
+1. Ensure all containers are stopped.
+```
+$ make devstack.stop
+```
+
+2. Follow the installation instructions at https://github.com/EugenMayer/docker-sync/wiki to install Docker Sync.
+
+3. Run Docker Sync. This will be a separate process, so feel free to run this in a separate terminal window. Note that
+you may see errors about permissions on `node_modules` sub-directories. These can be safely ignored.
+```
+$ docker-sync start
+```
+
+4. Start devstack.
+```
+$ make devstack.start
+```
+
+
 ## Usernames and Passwords
 
 The provisioning script creates a Django superuser for every service.
