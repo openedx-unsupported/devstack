@@ -30,8 +30,12 @@ services:
     #   - "11211:11211"
 
   mongo:
+    # We use WiredTiger in all environments. In development environments we use small files
+    # to conserve disk space, and disable the journal for a minor performance gain.
+    # See https://docs.mongodb.com/v3.0/reference/program/mongod/#options for complete details.
+    command: mongod --smallfiles --nojournal --storageEngine wiredTiger
     container_name: edx.devstack.mongo
-    image: mongo:2.6.5
+    image: mongo:3.0.14
     # ports:
     #  - "27017:27017"
     volumes:
