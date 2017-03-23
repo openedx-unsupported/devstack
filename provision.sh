@@ -83,7 +83,9 @@ docker exec -t edx.devstack.ecommerce bash -c 'source /edx/app/ecommerce/ecommer
 docker exec -t edx.devstack.ecommerce bash -c 'source /edx/app/ecommerce/ecommerce_env && python /edx/app/ecommerce/ecommerce/manage.py oscar_populate_countries' &
 
 # TODO Create discovery tenant with correct credentials (ECOM-6565)
-docker exec -t edx.devstack.discovery bash -c 'source /edx/app/discovery/discovery_env && python /edx/app/discovery/discovery/manage.py create_or_update_partner --code edx --name edX --courses-api-url "http://edx.devstack.edxapp:18000/api/courses/v1/" --ecommerce-api-url "http://edx.devstack.ecommerce:18130/api/v2/" --organizations-api-url "http://edx.devstack.edxapp:18000/api/organizations/v0/" --oidc-url-root "http://edx.devstack.edxapp:18000/oauth2" --oidc-key discovery-key --oidc-secret discovery-secret' &
+docker exec -t edx.devstack.discovery bash -c 'source /edx/app/discovery/discovery_env && python /edx/app/discovery/discovery/manage.py create_or_update_partner --code edx --name edX --courses-api-url "http://edx.devstack.edxapp:18000/api/courses/v1/" --ecommerce-api-url "http://edx.devstack.ecommerce:18130/api/v2/" --organizations-api-url "http://edx.devstack.edxapp:18000/api/organizations/v0/" --oidc-url-root "http://edx.devstack.edxapp:18000/oauth2" --oidc-key discovery-key --oidc-secret discovery-secret'
+docker exec -t edx.devstack.discovery bash -c 'source /edx/app/discovery/discovery_env && python /edx/app/discovery/discovery/manage.py refresh_course_metadata'
+docker exec -t edx.devstack.discovery bash -c 'source /edx/app/discovery/discovery_env && python /edx/app/discovery/discovery/manage.py update_index' &
 
 # TODO Create credentials tenant (ECOM-6566)
 
