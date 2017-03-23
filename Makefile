@@ -1,4 +1,4 @@
-.PHONY: clone devstack.provision devstack.reset devstack.start devstack.stop help requirements validate
+.PHONY: clone devstack.provision devstack.reset devstack.start devstack.stop help requirements update-images validate
 
 backup-volumes: ## Backup all data volumes to the local host
 	docker run --rm --volumes-from edx.devstack.mysql -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/mysql.tar.gz /var/lib/mysql
@@ -40,6 +40,9 @@ devstack.stop: ## Stop all services
 
 requirements: ## Install requirements
 	pip install -r requirements.txt
+
+update-images: ## Update the Docker images
+	docker-compose pull
 
 validate: ## Validate the devstack configuration
 	docker-compose config
