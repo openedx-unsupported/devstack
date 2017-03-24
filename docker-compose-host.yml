@@ -3,13 +3,26 @@ version: "2.1"
 services:
   credentials:
     volumes:
+      - /edx/app/credentials/credentials/credentials/assets/
+      - /edx/app/credentials/credentials/credentials/static/bundles/
+      - /edx/app/credentials/credentials/node_modules/
       - ../credentials:/edx/app/credentials/credentials
   discovery:
       volumes:
+      - /edx/app/discovery/discovery/course_discovery/assets/
+      - /edx/app/discovery/discovery/course_discovery/static/bower_components/
+      - /edx/app/discovery/discovery/course_discovery/static/build/
+      - /edx/app/discovery/discovery/node_modules/
       - ../course-discovery:/edx/app/discovery/discovery
   ecommerce:
     volumes:
+      - /edx/app/ecommerce/ecommerce/assets/
+      - /edx/app/ecommerce/ecommerce/ecommerce/static/bower_components/
+      - /edx/app/ecommerce/ecommerce/ecommerce/static/build/
+      - /edx/app/ecommerce/ecommerce/node_modules/
       - ../ecommerce:/edx/app/ecommerce/ecommerce
   edxapp:
     volumes:
+      - /edx/app/edxapp/edx-platform/.prereqs_cache/
+      - /edx/app/edxapp/edx-platform/node_modules/
       - ../edx-platform:/edx/app/edxapp/edx-platform
