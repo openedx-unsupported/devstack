@@ -160,6 +160,47 @@ Docker Compose files useful for integrating with the edx.org marketing site are 
 those outside of edX. For details on getting things up and running, see
 https://openedx.atlassian.net/wiki/display/ENG/Marketing+Site.
 
+## PyCharm Integration
+
+A number of edX engineers develop using [PyCharm][]. As of version 2017.1, JetBrains
+has greatly improved PyCharm's integration with Docker and Docker Compose. Note that Docker integration is only
+supported in the Professional edition.
+
+The [vendor documentation][] goes over the necessary steps to add a Docker Compose remote interpreter. When configuring
+the interpreter, the remote path should be set to the service's virtual environment:
+
+    /edx/app/<service>/venvs/<service>/bin/python
+
+For example, the path would be the following for the Credentials Service:
+
+    /edx/app/credentials/venvs/credentials/bin/python
+
+After configuring the interpreter, you should setup a [Django Server Run/Debug Configuration][]. Note that there are
+some specific values that should be used fro this configuration.
+
+The host should always be set to `0.0.0.0` so that Django accepts requests from external clients (e.g. your Docker
+host). The port should be set to the service-specific port from the table above.
+
+### edxapp
+This is a hack because we (unfortunately) modified `manage.py`. (We should fix this!!!)
+
+1. Leave host/port blank
+2. Additional Options: runserver 0.0.0.0:18000 (or runserver 0.0.0.0:18010)
+3. Custom run command: lms (or cms)
+
+# TODO: Fix Cython for debug
+
+## Remaining Work
+
+There is still work to be done before this is ready for full release to the
+Open edX community. Here are the major items:
+
+* [ ] Align with or revise [OEP-5][]
+* [ ] Finish provisioning all services
+* [ ] Load demo data
+* [ ] PyCharm debugging
+* [x] Merge [devstack settings for edxapp][], and reactivate host volume
+
 
 [Docker Compose]: https://docs.docker.com/compose/
 [Docker Sync installation instructions]: https://github.com/EugenMayer/docker-sync/wiki/1.-Installation
@@ -169,3 +210,7 @@ https://openedx.atlassian.net/wiki/display/ENG/Marketing+Site.
 [OEP-5]: http://open-edx-proposals.readthedocs.io/en/latest/oep-0005.html
 [Supervisor]: http://supervisord.org/
 [configuring Docker for Mac]: https://docs.docker.com/docker-for-mac/#/advanced
+[devstack settings for edxapp]: https://github.com/edx/edx-platform/pull/14376
+[PyCharm]: https://www.jetbrains.com/pycharm/
+[vendor documentation]: https://www.jetbrains.com/help/pycharm/2017.1/configuring-remote-interpreters-via-docker-compose.html
+[Django Server Run/Debug Configuration]: https://www.jetbrains.com/help/pycharm/2017.1/run-debug-configuration-django-server.html
