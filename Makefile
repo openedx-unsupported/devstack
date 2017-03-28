@@ -18,6 +18,9 @@ help: ## Display this help message
 clone: ## Clone service repos
 	./clone.sh
 
+devstack.destroy: ## Destroy all containers and volumes
+	./destroy.sh
+
 # TODO Print out help for this target. Even better if we can iterate over the services in docker-compose.yml, and
 # print the actual service names.
 devstack.open.%: ## Open a shell into the specified service container

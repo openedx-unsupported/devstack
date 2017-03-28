@@ -68,6 +68,12 @@ Catalog/Course Discovery Service, you can run:
 make devstack.open.discovery
 ```
 
+To reset your environment and start provisioning from scratch, you can run:
+
+```sh
+make devstack.destroy
+```
+
 ### Docker Sync
 
 Docker for Mac has known filesystem issues that significantly decrease
