@@ -55,7 +55,7 @@ services:
 
   # edX services
   credentials:
-    command: /edx/app/credentials/devstack.sh start
+    command: bash -c 'source /edx/app/credentials/credentials_env && python /edx/app/credentials/credentials/manage.py runserver 0.0.0.0:18150'
     container_name: edx.devstack.credentials
     depends_on:
       - mysql
@@ -68,7 +68,7 @@ services:
       - "18150:18150"
 
   discovery:
-    command: /edx/app/discovery/devstack.sh start
+    command: bash -c 'source /edx/app/discovery/discovery_env && python /edx/app/discovery/discovery/manage.py runserver 0.0.0.0:18381'
     container_name: edx.devstack.discovery
     depends_on:
       - mysql
@@ -82,7 +82,7 @@ services:
       - "18381:18381"
 
   ecommerce:
-    command: /edx/app/ecommerce/devstack.sh start
+    command: bash -c 'source /edx/app/ecommerce/ecommerce_env && python /edx/app/ecommerce/ecommerce/manage.py runserver 0.0.0.0:18130'
     container_name: edx.devstack.ecommerce
     depends_on:
       - mysql
@@ -94,9 +94,9 @@ services:
     ports:
       - "18130:18130"
 
-  edxapp:
-    command: /edx/app/edxapp/devstack.sh start
-    container_name: edx.devstack.edxapp
+  lms:
+    command: bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && NO_PREREQ_INSTALL=1 paver lms --port 18000 --fast --settings devstack_docker'
+    container_name: edx.devstack.lms
     depends_on:
       - mysql
       - memcached
@@ -104,7 +104,17 @@ services:
     image: edxops/edxapp:devstack
     ports:
       - "18000:18000"
-      - "18010:18010"
+
+  studio:
+      command: bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && NO_PREREQ_INSTALL=1 paver studio --port 18010 --fast --settings devstack_docker'
+      container_name: edx.devstack.studio
+      depends_on:
+        - mysql
+        - memcached
+        - mongo
+      image: edxops/edxapp:devstack
+      ports:
+        - "18010:18010"
 
 volumes:
   elasticsearch_data:

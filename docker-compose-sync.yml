@@ -10,7 +10,10 @@ services:
   ecommerce:
     volumes:
       - ecommerce-sync:/edx/app/ecommerce/ecommerce:rw
-  edxapp:
+  lms:
+    volumes:
+      - edxapp-sync:/edx/app/edxapp/edx-platform:rw
+  studio:
     volumes:
       - edxapp-sync:/edx/app/edxapp/edx-platform:rw
 
