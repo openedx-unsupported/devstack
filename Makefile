@@ -26,6 +26,12 @@ devstack.destroy: ## Destroy all containers and volumes
 devstack.open.%: ## Open a shell into the specified service container
 	docker exec -it edx.devstack.$* env TERM=$(TERM) /edx/app/$*/devstack.sh open
 
+devstack.open.lms: ## Open a shell into the LMS container
+	docker exec -it edx.devstack.lms env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
+
+devstack.open.studio: ## Open a shell into the Studio container
+	docker exec -it edx.devstack.studio env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
+
 devstack.provision: ## Provision all services
 	./provision.sh
 

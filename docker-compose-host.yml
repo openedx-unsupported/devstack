@@ -21,7 +21,12 @@ services:
       - /edx/app/ecommerce/ecommerce/ecommerce/static/build/
       - /edx/app/ecommerce/ecommerce/node_modules/
       - ../ecommerce:/edx/app/ecommerce/ecommerce
-  edxapp:
+  lms:
+    volumes:
+      - /edx/app/edxapp/edx-platform/.prereqs_cache/
+      - /edx/app/edxapp/edx-platform/node_modules/
+      - ../edx-platform:/edx/app/edxapp/edx-platform
+  studio:
     volumes:
       - /edx/app/edxapp/edx-platform/.prereqs_cache/
       - /edx/app/edxapp/edx-platform/node_modules/
