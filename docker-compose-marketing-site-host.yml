@@ -1,0 +1,6 @@
+version: "2.1"
+
+services:
+  marketing:
+    volumes:
+      - ../edx-mktg/docroot:/var/www/html
