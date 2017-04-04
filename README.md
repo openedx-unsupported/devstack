@@ -156,7 +156,8 @@ docker exec -t edx.devstack.<service> bash -c '/edx/app/supervisor/venvs/supervi
 * credentials
 * discovery
 * ecommerce
-* edxapp
+* lms
+* studio
 
 
 ## Remaining Work
@@ -168,7 +169,6 @@ Open edX community. Here are the major items:
 * [ ] Finish provisioning all services
 * [ ] Load demo data
 * [ ] PyCharm debugging
-* [x] Merge [devstack settings for edxapp][], and reactivate host volume
 
 
 [Docker Compose]: https://docs.docker.com/compose/
@@ -179,4 +179,3 @@ Open edX community. Here are the major items:
 [OEP-5]: http://open-edx-proposals.readthedocs.io/en/latest/oep-0005.html
 [Supervisor]: http://supervisord.org/
 [configuring Docker for Mac]: https://docs.docker.com/docker-for-mac/#/advanced
-[devstack settings for edxapp]: https://github.com/edx/edx-platform/pull/14376
