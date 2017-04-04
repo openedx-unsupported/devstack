@@ -1,0 +1,10 @@
+version: "2.1"
+
+services:
+  marketing:
+    volumes:
+      - marketing-sync:/var/www/html:rw
+
+volumes:
+  marketing-sync:
+    external: true

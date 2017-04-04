@@ -1,0 +1,24 @@
+version: "2.1"
+
+services:
+  lms:
+    environment:
+      - ENABLE_MARKETING_SITE=1
+      - MARKETING_SITE_ROOT="http://localhost:8080"
+
+  marketing:
+    container_name: edx.devstack.marketing
+    depends_on:
+      - mysql
+      - memcached
+    environment:
+      - DB_HOST=edx.devstack.mysql
+      - DB_NAME=edxmktg
+      - DB_PASSWORD=password
+      - DB_USER=edxmktg001
+      - DRUPAL_EXTRA_SETTINGS=/var/www/html/sites/default/docker.settings.php
+      - LMS_HOST=http://localhost:18000
+      - MEMCACHE_HOST=edx.devstack.memcached
+    image: edxops/edx-mktg:latest
+    ports:
+      - "8080:80"

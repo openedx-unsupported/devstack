@@ -159,6 +159,11 @@ docker exec -t edx.devstack.<service> bash -c '/edx/app/supervisor/venvs/supervi
 * lms
 * studio
 
+## Marketing Site
+
+Docker Compose files useful for integrating with the edx.org marketing site are available. This will NOT be useful to
+those outside of edX. For details on getting things up and running, see
+https://openedx.atlassian.net/wiki/display/ENG/Marketing+Site.
 
 ## Remaining Work
 
