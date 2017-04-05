@@ -12,4 +12,4 @@ before_install:
   - make requirements
 
 script:
-  - make validate
+  - make provision
