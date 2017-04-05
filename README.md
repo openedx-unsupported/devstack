@@ -49,7 +49,7 @@ amount of resources. Our testing found that [configuring Docker for Mac][] with
     single sign-on at `/login/`.
 
     ```sh
-    make devstack.provision
+    make provision
     ```
 
 3.  Start the services. By default this command will use host directories for
@@ -57,21 +57,21 @@ amount of resources. Our testing found that [configuring Docker for Mac][] with
     the steps below for Docker Sync to avoid this performance hit.
 
     ```sh
-    make devstack.start
+    make up
     ```
 
 After the services have started, if you need shell access to one of the
-services, run `make devstack.open.<service>`. For example to access the
+services, run `make <service>-shell`. For example to access the
 Catalog/Course Discovery Service, you can run:
 
 ```sh
-make devstack.open.discovery
+make discovery-shell
 ```
 
 To reset your environment and start provisioning from scratch, you can run:
 
 ```sh
-make devstack.destroy
+make destroy
 ```
 
 ### Docker Sync
@@ -84,7 +84,7 @@ below to setup Docker Sync.
 1.  Ensure all containers are stopped.
 
     ```sh
-    make devstack.stop
+    make stop
     ```
 
 2.  Follow the [Docker Sync installation instructions][].
@@ -92,7 +92,7 @@ below to setup Docker Sync.
 3.  Run Docker Sync and devstack.
 
     ```sh
-    make devstack.start.sync
+    make up-sync
     ```
 
 
