@@ -60,7 +60,6 @@ services:
     depends_on:
       - mysql
       - memcached
-      - discovery
     environment:
       ENABLE_DJANGO_TOOLBAR: 1
     image: edxops/credentials:devstack
@@ -87,7 +86,6 @@ services:
     depends_on:
       - mysql
       - memcached
-      - discovery
     environment:
       ENABLE_DJANGO_TOOLBAR: 1
     image: edxops/ecommerce:devstack
