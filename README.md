@@ -1,4 +1,4 @@
-# edX Devstack
+# edX Devstack [![Build Status](https://travis-ci.org/edx/devstack.svg?branch=master)](https://travis-ci.org/edx/devstack)
 
 Get up and running quickly with edX services.
 
