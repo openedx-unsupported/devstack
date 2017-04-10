@@ -55,3 +55,6 @@ lms-shell: ## Run a shell on the LMS container
 
 studio-shell: ## Run a shell on the Studio container
 	docker exec -it edx.devstack.studio env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
+
+healthchecks: ## Run a curl against all services' healthcheck endpoints to make sure they are up. This will eventually be parameterized
+	./healthchecks.sh
