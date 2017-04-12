@@ -3,7 +3,7 @@
 ./load-db.sh edxapp_csmh
 
 # Bring the rest of the services online
-docker-compose up -d lms
+docker-compose up -d lms 2>/dev/null
 
 # Run edxapp migrations first since they are needed for the service users and OAuth clients
 docker exec -t edx.devstack.lms  bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && paver install_prereqs'

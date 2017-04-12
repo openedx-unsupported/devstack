@@ -18,7 +18,7 @@ YELLOW='\033[0;33m'
 NC='\033[0m' # No Color
 
 # Bring the databases online.
-docker-compose up -d mysql mongo
+docker-compose up -d mysql mongo 2>/dev/null
 
 # Ensure the MySQL server is online and usable
 echo "Waiting for MySQL"
@@ -41,7 +41,7 @@ docker exec -i edx.devstack.mongo mongo < mongo-provision.js
 ./provision-lms.sh
 
 # Nothing special needed for studio
-docker-compose up -d studio
+docker-compose up -d studio 2>/dev/null
 
 ./provision-ecommerce.sh
 #./provision-discovery.sh
