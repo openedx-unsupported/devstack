@@ -14,3 +14,4 @@ before_install:
 script:
   - make provision
   - make healthchecks
+  - ./staticassetcheck.sh
