@@ -82,3 +82,6 @@ validate-lms-volume: ## Validate that changes to the local workspace are reflect
 	touch $(DEVSTACK_WORKSPACE)/edx-platform/testfile
 	docker exec edx.devstack.lms ls /edx/app/edxapp/edx-platform/testfile
 	rm $(DEVSTACK_WORKSPACE)/edx-platform/testfile
+
+update-lms: ## Re-install prereqs and update assets in the LMS, uesful after switching volumes
+	./update-lms.sh
