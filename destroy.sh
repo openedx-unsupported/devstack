@@ -6,5 +6,11 @@ read -p "This will delete all data in your devstack. Would you like to proceed? 
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
     echo
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        set +e
+        docker-sync-daemon stop
+        docker-sync clean
+        set -e
+    fi
     docker-compose down -v
 fi
