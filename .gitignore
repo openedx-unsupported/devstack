@@ -95,3 +95,4 @@ ENV/
 .idea/
 
 .dev/
+.docker-sync/

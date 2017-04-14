@@ -17,8 +17,20 @@ GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 NC='\033[0m' # No Color
 
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    set +e
+    docker-sync-daemon start
+    set -e
+    DOCKER_FILES=''
+else
+    DOCKER_FILES='-f docker-compose.yml -f docker-compose-host.yml'
+fi
+export DOCKER_FILES
+
+echo $DOCKER_FILES
+
 # Bring the databases online.
-docker-compose up -d mysql mongo
+docker-compose $DOCKER_FILES up -d mysql mongo
 
 # Ensure the MySQL server is online and usable
 echo "Waiting for MySQL"
@@ -41,7 +53,7 @@ docker exec -i edx.devstack.mongo mongo < mongo-provision.js
 ./provision-lms.sh
 
 # Nothing special needed for studio
-docker-compose up -d studio
+docker-compose $DOCKER_FILES up -d studio
 
 ./provision-ecommerce.sh
 #./provision-discovery.sh
