@@ -5,13 +5,20 @@ language: python
 python:
   - "3.5"
 
+env:
+  - DEVSTACK_WORKSPACE=/tmp
+
 services:
   - docker
 
 before_install:
   - make requirements
+  - make dev.clone
 
 script:
-  - make provision
+  - make dev.provision
+  - make dev.up
+  - sleep 60 # LMS needs like 60 seconds to come up
   - make healthchecks
+  - make validate-lms-volume
   - make up-marketing-detached
