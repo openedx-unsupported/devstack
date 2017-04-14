@@ -75,9 +75,6 @@ target/
 # celery beat schedule file
 celerybeat-schedule
 
-# dotenv
-.env
-
 # virtualenv
 venv/
 ENV/
@@ -95,3 +92,4 @@ ENV/
 .idea/
 
 .dev/
+.docker-sync/

@@ -1,5 +1,8 @@
 .DEFAULT_GOAL := help
 
+DEVSTACK_WORKSPACE ?= ..
+export DEVSTACK_WORKSPACE
+
 include *.mk
 
 # Generates a help message. Borrowed from https://github.com/pydanny/cookiecutter-djangopackage.
@@ -10,22 +13,36 @@ help: ## Display this help message
 requirements: ## Install requirements
 	pip install -r requirements.txt
 
-clone: ## Clone service repos to the parent directory
+dev.clone: ## Clone service repos to the parent directory
 	./clone.sh
 
-provision: ## Provision all services
+dev.provision.run: ## Provision all services with local mounted directories
+	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml" ./provision.sh
+
+dev.provision: | dev.provision.run stop ## Provision dev environment with all services stopped
+
+dev.up: ## Bring up all services with host volumes
+	docker-compose -f docker-compose.yml -f docker-compose-host.yml up -d
+
+dev.sync.daemon.start: ## Start the docker-sycn daemon
+	docker-sync-daemon start
+
+dev.sync.provision: | dev.sync.daemon.start dev.provision ## Provision with docker-sync enabled
+
+dev.sync.requirements: ## Install requirements
+	gem install docker-sync
+
+dev.sync.up: | dev.sync.daemon.start dev.up ## Bring up all services with docker-sync enabled
+
+provision: ## Provision all services using the Docker volume
 	./provision.sh
 
-up: ## Bring up all services with host volumes
-	docker-compose -f docker-compose.yml -f docker-compose-host.yml up
-
-up-sync: ## Bring up all services with docker-sync
-	docker-sync-stack start
-
 stop: ## Stop all services
+	(test -d .docker-sync && docker-sync-daemon stop) || true ## Ignore failure here
 	docker-compose stop
 
 down: ## Remove all service containers and networks
+	test -d .docker-sync && docker-sync-daemon clean
 	docker-compose down
 
 destroy: ## Remove all devstack-related containers, networks, and volumes
@@ -60,3 +77,8 @@ studio-shell: ## Run a shell on the Studio container
 
 healthchecks: ## Run a curl against all services' healthcheck endpoints to make sure they are up. This will eventually be parameterized
 	./healthchecks.sh
+
+validate-lms-volume: ## Validate that changes to the local workspace are reflected in the LMS container
+	touch $(DEVSTACK_WORKSPACE)/edx-platform/testfile
+	docker exec edx.devstack.lms ls /edx/app/edxapp/edx-platform/testfile
+	rm $(DEVSTACK_WORKSPACE)/edx-platform/testfile

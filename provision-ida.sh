@@ -1,7 +1,7 @@
 name=$1
 port=$2
 
-docker-compose up -d $name
+docker-compose $DOCKER_COMPOSE_FILES up -d $name
 
 echo -e "${GREEN}Installing requirements for ${name}...${NC}"
 docker exec -t edx.devstack.${name}  bash -c 'source /edx/app/$1/$1_env && cd /edx/app/$1/$1/ && make requirements' -- "$name"

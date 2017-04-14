@@ -22,6 +22,16 @@ boot2docker) are not supported.
 [Docker for Windows][] may work but has not been tested and is _not supported_.
 
 
+### Docker Sync
+
+Docker for Mac has known filesystem issues that significantly decrease
+performance. In order to mitigate these issues, we use [Docker Sync][] to
+synchronize file data from the host machine to the containers.
+
+If you are using macOS, please follow the [Docker Sync installation instructions][]
+before provisioning.
+
+
 ## Getting Started
 
 All of the services can be run by following the steps below. Note that since we
@@ -30,15 +40,18 @@ amount of resources. Our testing found that [configuring Docker for Mac][] with
 2 CPUs and 4GB of memory works well.
 
 1.  The Docker Compose file mounts a host volume for each service's executing
-    code. The host directory is expected to be a sibling of this directory. For
+    code. The host directory is defaults to be a sibling of this directory. For
     example, if this repo is cloned to `~/workspace/devstack`, host volumes
     will be expected in `~/workspace/course-discovery`,
     `~/workspace/ecommerce`, etc. These repos can be cloned with the command
     below.
 
     ```sh
-    make clone
+    make dev.clone
     ```
+
+    You may customize where the local repositories are found by setting the
+    DEVSTACK_WORKSPACE environment variable.
 
 2.  Run the provision command, if you haven't already, to configure the various
     services with superusers (for development without the auth service) and
@@ -48,16 +61,29 @@ amount of resources. Our testing found that [configuring Docker for Mac][] with
     the services directly via Django admin at the `/admin/` path, or login via
     single sign-on at `/login/`.
 
+    Provision using docker-sync (recommended for macOS users)
     ```sh
-    make provision
+    make dev.sync.provision
     ```
 
-3.  Start the services. By default this command will use host directories for
-    source code. This is known to be slow on macOS. macOS users should follow
-    the steps below for Docker Sync to avoid this performance hit.
-
+    Default (non-macOS users)
     ```sh
-    make up
+    make dev.provision
+    ```
+
+3.  Start the services. This command will mount the repositories under the
+    DEVSTACK_WORKSPACE directory.
+
+    _Note: it may take up to 60 seconds for the LMS to start_
+
+    Start using docker-sync (recommended for macOS users)
+    ```sh
+    make dev.sync.up
+    ```
+
+    Default (non-macOS users)
+    ```sh
+    make dev.up
     ```
 
 After the services have started, if you need shell access to one of the
@@ -73,27 +99,6 @@ To reset your environment and start provisioning from scratch, you can run:
 ```sh
 make destroy
 ```
-
-### Docker Sync
-
-Docker for Mac has known filesystem issues that significantly decrease
-performance. In order to mitigate these issues, we use [Docker Sync][] to
-synchronize file data from the host machine to the containers. Follow the steps
-below to setup Docker Sync.
-
-1.  Ensure all containers are stopped.
-
-    ```sh
-    make stop
-    ```
-
-2.  Follow the [Docker Sync installation instructions][].
-
-3.  Run Docker Sync and devstack.
-
-    ```sh
-    make up-sync
-    ```
 
 
 ## Usernames and Passwords
@@ -134,21 +139,11 @@ meant to be user-facing, the "homepage" may be the API root.
 
 ## Useful Commands
 
-Sometimes you may need to restart a particular application server. Rather than
-restarting the entire devstack or the individual container, you can instruct
-[Supervisor][] to restart just the nginx and application servers with one
-command.
-
-If you are already working in the shell of a container run:
+Sometimes you may need to restart a particular application server. To do so,
+simply use the ```docker-compose restart``` command:
 
 ```sh
-/edx/app/supervisor/venvs/supervisor/bin/supervisorctl restart all
-```
-
-Alternatively, if you are not working from a shell inside a container run:
-
-```sh
-docker exec -t edx.devstack.<service> bash -c '/edx/app/supervisor/venvs/supervisor/bin/supervisorctl restart all'
+docker-compose restart <service>
 ```
 
 `<service>` should be replaced with one of the following:
@@ -164,16 +159,6 @@ docker exec -t edx.devstack.<service> bash -c '/edx/app/supervisor/venvs/supervi
 Docker Compose files useful for integrating with the edx.org marketing site are available. This will NOT be useful to
 those outside of edX. For details on getting things up and running, see
 https://openedx.atlassian.net/wiki/display/ENG/Marketing+Site.
-
-## Remaining Work
-
-There is still work to be done before this is ready for full release to the
-Open edX community. Here are the major items:
-
-* [ ] Align with or revise [OEP-5][]
-* [ ] Finish provisioning all services
-* [ ] Load demo data
-* [ ] PyCharm debugging
 
 
 [Docker Compose]: https://docs.docker.com/compose/
