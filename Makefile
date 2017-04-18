@@ -60,3 +60,8 @@ studio-shell: ## Run a shell on the Studio container
 
 healthchecks: ## Run a curl against all services' healthcheck endpoints to make sure they are up. This will eventually be parameterized
 	./healthchecks.sh
+
+validate-lms-volume:
+	touch $(DEVSTACK_WORKSPACE)/edx-platform/testfile
+	docker exec edx.devstack.lms ls /edx/app/edxapp/edx-platform/testfile
+	rm $(DEVSTACK_WORKSPACE)/edx-platform/testfile

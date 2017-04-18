@@ -18,4 +18,5 @@ before_install:
 script:
   - make provision
   - make healthchecks
+  - make validate-lms-volume
   - make up-marketing-detached
