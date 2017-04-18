@@ -5,8 +5,8 @@ services:
     volumes:
       - credentials-sync:/edx/app/credentials/credentials:rw
   discovery:
-      volumes:
-        - discovery-sync:/edx/app/discovery/discovery:rw
+    volumes:
+      - discovery-sync:/edx/app/discovery/discovery:rw
   ecommerce:
     volumes:
       - ecommerce-sync:/edx/app/ecommerce/ecommerce:rw
