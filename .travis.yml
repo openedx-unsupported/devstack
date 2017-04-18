@@ -5,11 +5,15 @@ language: python
 python:
   - "3.5"
 
+env:
+  - DEVSTACK_WORKSPACE=/tmp
+
 services:
   - docker
 
 before_install:
   - make requirements
+  - make clone
 
 script:
   - make provision

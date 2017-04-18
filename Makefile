@@ -11,7 +11,7 @@ requirements: ## Install requirements
 	pip install -r requirements.txt
 
 clone: ## Clone service repos to the parent directory
-	./clone.sh
+	DEVSTACK_WORKSPACE=$(DEVSTACK_WORKSPACE) ./clone.sh
 
 provision: ## Provision all services
 	./provision.sh

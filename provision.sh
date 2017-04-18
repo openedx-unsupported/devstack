@@ -21,6 +21,10 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     docker-sync-daemon start
 fi
 
+if [ -z "$DEVSTACK_WORKSPACE" ]; then
+    DEVSTACK_WORKSPACE=..
+fi
+
 # Bring the databases online.
 docker-compose up -d mysql mongo
 
