@@ -35,7 +35,7 @@ provision: ## Provision all services
 	./provision.sh
 
 stop: ## Stop all services
-	test -d .docker-sync && docker-sync-daemon stop
+	(test -d .docker-sync && docker-sync-daemon stop) || true ## Ignore failure here
 	docker-compose stop
 
 down: ## Remove all service containers and networks
