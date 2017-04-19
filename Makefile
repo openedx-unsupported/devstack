@@ -19,7 +19,7 @@ devstack.provision.run: ## Provision all services with local mounted directories
 devstack.provision: | devstack.provision.run devstack.provision.stop
 
 devstack.up: ## Bring up all services with host volumes
-	docker-compose -f docker-compose.yml -f docker-compose-host.yml up
+	DEVSTACK_WORKSPACE=$(DEVSTACK_WORKSPACE) docker-compose -f docker-compose.yml -f docker-compose-host.yml up
 
 devstack.sync.daemon.start:
 	docker-sync-daemon start
