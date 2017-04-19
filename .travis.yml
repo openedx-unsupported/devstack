@@ -13,7 +13,7 @@ services:
 
 before_install:
   - make requirements
-  - make clone
+  - make devstack.clone
 
 script:
   - make devstack.provision
