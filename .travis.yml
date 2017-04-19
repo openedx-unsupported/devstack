@@ -18,6 +18,7 @@ before_install:
 script:
   - make devstack.provision
   - make devstack.up
+  - sleep 60 # LMS needs like 60 seconds to come up
   - make healthchecks
   - make validate-lms-volume
   - make up-marketing-detached
