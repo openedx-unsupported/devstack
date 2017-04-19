@@ -3,6 +3,10 @@ version: "2.1"
 services:
   credentials:
     volumes:
+      - credentials-assets:/edx/app/credentials/credentials/credentials/assets/
+      - credentials-media:/edx/app/credentials/credentials/credentials/media/
+      - credentials-bundles:/edx/app/credentials/credentials/credentials/static/bundles/
+      - credentials-node_modules:/edx/app/credentials/credentials/node_modules/
       - credentials-sync:/edx/app/credentials/credentials:rw
   discovery:
     volumes:
@@ -18,6 +22,10 @@ services:
       - edxapp-sync:/edx/app/edxapp/edx-platform:rw
 
 volumes:
+  credentials-assets:
+  credentials-bundles:
+  credentials-media:
+  credentials-node_modules:
   credentials-sync:
     external: true
   discovery-sync:

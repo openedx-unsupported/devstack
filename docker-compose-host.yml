@@ -3,31 +3,52 @@ version: "2.1"
 services:
   credentials:
     volumes:
-      - /edx/app/credentials/credentials/credentials/assets/
-      - /edx/app/credentials/credentials/credentials/static/bundles/
-      - /edx/app/credentials/credentials/node_modules/
+      - credentials-assets:/edx/app/credentials/credentials/credentials/assets/
+      - credentials-media:/edx/app/credentials/credentials/credentials/media/
+      - credentials-bundles:/edx/app/credentials/credentials/credentials/static/bundles/
+      - credentials-node_modules:/edx/app/credentials/credentials/node_modules/
       - ../credentials:/edx/app/credentials/credentials
   discovery:
       volumes:
-      - /edx/app/discovery/discovery/course_discovery/assets/
-      - /edx/app/discovery/discovery/course_discovery/static/bower_components/
-      - /edx/app/discovery/discovery/course_discovery/static/build/
-      - /edx/app/discovery/discovery/node_modules/
+      - discovery-assets:/edx/app/discovery/discovery/course_discovery/assets/
+      - discovery-media:/edx/app/discovery/discovery/course_discovery/media/
+      - discovery-bower_components:/edx/app/discovery/discovery/course_discovery/static/bower_components/
+      - discovery-static_build:/edx/app/discovery/discovery/course_discovery/static/build/
+      - discovery-node_modules:/edx/app/discovery/discovery/node_modules/
       - ../course-discovery:/edx/app/discovery/discovery
   ecommerce:
     volumes:
-      - /edx/app/ecommerce/ecommerce/assets/
-      - /edx/app/ecommerce/ecommerce/ecommerce/static/bower_components/
-      - /edx/app/ecommerce/ecommerce/ecommerce/static/build/
-      - /edx/app/ecommerce/ecommerce/node_modules/
+      - ecommerce-assets:/edx/app/ecommerce/ecommerce/assets/
+      - ecommerce-bower_components:/edx/app/ecommerce/ecommerce/ecommerce/static/bower_components/
+      - ecommerce-static_build:/edx/app/ecommerce/ecommerce/ecommerce/static/build/
+      - ecommerce-node_modules:/edx/app/ecommerce/ecommerce/node_modules/
       - ../ecommerce:/edx/app/ecommerce/ecommerce
   lms:
     volumes:
-      - /edx/app/edxapp/edx-platform/.prereqs_cache/
-      - /edx/app/edxapp/edx-platform/node_modules/
+      - lms-prereqs_cache:/edx/app/edxapp/edx-platform/.prereqs_cache/
+      - lms-node_modules:/edx/app/edxapp/edx-platform/node_modules/
       - ../edx-platform:/edx/app/edxapp/edx-platform
   studio:
     volumes:
-      - /edx/app/edxapp/edx-platform/.prereqs_cache/
-      - /edx/app/edxapp/edx-platform/node_modules/
+      - studio-prereqs_cache:/edx/app/edxapp/edx-platform/.prereqs_cache/
+      - studio-node_modules:/edx/app/edxapp/edx-platform/node_modules/
       - ../edx-platform:/edx/app/edxapp/edx-platform
+
+volumes:
+  credentials-assets:
+  credentials-bundles:
+  credentials-media:
+  credentials-node_modules:
+  discovery-assets:
+  discovery-bower_components:
+  discovery-media:
+  discovery-static_build:
+  discovery-node_modules:
+  ecommerce-assets:
+  ecommerce-bower_components:
+  ecommerce-static_build:
+  ecommerce-node_modules:
+  lms-prereqs_cache:
+  lms-node_modules:
+  studio-prereqs_cache:
+  studio-node_modules:

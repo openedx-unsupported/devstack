@@ -12,46 +12,25 @@ syncs:
   credentials-sync:
     src: '../credentials/'
     dest: '/edx/app/credentials/credentials'
-    sync_args: '-v --copy-links --hard-links'
-    sync_excludes: [ '.git', '.idea', 'node_modules', 'credentials/assets', 'credentials/static/bundles' ]
-    sync_host_ip: 'localhost'
-    sync_host_port: 10872
-    sync_strategy: 'rsync'
+    watch_excludes: [ '.*/.git', '.*/.idea', '.*/node_modules' ]
 
   discovery-sync:
     src: '../course-discovery/'
     dest: '/edx/app/discovery/discovery'
-    sync_args: '-v --copy-links --hard-links'
-    sync_excludes: [ '.git', '.idea', 'node_modules', 'course_discovery/assets', 'course_discovery/static/bower_components', 'course_discovery/static/build' ]
-    sync_host_ip: 'localhost'
-    sync_host_port: 10873
-    sync_strategy: 'rsync'
+    watch_excludes: [ '.*/.git', '.*/.idea', '.*/node_modules' ]
 
   ecommerce-sync:
     src: '../ecommerce/'
     dest: '/edx/app/ecommerce/ecommerce'
-    sync_args: '-v --copy-links --hard-links'
-    sync_excludes: [ '.git', '.idea', 'node_modules', 'assets', 'ecommerce/static/bower_components', 'ecommerce/static/build' ]
-    sync_host_ip: 'localhost'
-    sync_host_port: 10874
-    sync_strategy: 'rsync'
+    watch_excludes: [ '.*/.git', '.*/.idea', '.*/node_modules' ]
 
   edxapp-sync:
     src: '../edx-platform/'
     dest: '/edx/app/edxapp/edx-platform'
-    sync_args: '-v --copy-links --hard-links'
-    sync_excludes: [ '.git', '.idea', 'node_modules', '.prereqs_cache' ]
-    sync_host_ip: 'localhost'
-    sync_host_port: 10875
-    sync_strategy: 'rsync'
+    watch_excludes: [ '.git', '.idea', 'node_modules', '.prereqs_cache' ]
 
   marketing-sync:
     src: '../edx-mktg/docroot/'
     dest: '/var/www/html'
-    sync_args: '-v --copy-links --hard-links'
-    sync_excludes: [ '.git', '.idea', 'node_modules', ]
-    sync_host_ip: 'localhost'
-    sync_host_port: 10876
-    sync_strategy: 'rsync'
-    sync_user: 'www-data'
     sync_userid: 33
+    watch_excludes: [ '.git', '.idea', 'node_modules' ]
