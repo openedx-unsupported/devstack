@@ -14,7 +14,7 @@ devstack.clone: ## Clone service repos to the parent directory
 	DEVSTACK_WORKSPACE=$(DEVSTACK_WORKSPACE) ./clone.sh
 
 devstack.provision.run: ## Provision all services with local mounted directories
-	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml" ./provision.sh
+	DEVSTACK_WORKSPACE=$(DEVSTACK_WORKSPACE) DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml" ./provision.sh
 
 devstack.provision: | devstack.provision.run devstack.provision.stop
 
