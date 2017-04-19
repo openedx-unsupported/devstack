@@ -11,15 +11,15 @@ requirements: ## Install requirements
 	pip install -r requirements.txt
 
 devstack.clone: ## Clone service repos to the parent directory
-	DEVSTACK_WORKSPACE=$(DEVSTACK_WORKSPACE) ./clone.sh
+	./clone.sh
 
 devstack.provision.run: ## Provision all services with local mounted directories
-	DEVSTACK_WORKSPACE=$(DEVSTACK_WORKSPACE) DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml" ./provision.sh
+	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml" ./provision.sh
 
 devstack.provision: | devstack.provision.run devstack.provision.stop
 
 devstack.up: ## Bring up all services with host volumes
-	DEVSTACK_WORKSPACE=$(DEVSTACK_WORKSPACE) docker-compose -f docker-compose.yml -f docker-compose-host.yml up
+	docker-compose -f docker-compose.yml -f docker-compose-host.yml up -d
 
 devstack.sync.daemon.start:
 	docker-sync-daemon start
