@@ -10,22 +10,36 @@ help: ## Display this help message
 requirements: ## Install requirements
 	pip install -r requirements.txt
 
-clone: ## Clone service repos to the parent directory
+devstack.clone: ## Clone service repos to the parent directory
 	DEVSTACK_WORKSPACE=$(DEVSTACK_WORKSPACE) ./clone.sh
+
+devstack.provision.run: ## Provision all services with local mounted directories
+	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml" ./provision.sh
+
+devstack.provision: | devstack.provision.run devstack.provision.stop
+
+devstack.up: ## Bring up all services with host volumes
+	docker-compose -f docker-compose.yml -f docker-compose-host.yml up
+
+devstack.sync.daemon.start:
+	docker-sync-daemon start
+
+devstack.sync.provision: | devstack.sync.daemon.start devstack.provision
+
+devstack.sync.requirements: ## Install requirements
+	gem install docker-sync
+
+devstack.sync.up: | devstack.sync.daemon.start devstack.up ## Bring up all services with host volumes
 
 provision: ## Provision all services
 	./provision.sh
 
-up: ## Bring up all services with host volumes
-	docker-compose -f docker-compose.yml -f docker-compose-host.yml up
-
-up-sync: ## Bring up all services with docker-sync
-	docker-sync-stack start
-
 stop: ## Stop all services
+	test -d .docker-sync && docker-sync-daemon stop
 	docker-compose stop
 
 down: ## Remove all service containers and networks
+	test -d .docker-sync && docker-sync-daemon clean
 	docker-compose down
 
 destroy: ## Remove all devstack-related containers, networks, and volumes

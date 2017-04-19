@@ -16,7 +16,8 @@ before_install:
   - make clone
 
 script:
-  - make provision
+  - make devstack.provision
+  - make devstack.up
   - make healthchecks
   - make validate-lms-volume
   - make up-marketing-detached

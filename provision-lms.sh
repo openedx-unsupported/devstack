@@ -7,7 +7,7 @@ set -x
 ./load-db.sh edxapp_csmh
 
 # Bring LMS online
-docker-compose -f docker-compose.yml -f docker-compose-host.yml up -d lms
+docker-compose $DOCKER_COMPOSE_FILES up -d lms
 
 docker-compose exec lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && paver install_prereqs'
 

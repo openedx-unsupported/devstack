@@ -17,14 +17,6 @@ GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 NC='\033[0m' # No Color
 
-if [[ "$OSTYPE" == "darwin"* ]]; then
-    docker-sync-daemon start
-fi
-
-if [ -z "$DEVSTACK_WORKSPACE" ]; then
-    DEVSTACK_WORKSPACE=..
-fi
-
 # Bring the databases online.
 docker-compose up -d mysql mongo
 
@@ -49,7 +41,7 @@ docker exec -i edx.devstack.mongo mongo < mongo-provision.js
 ./provision-lms.sh
 
 # Nothing special needed for studio
-docker-compose -f docker-compose.yml -f docker-compose-host.yml up -d studio
+docker-compose $DOCKER_COMPOSE_FILES up -d studio
 
 ./provision-ecommerce.sh
 #./provision-discovery.sh
