@@ -4,8 +4,6 @@
 # data volumes into their corresponding Docker containers to facilitate development.
 # Repos are cloned to the directory above the one housing this file.
 
-source .env
-
 if [ -z "$DEVSTACK_WORKSPACE" ]; then
     echo "need to set workspace dir"
     exit 1

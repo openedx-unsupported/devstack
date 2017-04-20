@@ -1,5 +1,8 @@
 .DEFAULT_GOAL := help
 
+DEVSTACK_WORKSPACE ?= ..
+export DEVSTACK_WORKSPACE
+
 include *.mk
 
 # Generates a help message. Borrowed from https://github.com/pydanny/cookiecutter-djangopackage.
