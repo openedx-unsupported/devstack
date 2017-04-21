@@ -14,9 +14,6 @@ docker-compose exec lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/ap
 #Installing prereqs crashes the process
 docker-compose restart lms
 
-# Run edxapp migrations first since they are needed for the service users and OAuth clients
-docker-compose exec lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && NO_PREREQ_INSTALL=1 paver update_db --settings devstack_docker'
-
 # Create a superuser for edxapp
 docker-compose exec lms bash -c 'source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack_docker manage_user edx edx@example.com --superuser --staff'
 docker-compose exec lms bash -c 'source /edx/app/edxapp/edxapp_env && echo "from django.contrib.auth import get_user_model; User = get_user_model(); user = User.objects.get(username=\"edx\"); user.set_password(\"edx\"); user.save()" | python /edx/app/edxapp/edx-platform/manage.py lms shell  --settings=devstack_docker'
