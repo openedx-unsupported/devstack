@@ -16,10 +16,14 @@ requirements: ## Install requirements
 dev.clone: ## Clone service repos to the parent directory
 	./clone.sh
 
-dev.provision.run: ## Provision all services with local mounted directories
+dev.provision.all: ## Provision all services with local mounted directories
 	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml" ./provision.sh
 
-dev.provision: | dev.provision.run stop ## Provision dev environment with all services stopped
+dev.provision.edxapp: ## Provision all services with local mounted directories
+	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml" ./provision.sh --edxapp
+
+dev.provision.edxapp: | dev.provision.edxapp stop ## Provision dev environment with edxapp only
+dev.provision: | dev.provision.all stop ## Provision dev environment with all services
 
 dev.up: ## Bring up all services with host volumes
 	docker-compose -f docker-compose.yml -f docker-compose-host.yml up -d

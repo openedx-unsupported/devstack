@@ -16,7 +16,7 @@ before_install:
   - make dev.clone
 
 script:
-  - make dev.provision
+  - make dev.provision.edxapp
   - make dev.up
   - sleep 60 # LMS needs like 60 seconds to come up
   - make healthchecks
