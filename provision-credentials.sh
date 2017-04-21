@@ -1,1 +1,1 @@
-./provision-ida.sh credentials 18150
+time ./provision-ida.sh credentials 18150
