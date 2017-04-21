@@ -3,7 +3,7 @@ docker-compose up -d mysql
 
 # Ensure the MySQL server is online and usable
 echo "Waiting for MySQL"
-until docker-compse exec mysql mysql -uroot -se "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = 'root')" &> /dev/null
+until docker-compose exec mysql mysql -uroot -se "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = 'root')" &> /dev/null
 do
   printf "."
   sleep 1
@@ -16,5 +16,5 @@ sleep 20
 echo -e "MySQL ready"
 
 echo -e "${GREEN}Creating databases and users...${NC}"
-docker-compose exec mysql mysql -uroot mysql < provision.sql
+docker exec -i edx.devstack.mysql mysql -uroot mysql < provision.sql
 docker-compose stop mysql
