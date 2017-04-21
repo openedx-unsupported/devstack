@@ -18,12 +18,13 @@ dev.clone: ## Clone service repos to the parent directory
 
 dev.provision.all: ## Provision all services with local mounted directories
 	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml" ./provision.sh
+	stop
 
-dev.provision.edxapp: ## Provision all services with local mounted directories
+dev.provision.edxapp: ## Provision dev environment with edxapp only
 	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml" ./provision.sh --edxapp
+	stop
 
-dev.provision.edxapp: | dev.provision.edxapp stop ## Provision dev environment with edxapp only
-dev.provision: | dev.provision.all stop ## Provision dev environment with all services
+dev.provision: dev.provision.all ## Alias for dev.provision.all
 
 dev.up: ## Bring up all services with host volumes
 	docker-compose -f docker-compose.yml -f docker-compose-host.yml up -d
