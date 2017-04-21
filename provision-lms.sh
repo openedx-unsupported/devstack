@@ -2,6 +2,10 @@ set -e
 set -o pipefail
 set -x
 
+time docker-compose $DOCKER_COMPOSE_FILES up -d mysql mongo
+
+sleep 20
+
 # Load database dumps for the largest databases to save time
 ./load-db.sh edxapp
 ./load-db.sh edxapp_csmh
