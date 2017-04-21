@@ -35,13 +35,13 @@ sleep 20
 echo -e "MySQL ready"
 
 echo -e "${GREEN}Creating databases and users...${NC}"
-docker exec -i edx.devstack.mysql mysql -uroot mysql < provision.sql
-docker exec -i edx.devstack.mongo mongo < mongo-provision.js
+time docker exec -i edx.devstack.mysql mysql -uroot mysql < provision.sql
+time docker exec -i edx.devstack.mongo mongo < mongo-provision.js
 
 ./provision-lms.sh
 
 # Nothing special needed for studio
-docker-compose $DOCKER_COMPOSE_FILES up -d studio
+time docker-compose $DOCKER_COMPOSE_FILES up -d studio
 
 ./provision-ecommerce.sh
 ./provision-discovery.sh
