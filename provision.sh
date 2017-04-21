@@ -26,7 +26,7 @@ NC='\033[0m' # No Color
 # Nothing special needed for studio
 docker-compose $DOCKER_COMPOSE_FILES up -d studio
 
-if [ "$1" -eq "--edxapp-only"]
+if [ "$1" == "--edxapp" ]
 then exit 0
 fi
 
