@@ -9,7 +9,7 @@ set -x
 # Bring LMS online
 docker-compose $DOCKER_COMPOSE_FILES up -d lms
 
-docker-compose exec lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && paver install_prereqs'
+docker-compose exec lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && NO_PYTHON_UNINSTALL=1 paver install_prereqs'
 
 #Installing prereqs crashes the process
 docker-compose restart lms
