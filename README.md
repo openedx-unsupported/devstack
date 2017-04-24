@@ -228,7 +228,9 @@ Add a new Run/Debug Configuration of type "Django server", with the following op
     * PYTHONUNBUFFERED=1
 5. Python Interpreter: Choose the Docker Compose interpreter for this service.
 6. Working directory: /edx/app/edxapp/edx-platform
-7. Path mappings: /Users/<username>/edx-docker/edx-platform=/edx/app/edxapp/edx-platform
+7. Path mappings (add mapping):
+    * Local path: LOCAL/PATH/TO/edx-platform (e.g. ~/edx/edx-platform)
+    * Remote path: /edx/app/edxapp/edx-platform
 8. Deselect "Add content..." and "Add source..."
 
 ### Setup a Django tests Run/Debug Configuration for LMS or Studio
@@ -241,7 +243,9 @@ To run and debug unit tests, create a "Django tests" type Run/Dubug configuratio
    * DISABLE_MIGRATIONS=1
    * PYTHONUNBUFFERED=1
 3. Working directory: /edx/app/edxapp/edx-platform
-4. Path mappings: /Users/<username>/edx-docker/edx-platform=/edx/app/edxapp/edx-platform
+4. Path mappings (add mapping):
+    * Local path: LOCAL/PATH/TO/edx-platform (e.g. ~/edx/edx-platform)
+    * Remote path: /edx/app/edxapp/edx-platform
 5. Deselect "Add content..." and "Add source..."
 
 **Tip**: You can adjust the default configuration if you will be replicating this.
