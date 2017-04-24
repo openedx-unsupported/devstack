@@ -183,9 +183,11 @@ Python Interpreter dialog, use the following options:
 * If you need to add a server (e.g. Docker for Mac), you should be able to Add and choose defaults.
    * On a Mac, you'll need to use "API URL: unix:///var/run/docker.sock" (with 3 slashes).
 * Configuration files(s), choose:
-   * /Users/USERNAME/edx-docker/devstack/docker-compose.yml
-   * /Users/USERNAME/edx-docker/devstack/docker-compose-host.yml
+   * /LOCAL/PATH/TO/devstack/docker-compose.yml (e.g. ~/edx/devstack/docker-compose.yml)
+   * /LOCAL/PATH/TO/devstack/docker-compose-host.yml
 * Service: lms (or whatever IDE you wish to test)
+* Environment variables:
+   * DEVSTACK_WORKSPACE=/LOCAL/PARENT/PATH/TO(/devstack) (e.g. ~/edx)
 * Python interpreter path:
    * The remote path should be set to the service's virtual environment:
        * /edx/app/<service>/venvs/<service>/bin/python
@@ -229,7 +231,7 @@ Add a new Run/Debug Configuration of type "Django server", with the following op
 5. Python Interpreter: Choose the Docker Compose interpreter for this service.
 6. Working directory: /edx/app/edxapp/edx-platform
 7. Path mappings (add mapping):
-    * Local path: LOCAL/PATH/TO/edx-platform (e.g. ~/edx/edx-platform)
+    * Local path: /LOCAL/PATH/TO/edx-platform (e.g. ~/edx/edx-platform)
     * Remote path: /edx/app/edxapp/edx-platform
 8. Deselect "Add content..." and "Add source..."
 
