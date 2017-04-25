@@ -1,6 +1,9 @@
 .DEFAULT_GOAL := help
 
 DEVSTACK_WORKSPACE ?= ..
+
+OS := $(shell uname)
+
 export DEVSTACK_WORKSPACE
 
 include *.mk
@@ -32,7 +35,8 @@ dev.sync.provision: | dev.sync.daemon.start dev.provision ## Provision with dock
 dev.sync.requirements: ## Install requirements
 	gem install docker-sync
 
-dev.sync.up: | dev.sync.daemon.start dev.up ## Bring up all services with docker-sync enabled
+dev.sync.up: dev.sync.daemon.start ## Bring up all services with docker-sync enabled
+	docker-compose -f docker-compose.yml -f docker-compose-sync.yml up -d
 
 provision: ## Provision all services using the Docker volume
 	./provision.sh
