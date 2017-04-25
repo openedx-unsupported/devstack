@@ -94,6 +94,14 @@ Catalog/Course Discovery Service, you can run:
 make discovery-shell
 ```
 
+To see logs from containers running in detached mode, you can either use
+"Kitematic" (available from the "Docker for Mac" menu), or by running the
+following:
+
+```sh
+make logs
+```
+
 To reset your environment and start provisioning from scratch, you can run:
 
 ```sh
