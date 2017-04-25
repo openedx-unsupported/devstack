@@ -48,6 +48,9 @@ down: ## Remove all service containers and networks
 destroy: ## Remove all devstack-related containers, networks, and volumes
 	./destroy.sh
 
+logs: ## View logs from containers running in detached mode
+	docker-compose logs -f
+
 pull: ## Update Docker images
 	docker-compose pull
 
