@@ -99,6 +99,8 @@ services:
       - mysql
       - memcached
       - mongo
+    environment:
+      NO_PYTHON_UNINSTALL: 1
     image: edxops/edxapp:latest
     ports:
       - "18000:18000"
@@ -110,6 +112,8 @@ services:
       - mysql
       - memcached
       - mongo
+    environment:
+      NO_PYTHON_UNINSTALL: 1
     image: edxops/edxapp:latest
     ports:
       - "18010:18010"
