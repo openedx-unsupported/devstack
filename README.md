@@ -169,6 +169,36 @@ those outside of edX. For details on getting things up and running, see
 https://openedx.atlassian.net/wiki/display/ENG/Marketing+Site.
 
 
+## How do I build images?
+
+We are still working on automated image builds, but generally try to push new images every 3-7 days. If you want to
+build the images on your own, the Dockerfiles are available in the `edx/configuration` repo.
+
+NOTES
+
+1. edxapp is the only service whose changes have been merged to the master branch.
+2. edxapp uses the `latest` tag. All other services use the `devstack` tag.
+
+
+```sh
+git checkout master
+git pull
+docker build -f docker/build/edxapp/Dockerfile . -t edxops/edxapp:latest
+```
+
+```sh
+git checkout clintonb/docker-devstack-idas
+git pull
+docker build -f docker/build/ecommerce/Dockerfile . -t edxops/ecommerce:devstack
+```
+
+The build commands above will use your local configuration, but pull application code from the master branch of the
+application's repository. If you would like to use code from another branch/tag/hash, modify the `*_VERSION` variable
+that lives in the `ansible_overrides.yml` file beside the `Dockerfile`.
+
+For example, if you wanted to build tag `release-2017-03-03` for the E-Commerce Service, you would modify
+`ECOMMERCE_VERSION` in `docker/build/ecommerce/ansible_overrides.yml`.
+
 [Docker Compose]: https://docs.docker.com/compose/
 [Docker Sync installation instructions]: https://github.com/EugenMayer/docker-sync/wiki/1.-Installation
 [Docker Sync]: https://github.com/EugenMayer/docker-sync/wiki
