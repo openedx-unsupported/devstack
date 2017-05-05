@@ -3,7 +3,7 @@ version: "2.1"
 services:
   marketing:
     volumes:
-      - marketing-sync:/var/www/html:rw
+      - marketing-sync:/var/www/html:nocopy
 
 volumes:
   marketing-sync:

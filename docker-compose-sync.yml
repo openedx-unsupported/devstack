@@ -3,19 +3,19 @@ version: "2.1"
 services:
   credentials:
     volumes:
-      - credentials-sync:/edx/app/credentials/credentials:rw
+      - credentials-sync:/edx/app/credentials/credentials:nocopy
   discovery:
     volumes:
-      - discovery-sync:/edx/app/discovery/discovery:rw
+      - discovery-sync:/edx/app/discovery/discovery:nocopy
   ecommerce:
     volumes:
-      - ecommerce-sync:/edx/app/ecommerce/ecommerce:rw
+      - ecommerce-sync:/edx/app/ecommerce/ecommerce:nocopy
   lms:
     volumes:
-      - edxapp-sync:/edx/app/edxapp/edx-platform:rw
+      - edxapp-sync:/edx/app/edxapp/edx-platform:nocopy
   studio:
     volumes:
-      - edxapp-sync:/edx/app/edxapp/edx-platform:rw
+      - edxapp-sync:/edx/app/edxapp/edx-platform:nocopy
 
 volumes:
   credentials-sync:
