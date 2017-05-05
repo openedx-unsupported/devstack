@@ -8,8 +8,8 @@ then
     echo
     if [[ "$OSTYPE" == "darwin"* ]]; then
         set +e
-        docker-sync-daemon stop
-        docker-sync-daemon clean
+        docker-sync stop
+        docker-sync clean
         set -e
     fi
     docker-compose down -v

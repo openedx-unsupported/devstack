@@ -28,7 +28,7 @@ dev.up: ## Bring up all services with host volumes
 	docker-compose -f docker-compose.yml -f docker-compose-host.yml up -d
 
 dev.sync.daemon.start: ## Start the docker-sycn daemon
-	docker-sync-daemon start
+	docker-sync start
 
 dev.sync.provision: | dev.sync.daemon.start dev.provision ## Provision with docker-sync enabled
 
@@ -42,11 +42,11 @@ provision: ## Provision all services using the Docker volume
 	./provision.sh
 
 stop: ## Stop all services
-	(test -d .docker-sync && docker-sync-daemon stop) || true ## Ignore failure here
+	(test -d .docker-sync && docker-sync stop) || true ## Ignore failure here
 	docker-compose stop
 
 down: ## Remove all service containers and networks
-	test -d .docker-sync && docker-sync-daemon clean
+	test -d .docker-sync && docker-sync clean
 	docker-compose down
 
 destroy: ## Remove all devstack-related containers, networks, and volumes
