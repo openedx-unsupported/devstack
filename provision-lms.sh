@@ -1,4 +1,3 @@
-set -e
 set -o pipefail
 set -x
 
@@ -6,6 +5,7 @@ set -x
 ./load-db.sh edxapp
 ./load-db.sh edxapp_csmh
 
+set -e
 # Bring LMS online
 docker-compose $DOCKER_COMPOSE_FILES up -d lms
 
