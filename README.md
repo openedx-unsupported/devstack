@@ -168,6 +168,111 @@ Docker Compose files useful for integrating with the edx.org marketing site are 
 those outside of edX. For details on getting things up and running, see
 https://openedx.atlassian.net/wiki/display/ENG/Marketing+Site.
 
+## PyCharm Integration
+
+A number of edX engineers develop using [PyCharm][]. As of version 2017.1, JetBrains has greatly improved PyCharm's
+integration with Docker and Docker Compose. Note that Docker integration is only supported in the Professional edition.
+
+See additional information and tips for [PyCharm IDE setup][].
+
+**Warning**: It is important to ensure that all Docker images are stopped outside of PyCharm before starting a server or
+tests from inside PyCharm.  PyCharm will potentially disable the start button with no further error when this problem
+occurs.  See [Jetbrains ticket PY-22893][].
+
+**Warning**: If you are on a Mac, make sure you are on a newer version than macOS Yosemite.  A this time, this should
+work with either El Capitan or Sierra.
+
+
+### Setup a Remote Interpreter
+
+Follow the [vendor documentation][] for the necessary steps to add a Docker Compose remote interpreter.  In the Remote
+Python Interpreter dialog, use the following options:
+
+* If you need to add a server (e.g. Docker for Mac), you should be able to Add and choose defaults.
+   * On a Mac, you'll need to use "API URL: unix:///var/run/docker.sock" (with 3 slashes).
+* Configuration files(s), choose:
+   * /LOCAL/PATH/TO/devstack/docker-compose.yml (e.g. ~/edx/devstack/docker-compose.yml)
+   * /LOCAL/PATH/TO/devstack/docker-compose-host.yml
+* Service: lms (or whatever IDE you wish to test)
+* Environment variables:
+   * DEVSTACK_WORKSPACE=/LOCAL/PARENT/PATH/TO(/devstack) (e.g. ~/edx)
+* Python interpreter path:
+   * The remote path should be set to the service's virtual environment:
+       * /edx/app/<service>/venvs/<service>/bin/python
+   * For example, the path would be the following for the Credentials Service:
+       * /edx/app/credentials/venvs/credentials/bin/python
+   * For either lms or studio, you need to use edxapp:
+       * /edx/app/edxapp/venvs/edxapp/bin/python
+* PyCharm helpers path: Keep the default.
+
+**Note**: For lms and studio (edx-platform), it will take a long time to update skeletons (10 or more minutes).  If you
+  want to try a different set of configuration (compose) files, I recommend you create a new one so you can easily
+  switch back to old without this delay.
+**Warning**: We have not yet gotten this to work with docker-sync.  In theory, you would replace docker-compose-host.yml
+  above with docker-compose-sync.yml.  You will also need to first run "docker-sync start" to run sync in the background.
+**Warning**: When you change configuration files, the service dropdown gets reset.  Remember to restore to the IDA you wish
+  to test.
+
+
+### Setup a Server Run/Debug Configuration
+
+After configuring the interpreter, you should setup a [Django Server Run/Debug Configuration][]. Note that there are
+some specific values that should be used for this configuration.
+
+The host should always be set to `0.0.0.0` so that Django accepts requests from external clients (e.g. your Docker
+host). The port should be set to the service-specific port from the table above.
+
+*Note*: See next section for additional changes needed for LMS and Studio.
+
+### Setup a Server Run/Debug Configuration for LMS or Studio
+
+For LMS and Studio, the setup is a hack because we (unfortunately) modified `manage.py`. (We should fix this!!!)
+
+Add a new Run/Debug Configuration of type "Django server", with the following options:
+
+1. Leave host/port blank
+2. Additional options: runserver 0.0.0.0:18000 (or runserver 0.0.0.0:18010)
+3. Custom run command: lms (or cms)
+4. Environment variables, add the following for lms/studio:
+    * DJANGO_SETTINGS_MODULE=lms.envs.devstack_docker (or cms.envs.devstack_docker)
+    * PYTHONUNBUFFERED=1
+5. Python Interpreter: Choose the Docker Compose interpreter for this service.
+6. Working directory: /edx/app/edxapp/edx-platform
+7. Path mappings (add mapping):
+    * Local path: /LOCAL/PATH/TO/edx-platform (e.g. ~/edx/edx-platform)
+    * Remote path: /edx/app/edxapp/edx-platform
+8. Deselect "Add content..." and "Add source..."
+
+### Setup a Django tests Run/Debug Configuration for LMS or Studio
+
+To run and debug unit tests, create a "Django tests" type Run/Dubug configuration with the following options:
+
+1. Target: lms.djangoapps.grades.tests.test_grades:TestGradeIteration
+2. Environment Variables:
+   * DJANGO_SETTINGS_MODULE=lms.envs.test_docker
+   * DISABLE_MIGRATIONS=1
+   * PYTHONUNBUFFERED=1
+3. Working directory: /edx/app/edxapp/edx-platform
+4. Path mappings (add mapping):
+    * Local path: LOCAL/PATH/TO/edx-platform (e.g. ~/edx/edx-platform)
+    * Remote path: /edx/app/edxapp/edx-platform
+5. Deselect "Add content..." and "Add source..."
+
+**Tip**: You can adjust the default configuration if you will be replicating this.
+
+# TODO: Fix Cython for debug
+
+## Remaining Work
+
+There is still work to be done before this is ready for full release to the
+Open edX community. Here are the major items:
+
+* [ ] Align with or revise [OEP-5][]
+* [ ] Finish provisioning all services
+* [ ] Load demo data
+* [ ] PyCharm debugging
+* [x] Merge [devstack settings for edxapp][], and reactivate host volume
+
 
 ## How do I build images?
 
@@ -207,3 +312,9 @@ For example, if you wanted to build tag `release-2017-03-03` for the E-Commerce 
 [OEP-5]: http://open-edx-proposals.readthedocs.io/en/latest/oep-0005.html
 [Supervisor]: http://supervisord.org/
 [configuring Docker for Mac]: https://docs.docker.com/docker-for-mac/#/advanced
+[devstack settings for edxapp]: https://github.com/edx/edx-platform/pull/14376
+[PyCharm]: https://www.jetbrains.com/pycharm/
+[vendor documentation]: https://www.jetbrains.com/help/pycharm/2017.1/configuring-remote-interpreters-via-docker-compose.html
+[Django Server Run/Debug Configuration]: https://www.jetbrains.com/help/pycharm/2017.1/run-debug-configuration-django-server.html
+[Jetbrains ticket PY-22893]: https://youtrack.jetbrains.com/issue/PY-22893
+[PyCharm IDE setup]: https://openedx.atlassian.net/wiki/display/ENG/PyCharm
