@@ -37,7 +37,8 @@ before provisioning.
 All of the services can be run by following the steps below. Note that since we
 are running many containers, you should configure Docker with a sufficient
 amount of resources. Our testing found that [configuring Docker for Mac][] with
-2 CPUs and 4GB of memory works well.
+half of system capacity works well. For example, if you have 8 cores and 16 GB of
+memory, configure Docker with 4 cores (CPUs) and 8 GB of memory.
 
 1.  The Docker Compose file mounts a host volume for each service's executing
     code. The host directory is defaults to be a sibling of this directory. For
