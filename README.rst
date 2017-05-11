@@ -38,7 +38,7 @@ Getting Started
 All of the services can be run by following the steps below. Note that since we
 are running many containers, you should configure Docker with a sufficient
 amount of resources. Our testing found that `configuring Docker for Mac`_ with
-2 CPUs and 4GB of memory works well.
+a minimum of 2 CPUs and 4GB of memory works well.
 
 1. The Docker Compose file mounts a host volume for each service's executing
    code. The host directory is defaults to be a sibling of this directory. For
@@ -220,6 +220,38 @@ variable that lives in the ``ansible_overrides.yml`` file beside the
 For example, if you wanted to build tag ``release-2017-03-03`` for the
 E-Commerce Service, you would modify ``ECOMMERCE_VERSION`` in
 ``docker/build/ecommerce/ansible_overrides.yml``.
+
+Troubleshooting
+---------------
+
+
+If you are having trouble with your containers there are a few steps you can
+take to try to resolve.
+
+Update the code and images
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Make sure you have the latest code and Docker images. Run ``make pull`` in the
+devstack directory to pull the latest Docker images. We infrequently make
+changes to the Docker Compose configuration and provisioning scripts. Run ``git
+pull`` in the devstack directory to pull the latest configuration and scripts.
+The images are built from the master branches of the application repositories.
+Make sure you are using the latest code from the master branches, or have
+rebased your branches on master.
+
+Clean the containers
+~~~~~~~~~~~~~~~~~~~~
+
+Sometimes containers end up in strange states and need to be rebuilt. Run
+``make down`` to remove all containers and networks. This will NOT remove your
+data volumes.
+
+Start over
+~~~~~~~~~~
+
+If you want to completely start over, run ``make destroy``. This will remove
+all containers, networks, AND data volumes.
+
 
 .. _Docker Compose: https://docs.docker.com/compose/
 .. _Docker for Mac: https://docs.docker.com/docker-for-mac/
