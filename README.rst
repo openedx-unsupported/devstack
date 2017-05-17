@@ -228,6 +228,13 @@ Troubleshooting
 If you are having trouble with your containers there are a few steps you can
 take to try to resolve.
 
+Check the logs
+~~~~~~~~~~~~~~
+
+If a container stops unexpectedly, you can look at its logs for clues::
+
+    docker-compose logs lms
+
 Update the code and images
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
