@@ -198,6 +198,8 @@ NOTES
 1. edxapp is the only service whose changes have been merged to the master
    branch.
 2. edxapp uses the ``latest`` tag. All other services use the ``devstack`` tag.
+3. We are experimenting with hosting a ``Dockerfile`` in the ``edx/credentials`` repository.
+   See that repo for more information.
 
 .. code:: sh
 
