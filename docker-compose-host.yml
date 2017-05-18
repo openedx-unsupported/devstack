@@ -3,16 +3,16 @@ version: "3"
 services:
   credentials:
     volumes:
-      - ${DEVSTACK_WORKSPACE}/credentials:/edx/app/credentials/credentials
+      - ${DEVSTACK_WORKSPACE}/credentials:/edx/app/credentials/credentials:cached
   discovery:
       volumes:
-      - ${DEVSTACK_WORKSPACE}/course-discovery:/edx/app/discovery/discovery
+      - ${DEVSTACK_WORKSPACE}/course-discovery:/edx/app/discovery/discovery:cached
   ecommerce:
     volumes:
-      - ${DEVSTACK_WORKSPACE}/ecommerce:/edx/app/ecommerce/ecommerce
+      - ${DEVSTACK_WORKSPACE}/ecommerce:/edx/app/ecommerce/ecommerce:cached
   lms:
     volumes:
-      - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform
+      - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform:cached
   studio:
     volumes:
-      - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform
+      - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform:cached
