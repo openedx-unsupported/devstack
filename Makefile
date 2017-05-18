@@ -76,6 +76,9 @@ restore:  ## Restore all data volumes from the host. WARNING: THIS WILL OVERWRIT
 %-shell: ## Run a shell on the specified service container
 	docker exec -it edx.devstack.$* env TERM=$(TERM) /edx/app/$*/devstack.sh open
 
+credentials-shell: ## Run a shell on the credentials container
+	docker exec -it edx.devstack.credentials env TERM=$(TERM) bash
+
 lms-shell: ## Run a shell on the LMS container
 	docker exec -it edx.devstack.lms env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
 

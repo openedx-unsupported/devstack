@@ -55,14 +55,17 @@ services:
 
   # edX services
   credentials:
-    command: bash -c 'source /edx/app/credentials/credentials_env && python /edx/app/credentials/credentials/manage.py runserver 0.0.0.0:18150'
+    command: bash -c 'python /edx/app/credentials/credentials/manage.py runserver 0.0.0.0:18150'
     container_name: edx.devstack.credentials
     depends_on:
       - mysql
       - memcached
     environment:
+      CACHE_LOCATION: edx.devstack.memcached:12211
+      DB_HOST: edx.devstack.mysql
+      SOCIAL_AUTH_EDX_OIDC_URL_ROOT: http://edx.devstack.lms:18000/oauth2
       ENABLE_DJANGO_TOOLBAR: 1
-    image: edxops/credentials:devstack
+    image: edxops/credentials:devstack-slim
     ports:
       - "18150:18150"
 

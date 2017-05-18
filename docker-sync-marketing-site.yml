@@ -11,7 +11,7 @@ options:
 syncs:
   credentials-sync:
     src: '../credentials/'
-    sync_excludes: [ '.git', '.idea', 'node_modules', 'credentials/assets', 'credentials/static/bundles' ]
+    sync_excludes: [ '.git', '.idea', 'node_modules', 'credentials/assets', 'credentials/static/bundles', 'webpack-stats.json' ]
 
   discovery-sync:
     src: '../course-discovery/'

@@ -45,8 +45,6 @@ docker-compose $DOCKER_COMPOSE_FILES up -d studio
 
 ./provision-ecommerce.sh
 ./provision-discovery.sh
-./provision-ida.sh credentials 18150
-
-# TODO Create credentials tenant (ECOM-6566)
+./provision-credentials.sh
 
 echo -e "${GREEN}Provisioning complete!${NC}"
