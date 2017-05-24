@@ -7,16 +7,16 @@ options:
 syncs:
   credentials-sync:
     src: '../credentials/'
-    sync_excludes: [ '.git', '.idea', 'node_modules', 'credentials/assets', 'credentials/static/bundles', 'webpack-stats.json' ]
+    sync_excludes: [ '.git', '.idea' ]
 
   discovery-sync:
     src: '../course-discovery/'
-    sync_excludes: [ '.git', '.idea', 'node_modules', 'course_discovery/assets', 'course_discovery/static/bower_components', 'course_discovery/static/build' ]
+    sync_excludes: [ '.git', '.idea' ]
 
   ecommerce-sync:
     src: '../ecommerce/'
-    sync_excludes: [ '.git', '.idea', 'node_modules', 'assets', 'ecommerce/static/bower_components', 'ecommerce/static/build' ]
+    sync_excludes: [ '.git', '.idea' ]
 
   edxapp-sync:
     src: '../edx-platform/'
-    sync_excludes: [ '.git', '.idea', 'node_modules', '.prereqs_cache' ]
+    sync_excludes: [ '.git', '.idea' ]
