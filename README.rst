@@ -271,3 +271,45 @@ all containers, networks, AND data volumes.
 
 .. |Build Status| image:: https://travis-ci.org/edx/devstack.svg?branch=master
    :target: https://travis-ci.org/edx/devstack
+
+
+Common issues
+-------------
+
+
+File ownership change
+~~~~~~~~~~~~~~~~~~~~~
+
+If you notice that the ownership of some (maybe all) files have changed and you
+need to enter your root password when editing a file, that could be because you
+have pulled changes the remote repository from within a container. While running
+``git pull`` git changes the owner of the files that you pull to the user that runs
+that command, and within a container that is the root user, hence git operations
+should be ran outside of the container.
+To fix this change the owner back to yourself outside of the container by running:
+
+.. code:: sh
+
+  $ sudo chown <user>:<group> -R .
+
+Running LMS commands within a container
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Most of the ``paver`` commands require a settings flag, which if omitted defaults to
+``devstack`` which is the settings flag for vagrant-based devstack instances. Therefor
+if you run into issues running those command in a docker container you should append
+the ``devstack_docker`` flag. For example:
+
+.. code:: sh
+
+  $ paver update_assets --settings=devstack_docker
+
+Resource busy or locked
+~~~~~~~~~~~~~~~~~~~~~~~
+
+While running ``make static`` within the ecommerce container you could get an error
+saying:
+
+  Error: Error: EBUSY: resource busy or locked, rmdir '/edx/app/ecommerce/ecommerce/ecommerce/static/build/'
+
+To fix this, remove the directory manually outside of the container and run the command again.
