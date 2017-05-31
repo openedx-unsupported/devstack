@@ -223,6 +223,13 @@ For example, if you wanted to build tag ``release-2017-03-03`` for the
 E-Commerce Service, you would modify ``ECOMMERCE_VERSION`` in
 ``docker/build/ecommerce/ansible_overrides.yml``.
 
+PyCharm Integration
+-------------------
+
+
+`Pycharm Config`_
+
+
 Troubleshooting: General Tips
 -----------------------------
 
@@ -279,7 +286,7 @@ all containers, networks, AND data volumes.
 .. _Docker Sync: https://github.com/EugenMayer/docker-sync/wiki
 .. _Docker Sync installation instructions: https://github.com/EugenMayer/docker-sync/wiki/1.-Installation
 .. _configuring Docker for Mac: https://docs.docker.com/docker-for-mac/#/advanced
-
+.. _Pycharm Config: docs/pycharm_config.rst
 .. |Build Status| image:: https://travis-ci.org/edx/devstack.svg?branch=master
    :target: https://travis-ci.org/edx/devstack
 
