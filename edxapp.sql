@@ -19,6 +19,8 @@
 -- Current Database: `edxapp`
 --
 
+DROP DATABASE /*!32312 IF EXISTS*/ `edxapp`;
+
 CREATE DATABASE /*!32312 IF NOT EXISTS*/ `edxapp` /*!40100 DEFAULT CHARACTER SET utf8 */;
 
 USE `edxapp`;
