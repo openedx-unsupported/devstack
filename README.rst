@@ -99,6 +99,10 @@ Catalog/Course Discovery Service, you can run:
 
     make discovery-shell
 
+If you would like to use your own custom environment variables for the shell
+you can set them in the ``.term_envs.example`` file. More information can be
+found in that file.
+
 To see logs from containers running in detached mode, you can either use
 "Kitematic" (available from the "Docker for Mac" menu), or by running the
 following:
