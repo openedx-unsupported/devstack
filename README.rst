@@ -58,8 +58,8 @@ a minimum of 2 CPUs and 4GB of memory works well.
    services with superusers (for development without the auth service) and
    tenants (for multi-tenancy).
 
-   **Note** When running the provision command databases for all systems will be
-   dropped and recreated.
+   **Note** When running the provision command databases for ecommerce and edxapp
+   will be dropped and recreated.
 
    The username and password for the superusers are both "edx". You can access
    the services directly via Django admin at the ``/admin/`` path, or login via
