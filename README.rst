@@ -349,3 +349,16 @@ Or, you can run the following commands to clean up dangling images and volumes:
 
    docker rmi $(docker images -f "dangling=true" -q)
    docker volume rm $(docker volume ls -qf dangling=true)
+
+Sync does not have dest configuration value set
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you have an older version of the docker-sync gem, you may see an error like
+the following:
+
+.. code:: sh
+
+   /Users/USERNAME/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/docker-sync-0.2.1/lib/docker-sync/sync_manager.rb:95:in `block in validate_sync_config': credentials-sync does not have dest configuration value set - this is mandatory (RuntimeError)
+
+You can fix by following the docker-sync installation instructions again to
+update the gem.
