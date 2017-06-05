@@ -226,8 +226,8 @@ E-Commerce Service, you would modify ``ECOMMERCE_VERSION`` in
 Troubleshooting: General Tips
 -----------------------------
 
-If you are having trouble with your containers there are a few steps you can
-take to try to resolve.
+If you are having trouble with your containers there are a few general steps
+you can take to try to resolve.
 
 Check the logs
 ~~~~~~~~~~~~~~
@@ -239,13 +239,25 @@ If a container stops unexpectedly, you can look at its logs for clues::
 Update the code and images
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Make sure you have the latest code and Docker images. Run ``make pull`` in the
-devstack directory to pull the latest Docker images. We infrequently make
-changes to the Docker Compose configuration and provisioning scripts. Run ``git
-pull`` in the devstack directory to pull the latest configuration and scripts.
-The images are built from the master branches of the application repositories.
-Make sure you are using the latest code from the master branches, or have
-rebased your branches on master.
+Make sure you have the latest code and Docker images.
+
+Pull the latest Docker images by running the following command from the devstack
+directory:
+
+.. code:: sh
+
+   make pull
+
+Pull the latest Docker Compose configuration and provisioning scripts by running
+the following command from the devstack directory:
+
+.. code:: sh
+
+   git pull
+
+Lastly, the images are built from the master branches of the application
+repositories (e.g. edx-platform, ecommerce, etc.). Make sure you are using the
+latest code from the master branches, or have rebased your branches on master.
 
 Clean the containers
 ~~~~~~~~~~~~~~~~~~~~
