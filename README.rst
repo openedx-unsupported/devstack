@@ -223,9 +223,8 @@ For example, if you wanted to build tag ``release-2017-03-03`` for the
 E-Commerce Service, you would modify ``ECOMMERCE_VERSION`` in
 ``docker/build/ecommerce/ansible_overrides.yml``.
 
-Troubleshooting
----------------
-
+Troubleshooting: General Tips
+-----------------------------
 
 If you are having trouble with your containers there are a few steps you can
 take to try to resolve.
@@ -273,8 +272,8 @@ all containers, networks, AND data volumes.
    :target: https://travis-ci.org/edx/devstack
 
 
-Common issues
--------------
+Troubleshooting: Common issues
+------------------------------
 
 
 File ownership change
@@ -313,3 +312,28 @@ saying:
   Error: Error: EBUSY: resource busy or locked, rmdir '/edx/app/ecommerce/ecommerce/ecommerce/static/build/'
 
 To fix this, remove the directory manually outside of the container and run the command again.
+
+No space left on device
+~~~~~~~~~~~~~~~~~~~~~~~
+
+If you see the error "no space left on device" on a Mac, it means Docker has run
+out of space in its Docker.qcow2 file.
+
+Here is an example error while running `make pull`:
+
+.. code:: sh
+
+   ...
+   32d52c166025: Extracting [==================================================>] 1.598 GB/1.598 GB
+   ERROR: failed to register layer: Error processing tar file(exit status 1): write /edx/app/edxapp/edx-platform/.git/objects/pack/pack-4ff9873be2ca8ab77d4b0b302249676a37b3cd4b.pack: no space left on device
+   make: *** [pull] Error 1
+
+You can clean up data by running `docker system prune`, but you will first want
+to run `make dev.up` so it doesn't delete stopped containers.
+
+Or, you can run the following commands to clean up dangling images and volumes:
+
+.. code:: sh
+
+   docker rmi $(docker images -f "dangling=true" -q)
+   docker volume rm $(docker volume ls -qf dangling=true)
