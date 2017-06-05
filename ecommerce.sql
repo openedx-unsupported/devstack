@@ -19,6 +19,8 @@
 -- Current Database: `ecommerce`
 --
 
+DROP DATABASE /*!32312 IF EXISTS*/ `ecommerce`;
+
 CREATE DATABASE /*!32312 IF NOT EXISTS*/ `ecommerce` /*!40100 DEFAULT CHARACTER SET utf8 */;
 
 USE `ecommerce`;
