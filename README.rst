@@ -226,9 +226,7 @@ E-Commerce Service, you would modify ``ECOMMERCE_VERSION`` in
 PyCharm Integration
 -------------------
 
-
-`Pycharm Config`_
-
+See the `Pycharm Integration documentation`_.
 
 Troubleshooting: General Tips
 -----------------------------
@@ -279,21 +277,8 @@ Start over
 If you want to completely start over, run ``make destroy``. This will remove
 all containers, networks, AND data volumes.
 
-
-.. _Docker Compose: https://docs.docker.com/compose/
-.. _Docker for Mac: https://docs.docker.com/docker-for-mac/
-.. _Docker for Windows: https://docs.docker.com/docker-for-windows/
-.. _Docker Sync: https://github.com/EugenMayer/docker-sync/wiki
-.. _Docker Sync installation instructions: https://github.com/EugenMayer/docker-sync/wiki/1.-Installation
-.. _configuring Docker for Mac: https://docs.docker.com/docker-for-mac/#/advanced
-.. _Pycharm Config: docs/pycharm_config.rst
-.. |Build Status| image:: https://travis-ci.org/edx/devstack.svg?branch=master
-   :target: https://travis-ci.org/edx/devstack
-
-
 Troubleshooting: Common issues
 ------------------------------
-
 
 File ownership change
 ~~~~~~~~~~~~~~~~~~~~~
@@ -356,3 +341,13 @@ Or, you can run the following commands to clean up dangling images and volumes:
 
    docker rmi $(docker images -f "dangling=true" -q)
    docker volume rm $(docker volume ls -qf dangling=true)
+
+.. _Docker Compose: https://docs.docker.com/compose/
+.. _Docker for Mac: https://docs.docker.com/docker-for-mac/
+.. _Docker for Windows: https://docs.docker.com/docker-for-windows/
+.. _Docker Sync: https://github.com/EugenMayer/docker-sync/wiki
+.. _Docker Sync installation instructions: https://github.com/EugenMayer/docker-sync/wiki/1.-Installation
+.. _configuring Docker for Mac: https://docs.docker.com/docker-for-mac/#/advanced
+.. _Pycharm Integration documentation: docs/pycharm_integration.rst
+.. |Build Status| image:: https://travis-ci.org/edx/devstack.svg?branch=master
+   :target: https://travis-ci.org/edx/devstack
