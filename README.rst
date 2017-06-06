@@ -107,6 +107,13 @@ following:
 
     make logs
 
+To view the logs of a specific service container run ``make <service>-logs``.
+For example to access the logs for Ecommerce, you can run:
+
+.. code:: sh
+
+    make ecommerce-logs
+
 To reset your environment and start provisioning from scratch, you can run:
 
 .. code:: sh
