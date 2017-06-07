@@ -7,6 +7,8 @@ OS := $(shell uname)
 export DEVSTACK_WORKSPACE
 
 include *.mk
+CUSTOM_TERM_ENVS := $(shell cat .term_envs)
+
 
 # Generates a help message. Borrowed from https://github.com/pydanny/cookiecutter-djangopackage.
 help: ## Display this help message
@@ -77,16 +79,16 @@ restore:  ## Restore all data volumes from the host. WARNING: THIS WILL OVERWRIT
 # TODO: Print out help for this target. Even better if we can iterate over the
 # services in docker-compose.yml, and print the actual service names.
 %-shell: ## Run a shell on the specified service container
-	docker exec -it edx.devstack.$* env TERM=$(TERM) /edx/app/$*/devstack.sh open
+	docker exec -it edx.devstack.$* env TERM=$(TERM) $(CUSTOM_TERM_ENVS) /edx/app/$*/devstack.sh open
 
 credentials-shell: ## Run a shell on the credentials container
-	docker exec -it edx.devstack.credentials env TERM=$(TERM) bash
+	docker exec -it edx.devstack.credentials env TERM=$(TERM) $(CUSTOM_TERM_ENVS) bash
 
 lms-shell: ## Run a shell on the LMS container
-	docker exec -it edx.devstack.lms env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
+	docker exec -it edx.devstack.lms env TERM=$(TERM) $(CUSTOM_TERM_ENVS) /edx/app/edxapp/devstack.sh open
 
 studio-shell: ## Run a shell on the Studio container
-	docker exec -it edx.devstack.studio env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
+	docker exec -it edx.devstack.studio env TERM=$(TERM) $(CUSTOM_TERM_ENVS) /edx/app/edxapp/devstack.sh open
 
 healthchecks: ## Run a curl against all services' healthcheck endpoints to make sure they are up. This will eventually be parameterized
 	./healthchecks.sh
