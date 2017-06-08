@@ -95,3 +95,6 @@ validate-lms-volume: ## Validate that changes to the local workspace are reflect
 	touch $(DEVSTACK_WORKSPACE)/edx-platform/testfile
 	docker exec edx.devstack.lms ls /edx/app/edxapp/edx-platform/testfile
 	rm $(DEVSTACK_WORKSPACE)/edx-platform/testfile
+
+mysql-shell: ## Run a shell on the mysql container
+	docker-compose exec mysql bash
