@@ -8,7 +8,7 @@
 # - Every service's container name should be prefixed with "edx.devstack." to avoid conflicts with other containers
 #   that might be running for the same service.
 
-version: "3"
+version: "2.1"
 
 services:
   # Third-party services
