@@ -16,21 +16,22 @@ from within a VM.
 Prerequisites
 -------------
 
-This project was developed and tested using **Docker 1.13+**. If you are using
-macOS, please use `Docker for Mac`_. Previous Mac-based tools (e.g.
+This project requires **Docker 17.05+ CE**. Currently, 17.05 is only available
+through the **Edge** version Docker 17.05 CE Edge.
+
+For macOS users, please use `Docker for Mac`_. Previous Mac-based tools (e.g.
 boot2docker) are not supported.
 
 `Docker for Windows`_ may work but has not been tested and is *not supported*.
 
-Docker Sync
-~~~~~~~~~~~
+Docker Sync (Deprecated)
+~~~~~~~~~~~~~~~~~~~~~~~~
 
-Docker for Mac has known filesystem issues that significantly decrease
-performance. In order to mitigate these issues, we use `Docker Sync`_ to
-synchronize file data from the host machine to the containers.
+Our use of Docker Sync is now deprecated since Docker for Mac 17.04 introduced
+`performance improvements for volume mounts`_.
 
-If you are using macOS, please follow the `Docker Sync installation
-instructions`_ before provisioning.
+Docker for Mac had known filesystem issues that significantly decreased
+performance, and we were previously using `Docker Sync`_ to solve this issue.
 
 Getting Started
 ---------------
@@ -65,17 +66,14 @@ a minimum of 2 CPUs and 4GB of memory works well.
    the services directly via Django admin at the ``/admin/`` path, or login via
    single sign-on at ``/login/``.
 
-   Provision using docker-sync (recommended for macOS users)
-
-   .. code:: sh
-
-       make dev.sync.provision
-
-   Default (non-macOS users)
+   Default
 
    .. code:: sh
 
        make dev.provision
+
+   For macOS users, we will no longer be supporting docker-sync.  Ensure you
+   have a new enough version of Docker for Mac as detailed in `Prerequisites`_.
 
 
 3. Start the services. This command will mount the repositories under the
@@ -83,13 +81,13 @@ a minimum of 2 CPUs and 4GB of memory works well.
 
    *Note: it may take up to 60 seconds for the LMS to start*
 
-   Start using docker-sync (recommended for macOS users)
+   Start using docker-sync (Deprecated for macOS users. See `Prerequisites`_.)
 
    .. code:: sh
 
        make dev.sync.up
 
-   Default (non-macOS users)
+   Default
 
    .. code:: sh
 
@@ -199,6 +197,8 @@ https://openedx.atlassian.net/wiki/display/OpenDev/Marketing+Site.
 
 How do I build images?
 ----------------------
+
+**Note:** Building images requires a `feature added in Docker 17.05`_.
 
 We are still working on automated image builds, but generally try to push new
 images every 3-7 days. If you want to build the images on your own, the
@@ -357,8 +357,9 @@ Or, you can run the following commands to clean up dangling images and volumes:
 .. _Docker for Mac: https://docs.docker.com/docker-for-mac/
 .. _Docker for Windows: https://docs.docker.com/docker-for-windows/
 .. _Docker Sync: https://github.com/EugenMayer/docker-sync/wiki
-.. _Docker Sync installation instructions: https://github.com/EugenMayer/docker-sync/wiki/1.-Installation
 .. _configuring Docker for Mac: https://docs.docker.com/docker-for-mac/#/advanced
+.. _feature added in Docker 17.05: https://github.com/edx/configuration/pull/3864
+.. _performance improvements for volume mounts: https://docs.docker.com/docker-for-mac/osxfs-caching/
 .. _Pycharm Integration documentation: docs/pycharm_integration.rst
 .. |Build Status| image:: https://travis-ci.org/edx/devstack.svg?branch=master
    :target: https://travis-ci.org/edx/devstack
