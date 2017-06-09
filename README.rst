@@ -19,6 +19,10 @@ Prerequisites
 This project requires **Docker 17.05+ CE**. Currently, 17.05 is only available
 through the **Edge** version Docker 17.05 CE Edge.
 
+**Note:** Switching from Docker Stable to Docker Edge wil remove all images and
+settings.  Don't forget to restore your memory setting and be prepared to
+provision.
+
 For macOS users, please use `Docker for Mac`_. Previous Mac-based tools (e.g.
 boot2docker) are not supported.
 
