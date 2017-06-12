@@ -49,8 +49,7 @@ use the following options:
 
 - Environment variables:
 
-  - ``DEVSTACK_WORKSPACE=/LOCAL/PARENT/PATH/TO/devstack`` (e.g. ~/edx - without
-    "devstack")
+  - ``DEVSTACK_WORKSPACE=/LOCAL/PARENT/PATH/TO/workspace`` (i.e.: Path to where your local repositories are cloned)
 
 - Python interpreter path:
 
