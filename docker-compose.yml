@@ -23,6 +23,10 @@ services:
       - elasticsearch_data:/usr/share/elasticsearch/data
       - elasticsearch_data:/usr/share/elasticsearch/logs
 
+  firefox:
+    container_name: edx.devstack.firefox
+    image: selenium/standalone-firefox:2.53.1-beryllium
+
   memcached:
     container_name: edx.devstack.memcached
     image: memcached:1.4.24
@@ -103,10 +107,15 @@ services:
       - memcached
       - mongo
     environment:
+      BOK_CHOY_HOSTNAME: edx.devstack.lms
+      BOK_CHOY_LMS_PORT: 18003
+      BOK_CHOY_CMS_PORT: 18031
       NO_PYTHON_UNINSTALL: 1
     image: edxops/edxapp:latest
     ports:
       - "18000:18000"
+      # - "18003:18003"
+      # - "18031:18031"
 
   studio:
     command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py cms runserver 0.0.0.0:18010 --settings devstack_docker; sleep 2; done'
@@ -116,10 +125,15 @@ services:
       - memcached
       - mongo
     environment:
+      BOK_CHOY_HOSTNAME: edx.devstack.studio
+      BOK_CHOY_LMS_PORT: 18103
+      BOK_CHOY_CMS_PORT: 18131
       NO_PYTHON_UNINSTALL: 1
     image: edxops/edxapp:latest
     ports:
       - "18010:18010"
+      # - "18103:18103"
+      # - "18131:18131"
 
 volumes:
   elasticsearch_data:

@@ -23,4 +23,4 @@ syncs:
   edxapp-sync:
     host_disk_mount_mode: 'cached'
     src: '../edx-platform/'
-    sync_excludes: [ '.git', '.idea' ]
+    sync_excludes: [ '.idea' ]
