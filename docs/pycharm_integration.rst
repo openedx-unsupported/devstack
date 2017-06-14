@@ -129,8 +129,43 @@ following options:
 
 8. Deselect "Add content..." and "Add source..."
 
-Setup a Django tests Run/Debug Configuration for LMS or Studio
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Setup a Configuration to Run/Debug python tests for LMS or Studio
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To run and debug unit tests, create a "Django server" type Run/Dubug
+configuration with the following options:
+
+1. Host: "" (no text)
+
+2. Port: "" (no text)
+
+3. Additional Options: --settings test_docker test lms/djangoapps/courseware/tests/test_views.py
+
+4. Check "Custom run command:" and enter either ``lms`` or ``cms`` in to the text box.
+
+5. Environment Variables:
+
+    - DJANGO_SETTINGS_MODULE=lms.envs.test_docker
+    - DISABLE_MIGRATIONS=1
+    - PYTHONUNBUFFERED=1
+
+6. Python Interpreter: Choose the Docker Compose interpreter for this
+   service.
+
+7. Working directory: /edx/app/edxapp/edx-platform
+
+8. Path mappings (add mapping):
+
+   - Local path: LOCAL/PATH/TO/edx-platform (e.g. ~/edx/edx-platform)
+   - Remote path: /edx/app/edxapp/edx-platform
+
+9. Deselect "Add content..." and "Add source..."
+
+**Tip**: You can adjust the default configuration if you will be
+replicating this.
+
+Setup a Django tests Run/Debug Configuration for an IDA
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To run and debug unit tests, create a "Django tests" type Run/Dubug
 configuration with the following options:
