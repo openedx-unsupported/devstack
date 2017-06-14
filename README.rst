@@ -28,14 +28,23 @@ boot2docker) are not supported.
 
 `Docker for Windows`_ may work but has not been tested and is *not supported*.
 
-Docker Sync (Deprecated)
-~~~~~~~~~~~~~~~~~~~~~~~~
+Docker Sync
+~~~~~~~~~~~
 
-Our use of Docker Sync is now deprecated since Docker for Mac 17.04 introduced
-`performance improvements for volume mounts`_.
+Docker for Mac has known filesystem issues that significantly decrease
+performance, paticularly for starting edx-platform (e.g. when you want to run a
+test). In order to mitigate these issues, we use `Docker Sync`_ to synchronize
+file data from the host machine to the containers.
 
-Docker for Mac had known filesystem issues that significantly decreased
-performance, and we were previously using `Docker Sync`_ to solve this issue.
+If you are using macOS, please follow the `Docker Sync installation
+instructions`_ before provisioning.
+
+The performance improvements provided by `cached consistency mode for volume
+mounts`_ introduced in Docker CE Edge 17.04 are still not good enough. It's
+possible that the "delegated" consistency mode will be enough to no longer need
+docker-sync, but this feature doesn't appear to have been fully implemented yet
+(as of Docker 17.06.0-ce-rc2, "delegated" behaves the same as "cached").
+
 
 Getting Started
 ---------------
@@ -70,14 +79,17 @@ a minimum of 2 CPUs and 4GB of memory works well.
    the services directly via Django admin at the ``/admin/`` path, or login via
    single sign-on at ``/login/``.
 
-   Default
+   Provision using docker-sync (recommended for macOS users)
+
+   .. code:: sh
+
+       make dev.sync.provision
+
+   Default (non-macOS users)
 
    .. code:: sh
 
        make dev.provision
-
-   For macOS users, we will no longer be supporting docker-sync.  Ensure you
-   have a new enough version of Docker for Mac as detailed in `Prerequisites`_.
 
 
 3. Start the services. This command will mount the repositories under the
@@ -85,13 +97,13 @@ a minimum of 2 CPUs and 4GB of memory works well.
 
    *Note: it may take up to 60 seconds for the LMS to start*
 
-   Start using docker-sync (Deprecated for macOS users. See `Prerequisites`_.)
+   Start using docker-sync (recommended for macOS users)
 
    .. code:: sh
 
        make dev.sync.up
 
-   Default
+   Default (non-macOS users)
 
    .. code:: sh
 
@@ -361,9 +373,10 @@ Or, you can run the following commands to clean up dangling images and volumes:
 .. _Docker for Mac: https://docs.docker.com/docker-for-mac/
 .. _Docker for Windows: https://docs.docker.com/docker-for-windows/
 .. _Docker Sync: https://github.com/EugenMayer/docker-sync/wiki
+.. _Docker Sync installation instructions: https://github.com/EugenMayer/docker-sync/wiki/1.-Installation
+.. _cached consistency mode for volume mounts: https://docs.docker.com/docker-for-mac/osxfs-caching/
 .. _configuring Docker for Mac: https://docs.docker.com/docker-for-mac/#/advanced
 .. _feature added in Docker 17.05: https://github.com/edx/configuration/pull/3864
-.. _performance improvements for volume mounts: https://docs.docker.com/docker-for-mac/osxfs-caching/
 .. _Pycharm Integration documentation: docs/pycharm_integration.rst
 .. |Build Status| image:: https://travis-ci.org/edx/devstack.svg?branch=master
    :target: https://travis-ci.org/edx/devstack
