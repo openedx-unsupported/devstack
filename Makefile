@@ -30,6 +30,8 @@ dev.up: ## Bring up all services with host volumes
 dev.sync.daemon.start: ## Start the docker-sycn daemon
 	docker-sync start
 
+dev.sync.provision: | dev.sync.daemon.start dev.provision ## Provision with docker-sync enabled
+
 dev.sync.requirements: ## Install requirements
 	gem install docker-sync
 

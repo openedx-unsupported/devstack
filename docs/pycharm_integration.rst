@@ -35,7 +35,7 @@ use the following options:
 
 - Configuration files(s)
 
-  - Docker Sync (Deprecated for macOS users. See the `README`_.)
+  - Docker Sync (Mac)
 
     - ``/LOCAL/PATH/TO/devstack/docker-compose.yml`` (e.g.~/edx/devstack/docker-compose.yml)
     - ``/LOCAL/PATH/TO/devstack/docker-compose-sync.yml``
@@ -67,14 +67,16 @@ use the following options:
 
 - PyCharm helpers path: Keep the default.
 
-**Important** Docker sync is deprecated. See the `README`_. If you are still
-running with Docker Sync you will also need to first run ``docker-sync start``
-to run sync in the background before running any servers.
+
+**Important** If you are running with Docker Sync you will also need to first
+run ``docker-sync start`` to run sync in the background before running any servers.
+
 
 **Note**: For lms and studio (edx-platform), it will take a long time to
 update skeletons (10 or more minutes). If you want to try a different
 set of configuration (compose) files, we recommend you create a new one
 so you can easily switch back to old without this delay.
+
 
 **Warning**: When you change configuration files, the service dropdown gets
 reset. Remember to restore to the IDA you wish to test.
@@ -160,8 +162,7 @@ Currently not supported for PyCharm Development
 - Debugging for JavaScript
 - Cython for fasterdebug
 
-.. _Django Server Run/Debug Configuration: https://www.jetbrains.com/help/pycharm/2017.1/run-debug-configuration-django-server.html
 .. _PyCharm: https://www.jetbrains.com/pycharm/
 .. _PyCharm IDE setup: https://openedx.atlassian.net/wiki/display/ENG/PyCharm
-.. _README: ../README.rst
 .. _vendor documentation: https://www.jetbrains.com/help/pycharm/2017.1/configuring-remote-interpreters-via-docker-compose.html
+.. _Django Server Run/Debug Configuration: https://www.jetbrains.com/help/pycharm/2017.1/run-debug-configuration-django-server.html
