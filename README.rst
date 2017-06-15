@@ -222,11 +222,13 @@ Dockerfiles are available in the ``edx/configuration`` repo.
 
 NOTES
 
-1. edxapp is the only service whose changes have been merged to the master
-   branch.
-2. edxapp uses the ``latest`` tag. All other services use the ``devstack`` tag.
-3. We are experimenting with hosting a ``Dockerfile`` in the ``edx/credentials`` repository.
-   See that repo for more information.
+1. discovery and edxapp use the ``latest`` tag since their configuration changes have been merged to master branch of
+   ``edx/configuration``.
+2. We are experimenting with hosting a ``Dockerfile`` in the ``edx/credentials`` repository, hence the ``devstack-slim``
+   tag. See that repo for more information on building its image.
+3. All other services use the ``devstack`` tag and are build from the ``clintonb/docker-devstack-idas`` branch of
+   ``edx/configuration``.
+
 
 .. code:: sh
 
