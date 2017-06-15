@@ -79,7 +79,7 @@ services:
     environment:
       TEST_ELASTICSEARCH_URL: "http://edx.devstack.elasticsearch:9200"
       ENABLE_DJANGO_TOOLBAR: 1
-    image: edxops/discovery:devstack
+    image: edxops/discovery:latest
     ports:
       - "18381:18381"
 
