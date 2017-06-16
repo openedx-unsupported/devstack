@@ -1,29 +1,37 @@
 PyCharm Integration
--------------------
+===================
 
-The Professional edition of JetBrains `PyCharm`_ IDE, version 2017.1 or later,
+The Professional edition of JetBrains `PyCharm`_ IDE, version 2017.1.2 or later,
 can be used to develop and debug with Docker and Docker Compose.
 
 See additional information and tips for `PyCharm IDE setup`_.
 
+Prerequisites
+-------------
 
-**Important**: Please complete all the steps above for provisioning your
-Docker Devstack environment before proceeding with the following setup.
+1. You must complete all steps for provisioning your Docker Devstack environment
+   in the `README`_ before proceeding with the PyCharm setup.
 
+2. If you are on a Mac, make sure you are on a newer version than macOS
+   Yosemite. A this time, this should work with either El Capitan or Sierra.
 
-**Warning**: It is important to ensure that all Docker images are
-stopped outside of PyCharm before starting a server or tests from inside
-PyCharm. PyCharm will potentially disable the start button with no
-further error when this problem occurs. See `Jetbrains ticket
-PY-22893 <https://youtrack.jetbrains.com/issue/PY-22893>`__.
+Before running Run or Debug in PyCharm
+--------------------------------------
 
+Every time you run/debug a server or test in PyCharm, you must first ensure the
+following:
 
-**Warning**: If you are on a Mac, make sure you are on a newer version
-than macOS Yosemite. A this time, this should work with either El
-Capitan or Sierra.
+1. Ensure that all Docker images are stopped outside of PyCharm before starting
+   a server or tests from inside PyCharm. PyCharm will potentially disable the
+   start button with no further error when this problem occurs. See `Jetbrains
+   ticket PY-22893`_.
+
+2. If you are running with Docker Sync on a mac you will want to first run
+   ``docker-sync start`` to run sync in the background before running any
+   servers or tests.
 
 Setup a Remote Interpreter
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------
 
 Follow the `vendor documentation`_ for the necessary steps to add a Docker
 Compose remote interpreter. In the Remote Python Interpreter dialog,
@@ -67,26 +75,24 @@ use the following options:
 
 - PyCharm helpers path: Keep the default.
 
-
-**Important** If you are running with Docker Sync you will also need to first
-run ``docker-sync start`` to run sync in the background before running any servers.
-
-
 **Note**: For lms and studio (edx-platform), it will take a long time to
 update skeletons (10 or more minutes). If you want to try a different
 set of configuration (compose) files, we recommend you create a new one
 so you can easily switch back to old without this delay.
 
-
-**Warning**: When you change configuration files, the service dropdown gets
+**Warning**: When you change configuration files, the service drop-down gets
 reset. Remember to restore to the IDA you wish to test.
 
 Setup a Server Run/Debug Configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------------------
 
-After configuring the interpreter, you should setup a `Django Server
-Run/Debug Configuration`_. Note that there are some specific values that should
-be used for this configuration.
+The setup for Server Run/Debug Configurations depends on the service.
+
+Server Run/Debug Configuration for an IDA (not LMS or Studio)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+After configuring the interpreter, add a new `Django Server Run/Debug
+Configuration`_, with the following specific values.
 
 The host should always be set to ``0.0.0.0`` so that Django accepts
 requests from external clients (e.g. your Docker host). The port should
@@ -101,8 +107,8 @@ Setup a Server Run/Debug Configuration for LMS or Studio
 For LMS and Studio, the setup is a hack because we (unfortunately)
 modified ``manage.py``.
 
-Add a new Run/Debug Configuration of type "Django server", with the
-following options:
+After configuring the interpreter, add a new `Django Server Run/Debug
+Configuration`_, with the following specific values.
 
 1. Leave host/port blank
 
@@ -129,45 +135,19 @@ following options:
 
 8. Deselect "Add content..." and "Add source..."
 
-Setup a Configuration to Run/Debug python tests for LMS or Studio
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Setup a Run/Debug Configuration for python tests
+------------------------------------------------
 
-To run and debug unit tests, create a "Django server" type Run/Dubug
-configuration with the following options:
+The setup for a Run/Debug Configurations for python tests depends on the
+service.
 
-1. Host: "" (no text)
+**Tip**: You can adjust the default configuration with settings you are most
+likely to replicate.
 
-2. Port: "" (no text)
+Setup a Run/Debug Configuration for python tests for an IDA (not LMS or Studio)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-3. Additional Options: --settings test_docker test lms/djangoapps/courseware/tests/test_views.py
-
-4. Check "Custom run command:" and enter either ``lms`` or ``cms`` in to the text box.
-
-5. Environment Variables:
-
-    - DJANGO_SETTINGS_MODULE=lms.envs.test_docker
-    - DISABLE_MIGRATIONS=1
-    - PYTHONUNBUFFERED=1
-
-6. Python Interpreter: Choose the Docker Compose interpreter for this
-   service.
-
-7. Working directory: /edx/app/edxapp/edx-platform
-
-8. Path mappings (add mapping):
-
-   - Local path: LOCAL/PATH/TO/edx-platform (e.g. ~/edx/edx-platform)
-   - Remote path: /edx/app/edxapp/edx-platform
-
-9. Deselect "Add content..." and "Add source..."
-
-**Tip**: You can adjust the default configuration if you will be
-replicating this.
-
-Setup a Django tests Run/Debug Configuration for an IDA
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-To run and debug unit tests, create a "Django tests" type Run/Dubug
+To run and debug unit tests, create a **"Django tests"** type Run/Dubug
 configuration with the following options:
 
 1. Target: lms.djangoapps.grades.tests.test_grades:TestGradeIteration
@@ -187,17 +167,89 @@ configuration with the following options:
 
 5. Deselect "Add content..." and "Add source..."
 
-**Tip**: You can adjust the default configuration if you will be
-replicating this.
+Setup a Run/Debug Configuration for python tests for LMS or Studio
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To run and debug unit tests, create a **"Django server"** type Run/Dubug
+configuration (not "Django tests" as is done for IDAs) with the following
+options:
+
+1. Leave host/port blank
+
+2. Additional Options: --settings test_docker test lms/djangoapps/courseware/tests/test_views.py
+
+3. Check "Custom run command:" and enter either ``lms`` or ``cms`` in to the text box.
+
+4. Environment Variables:
+
+    - DJANGO_SETTINGS_MODULE=**lms.envs.test_docker** (or
+      cms.envs.test_docker)
+    - DISABLE_MIGRATIONS=1
+    - PYTHONUNBUFFERED=1
+
+5. Python Interpreter: Choose the Docker Compose interpreter for this
+   service.
+
+6. Working directory: /edx/app/edxapp/edx-platform
+
+7. Path mappings (add mapping):
+
+   - Local path: LOCAL/PATH/TO/edx-platform (e.g. ~/edx/edx-platform)
+   - Remote path: /edx/app/edxapp/edx-platform
+
+8. Deselect "Add content..." and "Add source..."
 
 Currently not supported for PyCharm Development
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------------------------------
 
 - Debugging for BokChoy
 - Debugging for JavaScript
 - Cython for fasterdebug
 
+Troubleshooting
+---------------
+
+General Tips
+~~~~~~~~~~~~
+
+1. Ensure that you have fulfilled all of the `Prerequisites`_.
+
+2. Ensure you have completed all steps in `Before running Run or Debug in
+   PyCharm`_ each time you run the server or tests.
+
+3. PyCharm is often fixing bugs around the relatively new docker-compose
+   integration.  If PyCharm has an update, install it.
+
+Can't create Python SDK
+~~~~~~~~~~~~~~~~~~~~~~~
+
+While working in PyCharm, you could see the following error:
+
+.. code-block::
+
+   The command '/bin/sh -c mv /user/bin/docker-compose /user/bin/docker-compose-original' returned a non-zero code: 1
+
+This issue has been fixed in PyCharm 2017.1.2.
+
+Project Interpreter has no packages
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you had added an interpreter that was working, but you can no longer see a
+list of packages for it under Preferences, you may need to refresh it.
+
+One way to do this is to follow these instructions:
+
+1. Go to Preferences => Project Interpreter
+
+2. Click the "..." button to the right of the "Project interpreter:" drop-down,
+   and choose "More...".
+
+3. Click the Edit button (pencil icon) at the bottom for the broken interpreter,
+   and then click OK on all dialogs, without making any edits.
+
+.. _Django Server Run/Debug Configuration: https://www.jetbrains.com/help/pycharm/2017.1/run-debug-configuration-django-server.html
+.. _Jetbrains ticket PY-22893: https://youtrack.jetbrains.com/issue/PY-22893
 .. _PyCharm: https://www.jetbrains.com/pycharm/
 .. _PyCharm IDE setup: https://openedx.atlassian.net/wiki/display/ENG/PyCharm
+.. _README: ../README.rst
 .. _vendor documentation: https://www.jetbrains.com/help/pycharm/2017.1/configuring-remote-interpreters-via-docker-compose.html
-.. _Django Server Run/Debug Configuration: https://www.jetbrains.com/help/pycharm/2017.1/run-debug-configuration-django-server.html
