@@ -252,6 +252,25 @@ For example, if you wanted to build tag ``release-2017-03-03`` for the
 E-Commerce Service, you would modify ``ECOMMERCE_VERSION`` in
 ``docker/build/ecommerce/ansible_overrides.yml``.
 
+How do I create database dumps?
+-------------------------------
+We use database dumps to speed up provisioning and generally spend less time running migrations. These dumps should be
+updated occasionally--when database migrations take a prolonged amount of time, or we want to incorporate changes that
+require manual intervention. The process below details how to update the database dumps.
+
+1. Destroy and/or backup the data for your existing devstack so that you start with a clean slate.
+2. Disable the loading of the existing database dumps during provisioning by commenting out any calls to ``load-db.sh``
+   in the provisioning scripts. This ensures that we start with a completely fresh database and incorporate any changes
+   that may have require some form of manual intervention for existing installations (e.g. drop/move tables).
+3. Provision devstack with ``make provision``.
+4. Dump the databases and open a pull request with your updates:
+
+.. code:: sh
+
+   ./dump-db.sh ecommerce
+   ./dump-db.sh edxapp
+   ./dump-db.sh edxapp_csmh
+
 PyCharm Integration
 -------------------
 
