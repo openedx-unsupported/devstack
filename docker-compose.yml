@@ -98,6 +98,9 @@ services:
     image: edxops/ecommerce:devstack
     ports:
       - "18130:18130"
+    stdin_open: true
+    tty: true
+    restart: "no"
 
   lms:
     command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py lms runserver 0.0.0.0:18000 --settings devstack_docker; sleep 2; done'
@@ -116,6 +119,9 @@ services:
       - "18000:18000"
       # - "18003:18003"
       # - "18031:18031"
+    stdin_open: true
+    tty: true
+    restart: "no"
 
   studio:
     command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py cms runserver 0.0.0.0:18010 --settings devstack_docker; sleep 2; done'
