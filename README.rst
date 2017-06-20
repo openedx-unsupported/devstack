@@ -276,6 +276,19 @@ PyCharm Integration
 
 See the `Pycharm Integration documentation`_.
 
+Running LMS and Studio Python tests
+-----------------------------------
+
+If you want to run Python tests inside the LMS or Studio container, you need to pass the
+``test_docker`` settings flag. Example:
+
+.. code:: sh
+
+    DISABLE_MIGRATIONS=1 ./manage.py lms test --settings=test_docker openedx.core.djangoapps.user_api
+
+You can also add the ``test_docker`` settings flag to the other examples detailed
+in the `edx-platform testing documentation`_.
+
 Troubleshooting: General Tips
 -----------------------------
 
@@ -399,6 +412,7 @@ Or, you can run the following commands to clean up dangling images and volumes:
 .. _configuring Docker for Mac: https://docs.docker.com/docker-for-mac/#/advanced
 .. _feature added in Docker 17.05: https://github.com/edx/configuration/pull/3864
 .. _Pycharm Integration documentation: docs/pycharm_integration.rst
+.. _edx-platform testing documentation: https://github.com/edx/edx-platform/blob/master/docs/testing.rst#running-python-unit-tests
 .. |Build Status| image:: https://travis-ci.org/edx/devstack.svg?branch=master
    :target: https://travis-ci.org/edx/devstack
 
