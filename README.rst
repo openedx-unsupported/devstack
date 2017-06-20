@@ -382,3 +382,8 @@ Or, you can run the following commands to clean up dangling images and volumes:
 .. _Pycharm Integration documentation: docs/pycharm_integration.rst
 .. |Build Status| image:: https://travis-ci.org/edx/devstack.svg?branch=master
    :target: https://travis-ci.org/edx/devstack
+
+
+Cannot create container for service lms
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Ensure that you have used the Docker Edge download, as opposed to the stable one
