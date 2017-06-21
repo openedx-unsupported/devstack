@@ -1,6 +1,8 @@
 set -e
 set -x
 
+docker ps
+
 echo "Checking LMS heartbeat:"
 curl http://localhost:18000/heartbeat # LMS
 echo
