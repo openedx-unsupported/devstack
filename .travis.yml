@@ -15,7 +15,7 @@ before_install:
   # Upgrade Docker to the latest version
   - docker version
   - sudo apt-get update
-  - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-engine
+  - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
   - docker version
 
   # Upgrade Docker Compose to the latest version
