@@ -19,7 +19,7 @@
 -- Current Database: `ecommerce`
 --
 
-DROP DATABASE /*!32312 IF EXISTS*/ `ecommerce`;
+/*!40000 DROP DATABASE IF EXISTS `ecommerce`*/;
 
 CREATE DATABASE /*!32312 IF NOT EXISTS*/ `ecommerce` /*!40100 DEFAULT CHARACTER SET utf8 */;
 
@@ -637,7 +637,7 @@ CREATE TABLE `catalogue_historicalproduct` (
   KEY `catalogue_historicalproduct_2dbcba41` (`slug`),
   KEY `catalogue_historicalproduct_9474e4b5` (`date_updated`),
   CONSTRAINT `catalogue_historic_history_user_id_4ea2c15a_fk_ecommerce_user_id` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -646,6 +646,7 @@ CREATE TABLE `catalogue_historicalproduct` (
 
 LOCK TABLES `catalogue_historicalproduct` WRITE;
 /*!40000 ALTER TABLE `catalogue_historicalproduct` DISABLE KEYS */;
+INSERT INTO `catalogue_historicalproduct` VALUES (1,'parent',NULL,'','','',NULL,'2017-06-20 19:41:08.931858','2017-06-20 19:41:08.931899',1,1,'2017-06-20 19:41:08.932478','+','course-v1:edX+DemoX+Demo_Course',NULL,NULL,1,NULL),(1,'parent',NULL,'Seat in edX Demonstration Course','seat-in-edx-demonstration-course','',NULL,'2017-06-20 19:41:08.931858','2017-06-20 19:41:08.940330',1,2,'2017-06-20 19:41:08.941178','~','course-v1:edX+DemoX+Demo_Course',NULL,NULL,1,NULL),(2,'child',NULL,'Seat in edX Demonstration Course','seat-in-edx-demonstration-course','',NULL,'2017-06-20 19:41:08.965072','2017-06-20 19:41:08.965103',1,3,'2017-06-20 19:41:08.967202','+','course-v1:edX+DemoX+Demo_Course',NULL,1,NULL,NULL),(3,'child',NULL,'Seat in edX Demonstration Course with verified certificate (and ID verification)','seat-in-edx-demonstration-course-with-verified-certificate-and-id-verification','',NULL,'2017-06-20 19:41:09.002911','2017-06-20 19:41:09.002941',1,4,'2017-06-20 19:41:09.005368','+','course-v1:edX+DemoX+Demo_Course',NULL,1,NULL,'2018-06-20 19:41:08.913279'),(1,'parent',NULL,'Seat in edX Demonstration Course','seat-in-edx-demonstration-course','',NULL,'2017-06-20 19:41:08.931858','2017-06-21 13:50:22.461136',1,5,'2017-06-21 13:50:22.462246','~','course-v1:edX+DemoX+Demo_Course',NULL,NULL,1,NULL),(2,'child',NULL,'Seat in edX Demonstration Course','seat-in-edx-demonstration-course','',NULL,'2017-06-20 19:41:08.965072','2017-06-21 13:50:22.489166',1,6,'2017-06-21 13:50:22.491577','~','course-v1:edX+DemoX+Demo_Course',NULL,1,NULL,NULL),(3,'child',NULL,'Seat in edX Demonstration Course with verified certificate (and ID verification)','seat-in-edx-demonstration-course-with-verified-certificate-and-id-verification','',NULL,'2017-06-20 19:41:09.002911','2017-06-21 13:50:22.530676',1,7,'2017-06-21 13:50:22.532736','~','course-v1:edX+DemoX+Demo_Course',NULL,1,NULL,'2018-06-21 13:50:22.427978');
 /*!40000 ALTER TABLE `catalogue_historicalproduct` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -678,7 +679,7 @@ CREATE TABLE `catalogue_historicalproductattributevalue` (
   KEY `catalogue_historic_history_user_id_34610f3f_fk_ecommerce_user_id` (`history_user_id`),
   KEY `catalogue_historicalproductattributevalue_b80bb774` (`id`),
   CONSTRAINT `catalogue_historic_history_user_id_34610f3f_fk_ecommerce_user_id` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -687,6 +688,7 @@ CREATE TABLE `catalogue_historicalproductattributevalue` (
 
 LOCK TABLES `catalogue_historicalproductattributevalue` WRITE;
 /*!40000 ALTER TABLE `catalogue_historicalproductattributevalue` DISABLE KEYS */;
+INSERT INTO `catalogue_historicalproductattributevalue` VALUES (1,NULL,NULL,NULL,NULL,NULL,NULL,'','',NULL,1,'2017-06-20 19:41:08.948748','+',1,NULL,NULL,1,NULL),(1,'course-v1:edX+DemoX+Demo_Course',NULL,NULL,NULL,NULL,NULL,'','',NULL,2,'2017-06-20 19:41:08.950627','~',1,NULL,NULL,1,NULL),(2,NULL,NULL,NULL,NULL,NULL,NULL,'','',NULL,3,'2017-06-20 19:41:08.975165','+',1,NULL,NULL,2,NULL),(2,'course-v1:edX+DemoX+Demo_Course',NULL,NULL,NULL,NULL,NULL,'','',NULL,4,'2017-06-20 19:41:08.978440','~',1,NULL,NULL,2,NULL),(3,NULL,NULL,NULL,NULL,NULL,NULL,'','',NULL,5,'2017-06-20 19:41:08.983189','+',2,NULL,NULL,2,NULL),(3,NULL,NULL,0,NULL,NULL,NULL,'','',NULL,6,'2017-06-20 19:41:08.986087','~',2,NULL,NULL,2,NULL),(4,NULL,NULL,NULL,NULL,NULL,NULL,'','',NULL,7,'2017-06-20 19:41:09.012221','+',3,NULL,NULL,3,NULL),(4,'verified',NULL,NULL,NULL,NULL,NULL,'','',NULL,8,'2017-06-20 19:41:09.016956','~',3,NULL,NULL,3,NULL),(5,NULL,NULL,NULL,NULL,NULL,NULL,'','',NULL,9,'2017-06-20 19:41:09.021526','+',1,NULL,NULL,3,NULL),(5,'course-v1:edX+DemoX+Demo_Course',NULL,NULL,NULL,NULL,NULL,'','',NULL,10,'2017-06-20 19:41:09.025583','~',1,NULL,NULL,3,NULL),(6,NULL,NULL,NULL,NULL,NULL,NULL,'','',NULL,11,'2017-06-20 19:41:09.030033','+',2,NULL,NULL,3,NULL),(6,NULL,NULL,1,NULL,NULL,NULL,'','',NULL,12,'2017-06-20 19:41:09.033814','~',2,NULL,NULL,3,NULL);
 /*!40000 ALTER TABLE `catalogue_historicalproductattributevalue` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -746,7 +748,7 @@ CREATE TABLE `catalogue_product` (
   CONSTRAINT `catalogue_product_class_id_0c6c5b54_fk_catalogue_productclass_id` FOREIGN KEY (`product_class_id`) REFERENCES `catalogue_productclass` (`id`),
   CONSTRAINT `catalogue_product_course_id_1918bc6b_fk_courses_course_id` FOREIGN KEY (`course_id`) REFERENCES `courses_course` (`id`),
   CONSTRAINT `catalogue_product_parent_id_9bfd2382_fk_catalogue_product_id` FOREIGN KEY (`parent_id`) REFERENCES `catalogue_product` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -755,6 +757,7 @@ CREATE TABLE `catalogue_product` (
 
 LOCK TABLES `catalogue_product` WRITE;
 /*!40000 ALTER TABLE `catalogue_product` DISABLE KEYS */;
+INSERT INTO `catalogue_product` VALUES (1,'parent',NULL,'Seat in edX Demonstration Course','seat-in-edx-demonstration-course','',NULL,'2017-06-20 19:41:08.931858','2017-06-21 13:50:22.461136',1,NULL,1,'course-v1:edX+DemoX+Demo_Course',NULL),(2,'child',NULL,'Seat in edX Demonstration Course','seat-in-edx-demonstration-course','',NULL,'2017-06-20 19:41:08.965072','2017-06-21 13:50:22.489166',1,1,NULL,'course-v1:edX+DemoX+Demo_Course',NULL),(3,'child',NULL,'Seat in edX Demonstration Course with verified certificate (and ID verification)','seat-in-edx-demonstration-course-with-verified-certificate-and-id-verification','',NULL,'2017-06-20 19:41:09.002911','2017-06-21 13:50:22.530676',1,1,NULL,'course-v1:edX+DemoX+Demo_Course','2018-06-21 13:50:22.427978');
 /*!40000 ALTER TABLE `catalogue_product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -848,7 +851,7 @@ CREATE TABLE `catalogue_productattributevalue` (
   CONSTRAINT `catalog_value_option_id_21026066_fk_catalogue_attributeoption_id` FOREIGN KEY (`value_option_id`) REFERENCES `catalogue_attributeoption` (`id`),
   CONSTRAINT `catalogue_attribute_id_0287c1e7_fk_catalogue_productattribute_id` FOREIGN KEY (`attribute_id`) REFERENCES `catalogue_productattribute` (`id`),
   CONSTRAINT `catalogue_productatt_product_id_a03cd90e_fk_catalogue_product_id` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -857,6 +860,7 @@ CREATE TABLE `catalogue_productattributevalue` (
 
 LOCK TABLES `catalogue_productattributevalue` WRITE;
 /*!40000 ALTER TABLE `catalogue_productattributevalue` DISABLE KEYS */;
+INSERT INTO `catalogue_productattributevalue` VALUES (1,'course-v1:edX+DemoX+Demo_Course',NULL,NULL,NULL,NULL,NULL,'','',NULL,1,NULL,1,NULL),(2,'course-v1:edX+DemoX+Demo_Course',NULL,NULL,NULL,NULL,NULL,'','',NULL,1,NULL,2,NULL),(3,NULL,NULL,0,NULL,NULL,NULL,'','',NULL,2,NULL,2,NULL),(4,'verified',NULL,NULL,NULL,NULL,NULL,'','',NULL,3,NULL,3,NULL),(5,'course-v1:edX+DemoX+Demo_Course',NULL,NULL,NULL,NULL,NULL,'','',NULL,1,NULL,3,NULL),(6,NULL,NULL,1,NULL,NULL,NULL,'','',NULL,2,NULL,3,NULL);
 /*!40000 ALTER TABLE `catalogue_productattributevalue` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -875,7 +879,7 @@ CREATE TABLE `catalogue_productcategory` (
   KEY `catalogue_productc_category_id_176db535_fk_catalogue_category_id` (`category_id`),
   CONSTRAINT `catalogue_productc_category_id_176db535_fk_catalogue_category_id` FOREIGN KEY (`category_id`) REFERENCES `catalogue_category` (`id`),
   CONSTRAINT `catalogue_productcat_product_id_846a4061_fk_catalogue_product_id` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -884,6 +888,7 @@ CREATE TABLE `catalogue_productcategory` (
 
 LOCK TABLES `catalogue_productcategory` WRITE;
 /*!40000 ALTER TABLE `catalogue_productcategory` DISABLE KEYS */;
+INSERT INTO `catalogue_productcategory` VALUES (1,1,1);
 /*!40000 ALTER TABLE `catalogue_productcategory` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1073,6 +1078,7 @@ CREATE TABLE `core_siteconfiguration` (
   `require_account_activation` tinyint(1) NOT NULL,
   `optimizely_snippet_src` varchar(255) NOT NULL,
   `enable_sailthru` tinyint(1) NOT NULL,
+  `base_cookie_domain` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `core_siteconfiguration_site_id_3124a87d_uniq` (`site_id`),
   UNIQUE KEY `core_siteconfiguration_partner_id_75739217_uniq` (`partner_id`),
@@ -1088,7 +1094,7 @@ CREATE TABLE `core_siteconfiguration` (
 
 LOCK TABLES `core_siteconfiguration` WRITE;
 /*!40000 ALTER TABLE `core_siteconfiguration` DISABLE KEYS */;
-INSERT INTO `core_siteconfiguration` VALUES (1,'http://edx.devstack.lms:18000','sass/themes/edx.scss','cybersource,paypal',1,1,'{\"SOCIAL_AUTH_EDX_OIDC_ID_TOKEN_DECRYPTION_KEY\":\"ecommerce-secret\",\"SOCIAL_AUTH_EDX_OIDC_URL_ROOT\":\"http://edx.devstack.lms:18000/oauth2\",\"SOCIAL_AUTH_EDX_OIDC_ISSUERS\":[\"http://edx.devstack.lms:18000\"],\"SOCIAL_AUTH_EDX_OIDC_KEY\":\"ecommerce-key\",\"SOCIAL_AUTH_EDX_OIDC_SECRET\":\"ecommerce-secret\"}',NULL,'staff@example.com',0,'support@example.com','','','',0,NULL,0,0,'','','',1,'',1);
+INSERT INTO `core_siteconfiguration` VALUES (1,'http://edx.devstack.lms:18000','sass/themes/edx.scss','cybersource,paypal',1,1,'{\"SOCIAL_AUTH_EDX_OIDC_ID_TOKEN_DECRYPTION_KEY\":\"ecommerce-secret\",\"SOCIAL_AUTH_EDX_OIDC_URL_ROOT\":\"http://edx.devstack.lms:18000/oauth2\",\"SOCIAL_AUTH_EDX_OIDC_ISSUERS\":[\"http://edx.devstack.lms:18000\"],\"SOCIAL_AUTH_EDX_OIDC_KEY\":\"ecommerce-key\",\"SOCIAL_AUTH_EDX_OIDC_SECRET\":\"ecommerce-secret\"}',NULL,'staff@example.com',0,'support@example.com','','','',1,'cybersource',0,0,'','','',1,'',1,'');
 /*!40000 ALTER TABLE `core_siteconfiguration` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1116,6 +1122,7 @@ CREATE TABLE `courses_course` (
 
 LOCK TABLES `courses_course` WRITE;
 /*!40000 ALTER TABLE `courses_course` DISABLE KEYS */;
+INSERT INTO `courses_course` VALUES ('course-v1:edX+DemoX+Demo_Course','edX Demonstration Course',NULL,'2019-06-21 13:50:22.427978',1);
 /*!40000 ALTER TABLE `courses_course` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1134,13 +1141,13 @@ CREATE TABLE `courses_historicalcourse` (
   `history_user_id` int(11) DEFAULT NULL,
   `thumbnail_url` varchar(200) DEFAULT NULL,
   `verification_deadline` datetime(6) DEFAULT NULL,
-  `site_id` int(11),
+  `site_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`history_id`),
   KEY `courses_historical_history_user_id_5aca3c34_fk_ecommerce_user_id` (`history_user_id`),
   KEY `courses_historicalcourse_b80bb774` (`id`),
   KEY `courses_historicalcourse_9365d6e7` (`site_id`),
   CONSTRAINT `courses_historical_history_user_id_5aca3c34_fk_ecommerce_user_id` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1149,6 +1156,7 @@ CREATE TABLE `courses_historicalcourse` (
 
 LOCK TABLES `courses_historicalcourse` WRITE;
 /*!40000 ALTER TABLE `courses_historicalcourse` DISABLE KEYS */;
+INSERT INTO `courses_historicalcourse` VALUES ('course-v1:edX+DemoX+Demo_Course','edX Demonstration Course',1,'2017-06-20 19:41:08.924184','+',NULL,NULL,'2019-06-20 19:41:08.913279',1),('course-v1:edX+DemoX+Demo_Course','edX Demonstration Course',2,'2017-06-21 13:50:22.440127','~',NULL,NULL,'2019-06-21 13:50:22.427978',1);
 /*!40000 ALTER TABLE `courses_historicalcourse` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1404,7 +1412,7 @@ CREATE TABLE `django_migrations` (
   `name` varchar(255) NOT NULL,
   `applied` datetime(6) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=190 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=194 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1413,7 +1421,7 @@ CREATE TABLE `django_migrations` (
 
 LOCK TABLES `django_migrations` WRITE;
 /*!40000 ALTER TABLE `django_migrations` DISABLE KEYS */;
-INSERT INTO `django_migrations` VALUES (1,'contenttypes','0001_initial','2017-02-24 06:31:13.678196'),(2,'auth','0001_initial','2017-02-24 06:31:15.287707'),(3,'core','0001_initial','2017-02-24 06:31:16.721508'),(4,'address','0001_initial','2017-02-24 06:31:17.726601'),(5,'admin','0001_initial','2017-02-24 06:31:18.314867'),(6,'admin','0002_logentry_remove_auto_add','2017-02-24 06:31:18.376871'),(7,'catalogue','0001_initial','2017-02-24 06:31:26.576201'),(8,'analytics','0001_initial','2017-02-24 06:31:27.890220'),(9,'analytics','0002_auto_20140827_1705','2017-02-24 06:31:29.379369'),(10,'contenttypes','0002_remove_content_type_name','2017-02-24 06:31:29.815071'),(11,'auth','0002_alter_permission_name_max_length','2017-02-24 06:31:30.094953'),(12,'auth','0003_alter_user_email_max_length','2017-02-24 06:31:30.148331'),(13,'auth','0004_alter_user_username_opts','2017-02-24 06:31:30.198566'),(14,'auth','0005_alter_user_last_login_null','2017-02-24 06:31:30.250255'),(15,'auth','0006_require_contenttypes_0002','2017-02-24 06:31:30.265322'),(16,'auth','0007_alter_validators_add_error_messages','2017-02-24 06:31:30.315242'),(17,'sites','0001_initial','2017-02-24 06:31:30.425736'),(18,'partner','0001_initial','2017-02-24 06:31:33.441342'),(19,'customer','0001_initial','2017-02-24 06:31:35.517013'),(20,'basket','0001_initial','2017-02-24 06:31:36.134822'),(21,'basket','0002_auto_20140827_1705','2017-02-24 06:31:39.462322'),(22,'order','0001_initial','2017-02-24 06:31:53.594327'),(23,'offer','0001_initial','2017-02-24 06:31:59.796314'),(24,'voucher','0001_initial','2017-02-24 06:32:01.920349'),(25,'basket','0003_basket_vouchers','2017-02-24 06:32:02.683827'),(26,'basket','0004_auto_20141007_2032','2017-02-24 06:32:02.820915'),(27,'basket','0005_auto_20150709_1205','2017-02-24 06:32:03.450491'),(28,'basket','0006_basket_site','2017-02-24 06:32:04.017849'),(29,'basket','0007_auto_20160907_2040','2017-02-24 06:32:05.540394'),(30,'basket','0008_auto_20170215_2224','2017-02-24 06:32:05.689426'),(31,'basket','0009_auto_20170215_2229','2017-02-24 06:32:06.046091'),(32,'partner','0002_auto_20141007_2032','2017-02-24 06:32:06.195423'),(33,'partner','0003_auto_20150223_1130','2017-02-24 06:32:06.213225'),(34,'courses','0001_initial','2017-02-24 06:32:06.359577'),(35,'catalogue','0002_auto_20150223_1052','2017-02-24 06:32:06.426509'),(36,'catalogue','0003_product_course','2017-02-24 06:32:07.124085'),(37,'catalogue','0004_auto_20150609_0129','2017-02-24 06:32:09.814295'),(38,'partner','0004_auto_20150609_1215','2017-02-24 06:32:11.579727'),(39,'partner','0005_auto_20150610_1355','2017-02-24 06:32:12.220029'),(40,'partner','0006_auto_20150709_1205','2017-02-24 06:32:12.890305'),(41,'partner','0007_auto_20150914_0841','2017-02-24 06:32:13.435216'),(42,'partner','0008_auto_20150914_1057','2017-02-24 06:32:13.746745'),(43,'catalogue','0005_auto_20150610_1355','2017-02-24 06:32:15.306738'),(44,'catalogue','0006_credit_provider_attr','2017-02-24 06:32:15.347852'),(45,'catalogue','0007_auto_20150709_1205','2017-02-24 06:32:16.823040'),(46,'catalogue','0008_auto_20150709_1254','2017-02-24 06:32:17.518448'),(47,'catalogue','0009_credit_hours_attr','2017-02-24 06:32:17.567067'),(48,'catalogue','0010_catalog','2017-02-24 06:32:18.637355'),(49,'catalogue','0011_auto_20151019_0639','2017-02-24 06:32:19.519298'),(50,'catalogue','0012_enrollment_code_product_class','2017-02-24 06:32:19.539064'),(51,'catalogue','0013_coupon_product_class','2017-02-24 06:32:19.592068'),(52,'catalogue','0014_alter_couponvouchers_attribute','2017-02-24 06:32:19.632447'),(53,'catalogue','0015_default_categories','2017-02-24 06:32:19.815535'),(54,'catalogue','0016_coupon_note_attribute','2017-02-24 06:32:19.853581'),(55,'catalogue','0017_enrollment_code_product_class','2017-02-24 06:32:19.901006'),(56,'catalogue','0018_auto_20160530_0134','2017-02-24 06:32:20.053557'),(57,'catalogue','0019_enrollment_code_idverifyreq_attribute','2017-02-24 06:32:20.100272'),(58,'catalogue','0020_auto_20161025_1446','2017-02-24 06:32:20.248394'),(59,'catalogue','0021_auto_20170215_2224','2017-02-24 06:32:20.714334'),(60,'catalogue','0022_auto_20170215_2229','2017-02-24 06:32:20.865779'),(61,'catalogue','0023_auto_20170215_2234','2017-02-24 06:32:21.019964'),(62,'waffle','0001_initial','2017-02-24 06:32:22.983010'),(63,'core','0002_auto_20150826_1455','2017-02-24 06:32:24.790842'),(64,'core','0003_auto_20150914_1120','2017-02-24 06:32:25.743734'),(65,'core','0004_auto_20150915_1023','2017-02-24 06:32:26.248772'),(66,'core','0005_auto_20150924_0123','2017-02-24 06:32:26.298015'),(67,'core','0006_add_service_user','2017-02-24 06:32:26.336614'),(68,'core','0007_auto_20151005_1333','2017-02-24 06:32:26.388741'),(69,'core','0008_client','2017-02-24 06:32:26.991756'),(70,'core','0009_service_user_privileges','2017-02-24 06:32:27.366063'),(71,'core','0010_add_async_sample','2017-02-24 06:32:27.410339'),(72,'core','0011_siteconfiguration_oauth_settings','2017-02-24 06:32:27.710236'),(73,'core','0012_businessclient','2017-02-24 06:32:27.839188'),(74,'core','0013_siteconfiguration_segment_key','2017-02-24 06:32:28.224134'),(75,'core','0014_enrollment_code_switch','2017-02-24 06:32:28.264756'),(76,'core','0015_siteconfiguration_from_email','2017-02-24 06:32:28.628458'),(77,'core','0016_siteconfiguration_enable_enrollment_codes','2017-02-24 06:32:28.992838'),(78,'core','0017_siteconfiguration_payment_support_email','2017-02-24 06:32:29.426998'),(79,'core','0018_siteconfiguration_payment_support_url','2017-02-24 06:32:29.786572'),(80,'core','0019_auto_20161012_1404','2017-02-24 06:32:30.691234'),(81,'core','0020_siteconfiguration_enable_otto_receipt_page','2017-02-24 06:32:31.018247'),(82,'core','0021_siteconfiguration_client_side_payment_processor','2017-02-24 06:32:31.411206'),(83,'core','0022_auto_20161108_2101','2017-02-24 06:32:31.544336'),(84,'core','0023_siteconfiguration_send_refund_notifications','2017-02-24 06:32:31.888015'),(85,'core','0024_auto_20170208_1520','2017-02-24 06:32:33.435439'),(86,'core','0025_auto_20170214_0003','2017-02-24 06:32:33.569312'),(87,'core','0026_auto_20170215_2234','2017-02-24 06:32:33.718888'),(88,'courses','0002_historicalcourse','2017-02-24 06:32:34.341544'),(89,'courses','0003_auto_20150618_1108','2017-02-24 06:32:35.225334'),(90,'courses','0004_auto_20150803_1406','2017-02-24 06:32:35.826182'),(91,'customer','0002_auto_20160517_0930','2017-02-24 06:32:36.005439'),(92,'customer','0003_auto_20170215_2229','2017-02-24 06:32:36.423186'),(93,'flatpages','0001_initial','2017-02-24 06:32:37.367254'),(94,'order','0002_auto_20141007_2032','2017-02-24 06:32:37.555261'),(95,'order','0003_auto_20150224_1520','2017-02-24 06:32:37.744948'),(96,'order','0004_order_payment_processor','2017-02-24 06:32:38.207669'),(97,'order','0005_deprecate_order_payment_processor','2017-02-24 06:32:38.638636'),(98,'order','0006_paymentevent_processor_name','2017-02-24 06:32:38.997229'),(99,'order','0007_create_history_tables','2017-02-24 06:32:40.266918'),(100,'order','0008_delete_order_payment_processor','2017-02-24 06:32:41.207208'),(101,'order','0009_auto_20150709_1205','2017-02-24 06:32:41.570415'),(102,'invoice','0001_initial','2017-02-24 06:32:42.597330'),(103,'invoice','0002_auto_20160324_1919','2017-02-24 06:32:45.848646'),(104,'invoice','0003_auto_20160616_0657','2017-02-24 06:32:51.092505'),(105,'invoice','0004_auto_20170215_2234','2017-02-24 06:32:52.479010'),(106,'offer','0002_range_catalog','2017-02-24 06:32:53.561467'),(107,'offer','0003_auto_20160517_1247','2017-02-24 06:32:54.279775'),(108,'offer','0004_auto_20160530_0944','2017-02-24 06:32:55.073360'),(109,'offer','0005_conditionaloffer_email_domains','2017-02-24 06:32:55.616150'),(110,'offer','0006_auto_20161025_1446','2017-02-24 06:32:55.816493'),(111,'offer','0007_auto_20161026_0856','2017-02-24 06:32:56.293557'),(112,'offer','0008_range_course_catalog','2017-02-24 06:32:56.918354'),(113,'offer','0009_range_enterprise_customer','2017-02-24 06:32:57.330700'),(114,'offer','0010_auto_20170215_2224','2017-02-24 06:32:57.608382'),(115,'order','0010_auto_20160529_2245','2017-02-24 06:32:57.805073'),(116,'order','0011_auto_20161025_1446','2017-02-24 06:32:57.986906'),(117,'order','0012_auto_20170215_2224','2017-02-24 06:32:58.180138'),(118,'order','0013_auto_20170215_2229','2017-02-24 06:32:59.270780'),(119,'partner','0009_partner_enable_sailthru','2017-02-24 06:32:59.683894'),(120,'partner','0010_auto_20161025_1446','2017-02-24 06:32:59.868600'),(121,'payment','0001_initial','2017-02-24 06:33:02.281461'),(122,'payment','0002_auto_20141007_2032','2017-02-24 06:33:02.559403'),(123,'payment','0003_create_payment_processor_response','2017-02-24 06:33:03.454331'),(124,'payment','0004_source_card_type','2017-02-24 06:33:03.861385'),(125,'payment','0005_paypalwebprofile','2017-02-24 06:33:03.997155'),(126,'payment','0006_enable_payment_processors','2017-02-24 06:33:04.054160'),(127,'payment','0007_add_cybersource_level23_sample','2017-02-24 06:33:04.118786'),(128,'payment','0008_remove_cybersource_level23_sample','2017-02-24 06:33:04.173193'),(129,'payment','0009_auto_20161025_1446','2017-02-24 06:33:04.568246'),(130,'payment','0010_create_client_side_checkout_flag','2017-02-24 06:33:04.614755'),(131,'payment','0011_paypalprocessorconfiguration','2017-02-24 06:33:04.738098'),(132,'payment','0012_auto_20161109_1456','2017-02-24 06:33:04.777041'),(133,'payment','0013_sdncheckfailure','2017-02-24 06:33:04.926800'),(134,'payment','0014_sdncheckfailure_site','2017-02-24 06:33:05.569898'),(135,'payment','0015_auto_20170215_2229','2017-02-24 06:33:06.013124'),(136,'promotions','0001_initial','2017-02-24 06:33:11.900417'),(137,'promotions','0002_auto_20150604_1450','2017-02-24 06:33:12.829239'),(138,'referrals','0001_initial','2017-02-24 06:33:13.772337'),(139,'referrals','0002_auto_20161011_1728','2017-02-24 06:33:17.027281'),(140,'referrals','0003_auto_20161027_1738','2017-02-24 06:33:17.476221'),(141,'referrals','0004_auto_20170215_2234','2017-02-24 06:33:18.592080'),(142,'refund','0001_squashed_0002_auto_20150515_2220','2017-02-24 06:33:21.850927'),(143,'refund','0002_auto_20151214_1017','2017-02-24 06:33:22.813726'),(144,'reviews','0001_initial','2017-02-24 06:33:25.278833'),(145,'reviews','0002_update_email_length','2017-02-24 06:33:25.737694'),(146,'sailthru','0001_initial','2017-02-24 06:33:25.781334'),(147,'sailthru','0002_add_basket_attribute_type','2017-02-24 06:33:25.829728'),(148,'sessions','0001_initial','2017-02-24 06:33:26.030648'),(149,'shipping','0001_initial','2017-02-24 06:33:29.010842'),(150,'shipping','0002_auto_20150604_1450','2017-02-24 06:33:30.611875'),(151,'sites','0002_alter_domain_unique','2017-02-24 06:33:31.180879'),(152,'default','0001_initial','2017-02-24 06:33:32.693319'),(153,'default','0002_add_related_name','2017-02-24 06:33:33.232585'),(154,'default','0003_alter_email_max_length','2017-02-24 06:33:33.517811'),(155,'default','0004_auto_20160423_0400','2017-02-24 06:33:33.953712'),(156,'social_auth','0005_auto_20160727_2333','2017-02-24 06:33:34.084494'),(157,'theming','0001_initial','2017-02-24 06:33:34.651811'),(158,'thumbnail','0001_initial','2017-02-24 06:33:34.781280'),(159,'voucher','0002_couponvouchers','2017-02-24 06:33:35.947546'),(160,'voucher','0003_orderlinevouchers','2017-02-24 06:33:37.099165'),(161,'voucher','0004_auto_20160517_0930','2017-02-24 06:33:38.439554'),(162,'wishlists','0001_initial','2017-02-24 06:33:41.026611'),(163,'wishlists','0002_auto_20160111_1108','2017-02-24 06:33:41.438325'),(164,'social_auth','0001_initial','2017-02-24 06:33:41.467555'),(165,'social_auth','0003_alter_email_max_length','2017-02-24 06:33:41.484949'),(166,'social_auth','0004_auto_20160423_0400','2017-02-24 06:33:41.503212'),(167,'social_auth','0002_add_related_name','2017-02-24 06:33:41.521038'),(168,'auth','0008_alter_user_username_max_length','2017-06-07 00:46:32.369624'),(169,'catalogue','0024_fix_enrollment_code_slug','2017-06-07 00:46:32.387441'),(170,'core','0027_siteconfiguration_require_account_activation','2017-06-07 00:46:32.582665'),(171,'core','0028_siteconfiguration_optimizely_snippet_src','2017-06-07 00:46:32.873533'),(172,'core','0029_auto_20170525_2131','2017-06-07 00:46:33.069017'),(173,'core','0030_auto_20170525_2134','2017-06-07 00:46:33.454406'),(174,'core','0031_siteconfiguration_enable_sailthru','2017-06-07 00:46:33.807756'),(175,'core','0032_auto_20170602_0516','2017-06-07 00:46:33.978514'),(176,'courses','0005_auto_20170525_0131','2017-06-07 00:46:34.661731'),(177,'offer','0011_auto_20170215_2324','2017-06-07 00:46:34.826447'),(178,'offer','0012_condition_program_uuid','2017-06-07 00:46:34.998541'),(179,'partner','0011_auto_20170525_2138','2017-06-07 00:46:35.155719'),(180,'payment','0016_auto_20170227_1402','2017-06-07 00:46:35.661190'),(181,'payment','0017_auto_20170328_1445','2017-06-07 00:46:36.121061'),(182,'programs','0001_initial','2017-06-07 00:46:36.162707'),(183,'reviews','0003_auto_20160802_1358','2017-06-07 00:46:36.325581'),(184,'social_django','0006_partial','2017-06-07 00:46:36.366342'),(185,'social_django','0002_add_related_name','2017-06-07 00:46:36.379552'),(186,'social_django','0003_alter_email_max_length','2017-06-07 00:46:36.385923'),(187,'social_django','0001_initial','2017-06-07 00:46:36.392414'),(188,'social_django','0004_auto_20160423_0400','2017-06-07 00:46:36.399934'),(189,'social_django','0005_auto_20160727_2333','2017-06-07 00:46:36.405930');
+INSERT INTO `django_migrations` VALUES (1,'contenttypes','0001_initial','2017-02-24 06:31:13.678196'),(2,'auth','0001_initial','2017-02-24 06:31:15.287707'),(3,'core','0001_initial','2017-02-24 06:31:16.721508'),(4,'address','0001_initial','2017-02-24 06:31:17.726601'),(5,'admin','0001_initial','2017-02-24 06:31:18.314867'),(6,'admin','0002_logentry_remove_auto_add','2017-02-24 06:31:18.376871'),(7,'catalogue','0001_initial','2017-02-24 06:31:26.576201'),(8,'analytics','0001_initial','2017-02-24 06:31:27.890220'),(9,'analytics','0002_auto_20140827_1705','2017-02-24 06:31:29.379369'),(10,'contenttypes','0002_remove_content_type_name','2017-02-24 06:31:29.815071'),(11,'auth','0002_alter_permission_name_max_length','2017-02-24 06:31:30.094953'),(12,'auth','0003_alter_user_email_max_length','2017-02-24 06:31:30.148331'),(13,'auth','0004_alter_user_username_opts','2017-02-24 06:31:30.198566'),(14,'auth','0005_alter_user_last_login_null','2017-02-24 06:31:30.250255'),(15,'auth','0006_require_contenttypes_0002','2017-02-24 06:31:30.265322'),(16,'auth','0007_alter_validators_add_error_messages','2017-02-24 06:31:30.315242'),(17,'sites','0001_initial','2017-02-24 06:31:30.425736'),(18,'partner','0001_initial','2017-02-24 06:31:33.441342'),(19,'customer','0001_initial','2017-02-24 06:31:35.517013'),(20,'basket','0001_initial','2017-02-24 06:31:36.134822'),(21,'basket','0002_auto_20140827_1705','2017-02-24 06:31:39.462322'),(22,'order','0001_initial','2017-02-24 06:31:53.594327'),(23,'offer','0001_initial','2017-02-24 06:31:59.796314'),(24,'voucher','0001_initial','2017-02-24 06:32:01.920349'),(25,'basket','0003_basket_vouchers','2017-02-24 06:32:02.683827'),(26,'basket','0004_auto_20141007_2032','2017-02-24 06:32:02.820915'),(27,'basket','0005_auto_20150709_1205','2017-02-24 06:32:03.450491'),(28,'basket','0006_basket_site','2017-02-24 06:32:04.017849'),(29,'basket','0007_auto_20160907_2040','2017-02-24 06:32:05.540394'),(30,'basket','0008_auto_20170215_2224','2017-02-24 06:32:05.689426'),(31,'basket','0009_auto_20170215_2229','2017-02-24 06:32:06.046091'),(32,'partner','0002_auto_20141007_2032','2017-02-24 06:32:06.195423'),(33,'partner','0003_auto_20150223_1130','2017-02-24 06:32:06.213225'),(34,'courses','0001_initial','2017-02-24 06:32:06.359577'),(35,'catalogue','0002_auto_20150223_1052','2017-02-24 06:32:06.426509'),(36,'catalogue','0003_product_course','2017-02-24 06:32:07.124085'),(37,'catalogue','0004_auto_20150609_0129','2017-02-24 06:32:09.814295'),(38,'partner','0004_auto_20150609_1215','2017-02-24 06:32:11.579727'),(39,'partner','0005_auto_20150610_1355','2017-02-24 06:32:12.220029'),(40,'partner','0006_auto_20150709_1205','2017-02-24 06:32:12.890305'),(41,'partner','0007_auto_20150914_0841','2017-02-24 06:32:13.435216'),(42,'partner','0008_auto_20150914_1057','2017-02-24 06:32:13.746745'),(43,'catalogue','0005_auto_20150610_1355','2017-02-24 06:32:15.306738'),(44,'catalogue','0006_credit_provider_attr','2017-02-24 06:32:15.347852'),(45,'catalogue','0007_auto_20150709_1205','2017-02-24 06:32:16.823040'),(46,'catalogue','0008_auto_20150709_1254','2017-02-24 06:32:17.518448'),(47,'catalogue','0009_credit_hours_attr','2017-02-24 06:32:17.567067'),(48,'catalogue','0010_catalog','2017-02-24 06:32:18.637355'),(49,'catalogue','0011_auto_20151019_0639','2017-02-24 06:32:19.519298'),(50,'catalogue','0012_enrollment_code_product_class','2017-02-24 06:32:19.539064'),(51,'catalogue','0013_coupon_product_class','2017-02-24 06:32:19.592068'),(52,'catalogue','0014_alter_couponvouchers_attribute','2017-02-24 06:32:19.632447'),(53,'catalogue','0015_default_categories','2017-02-24 06:32:19.815535'),(54,'catalogue','0016_coupon_note_attribute','2017-02-24 06:32:19.853581'),(55,'catalogue','0017_enrollment_code_product_class','2017-02-24 06:32:19.901006'),(56,'catalogue','0018_auto_20160530_0134','2017-02-24 06:32:20.053557'),(57,'catalogue','0019_enrollment_code_idverifyreq_attribute','2017-02-24 06:32:20.100272'),(58,'catalogue','0020_auto_20161025_1446','2017-02-24 06:32:20.248394'),(59,'catalogue','0021_auto_20170215_2224','2017-02-24 06:32:20.714334'),(60,'catalogue','0022_auto_20170215_2229','2017-02-24 06:32:20.865779'),(61,'catalogue','0023_auto_20170215_2234','2017-02-24 06:32:21.019964'),(62,'waffle','0001_initial','2017-02-24 06:32:22.983010'),(63,'core','0002_auto_20150826_1455','2017-02-24 06:32:24.790842'),(64,'core','0003_auto_20150914_1120','2017-02-24 06:32:25.743734'),(65,'core','0004_auto_20150915_1023','2017-02-24 06:32:26.248772'),(66,'core','0005_auto_20150924_0123','2017-02-24 06:32:26.298015'),(67,'core','0006_add_service_user','2017-02-24 06:32:26.336614'),(68,'core','0007_auto_20151005_1333','2017-02-24 06:32:26.388741'),(69,'core','0008_client','2017-02-24 06:32:26.991756'),(70,'core','0009_service_user_privileges','2017-02-24 06:32:27.366063'),(71,'core','0010_add_async_sample','2017-02-24 06:32:27.410339'),(72,'core','0011_siteconfiguration_oauth_settings','2017-02-24 06:32:27.710236'),(73,'core','0012_businessclient','2017-02-24 06:32:27.839188'),(74,'core','0013_siteconfiguration_segment_key','2017-02-24 06:32:28.224134'),(75,'core','0014_enrollment_code_switch','2017-02-24 06:32:28.264756'),(76,'core','0015_siteconfiguration_from_email','2017-02-24 06:32:28.628458'),(77,'core','0016_siteconfiguration_enable_enrollment_codes','2017-02-24 06:32:28.992838'),(78,'core','0017_siteconfiguration_payment_support_email','2017-02-24 06:32:29.426998'),(79,'core','0018_siteconfiguration_payment_support_url','2017-02-24 06:32:29.786572'),(80,'core','0019_auto_20161012_1404','2017-02-24 06:32:30.691234'),(81,'core','0020_siteconfiguration_enable_otto_receipt_page','2017-02-24 06:32:31.018247'),(82,'core','0021_siteconfiguration_client_side_payment_processor','2017-02-24 06:32:31.411206'),(83,'core','0022_auto_20161108_2101','2017-02-24 06:32:31.544336'),(84,'core','0023_siteconfiguration_send_refund_notifications','2017-02-24 06:32:31.888015'),(85,'core','0024_auto_20170208_1520','2017-02-24 06:32:33.435439'),(86,'core','0025_auto_20170214_0003','2017-02-24 06:32:33.569312'),(87,'core','0026_auto_20170215_2234','2017-02-24 06:32:33.718888'),(88,'courses','0002_historicalcourse','2017-02-24 06:32:34.341544'),(89,'courses','0003_auto_20150618_1108','2017-02-24 06:32:35.225334'),(90,'courses','0004_auto_20150803_1406','2017-02-24 06:32:35.826182'),(91,'customer','0002_auto_20160517_0930','2017-02-24 06:32:36.005439'),(92,'customer','0003_auto_20170215_2229','2017-02-24 06:32:36.423186'),(93,'flatpages','0001_initial','2017-02-24 06:32:37.367254'),(94,'order','0002_auto_20141007_2032','2017-02-24 06:32:37.555261'),(95,'order','0003_auto_20150224_1520','2017-02-24 06:32:37.744948'),(96,'order','0004_order_payment_processor','2017-02-24 06:32:38.207669'),(97,'order','0005_deprecate_order_payment_processor','2017-02-24 06:32:38.638636'),(98,'order','0006_paymentevent_processor_name','2017-02-24 06:32:38.997229'),(99,'order','0007_create_history_tables','2017-02-24 06:32:40.266918'),(100,'order','0008_delete_order_payment_processor','2017-02-24 06:32:41.207208'),(101,'order','0009_auto_20150709_1205','2017-02-24 06:32:41.570415'),(102,'invoice','0001_initial','2017-02-24 06:32:42.597330'),(103,'invoice','0002_auto_20160324_1919','2017-02-24 06:32:45.848646'),(104,'invoice','0003_auto_20160616_0657','2017-02-24 06:32:51.092505'),(105,'invoice','0004_auto_20170215_2234','2017-02-24 06:32:52.479010'),(106,'offer','0002_range_catalog','2017-02-24 06:32:53.561467'),(107,'offer','0003_auto_20160517_1247','2017-02-24 06:32:54.279775'),(108,'offer','0004_auto_20160530_0944','2017-02-24 06:32:55.073360'),(109,'offer','0005_conditionaloffer_email_domains','2017-02-24 06:32:55.616150'),(110,'offer','0006_auto_20161025_1446','2017-02-24 06:32:55.816493'),(111,'offer','0007_auto_20161026_0856','2017-02-24 06:32:56.293557'),(112,'offer','0008_range_course_catalog','2017-02-24 06:32:56.918354'),(113,'offer','0009_range_enterprise_customer','2017-02-24 06:32:57.330700'),(114,'offer','0010_auto_20170215_2224','2017-02-24 06:32:57.608382'),(115,'order','0010_auto_20160529_2245','2017-02-24 06:32:57.805073'),(116,'order','0011_auto_20161025_1446','2017-02-24 06:32:57.986906'),(117,'order','0012_auto_20170215_2224','2017-02-24 06:32:58.180138'),(118,'order','0013_auto_20170215_2229','2017-02-24 06:32:59.270780'),(119,'partner','0009_partner_enable_sailthru','2017-02-24 06:32:59.683894'),(120,'partner','0010_auto_20161025_1446','2017-02-24 06:32:59.868600'),(121,'payment','0001_initial','2017-02-24 06:33:02.281461'),(122,'payment','0002_auto_20141007_2032','2017-02-24 06:33:02.559403'),(123,'payment','0003_create_payment_processor_response','2017-02-24 06:33:03.454331'),(124,'payment','0004_source_card_type','2017-02-24 06:33:03.861385'),(125,'payment','0005_paypalwebprofile','2017-02-24 06:33:03.997155'),(126,'payment','0006_enable_payment_processors','2017-02-24 06:33:04.054160'),(127,'payment','0007_add_cybersource_level23_sample','2017-02-24 06:33:04.118786'),(128,'payment','0008_remove_cybersource_level23_sample','2017-02-24 06:33:04.173193'),(129,'payment','0009_auto_20161025_1446','2017-02-24 06:33:04.568246'),(130,'payment','0010_create_client_side_checkout_flag','2017-02-24 06:33:04.614755'),(131,'payment','0011_paypalprocessorconfiguration','2017-02-24 06:33:04.738098'),(132,'payment','0012_auto_20161109_1456','2017-02-24 06:33:04.777041'),(133,'payment','0013_sdncheckfailure','2017-02-24 06:33:04.926800'),(134,'payment','0014_sdncheckfailure_site','2017-02-24 06:33:05.569898'),(135,'payment','0015_auto_20170215_2229','2017-02-24 06:33:06.013124'),(136,'promotions','0001_initial','2017-02-24 06:33:11.900417'),(137,'promotions','0002_auto_20150604_1450','2017-02-24 06:33:12.829239'),(138,'referrals','0001_initial','2017-02-24 06:33:13.772337'),(139,'referrals','0002_auto_20161011_1728','2017-02-24 06:33:17.027281'),(140,'referrals','0003_auto_20161027_1738','2017-02-24 06:33:17.476221'),(141,'referrals','0004_auto_20170215_2234','2017-02-24 06:33:18.592080'),(142,'refund','0001_squashed_0002_auto_20150515_2220','2017-02-24 06:33:21.850927'),(143,'refund','0002_auto_20151214_1017','2017-02-24 06:33:22.813726'),(144,'reviews','0001_initial','2017-02-24 06:33:25.278833'),(145,'reviews','0002_update_email_length','2017-02-24 06:33:25.737694'),(146,'sailthru','0001_initial','2017-02-24 06:33:25.781334'),(147,'sailthru','0002_add_basket_attribute_type','2017-02-24 06:33:25.829728'),(148,'sessions','0001_initial','2017-02-24 06:33:26.030648'),(149,'shipping','0001_initial','2017-02-24 06:33:29.010842'),(150,'shipping','0002_auto_20150604_1450','2017-02-24 06:33:30.611875'),(151,'sites','0002_alter_domain_unique','2017-02-24 06:33:31.180879'),(152,'default','0001_initial','2017-02-24 06:33:32.693319'),(153,'default','0002_add_related_name','2017-02-24 06:33:33.232585'),(154,'default','0003_alter_email_max_length','2017-02-24 06:33:33.517811'),(155,'default','0004_auto_20160423_0400','2017-02-24 06:33:33.953712'),(156,'social_auth','0005_auto_20160727_2333','2017-02-24 06:33:34.084494'),(157,'theming','0001_initial','2017-02-24 06:33:34.651811'),(158,'thumbnail','0001_initial','2017-02-24 06:33:34.781280'),(159,'voucher','0002_couponvouchers','2017-02-24 06:33:35.947546'),(160,'voucher','0003_orderlinevouchers','2017-02-24 06:33:37.099165'),(161,'voucher','0004_auto_20160517_0930','2017-02-24 06:33:38.439554'),(162,'wishlists','0001_initial','2017-02-24 06:33:41.026611'),(163,'wishlists','0002_auto_20160111_1108','2017-02-24 06:33:41.438325'),(164,'social_auth','0001_initial','2017-02-24 06:33:41.467555'),(165,'social_auth','0003_alter_email_max_length','2017-02-24 06:33:41.484949'),(166,'social_auth','0004_auto_20160423_0400','2017-02-24 06:33:41.503212'),(167,'social_auth','0002_add_related_name','2017-02-24 06:33:41.521038'),(168,'auth','0008_alter_user_username_max_length','2017-06-07 00:46:32.369624'),(169,'catalogue','0024_fix_enrollment_code_slug','2017-06-07 00:46:32.387441'),(170,'core','0027_siteconfiguration_require_account_activation','2017-06-07 00:46:32.582665'),(171,'core','0028_siteconfiguration_optimizely_snippet_src','2017-06-07 00:46:32.873533'),(172,'core','0029_auto_20170525_2131','2017-06-07 00:46:33.069017'),(173,'core','0030_auto_20170525_2134','2017-06-07 00:46:33.454406'),(174,'core','0031_siteconfiguration_enable_sailthru','2017-06-07 00:46:33.807756'),(175,'core','0032_auto_20170602_0516','2017-06-07 00:46:33.978514'),(176,'courses','0005_auto_20170525_0131','2017-06-07 00:46:34.661731'),(177,'offer','0011_auto_20170215_2324','2017-06-07 00:46:34.826447'),(178,'offer','0012_condition_program_uuid','2017-06-07 00:46:34.998541'),(179,'partner','0011_auto_20170525_2138','2017-06-07 00:46:35.155719'),(180,'payment','0016_auto_20170227_1402','2017-06-07 00:46:35.661190'),(181,'payment','0017_auto_20170328_1445','2017-06-07 00:46:36.121061'),(182,'programs','0001_initial','2017-06-07 00:46:36.162707'),(183,'reviews','0003_auto_20160802_1358','2017-06-07 00:46:36.325581'),(184,'social_django','0006_partial','2017-06-07 00:46:36.366342'),(185,'social_django','0002_add_related_name','2017-06-07 00:46:36.379552'),(186,'social_django','0003_alter_email_max_length','2017-06-07 00:46:36.385923'),(187,'social_django','0001_initial','2017-06-07 00:46:36.392414'),(188,'social_django','0004_auto_20160423_0400','2017-06-07 00:46:36.399934'),(189,'social_django','0005_auto_20160727_2333','2017-06-07 00:46:36.405930'),(190,'core','0033_auto_20170606_0539','2017-06-20 19:40:00.173177'),(191,'core','0034_auto_20170613_2039','2017-06-20 19:40:00.346936'),(192,'core','0035_siteconfiguration_base_cookie_domain','2017-06-20 19:40:00.568615'),(193,'order','0014_auto_20170606_0535','2017-06-20 19:40:00.590820');
 /*!40000 ALTER TABLE `django_migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1677,7 +1685,7 @@ CREATE TABLE `offer_condition` (
   `value` decimal(12,2) DEFAULT NULL,
   `proxy_class` varchar(255) DEFAULT NULL,
   `range_id` int(11) DEFAULT NULL,
-  `program_uuid` char(32),
+  `program_uuid` char(32) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `offer_condition_ee6537b7` (`range_id`),
   CONSTRAINT `offer_condition_range_id_b023a2aa_fk_offer_range_id` FOREIGN KEY (`range_id`) REFERENCES `offer_range` (`id`)
@@ -2540,7 +2548,7 @@ CREATE TABLE `partner_historicalstockrecord` (
   KEY `partner_historicalstockrecord_b80bb774` (`id`),
   KEY `partner_historicalstockrecord_9474e4b5` (`date_updated`),
   CONSTRAINT `partner_historical_history_user_id_eda90769_fk_ecommerce_user_id` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2549,6 +2557,7 @@ CREATE TABLE `partner_historicalstockrecord` (
 
 LOCK TABLES `partner_historicalstockrecord` WRITE;
 /*!40000 ALTER TABLE `partner_historicalstockrecord` DISABLE KEYS */;
+INSERT INTO `partner_historicalstockrecord` VALUES (1,'68EFFFF','USD',0.00,NULL,NULL,NULL,NULL,NULL,'2017-06-20 19:41:08.989934','2017-06-20 19:41:08.989966',1,'2017-06-20 19:41:08.991064','+',NULL,1,2),(2,'8CF08E5','USD',149.00,NULL,NULL,NULL,NULL,NULL,'2017-06-20 19:41:09.037226','2017-06-20 19:41:09.037253',2,'2017-06-20 19:41:09.038344','+',NULL,1,3),(1,'68EFFFF','USD',0.00,NULL,NULL,NULL,NULL,NULL,'2017-06-20 19:41:08.989934','2017-06-21 13:50:22.501463',3,'2017-06-21 13:50:22.504381','~',NULL,1,2),(2,'8CF08E5','USD',149.00,NULL,NULL,NULL,NULL,NULL,'2017-06-20 19:41:09.037226','2017-06-21 13:50:22.543292',4,'2017-06-21 13:50:22.546927','~',NULL,1,3);
 /*!40000 ALTER TABLE `partner_historicalstockrecord` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2698,7 +2707,7 @@ CREATE TABLE `partner_stockrecord` (
   KEY `partner_stockrecord_9474e4b5` (`date_updated`),
   CONSTRAINT `partner_stockrecord_partner_id_4155a586_fk_partner_partner_id` FOREIGN KEY (`partner_id`) REFERENCES `partner_partner` (`id`),
   CONSTRAINT `partner_stockrecord_product_id_62fd9e45_fk_catalogue_product_id` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2707,6 +2716,7 @@ CREATE TABLE `partner_stockrecord` (
 
 LOCK TABLES `partner_stockrecord` WRITE;
 /*!40000 ALTER TABLE `partner_stockrecord` DISABLE KEYS */;
+INSERT INTO `partner_stockrecord` VALUES (1,'68EFFFF','USD',0.00,NULL,NULL,NULL,NULL,NULL,'2017-06-20 19:41:08.989934','2017-06-21 13:50:22.501463',1,2),(2,'8CF08E5','USD',149.00,NULL,NULL,NULL,NULL,NULL,'2017-06-20 19:41:09.037226','2017-06-21 13:50:22.543292',1,3);
 /*!40000 ALTER TABLE `partner_stockrecord` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -4062,7 +4072,7 @@ CREATE TABLE `waffle_flag` (
 
 LOCK TABLES `waffle_flag` WRITE;
 /*!40000 ALTER TABLE `waffle_flag` DISABLE KEYS */;
-INSERT INTO `waffle_flag` VALUES (1,'enable_client_side_checkout',NULL,NULL,0,1,0,0,'',0,'This flag determines if the integrated/client-side checkout flow should be enabled.','2017-02-24 06:33:04.596856','2017-02-24 06:33:04.596869');
+INSERT INTO `waffle_flag` VALUES (1,'enable_client_side_checkout',1,NULL,0,1,0,0,'',0,'This flag determines if the integrated/client-side checkout flow should be enabled.','2017-02-24 06:33:04.596856','2017-06-21 13:50:22.431985');
 /*!40000 ALTER TABLE `waffle_flag` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -4136,7 +4146,7 @@ CREATE TABLE `waffle_sample` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
   KEY `waffle_sample_e2fa5388` (`created`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4165,7 +4175,7 @@ CREATE TABLE `waffle_switch` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
   KEY `waffle_switch_e2fa5388` (`created`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4174,7 +4184,7 @@ CREATE TABLE `waffle_switch` (
 
 LOCK TABLES `waffle_switch` WRITE;
 /*!40000 ALTER TABLE `waffle_switch` DISABLE KEYS */;
-INSERT INTO `waffle_switch` VALUES (1,'publish_course_modes_to_lms',1,'','2017-02-24 06:32:26.280033','2017-02-24 06:32:26.280045'),(3,'create_enrollment_codes',0,'','2017-02-24 06:32:28.248445','2017-02-24 06:32:28.248457'),(4,'payment_processor_active_cybersource',1,'','2017-02-24 06:33:04.025145','2017-02-24 06:33:04.025157'),(5,'payment_processor_active_paypal',1,'','2017-02-24 06:33:04.025961','2017-02-24 06:33:04.025969'),(6,'sailthru_enable',0,'','2017-02-24 06:33:25.762226','2017-02-24 06:33:25.762244');
+INSERT INTO `waffle_switch` VALUES (1,'publish_course_modes_to_lms',1,'','2017-02-24 06:32:26.280033','2017-02-24 06:32:26.280045'),(3,'create_enrollment_codes',0,'','2017-02-24 06:32:28.248445','2017-02-24 06:32:28.248457'),(4,'payment_processor_active_cybersource',1,'','2017-02-24 06:33:04.025145','2017-02-24 06:33:04.025157'),(5,'payment_processor_active_paypal',1,'','2017-02-24 06:33:04.025961','2017-02-24 06:33:04.025969'),(6,'sailthru_enable',0,'','2017-02-24 06:33:25.762226','2017-02-24 06:33:25.762244'),(7,'enable_user_list_view',1,'','2017-06-20 19:40:00.165273','2017-06-20 19:40:00.165295'),(8,'enable_order_list_view',1,'','2017-06-20 19:40:00.583019','2017-06-20 19:40:00.583034');
 /*!40000 ALTER TABLE `waffle_switch` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -4246,4 +4256,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-06-07  1:03:11
+-- Dump completed on 2017-06-21 14:43:28
