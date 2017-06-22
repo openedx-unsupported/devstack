@@ -7,18 +7,19 @@
 # 3. Service users and OAuth clients setup in LMS,
 # 4. Static assets compiled/collected.
 
-
 set -e
 set -o pipefail
 set -x
 
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-NC='\033[0m' # No Color
+RED=$(echo -e '\033[0;31m')
+GREEN=$(echo -e '\033[0;32m')
+YELLOW=$(echo -e '\033[0;33m')
+BLUE=$(echo -e '\033[0;34m')
+MAGENTA=$(echo -e '\033[0;35m')
+NC=$(echo -e '\033[0m') # No Color
 
 # Bring the databases online.
-docker-compose up -d mysql mongo
+docker-compose up -d mysql mongo memcached
 
 # Ensure the MySQL server is online and usable
 echo "Waiting for MySQL"
@@ -38,13 +39,14 @@ echo -e "${GREEN}Creating databases and users...${NC}"
 docker exec -i edx.devstack.mysql mysql -uroot mysql < provision.sql
 docker exec -i edx.devstack.mongo mongo < mongo-provision.js
 
-./provision-lms.sh
+./provision-oauth.sh | sed "s/^/${RED}[provision-oauth.sh]${NC} /"
 
-# Nothing special needed for studio
-docker-compose $DOCKER_COMPOSE_FILES up -d studio
-
-./provision-ecommerce.sh
-./provision-discovery.sh
-./provision-credentials.sh
+cat <<CMDS | xargs -P 10 -L 1 -I {} bash -c {}
+./provision-lms.sh 2>&1 | sed '"s/^/${RED}[provision-lms.sh]${NC} /"'
+./provision-studio.sh 2>&1 | sed '"s/^/${GREEN}[provision-studio.sh]${NC} /"'
+./provision-ecommerce.sh 2>&1 | sed '"s/^/${YELLOW}[provision-ecommerce.sh]${NC} /"'
+./provision-discovery.sh 2>&1 | sed '"s/^/${BLUE}[provision-discovery.sh]${NC} /"'
+./provision-credentials.sh 2>&1 | sed '"s/^/${MAGENTA}[provision-credentials.sh]${NC} /"'
+CMDS
 
 echo -e "${GREEN}Provisioning complete!${NC}"

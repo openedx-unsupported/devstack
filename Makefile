@@ -38,7 +38,7 @@ dev.sync.requirements: ## Install requirements
 dev.sync.up: dev.sync.daemon.start ## Bring up all services with docker-sync enabled
 	docker-compose -f docker-compose.yml -f docker-compose-sync.yml up -d
 
-provision: ## Provision all services using the Docker volume
+nosrc.provision: ## Provision all services using the Docker volume
 	./provision.sh
 
 stop: ## Stop all services

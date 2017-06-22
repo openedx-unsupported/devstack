@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # Load database dumps for the largest databases to save time
 ./load-db.sh ecommerce
 
