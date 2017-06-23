@@ -6,7 +6,7 @@ python:
   - "3.5"
 
 env:
-  - DEVSTACK_WORKSPACE=/tmp DOCKER_COMPOSE_VERSION=1.13.0
+  - DEVSTACK_WORKSPACE=/tmp DOCKER_COMPOSE_VERSION=1.13.0 SHALLOW_CLONE=1
 
 services:
   - docker
