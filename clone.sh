@@ -33,7 +33,11 @@ do
     if [ -d "$name" ]; then
         printf "The [%s] repo is already checked out. Continuing.\n" $name
     else
-        git clone $repo
+        if [ "$SHALLOW_CLONE" -eq 1 ]; then
+            git clone --depth=1 $repo
+        else
+            git clone $repo
+        fi
     fi
 done
 cd - &> /dev/null
