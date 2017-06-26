@@ -1,3 +1,6 @@
+set -x
+set -e
+
 # Provisioning script for the discovery service
 ./provision-ida.sh discovery 18381
 
