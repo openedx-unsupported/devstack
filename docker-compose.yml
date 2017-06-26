@@ -118,7 +118,7 @@ services:
       # - "18031:18031"
 
   studio:
-    command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py cms runserver 0.0.0.0:18010 --settings devstack_docker; sleep 2; done'
+    command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py cms runserver 0.0.0.0:18001 --settings devstack_docker; sleep 2; done'
     container_name: edx.devstack.studio
     depends_on:
       - mysql
