@@ -131,7 +131,7 @@ services:
       NO_PYTHON_UNINSTALL: 1
     image: edxops/edxapp:latest
     ports:
-      - "18001:18001"
+      - "18010:18010"
       # - "18103:18103"
       # - "18131:18131"
 
