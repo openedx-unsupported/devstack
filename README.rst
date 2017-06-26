@@ -182,7 +182,7 @@ meant to be user-facing, the "homepage" may be the API root.
 +---------------------+-------------------------------------+
 | LMS                 | http://localhost:18000/             |
 +---------------------+-------------------------------------+
-| Studio/CMS          | http://localhost:18010/             |
+| Studio/CMS          | http://localhost:18001/             |
 +---------------------+-------------------------------------+
 
 Useful Commands

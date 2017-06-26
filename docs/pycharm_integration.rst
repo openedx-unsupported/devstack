@@ -113,7 +113,7 @@ Configuration`_, with the following specific values.
 1. Leave host/port blank
 
 2. Additional options: runserver 0.0.0.0:18000 (or runserver
-   0.0.0.0:18010)
+   0.0.0.0:18001)
 
 3. Custom run command: lms (or cms)
 

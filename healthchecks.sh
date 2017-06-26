@@ -8,7 +8,7 @@ if [[ $? -ne 0 ]]; then
 fi
 echo
 echo "Checking Studio heartbeat:"
-curl http://localhost:18010/heartbeat # Studio
+curl http://localhost:18001/heartbeat # Studio
 if [[ $? -ne 0 ]]; then
     docker-compose logs
     exit 2
