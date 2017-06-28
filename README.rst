@@ -28,24 +28,6 @@ boot2docker) are not supported.
 
 `Docker for Windows`_ may work but has not been tested and is *not supported*.
 
-Docker Sync
-~~~~~~~~~~~
-
-Docker for Mac has known filesystem issues that significantly decrease
-performance, paticularly for starting edx-platform (e.g. when you want to run a
-test). In order to mitigate these issues, we use `Docker Sync`_ to synchronize
-file data from the host machine to the containers.
-
-If you are using macOS, please follow the `Docker Sync installation
-instructions`_ before provisioning.
-
-The performance improvements provided by `cached consistency mode for volume
-mounts`_ introduced in Docker CE Edge 17.04 are still not good enough. It's
-possible that the "delegated" consistency mode will be enough to no longer need
-docker-sync, but this feature doesn't appear to have been fully implemented yet
-(as of Docker 17.06.0-ce-rc2, "delegated" behaves the same as "cached").
-
-
 Getting Started
 ---------------
 
@@ -79,17 +61,17 @@ a minimum of 2 CPUs and 4GB of memory works well.
    the services directly via Django admin at the ``/admin/`` path, or login via
    single sign-on at ``/login/``.
 
-   Provision using docker-sync (recommended for macOS users)
-
-   .. code:: sh
-
-       make dev.sync.provision
-
-   Default (non-macOS users)
+   Default
 
    .. code:: sh
 
        make dev.provision
+
+   Provision using `docker-sync`_.
+
+   .. code:: sh
+
+       make dev.sync.provision
 
 
 3. Start the services. This command will mount the repositories under the
@@ -97,17 +79,18 @@ a minimum of 2 CPUs and 4GB of memory works well.
 
    *Note: it may take up to 60 seconds for the LMS to start*
 
-   Start using docker-sync (recommended for macOS users)
+   Default
+
+   .. code:: sh
+
+       make dev.up
+
+   Start using `docker-sync`_.
 
    .. code:: sh
 
        make dev.sync.up
 
-   Default (non-macOS users)
-
-   .. code:: sh
-
-       make dev.up
 
 After the services have started, if you need shell access to one of the
 services, run ``make <service>-shell``. For example to access the
@@ -403,6 +386,33 @@ Or, you can run the following commands to clean up dangling images and volumes:
    docker rmi $(docker images -f "dangling=true" -q)
    docker volume rm $(docker volume ls -qf dangling=true)
 
+Cannot create container for service lms
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Ensure that you have used the Docker Edge download, as opposed to the stable one
+
+
+Performance
+-----------
+
+Improve Mac OSX Performance with docker-sync
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Docker for Mac has known filesystem issues that significantly decrease
+performance, paticularly for starting edx-platform (e.g. when you want to run a
+test). To improve performance `Docker Sync`_  can be used to
+synchronize file data from the host machine to the containers.
+
+If you are using macOS, please follow the `Docker Sync installation
+instructions`_ before provisioning.
+
+Cached Consistency Mode
+~~~~~~~~~~~~~~~~~~~~~~~
+The performance improvements provided by `cached consistency mode for volume
+mounts`_ introduced in Docker CE Edge 17.04 are still not good enough. It's
+possible that the "delegated" consistency mode will be enough to no longer need
+docker-sync, but this feature doesn't appear to have been fully implemented yet
+(as of Docker 17.06.0-ce-rc2, "delegated" behaves the same as "cached").
+
+
 .. _Docker Compose: https://docs.docker.com/compose/
 .. _Docker for Mac: https://docs.docker.com/docker-for-mac/
 .. _Docker for Windows: https://docs.docker.com/docker-for-windows/
@@ -413,10 +423,6 @@ Or, you can run the following commands to clean up dangling images and volumes:
 .. _feature added in Docker 17.05: https://github.com/edx/configuration/pull/3864
 .. _Pycharm Integration documentation: docs/pycharm_integration.rst
 .. _edx-platform testing documentation: https://github.com/edx/edx-platform/blob/master/docs/testing.rst#running-python-unit-tests
+.. _docker-sync: #improve-mac-osx-performance-with-docker-sync
 .. |Build Status| image:: https://travis-ci.org/edx/devstack.svg?branch=master
    :target: https://travis-ci.org/edx/devstack
-
-
-Cannot create container for service lms
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Ensure that you have used the Docker Edge download, as opposed to the stable one
