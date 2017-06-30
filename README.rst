@@ -252,6 +252,46 @@ require manual intervention. The process below details how to update the databas
    ./dump-db.sh edxapp
    ./dump-db.sh edxapp_csmh
 
+How do I upgrade Node.JS packages?
+----------------------------------
+
+JavaScript packages for Node.js are installed into the ``node_modules``
+directory of the local git repository checkout which is synced into the
+corresponding Docker container.  Hence these can be upgraded via any of the
+usual methods for that service (``npm install``,
+``paver install_node_prereqs``, etc.), and the changes will persist between
+container restarts.
+
+How do I upgrade Python packages?
+---------------------------------
+
+Unlike the ``node_modules`` directory, the ``virtualenv`` used to run Python
+code in a Docker container only exists inside that container.  Changes made to
+a container's filesystem are not saved when the container exits, so if you
+manually install or upgrade Python packages in a container (via
+``pip install``, ``paver install_python_prereqs``, etc.), they will no
+longer be present if you restart the container.  (Devstack Docker containers
+lose changes made to the filesystem when you reboot your computer, run
+``make down``, restart or upgrade Docker itself, etc.) If you want to ensure
+that your new or upgraded packages are present in the container every time it
+starts, you have a few options:
+
+* Merge your updated requirements files and wait for a new `edxops Docker image`_ 
+  for that service to be built and uploaded to `Docker Hub`_.  You can
+  then download and use the updated image (for example, via ``make pull``).
+  These images are currently built as needed by edX employees, but will soon
+  be built automatically on a regular basis.
+* You can update your requirements files as appropriate and then build your
+  own updated image for the service as described above, tagging it such that
+  ``docker-compose`` will use it instead of the last image you downloaded.
+  (Alternatively, you can temporarily edit ``docker-compose.yml`` to replace
+  the ``image`` entry for that service with the ID of your new image.)
+* You can temporarily modify the main service command in
+  ``docker-compose.yml`` to first install your new package(s) each time the
+  container is started.  For example, the part of the studio command which
+  reads ``...&& while true; do...`` could be changed to
+  ``...&& pip install my-new-package && while true; do...``.
+
 PyCharm Integration
 -------------------
 
@@ -417,6 +457,8 @@ GitHub issue which explains the `current status of implementing delegated consis
 .. _current status of implementing delegated consistency mode: https://github.com/docker/for-mac/issues/1592
 .. _configuring Docker for Mac: https://docs.docker.com/docker-for-mac/#/advanced
 .. _feature added in Docker 17.05: https://github.com/edx/configuration/pull/3864
+.. _edxops Docker image: https://hub.docker.com/r/edxops/
+.. _Docker Hub: https://hub.docker.com/
 .. _Pycharm Integration documentation: docs/pycharm_integration.rst
 .. _edx-platform testing documentation: https://github.com/edx/edx-platform/blob/master/docs/testing.rst#running-python-unit-tests
 .. _docker-sync: #improve-mac-osx-performance-with-docker-sync
