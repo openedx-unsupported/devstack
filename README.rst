@@ -16,10 +16,10 @@ from within a VM.
 Prerequisites
 -------------
 
-This project requires **Docker 17.05+ CE**. Currently, 17.05 is only available
-through the **Edge** version Docker 17.05 CE Edge.
+This project requires **Docker 17.06+ CE**.  We recommend Docker Stable, but
+Docker Edge should work as well.
 
-**Note:** Switching from Docker Stable to Docker Edge wil remove all images and
+**Note:** Switching between Docker Stable and Docker Edge will remove all images and
 settings.  Don't forget to restore your memory setting and be prepared to
 provision.
 
@@ -196,8 +196,6 @@ https://openedx.atlassian.net/wiki/display/OpenDev/Marketing+Site.
 
 How do I build images?
 ----------------------
-
-**Note:** Building images requires a `feature added in Docker 17.05`_.
 
 We are still working on automated image builds, but generally try to push new
 images every 3-7 days. If you want to build the images on your own, the
@@ -386,10 +384,6 @@ Or, you can run the following commands to clean up dangling images and volumes:
    docker rmi $(docker images -f "dangling=true" -q)
    docker volume rm $(docker volume ls -qf dangling=true)
 
-Cannot create container for service lms
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Ensure that you have used the Docker Edge download, as opposed to the stable one
-
 
 Performance
 -----------
@@ -409,8 +403,9 @@ Cached Consistency Mode
 The performance improvements provided by `cached consistency mode for volume
 mounts`_ introduced in Docker CE Edge 17.04 are still not good enough. It's
 possible that the "delegated" consistency mode will be enough to no longer need
-docker-sync, but this feature doesn't appear to have been fully implemented yet
-(as of Docker 17.06.0-ce-rc2, "delegated" behaves the same as "cached").
+docker-sync, but this feature hasn't been fully implemented yet (as of
+Docker 17.06.0-ce, "delegated" behaves the same as "cached").  There is a
+GitHub issue which explains the `current status of implementing delegated consistency mode`_.
 
 
 .. _Docker Compose: https://docs.docker.com/compose/
@@ -419,6 +414,7 @@ docker-sync, but this feature doesn't appear to have been fully implemented yet
 .. _Docker Sync: https://github.com/EugenMayer/docker-sync/wiki
 .. _Docker Sync installation instructions: https://github.com/EugenMayer/docker-sync/wiki/1.-Installation
 .. _cached consistency mode for volume mounts: https://docs.docker.com/docker-for-mac/osxfs-caching/
+.. _current status of implementing delegated consistency mode: https://github.com/docker/for-mac/issues/1592
 .. _configuring Docker for Mac: https://docs.docker.com/docker-for-mac/#/advanced
 .. _feature added in Docker 17.05: https://github.com/edx/configuration/pull/3864
 .. _Pycharm Integration documentation: docs/pycharm_integration.rst
