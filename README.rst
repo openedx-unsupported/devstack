@@ -252,6 +252,26 @@ require manual intervention. The process below details how to update the databas
    ./dump-db.sh edxapp
    ./dump-db.sh edxapp_csmh
 
+How do I keep my database up to date?
+-------------------------------------
+
+You can run Django migrations as normal to apply any changes recently made
+to the database schema for a particular service.  For example, to run
+migrations for LMS, enter a shell via ``make lms-shell`` and then run:
+
+.. code:: sh
+
+   paver update_db
+
+Alternatively, you can discard and rebuild the entire database for all
+devstack services by re-running ``make dev.provision`` or
+``make dev.sync.provision`` as appropriate for your configuration.  Note that
+if your branch has fallen significantly behind master, it may not include all
+of the migrations included in the database dump used by provisioning.  In
+cases like this it's usually best to first rebase the branch onto master to
+get the missing migrations.
+
+
 How do I upgrade Node.JS packages?
 ----------------------------------
 
@@ -292,23 +312,56 @@ starts, you have a few options:
   reads ``...&& while true; do...`` could be changed to
   ``...&& pip install my-new-package && while true; do...``.
 
+Switching branches
+------------------
+
+You can usually switch branches on a service's repository without adverse
+effects on a running container for it.  The service in each container is
+using runserver and should automatically reload when any changes are made
+to the code on disk.  However, note the points made above regarding
+database migrations and package updates.
+
+When switching to a branch which differs greatly from the one you've been
+working on (especially if the new branch is more recent), you may wish to
+halt the existing containers via ``make down``, pull the latest Docker
+images via ``make pull``, and then re-run ``make dev.provision`` or
+``make dev.sync.provision`` in order to recreate up-to-date databases,
+static assets, etc.
+
+If making a patch to a named release, you should pull and use Docker images
+which were tagged for that release.
+
 PyCharm Integration
 -------------------
 
 See the `Pycharm Integration documentation`_.
 
-Running LMS and Studio Python tests
------------------------------------
+Running LMS and Studio Tests
+----------------------------
 
-If you want to run Python tests inside the LMS or Studio container, you need to pass the
-``test_docker`` settings flag. Example:
+After entering a shell for the appropriate service via ``make lms-shell`` or
+``make studio-shell``, you can run any of the usual paver commands from the
+`edx-platform testing documentation`_.  Examples:
+
+.. code:: sh
+
+    paver run_quality
+    paver test_a11y
+    paver test_bokchoy
+    paver test_js
+    paver test_lib
+    paver test_python
+
+If you want to instead run tests via ``manage.py``, you need to pass the
+``test_docker`` settings flag instead of the ``test`` settings used in
+Vagrant. Example:
 
 .. code:: sh
 
     DISABLE_MIGRATIONS=1 ./manage.py lms test --settings=test_docker openedx.core.djangoapps.user_api
 
 You can also add the ``test_docker`` settings flag to the other examples detailed
-in the `edx-platform testing documentation`_.
+in the testing documentation.
 
 Troubleshooting: General Tips
 -----------------------------
