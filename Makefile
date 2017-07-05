@@ -98,3 +98,6 @@ validate-lms-volume: ## Validate that changes to the local workspace are reflect
 
 mysql-shell: ## Run a shell on the mysql container
 	docker-compose exec mysql bash
+
+create-test-course-studio: ## Generates a course on studio using settings in test-course-studio.json
+	./create-test-course-studio.sh
