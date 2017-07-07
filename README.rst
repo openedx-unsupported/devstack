@@ -477,22 +477,52 @@ Or, you can run the following commands to clean up dangling images and volumes:
    docker rmi $(docker images -f "dangling=true" -q)
    docker volume rm $(docker volume ls -qf dangling=true)
 
+No such file or directory
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+While provisioning, some have seen the following error:
+
+.. code:: sh
+
+   ...
+       cwd = os.getcwdu()
+   OSError: [Errno 2] No such file or directory
+   make: *** [dev.provision.run] Error 1
+
+Everyone who has seen this has gotten past it, but we don't have a surefire way
+to do so. Rebooting and restarting Docker do *not* seem to correct the issue. It
+may be an issue that is exacerbated by our use of sync (which typically speeds
+up the provisioning process on Mac), so you can try the following:
+
+.. code:: sh
+
+   # repeat the following until you get past the error.
+   make stop
+   make dev.provision
+
+Once you get past the issue, you should be able to continue to use sync versions
+of the make targets.
 
 Performance
 -----------
 
 Improve Mac OSX Performance with docker-sync
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Docker for Mac has known filesystem issues that significantly decrease
-performance, paticularly for starting edx-platform (e.g. when you want to run a
+performance, particularly for starting edx-platform (e.g. when you want to run a
 test). To improve performance `Docker Sync`_  can be used to
 synchronize file data from the host machine to the containers.
+
+You can swap between using Docker Sync and native volumes at any time, by using
+the make targets with or without 'sync'.
 
 If you are using macOS, please follow the `Docker Sync installation
 instructions`_ before provisioning.
 
 Cached Consistency Mode
 ~~~~~~~~~~~~~~~~~~~~~~~
+
 The performance improvements provided by `cached consistency mode for volume
 mounts`_ introduced in Docker CE Edge 17.04 are still not good enough. It's
 possible that the "delegated" consistency mode will be enough to no longer need
