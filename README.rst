@@ -77,7 +77,7 @@ a minimum of 2 CPUs and 4GB of memory works well.
 3. Start the services. This command will mount the repositories under the
    DEVSTACK\_WORKSPACE directory.
 
-   *Note: it may take up to 60 seconds for the LMS to start*
+   *Note: it may take up to 60 seconds for the LMS to start, even after the ``dev.up`` command outputs "done".*
 
    Default
 
@@ -120,6 +120,12 @@ To reset your environment and start provisioning from scratch, you can run:
 .. code:: sh
 
     make destroy
+
+For information on all the available ``make`` commands, you can run:
+
+.. code:: sh
+
+    make help
 
 Usernames and Passwords
 -----------------------
