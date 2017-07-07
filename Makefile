@@ -46,7 +46,7 @@ stop: ## Stop all services
 	docker-compose stop
 
 down: ## Remove all service containers and networks
-	test -d .docker-sync && docker-sync clean
+	(test -d .docker-sync && docker-sync clean) || true ## Ignore failure here
 	docker-compose down
 
 destroy: ## Remove all devstack-related containers, networks, and volumes
