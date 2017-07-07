@@ -480,8 +480,8 @@ Or, you can run the following commands to clean up dangling images and volumes:
 
 .. code:: sh
 
-   docker rmi $(docker images -f "dangling=true" -q)
-   docker volume rm $(docker volume ls -qf dangling=true)
+   docker image prune -f
+   docker volume prune -f (Be careful, this will remove your persistent data!)
 
 No such file or directory
 ~~~~~~~~~~~~~~~~~~~~~~~~~

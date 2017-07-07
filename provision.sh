@@ -46,4 +46,6 @@ docker-compose $DOCKER_COMPOSE_FILES up -d studio
 ./provision-discovery.sh
 ./provision-credentials.sh
 
+docker image prune -f
+
 echo -e "${GREEN}Provisioning complete!${NC}"
