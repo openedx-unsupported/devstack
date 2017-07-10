@@ -56,7 +56,7 @@ logs: ## View logs from containers running in detached mode
 	docker-compose logs -f
 
 %-logs: ## View the logs of the specified service container
-	docker-compose logs -f | grep edx.devstack.$*
+	docker-compose logs -f --tail=500 | grep edx.devstack.$*
 
 pull: ## Update Docker images
 	docker-compose pull
