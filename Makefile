@@ -96,6 +96,10 @@ validate-lms-volume: ## Validate that changes to the local workspace are reflect
 	docker exec edx.devstack.lms ls /edx/app/edxapp/edx-platform/testfile
 	rm $(DEVSTACK_WORKSPACE)/edx-platform/testfile
 
+vnc-passwords: ## Get the VNC passwords for the Chrome and Firefox Selenium containers
+	@docker logs edx.devstack.chrome 2>&1 | grep "VNC password" | tail -1
+	@docker logs edx.devstack.firefox 2>&1 | grep "VNC password" | tail -1
+
 mysql-shell: ## Run a shell on the mysql container
 	docker-compose exec mysql bash
 
