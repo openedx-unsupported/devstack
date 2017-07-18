@@ -12,6 +12,15 @@ version: "2.1"
 
 services:
   # Third-party services
+  chrome:
+    container_name: edx.devstack.chrome
+    image: edxops/chrome:latest
+    shm_size: 2g
+    ports:
+      - "15900:5900"
+    volumes:
+      - ../edx-platform:/edx/app/edxapp/edx-platform  # for file uploads
+
   elasticsearch:
     container_name: edx.devstack.elasticsearch
     image: edxops/elasticsearch:devstack
@@ -25,7 +34,12 @@ services:
 
   firefox:
     container_name: edx.devstack.firefox
-    image: selenium/standalone-firefox:2.53.1-beryllium
+    image: edxops/firefox:latest
+    shm_size: 2g
+    ports:
+      - "25900:5900"
+    volumes:
+      - ../edx-platform:/edx/app/edxapp/edx-platform  # for file uploads
 
   memcached:
     container_name: edx.devstack.memcached
@@ -114,6 +128,7 @@ services:
     image: edxops/edxapp:latest
     ports:
       - "18000:18000"
+      - "19876:19876" # JS test debugging
       # - "18003:18003"
       # - "18031:18031"
 
@@ -132,6 +147,7 @@ services:
     image: edxops/edxapp:latest
     ports:
       - "18010:18010"
+      - "19877:19877" # JS test debugging
       # - "18103:18103"
       # - "18131:18131"
 
