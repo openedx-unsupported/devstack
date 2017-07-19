@@ -131,6 +131,8 @@ services:
       - "19876:19876" # JS test debugging
       # - "18003:18003"
       # - "18031:18031"
+    volumes:
+      - edxapp_lms_assets:/edx/var/edxapp/staticfiles/
 
   studio:
     command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py cms runserver 0.0.0.0:18010 --settings devstack_docker; sleep 2; done'
@@ -150,8 +152,12 @@ services:
       - "19877:19877" # JS test debugging
       # - "18103:18103"
       # - "18131:18131"
+    volumes:
+      - edxapp_studio_assets:/edx/var/edxapp/staticfiles/
 
 volumes:
   elasticsearch_data:
   mongo_data:
   mysql_data:
+  edxapp_lms_assets:
+  edxapp_studio_assets:
