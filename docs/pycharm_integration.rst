@@ -83,6 +83,20 @@ so you can easily switch back to old without this delay.
 **Warning**: When you change configuration files, the service drop-down gets
 reset. Remember to restore to the IDA you wish to test.
 
+Setup Django Support
+--------------------
+
+Before setting up a Server/Debug configuration you will need to setup Django
+Support for the specific Project (e.g. LMS and Studio, or ecommerce)
+
+PyCharm -> Preferences -> Languages & Frameworks -> Django
+
+Here are some example settings you might use:
+
+Django Project Root: /Path/to/docker_devstack/ecommerce
+Settings: ecommerce/settings/devstack.py
+Manage Script: manage.py
+
 Setup a Server Run/Debug Configuration
 --------------------------------------
 
@@ -100,6 +114,19 @@ be set to the service-specific port from the table above.
 
 *Note*: See next section for additional changes needed for LMS and
 Studio.
+
+Setup a Server Run/Debug Configuration for ecommerce
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Add the following Environment Variables to the Server configuration, these are all
+defined on the ecommerce server in /edx/app/ecommerce/ecommerce_env
+
+.. code-block::
+
+  export PATH="/edx/app/ecommerce/nodeenvs/ecommerce/bin:/edx/app/ecommerce/venvs/ecommerce/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"
+  export ECOMMERCE_CFG="/edx/etc/ecommerce.yml"
+  export DJANGO_SETTINGS_MODULE="ecommerce.settings.devstack"
+
 
 Setup a Server Run/Debug Configuration for LMS or Studio
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
