@@ -103,5 +103,8 @@ vnc-passwords: ## Get the VNC passwords for the Chrome and Firefox Selenium cont
 mysql-shell: ## Run a shell on the mysql container
 	docker-compose exec mysql bash
 
-create-test-course-studio: ## Generates a course on studio using settings in test-course-studio.json
-	./create-test-course-studio.sh
+create-course-studio: ## Generates a course on studio using the configurations in test-course-studio.json
+	./course-generator/create-course-studio.sh
+
+create-course-ecommerce: ## Generates a course on ecommerce using the configurations in test-course-ecommerce.json
+	./course-generator/create-course-ecommerce.sh
