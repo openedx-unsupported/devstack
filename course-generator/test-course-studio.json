@@ -1,9 +1,0 @@
-{
-  "organization": "test-course-generator",
-  "number": "2",
-  "run": "1",
-  "fields": {
-    "display_name": "test-course",
-    "enable_proctored_exams": true
-  } 
-}
