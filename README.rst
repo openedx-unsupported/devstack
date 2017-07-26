@@ -28,6 +28,10 @@ boot2docker) are not supported.
 
 `Docker for Windows`_ may work but has not been tested and is *not supported*.
 
+You will also need the following installed:
+- make
+- python pip
+
 Getting Started
 ---------------
 
@@ -36,7 +40,10 @@ are running many containers, you should configure Docker with a sufficient
 amount of resources. Our testing found that `configuring Docker for Mac`_ with
 a minimum of 2 CPUs and 4GB of memory works well.
 
-1. The Docker Compose file mounts a host volume for each service's executing
+1. .. code:: sh
+      make requirements
+
+2. The Docker Compose file mounts a host volume for each service's executing
    code. The host directory is defaults to be a sibling of this directory. For
    example, if this repo is cloned to ``~/workspace/devstack``, host volumes
    will be expected in ``~/workspace/course-discovery``,
@@ -50,7 +57,7 @@ a minimum of 2 CPUs and 4GB of memory works well.
    You may customize where the local repositories are found by setting the
    DEVSTACK\_WORKSPACE environment variable.
 
-2. Run the provision command, if you haven't already, to configure the various
+3. Run the provision command, if you haven't already, to configure the various
    services with superusers (for development without the auth service) and
    tenants (for multi-tenancy).
 
@@ -74,7 +81,7 @@ a minimum of 2 CPUs and 4GB of memory works well.
        make dev.sync.provision
 
 
-3. Start the services. This command will mount the repositories under the
+4. Start the services. This command will mount the repositories under the
    DEVSTACK\_WORKSPACE directory.
 
    *Note: it may take up to 60 seconds for the LMS to start, even after the ``dev.up`` command outputs "done".*
