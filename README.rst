@@ -537,6 +537,19 @@ the make targets with or without 'sync'.
 If you are using macOS, please follow the `Docker Sync installation
 instructions`_ before provisioning.
 
+Docker Sync Troubleshooting tips
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Check your version and make sure you are running 0.4.6 or above:
+* Check version: docker-sync --version
+
+If not, upgrade to the latest version:
+* Upgrade gem update docker-sync
+
+If you are having issues with docker sync try the following:
+* make stop
+* docker-sync stop
+* docker-sync clean
+
 Cached Consistency Mode
 ~~~~~~~~~~~~~~~~~~~~~~~
 
