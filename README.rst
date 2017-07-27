@@ -403,6 +403,21 @@ running ``make vnc-passwords``.  To use Chrome for tests that normally
 use Firefox instead, prefix the test command with
 ``SELENIUM_BROWSER=chrome SELENIUM_HOST=edx.devstack.chrome``.
 
+Running End-to-End Tests
+------------------------
+
+To run the end-to-end tests for edx-platform, start a shell for the e2e
+container and run the tests via paver:
+
+.. code:: sh
+
+    make e2e-shell
+    paver e2e_test --exclude=whitelabel
+
+Additional testing options are available as described in the
+`edx-e2e-tests README`_.  The browser running the tests can be seen and
+interacted with via VNC as described above (Chrome is used by default).
+
 Troubleshooting: General Tips
 -----------------------------
 
@@ -607,6 +622,7 @@ GitHub issue which explains the `current status of implementing delegated consis
 .. _current status of implementing delegated consistency mode: https://github.com/docker/for-mac/issues/1592
 .. _configuring Docker for Mac: https://docs.docker.com/docker-for-mac/#/advanced
 .. _feature added in Docker 17.05: https://github.com/edx/configuration/pull/3864
+.. _edx-e2e-tests README: https://github.com/edx/edx-e2e-tests/#how-to-run-lms-and-studio-tests
 .. _edxops Docker image: https://hub.docker.com/r/edxops/
 .. _Docker Hub: https://hub.docker.com/
 .. _Pycharm Integration documentation: docs/pycharm_integration.rst
