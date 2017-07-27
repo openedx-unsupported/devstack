@@ -24,7 +24,7 @@ dev.provision.run: ## Provision all services with local mounted directories
 
 dev.provision: | dev.provision.run stop ## Provision dev environment with all services stopped
 
-dev.up: ## Bring up all services with host volumes
+dev.up: | check-memory ## Bring up all services with host volumes
 	docker-compose -f docker-compose.yml -f docker-compose-host.yml up -d
 
 dev.sync.daemon.start: ## Start the docker-sycn daemon
@@ -108,3 +108,7 @@ create-course-studio: ## Generates a course on studio using the configurations i
 
 create-course-ecommerce: ## Generates a course on ecommerce using the configurations in test-course-ecommerce.json
 	./course-generator/create-course-ecommerce.sh
+
+check-memory:
+	@if [ `docker info --format '{{json .}}' | python -c "import sys, json; print json.load(sys.stdin)['MemTotal']"` -lt 2147483648 ]; then echo "\033[0;31mWarning, System Memory is set too low!!! Increase Docker memory to be at least 2 Gigs\033[0m"; fi || exit 0
+	
