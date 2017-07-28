@@ -80,6 +80,9 @@ services:
     depends_on:
       - mysql
       - memcached
+    # Allows attachment to the credentials service using 'docker attach <containerID>'.
+    stdin_open: true
+    tty: true
     environment:
       CACHE_LOCATION: edx.devstack.memcached:12211
       DB_HOST: edx.devstack.mysql
@@ -96,6 +99,9 @@ services:
       - mysql
       - elasticsearch
       - memcached
+    # Allows attachment to the discovery service using 'docker attach <containerID>'.
+    stdin_open: true
+    tty: true
     environment:
       TEST_ELASTICSEARCH_URL: "http://edx.devstack.elasticsearch:9200"
       ENABLE_DJANGO_TOOLBAR: 1
@@ -109,6 +115,9 @@ services:
     depends_on:
       - mysql
       - memcached
+    # Allows attachment to the ecommerce service using 'docker attach <containerID>'.
+    stdin_open: true
+    tty: true
     environment:
       ENABLE_DJANGO_TOOLBAR: 1
     image: edxops/ecommerce:devstack
@@ -122,6 +131,9 @@ services:
       - mysql
       - memcached
       - mongo
+    # Allows attachment to the LMS service using 'docker attach <containerID>'.
+    stdin_open: true
+    tty: true
     environment:
       BOK_CHOY_HOSTNAME: edx.devstack.lms
       BOK_CHOY_LMS_PORT: 18003
@@ -145,6 +157,9 @@ services:
       - mysql
       - memcached
       - mongo
+    # Allows attachment to the Studio service using 'docker attach <containerID>'.
+    stdin_open: true
+    tty: true
     environment:
       BOK_CHOY_HOSTNAME: edx.devstack.studio
       BOK_CHOY_LMS_PORT: 18103

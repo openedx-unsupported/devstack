@@ -82,11 +82,17 @@ restore:  ## Restore all data volumes from the host. WARNING: THIS WILL OVERWRIT
 credentials-shell: ## Run a shell on the credentials container
 	docker exec -it edx.devstack.credentials env TERM=$(TERM) bash
 
+credentials-attach: ## Attach to the credentials container process to use the debugger & see logs.
+	docker attach `docker ps -aqf "name=edx.devstack.credentials"`
+
 e2e-shell: ## Start the end-to-end tests container with a shell
 	docker run -it --network=devstack_default -v ${DEVSTACK_WORKSPACE}/edx-e2e-tests:/edx-e2e-tests -v ${DEVSTACK_WORKSPACE}/edx-platform:/edx-e2e-tests/lib/edx-platform --env-file ${DEVSTACK_WORKSPACE}/edx-e2e-tests/devstack_env edxops/e2e env TERM=$(TERM) bash
 
 lms-shell: ## Run a shell on the LMS container
 	docker exec -it edx.devstack.lms env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
+
+lms-attach: ## Attach to the LMS container process to use the debugger & see logs.
+	docker attach `docker ps -aqf "name=edx.devstack.lms"`
 
 studio-shell: ## Run a shell on the Studio container
 	docker exec -it edx.devstack.studio env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
@@ -104,6 +110,9 @@ studio-static: ## Rebuild static assets for the Studio container
 	docker exec -t edx.devstack.studio bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_assets'
 
 static: | credentials-static discovery-static ecommerce-static lms-static studio-static ## Rebuild static assets for all service containers
+
+studio-attach: ## Attach to the Studio container process to use the debugger & see logs.
+	docker attach `docker ps -aqf "name=edx.devstack.cms"`
 
 healthchecks: ## Run a curl against all services' healthcheck endpoints to make sure they are up. This will eventually be parameterized
 	./healthchecks.sh
@@ -137,4 +146,3 @@ build-courses: ## NOTE: marketing course creation is not available for those out
 
 check-memory:
 	@if [ `docker info --format '{{json .}}' | python -c "from __future__ import print_function; import sys, json; print(json.load(sys.stdin)['MemTotal'])"` -lt 2147483648 ]; then echo "\033[0;31mWarning, System Memory is set too low!!! Increase Docker memory to be at least 2 Gigs\033[0m"; fi || exit 0
-	

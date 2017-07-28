@@ -7,12 +7,12 @@ If you are seeking info on the Vagrant-based devstack, please see
 https://openedx.atlassian.net/wiki/display/OpenOPS/Running+Devstack. This
 project is meant to replace the traditional Vagrant-based devstack with a
 multi-container approach driven by `Docker Compose`_. It is still in the
-beta testing phase. 
+beta testing phase.
 
 Support
 -------
 
-Tickets or issues should be filed in Jira under the platform project: 
+Tickets or issues should be filed in Jira under the platform project:
 https://openedx.atlassian.net/projects/PLAT/issues
 
 FYI
@@ -48,7 +48,7 @@ are running many containers, you should configure Docker with a sufficient
 amount of resources. Our testing found that `configuring Docker for Mac`_ with
 a minimum of 2 CPUs and 4GB of memory works well.
 
-1. Install the requirements. 
+1. Install the requirements.
    .. code:: sh
       make requirements
 
@@ -219,8 +219,8 @@ https://openedx.atlassian.net/wiki/display/OpenDev/Marketing+Site.
 How do I build images?
 ----------------------
 
-There are `Docker CI Jenkins jobs`_ on tools-edx-jenkins that build and push new 
-Docker images to DockerHub on code changes to either the configuration repository or the IDA's codebase. These images 
+There are `Docker CI Jenkins jobs`_ on tools-edx-jenkins that build and push new
+Docker images to DockerHub on code changes to either the configuration repository or the IDA's codebase. These images
 are tagged ``latest``, so only the discovery and edxapp jobs are relevant at this time (see NOTES below). Images that
 require tags other than ``latest`` are built and pushed by hand. If you want to build the images on your own, the
 Dockerfiles are available in the ``edx/configuration`` repo.
@@ -252,7 +252,7 @@ application code from the master branch of the application's repository. If you
 would like to use code from another branch/tag/hash, modify the ``*_VERSION``
 variable that lives in the ``ansible_overrides.yml`` file beside the
 ``Dockerfile``. Note that edx-platform is an exception; the variable to modify is ``edx_platform_version``
-and not ``EDXAPP_VERSION``. 
+and not ``EDXAPP_VERSION``.
 
 For example, if you wanted to build tag ``release-2017-03-03`` for the
 E-Commerce Service, you would modify ``ECOMMERCE_VERSION`` in
@@ -321,18 +321,18 @@ lose changes made to the filesystem when you reboot your computer, run
 that your new or upgraded packages are present in the container every time it
 starts, you have a few options:
 
-* Merge your updated requirements files and wait for a new `edxops Docker image`_ 
+* Merge your updated requirements files and wait for a new `edxops Docker image`_
   for that service to be built and uploaded to `Docker Hub`_.  You can
   then download and use the updated image (for example, via ``make pull``).
   The discovery and edxapp images are buit automatically via a Jenkins job. All other
-  images are currently built as needed by edX employees, but will soon be built 
+  images are currently built as needed by edX employees, but will soon be built
   automatically on a regular basis. See `How do I build images?`_
   for more information.
 * You can update your requirements files as appropriate and then build your
   own updated image for the service as described above, tagging it such that
   ``docker-compose`` will use it instead of the last image you downloaded.
   (Alternatively, you can temporarily edit ``docker-compose.yml`` to replace
-  the ``image`` entry for that service with the ID of your new image.) You 
+  the ``image`` entry for that service with the ID of your new image.) You
   should be sure to modify the variable override for the version of the
   application code used for building the image. See `How do I build images?`_.
   for more information.
@@ -388,6 +388,42 @@ PyCharm Integration
 -------------------
 
 See the `Pycharm Integration documentation`_.
+
+Debugging using PDB
+-------------------
+
+It's possible to debug any of the containers' Python services using PDB. To do so,
+start up the containers as usual with:
+
+.. code:: sh
+
+    make dev.up
+
+This command starts each relevant container with the equivalent of the '--it' option,
+allowing a developer to attach to the process once the process is up and running.
+
+To attach to the LMS/Studio containers and their process, use either:
+
+.. code:: sh
+
+    make lms-attach
+    make studio-attach
+
+Set a PDB breakpoint anywhere in the code using:
+
+.. code:: sh
+
+    import pdb;pdb.set_trace()
+
+and your attached session will offer an interactive PDB prompt when the breakpoint is hit.
+
+To detach from the container, you'll need to stop the container with:
+
+.. code:: sh
+
+    make stop
+
+or a manual Docker command to bring down the container.
 
 Running LMS and Studio Tests
 ----------------------------
@@ -661,5 +697,5 @@ GitHub issue which explains the `current status of implementing delegated consis
 .. _docker-sync: #improve-mac-osx-performance-with-docker-sync
 .. |Build Status| image:: https://travis-ci.org/edx/devstack.svg?branch=master
 .. _Docker CI Jenkins Jobs: https://tools-edx-jenkins.edx.org/job/DockerCI
-.. _How do I build images?: https://github.com/edx/devstack/tree/master#how-do-i-build-images 
+.. _How do I build images?: https://github.com/edx/devstack/tree/master#how-do-i-build-images
    :target: https://travis-ci.org/edx/devstack
