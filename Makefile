@@ -22,7 +22,7 @@ dev.clone: ## Clone service repos to the parent directory
 dev.provision.run: ## Provision all services with local mounted directories
 	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml" ./provision.sh
 
-dev.provision: | dev.provision.run stop ## Provision dev environment with all services stopped
+dev.provision: | check-memory dev.provision.run stop ## Provision dev environment with all services stopped
 
 dev.up: | check-memory ## Bring up all services with host volumes
 	docker-compose -f docker-compose.yml -f docker-compose-host.yml up -d
@@ -38,7 +38,7 @@ dev.sync.requirements: ## Install requirements
 dev.sync.up: dev.sync.daemon.start ## Bring up all services with docker-sync enabled
 	docker-compose -f docker-compose.yml -f docker-compose-sync.yml up -d
 
-provision: ## Provision all services using the Docker volume
+provision: | check-memory ## Provision all services using the Docker volume
 	./provision.sh
 
 stop: ## Stop all services
