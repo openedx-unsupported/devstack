@@ -7,8 +7,16 @@ If you are seeking info on the Vagrant-based devstack, please see
 https://openedx.atlassian.net/wiki/display/OpenOPS/Running+Devstack. This
 project is meant to replace the traditional Vagrant-based devstack with a
 multi-container approach driven by `Docker Compose`_. It is still in the
-alpha/beta testing phase. Support for this project is limited at the moment, so
-it may take a while to respond to issues.
+beta testing phase. 
+
+Support
+-------
+
+Tickets or issues should be filed in Jira under the platform project: 
+https://openedx.atlassian.net/projects/PLAT/issues
+
+FYI
+---
 
 You should run any Make targets described below on your local machine, *not*
 from within a VM.
