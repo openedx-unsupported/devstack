@@ -218,8 +218,10 @@ https://openedx.atlassian.net/wiki/display/OpenDev/Marketing+Site.
 How do I build images?
 ----------------------
 
-We are still working on automated image builds, but generally try to push new
-images every 3-7 days. If you want to build the images on your own, the
+There are `Docker CI Jenkins jobs`_ on tools-edx-jenkins that build and push new 
+Docker images to DockerHub on code changes to either the configuration repository or the IDA's codebase. These images 
+are tagged ``latest``, so only the discovery and edxapp jobs are relevant at this time (see NOTES below). Images that
+require tags other than ``latest`` are built and pushed by hand. If you want to build the images on your own, the
 Dockerfiles are available in the ``edx/configuration`` repo.
 
 NOTES
@@ -248,7 +250,8 @@ The build commands above will use your local configuration, but pull
 application code from the master branch of the application's repository. If you
 would like to use code from another branch/tag/hash, modify the ``*_VERSION``
 variable that lives in the ``ansible_overrides.yml`` file beside the
-``Dockerfile``.
+``Dockerfile``. Note that edx-platform is an exception; the variable to modify is ``edx_platform_version``
+and not ``EDXAPP_VERSION``. 
 
 For example, if you wanted to build tag ``release-2017-03-03`` for the
 E-Commerce Service, you would modify ``ECOMMERCE_VERSION`` in
@@ -320,13 +323,18 @@ starts, you have a few options:
 * Merge your updated requirements files and wait for a new `edxops Docker image`_ 
   for that service to be built and uploaded to `Docker Hub`_.  You can
   then download and use the updated image (for example, via ``make pull``).
-  These images are currently built as needed by edX employees, but will soon
-  be built automatically on a regular basis.
+  The discovery and edxapp images are buit automatically via a Jenkins job. All other
+  images are currently built as needed by edX employees, but will soon be built 
+  automatically on a regular basis. See `How do I build images?`_
+  for more information.
 * You can update your requirements files as appropriate and then build your
   own updated image for the service as described above, tagging it such that
   ``docker-compose`` will use it instead of the last image you downloaded.
   (Alternatively, you can temporarily edit ``docker-compose.yml`` to replace
-  the ``image`` entry for that service with the ID of your new image.)
+  the ``image`` entry for that service with the ID of your new image.) You 
+  should be sure to modify the variable override for the version of the
+  application code used for building the image. See `How do I build images?`_.
+  for more information.
 * You can temporarily modify the main service command in
   ``docker-compose.yml`` to first install your new package(s) each time the
   container is started.  For example, the part of the studio command which
@@ -591,4 +599,6 @@ GitHub issue which explains the `current status of implementing delegated consis
 .. _edx-platform testing documentation: https://github.com/edx/edx-platform/blob/master/docs/testing.rst#running-python-unit-tests
 .. _docker-sync: #improve-mac-osx-performance-with-docker-sync
 .. |Build Status| image:: https://travis-ci.org/edx/devstack.svg?branch=master
+.. _Docker CI Jenkins Jobs: https://tools-edx-jenkins.edx.org/job/DockerCI
+.. _How do I build images?: https://github.com/edx/devstack/tree/master#how-do-i-build-images 
    :target: https://travis-ci.org/edx/devstack
