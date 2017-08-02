@@ -155,6 +155,18 @@ services:
     volumes:
       - edxapp_studio_assets:/edx/var/edxapp/staticfiles/
 
+  forum:
+    command: bash -c 'source /edx/app/forum/ruby_env source && source /edx/app/forum/forum_env && cd /edx/app/forum/cs_comments_service && while true; do ruby app.rb ; sleep 2; done'
+    container_name: edx.devstack.forum
+    depends_on:
+      - mongo
+      - memcached
+      - elasticsearch
+    image: edxops/forum:latest
+    ports:
+      - "44567:4567"
+
+
 volumes:
   elasticsearch_data:
   mongo_data:
