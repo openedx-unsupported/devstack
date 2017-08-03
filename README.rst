@@ -543,6 +543,20 @@ up the provisioning process on Mac), so you can try the following:
 Once you get past the issue, you should be able to continue to use sync versions
 of the make targets.
 
+Memory Limit
+~~~~~~~~~~~~
+
+While provisioning, some have seen the following error:
+
+.. code:: sh
+
+   ...
+   Build failed running pavelib.assets.update_assets: Subprocess return code: 137
+
+This is an indication that your docker process died during execution.  Most likely,
+this is due to running out of memory. If you are set to 2GB (docker for mac default),
+increase it to 4GB (the current recommendation). If you are set to 4GB, try 6GB.
+
 Performance
 -----------
 
