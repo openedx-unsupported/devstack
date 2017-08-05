@@ -1,0 +1,156 @@
+{
+  "courses": [
+    {
+      "enrollment": {
+        "audit": true,
+        "credit": false,
+        "credit_provider": null,
+        "honor": false,
+        "no_id_verification": false,
+        "professional_education": false,
+        "verified": false
+      },
+      "fields": {
+        "display_name": "audit course"
+      },
+      "number": null,
+      "organization": "test-course-generator",
+      "partner": "edx",
+      "run": "1",
+      "user": "edx@example.com"
+    },
+    {
+      "enrollment": {
+        "audit": false,
+        "credit": false,
+        "credit_provider": null,
+        "honor": true,
+        "no_id_verification": false,
+        "professional_education": false,
+        "verified": false
+      },
+      "fields": {
+        "display_name": "honor course"
+      },
+      "number": null,
+      "organization": "test-course-generator",
+      "partner": "edx",
+      "run": "1",
+      "user": "edx@example.com"
+    },
+    {
+      "enrollment": {
+        "audit": true,
+        "credit": false,
+        "credit_provider": null,
+        "honor": false,
+        "no_id_verification": false,
+        "professional_education": false,
+        "verified": true
+      },
+      "fields": {
+        "display_name": "verified course with audit seat"
+      },
+      "number": null,
+      "organization": "test-course-generator",
+      "partner": "edx",
+      "run": "1",
+      "user": "edx@example.com"
+    },
+    {
+      "enrollment": {
+        "audit": false,
+        "credit": false,
+        "credit_provider": null,
+        "honor": true,
+        "no_id_verification": false,
+        "professional_education": false,
+        "verified": true
+      },
+      "fields": {
+        "display_name": "verified course with honor seat"
+      },
+      "number": null,
+      "organization": "test-course-generator",
+      "partner": "edx",
+      "run": "1",
+      "user": "edx@example.com"
+    },
+    {
+      "enrollment": {
+        "audit": false,
+        "credit": false,
+        "credit_provider": null,
+        "honor": false,
+        "no_id_verification": false,
+        "professional_education": true,
+        "verified": false
+      },
+      "fields": {
+        "display_name": "professional course id required"
+      },
+      "number": null,
+      "organization": "test-course-generator",
+      "partner": "edx",
+      "run": "1",
+      "user": "edx@example.com"
+    },
+    {
+      "enrollment": {
+        "audit": false,
+        "credit": false,
+        "credit_provider": null,
+        "honor": false,
+        "no_id_verification": true,
+        "professional_education": true,
+        "verified": false
+      },
+      "fields": {
+        "display_name": "professional course id not required"
+      },
+      "number": null,
+      "organization": "test-course-generator",
+      "partner": "edx",
+      "run": "1",
+      "user": "edx@example.com"
+    },
+    {
+      "enrollment": {
+        "audit": true,
+        "credit": true,
+        "credit_provider": "test-credit-provider",
+        "honor": false,
+        "no_id_verification": false,
+        "professional_education": false,
+        "verified": true
+      },
+      "fields": {
+        "display_name": "credit course with audit seat"
+      },
+      "number": null,
+      "organization": "test-course-generator",
+      "partner": "edx",
+      "run": "1",
+      "user": "edx@example.com"
+    },
+    {
+      "enrollment": {
+        "audit": false,
+        "credit": true,
+        "credit_provider": "test-credit-provider",
+        "honor": true,
+        "no_id_verification": false,
+        "professional_education": false,
+        "verified": true
+      },
+      "fields": {
+        "display_name": "credit course with honor seat"
+      },
+      "number": null,
+      "organization": "test-course-generator",
+      "partner": "edx",
+      "run": "1",
+      "user": "edx@example.com"
+    }
+  ]
+}

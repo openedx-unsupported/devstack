@@ -1,0 +1,49 @@
+{
+  "courses": [
+    {
+      "enrollment": {
+        "audit": false,
+        "honor": true,
+        "verified": true,
+        "professional_education": false,
+        "no_id_verification": false,
+        "credit": true,
+        "credit_provider": "test-credit-provider"
+      },
+      "fields": {
+        "display_name": "Test_Course",
+        "enable_proctored_exams": true,
+        "mobile_available": true,
+        "course_survey_required": true,
+        "discussion_sort_alpha": true,
+        "invitation_only": true,
+        "allow_anonymous": true,
+        "bypass_home": true,
+        "entrance_exam_enabled": true,
+        "show_timezone": true,
+        "allow_unsupported_xblocks": true,
+        "allow_public_wiki_access": true,
+        "allow_proctoring_opt_out": true,
+        "is_new": true,
+        "issue_badges": true,
+        "certificates_show_before_end": true,
+        "disable_progress_graph": true,
+        "no_grade": true,
+        "enable_ccx": true,
+        "allow_anonymous_to_peers": true,
+        "create_zendesk_tickets": true,
+        "hide_progress_tab": true,
+        "show_calculator": true,
+        "cert_html_view_enabled": true,
+        "enable_subsection_gating": true,
+        "enable_timed_exams": true,
+        "self_paced": true
+      },
+      "organization": "test-course-generator",
+      "number": null,
+      "run": "1",
+      "user": "edx@example.com",
+      "partner": "edx"
+    }
+  ]
+}
