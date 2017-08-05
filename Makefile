@@ -106,11 +106,17 @@ vnc-passwords: ## Get the VNC passwords for the Chrome and Firefox Selenium cont
 mysql-shell: ## Run a shell on the mysql container
 	docker-compose exec mysql bash
 
-create-course-studio: ## Generates a course on studio using the configurations in test-course.json
-	./course-generator/create-course-studio.sh ./course-generator/test-course.json
+# Provisions studio, ecommerce, and marketing with course(s) in test-course.json
+# Modify test-course.json before running this make target to generate a custom course
+create-test-course: ## NOTE: marketing course creation is not available for those outside edX
+	./course-generator/create-courses.sh --studio --ecommerce --marketing course-generator/test-course.json
 
-create-course-ecommerce: ## Generates a course on ecommerce using the configurations in test-course.json
-	./course-generator/create-course-ecommerce.sh ./course-generator/test-course.json
+# Run the course json builder script and use the outputted course json to provision studio, ecommerce, and marketing
+# Modify the list of courses in build-course-json.sh beforehand to generate custom courses
+build-courses: ## NOTE: marketing course creation is not available for those outside edX
+	./course-generator/build-course-json.sh course-generator/tmp-config.json
+	./course-generator/create-courses.sh --studio --ecommerce --marketing course-generator/tmp-config.json
+	rm course-generator/tmp-config.json
 
 check-memory:
 	@if [ `docker info --format '{{json .}}' | python -c "from __future__ import print_function; import sys, json; print(json.load(sys.stdin)['MemTotal'])"` -lt 2147483648 ]; then echo "\033[0;31mWarning, System Memory is set too low!!! Increase Docker memory to be at least 2 Gigs\033[0m"; fi || exit 0

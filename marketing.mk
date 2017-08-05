@@ -12,6 +12,3 @@ up-marketing-sync:  ## Bring up all services (including the marketing site) with
 
 clean-marketing-sync:   ## Remove the docker-sync containers for all services (including the marketing site)
 	docker-sync-stack clean -c docker-sync-marketing-site.yml
-
-create-course-marketing: ## Generates a course on the marketing site using the configurations in test-course.json
-	./course-generator/create-course-marketing.sh ./course-generator/test-course.json
