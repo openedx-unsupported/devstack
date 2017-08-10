@@ -113,5 +113,5 @@ create-course-ecommerce: ## Generates a course on ecommerce using the configurat
 	./course-generator/create-course-ecommerce.sh ./course-generator/test-course.json
 
 check-memory:
-	@if [ `docker info --format '{{json .}}' | python -c "import sys, json; print json.load(sys.stdin)['MemTotal']"` -lt 2147483648 ]; then echo "\033[0;31mWarning, System Memory is set too low!!! Increase Docker memory to be at least 2 Gigs\033[0m"; fi || exit 0
+	@if [ `docker info --format '{{json .}}' | python -c "from __future__ import print_function; import sys, json; print(json.load(sys.stdin)['MemTotal'])"` -lt 2147483648 ]; then echo "\033[0;31mWarning, System Memory is set too low!!! Increase Docker memory to be at least 2 Gigs\033[0m"; fi || exit 0
 	
