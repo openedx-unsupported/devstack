@@ -7,8 +7,16 @@ If you are seeking info on the Vagrant-based devstack, please see
 https://openedx.atlassian.net/wiki/display/OpenOPS/Running+Devstack. This
 project is meant to replace the traditional Vagrant-based devstack with a
 multi-container approach driven by `Docker Compose`_. It is still in the
-alpha/beta testing phase. Support for this project is limited at the moment, so
-it may take a while to respond to issues.
+beta testing phase. 
+
+Support
+-------
+
+Tickets or issues should be filed in Jira under the platform project: 
+https://openedx.atlassian.net/projects/PLAT/issues
+
+FYI
+---
 
 You should run any Make targets described below on your local machine, *not*
 from within a VM.
@@ -213,8 +221,10 @@ https://openedx.atlassian.net/wiki/display/OpenDev/Marketing+Site.
 How do I build images?
 ----------------------
 
-We are still working on automated image builds, but generally try to push new
-images every 3-7 days. If you want to build the images on your own, the
+There are `Docker CI Jenkins jobs`_ on tools-edx-jenkins that build and push new 
+Docker images to DockerHub on code changes to either the configuration repository or the IDA's codebase. These images 
+are tagged ``latest``, so only the discovery and edxapp jobs are relevant at this time (see NOTES below). Images that
+require tags other than ``latest`` are built and pushed by hand. If you want to build the images on your own, the
 Dockerfiles are available in the ``edx/configuration`` repo.
 
 NOTES
@@ -243,7 +253,8 @@ The build commands above will use your local configuration, but pull
 application code from the master branch of the application's repository. If you
 would like to use code from another branch/tag/hash, modify the ``*_VERSION``
 variable that lives in the ``ansible_overrides.yml`` file beside the
-``Dockerfile``.
+``Dockerfile``. Note that edx-platform is an exception; the variable to modify is ``edx_platform_version``
+and not ``EDXAPP_VERSION``. 
 
 For example, if you wanted to build tag ``release-2017-03-03`` for the
 E-Commerce Service, you would modify ``ECOMMERCE_VERSION`` in
@@ -315,13 +326,18 @@ starts, you have a few options:
 * Merge your updated requirements files and wait for a new `edxops Docker image`_ 
   for that service to be built and uploaded to `Docker Hub`_.  You can
   then download and use the updated image (for example, via ``make pull``).
-  These images are currently built as needed by edX employees, but will soon
-  be built automatically on a regular basis.
+  The discovery and edxapp images are buit automatically via a Jenkins job. All other
+  images are currently built as needed by edX employees, but will soon be built 
+  automatically on a regular basis. See `How do I build images?`_
+  for more information.
 * You can update your requirements files as appropriate and then build your
   own updated image for the service as described above, tagging it such that
   ``docker-compose`` will use it instead of the last image you downloaded.
   (Alternatively, you can temporarily edit ``docker-compose.yml`` to replace
-  the ``image`` entry for that service with the ID of your new image.)
+  the ``image`` entry for that service with the ID of your new image.) You 
+  should be sure to modify the variable override for the version of the
+  application code used for building the image. See `How do I build images?`_.
+  for more information.
 * You can temporarily modify the main service command in
   ``docker-compose.yml`` to first install your new package(s) each time the
   container is started.  For example, the part of the studio command which
@@ -389,6 +405,21 @@ randomly generated and logged at container startup, and can be found by
 running ``make vnc-passwords``.  To use Chrome for tests that normally
 use Firefox instead, prefix the test command with
 ``SELENIUM_BROWSER=chrome SELENIUM_HOST=edx.devstack.chrome``.
+
+Running End-to-End Tests
+------------------------
+
+To run the end-to-end tests for edx-platform, start a shell for the e2e
+container and run the tests via paver:
+
+.. code:: sh
+
+    make e2e-shell
+    paver e2e_test --exclude="whitelabel\|enterprise"
+
+Additional testing options are available as described in the
+`edx-e2e-tests README`_.  The browser running the tests can be seen and
+interacted with via VNC as described above (Chrome is used by default).
 
 Troubleshooting: General Tips
 -----------------------------
@@ -530,6 +561,20 @@ up the provisioning process on Mac), so you can try the following:
 Once you get past the issue, you should be able to continue to use sync versions
 of the make targets.
 
+Memory Limit
+~~~~~~~~~~~~
+
+While provisioning, some have seen the following error:
+
+.. code:: sh
+
+   ...
+   Build failed running pavelib.assets.update_assets: Subprocess return code: 137
+
+This is an indication that your docker process died during execution.  Most likely,
+this is due to running out of memory. If you are set to 2GB (docker for mac default),
+increase it to 4GB (the current recommendation). If you are set to 4GB, try 6GB.
+
 Performance
 -----------
 
@@ -580,10 +625,13 @@ GitHub issue which explains the `current status of implementing delegated consis
 .. _current status of implementing delegated consistency mode: https://github.com/docker/for-mac/issues/1592
 .. _configuring Docker for Mac: https://docs.docker.com/docker-for-mac/#/advanced
 .. _feature added in Docker 17.05: https://github.com/edx/configuration/pull/3864
+.. _edx-e2e-tests README: https://github.com/edx/edx-e2e-tests/#how-to-run-lms-and-studio-tests
 .. _edxops Docker image: https://hub.docker.com/r/edxops/
 .. _Docker Hub: https://hub.docker.com/
 .. _Pycharm Integration documentation: docs/pycharm_integration.rst
 .. _edx-platform testing documentation: https://github.com/edx/edx-platform/blob/master/docs/testing.rst#running-python-unit-tests
 .. _docker-sync: #improve-mac-osx-performance-with-docker-sync
 .. |Build Status| image:: https://travis-ci.org/edx/devstack.svg?branch=master
+.. _Docker CI Jenkins Jobs: https://tools-edx-jenkins.edx.org/job/DockerCI
+.. _How do I build images?: https://github.com/edx/devstack/tree/master#how-do-i-build-images 
    :target: https://travis-ci.org/edx/devstack

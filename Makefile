@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 
-DEVSTACK_WORKSPACE ?= ..
+DEVSTACK_WORKSPACE ?= $(shell pwd)/..
 
 OS := $(shell uname)
 
@@ -82,6 +82,9 @@ restore:  ## Restore all data volumes from the host. WARNING: THIS WILL OVERWRIT
 credentials-shell: ## Run a shell on the credentials container
 	docker exec -it edx.devstack.credentials env TERM=$(TERM) bash
 
+e2e-shell: ## Start the end-to-end tests container with a shell
+	docker run -it --network=devstack_default -v ${DEVSTACK_WORKSPACE}/edx-e2e-tests:/edx-e2e-tests -v ${DEVSTACK_WORKSPACE}/edx-platform:/edx-e2e-tests/lib/edx-platform --env-file ${DEVSTACK_WORKSPACE}/edx-e2e-tests/devstack_env edxops/e2e env TERM=$(TERM) bash
+
 lms-shell: ## Run a shell on the LMS container
 	docker exec -it edx.devstack.lms env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
 
@@ -103,12 +106,12 @@ vnc-passwords: ## Get the VNC passwords for the Chrome and Firefox Selenium cont
 mysql-shell: ## Run a shell on the mysql container
 	docker-compose exec mysql bash
 
-create-course-studio: ## Generates a course on studio using the configurations in test-course-studio.json
-	./course-generator/create-course-studio.sh
+create-course-studio: ## Generates a course on studio using the configurations in test-course.json
+	./course-generator/create-course-studio.sh ./course-generator/test-course.json
 
-create-course-ecommerce: ## Generates a course on ecommerce using the configurations in test-course-ecommerce.json
-	./course-generator/create-course-ecommerce.sh
+create-course-ecommerce: ## Generates a course on ecommerce using the configurations in test-course.json
+	./course-generator/create-course-ecommerce.sh ./course-generator/test-course.json
 
 check-memory:
-	@if [ `docker info --format '{{json .}}' | python -c "import sys, json; print json.load(sys.stdin)['MemTotal']"` -lt 2147483648 ]; then echo "\033[0;31mWarning, System Memory is set too low!!! Increase Docker memory to be at least 2 Gigs\033[0m"; fi || exit 0
+	@if [ `docker info --format '{{json .}}' | python -c "from __future__ import print_function; import sys, json; print(json.load(sys.stdin)['MemTotal'])"` -lt 2147483648 ]; then echo "\033[0;31mWarning, System Memory is set too low!!! Increase Docker memory to be at least 2 Gigs\033[0m"; fi || exit 0
 	

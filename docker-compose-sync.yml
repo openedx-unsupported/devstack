@@ -16,6 +16,9 @@ services:
   studio:
     volumes:
       - edxapp-sync:/edx/app/edxapp/edx-platform:nocopy
+  forum:
+    volumes:
+      - forum-sync:/edx/app/forum/cs_comments_service:nocopy
 
 volumes:
   credentials-sync:
@@ -25,4 +28,6 @@ volumes:
   ecommerce-sync:
     external: true
   edxapp-sync:
+    external: true
+  forum-sync:
     external: true
