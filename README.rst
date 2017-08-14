@@ -347,6 +347,24 @@ starts, you have a few options:
   installed across stop/starts, modify ``docker-compose.yml`` as mentioned
   above.
 
+How do I rebuild static assets?
+-------------------------------
+
+Optimized static assets are built for all the edX services during
+provisioning, but you may want to rebuild them for a particular service
+after changing some files without re-provisioning the entire devstack.  To
+do this, run the make target for the appropriate service.  For example:
+
+.. code:: sh
+
+   make credentials-static
+
+To rebuild static assets for all service containers:
+
+.. code:: sh
+
+   make static
+
 Switching branches
 ------------------
 
