@@ -91,6 +91,20 @@ lms-shell: ## Run a shell on the LMS container
 studio-shell: ## Run a shell on the Studio container
 	docker exec -it edx.devstack.studio env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
 
+%-static: ## Rebuild static assets for the specified service container
+	docker exec -t edx.devstack.$* bash -c 'source /edx/app/$*/$*_env && cd /edx/app/$*/$*/ && make static'
+
+credentials-static: ## Rebuild static assets for the credentials container
+	docker exec -t edx.devstack.credentials bash -c 'make static'
+
+lms-static: ## Rebuild static assets for the LMS container
+	docker exec -t edx.devstack.lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_assets'
+
+studio-static: ## Rebuild static assets for the Studio container
+	docker exec -t edx.devstack.studio bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_assets'
+
+static: | credentials-static discovery-static ecommerce-static lms-static studio-static ## Rebuild static assets for all service containers
+
 healthchecks: ## Run a curl against all services' healthcheck endpoints to make sure they are up. This will eventually be parameterized
 	./healthchecks.sh
 

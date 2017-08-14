@@ -342,6 +342,24 @@ starts, you have a few options:
   reads ``...&& while true; do...`` could be changed to
   ``...&& pip install my-new-package && while true; do...``.
 
+How do I rebuild static assets?
+-------------------------------
+
+Optimized static assets are built for all the edX services during
+provisioning, but you may want to rebuild them for a particular service
+after changing some files without re-provisioning the entire devstack.  To
+do this, run the make target for the appropriate service.  For example:
+
+.. code:: sh
+
+   make credentials-static
+
+To rebuild static assets for all service containers:
+
+.. code:: sh
+
+   make static
+
 Switching branches
 ------------------
 
