@@ -341,6 +341,11 @@ starts, you have a few options:
   container is started.  For example, the part of the studio command which
   reads ``...&& while true; do...`` could be changed to
   ``...&& pip install my-new-package && while true; do...``.
+* In order to work on locally pip-installed repos like edx-ora2, first clone
+  them into ../src (relative to this directory). Then, inside your lms shell,
+  you can ``pip install -e /edx/src/edx-ora2``. If you want to keep this code
+  installed across stop/starts, modify ``docker-compose.yml`` as mentioned
+  above.
 
 Switching branches
 ------------------
