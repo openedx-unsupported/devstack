@@ -407,17 +407,24 @@ use Firefox instead, prefix the test command with
 Running End-to-End Tests
 ------------------------
 
-To run the end-to-end tests for edx-platform, start a shell for the e2e
-container and run the tests via paver:
+To run the base set of end-to-end tests for edx-platform, run the following
+make target:
+
+.. code:: sh
+
+   make e2e-tests
+
+If you want to use some of the other testing options described in the
+`edx-e2e-tests README`_, you can instead start a shell for the e2e container
+and run the tests manually via paver:
 
 .. code:: sh
 
     make e2e-shell
     paver e2e_test --exclude="whitelabel\|enterprise"
 
-Additional testing options are available as described in the
-`edx-e2e-tests README`_.  The browser running the tests can be seen and
-interacted with via VNC as described above (Chrome is used by default).
+The browser running the tests can be seen and interacted with via VNC as
+described above (Chrome is used by default).
 
 Troubleshooting: General Tips
 -----------------------------

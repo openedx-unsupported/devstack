@@ -35,4 +35,5 @@ script:
   - sleep 60 # LMS needs like 60 seconds to come up
   - make healthchecks
   - make validate-lms-volume
+  - make e2e-tests
   - make up-marketing-detached
