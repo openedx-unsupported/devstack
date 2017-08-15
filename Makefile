@@ -112,7 +112,7 @@ studio-static: ## Rebuild static assets for the Studio container
 static: | credentials-static discovery-static ecommerce-static lms-static studio-static ## Rebuild static assets for all service containers
 
 studio-attach: ## Attach to the Studio container process to use the debugger & see logs.
-	docker attach `docker ps -aqf "name=edx.devstack.cms"`
+	docker attach `docker ps -aqf "name=edx.devstack.studio"`
 
 healthchecks: ## Run a curl against all services' healthcheck endpoints to make sure they are up. This will eventually be parameterized
 	./healthchecks.sh
