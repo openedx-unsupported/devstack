@@ -423,7 +423,10 @@ To detach from the container, you'll need to stop the container with:
 
     make stop
 
-or a manual Docker command to bring down the container.
+or a manual Docker command to bring down the container:
+.. code:: sh
+
+   docker kill $(docker ps -a -q --filter="name=edx.devstack.<container name>")
 
 Running LMS and Studio Tests
 ----------------------------
