@@ -48,9 +48,11 @@ are running many containers, you should configure Docker with a sufficient
 amount of resources. Our testing found that `configuring Docker for Mac`_ with
 a minimum of 2 CPUs and 4GB of memory works well.
 
-1. Install the requirements. 
+1. Ensure about all requirements are installed:
+
    .. code:: sh
-      make requirements
+
+       make requirements
 
 2. The Docker Compose file mounts a host volume for each service's executing
    code. The host directory is defaults to be a sibling of this directory. For
