@@ -138,9 +138,8 @@ services:
       BOK_CHOY_HOSTNAME: edx.devstack.lms
       BOK_CHOY_LMS_PORT: 18003
       BOK_CHOY_CMS_PORT: 18031
+      EDXAPP_TEST_MONGO_HOST: edx.devstack.mongo
       NO_PYTHON_UNINSTALL: 1
-
-
     image: edxops/edxapp:latest
     ports:
       - "18000:18000"
@@ -164,6 +163,7 @@ services:
       BOK_CHOY_HOSTNAME: edx.devstack.studio
       BOK_CHOY_LMS_PORT: 18103
       BOK_CHOY_CMS_PORT: 18131
+      EDXAPP_TEST_MONGO_HOST: edx.devstack.mongo
       NO_PYTHON_UNINSTALL: 1
     image: edxops/edxapp:latest
     ports:
