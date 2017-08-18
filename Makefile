@@ -20,12 +20,12 @@ dev.clone: ## Clone service repos to the parent directory
 	./clone.sh
 
 dev.provision.run: ## Provision all services with local mounted directories
-	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml" ./provision.sh
+	./provision.sh
 
 dev.provision: | check-memory dev.provision.run stop ## Provision dev environment with all services stopped
 
 dev.up: | check-memory ## Bring up all services with host volumes
-	docker-compose -f docker-compose.yml -f docker-compose-host.yml up -d
+	docker-compose up -d
 
 dev.sync.daemon.start: ## Start the docker-sycn daemon
 	docker-sync start

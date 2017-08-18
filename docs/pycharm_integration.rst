@@ -51,7 +51,7 @@ use the following options:
   - Without Docker Sync
 
     - ``/LOCAL/PATH/TO/devstack/docker-compose.yml`` (e.g.~/edx/devstack/docker-compose.yml)
-    - ``/LOCAL/PATH/TO/devstack/docker-compose-host.yml``
+    - ``/LOCAL/PATH/TO/devstack/docker-compose.override.yml``
 
 - Service: lms (or whatever IDE you wish to test)
 
