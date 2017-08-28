@@ -208,6 +208,22 @@ simply use the ``docker-compose restart`` command:
 -  lms
 -  studio
 
+Payments
+--------
+
+The ecommerce image comes pre-configured for payments via CyberSource and PayPal. Additionally, the provisioning scripts
+add the demo course (course-v1:edX+DemoX+Demo_Course) to the ecommerce catalog. You can initiate a checkout by visiting
+http://localhost:18130/basket/add/?sku=8CF08E5 or clicking one of the various upgrade links in the LMS. The following
+details can be used for checkout. While the name and address fields are required for credit card payments, their values
+are not checked in development, so put whatever you want in those fields.
+
+- Card Type: Visa
+- Card Number: 4111111111111111
+- CVN: 123 (or any three digits)
+- Expiry Date: 06/2025 (or any date in the future)
+
+PayPal (same for username and password): devstack@edx.org
+
 Marketing Site
 --------------
 
