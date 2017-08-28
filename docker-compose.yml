@@ -176,8 +176,9 @@ services:
 
   studio-frontend:
     build: ../src/studio-frontend
-    command: npm run start
-    depends_on: studio
+    command: bash -c "cd /edx/src/studio-frontend && npm run start"
+    depends_on:
+      - studio
 
   forum:
     command: bash -c 'source /edx/app/forum/ruby_env source && source /edx/app/forum/devstack_forum_env && cd /edx/app/forum/cs_comments_service && while true; do ruby app.rb -o 0.0.0.0 ; sleep 2; done'
