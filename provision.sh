@@ -42,6 +42,7 @@ docker exec -i edx.devstack.mongo mongo < mongo-provision.js
 
 # Nothing special needed for studio
 docker-compose $DOCKER_COMPOSE_FILES up -d studio
+docker-compose $DOCKER_COMPOSE_FILES up -d studio-frontend
 ./provision-ecommerce.sh
 ./provision-discovery.sh
 ./provision-credentials.sh
