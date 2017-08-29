@@ -24,7 +24,7 @@ services:
 
   webpack:
     container_name: edx.devstack.webpack
-    image: dahlia_webpack
+    image: mroytman/studio-frontend:latest
     ports:
       - "8080:8080"
 
