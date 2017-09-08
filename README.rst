@@ -213,6 +213,8 @@ simply use the ``docker-compose restart`` command:
 -  lms
 -  studio
 
+If you'd like to add some convenience make targets, you can add them to a `local.mk` file, ignored by git.
+
 Payments
 --------
 
