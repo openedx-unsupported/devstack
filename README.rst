@@ -18,7 +18,7 @@ https://openedx.atlassian.net/projects/PLAT/issues
 FYI
 ---
 
-You should run any Make targets described below on your local machine, *not*
+You should run any ``make`` targets described below on your local machine, *not*
 from within a VM.
 
 Prerequisites
@@ -27,29 +27,34 @@ Prerequisites
 This project requires **Docker 17.06+ CE**.  We recommend Docker Stable, but
 Docker Edge should work as well.
 
-**Note:** Switching between Docker Stable and Docker Edge will remove all images and
+**NOTE:** Switching between Docker Stable and Docker Edge will remove all images and
 settings.  Don't forget to restore your memory setting and be prepared to
 provision.
 
 For macOS users, please use `Docker for Mac`_. Previous Mac-based tools (e.g.
-boot2docker) are not supported.
+boot2docker) are *not* supported.
 
-`Docker for Windows`_ may work but has not been tested and is *not supported*.
+`Docker for Windows`_ may work but has not been tested and is *not* supported.
 
 You will also need the following installed:
+
 - make
 - python pip
 
 Getting Started
 ---------------
 
-All of the services can be run by following the steps below. Note that since we
-are running many containers, you should configure Docker with a sufficient
+All of the services can be run by following the steps below.
+
+**NOTE:** Since a Docker-based devstack runs many containers,
+you should configure Docker with a sufficient
 amount of resources. Our testing found that `configuring Docker for Mac`_ with
 a minimum of 2 CPUs and 4GB of memory works well.
 
 1. Install the requirements.
+
    .. code:: sh
+
       make requirements
 
 2. The Docker Compose file mounts a host volume for each service's executing
@@ -70,20 +75,20 @@ a minimum of 2 CPUs and 4GB of memory works well.
    services with superusers (for development without the auth service) and
    tenants (for multi-tenancy).
 
-   **Note** When running the provision command databases for ecommerce and edxapp
+   **NOTE:** When running the provision command, databases for ecommerce and edxapp
    will be dropped and recreated.
 
-   The username and password for the superusers are both "edx". You can access
+   The username and password for the superusers are both ``edx``. You can access
    the services directly via Django admin at the ``/admin/`` path, or login via
    single sign-on at ``/login/``.
 
-   Default
+   Default:
 
    .. code:: sh
 
        make dev.provision
 
-   Provision using `docker-sync`_.
+   Provision using `docker-sync`_:
 
    .. code:: sh
 
@@ -93,15 +98,15 @@ a minimum of 2 CPUs and 4GB of memory works well.
 4. Start the services. This command will mount the repositories under the
    DEVSTACK\_WORKSPACE directory.
 
-   *Note: it may take up to 60 seconds for the LMS to start, even after the ``dev.up`` command outputs "done".*
+   **NOTE:** it may take up to 60 seconds for the LMS to start, even after the ``make dev.up`` command outputs ``done``.
 
-   Default
+   Default:
 
    .. code:: sh
 
        make dev.up
 
-   Start using `docker-sync`_.
+   Start using `docker-sync`_:
 
    .. code:: sh
 
@@ -125,7 +130,7 @@ following:
     make logs
 
 To view the logs of a specific service container run ``make <service>-logs``.
-For example to access the logs for Ecommerce, you can run:
+For example, to access the logs for Ecommerce, you can run:
 
 .. code:: sh
 
@@ -212,7 +217,7 @@ Payments
 --------
 
 The ecommerce image comes pre-configured for payments via CyberSource and PayPal. Additionally, the provisioning scripts
-add the demo course (course-v1:edX+DemoX+Demo_Course) to the ecommerce catalog. You can initiate a checkout by visiting
+add the demo course (``course-v1:edX+DemoX+Demo_Course``) to the ecommerce catalog. You can initiate a checkout by visiting
 http://localhost:18130/basket/add/?sku=8CF08E5 or clicking one of the various upgrade links in the LMS. The following
 details can be used for checkout. While the name and address fields are required for credit card payments, their values
 are not checked in development, so put whatever you want in those fields.
@@ -241,7 +246,7 @@ are tagged ``latest``, so only the discovery and edxapp jobs are relevant at thi
 require tags other than ``latest`` are built and pushed by hand. If you want to build the images on your own, the
 Dockerfiles are available in the ``edx/configuration`` repo.
 
-NOTES
+NOTES:
 
 1. discovery and edxapp use the ``latest`` tag since their configuration changes have been merged to master branch of
    ``edx/configuration``.
@@ -250,6 +255,7 @@ NOTES
 3. All other services use the ``devstack`` tag and are build from the ``clintonb/docker-devstack-idas`` branch of
    ``edx/configuration``.
 
+BUILD COMMANDS:
 
 .. code:: sh
 
@@ -263,7 +269,7 @@ NOTES
     git pull
     docker build -f docker/build/ecommerce/Dockerfile . -t edxops/ecommerce:devstack
 
-The build commands above will use your local configuration, but pull
+The build commands above will use your local configuration, but will pull
 application code from the master branch of the application's repository. If you
 would like to use code from another branch/tag/hash, modify the ``*_VERSION``
 variable that lives in the ``ansible_overrides.yml`` file beside the
@@ -277,13 +283,15 @@ E-Commerce Service, you would modify ``ECOMMERCE_VERSION`` in
 How do I create database dumps?
 -------------------------------
 We use database dumps to speed up provisioning and generally spend less time running migrations. These dumps should be
-updated occasionally--when database migrations take a prolonged amount of time, or we want to incorporate changes that
-require manual intervention. The process below details how to update the database dumps.
+updated occasionally - when database migrations take a prolonged amount of time *or* we want to incorporate changes that
+require manual intervention.
+
+To update the database dumps:
 
 1. Destroy and/or backup the data for your existing devstack so that you start with a clean slate.
 2. Disable the loading of the existing database dumps during provisioning by commenting out any calls to ``load-db.sh``
-   in the provisioning scripts. This ensures that we start with a completely fresh database and incorporate any changes
-   that may have require some form of manual intervention for existing installations (e.g. drop/move tables).
+   in the provisioning scripts. This disabling ensures a start with a completely fresh database and incorporates any changes
+   that may have required some form of manual intervention for existing installations (e.g. drop/move tables).
 3. Provision devstack with ``make provision``.
 4. Dump the databases and open a pull request with your updates:
 
@@ -308,8 +316,8 @@ Alternatively, you can discard and rebuild the entire database for all
 devstack services by re-running ``make dev.provision`` or
 ``make dev.sync.provision`` as appropriate for your configuration.  Note that
 if your branch has fallen significantly behind master, it may not include all
-of the migrations included in the database dump used by provisioning.  In
-cases like this it's usually best to first rebase the branch onto master to
+of the migrations included in the database dump used by provisioning.  In these
+cases, it's usually best to first rebase the branch onto master to
 get the missing migrations.
 
 
@@ -358,7 +366,7 @@ starts, you have a few options:
   reads ``...&& while true; do...`` could be changed to
   ``...&& pip install my-new-package && while true; do...``.
 * In order to work on locally pip-installed repos like edx-ora2, first clone
-  them into ../src (relative to this directory). Then, inside your lms shell,
+  them into ``../src`` (relative to this directory). Then, inside your lms shell,
   you can ``pip install -e /edx/src/edx-ora2``. If you want to keep this code
   installed across stop/starts, modify ``docker-compose.yml`` as mentioned
   above.
@@ -440,6 +448,7 @@ To detach from the container, you'll need to stop the container with:
     make stop
 
 or a manual Docker command to bring down the container:
+
 .. code:: sh
 
    docker kill $(docker ps -a -q --filter="name=edx.devstack.<container name>")
@@ -507,8 +516,7 @@ described above (Chrome is used by default).
 Troubleshooting: General Tips
 -----------------------------
 
-If you are having trouble with your containers there are a few general steps
-you can take to try to resolve.
+If you are having trouble with your containers, this sections contains some troubleshooting tips.
 
 Check the logs
 ~~~~~~~~~~~~~~
@@ -544,7 +552,7 @@ Clean the containers
 ~~~~~~~~~~~~~~~~~~~~
 
 Sometimes containers end up in strange states and need to be rebuilt. Run
-``make down`` to remove all containers and networks. This will NOT remove your
+``make down`` to remove all containers and networks. This will **NOT** remove your
 data volumes.
 
 Start over
@@ -560,12 +568,13 @@ File ownership change
 ~~~~~~~~~~~~~~~~~~~~~
 
 If you notice that the ownership of some (maybe all) files have changed and you
-need to enter your root password when editing a file, that could be because you
-have pulled changes the remote repository from within a container. While running
-``git pull`` git changes the owner of the files that you pull to the user that runs
-that command, and within a container that is the root user, hence git operations
+need to enter your root password when editing a file, you might
+have pulled changes to the remote repository from within a container. While running
+``git pull``, git changes the owner of the files that you pull to the user that runs
+that command. Within a container, that is the root user - so git operations
 should be ran outside of the container.
-To fix this change the owner back to yourself outside of the container by running:
+
+To fix this situation, change the owner back to yourself outside of the container by running:
 
 .. code:: sh
 
@@ -574,9 +583,9 @@ To fix this change the owner back to yourself outside of the container by runnin
 Running LMS commands within a container
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Most of the ``paver`` commands require a settings flag, which if omitted defaults to
-``devstack`` which is the settings flag for vagrant-based devstack instances. Therefor
-if you run into issues running those command in a docker container you should append
+Most of the ``paver`` commands require a settings flag. If omitted, the flag defaults to
+``devstack``, which is the settings flag for vagrant-based devstack instances.
+So if you run into issues running ``paver`` commands in a docker container, you should append
 the ``devstack_docker`` flag. For example:
 
 .. code:: sh
@@ -589,6 +598,8 @@ Resource busy or locked
 While running ``make static`` within the ecommerce container you could get an error
 saying:
 
+.. code:: sh
+
   Error: Error: EBUSY: resource busy or locked, rmdir '/edx/app/ecommerce/ecommerce/ecommerce/static/build/'
 
 To fix this, remove the directory manually outside of the container and run the command again.
@@ -596,10 +607,10 @@ To fix this, remove the directory manually outside of the container and run the 
 No space left on device
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-If you see the error "no space left on device" on a Mac, it means Docker has run
+If you see the error ``no space left on device`` on a Mac, Docker has run
 out of space in its Docker.qcow2 file.
 
-Here is an example error while running `make pull`:
+Here is an example error while running ``make pull``:
 
 .. code:: sh
 
@@ -608,15 +619,15 @@ Here is an example error while running `make pull`:
    ERROR: failed to register layer: Error processing tar file(exit status 1): write /edx/app/edxapp/edx-platform/.git/objects/pack/pack-4ff9873be2ca8ab77d4b0b302249676a37b3cd4b.pack: no space left on device
    make: *** [pull] Error 1
 
-You can clean up data by running `docker system prune`, but you will first want
-to run `make dev.up` so it doesn't delete stopped containers.
+You can clean up data by running ``docker system prune``, but you will first want
+to run ``make dev.up`` so it doesn't delete stopped containers.
 
 Or, you can run the following commands to clean up dangling images and volumes:
 
 .. code:: sh
 
    docker image prune -f
-   docker volume prune -f (Be careful, this will remove your persistent data!)
+   docker volume prune -f  # (Be careful, this will remove your persistent data!)
 
 No such file or directory
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -626,12 +637,12 @@ While provisioning, some have seen the following error:
 .. code:: sh
 
    ...
-       cwd = os.getcwdu()
+   cwd = os.getcwdu()
    OSError: [Errno 2] No such file or directory
    make: *** [dev.provision.run] Error 1
 
-Everyone who has seen this has gotten past it, but we don't have a surefire way
-to do so. Rebooting and restarting Docker do *not* seem to correct the issue. It
+This issue can be worked around, but there's no guaranteed method to do so.
+Rebooting and restarting Docker does *not* seem to correct the issue. It
 may be an issue that is exacerbated by our use of sync (which typically speeds
 up the provisioning process on Mac), so you can try the following:
 
@@ -654,9 +665,9 @@ While provisioning, some have seen the following error:
    ...
    Build failed running pavelib.assets.update_assets: Subprocess return code: 137
 
-This is an indication that your docker process died during execution.  Most likely,
-this is due to running out of memory. If you are set to 2GB (docker for mac default),
-increase it to 4GB (the current recommendation). If you are set to 4GB, try 6GB.
+This error is an indication that your docker process died during execution.  Most likely,
+this error is due to running out of memory. If your Docker configuration is set to 2GB (docker for mac default),
+increase it to 4GB (the current recommendation). If your Docker configuration is set to 4GB, then try 6GB.
 
 Performance
 -----------
@@ -666,7 +677,7 @@ Improve Mac OSX Performance with docker-sync
 
 Docker for Mac has known filesystem issues that significantly decrease
 performance, particularly for starting edx-platform (e.g. when you want to run a
-test). To improve performance `Docker Sync`_  can be used to
+test). To improve performance, `Docker Sync`_  can be used to
 synchronize file data from the host machine to the containers.
 
 You can swap between using Docker Sync and native volumes at any time, by using
@@ -678,15 +689,24 @@ instructions`_ before provisioning.
 Docker Sync Troubleshooting tips
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Check your version and make sure you are running 0.4.6 or above:
-* Check version: docker-sync --version
+
+.. code:: sh
+
+    docker-sync --version
 
 If not, upgrade to the latest version:
-* Upgrade gem update docker-sync
 
-If you are having issues with docker sync try the following:
-* make stop
-* docker-sync stop
-* docker-sync clean
+.. code:: sh
+
+    gem update docker-sync
+
+If you are having issues with docker sync, try the following:
+
+.. code:: sh
+
+    make stop
+    docker-sync stop
+    docker-sync clean
 
 Cached Consistency Mode
 ~~~~~~~~~~~~~~~~~~~~~~~
