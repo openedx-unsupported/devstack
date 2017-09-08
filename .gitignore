@@ -97,3 +97,5 @@ ENV/
 .docker-sync/
 .env
 
+# Personal makefile extensions
+local.mk
