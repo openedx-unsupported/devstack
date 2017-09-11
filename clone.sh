@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -x
 
 # Script for cloning Git repos housing edX services. These repos are mounted as
 # data volumes into their corresponding Docker containers to facilitate development.
