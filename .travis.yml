@@ -28,8 +28,11 @@ before_install:
 
   - make requirements
   - make dev.clone
+  - docker image prune -f
+  - docker volume prune -f
 
 script:
+  - make
   - make dev.provision
   - make dev.up
   - sleep 60 # LMS needs like 60 seconds to come up
