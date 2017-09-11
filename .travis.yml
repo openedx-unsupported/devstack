@@ -28,6 +28,7 @@ before_install:
 
   - make requirements
   - make dev.clone
+  - sudo apt-get clean
 
 script:
   - make
