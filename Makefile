@@ -20,7 +20,7 @@ dev.clone: ## Clone service repos to the parent directory
 	./clone.sh
 
 dev.provision.run: ## Provision all services with local mounted directories
-	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml" ./provision.sh
+	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml" python provision.py
 
 dev.provision: | check-memory dev.provision.run stop ## Provision dev environment with all services stopped
 
