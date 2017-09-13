@@ -1,4 +1,10 @@
 # Load database dumps for the largest databases to save time
+
+set -e
+set -o pipefail
+set -x
+
+
 ./load-db.sh ecommerce
 
 ./provision-ida.sh ecommerce 18130

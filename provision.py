@@ -67,9 +67,10 @@ def run_command(command):
     while p.poll() is None:
         output = p.stdout.readline() + p.stderr.readline()
         print(output)
-        # time.sleep()
+        time.sleep(1)
     print(p.stdout.read())
     print(p.stderr.read())
+    print(p.poll)
     if p.poll() != 0:
         sys.exit(p.poll())
 
