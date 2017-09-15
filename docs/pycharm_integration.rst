@@ -53,7 +53,7 @@ use the following options:
     - ``/LOCAL/PATH/TO/devstack/docker-compose.yml`` (e.g.~/edx/devstack/docker-compose.yml)
     - ``/LOCAL/PATH/TO/devstack/docker-compose-host.yml``
 
-- Service: lms (or whatever IDE you wish to test)
+- Service: lms (or whatever IDA you wish to test)
 
 - Environment variables:
 
