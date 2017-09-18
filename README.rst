@@ -555,6 +555,21 @@ Sometimes containers end up in strange states and need to be rebuilt. Run
 ``make down`` to remove all containers and networks. This will **NOT** remove your
 data volumes.
 
+Reset
+~~~~~
+
+Somtimes you just aren't sure what's wrong, if you would like to hit the reset button
+run ``make dev.reset``.
+
+Running this command will perform the following steps:
+* Bring down all containers
+* Reset all git repositories to the HEAD of master
+* Pull new images for all services
+* Compile static assets for all services
+* Run migrations for all services
+
+It's good to run this before asking for help.
+
 Start over
 ~~~~~~~~~~
 

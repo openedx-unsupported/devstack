@@ -1,3 +1,9 @@
+########################################################################################################################
+#
+# When adding a new target:
+#   - If you are adding a new service make sure the dev.clean target will fully reset said service.
+#
+########################################################################################################################
 .DEFAULT_GOAL := help
 
 DEVSTACK_WORKSPACE ?= $(shell pwd)/..
@@ -17,12 +23,17 @@ requirements: ## Install requirements
 	pip install -r requirements.txt
 
 dev.clone: ## Clone service repos to the parent directory
-	./clone.sh
+	./repo.sh clone
 
 dev.provision.run: ## Provision all services with local mounted directories
 	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml" ./provision.sh
 
 dev.provision: | check-memory dev.provision.run stop ## Provision dev environment with all services stopped
+
+dev.reset: | down dev.repo.reset pull dev.up static update-db ## Attempts to reset the local devstack to a the master working state
+
+dev.repo.reset: ## Attempts to reset the local repo checkouts to the master working state
+	./repo.sh reset
 
 dev.up: | check-memory ## Bring up all services with host volumes
 	docker-compose -f docker-compose.yml -f docker-compose-host.yml up -d
@@ -91,6 +102,20 @@ e2e-shell: ## Start the end-to-end tests container with a shell
 forum-shell:  ## Run a shell on the forum container
 	docker exec -it edx.devstack.forum env TERM=$(TERM) bash
 
+%-update-db: ## Run migrations for the specified service container
+	docker exec -t edx.devstack.$* bash -c 'source /edx/app/$*/$*_env && cd /edx/app/$*/$*/ && make migrate'
+
+studio-update-db: ## Run migrations for the Studio container
+	docker exec -t edx.devstack.studio bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_db'
+
+lms-update-db: ## Run migrations LMS container
+	docker exec -t edx.devstack.lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_db'
+
+credentials-update-db: ## Run migrations for the credentials container
+	docker exec -t edx.devstack.credentials bash -c 'make migrate'
+
+update-db: | studio-update-db lms-update-db discovery-update-db ecommerce-update-db credentials-update-db ## Run the migrations for all services
+
 lms-shell: ## Run a shell on the LMS container
 	docker exec -it edx.devstack.lms env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
 
@@ -149,3 +174,4 @@ build-courses: ## NOTE: marketing course creation is not available for those out
 
 check-memory:
 	@if [ `docker info --format '{{json .}}' | python -c "from __future__ import print_function; import sys, json; print(json.load(sys.stdin)['MemTotal'])"` -lt 2147483648 ]; then echo "\033[0;31mWarning, System Memory is set too low!!! Increase Docker memory to be at least 2 Gigs\033[0m"; fi || exit 0
+
