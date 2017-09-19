@@ -120,7 +120,7 @@ lms-shell: ## Run a shell on the LMS container
 	docker exec -it edx.devstack.lms env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
 
 lms-attach: ## Attach to the LMS container process to use the debugger & see logs.
-	docker attach `docker ps -aqf "name=edx.devstack.lms"`
+	docker attach `docker ps -aqf "name=edx.devstack.lms$$"`
 
 studio-shell: ## Run a shell on the Studio container
 	docker exec -it edx.devstack.studio env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
@@ -140,7 +140,7 @@ studio-static: ## Rebuild static assets for the Studio container
 static: | credentials-static discovery-static ecommerce-static lms-static studio-static ## Rebuild static assets for all service containers
 
 studio-attach: ## Attach to the Studio container process to use the debugger & see logs.
-	docker attach `docker ps -aqf "name=edx.devstack.studio"`
+	docker attach `docker ps -aqf "name=edx.devstack.studio$$"`
 
 healthchecks: ## Run a curl against all services' healthcheck endpoints to make sure they are up. This will eventually be parameterized
 	./healthchecks.sh
