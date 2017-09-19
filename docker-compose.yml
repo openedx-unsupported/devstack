@@ -149,15 +149,6 @@ services:
     volumes:
       - edxapp_lms_assets:/edx/var/edxapp/staticfiles/
 
-  lms_watcher:
-    command: bash -c 'cd /edx/app/edxapp/edx-platform && source ../edxapp_env && while true; do paver watch_assets; sleep 2; done'
-    container_name: edx.devstack.lms_watcher
-    environment:
-      BOK_CHOY_HOSTNAME: edx.devstack.lms_watcher
-    image: edxops/edxapp:latest
-    volumes:
-      - edxapp_lms_assets:/edx/var/edxapp/staticfiles/
-
   studio:
     command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py cms runserver 0.0.0.0:18010 --settings devstack_docker; sleep 2; done'
     container_name: edx.devstack.studio
@@ -180,15 +171,6 @@ services:
       - "19877:19877" # JS test debugging
       # - "18103:18103"
       # - "18131:18131"
-    volumes:
-      - edxapp_studio_assets:/edx/var/edxapp/staticfiles/
-
-  studio_watcher:
-    command: bash -c 'cd /edx/app/edxapp/edx-platform && source ../edxapp_env && while true; do paver watch_assets; sleep 2; done'
-    container_name: edx.devstack.studio_watcher
-    environment:
-      BOK_CHOY_HOSTNAME: edx.devstack.studio_watcher
-    image: edxops/edxapp:latest
     volumes:
       - edxapp_studio_assets:/edx/var/edxapp/staticfiles/
 

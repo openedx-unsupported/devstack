@@ -1,7 +1,7 @@
 ########################################################################################################################
 #
 # When adding a new target:
-#   - If you are adding a new service make sure the dev.clean target will fully reset said service.
+#   - If you are adding a new service make sure the dev.reset target will fully reset said service.
 #
 ########################################################################################################################
 .DEFAULT_GOAL := help
@@ -38,6 +38,11 @@ dev.repo.reset: ## Attempts to reset the local repo checkouts to the master work
 dev.up: | check-memory ## Bring up all services with host volumes
 	docker-compose -f docker-compose.yml -f docker-compose-host.yml up -d
 
+dev.up.watchers: | check-memory ## Bring up asset watcher containers
+	docker-compose docker-compose-watchers.yml up -d
+
+dev.up.all: | dev.up dev.up.asset_watchers ## Bring up all services with host volumes, including watchers
+
 dev.sync.daemon.start: ## Start the docker-sycn daemon
 	docker-sync start
 
@@ -54,11 +59,16 @@ provision: | dev.provision ## This command will be deprecated in a future releas
 
 stop: ## Stop all services
 	(test -d .docker-sync && docker-sync stop) || true ## Ignore failure here
-	docker-compose stop
+	docker-compose -f docker-compose.yml stop
+
+stop.watchers: ## Stop asset watchers
+	docker-compose -f docker-compose-watchers.yml stop
+
+stop.all: | stop stop.watchers ## Stop all containers, including asset watchers
 
 down: ## Remove all service containers and networks
 	(test -d .docker-sync && docker-sync clean) || true ## Ignore failure here
-	docker-compose down
+	docker-compose -f docker-compose.yml -f docker-compose-watchers.yml down
 
 destroy: ## Remove all devstack-related containers, networks, and volumes
 	./destroy.sh
@@ -119,11 +129,20 @@ update-db: | studio-update-db lms-update-db discovery-update-db ecommerce-update
 lms-shell: ## Run a shell on the LMS container
 	docker exec -it edx.devstack.lms env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
 
+lms-watcher-shell: ## Run a shell on the LMS watcher container
+	docker exec -it edx.devstack.lms_watcher env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
+
 lms-attach: ## Attach to the LMS container process to use the debugger & see logs.
-	docker attach `docker ps -aqf "name=edx.devstack.lms$$"`
+	docker attach edx.devstack.lms
 
 studio-shell: ## Run a shell on the Studio container
 	docker exec -it edx.devstack.studio env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
+
+studio-watcher-shell: ## Run a shell on the studio watcher container
+	docker exec -it edx.devstack.studio_watcher env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
+
+studio-attach: ## Attach to the Studio container process to use the debugger & see logs.
+	docker attach edx.devstack.studio
 
 %-static: ## Rebuild static assets for the specified service container
 	docker exec -t edx.devstack.$* bash -c 'source /edx/app/$*/$*_env && cd /edx/app/$*/$*/ && make static'
@@ -138,9 +157,6 @@ studio-static: ## Rebuild static assets for the Studio container
 	docker exec -t edx.devstack.studio bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_assets'
 
 static: | credentials-static discovery-static ecommerce-static lms-static studio-static ## Rebuild static assets for all service containers
-
-studio-attach: ## Attach to the Studio container process to use the debugger & see logs.
-	docker attach `docker ps -aqf "name=edx.devstack.studio$$"`
 
 healthchecks: ## Run a curl against all services' healthcheck endpoints to make sure they are up. This will eventually be parameterized
 	./healthchecks.sh
