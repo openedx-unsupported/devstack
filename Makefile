@@ -39,9 +39,9 @@ dev.up: | check-memory ## Bring up all services with host volumes
 	docker-compose -f docker-compose.yml -f docker-compose-host.yml up -d
 
 dev.up.watchers: | check-memory ## Bring up asset watcher containers
-	docker-compose docker-compose-watchers.yml up -d
+	docker-compose -f docker-compose-watchers.yml up -d
 
-dev.up.all: | dev.up dev.up.asset_watchers ## Bring up all services with host volumes, including watchers
+dev.up.all: | dev.up dev.up.watchers ## Bring up all services with host volumes, including watchers
 
 dev.sync.daemon.start: ## Start the docker-sycn daemon
 	docker-sync start
@@ -59,7 +59,7 @@ provision: | dev.provision ## This command will be deprecated in a future releas
 
 stop: ## Stop all services
 	(test -d .docker-sync && docker-sync stop) || true ## Ignore failure here
-	docker-compose -f docker-compose.yml stop
+	docker-compose stop
 
 stop.watchers: ## Stop asset watchers
 	docker-compose -f docker-compose-watchers.yml stop
