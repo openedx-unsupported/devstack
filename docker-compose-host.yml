@@ -18,6 +18,9 @@ services:
     volumes:
       - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform:cached
       - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
+  studio-frontend:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/src/studio-frontend:/edx/src/studio-frontend:cached
   forum:
     volumes:
       - ${DEVSTACK_WORKSPACE}/cs_comments_service:/edx/app/forum/cs_comments_service:cached
