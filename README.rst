@@ -39,7 +39,7 @@ boot2docker) are *not* supported.
 You will also need the following installed:
 
 - make
-- python pip
+- python pip (optional for MacOS)
 
 Getting Started
 ---------------
@@ -51,7 +51,10 @@ you should configure Docker with a sufficient
 amount of resources. Our testing found that `configuring Docker for Mac`_ with
 a minimum of 2 CPUs and 4GB of memory works well.
 
-1. Install the requirements.
+1. Install the requirements (optional for MacOS).
+
+   This is not required for Docker for Mac, since it comes with
+   ``docker-compose`` out of the box.
 
    .. code:: sh
 
