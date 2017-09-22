@@ -322,6 +322,22 @@ of the migrations included in the database dump used by provisioning.  In these
 cases, it's usually best to first rebase the branch onto master to
 get the missing migrations.
 
+How do I make migrations?
+-------------------------
+
+Log into the LMS shell, source the ``edxapp`` virtualenv, and run the
+``makemigrations`` command with the ``devstack_docker`` settings:
+
+.. code:: sh
+   
+   make lms-shell
+   source /edx/app/edxapp/edxapp_env
+   cd /edx/app/edxapp/edx-platform
+   ./manage.py <lms/cms> makemigrations <appname> --settings=devstack_docker
+
+Also, make sure you are aware of the `Django Migration Don'ts`_ as the
+edx-platform is deployed using the red-black method.
+
 
 How do I upgrade Node.JS packages?
 ----------------------------------
@@ -755,3 +771,4 @@ GitHub issue which explains the `current status of implementing delegated consis
 .. _Docker CI Jenkins Jobs: https://tools-edx-jenkins.edx.org/job/DockerCI
 .. _How do I build images?: https://github.com/edx/devstack/tree/master#how-do-i-build-images
    :target: https://travis-ci.org/edx/devstack
+.. _Django Migration Don'ts: https://engineering.edx.org/django-migration-donts-f4588fd11b64
