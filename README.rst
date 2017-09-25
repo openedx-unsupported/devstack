@@ -594,6 +594,25 @@ Start over
 If you want to completely start over, run ``make destroy``. This will remove
 all containers, networks, AND data volumes.
 
+Resetting a database
+~~~~~~~~~~~~~~~~~~~~
+
+In case you botched a migration or just want to start with a clean database.
+
+1. Open up the mysql shell and drop the database for the desired service. 
+
+```
+>>> make mysql-shell
+>>> DROP DATABASE (insert database here)
+```
+
+2. From your devstack directory, run the provision script for the service. The provision script should handle populating data such as Oauth clients and edX users and running migrations.
+
+```
+>>> ./provision-(service_name)
+```
+
+
 Troubleshooting: Common issues
 ------------------------------
 
@@ -750,7 +769,6 @@ possible that the "delegated" consistency mode will be enough to no longer need
 docker-sync, but this feature hasn't been fully implemented yet (as of
 Docker 17.06.0-ce, "delegated" behaves the same as "cached").  There is a
 GitHub issue which explains the `current status of implementing delegated consistency mode`_.
-
 
 .. _Docker Compose: https://docs.docker.com/compose/
 .. _Docker for Mac: https://docs.docker.com/docker-for-mac/
