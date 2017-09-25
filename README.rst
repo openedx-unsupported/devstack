@@ -603,6 +603,7 @@ In case you botched a migration or just want to start with a clean database.
 
 ```
 >>> make mysql-shell
+>>> mysql
 >>> DROP DATABASE (insert database here)
 ```
 
