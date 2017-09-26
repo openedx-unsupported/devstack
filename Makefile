@@ -32,6 +32,9 @@ dev.provision: | check-memory dev.provision.run stop ## Provision dev environmen
 
 dev.reset: | down dev.repo.reset pull dev.up static update-db ## Attempts to reset the local devstack to a the master working state
 
+dev.status: ## Prints the status of all git repositories
+	./repo.sh status
+
 dev.repo.reset: ## Attempts to reset the local repo checkouts to the master working state
 	./repo.sh reset
 
