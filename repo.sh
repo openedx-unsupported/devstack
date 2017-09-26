@@ -59,7 +59,7 @@ reset ()
         name="${BASH_REMATCH[1]}"
 
         if [ -d "$name" ]; then
-            cd $name;git reset --hard HEAD;git checkout master;git pull;cd "$currDir"
+            cd $name;git reset --hard HEAD;git checkout master;git reset --hard origin/master;git pull;cd "$currDir"
         else
             printf "The [%s] repo is not cloned. Continuing.\n" $name
         fi
@@ -67,6 +67,23 @@ reset ()
     cd - &> /dev/null
 }
 
+status ()
+{
+    currDir=$(pwd)
+    for repo in ${repos[*]}
+    do
+        [[ $repo =~ $name_pattern ]]
+        name="${BASH_REMATCH[1]}"
+
+        if [ -d "$name" ]; then
+            printf "\nGit status for [%s]:\n" $name
+            cd $name;git status;cd "$currDir"
+        else
+            printf "The [%s] repo is not cloned. Continuing.\n" $name
+        fi
+    done
+    cd - &> /dev/null
+}
 
 if [ "$1" == "clone" ]; then
     clone
@@ -75,4 +92,6 @@ elif [ "$1" == "reset" ]; then
     if [[ $REPLY =~ ^[Yy]$ ]]; then
         reset
     fi
+elif [ "$1" == "status" ]; then
+    status
 fi
