@@ -11,6 +11,7 @@ services:
     volumes:
       - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform:cached
       - edxapp_lms_assets:/edx/var/edxapp/staticfiles/
+      - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
 
   studio_watcher:
     command: bash -c 'cd /edx/app/edxapp/edx-platform && source ../edxapp_env && while true; do paver watch_assets --w=$$ASSET_WATCHER_TIMEOUT; sleep 2; done'
@@ -22,6 +23,7 @@ services:
     volumes:
       - edxapp_studio_assets:/edx/var/edxapp/staticfiles/
       - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform:cached
+      - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
 
 volumes:
   edxapp_lms_assets:
