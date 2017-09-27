@@ -216,7 +216,7 @@ simply use the ``docker-compose restart`` command:
 -  lms
 -  studio
 
-If you'd like to add some convenience make targets, you can add them to a `local.mk` file, ignored by git.
+If you'd like to add some convenience make targets, you can add them to a ``local.mk`` file, ignored by git.
 
 Payments
 --------
@@ -332,7 +332,7 @@ Log into the LMS shell, source the ``edxapp`` virtualenv, and run the
 ``makemigrations`` command with the ``devstack_docker`` settings:
 
 .. code:: sh
-   
+
    make lms-shell
    source /edx/app/edxapp/edxapp_env
    cd /edx/app/edxapp/edx-platform
@@ -428,6 +428,36 @@ static assets, etc.
 
 If making a patch to a named release, you should pull and use Docker images
 which were tagged for that release.
+
+Changing LMS/CMS settings
+-------------------------
+The LMS and CMS read many configuration settings from the container filesystem
+in the following locations:
+
+- ``/edx/app/edxapp/lms.env.json``
+- ``/edx/app/edxapp/lms.auth.json``
+- ``/edx/app/edxapp/cms.env.json``
+- ``/edx/app/edxapp/cms.auth.json``
+
+Changes to these files will *not* persist over a container restart, as they
+are part of the layered container filesystem and not a mounted volume. However, you
+may need to change these settings and then have the LMS or CMS pick up the changes.
+
+To restart the LMS/CMS process without restarting the container, kill the LMS or CMS
+process and the watcher process will restart the process within the container. You can
+kill the needed processes from a shell within the LMS/CMS container with a single line of bash script:
+
+LMS:
+
+.. code:: sh
+
+    kill -9 $(ps aux | grep 'manage.py lms' | egrep -v 'while|grep' | awk '{print $2}')
+
+CMS:
+
+.. code:: sh
+
+    kill -9 $(ps aux | grep 'manage.py cms' | egrep -v 'while|grep' | awk '{print $2}')
 
 PyCharm Integration
 -------------------
@@ -613,7 +643,7 @@ Resetting a database
 
 In case you botched a migration or just want to start with a clean database.
 
-1. Open up the mysql shell and drop the database for the desired service. 
+1. Open up the mysql shell and drop the database for the desired service.
 
 ```
 >>> make mysql-shell
