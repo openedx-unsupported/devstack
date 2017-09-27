@@ -1,3 +1,6 @@
+set -x
+set -e
+
 name=$1
 port=$2
 
