@@ -22,6 +22,12 @@ services:
       - ../edx-e2e-tests/upload_files:/edx/app/e2e/edx-e2e-tests/upload_files
       - ../edx-platform/common/test/data:/edx/app/edxapp/edx-platform/common/test/data
 
+  webpack:
+    container_name: edx.devstack.webpack
+    image: mroytman/studio-frontend:latest
+    ports:
+      - "18011:18011"
+
   elasticsearch:
     container_name: edx.devstack.elasticsearch
     image: edxops/elasticsearch:devstack
