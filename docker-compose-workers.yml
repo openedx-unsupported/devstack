@@ -14,7 +14,7 @@ services:
     - "5672:5672"
 
   lms-worker-default:
-    command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py lms celery worker --settings devstack_docker --queues=edx.lms.core.default --concurrency=2; sleep 2; done'
+    command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py lms --settings devstack_docker celery worker --queues=edx.lms.core.default --hostname=edx.lms.core.default%h --concurrency=2 ; sleep 2; done'
     container_name: edx.devstack.lms-worker-default
     depends_on:
       - lms
