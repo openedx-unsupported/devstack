@@ -20,6 +20,8 @@ services:
       - lms
       - mysql
       - rabbitmq
+    environment:
+      C_FORCE_ROOT: "True"
     hostname: edx.devstack.lms-worker-default
     image: edxops/edxapp:latest
     stdin_open: true
