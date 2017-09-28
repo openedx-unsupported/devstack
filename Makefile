@@ -38,6 +38,9 @@ dev.repo.reset: ## Attempts to reset the local repo checkouts to the master work
 dev.up: | check-memory ## Bring up all services with host volumes
 	docker-compose -f docker-compose.yml -f docker-compose-host.yml up -d
 
+dev.up.workers: | check-memory ## Bring up asset watcher containers
+	docker-compose -f docker-compose-workers.yml -f docker-compose.yml -f docker-compose-host.yml up -d
+
 dev.up.watchers: | check-memory ## Bring up asset watcher containers
 	docker-compose -f docker-compose-watchers.yml up -d
 
@@ -68,7 +71,7 @@ stop.all: | stop stop.watchers ## Stop all containers, including asset watchers
 
 down: ## Remove all service containers and networks
 	(test -d .docker-sync && docker-sync clean) || true ## Ignore failure here
-	docker-compose -f docker-compose.yml -f docker-compose-watchers.yml down
+	docker-compose -f docker-compose.yml -f docker-compose-watchers.yml -f docker-compose-workers.yml down
 
 destroy: ## Remove all devstack-related containers, networks, and volumes
 	./destroy.sh
