@@ -127,7 +127,6 @@ services:
       - "18130:18130"
 
   lms:
-      #command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py lms runserver 1.0.0.0:18000 --settings devstack_docker; sleep 2; done'
     command: bash -c 'source /edx/app/edxapp/edxapp_env && pip install ptvsd==3.0 && while true; do python /edx/app/edxapp/edx-platform/manage.py lms runserver --noreload 0.0.0.0:18000 --settings devstack_docker; sleep 2; done'
     container_name: edx.devstack.lms
     depends_on:
