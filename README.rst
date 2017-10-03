@@ -36,6 +36,14 @@ boot2docker) are *not* supported.
 
 `Docker for Windows`_ may work but has not been tested and is *not* supported.
 
+Linux users should *not* be using the ``overlay`` storage driver.  ``overlay2``
+is tested and supported, but requires kernel version 4.0+.  Check which storage
+driver your docker-daemon is configured to use:
+
+.. code:: sh
+
+   docker info | grep -i 'storage driver'
+
 You will also need the following installed:
 
 - make
