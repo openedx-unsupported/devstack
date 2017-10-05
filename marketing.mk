@@ -1,6 +1,9 @@
 marketing-shell: ## Run a shell on the marketing site container
 	docker exec -it edx.devstack.marketing env TERM=$(TERM) bash
 
+down-marketing:   ## Bring up all services (including the marketing site) with host volumes
+	docker-compose -f docker-compose.yml -f docker-compose-host.yml -f docker-compose-marketing-site.yml -f docker-compose-marketing-site-host.yml down
+
 up-marketing:   ## Bring up all services (including the marketing site) with host volumes
 	docker-compose -f docker-compose.yml -f docker-compose-host.yml -f docker-compose-marketing-site.yml -f docker-compose-marketing-site-host.yml up
 
