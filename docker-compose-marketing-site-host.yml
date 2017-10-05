@@ -3,4 +3,7 @@ version: "2.1"
 services:
   marketing:
     volumes:
+      # NOTE: A private key is needed to sync the files and database from production.
+      - ~/.ssh/id_rsa:/root/.ssh/id_rsa
+      - ../edx-mktg:/edx/app/edx-mktg/edx-mktg
       - ../edx-mktg/docroot:/var/www/html
