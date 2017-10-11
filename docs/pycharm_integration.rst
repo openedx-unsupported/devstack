@@ -4,7 +4,7 @@ PyCharm Integration
 The Professional edition of JetBrains `PyCharm`_ IDE, version 2017.1.2 or later,
 can be used to develop and debug with Docker and Docker Compose.
 
-See additional information and tips for `PyCharm IDE setup`_.
+Additional PyCharm tips are kept in this `PyCharm IDE setup`_ documentation.
 
 Prerequisites
 -------------
@@ -181,7 +181,7 @@ configuration with the following options:
 
 2. Environment Variables:
 
-    - DJANGO_SETTINGS_MODULE=lms.envs.test_docker
+    - DJANGO_SETTINGS_MODULE=lms.envs.test
     - DISABLE_MIGRATIONS=1
     - PYTHONUNBUFFERED=1
 
@@ -203,14 +203,14 @@ options:
 
 1. Leave host/port blank
 
-2. Additional Options: --settings test_docker test lms/djangoapps/courseware/tests/test_views.py
+2. Additional Options: test lms/djangoapps/courseware/tests/test_views.py:TestJumpTo.test_jumpto_id
 
 3. Check "Custom run command:" and enter either ``lms`` or ``cms`` in to the text box.
 
 4. Environment Variables:
 
-    - DJANGO_SETTINGS_MODULE=**lms.envs.test_docker** (or
-      cms.envs.test_docker)
+    - DJANGO_SETTINGS_MODULE=**lms.envs.test** (or
+      cms.envs.test)
     - DISABLE_MIGRATIONS=1
     - PYTHONUNBUFFERED=1
 
@@ -277,6 +277,6 @@ One way to do this is to follow these instructions:
 .. _Django Server Run/Debug Configuration: https://www.jetbrains.com/help/pycharm/2017.1/run-debug-configuration-django-server.html
 .. _Jetbrains ticket PY-22893: https://youtrack.jetbrains.com/issue/PY-22893
 .. _PyCharm: https://www.jetbrains.com/pycharm/
-.. _PyCharm IDE setup: https://openedx.atlassian.net/wiki/display/ENG/PyCharm
+.. _PyCharm IDE setup: https://openedx.atlassian.net/wiki/spaces/OpenDev/pages/92209229/PyCharm
 .. _README: ../README.rst
 .. _vendor documentation: https://www.jetbrains.com/help/pycharm/2017.1/configuring-remote-interpreters-via-docker-compose.html
