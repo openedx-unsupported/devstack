@@ -781,12 +781,17 @@ Improve Mac OSX Performance with docker-sync
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Docker for Mac has known filesystem issues that significantly decrease
-performance, particularly for starting edx-platform (e.g. when you want to run a
-test). To improve performance, `Docker Sync`_  can be used to
-synchronize file data from the host machine to the containers.
+performance for certain use cases, for example running tests in edx-platform. To
+improve performance, `Docker Sync`_  can be used to synchronize file data from
+the host machine to the containers.
+
+Many developers have opted not to use `Docker Sync`_ because it adds complexity
+and can sometimes lead to issues with the filesystem getting out of sync.
 
 You can swap between using Docker Sync and native volumes at any time, by using
-the make targets with or without 'sync'.
+the make targets with or without 'sync'. However, this is harder to do quickly
+if you want to switch inside the PyCharm IDE due to its need to rebuild its
+cache of the containers' virtual environments.
 
 If you are using macOS, please follow the `Docker Sync installation
 instructions`_ before provisioning.
