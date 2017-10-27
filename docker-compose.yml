@@ -122,7 +122,7 @@ services:
     tty: true
     environment:
       ENABLE_DJANGO_TOOLBAR: 1
-    image: edxops/ecommerce:devstack
+    image: edxops/ecommerce:latest
     ports:
       - "18130:18130"
 
