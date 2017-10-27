@@ -138,6 +138,9 @@ lms-watcher-shell: ## Run a shell on the LMS watcher container
 lms-attach: ## Attach to the LMS container process to use the debugger & see logs.
 	docker attach edx.devstack.lms
 
+lms-restart: ## Kill the LMS Django development server. The watcher process will restart it.
+	docker exec -t edx.devstack.lms bash -c 'kill $$(ps aux | grep "manage.py lms" | egrep -v "while|grep" | awk "{print \$$2}")'
+
 studio-shell: ## Run a shell on the Studio container
 	docker exec -it edx.devstack.studio env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
 
@@ -146,6 +149,9 @@ studio-watcher-shell: ## Run a shell on the studio watcher container
 
 studio-attach: ## Attach to the Studio container process to use the debugger & see logs.
 	docker attach edx.devstack.studio
+
+studio-restart: ## Kill the LMS Django development server. The watcher process will restart it.
+	docker exec -t edx.devstack.studio bash -c 'kill $$(ps aux | grep "manage.py cms" | egrep -v "while|grep" | awk "{print \$$2}")'
 
 %-static: ## Rebuild static assets for the specified service container
 	docker exec -t edx.devstack.$* bash -c 'source /edx/app/$*/$*_env && cd /edx/app/$*/$*/ && make static'

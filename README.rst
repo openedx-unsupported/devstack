@@ -467,6 +467,9 @@ CMS:
 
     kill -9 $(ps aux | grep 'manage.py cms' | egrep -v 'while|grep' | awk '{print $2}')
 
+From your host machine, you can also run ``make lms-restart`` or
+``make studio-restart`` which run those commands in the containers for you.
+
 PyCharm Integration
 -------------------
 
