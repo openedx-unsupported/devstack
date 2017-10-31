@@ -1,7 +1,7 @@
-edX Devstack |Build Status|
-===========================
+Open edX Devstack |Build Status|
+================================
 
-Get up and running quickly with edX services.
+Get up and running quickly with Open edX services.
 
 If you are seeking info on the Vagrant-based devstack, please see
 https://openedx.atlassian.net/wiki/display/OpenOPS/Running+Devstack. This
@@ -403,7 +403,7 @@ starts, you have a few options:
 How do I rebuild static assets?
 -------------------------------
 
-Optimized static assets are built for all the edX services during
+Optimized static assets are built for all the Open edX services during
 provisioning, but you may want to rebuild them for a particular service
 after changing some files without re-provisioning the entire devstack.  To
 do this, run the make target for the appropriate service.  For example:
