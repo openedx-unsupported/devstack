@@ -69,7 +69,7 @@ a minimum of 2 CPUs and 4GB of memory works well.
       make requirements
 
 2. The Docker Compose file mounts a host volume for each service's executing
-   code. The host directory is defaults to be a sibling of this directory. For
+   code. The host directory defaults to be a sibling of this directory. For
    example, if this repo is cloned to ``~/workspace/devstack``, host volumes
    will be expected in ``~/workspace/course-discovery``,
    ``~/workspace/ecommerce``, etc. These repos can be cloned with the command
