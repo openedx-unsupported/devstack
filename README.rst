@@ -654,19 +654,17 @@ Resetting a database
 
 In case you botched a migration or just want to start with a clean database.
 
-1. Open up the mysql shell and drop the database for the desired service.
+1. Open up the mysql shell and drop the database for the desired service::
 
-```
->>> make mysql-shell
->>> mysql
->>> DROP DATABASE (insert database here)
-```
+    make mysql-shell
+    mysql
+    DROP DATABASE (insert database here)
 
-2. From your devstack directory, run the provision script for the service. The provision script should handle populating data such as Oauth clients and edX users and running migrations.
+2. From your devstack directory, run the provision script for the service. The
+   provision script should handle populating data such as Oauth clients and 
+   Open edX users and running migrations::
 
-```
->>> ./provision-(service_name)
-```
+    ./provision-(service_name)
 
 
 Troubleshooting: Common issues
