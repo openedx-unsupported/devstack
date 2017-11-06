@@ -531,16 +531,11 @@ After entering a shell for the appropriate service via ``make lms-shell`` or
     paver test_lib
     paver test_python
 
-If you want to instead run tests via ``manage.py``, you need to pass the
-``test_docker`` settings flag instead of the ``test`` settings used in
-Vagrant. Example:
+Tests can also be run individually. Example:
 
 .. code:: sh
 
-    DISABLE_MIGRATIONS=1 ./manage.py lms test --settings=test_docker openedx.core.djangoapps.user_api
-
-You can also add the ``test_docker`` settings flag to the other examples detailed
-in the testing documentation.
+    pytest openedx/core/djangoapps/user_api
 
 Connecting to Browser
 ~~~~~~~~~~~~~~~~~~~~~
@@ -661,7 +656,7 @@ In case you botched a migration or just want to start with a clean database.
     DROP DATABASE (insert database here)
 
 2. From your devstack directory, run the provision script for the service. The
-   provision script should handle populating data such as Oauth clients and 
+   provision script should handle populating data such as Oauth clients and
    Open edX users and running migrations::
 
     ./provision-(service_name)
