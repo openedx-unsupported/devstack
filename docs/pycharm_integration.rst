@@ -197,34 +197,27 @@ configuration with the following options:
 Setup a Run/Debug Configuration for python tests for LMS or Studio
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To run and debug unit tests, create a **"Django server"** type Run/Dubug
-configuration (not "Django tests" as is done for IDAs) with the following
-options:
+To run and debug unit tests, edit the **"Defaults -> Python tests -> py.test"** type Run/Dubug
+configuration with the following options:
 
-1. Leave host/port blank
-
-2. Additional Options: test lms/djangoapps/courseware/tests/test_views.py:TestJumpTo.test_jumpto_id
-
-3. Check "Custom run command:" and enter either ``lms`` or ``cms`` in to the text box.
-
-4. Environment Variables:
-
-    - DJANGO_SETTINGS_MODULE=**lms.envs.test** (or
-      cms.envs.test)
-    - DISABLE_MIGRATIONS=1
-    - PYTHONUNBUFFERED=1
-
-5. Python Interpreter: Choose the Docker Compose interpreter for this
+1. Python Interpreter: Choose the Docker Compose interpreter for this
    service.
 
-6. Working directory: /edx/app/edxapp/edx-platform
+2. Working directory: /edx/app/edxapp/edx-platform
 
-7. Path mappings (add mapping):
+3. Path mappings (add mapping):
 
    - Local path: LOCAL/PATH/TO/edx-platform (e.g. ~/edx/edx-platform)
    - Remote path: /edx/app/edxapp/edx-platform
 
-8. Deselect "Add content..." and "Add source..."
+4. Deselect "Add content..." and "Add source..."
+
+Then set the "Tools -> Python Integrated Tools -> Default test runner"
+preference to "py.test", apply the change, and restart PyCharm.  You should
+now be able to execute any individual test file via its context menu, or to
+run custom sets of tests by creating a custom py.test Run/Debug configuration
+(which should now be initialized with the defaults above) and setting its
+"Target" appropriately.
 
 Currently not supported for PyCharm Development
 -----------------------------------------------
