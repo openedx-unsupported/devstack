@@ -212,12 +212,19 @@ configuration with the following options:
 
 4. Deselect "Add content..." and "Add source..."
 
-Then set the "Tools -> Python Integrated Tools -> Default test runner"
-preference to "py.test", apply the change, and restart PyCharm.  You should
-now be able to execute any individual test file via its context menu, or to
-run custom sets of tests by creating a custom py.test Run/Debug configuration
-(which should now be initialized with the defaults above) and setting its
-"Target" appropriately.
+Then make two changes in PyCharm's preferences:
+
+1. Set "Tools -> Python Integrated Tools -> Default test runner" to "py.test".
+
+2. In "Languages & Frameworks -> Django", uncheck "Enable Django Support".
+   Starting in PyCharm 2017.3 (the EAP of which is already available), this
+   dialog has a "Do not use Django test runner" checkbox which should be
+   enabled instead.
+
+You should now be able to execute tests via the context menu of test files,
+classes, or individual test cases.  You can also run custom sets of tests by
+creating a custom py.test Run/Debug configuration (which should now be
+initialized with the defaults above) and setting its "Target" appropriately.
 
 Currently not supported for PyCharm Development
 -----------------------------------------------
