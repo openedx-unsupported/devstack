@@ -18,12 +18,15 @@ services:
       - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform:cached
       - edxapp_node_modules:/edx/app/edxapp/edx-platform/node_modules
       - ${DEVSTACK_WORKSPACE}/edx-enterprise:/edx/app/edxapp/packages/edx-enterprise:cached
+      - ${DEVSTACK_WORKSPACE}/edx-search:/edx/app/edxapp/packages/edx-search:cached
+      - ${DEVSTACK_WORKSPACE}/edx-milestones:/edx/app/edxapp/packages/edx-milestones:cached
       - ${DEVSTACK_WORKSPACE}/edx-themes:/edx/app/edxapp/edx-themes:cached
       - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
   studio:
     volumes:
       - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform:cached
       - edxapp_node_modules:/edx/app/edxapp/edx-platform/node_modules
+      - ${DEVSTACK_WORKSPACE}/edx-search:/edx/app/edxapp/packages/edx-search:cached
       - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
   forum:
     volumes:

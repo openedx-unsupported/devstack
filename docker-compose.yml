@@ -26,9 +26,9 @@ services:
     container_name: edx.devstack.elasticsearch
     image: edxops/elasticsearch:devstack
     # TODO: What to do about these forwarded ports? They'll conflict with ports forwarded by the Vagrant VM.
-    # ports:
-    #   - "9200:9200"
-    #   - "9300:9300"
+    ports:
+       - "9200:9200"
+         #   - "9300:9300"
     volumes:
       - elasticsearch_data:/usr/share/elasticsearch/data
       - elasticsearch_data:/usr/share/elasticsearch/logs
@@ -153,7 +153,7 @@ services:
       - edxapp_lms_assets:/edx/var/edxapp/staticfiles/
 
   studio:
-    command: bash -c 'source /edx/app/edxapp/edxapp_env && pip install ptvsd==3.0 && while true; do python /edx/app/edxapp/edx-platform/manage.py cms runserver 0.0.0.0:18010 --settings devstack_docker; sleep 2; done'
+    command: bash -c 'source /edx/app/edxapp/edxapp_env && pip install ptvsd==3.0 && while true; do python /edx/app/edxapp/edx-platform/manage.py cms runserver --noreload 0.0.0.0:18010 --settings devstack_docker; sleep 2; done'
     container_name: edx.devstack.studio
     depends_on:
       - mysql
@@ -172,6 +172,7 @@ services:
     ports:
       - "18010:18010"
       - "19877:19877" # JS test debugging
+      # - "21000:21000" #ptvsd debugger
       # - "18103:18103"
       # - "18131:18131"
     volumes:
