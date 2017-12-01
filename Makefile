@@ -185,6 +185,9 @@ vnc-passwords: ## Get the VNC passwords for the Chrome and Firefox Selenium cont
 mysql-shell: ## Run a shell on the mysql container
 	docker-compose exec mysql bash
 
+mongo-shell: ## Run a shell on the mongo container
+	docker-compose exec mongo bash
+
 # Provisions studio, ecommerce, and marketing with course(s) in test-course.json
 # Modify test-course.json before running this make target to generate a custom course
 create-test-course: ## NOTE: marketing course creation is not available for those outside edX
