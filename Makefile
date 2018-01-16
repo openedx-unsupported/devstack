@@ -185,6 +185,9 @@ vnc-passwords: ## Get the VNC passwords for the Chrome and Firefox Selenium cont
 mysql-shell: ## Run a shell on the mysql container
 	docker-compose exec mysql bash
 
+mysql-shell-edxapp: ## Run a mysql shell on the edxapp database
+	docker-compose exec mysql bash -c "mysql edxapp"
+
 mongo-shell: ## Run a shell on the mongo container
 	docker-compose exec mongo bash
 
