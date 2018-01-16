@@ -49,6 +49,20 @@ You will also need the following installed:
 - make
 - python pip (optional for MacOS)
 
+Using the Latest Images
+-----------------------
+
+New images for our services are published frequently.  Assuming that you've followed the steps in `Getting Started`_
+below, run the following sequence of commands if you want to use the most up-to-date versions of the devstack images.
+
+.. code:: sh
+
+    make down
+    make pull
+    make dev.up
+
+This will stop any running devstack containers, pull the latest images, and then start all of the devstack containers.
+
 Getting Started
 ---------------
 
