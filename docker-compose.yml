@@ -73,6 +73,17 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
 
+  rabbitmq:
+    container_name: edx.devstack.rabbitmq
+    hostname: edx.devstack.rabbitmq
+    image: rabbitmq:3.6.6-management
+    environment:
+      RABBITMQ_DEFAULT_USER: "user"
+      RABBITMQ_DEFAULT_PASS: "user"
+    ports:
+    - "15672:15672"
+    - "5672:5672"
+
   # edX services
   credentials:
     command: bash -c 'while true; do python /edx/app/credentials/credentials/manage.py runserver 0.0.0.0:18150; sleep 2; done'

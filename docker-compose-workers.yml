@@ -1,0 +1,28 @@
+version: "2.1"
+
+services:
+
+  rabbitmq:
+    container_name: edx.devstack.rabbitmq
+    hostname: edx.devstack.rabbitmq
+    image: rabbitmq:3.6.6-management
+    environment:
+      RABBITMQ_DEFAULT_USER: "user"
+      RABBITMQ_DEFAULT_PASS: "user"
+    ports:
+    - "15672:15672"
+    - "5672:5672"
+
+  lms-worker-default:
+    command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py lms --settings devstack_docker celery worker --queues=edx.lms.core.default --hostname=edx.lms.core.default%h --concurrency=2 ; sleep 2; done'
+    container_name: edx.devstack.lms-worker-default
+    depends_on:
+      - lms
+      - mysql
+      - rabbitmq
+    environment:
+      C_FORCE_ROOT: "True"
+    hostname: edx.devstack.lms-worker-default
+    image: edxops/edxapp:latest
+    stdin_open: true
+    tty: true
