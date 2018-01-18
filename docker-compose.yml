@@ -12,6 +12,7 @@ version: "2.1"
 
 services:
   # Third-party services
+  # Yes
   chrome:
     container_name: edx.devstack.chrome
     image: edxops/chrome:latest
