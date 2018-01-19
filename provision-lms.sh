@@ -13,10 +13,12 @@ for app in "${apps[@]}"; do
     docker-compose $DOCKER_COMPOSE_FILES up -d $app
 done
 
-# FED-500: this is a hack
-# We need an --no-bin-links install to get past the ENOENT r.js failure
-# The subsequent 'paver install_prereqs' command will run a *full* 'npm install' to repair bin links immediately afterwards
+# FEDX-500: this is a hack (part 2)
+docker-compose exec lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && npm cache clean --force'
 docker-compose exec lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && npm install --no-bin-links'
+docker-compose exec lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && npm install'
+docker-compose exec lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && npm cache verify'
+docker-compose exec lms bash -c 'rm -rf /edx/app/edxapp/edx-platform/node_modules/'
 
 docker-compose exec lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && NO_PYTHON_UNINSTALL=1 paver install_prereqs'
 
