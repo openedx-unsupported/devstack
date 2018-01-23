@@ -644,6 +644,7 @@ Somtimes you just aren't sure what's wrong, if you would like to hit the reset b
 run ``make dev.reset``.
 
 Running this command will perform the following steps:
+
 * Bring down all containers
 * Reset all git repositories to the HEAD of master
 * Pull new images for all services
