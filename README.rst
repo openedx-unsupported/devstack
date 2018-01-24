@@ -269,17 +269,14 @@ How do I build images?
 
 There are `Docker CI Jenkins jobs`_ on tools-edx-jenkins that build and push new
 Docker images to DockerHub on code changes to either the configuration repository or the IDA's codebase. These images
-are tagged ``latest``, so only the discovery and edxapp jobs are relevant at this time (see NOTES below). Images that
-require tags other than ``latest`` are built and pushed by hand. If you want to build the images on your own, the
-Dockerfiles are available in the ``edx/configuration`` repo.
+are tagged ``latest``. Images that require tags other than ``latest`` are built and pushed by hand (see NOTES below).
+If you want to build the images on your own, the Dockerfiles are available in the ``edx/configuration`` repo.
 
 NOTES:
 
-1. discovery and edxapp use the ``latest`` tag since their configuration changes have been merged to master branch of
-   ``edx/configuration``.
-2. We are experimenting with hosting a ``Dockerfile`` in the ``edx/credentials`` repository, hence the ``devstack-slim``
+1. We are experimenting with hosting a ``Dockerfile`` in the ``edx/credentials`` repository, hence the ``devstack-slim``
    tag. See that repo for more information on building its image.
-3. All other services use the ``devstack`` tag and are build from the ``clintonb/docker-devstack-idas`` branch of
+2. edxapp and IDAs use the ``latest`` tag since their configuration changes have been merged to master branch of
    ``edx/configuration``.
 
 BUILD COMMANDS:
@@ -292,7 +289,7 @@ BUILD COMMANDS:
 
 .. code:: sh
 
-    git checkout clintonb/docker-devstack-idas
+    git checkout master
     git pull
     docker build -f docker/build/ecommerce/Dockerfile . -t edxops/ecommerce:devstack
 
