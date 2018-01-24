@@ -278,6 +278,7 @@ NOTES:
    tag. See that repo for more information on building its image.
 2. edxapp and IDAs use the ``latest`` tag since their configuration changes have been merged to master branch of
    ``edx/configuration``.
+3. The elasticsearch used in devstack is built using elasticsearch-devstack/Dockerfile and the ``devstack`` tag.
 
 BUILD COMMANDS:
 
