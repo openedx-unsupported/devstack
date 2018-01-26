@@ -83,7 +83,7 @@ logs: ## View logs from containers running in detached mode
 	docker-compose logs -f --tail=500 $*
 
 pull: ## Update Docker images
-	docker-compose pull
+	docker-compose pull --parallel
 
 validate: ## Validate the devstack configuration
 	docker-compose config

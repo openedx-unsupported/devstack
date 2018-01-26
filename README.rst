@@ -836,7 +836,7 @@ The performance improvements provided by `cached consistency mode for volume
 mounts`_ introduced in Docker CE Edge 17.04 are still not good enough. It's
 possible that the "delegated" consistency mode will be enough to no longer need
 docker-sync, but this feature hasn't been fully implemented yet (as of
-Docker 17.06.0-ce, "delegated" behaves the same as "cached").  There is a
+Docker 17.12.0-ce, "delegated" behaves the same as "cached").  There is a
 GitHub issue which explains the `current status of implementing delegated consistency mode`_.
 
 .. _Docker Compose: https://docs.docker.com/compose/
@@ -855,6 +855,8 @@ GitHub issue which explains the `current status of implementing delegated consis
 .. _edx-platform testing documentation: https://github.com/edx/edx-platform/blob/master/docs/testing.rst#running-python-unit-tests
 .. _docker-sync: #improve-mac-osx-performance-with-docker-sync
 .. |Build Status| image:: https://travis-ci.org/edx/devstack.svg?branch=master
+    :target: https://travis-ci.org/edx/devstack
+    :alt: Travis
 .. _Docker CI Jenkins Jobs: https://tools-edx-jenkins.edx.org/job/DockerCI
 .. _How do I build images?: https://github.com/edx/devstack/tree/master#how-do-i-build-images
    :target: https://travis-ci.org/edx/devstack
