@@ -28,6 +28,7 @@ before_install:
 
   - make requirements
   - make dev.clone
+  - make pull
 
 script:
   - make dev.provision
