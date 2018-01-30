@@ -138,6 +138,9 @@ lms-watcher-shell: ## Run a shell on the LMS watcher container
 lms-attach: ## Attach to the LMS container process to use the debugger & see logs.
 	docker attach edx.devstack.lms
 
+discovery-attach: ## Attach to the Discovery container process to use the debugger & see logs.
+	docker attach edx.devstack.discovery
+
 lms-restart: ## Kill the LMS Django development server. The watcher process will restart it.
 	docker exec -t edx.devstack.lms bash -c 'kill $$(ps aux | grep "manage.py lms" | egrep -v "while|grep" | awk "{print \$$2}")'
 
