@@ -106,9 +106,6 @@ restore:  ## Restore all data volumes from the host. WARNING: THIS WILL OVERWRIT
 credentials-shell: ## Run a shell on the credentials container
 	docker exec -it edx.devstack.credentials env TERM=$(TERM) bash
 
-credentials-attach: ## Attach to the credentials container process to use the debugger & see logs.
-	docker attach `docker ps -aqf "name=edx.devstack.credentials"`
-
 e2e-shell: ## Start the end-to-end tests container with a shell
 	docker run -it --network=devstack_default -v ${DEVSTACK_WORKSPACE}/edx-e2e-tests:/edx-e2e-tests -v ${DEVSTACK_WORKSPACE}/edx-platform:/edx-e2e-tests/lib/edx-platform --env-file ${DEVSTACK_WORKSPACE}/edx-e2e-tests/devstack_env edxops/e2e env TERM=$(TERM) bash
 
@@ -135,11 +132,8 @@ lms-shell: ## Run a shell on the LMS container
 lms-watcher-shell: ## Run a shell on the LMS watcher container
 	docker exec -it edx.devstack.lms_watcher env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
 
-lms-attach: ## Attach to the LMS container process to use the debugger & see logs.
-	docker attach edx.devstack.lms
-
-discovery-attach: ## Attach to the Discovery container process to use the debugger & see logs.
-	docker attach edx.devstack.discovery
+%-attach: ## Attach to the specified service container process to use the debugger & see logs.
+	docker attach edx.devstack.$*
 
 lms-restart: ## Kill the LMS Django development server. The watcher process will restart it.
 	docker exec -t edx.devstack.lms bash -c 'kill $$(ps aux | grep "manage.py lms" | egrep -v "while|grep" | awk "{print \$$2}")'
@@ -149,9 +143,6 @@ studio-shell: ## Run a shell on the Studio container
 
 studio-watcher-shell: ## Run a shell on the studio watcher container
 	docker exec -it edx.devstack.studio_watcher env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
-
-studio-attach: ## Attach to the Studio container process to use the debugger & see logs.
-	docker attach edx.devstack.studio
 
 studio-restart: ## Kill the LMS Django development server. The watcher process will restart it.
 	docker exec -t edx.devstack.studio bash -c 'kill $$(ps aux | grep "manage.py cms" | egrep -v "while|grep" | awk "{print \$$2}")'
