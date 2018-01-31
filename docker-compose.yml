@@ -187,6 +187,15 @@ services:
     ports:
       - "44567:4567"
 
+  devpi:
+    container_name: edx.devstack.devpi
+    environment:
+      DEVPI_PASSWORD: supersecret
+    image: edxops/devpi:latest
+    ports:
+      - "3141:3141"
+    volumes:
+      - devpi_data:/data
 
 volumes:
   discovery_assets:
@@ -195,3 +204,4 @@ volumes:
   elasticsearch_data:
   mongo_data:
   mysql_data:
+  devpi_data:
