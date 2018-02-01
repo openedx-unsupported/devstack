@@ -487,6 +487,12 @@ PyCharm Integration
 
 See the `Pycharm Integration documentation`_.
 
+devpi Caching
+-------------
+
+LMS and Studio use a devpi container to cache PyPI dependencies, which speeds up several Devstack operations.
+See the `devpi documentation`_.
+
 Debugging using PDB
 -------------------
 
@@ -850,6 +856,7 @@ GitHub issue which explains the `current status of implementing delegated consis
 .. _edxops Docker image: https://hub.docker.com/r/edxops/
 .. _Docker Hub: https://hub.docker.com/
 .. _Pycharm Integration documentation: docs/pycharm_integration.rst
+.. _devpi documentation: docs/devpi.rst
 .. _edx-platform testing documentation: https://github.com/edx/edx-platform/blob/master/docs/testing.rst#running-python-unit-tests
 .. _docker-sync: #improve-mac-osx-performance-with-docker-sync
 .. |Build Status| image:: https://travis-ci.org/edx/devstack.svg?branch=master
