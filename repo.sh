@@ -24,6 +24,7 @@ repos=(
     "https://github.com/edx/ecommerce.git"
     "https://github.com/edx/edx-e2e-tests.git"
     "https://github.com/edx/edx-platform.git"
+    "https://github.com/edx/xqueue.git"
 )
 
 name_pattern=".*edx/(.*).git"

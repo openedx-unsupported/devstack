@@ -30,6 +30,11 @@ dev.provision.run: ## Provision all services with local mounted directories
 
 dev.provision: | check-memory dev.provision.run stop ## Provision dev environment with all services stopped
 
+dev.provision.xqueue: | check-memory dev.provision.xqueue.run stop stop.xqueue
+
+dev.provision.xqueue.run:
+	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-xqueue.yml" ./provision-xqueue.sh
+
 dev.reset: | down dev.repo.reset pull dev.up static update-db ## Attempts to reset the local devstack to a the master working state
 
 dev.status: ## Prints the status of all git repositories
@@ -43,6 +48,9 @@ dev.up: | check-memory ## Bring up all services with host volumes
 
 dev.up.watchers: | check-memory ## Bring up asset watcher containers
 	docker-compose -f docker-compose-watchers.yml up -d
+
+dev.up.xqueue: | check-memory ## Bring up xqueue, assumes you already have lms running
+	docker-compose -f docker-compose.yml -f docker-compose-xqueue.yml -f docker-compose-host.yml up -d
 
 dev.up.all: | dev.up dev.up.watchers ## Bring up all services with host volumes, including watchers
 
@@ -69,9 +77,12 @@ stop.watchers: ## Stop asset watchers
 
 stop.all: | stop stop.watchers ## Stop all containers, including asset watchers
 
+stop.xqueue:
+	docker-compose -f docker-compose-xqueue.yml stop
+
 down: ## Remove all service containers and networks
 	(test -d .docker-sync && docker-sync clean) || true ## Ignore failure here
-	docker-compose -f docker-compose.yml -f docker-compose-watchers.yml down
+	docker-compose -f docker-compose.yml -f docker-compose-watchers.yml -f docker-compose-xqueue.yml down
 
 destroy: ## Remove all devstack-related containers, networks, and volumes
 	./destroy.sh
@@ -84,6 +95,9 @@ logs: ## View logs from containers running in detached mode
 
 pull: ## Update Docker images
 	docker-compose pull --parallel
+
+pull.xqueue: ## Update XQueue Docker images
+	docker-compose -f docker-compose-xqueue.yml pull --parallel
 
 validate: ## Validate the devstack configuration
 	docker-compose config
@@ -146,6 +160,12 @@ studio-watcher-shell: ## Run a shell on the studio watcher container
 
 studio-restart: ## Kill the LMS Django development server. The watcher process will restart it.
 	docker exec -t edx.devstack.studio bash -c 'kill $$(ps aux | grep "manage.py cms" | egrep -v "while|grep" | awk "{print \$$2}")'
+
+xqueue-shell: ## Run a shell on the XQueue container
+	docker exec -it edx.devstack.xqueue env TERM=$(TERM) /bin/bash
+
+rabbit-shell: ## Run a shell on the RabbitMQ container
+	docker exec -it edx.devstack.rabbit env TERM=$(TERM) /bin/bash
 
 %-static: ## Rebuild static assets for the specified service container
 	docker exec -t edx.devstack.$* bash -c 'source /edx/app/$*/$*_env && cd /edx/app/$*/$*/ && make static'
