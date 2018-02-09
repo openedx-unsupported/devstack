@@ -12,6 +12,15 @@ services:
     volumes:
       - ${DEVSTACK_WORKSPACE}/xqueue:/edx/app/xqueue/xqueue:cached
     depends_on: # even though we need mysql, we can't refer to it because it's started in the other compose file
-      - rabbitmq 
+      - rabbitmq
     ports:
       - 18040:18040
+
+  xqueue_consumer:
+    container_name: edx.devstack.xqueue_consumer
+    image: edxops/xqueue:latest
+    command: bash -c 'source /edx/app/xqueue/venvs/xqueue/bin/activate && while true; do SERVICE_VARIANT=xqueue python /edx/app/xqueue/xqueue/manage.py run_consumer --settings xqueue.devstack ; sleep 2; done'
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/xqueue:/edx/app/xqueue/xqueue:cached
+    depends_on: # even though we need mysql, we can't refer to it because it's started in the other compose file
+      - rabbitmq
