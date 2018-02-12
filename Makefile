@@ -112,7 +112,7 @@ restore:  ## Restore all data volumes from the host. WARNING: THIS WILL OVERWRIT
 	docker run --rm --volumes-from edx.devstack.mongo -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/mongo.tar.gz
 	docker run --rm --volumes-from edx.devstack.elasticsearch -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/elasticsearch.tar.gz
 
-# TODO: Create a devstack.sh file in the devpi container to activate the devpi venv/clear the entire cache.
+# TODO: Create a devstack.sh file in the devpi container to activate the devpi venv within the shell.
 devpi-shell: ## Run a shell on the devpi container
 	docker exec -it edx.devstack.devpi env TERM=$(TERM) /bin/bash
 
@@ -202,6 +202,9 @@ validate-lms-volume: ## Validate that changes to the local workspace are reflect
 vnc-passwords: ## Get the VNC passwords for the Chrome and Firefox Selenium containers
 	@docker logs edx.devstack.chrome 2>&1 | grep "VNC password" | tail -1
 	@docker logs edx.devstack.firefox 2>&1 | grep "VNC password" | tail -1
+
+devpi-password: ## Get the root devpi password for the devpi container
+	docker-compose exec devpi bash -c "cat /data/server/.serverpassword"
 
 mysql-shell: ## Run a shell on the mysql container
 	docker-compose exec mysql bash

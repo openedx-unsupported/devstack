@@ -189,8 +189,6 @@ services:
 
   devpi:
     container_name: edx.devstack.devpi
-    environment:
-      DEVPI_PASSWORD: supersecret
     image: edxops/devpi:latest
     ports:
       - "3141:3141"
