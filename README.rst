@@ -73,14 +73,14 @@ you should configure Docker with a sufficient
 amount of resources. Our testing found that `configuring Docker for Mac`_ with
 a minimum of 2 CPUs and 4GB of memory works well.
 
-1. Install the requirements (optional for MacOS).
+1. Install the requirements (optional for MacOS) inside of a `Python virtualenv`_.
 
    This is not required for Docker for Mac, since it comes with
    ``docker-compose`` out of the box.
 
    .. code:: sh
 
-      make requirements
+       make requirements
 
 2. The Docker Compose file mounts a host volume for each service's executing
    code. The host directory defaults to be a sibling of this directory. For
@@ -859,3 +859,4 @@ GitHub issue which explains the `current status of implementing delegated consis
 .. _How do I build images?: https://github.com/edx/devstack/tree/master#how-do-i-build-images
    :target: https://travis-ci.org/edx/devstack
 .. _Django Migration Don'ts: https://engineering.edx.org/django-migration-donts-f4588fd11b64
+.. _Python virtualenv: http://docs.python-guide.org/en/latest/dev/virtualenvs/#lower-level-virtualenv
