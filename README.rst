@@ -783,6 +783,33 @@ This error is an indication that your docker process died during execution.  Mos
 this error is due to running out of memory. If your Docker configuration is set to 2GB (docker for mac default),
 increase it to 4GB (the current recommendation). If your Docker configuration is set to 4GB, then try 6GB.
 
+Docker is using lots of CPU time when it should be idle
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+On the Mac, this often manifests as the ``hyperkit`` process using a high
+percentage of available CPU resources.  To identify the container(s)
+responsible for the CPU usage:
+
+.. code:: sh
+
+    make stats
+
+Once you've identified a container using too much CPU time, check its logs;
+for example:
+
+.. code:: sh
+
+    make lms-logs
+
+The most common culprit is an infinite restart loop where an error during
+service startup causes the process to exit, but we've configured
+``docker-compose`` to immediately try starting it again (so the container will
+stay running long enough for you to use a shell to investigate and fix the
+problem).  Make sure the set of packages installed in the container matches
+what your current code branch expects; you may need to rerun ``pip`` on a
+requirements file or pull new container images that already have the required
+package versions installed.
+
 Performance
 -----------
 
