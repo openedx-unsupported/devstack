@@ -110,6 +110,13 @@ services:
       - "18381:18381"
     volumes:
       - discovery_assets:/edx/var/discovery/
+    networks:
+      default:
+        aliases:
+          - discovery-theme1.e2e.devstack
+          - discovery-theme2.e2e.devstack
+          - discovery-theme3.e2e.devstack
+          - discovery-theme4.e2e.devstack
 
   ecommerce:
     command: bash -c 'source /edx/app/ecommerce/ecommerce_env && while true; do python /edx/app/ecommerce/ecommerce/manage.py runserver 0.0.0.0:18130; sleep 2; done'
@@ -125,6 +132,13 @@ services:
     image: edxops/ecommerce:latest
     ports:
       - "18130:18130"
+    networks:
+      default:
+        aliases:
+          - ecommerce-theme1.e2e.devstack
+          - ecommerce-theme2.e2e.devstack
+          - ecommerce-theme3.e2e.devstack
+          - ecommerce-theme4.e2e.devstack
 
   lms:
     command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py lms runserver 0.0.0.0:18000 --settings devstack_docker; sleep 2; done'
@@ -150,6 +164,13 @@ services:
       # - "18031:18031"
     volumes:
       - edxapp_lms_assets:/edx/var/edxapp/staticfiles/
+    networks:
+      default:
+        aliases:
+          - theme1.e2e.devstack
+          - theme2.e2e.devstack
+          - theme3.e2e.devstack
+          - theme4.e2e.devstack
 
   studio:
     command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py cms runserver 0.0.0.0:18010 --settings devstack_docker; sleep 2; done'
