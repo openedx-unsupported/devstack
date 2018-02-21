@@ -27,11 +27,19 @@ repos=(
     "https://github.com/edx/xqueue.git"
 )
 
+private_repos=(
+    # Needed to run whitelabel tests.
+    "https://github.com/edx/edx-themes.git"
+)
+
 name_pattern=".*edx/(.*).git"
 
-clone ()
+_clone ()
 {
-    for repo in ${repos[*]}
+    # for repo in ${repos[*]}
+    repos_to_clone=("$@")
+
+    for repo in "${repos_to_clone[@]}"
     do
         # Use Bash's regex match operator to capture the name of the repo.
         # Results of the match are saved to an array called $BASH_REMATCH.
@@ -49,6 +57,16 @@ clone ()
         fi
     done
     cd - &> /dev/null
+}
+
+clone ()
+{
+    _clone "${repos[@]}"
+}
+
+clone_private ()
+{
+    _clone "${private_repos[@]}"
 }
 
 reset ()
@@ -88,6 +106,8 @@ status ()
 
 if [ "$1" == "clone" ]; then
     clone
+elif [ "$1" == "whitelabel" ]; then
+    clone_private
 elif [ "$1" == "reset" ]; then
     read -p "This will override any uncommited changes in your local git checkouts. Would you like to proceed? [y/n] " -r
     if [[ $REPLY =~ ^[Yy]$ ]]; then
