@@ -35,7 +35,7 @@ services:
 
   firefox:
     container_name: edx.devstack.firefox
-    image: edxops/firefox:latest
+    image: edxops/firefox:dubnium
     shm_size: 2g
     ports:
       - "25900:5900"
