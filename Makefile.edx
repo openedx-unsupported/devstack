@@ -1,0 +1,17 @@
+########################################################################################################################
+#
+# edX-specific Makefile
+#   - Contains edX-only targets used to access/use private GitHub repos
+#
+# To run these targets, use (for example):
+#
+#   > make -f Makefile.edx dev.up.e2e_wl_tests
+#
+########################################################################################################################
+include Makefile
+
+dev.clone_whitelabel: ## Clone edx-themes repo to the parent directory
+	./repo.sh whitelabel
+
+dev.up.e2e_wl_tests: | check-memory dev.clone_whitelabel ## Bring up all services with edx-themes repo mounted for whitelabel tests.
+	docker-compose -f docker-compose.yml -f docker-compose-host.yml -f docker-compose-themes.yml up -d
