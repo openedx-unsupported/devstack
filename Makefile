@@ -162,10 +162,10 @@ studio-restart: ## Kill the LMS Django development server. The watcher process w
 	docker exec -t edx.devstack.studio bash -c 'kill $$(ps aux | grep "manage.py cms" | egrep -v "while|grep" | awk "{print \$$2}")'
 
 xqueue-shell: ## Run a shell on the XQueue container
-	docker exec -it edx.devstack.xqueue env TERM=$(TERM) /bin/bash
+	docker exec -it edx.devstack.xqueue env TERM=$(TERM) /edx/app/xqueue/devstack.sh open
 
 xqueue_consumer-shell: ## Run a shell on the XQueue consumer container
-	docker exec -it edx.devstack.xqueue_consumer env TERM=$(TERM) /bin/bash
+	docker exec -it edx.devstack.xqueue_consumer env TERM=$(TERM) /edx/app/xqueue/devstack.sh open
 
 rabbit-shell: ## Run a shell on the RabbitMQ container
 	docker exec -it edx.devstack.rabbit env TERM=$(TERM) /bin/bash

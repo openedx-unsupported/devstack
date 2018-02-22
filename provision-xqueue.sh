@@ -25,7 +25,6 @@ docker-compose $DOCKER_COMPOSE_FILES exec xqueue bash -c 'source /edx/app/xqueue
 docker-compose $DOCKER_COMPOSE_FILES exec xqueue bash -c 'source /edx/app/xqueue/venvs/xqueue/bin/activate && cd /edx/app/xqueue/xqueue && SERVICE_VARIANT=xqueue python manage.py update_users --settings=xqueue.devstack'
 
 # Create a user that can be used by xqueue to create / manage queues
-docker-compose $DOCKER_COMPOSE_FILES exec rabbitmq bash -c 'rabbitmqctl delete_user guest'
 docker-compose $DOCKER_COMPOSE_FILES exec rabbitmq bash -c 'rabbitmqctl add_user edx edx'
 docker-compose $DOCKER_COMPOSE_FILES exec rabbitmq bash -c 'rabbitmqctl set_permissions edx ".*" ".*" ".*"'
 docker-compose $DOCKER_COMPOSE_FILES exec rabbitmq bash -c 'rabbitmqctl set_user_tags edx administrator'
