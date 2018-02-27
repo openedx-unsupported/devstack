@@ -14,7 +14,7 @@ dev.clone_whitelabel: ## Clone edx-themes repo to the parent directory
 	./repo.sh whitelabel
 
 dev.up.e2e_wl_tests: | check-memory dev.clone_whitelabel ## Bring up all services with edx-themes repo mounted for whitelabel tests.
-	docker-compose -f docker-compose.yml -f docker-compose-host.yml -f docker-compose-themes.yml up -d
+	docker-compose -f docker-compose.yml -f docker-compose-host.yml -f docker-compose-themes.yml -f ../edx-themes/edx-platform/devstack_hostnames.yml up -d
 
-dev.provision.whitelabel:
-	./provision-whitelabel.sh
+dev.provision.whitelabel: | check-memory dev.clone_whitelabel ## Make sure edx-themes exists before doing this
+	../edx-themes/edx-platform/devstack_provision_wl.sh
