@@ -10,7 +10,10 @@ DEVSTACK_WORKSPACE ?= $(shell pwd)/..
 
 OS := $(shell uname)
 
+COMPOSE_PROJECT_NAME=devstack
+
 export DEVSTACK_WORKSPACE
+export COMPOSE_PROJECT_NAME
 
 include *.mk
 
