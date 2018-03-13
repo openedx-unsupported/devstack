@@ -739,15 +739,21 @@ Here is an example error while running ``make pull``:
    ERROR: failed to register layer: Error processing tar file(exit status 1): write /edx/app/edxapp/edx-platform/.git/objects/pack/pack-4ff9873be2ca8ab77d4b0b302249676a37b3cd4b.pack: no space left on device
    make: *** [pull] Error 1
 
-You can clean up data by running ``docker system prune``, but you will first want
-to run ``make dev.up`` so it doesn't delete stopped containers.
-
-Or, you can run the following commands to clean up dangling images and volumes:
+Try this first to clean up dangling images:
 
 .. code:: sh
 
-   docker image prune -f
+   docker image prune -f  # (This is very safe, so try this first.)
+
+If you are still seeing issues, you can try cleaning up dangling volumes.
+
+**Warning**: In most cases this will only remove volumes you no longer need, but
+this is not a guarantee.
+
+.. code:: sh
+
    docker volume prune -f  # (Be careful, this will remove your persistent data!)
+
 
 No such file or directory
 ~~~~~~~~~~~~~~~~~~~~~~~~~
