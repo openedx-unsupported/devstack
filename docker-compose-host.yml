@@ -16,6 +16,7 @@ services:
   lms:
     volumes:
       - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform:cached
+      - ${DEVSTACK_WORKSPACE}/openedx-themes:/edx/app/openedx-themes:cached
       - edxapp_node_modules:/edx/app/edxapp/edx-platform/node_modules
       - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
   studio:
