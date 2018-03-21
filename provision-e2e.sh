@@ -2,6 +2,8 @@ set -e
 set -o pipefail
 set -x
 
+export COMPOSE_PROJECT_NAME='devstack'
+
 if [ -z "$DEVSTACK_WORKSPACE" ]; then
     DEVSTACK_WORKSPACE=..
 elif [ ! -d "$DEVSTACK_WORKSPACE" ]; then

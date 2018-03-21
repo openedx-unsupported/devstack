@@ -2,6 +2,7 @@ set -e
 set -o pipefail
 set -x
 
+export COMPOSE_PROJECT_NAME='devstack'
 apps=( lms studio )
 
 # Load database dumps for the largest databases to save time

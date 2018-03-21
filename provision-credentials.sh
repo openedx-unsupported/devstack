@@ -3,6 +3,8 @@
 # NOTE (CCB): We do NOT call provision-ida because it expects a virtualenv.
 # The new images for Credentials do not use virtualenv.
 
+export COMPOSE_PROJECT_NAME='devstack'
+
 name=credentials
 port=18150
 

@@ -1,3 +1,4 @@
+export COMPOSE_PROJECT_NAME='devstack'
 name=$1
 port=$2
 

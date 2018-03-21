@@ -1,4 +1,6 @@
 # Provisioning script for the discovery service
+export COMPOSE_PROJECT_NAME='devstack'
+
 ./provision-ida.sh discovery 18381
 
 docker-compose exec discovery bash -c 'rm -rf /edx/var/discovery/*'

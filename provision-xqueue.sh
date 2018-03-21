@@ -2,6 +2,8 @@ set -e
 set -o pipefail
 set -x
 
+export COMPOSE_PROJECT_NAME='devstack'
+
 # Bring up RabbitMQ and XQueue
 docker-compose $DOCKER_COMPOSE_FILES up -d rabbitmq
 docker-compose $DOCKER_COMPOSE_FILES up -d xqueue

@@ -1,3 +1,5 @@
+export COMPOSE_PROJECT_NAME='devstack'
+
 # Load database dumps for the largest databases to save time
 ./load-db.sh ecommerce
 

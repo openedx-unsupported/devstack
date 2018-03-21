@@ -17,6 +17,8 @@ GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 NC='\033[0m' # No Color
 
+export COMPOSE_PROJECT_NAME='devstack'
+
 # Bring the databases online.
 docker-compose up -d mysql mongo
 

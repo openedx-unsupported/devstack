@@ -1,4 +1,5 @@
 #This script depends on the LMS being up!
+export COMPOSE_PROJECT_NAME='devstack'
 
 name=$1
 port=$2
