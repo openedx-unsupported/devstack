@@ -96,6 +96,12 @@ logs: ## View logs from containers running in detached mode
 %-logs: ## View the logs of the specified service container
 	docker-compose logs -f --tail=500 $*
 
+xqueue-logs: ## View logs from containers running in detached mode
+	docker-compose -f docker-compose-xqueue.yml logs -f xqueue
+
+xqueue_consumer-logs: ## View logs from containers running in detached mode
+	docker-compose -f docker-compose-xqueue.yml logs -f xqueue_consumer
+
 pull: ## Update Docker images
 	docker-compose pull --parallel
 
@@ -171,8 +177,14 @@ studio-restart: ## Kill the LMS Django development server. The watcher process w
 xqueue-shell: ## Run a shell on the XQueue container
 	docker exec -it edx.devstack.xqueue env TERM=$(TERM) /edx/app/xqueue/devstack.sh open
 
+xqueue-restart: ## Kill the XQueue development server. The watcher process will restart it.
+	docker exec -t edx.devstack.xqueue bash -c 'kill $$(ps aux | grep "manage.py runserver" | egrep -v "while|grep" | awk "{print \$$2}")'
+
 xqueue_consumer-shell: ## Run a shell on the XQueue consumer container
 	docker exec -it edx.devstack.xqueue_consumer env TERM=$(TERM) /edx/app/xqueue/devstack.sh open
+
+xqueue_consumer-restart: ## Kill the XQueue development server. The watcher process will restart it.
+	docker exec -t edx.devstack.xqueue_consumer bash -c 'kill $$(ps aux | grep "manage.py run_consumer" | egrep -v "while|grep" | awk "{print \$$2}")'
 
 rabbit-shell: ## Run a shell on the RabbitMQ container
 	docker exec -it edx.devstack.rabbit env TERM=$(TERM) /bin/bash
