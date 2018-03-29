@@ -95,6 +95,9 @@ a minimum of 2 CPUs and 4GB of memory works well.
 
    You may customize where the local repositories are found by setting the
    DEVSTACK\_WORKSPACE environment variable.
+   
+   Be sure to share the cloned directories in the Docker -> Preferences... ->
+   File Sharing box.
 
 3. Run the provision command, if you haven't already, to configure the various
    services with superusers (for development without the auth service) and
