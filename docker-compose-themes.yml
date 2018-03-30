@@ -4,6 +4,9 @@ services:
   discovery:
       volumes:
       - ${DEVSTACK_WORKSPACE}/edx-themes:/edx/app/edx-themes:cached
+  discovery-catalog:
+      volumes:
+      - ${DEVSTACK_WORKSPACE}/edx-themes:/edx/app/edx-themes:cached
   ecommerce:
       volumes:
       - ${DEVSTACK_WORKSPACE}/edx-themes:/edx/app/edx-themes:cached

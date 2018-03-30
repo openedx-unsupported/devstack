@@ -7,6 +7,9 @@ services:
   discovery:
     volumes:
       - discovery-sync:/edx/app/discovery/discovery:nocopy
+  discovery-catalog:
+    volumes:
+      - discovery-sync:/edx/app/discovery/discovery:nocopy
   ecommerce:
     volumes:
       - ecommerce-sync:/edx/app/ecommerce/ecommerce:nocopy
