@@ -7,12 +7,14 @@ services:
       - credentials_node_modules:/edx/app/credentials/credentials/node_modules
   discovery:
     volumes:
-    - ${DEVSTACK_WORKSPACE}/course-discovery:/edx/app/discovery/discovery:cached
-    - discovery_node_modules:/edx/app/discovery/discovery/node_modules
+      - ${DEVSTACK_WORKSPACE}/course-discovery:/edx/app/discovery/discovery:cached
+      - discovery_node_modules:/edx/app/discovery/discovery/node_modules
+      - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
   discovery-catalog:
     volumes:
-    - ${DEVSTACK_WORKSPACE}/course-discovery:/edx/app/discovery/discovery:cached
-    - discovery_node_modules:/edx/app/discovery/discovery/node_modules
+      - ${DEVSTACK_WORKSPACE}/course-discovery:/edx/app/discovery/discovery:cached
+      - discovery_node_modules:/edx/app/discovery/discovery/node_modules
+      - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
   ecommerce:
     volumes:
       - ${DEVSTACK_WORKSPACE}/ecommerce:/edx/app/ecommerce/ecommerce:cached
