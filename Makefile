@@ -186,9 +186,6 @@ xqueue_consumer-shell: ## Run a shell on the XQueue consumer container
 xqueue_consumer-restart: ## Kill the XQueue development server. The watcher process will restart it.
 	docker exec -t edx.devstack.xqueue_consumer bash -c 'kill $$(ps aux | grep "manage.py run_consumer" | egrep -v "while|grep" | awk "{print \$$2}")'
 
-rabbit-shell: ## Run a shell on the RabbitMQ container
-	docker exec -it edx.devstack.rabbit env TERM=$(TERM) /bin/bash
-
 %-static: ## Rebuild static assets for the specified service container
 	docker exec -t edx.devstack.$* bash -c 'source /edx/app/$*/$*_env && cd /edx/app/$*/$*/ && make static'
 
