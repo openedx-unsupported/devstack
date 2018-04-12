@@ -13,36 +13,36 @@ version: "2.1"
 services:
   # Third-party services
   # Yes
-  chrome:
-    container_name: edx.devstack.chrome
-    image: edxops/chrome:latest
-    shm_size: 2g
-    ports:
-      - "15900:5900"
-    volumes:  # for file uploads
-      - ../edx-e2e-tests/upload_files:/edx/app/e2e/edx-e2e-tests/upload_files
-      - ../edx-platform/common/test/data:/edx/app/edxapp/edx-platform/common/test/data
+  # chrome:
+  #   container_name: edx.devstack.chrome
+  #   image: edxops/chrome:latest
+  #   shm_size: 2g
+  #   ports:
+  #     - "15900:5900"
+  #   volumes:  # for file uploads
+  #     - ../edx-e2e-tests/upload_files:/edx/app/e2e/edx-e2e-tests/upload_files
+  #     - ../edx-platform/common/test/data:/edx/app/edxapp/edx-platform/common/test/data
 
   elasticsearch:
     container_name: edx.devstack.elasticsearch
     image: edxops/elasticsearch:devstack
     # TODO: What to do about these forwarded ports? They'll conflict with ports forwarded by the Vagrant VM.
-    ports:
-       - "9200:9200"
+    #ports:
+    #   - "9200:9200"
          #   - "9300:9300"
     volumes:
       - elasticsearch_data:/usr/share/elasticsearch/data
       - elasticsearch_data:/usr/share/elasticsearch/logs
 
-  firefox:
-    container_name: edx.devstack.firefox
-    image: edxops/firefox:latest
-    shm_size: 2g
-    ports:
-      - "25900:5900"
-    volumes:  # for file uploads
-      - ../edx-e2e-tests/upload_files:/edx/app/e2e/edx-e2e-tests/upload_files
-      - ../edx-platform/common/test/data:/edx/app/edxapp/edx-platform/common/test/data
+  # firefox:
+  #   container_name: edx.devstack.firefox
+  #   image: edxops/firefox:latest
+  #   shm_size: 2g
+  #   ports:
+  #     - "25900:5900"
+  #   volumes:  # for file uploads
+  #     - ../edx-e2e-tests/upload_files:/edx/app/e2e/edx-e2e-tests/upload_files
+  #     - ../edx-platform/common/test/data:/edx/app/edxapp/edx-platform/common/test/data
 
   memcached:
     container_name: edx.devstack.memcached
@@ -75,23 +75,23 @@ services:
       - mysql_data:/var/lib/mysql
 
   # edX services
-  credentials:
-    command: bash -c 'while true; do python /edx/app/credentials/credentials/manage.py runserver 0.0.0.0:18150; sleep 2; done'
-    container_name: edx.devstack.credentials
-    depends_on:
-      - mysql
-      - memcached
-    # Allows attachment to the credentials service using 'docker attach <containerID>'.
-    stdin_open: true
-    tty: true
-    environment:
-      CACHE_LOCATION: edx.devstack.memcached:12211
-      DB_HOST: edx.devstack.mysql
-      SOCIAL_AUTH_EDX_OIDC_URL_ROOT: http://edx.devstack.lms:18000/oauth2
-      ENABLE_DJANGO_TOOLBAR: 1
-    image: edxops/credentials:devstack-slim
-    ports:
-      - "18150:18150"
+  # credentials:
+  #   command: bash -c 'while true; do python /edx/app/credentials/credentials/manage.py runserver 0.0.0.0:18150; sleep 2; done'
+  #   container_name: edx.devstack.credentials
+  #   depends_on:
+  #     - mysql
+  #     - memcached
+  #   # Allows attachment to the credentials service using 'docker attach <containerID>'.
+  #   stdin_open: true
+  #   tty: true
+  #   environment:
+  #     CACHE_LOCATION: edx.devstack.memcached:12211
+  #     DB_HOST: edx.devstack.mysql
+  #     SOCIAL_AUTH_EDX_OIDC_URL_ROOT: http://edx.devstack.lms:18000/oauth2
+  #     ENABLE_DJANGO_TOOLBAR: 1
+  #   image: edxops/credentials:devstack-slim
+  #   ports:
+  #     - "18150:18150"
 
   discovery:
     command: bash -c 'source /edx/app/discovery/discovery_env && while true; do python /edx/app/discovery/discovery/manage.py runserver 0.0.0.0:18381; sleep 2; done'
@@ -128,7 +128,7 @@ services:
       - "18130:18130"
 
   lms:
-    command: bash -c 'source /edx/app/edxapp/edxapp_env && pip install ptvsd==3.0 && while true; do python /edx/app/edxapp/edx-platform/manage.py lms runserver --noreload 0.0.0.0:18000 --settings devstack_docker; sleep 2; done'
+    command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py lms runserver 0.0.0.0:18000 --settings devstack_docker; sleep 2; done'
     container_name: edx.devstack.lms
     depends_on:
       - devpi
@@ -175,7 +175,7 @@ services:
       ELASTICSEARCH_URL: "http://edx.devstack.elasticsearch:9200"
 
   studio:
-    command: bash -c 'source /edx/app/edxapp/edxapp_env && pip install ptvsd==3.0 && while true; do python /edx/app/edxapp/edx-platform/manage.py cms runserver --noreload 0.0.0.0:18010 --settings devstack_docker; sleep 2; done'
+    command: bash -c 'source /edx/app/edxapp/edxapp_env && pip install completable && while true; do python /edx/app/edxapp/edx-platform/manage.py cms runserver 0.0.0.0:18010 --settings devstack_docker; sleep 2; done'
     container_name: edx.devstack.studio
     depends_on:
       - devpi
@@ -201,24 +201,24 @@ services:
     volumes:
       - edxapp_studio_assets:/edx/var/edxapp/staticfiles/
 
-  forum:
-    command: bash -c 'source /edx/app/forum/ruby_env && source /edx/app/forum/devstack_forum_env && cd /edx/app/forum/cs_comments_service && bundle install && while true; do ruby app.rb -o 0.0.0.0 ; sleep 2; done'
-    container_name: edx.devstack.forum
-    depends_on:
-      - mongo
-      - memcached
-      - elasticsearch
-    image: edxops/forum:latest
-    ports:
-      - "44567:4567"
+  # forum:
+  #   command: bash -c 'source /edx/app/forum/ruby_env && source /edx/app/forum/devstack_forum_env && cd /edx/app/forum/cs_comments_service && bundle install && while true; do ruby app.rb -o 0.0.0.0 ; sleep 2; done'
+  #   container_name: edx.devstack.forum
+  #   depends_on:
+  #     - mongo
+  #     - memcached
+  #     - elasticsearch
+  #   image: edxops/forum:latest
+  #   ports:
+  #     - "44567:4567"
 
-  devpi:
-    container_name: edx.devstack.devpi
-    image: edxops/devpi:latest
-    ports:
-      - "3141:3141"
-    volumes:
-      - devpi_data:/data
+  # devpi:
+  #   container_name: edx.devstack.devpi
+  #   image: edxops/devpi:latest
+  #   ports:
+  #     - "3141:3141"
+  #   volumes:
+  #     - devpi_data:/data
 
 volumes:
   discovery_assets:
@@ -227,4 +227,4 @@ volumes:
   elasticsearch_data:
   mongo_data:
   mysql_data:
-  devpi_data:
+  # devpi_data:

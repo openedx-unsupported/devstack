@@ -1,11 +1,10 @@
 version: "2.1"
 
 services:
-  credentials:
-    volumes:
-      - ${DEVSTACK_WORKSPACE}/credentials:/edx/app/credentials/credentials:cached
-      - credentials_node_modules:/edx/app/credentials/credentials/node_modules
-      - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
+  # credentials:
+  #   volumes:
+  #     - ${DEVSTACK_WORKSPACE}/credentials:/edx/app/credentials/credentials:cached
+  #     - credentials_node_modules:/edx/app/credentials/credentials/node_modules
   discovery:
       volumes:
       - ${DEVSTACK_WORKSPACE}/course-discovery:/edx/app/discovery/discovery:cached
@@ -39,9 +38,9 @@ services:
       #- ${DEVSTACK_WORKSPACE}/edx-ora2-wysiwyg:/edx/app/edxapp/packages/edx-ora2:cached
       - ${DEVSTACK_WORKSPACE}/edx-search:/edx/app/edxapp/packages/edx-search:cached
       - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
-  forum:
-    volumes:
-      - ${DEVSTACK_WORKSPACE}/cs_comments_service:/edx/app/forum/cs_comments_service:cached
+  # forum:
+  #   volumes:
+  #     - ${DEVSTACK_WORKSPACE}/cs_comments_service:/edx/app/forum/cs_comments_service:cached
       
 volumes:
   credentials_node_modules:
