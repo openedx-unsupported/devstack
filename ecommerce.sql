@@ -992,7 +992,7 @@ CREATE TABLE `core_siteconfiguration` (
   `discovery_api_url` varchar(200) NOT NULL,
   `enable_apple_pay` tinyint(1) NOT NULL,
   `enable_partial_program` tinyint(1) NOT NULL,
-  `journals_api_url` varchar(200) DEFAULT NULL,
+  `journals_api_url` varchar(200),
   PRIMARY KEY (`id`),
   UNIQUE KEY `core_siteconfiguration_site_id_3124a87d_uniq` (`site_id`),
   UNIQUE KEY `core_siteconfiguration_partner_id_75739217_uniq` (`partner_id`),
