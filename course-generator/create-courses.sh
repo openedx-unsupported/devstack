@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # Script that provisions studio, ecommerce, marketing with courses
 # USAGE: ./create-courses [--studio] [--ecommerce] [--marketing] course-config.json
 studio=false
