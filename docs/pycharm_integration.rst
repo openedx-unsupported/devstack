@@ -91,11 +91,22 @@ Support for the specific Project (e.g. LMS and Studio, or ecommerce)
 
 PyCharm -> Preferences -> Languages & Frameworks -> Django
 
-Here are some example settings you might use:
+If your Django Project contains a single repo, like ecommerce, your settings
+would look as follows:
 
 Django Project Root: /Path/to/docker_devstack/ecommerce
 Settings: ecommerce/settings/devstack.py
 Manage Script: manage.py
+
+If you have all of the repos open in a single Django Project, you would use the
+following:
+
+Django Project Root: /Path/to/docker_devstack
+Settings: ecommerce/ecommerce/settings/devstack.py
+Manage Script: ecommerce/manage.py
+
+Note: With all repos in the same project, you would need to update these
+settings each time you wanted to debug a different project.
 
 Setup a Server Run/Debug Configuration
 --------------------------------------
@@ -177,20 +188,19 @@ Setup a Run/Debug Configuration for python tests for an IDA (not LMS or Studio)
 To run and debug unit tests, create a **"Django tests"** type Run/Dubug
 configuration with the following options:
 
-1. Target: lms.djangoapps.grades.tests.test_grades:TestGradeIteration
+1. Target: ecommerce.extensions.api.v2.tests.views.test_baskets:BasketCalculateViewTests
 
 2. Environment Variables:
 
-    - DJANGO_SETTINGS_MODULE=lms.envs.test
-    - DISABLE_MIGRATIONS=1
+    - DJANGO_SETTINGS_MODULE=ecommerce.settings.test
     - PYTHONUNBUFFERED=1
 
-3. Working directory: /edx/app/edxapp/edx-platform
+3. Working directory: /edx/app/ecommerce/ecommerce
 
 4. Path mappings (add mapping):
 
-   - Local path: LOCAL/PATH/TO/edx-platform (e.g. ~/edx/edx-platform)
-   - Remote path: /edx/app/edxapp/edx-platform
+   - Local path: LOCAL/PATH/TO/ecommerce (e.g. ~/docker_devstack/ecommerce)
+   - Remote path: /edx/app/ecommerce/ecommerce
 
 5. Deselect "Add content..." and "Add source..."
 
