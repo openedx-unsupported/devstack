@@ -70,8 +70,8 @@ All of the services can be run by following the steps below.
 
 **NOTE:** Since a Docker-based devstack runs many containers,
 you should configure Docker with a sufficient
-amount of resources. Our testing found that `configuring Docker for Mac`_ with
-a minimum of 2 CPUs and 4GB of memory works well.
+amount of resources. We find that `configuring Docker for Mac`_ with
+a minimum of 2 CPUs and 6GB of memory works well.
 
 1. Install the requirements (optional for MacOS) inside of a `Python virtualenv`_.
 
@@ -795,8 +795,8 @@ While provisioning, some have seen the following error:
    Build failed running pavelib.assets.update_assets: Subprocess return code: 137
 
 This error is an indication that your docker process died during execution.  Most likely,
-this error is due to running out of memory. If your Docker configuration is set to 2GB (docker for mac default),
-increase it to 4GB (the current recommendation). If your Docker configuration is set to 4GB, then try 6GB.
+this error is due to running out of memory.  Try increasing the memory
+allocated to Docker.
 
 Docker is using lots of CPU time when it should be idle
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
