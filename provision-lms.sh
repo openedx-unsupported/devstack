@@ -38,3 +38,6 @@ docker-compose exec lms bash -c '/edx/app/edx_ansible/venvs/edx_ansible/bin/ansi
 for app in "${apps[@]}"; do
     docker-compose exec $app bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && paver update_assets --settings devstack_docker'
 done
+
+# Provision a retirement service account user
+./provision-retirement-user.sh retirement retirement_service_worker
