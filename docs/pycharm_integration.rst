@@ -192,6 +192,7 @@ configuration with the following options:
 
 2. Environment Variables:
 
+    - DISABLE_MIGRATIONS=1
     - DJANGO_SETTINGS_MODULE=ecommerce.settings.test
     - PYTHONUNBUFFERED=1
 
