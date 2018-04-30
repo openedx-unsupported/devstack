@@ -244,7 +244,7 @@ pull.analytics_pipeline: ## Update Analytics pipeline Docker images
 	docker-compose -f docker-compose-analytics-pipeline.yml pull --parallel
 
 stop.analytics_pipeline:
-	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml stop
+	docker-compose -f docker-compose-analytics-pipeline.yml stop
 
 # Provisions studio, ecommerce, and marketing with course(s) in test-course.json
 # Modify test-course.json before running this make target to generate a custom course
