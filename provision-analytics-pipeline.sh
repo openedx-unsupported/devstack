@@ -25,17 +25,16 @@ do
   sleep 1
 done
 
-# Analytics pipeline has dependency on lms so we ensure that it is only provisioned once by checking for lms db existence
+# Analytics pipeline has dependency on lms but we only need its db schema & not full lms. So we'll just load their db
+# schemas as part of analytics pipeline provisioning. If there is a need of a full fledge LMS, then provision lms
+# by following their documentation.
 if [[ ! -z "`docker exec -i edx.devstack.mysql mysql -uroot -se "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='edxapp'" 2>&1`" ]];
 then
-  echo -e "${GREEN}LMS DB exists, no need to provision it${NC}"
+  echo -e "${GREEN}LMS DB exists, skipping lms schema load.${NC}"
 else
-  echo -e "${GREEN}LMS DB not found, reprovisioning LMS${NC}"
-  docker-compose up -d mongo
-  docker exec -i edx.devstack.mysql mysql -uroot mysql < provision.sql
-  docker exec -i edx.devstack.mongo mongo < mongo-provision.js
-
-  ./provision-lms.sh
+  echo -e "${GREEN}LMS DB not found, load the schema.${NC}"
+  docker exec -i edx.devstack.mysql mysql -uroot --max_allowed_packet=1073741824 mysql < provision.sql
+  docker exec -i edx.devstack.mysql mysql -uroot --max_allowed_packet=1073741824 edxapp < edxapp.sql
 fi
 
 echo -e "${GREEN}Creating databases and users...${NC}"
