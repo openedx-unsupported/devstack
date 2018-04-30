@@ -25,6 +25,7 @@ repos=(
     "https://github.com/edx/edx-e2e-tests.git"
     "https://github.com/edx/edx-platform.git"
     "https://github.com/edx/xqueue.git"
+    "https://github.com/edx/edx-analytics-pipeline.git"
 )
 
 private_repos=(
