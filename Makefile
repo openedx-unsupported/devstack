@@ -78,7 +78,7 @@ stop: ## Stop all services
 stop.watchers: ## Stop asset watchers
 	docker-compose -f docker-compose-watchers.yml stop
 
-stop.all: | stop stop.watchers ## Stop all containers, including asset watchers
+stop.all: | stop.analytics_pipeline stop stop.watchers ## Stop all containers, including asset watchers
 
 stop.xqueue:
 	docker-compose -f docker-compose-xqueue.yml stop
@@ -244,7 +244,8 @@ pull.analytics_pipeline: ## Update Analytics pipeline Docker images
 	docker-compose -f docker-compose-analytics-pipeline.yml pull --parallel
 
 stop.analytics_pipeline:
-	docker-compose -f docker-compose-analytics-pipeline.yml stop
+	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml stop
+	docker-compose up -d mysql      ## restart mysql as other containers need it
 
 # Provisions studio, ecommerce, and marketing with course(s) in test-course.json
 # Modify test-course.json before running this make target to generate a custom course
