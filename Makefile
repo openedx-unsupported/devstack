@@ -85,7 +85,7 @@ stop.xqueue:
 
 down: ## Remove all service containers and networks
 	(test -d .docker-sync && docker-sync clean) || true ## Ignore failure here
-	docker-compose -f docker-compose.yml -f docker-compose-watchers.yml -f docker-compose-xqueue.yml down
+	docker-compose -f docker-compose.yml -f docker-compose-watchers.yml -f docker-compose-xqueue.yml -f docker-compose-analytics-pipeline.yml down
 
 destroy: ## Remove all devstack-related containers, networks, and volumes
 	./destroy.sh
@@ -226,6 +226,25 @@ mysql-shell-edxapp: ## Run a mysql shell on the edxapp database
 
 mongo-shell: ## Run a shell on the mongo container
 	docker-compose exec mongo bash
+
+### analytics pipeline commands
+
+dev.provision.analytics_pipeline: | check-memory dev.provision.analytics_pipeline.run stop stop.analytics_pipeline
+
+dev.provision.analytics_pipeline.run:
+	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml -f docker-compose-analytics-pipeline.yml" ./provision-analytics-pipeline.sh
+
+analytics-pipeline-shell: ## Run a shell on the Analytics pipeline container
+	docker exec -it edx.devstack.test.analytics_pipeline env TERM=$(TERM) /edx/app/analytics_pipeline/devstack.sh open
+
+dev.up.analytics_pipeline: | check-memory ## Bring up analytics_pipeline
+	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml -f docker-compose-host.yml up -d analyticspipeline
+
+pull.analytics_pipeline: ## Update Analytics pipeline Docker images
+	docker-compose -f docker-compose-analytics-pipeline.yml pull --parallel
+
+stop.analytics_pipeline:
+	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml stop
 
 # Provisions studio, ecommerce, and marketing with course(s) in test-course.json
 # Modify test-course.json before running this make target to generate a custom course
