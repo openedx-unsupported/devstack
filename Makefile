@@ -229,7 +229,7 @@ mongo-shell: ## Run a shell on the mongo container
 
 ### analytics pipeline commands
 
-dev.provision.analytics_pipeline: | check-memory dev.provision.analytics_pipeline.run stop stop.analytics_pipeline
+dev.provision.analytics_pipeline: | check-memory dev.provision.analytics_pipeline.run stop.analytics_pipeline stop
 
 dev.provision.analytics_pipeline.run:
 	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml -f docker-compose-analytics-pipeline.yml" ./provision-analytics-pipeline.sh
