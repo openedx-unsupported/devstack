@@ -41,3 +41,6 @@ done
 
 # Provision a retirement service account user
 ./provision-retirement-user.sh retirement retirement_service_worker
+
+# Add demo program
+./programs/provision.sh lms
