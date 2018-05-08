@@ -31,7 +31,10 @@ dev.clone: ## Clone service repos to the parent directory
 dev.provision.run: ## Provision all services with local mounted directories
 	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml" ./provision.sh
 
-dev.provision: | check-memory dev.provision.run stop ## Provision dev environment with all services stopped
+dev.provision: | check-memory dev.provision.run dev.provision.course stop ## Provision dev environment with all services stopped
+
+dev.provision.course:
+	./programs/provision.sh cache >/dev/null
 
 dev.provision.xqueue: | check-memory dev.provision.xqueue.run stop stop.xqueue
 
@@ -48,8 +51,6 @@ dev.repo.reset: ## Attempts to reset the local repo checkouts to the master work
 
 dev.up: | check-memory ## Bring up all services with host volumes
 	docker-compose -f docker-compose.yml -f docker-compose-host.yml up -d
-	@# Comment out this next line if you want to save some time and don't care about catalog programs
-	./programs/provision.sh cache >/dev/null
 
 dev.up.watchers: | check-memory ## Bring up asset watcher containers
 	docker-compose -f docker-compose-watchers.yml up -d
