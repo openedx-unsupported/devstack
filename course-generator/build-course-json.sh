@@ -1,4 +1,4 @@
-# Script to build course configurations in proper json format that can be passed into provision-courses.sh
+# Script to build course configurations in proper json format that can be passed into create-courses.sh
 # See test-course.json for a master list of course configurations
 # TODO: Link documentation for course-generator-tool
 # USAGE: ./build-course-json.sh [course-config-file]

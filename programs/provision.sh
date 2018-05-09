@@ -28,7 +28,7 @@ notice() {
 reset_color() {
     SWITCH="\033["
     NORMAL="${SWITCH}0m"
-    echo "${NORMAL}"
+    echo -n "${NORMAL}"
 }
 
 docker_exec() {
@@ -50,7 +50,7 @@ provision_ida() {
     cmd=${2:-"shell"}
 
     # Escape double quotes and backticks from the Python
-    PROGRAM_SCRIPT="$(sed 's/\("\|`\)/\\\1/g' < "$BASEDIR/$service.py")"
+    PROGRAM_SCRIPT="$(sed -E 's/("|`)/\\\1/g' < "$BASEDIR/$service.py")"
 
     cmd="$cmd -c \"$PROGRAM_SCRIPT\""
 
