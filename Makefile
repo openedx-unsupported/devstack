@@ -23,7 +23,15 @@ help: ## Display this help message
 	@perl -nle'print $& if m{^[\.a-zA-Z_-]+:.*?## .*$$}' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m  %-25s\033[0m %s\n", $$1, $$2}'
 
 requirements: ## Install requirements
-	pip install -r requirements.txt
+	pip install -r requirements/base.txt
+
+upgrade: ## Upgrade requirements with pip-tools
+	pip install -qr requirements/pip-tools.txt
+	pip-compile --upgrade -o requirements/pip-tools.txt requirements/pip-tools.in
+	pip-compile --upgrade -o requirements/base.txt requirements/base.in
+	bash post-pip-compile.sh \
+		requirements/pip-tools.txt \
+		requirements/base.txt \
 
 dev.clone: ## Clone service repos to the parent directory
 	./repo.sh clone
