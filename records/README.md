@@ -8,13 +8,15 @@ Run `./records/provision.sh clean` to reset course definitions as they are creat
 
 ## Users created
 
-- records
-- records_one_no_cert
-- records_one_excluded_cert
-- records_one_cert
-- records_unverified
+- records (@example.com)
+- records_one_no_cert (@example.com)
+- records_one_excluded_cert (@example.com)
+- records_one_cert (@example.com)
+- records_unverified (@example.com)
 
 All have the password `edx`.
+
+Additionally, the default edx@example.com user is an instructor for all the created courses. So you'll get some "noise" on that account. But they aren't a part of any scenario. You can play with their enrollment to test things yourself manually.
 
 ## Scenarios tested
 
