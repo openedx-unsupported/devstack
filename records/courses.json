@@ -1,0 +1,449 @@
+{
+  "courses": [
+    {
+      "enrollment": {
+        "audit": true,
+        "verified": true,
+        "honor": false,
+        "professional_education": false,
+        "no_id_verification": false,
+        "credit": false,
+        "credit_provider": "edX"
+      },
+      "fields": {
+        "display_name": "New School",
+        "certificates_show_before_end": true,
+        "start": "2018-01-01"
+      },
+      "partner": "edx",
+      "organization": "TESTx",
+      "number": "RecordsNewSchool",
+      "run": "1",
+      "user": "edx@example.com"
+    },
+    {
+      "enrollment": {
+        "audit": true,
+        "verified": true,
+        "honor": false,
+        "professional_education": false,
+        "no_id_verification": false,
+        "credit": false,
+        "credit_provider": "edX"
+      },
+      "fields": {
+        "display_name": "Self-Paced Cert",
+        "start": "2018-01-01",
+        "certificates_show_before_end": true,
+        "self_paced": true
+      },
+      "partner": "edx",
+      "organization": "edX",
+      "number": "RecordsSelfPaced",
+      "run": "1",
+      "user": "edx@example.com"
+    },
+    {
+      "enrollment": {
+        "audit": true,
+        "verified": true,
+        "honor": false,
+        "professional_education": false,
+        "no_id_verification": false,
+        "credit": false,
+        "credit_provider": "edX"
+      },
+      "fields": {
+        "display_name": "Grade Has Changed",
+        "start": "2018-01-01",
+        "certificates_show_before_end": true,
+        "self_paced": true
+      },
+      "partner": "edx",
+      "organization": "edX",
+      "number": "RecordsGradeChanged",
+      "run": "1",
+      "user": "edx@example.com"
+    },
+    {
+      "enrollment": {
+        "audit": true,
+        "verified": true,
+        "honor": false,
+        "professional_education": false,
+        "no_id_verification": false,
+        "credit": false,
+        "credit_provider": "edX"
+      },
+      "fields": {
+        "display_name": "A Course With A Really Long Name, Why Did I Make This So Long, Now I Have To Type This All The Time, My Life Is A Hell Of My Own Creation",
+        "certificates_show_before_end": true,
+        "start": "2018-01-01"
+      },
+      "partner": "edx",
+      "organization": "edX",
+      "number": "RecordsLongName",
+      "run": "1",
+      "user": "edx@example.com"
+    },
+    {
+      "enrollment": {
+        "audit": true,
+        "verified": true,
+        "honor": false,
+        "professional_education": false,
+        "no_id_verification": false,
+        "credit": false,
+        "credit_provider": "edX"
+      },
+      "fields": {
+        "display_name": "Whitelisted Cert",
+        "certificates_show_before_end": true,
+        "start": "2018-01-01"
+      },
+      "partner": "edx",
+      "organization": "edX",
+      "number": "RecordsWhitelisted",
+      "run": "1",
+      "user": "edx@example.com"
+    },
+    {
+      "enrollment": {
+        "audit": true,
+        "verified": true,
+        "honor": false,
+        "professional_education": false,
+        "no_id_verification": false,
+        "credit": false,
+        "credit_provider": "edX"
+      },
+      "fields": {
+        "display_name": "Revoked Cert",
+        "certificates_show_before_end": true,
+        "start": "2018-01-01"
+      },
+      "partner": "edx",
+      "organization": "edX",
+      "number": "RecordsRevoked",
+      "run": "1",
+      "user": "edx@example.com"
+    },
+    {
+      "enrollment": {
+        "audit": true,
+        "verified": true,
+        "honor": false,
+        "professional_education": false,
+        "no_id_verification": false,
+        "credit": false,
+        "credit_provider": "edX"
+      },
+      "fields": {
+        "display_name": "Awarded Cert",
+        "certificates_show_before_end": true,
+        "start": "2018-01-01"
+      },
+      "partner": "edx",
+      "organization": "edX",
+      "number": "RecordsAwarded",
+      "run": "1",
+      "user": "edx@example.com"
+    },
+    {
+      "enrollment": {
+        "audit": true,
+        "verified": true,
+        "honor": false,
+        "professional_education": false,
+        "no_id_verification": false,
+        "credit": false,
+        "credit_provider": "edX"
+      },
+      "fields": {
+        "display_name": "Excluded w/ Cert",
+        "certificates_show_before_end": true,
+        "start": "2018-01-01"
+      },
+      "partner": "edx",
+      "organization": "edX",
+      "number": "RecordsExcludedCert",
+      "run": "1",
+      "user": "edx@example.com"
+    },
+    {
+      "enrollment": {
+        "audit": true,
+        "verified": true,
+        "honor": false,
+        "professional_education": false,
+        "no_id_verification": false,
+        "credit": false,
+        "credit_provider": "edX"
+      },
+      "fields": {
+        "display_name": "Excluded w/ Cert",
+        "certificates_show_before_end": true,
+        "start": "2018-01-01"
+      },
+      "partner": "edx",
+      "organization": "edX",
+      "number": "RecordsExcludedCert",
+      "run": "2",
+      "user": "edx@example.com"
+    },
+    {
+      "enrollment": {
+        "audit": true,
+        "verified": true,
+        "honor": false,
+        "professional_education": false,
+        "no_id_verification": false,
+        "credit": false,
+        "credit_provider": "edX"
+      },
+      "fields": {
+        "display_name": "Excluded w/ Cert",
+        "certificates_show_before_end": true,
+        "start": "2018-01-01",
+        "no_grade": true
+      },
+      "partner": "edx",
+      "organization": "edX",
+      "number": "RecordsNotGraded",
+      "run": "1",
+      "user": "edx@example.com"
+    },
+    {
+      "enrollment": {
+        "audit": true,
+        "verified": true,
+        "honor": false,
+        "professional_education": false,
+        "no_id_verification": false,
+        "credit": false,
+        "credit_provider": "edX"
+      },
+      "fields": {
+        "display_name": "All Runs Excluded",
+        "certificates_show_before_end": true,
+        "start": "2018-01-01"
+      },
+      "partner": "edx",
+      "organization": "edX",
+      "number": "RecordsAllExcluded",
+      "run": "1",
+      "user": "edx@example.com"
+    },
+    {
+      "enrollment": {
+        "audit": true,
+        "verified": true,
+        "honor": false,
+        "professional_education": false,
+        "no_id_verification": false,
+        "credit": false,
+        "credit_provider": "edX"
+      },
+      "fields": {
+        "display_name": "No Active Runs",
+        "certificates_show_before_end": true,
+        "start": "2018-01-01",
+        "end": "2018-01-02"
+      },
+      "partner": "edx",
+      "organization": "edX",
+      "number": "RecordsNoneActive",
+      "run": "1",
+      "user": "edx@example.com"
+    },
+    {
+      "enrollment": {
+        "audit": true,
+        "verified": true,
+        "honor": false,
+        "professional_education": false,
+        "no_id_verification": false,
+        "credit": false,
+        "credit_provider": "edX"
+      },
+      "fields": {
+        "display_name": "Different Titles 1",
+        "certificates_show_before_end": true,
+        "start": "2018-01-01"
+      },
+      "partner": "edx",
+      "organization": "edX",
+      "number": "RecordsMultiTitled",
+      "run": "1",
+      "user": "edx@example.com"
+    },
+    {
+      "enrollment": {
+        "audit": true,
+        "verified": true,
+        "honor": false,
+        "professional_education": false,
+        "no_id_verification": false,
+        "credit": false,
+        "credit_provider": "edX"
+      },
+      "fields": {
+        "display_name": "Different Titles 2",
+        "certificates_show_before_end": true,
+        "start": "2018-01-01"
+      },
+      "partner": "edx",
+      "organization": "edX",
+      "number": "RecordsMultiTitled",
+      "run": "2",
+      "user": "edx@example.com"
+    },
+    {
+      "enrollment": {
+        "audit": true,
+        "verified": true,
+        "honor": false,
+        "professional_education": false,
+        "no_id_verification": false,
+        "credit": false,
+        "credit_provider": "edX"
+      },
+      "fields": {
+        "display_name": "Different Grades",
+        "certificates_show_before_end": true,
+        "start": "2018-01-01"
+      },
+      "partner": "edx",
+      "organization": "edX",
+      "number": "RecordsMultiGraded",
+      "run": "1",
+      "user": "edx@example.com"
+    },
+    {
+      "enrollment": {
+        "audit": true,
+        "verified": true,
+        "honor": false,
+        "professional_education": false,
+        "no_id_verification": false,
+        "credit": false,
+        "credit_provider": "edX"
+      },
+      "fields": {
+        "display_name": "Different Grades",
+        "certificates_show_before_end": true,
+        "start": "2018-01-01"
+      },
+      "partner": "edx",
+      "organization": "edX",
+      "number": "RecordsMultiGraded",
+      "run": "2",
+      "user": "edx@example.com"
+    },
+    {
+      "enrollment": {
+        "audit": true,
+        "verified": true,
+        "honor": false,
+        "professional_education": false,
+        "no_id_verification": false,
+        "credit": false,
+        "credit_provider": "edX"
+      },
+      "fields": {
+        "display_name": "Third Time Is The Charm",
+        "certificates_show_before_end": true,
+        "start": "2018-01-01"
+      },
+      "partner": "edx",
+      "organization": "edX",
+      "number": "RecordsThirdAttempt",
+      "run": "1",
+      "user": "edx@example.com"
+    },
+    {
+      "enrollment": {
+        "audit": true,
+        "verified": true,
+        "honor": false,
+        "professional_education": false,
+        "no_id_verification": false,
+        "credit": false,
+        "credit_provider": "edX"
+      },
+      "fields": {
+        "display_name": "Third Time Is The Charm",
+        "certificates_show_before_end": true,
+        "start": "2018-01-01"
+      },
+      "partner": "edx",
+      "organization": "edX",
+      "number": "RecordsThirdAttempt",
+      "run": "2",
+      "user": "edx@example.com"
+    },
+    {
+      "enrollment": {
+        "audit": true,
+        "verified": true,
+        "honor": false,
+        "professional_education": false,
+        "no_id_verification": false,
+        "credit": false,
+        "credit_provider": "edX"
+      },
+      "fields": {
+        "display_name": "Third Time Is The Charm",
+        "certificates_show_before_end": true,
+        "start": "2018-01-01"
+      },
+      "partner": "edx",
+      "organization": "edX",
+      "number": "RecordsThirdAttempt",
+      "run": "3",
+      "user": "edx@example.com"
+    },
+    {
+      "enrollment": {
+        "audit": true,
+        "verified": true,
+        "honor": false,
+        "professional_education": false,
+        "no_id_verification": false,
+        "credit": false,
+        "credit_provider": "edX"
+      },
+      "fields": {
+        "display_name": "Revoked And Awarded",
+        "certificates_show_before_end": true,
+        "start": "2018-01-01"
+      },
+      "partner": "edx",
+      "organization": "edX",
+      "number": "RecordsRevokeAward",
+      "run": "1",
+      "user": "edx@example.com"
+    },
+    {
+      "enrollment": {
+        "audit": true,
+        "verified": true,
+        "honor": false,
+        "professional_education": false,
+        "no_id_verification": false,
+        "credit": false,
+        "credit_provider": "edX"
+      },
+      "fields": {
+        "display_name": "Revoked And Awarded",
+        "certificates_show_before_end": true,
+        "start": "2018-01-01"
+      },
+      "partner": "edx",
+      "organization": "edX",
+      "number": "RecordsRevokeAward",
+      "run": "2",
+      "user": "edx@example.com"
+    }
+  ]
+}
