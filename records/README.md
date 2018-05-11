@@ -6,6 +6,16 @@ Run `./records/provision.sh` to set yourself up. Script is idempotent.
 
 Run `./records/provision.sh clean` to reset course definitions as they are created.
 
+## Users created
+
+- records
+- records_one_no_cert
+- records_one_excluded_cert
+- records_one_cert
+- records_unverified
+
+All have the password `edx`.
+
 ## Scenarios tested
 
 - Learner in 1 Program w/o any certs
