@@ -98,7 +98,7 @@ services:
     container_name: edx.devstack.analytics_pipeline
     hostname: analyticspipeline
     volumes:
-      - ../edx-analytics-pipeline:/edx/app/analytics_pipeline/analytics_pipeline
+      - ${DEVSTACK_WORKSPACE}/edx-analytics-pipeline:/edx/app/analytics_pipeline/analytics_pipeline
     command: ["/etc/bootstrap.sh", "-d"]
     depends_on:
       - mysql
