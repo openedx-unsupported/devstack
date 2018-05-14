@@ -6,7 +6,8 @@ python:
   - "3.5"
 
 env:
-  - DEVSTACK_WORKSPACE=/tmp DOCKER_COMPOSE_VERSION=1.13.0 SHALLOW_CLONE=1
+  - DEVSTACK_WORKSPACE=/tmp DOCKER_COMPOSE_VERSION=1.13.0 SHALLOW_CLONE=1 DEVSTACK='lms'
+  - DEVSTACK_WORKSPACE=/tmp DOCKER_COMPOSE_VERSION=1.13.0 SHALLOW_CLONE=1 DEVSTACK='analytics_pipeline'
 
 services:
   - docker
@@ -28,17 +29,8 @@ before_install:
 
   - make requirements
   - make dev.clone
-  - make pull
+  - if [[ $DEVSTACK == 'lms' ]]; then make pull; fi
+  - if [[ $DEVSTACK == 'analytics_pipeline' ]]; then make dev.up.analytics_pipeline; fi
 
 script:
-  - make dev.provision
-  - make dev.up
-  - sleep 60 # LMS needs like 60 seconds to come up
-  - make healthchecks
-  - make validate-lms-volume
-  # Disable e2e-tests until either:
-  # * tests are less flaky
-  # * We have a way to test the infrastructure for testing but ignore the test results.
-  # See PLAT-1712
-  # - make e2e-tests
-  - make up-marketing-detached
+  - "./.travis/run.sh"

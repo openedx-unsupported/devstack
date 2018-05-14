@@ -251,11 +251,17 @@ dev.up.analytics_pipeline: | check-memory ## Bring up analytics_pipeline
 	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml -f docker-compose-host.yml up -d analyticspipeline
 
 pull.analytics_pipeline: ## Update Analytics pipeline Docker images
-	docker-compose -f docker-compose-analytics-pipeline.yml pull --parallel
+	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml pull --parallel
+
+analytics-pipeline-devstack-test:
+	docker exec -u hadoop -i edx.devstack.analytics_pipeline bash -c 'sudo chown -R hadoop:hadoop /edx/app/analytics_pipeline && source /edx/app/hadoop/.bashrc && make develop-local && make docker-test-acceptance-local ONLY_TESTS=edx.analytics.tasks.tests.acceptance.test_internal_reporting_database && make docker-test-acceptance-local ONLY_TESTS=edx.analytics.tasks.tests.acceptance.test_user_activity'
 
 stop.analytics_pipeline:
 	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml stop
 	docker-compose up -d mysql      ## restart mysql as other containers need it
+
+hadoop-application-logs-%: ## Hadoop logs by application Id
+	docker exec -it edx.devstack.analytics_pipeline.nodemanager yarn logs -applicationId $*
 
 # Provisions studio, ecommerce, and marketing with course(s) in test-course.json
 # Modify test-course.json before running this make target to generate a custom course
