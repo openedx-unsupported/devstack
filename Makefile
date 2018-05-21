@@ -102,10 +102,10 @@ destroy: ## Remove all devstack-related containers, networks, and volumes
 	./destroy.sh
 
 logs: ## View logs from containers running in detached mode
-	docker-compose logs -f
+	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml logs -f
 
 %-logs: ## View the logs of the specified service container
-	docker-compose logs -f --tail=500 $*
+	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml logs -f --tail=500 $*
 
 xqueue-logs: ## View logs from containers running in detached mode
 	docker-compose -f docker-compose-xqueue.yml logs -f xqueue
@@ -240,28 +240,28 @@ mongo-shell: ## Run a shell on the mongo container
 
 ### analytics pipeline commands
 
-dev.provision.analytics_pipeline: | check-memory dev.provision.analytics_pipeline.run stop.analytics_pipeline stop
+dev.provision.analytics_pipeline: | check-memory dev.provision.analytics_pipeline.run stop.analytics_pipeline stop ## Provision analyticstack dev environment with all services stopped
 
 dev.provision.analytics_pipeline.run:
 	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml -f docker-compose-analytics-pipeline.yml" ./provision-analytics-pipeline.sh
 
-analytics-pipeline-shell: ## Run a shell on the Analytics pipeline container
+analytics-pipeline-shell: ## Run a shell on the analytics pipeline container
 	docker exec -it edx.devstack.analytics_pipeline env TERM=$(TERM) /edx/app/analytics_pipeline/devstack.sh open
 
-dev.up.analytics_pipeline: | check-memory ## Bring up analytics_pipeline
+dev.up.analytics_pipeline: | check-memory ## Bring up analytics pipeline services
 	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml -f docker-compose-host.yml up -d analyticspipeline
 
-pull.analytics_pipeline: ## Update Analytics pipeline Docker images
+pull.analytics_pipeline: ## Update analytics pipeline docker images
 	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml pull --parallel
 
-analytics-pipeline-devstack-test:
+analytics-pipeline-devstack-test: ## Run analytics pipeline tests in travis build
 	docker exec -u hadoop -i edx.devstack.analytics_pipeline bash -c 'sudo chown -R hadoop:hadoop /edx/app/analytics_pipeline && source /edx/app/hadoop/.bashrc && make develop-local && make docker-test-acceptance-local ONLY_TESTS=edx.analytics.tasks.tests.acceptance.test_internal_reporting_database && make docker-test-acceptance-local ONLY_TESTS=edx.analytics.tasks.tests.acceptance.test_user_activity'
 
-stop.analytics_pipeline:
+stop.analytics_pipeline: ## Stop analytics pipeline services
 	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml stop
 	docker-compose up -d mysql      ## restart mysql as other containers need it
 
-hadoop-application-logs-%: ## Hadoop logs by application Id
+hadoop-application-logs-%: ## View hadoop logs by application Id
 	docker exec -it edx.devstack.analytics_pipeline.nodemanager yarn logs -applicationId $*
 
 # Provisions studio, ecommerce, and marketing with course(s) in test-course.json
