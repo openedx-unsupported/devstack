@@ -73,10 +73,7 @@ you should configure Docker with a sufficient
 amount of resources. We find that `configuring Docker for Mac`_ with
 a minimum of 2 CPUs and 6GB of memory works well.
 
-1. Install the requirements (optional for MacOS) inside of a `Python virtualenv`_.
-
-   This is not required for Docker for Mac, since it comes with
-   ``docker-compose`` out of the box.
+1. Install the requirements inside of a `Python virtualenv`_.
 
    .. code:: sh
 
