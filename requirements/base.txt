@@ -14,7 +14,7 @@ docker==3.3.0             # via docker-compose
 dockerpty==0.4.1          # via docker-compose
 docopt==0.6.2             # via docker-compose
 enum34==1.1.6             # via docker-compose
-functools32==3.2.3.post2  # via jsonschema
+functools32==3.2.3.post2 ; python_version == "2.7"
 idna==2.6                 # via requests
 ipaddress==1.0.22         # via docker, docker-compose
 jsonschema==2.6.0         # via docker-compose
