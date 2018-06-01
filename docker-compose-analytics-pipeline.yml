@@ -74,7 +74,6 @@ services:
       - 127.0.0.1:7077:7077       # spark master port
       - 127.0.0.1:6066:6066       # spark api
       - 127.0.0.1:18080:18080     # spark history server
-      - 127.0.0.1:4040:4040       # spark web UI
 
   sparkworker:
     image: edxops/analytics_pipeline_spark_worker:latest
@@ -109,6 +108,8 @@ services:
       - sparkworker
       - elasticsearch
       - vertica
+    ports:
+      - 127.0.0.1:4040:4040     # spark web UI
     environment:
       HADOOP_COMMON_RESOURCE_MANAGER_HOST: "resourcemanager"
       HADOOP_DEFAULT_FS: "hdfs://namenode:8020"
