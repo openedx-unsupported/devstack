@@ -6,7 +6,7 @@ System Requirements
 
 * Windows 10 1803 (Spring 2018)
 
- * This has been tested on the Spring 2018 release of Windows 10 only
+  * This has been tested on the Spring 2018 release of Windows 10 only
 
 * WSL (Windows Subsystem for Linux)
 
