@@ -14,3 +14,9 @@ Configuring Docker for Windows
 ------------------------------
 
 Follow instructions at https://nickjanetakis.com/blog/setting-up-docker-for-windows-and-wsl-to-work-flawlessly
+
+Setup Ubuntu
+------------
+
+Run the following from an Ubuntu Shell
+* ```apt install make python-pip```
