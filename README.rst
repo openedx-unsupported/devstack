@@ -296,6 +296,8 @@ meant to be user-facing, the "homepage" may be the API root.
 +---------------------+-------------------------------------+
 | LMS                 | http://localhost:18000/             |
 +---------------------+-------------------------------------+
+| Notes/edx-notes-api | http://localhost:18120/api/v1/      |
++---------------------+-------------------------------------+
 | Studio/CMS          | http://localhost:18010/             |
 +---------------------+-------------------------------------+
 
@@ -315,6 +317,7 @@ simply use the ``docker-compose restart`` command:
 -  discovery
 -  ecommerce
 -  lms
+-  edx_notes_api
 -  studio
 
 If you'd like to add some convenience make targets, you can add them to a ``local.mk`` file, ignored by git.
