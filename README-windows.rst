@@ -1,4 +1,4 @@
-Open edX Devstack on Windows (Aplha)
+Open edX Devstack on Windows (Alpha)
 ====================================
 
 System Requirements
