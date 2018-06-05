@@ -27,3 +27,11 @@ Install make and pip in WSL Ubuntu
 .. code:: sh
 
     apt install make python-pip
+
+Optional Increased Security
+---------------------------
+
+*Untested*
+
+Use npipe relay to avoid opening docker tcp port to the world
+https://blogs.msdn.microsoft.com/commandline/2017/12/08/cross-post-wsl-interoperability-with-docker/
