@@ -5,6 +5,10 @@ language: python
 python:
   - "3.5"
 
+branches:
+  only:
+    - master
+
 env:
   - DEVSTACK_WORKSPACE=/tmp DOCKER_COMPOSE_VERSION=1.13.0 SHALLOW_CLONE=1 DEVSTACK='lms'
   - DEVSTACK_WORKSPACE=/tmp DOCKER_COMPOSE_VERSION=1.13.0 SHALLOW_CLONE=1 DEVSTACK='analytics_pipeline'
