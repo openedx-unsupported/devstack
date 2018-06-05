@@ -10,6 +10,9 @@ GRANT ALL ON ecommerce.* TO 'ecomm001'@'%' IDENTIFIED BY 'password';
 CREATE DATABASE IF NOT EXISTS edxmktg;
 GRANT ALL ON edxmktg.* TO 'edxmktg001'@'%' IDENTIFIED BY 'password';
 
+CREATE DATABASE IF NOT EXISTS notes;
+GRANT ALL ON notes.* TO 'notes001'@'%' IDENTIFIED BY 'password';
+
 CREATE DATABASE IF NOT EXISTS edxapp;
 CREATE DATABASE IF NOT EXISTS edxapp_csmh;
 GRANT ALL ON edxapp.* TO 'edxapp001'@'%' IDENTIFIED BY 'password';

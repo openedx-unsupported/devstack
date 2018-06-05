@@ -47,6 +47,7 @@ docker-compose $DOCKER_COMPOSE_FILES up -d studio
 ./provision-credentials.sh
 ./provision-e2e.sh
 ./provision-forum.sh
+./provision-notes.sh
 
 docker image prune -f
 
