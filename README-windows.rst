@@ -16,6 +16,12 @@ System Requirements
 
 * Git and Git bash from git-scm.org
 
+* Make from ezwinports installed
+
+  * Download make without guile from https://sourceforge.net/projects/ezwinports/files/
+
+  * Copy the contents of the make zip file into C:\Program Files\Git\mingw64\usr\bin\
+
 Provisioning Devstack
 ---------------------
 
