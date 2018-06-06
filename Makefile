@@ -10,7 +10,7 @@
 OS := $(shell uname)
 
 ifneq (,$(findstring MINGW,$(OS)))
-    DEVSTACK_WORKSPACE ?= /host_mnt/$(shell pwd)/..
+    DEVSTACK_WORKSPACE ?= /host_mnt$(shell pwd)/..
 else
     DEVSTACK_WORKSPACE ?= $(shell pwd)/..
 endif
