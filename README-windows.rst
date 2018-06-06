@@ -8,9 +8,9 @@ System Requirements
 
   * This has been tested on the Spring 2018 release of Windows 10 only
 
-* WSL (Windows Subsystem for Linux)
+* Developer Mode enabled https://docs.microsoft.com/en-us/windows/uwp/get-started/enable-your-device-for-development
 
-* Ubuntu 16.04 from Windows Store
+  * Needed to allow git to create symlinks
 
 * Docker for Windows
 
