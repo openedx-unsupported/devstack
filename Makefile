@@ -9,10 +9,12 @@
 
 OS := $(shell uname)
 
+DEVSTACK_WORKSPACE ?= $(shell pwd)/..
+
 ifneq (,$(findstring MINGW,$(OS)))
-    DEVSTACK_WORKSPACE ?= /host_mnt$(shell pwd)/..
+    DEVSTACK_WORKSPACE_DOCKER ?= /host_mnt$(DEVSTACK_WORKSPACE)
 else
-    DEVSTACK_WORKSPACE ?= $(shell pwd)/..
+    DEVSTACK_WORKSPACE_DOCKER ?= $(DEVSTACK_WORKSPACE)
 endif
 
 COMPOSE_PROJECT_NAME=devstack

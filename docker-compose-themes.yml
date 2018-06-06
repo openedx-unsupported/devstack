@@ -3,13 +3,13 @@ version: "2.1"
 services:
   discovery:
       volumes:
-      - ${DEVSTACK_WORKSPACE}/edx-themes:/edx/app/edx-themes:cached
+      - ${DEVSTACK_WORKSPACE_DOCKER}/edx-themes:/edx/app/edx-themes:cached
   ecommerce:
       volumes:
-      - ${DEVSTACK_WORKSPACE}/edx-themes:/edx/app/edx-themes:cached
+      - ${DEVSTACK_WORKSPACE_DOCKER}/edx-themes:/edx/app/edx-themes:cached
   lms:
       volumes:
-      - ${DEVSTACK_WORKSPACE}/edx-themes:/edx/app/edx-themes:cached
+      - ${DEVSTACK_WORKSPACE_DOCKER}/edx-themes:/edx/app/edx-themes:cached
   studio:
       volumes:
-      - ${DEVSTACK_WORKSPACE}/edx-themes:/edx/app/edx-themes:cached
+      - ${DEVSTACK_WORKSPACE_DOCKER}/edx-themes:/edx/app/edx-themes:cached
