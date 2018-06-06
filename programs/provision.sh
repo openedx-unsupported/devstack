@@ -14,6 +14,12 @@
 
 BASEDIR=$(dirname "$0")
 
+# Need to run winpty on windows so tty works in git bash
+WINPTY=
+if uname | grep -q '^MINGW'; then
+    WINPTY=winpty
+fi
+
 # Main items are green, rest is dull grey since they are noisy, but we still might want to see their output,
 # for error cases and the like.
 notice() {
@@ -42,7 +48,7 @@ docker_exec() {
     /edx/app/$app/$repo/manage.py $cmd
     "
 
-    docker-compose exec "$service" bash -c "$CMDS"
+    ${WINPTY} docker-compose exec "$service" bash -c "$CMDS"
 }
 
 provision_ida() {
@@ -54,7 +60,7 @@ provision_ida() {
 
     cmd="$cmd -c \"$PROGRAM_SCRIPT\""
 
-    docker_exec "$service" "$cmd" "$3" "$4"
+    ${WINPTY} docker_exec "$service" "$cmd" "$3" "$4"
 }
 
 if [ "$1" = "lms" -o -z "$1" ]; then
