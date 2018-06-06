@@ -14,6 +14,9 @@ System Requirements
 
 * Docker for Windows
 
+* Python 2 for windows
+  * python must be in the path (i.e. enable "Add python.exe to Path" in installer)
+
 * Git and Git bash from git-scm.org
 
 * Make from ezwinports installed
@@ -25,12 +28,4 @@ System Requirements
 Provisioning Devstack
 ---------------------
 
-Run the following commands in Git bash. Currently make is not working, so we're running commands manually
-
-.. code:: sh
-
-    git clone git@github.com:edx/devstack.git
-    cd devstack
-    export DEVSTACK_WORKSPACE=$(pwd)/..
-    ./repo.sh clone
-    DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml" winpty bash ./provision.sh
+Follow the instructions in the mian README, but skip "make requirements"
