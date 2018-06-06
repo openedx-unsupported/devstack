@@ -44,15 +44,15 @@ echo -e "${GREEN}Creating databases and users...${NC}"
 docker exec -i edx.devstack.mysql mysql -uroot mysql < provision.sql
 docker exec -i edx.devstack.mongo mongo < mongo-provision.js
 
-${WINPTY} ./provision-lms.sh
+${WINPTY} bash ./provision-lms.sh
 
 # Nothing special needed for studio
 docker-compose $DOCKER_COMPOSE_FILES up -d studio
-${WINPTY} ./provision-ecommerce.sh
-${WINPTY} ./provision-discovery.sh
-${WINPTY} ./provision-credentials.sh
-${WINPTY} ./provision-e2e.sh
-${WINPTY} ./provision-forum.sh
+${WINPTY} bash ./provision-ecommerce.sh
+${WINPTY} bash ./provision-discovery.sh
+${WINPTY} bash ./provision-credentials.sh
+${WINPTY} bash ./provision-e2e.sh
+${WINPTY} bash ./provision-forum.sh
 
 docker image prune -f
 
