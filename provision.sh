@@ -17,6 +17,12 @@ GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 NC='\033[0m' # No Color
 
+# Need to run winpty on windows so tty works in git bash
+WINPTY=
+if uname | grep -q '^MINGW'; then
+    WINPTY=winpty
+fi
+
 # Bring the databases online.
 docker-compose up -d mysql mongo
 
@@ -38,15 +44,15 @@ echo -e "${GREEN}Creating databases and users...${NC}"
 docker exec -i edx.devstack.mysql mysql -uroot mysql < provision.sql
 docker exec -i edx.devstack.mongo mongo < mongo-provision.js
 
-./provision-lms.sh
+${WINPTY} ./provision-lms.sh
 
 # Nothing special needed for studio
 docker-compose $DOCKER_COMPOSE_FILES up -d studio
-./provision-ecommerce.sh
-./provision-discovery.sh
-./provision-credentials.sh
-./provision-e2e.sh
-./provision-forum.sh
+${WINPTY} ./provision-ecommerce.sh
+${WINPTY} ./provision-discovery.sh
+${WINPTY} ./provision-credentials.sh
+${WINPTY} ./provision-e2e.sh
+${WINPTY} ./provision-forum.sh
 
 docker image prune -f
 
