@@ -14,24 +14,17 @@ System Requirements
 
 * Docker for Windows
 
-Configuring Docker for Windows
-------------------------------
+* Git and Git bash from git-scm.org
 
-Follow instructions at https://nickjanetakis.com/blog/setting-up-docker-for-windows-and-wsl-to-work-flawlessly
+Provisioning Devstack
+---------------------
 
-Setup Ubuntu
-------------
-
-Install make and pip in WSL Ubuntu
+Run the following commands in Git bash. Currently make is not working, so we're running commands manually
 
 .. code:: sh
 
-    apt install make python-pip
-
-Optional Increased Security
----------------------------
-
-*Untested*
-
-Use npipe relay to avoid opening docker tcp port to the world
-https://blogs.msdn.microsoft.com/commandline/2017/12/08/cross-post-wsl-interoperability-with-docker/
+    git clone git@github.com:edx/devstack.git
+    cd devstack
+    export DEVSTACK_WORKSPACE=$(pwd)/..
+    ./repo.sh clone
+    DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml" winpty bash ./provision.sh
