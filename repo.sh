@@ -48,7 +48,8 @@ _clone ()
         [[ $repo =~ $name_pattern ]]
         name="${BASH_REMATCH[1]}"
 
-        if [ -d "$name" ]; then
+        # If a directory exists and it is nonempty, assume the repo has been checked out.
+        if [ -d "$name" -a -n "$(ls -A "$name" 2>/dev/null)" ]; then
             printf "The [%s] repo is already checked out. Continuing.\n" $name
         else
             if [ "${SHALLOW_CLONE}" == "1" ]; then
