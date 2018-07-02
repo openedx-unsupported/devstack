@@ -356,11 +356,9 @@ If you want to build the images on your own, the Dockerfiles are available in th
 
 NOTES:
 
-1. We are experimenting with hosting a ``Dockerfile`` in the ``edx/credentials`` repository, hence the ``devstack-slim``
-   tag. See that repo for more information on building its image.
-2. edxapp and IDAs use the ``latest`` tag since their configuration changes have been merged to master branch of
+1. edxapp and IDAs use the ``latest`` tag since their configuration changes have been merged to master branch of
    ``edx/configuration``.
-3. The elasticsearch used in devstack is built using elasticsearch-devstack/Dockerfile and the ``devstack`` tag.
+2. The elasticsearch used in devstack is built using elasticsearch-devstack/Dockerfile and the ``devstack`` tag.
 
 BUILD COMMANDS:
 
