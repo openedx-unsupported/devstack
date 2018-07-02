@@ -75,7 +75,7 @@ services:
 
   # edX services
   credentials:
-    command: bash -c 'while true; do python /edx/app/credentials/credentials/manage.py runserver 0.0.0.0:18150; sleep 2; done'
+    command: bash -c 'source /edx/app/credentials/credentials_env && while true; do python /edx/app/credentials/credentials/manage.py runserver 0.0.0.0:18150; sleep 2; done'
     container_name: edx.devstack.credentials
     depends_on:
       - mysql
@@ -88,7 +88,7 @@ services:
       DB_HOST: edx.devstack.mysql
       SOCIAL_AUTH_EDX_OIDC_URL_ROOT: http://edx.devstack.lms:18000/oauth2
       ENABLE_DJANGO_TOOLBAR: 1
-    image: edxops/credentials:devstack-slim
+    image: edxops/credentials:latest
     ports:
       - "18150:18150"
 

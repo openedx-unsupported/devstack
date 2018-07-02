@@ -137,6 +137,9 @@ restore:  ## Restore all data volumes from the host. WARNING: THIS WILL OVERWRIT
 %-shell: ## Run a shell on the specified service container
 	docker exec -it edx.devstack.$* /bin/bash
 
+credentials-shell:
+	docker exec -it edx.devstack.credentials env TERM=$(TERM) bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials && /bin/bash'
+
 discovery-shell: ## Run a shell on the discovery container
 	docker exec -it edx.devstack.discovery env TERM=$(TERM) /edx/app/discovery/devstack.sh open
 
@@ -154,9 +157,6 @@ studio-update-db: ## Run migrations for the Studio container
 
 lms-update-db: ## Run migrations LMS container
 	docker exec -t edx.devstack.lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_db'
-
-credentials-update-db: ## Run migrations for the credentials container
-	docker exec -t edx.devstack.credentials bash -c 'make migrate'
 
 update-db: | studio-update-db lms-update-db discovery-update-db ecommerce-update-db credentials-update-db ## Run the migrations for all services
 
@@ -195,9 +195,6 @@ xqueue_consumer-restart: ## Kill the XQueue development server. The watcher proc
 
 %-static: ## Rebuild static assets for the specified service container
 	docker exec -t edx.devstack.$* bash -c 'source /edx/app/$*/$*_env && cd /edx/app/$*/$*/ && make static'
-
-credentials-static: ## Rebuild static assets for the credentials container
-	docker exec -t edx.devstack.credentials bash -c 'make static'
 
 lms-static: ## Rebuild static assets for the LMS container
 	docker exec -t edx.devstack.lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_assets'
