@@ -2,7 +2,7 @@ version: "2.1"
 
 services:
   namenode:
-    image: edxops/analytics_pipeline_hadoop_namenode:latest
+    image: edxops/analytics_pipeline_hadoop_namenode:${OPENEDX_RELEASE:-latest}
     container_name: edx.devstack.analytics_pipeline.namenode
     hostname: namenode
     environment:
@@ -14,7 +14,7 @@ services:
       - namenode_data:/hadoop/dfs/name
 
   datanode:
-    image: edxops/analytics_pipeline_hadoop_datanode:latest
+    image: edxops/analytics_pipeline_hadoop_datanode:${OPENEDX_RELEASE:-latest}
     container_name: edx.devstack.analytics_pipeline.datanode
     hostname: datanode
     environment:
@@ -28,7 +28,7 @@ services:
       - datanode_data:/hadoop/dfs/data
 
   resourcemanager:
-    image: edxops/analytics_pipeline_hadoop_resourcemanager:latest
+    image: edxops/analytics_pipeline_hadoop_resourcemanager:${OPENEDX_RELEASE:-latest}
     container_name: edx.devstack.analytics_pipeline.resourcemanager
     hostname: resourcemanager
     environment:
@@ -45,7 +45,7 @@ services:
     command: ["/run.sh"]
 
   nodemanager:
-    image: edxops/analytics_pipeline_hadoop_nodemanager:latest
+    image: edxops/analytics_pipeline_hadoop_nodemanager:${OPENEDX_RELEASE:-latest}
     container_name: edx.devstack.analytics_pipeline.nodemanager
     hostname: nodemanager
     environment:
@@ -66,7 +66,7 @@ services:
     command: ["/run.sh"]
 
   sparkmaster:
-    image: edxops/analytics_pipeline_spark_master:latest
+    image: edxops/analytics_pipeline_spark_master:${OPENEDX_RELEASE:-latest}
     container_name: edx.devstack.analytics_pipeline.sparkmaster
     hostname: sparkmaster
     ports:
@@ -76,7 +76,7 @@ services:
       - 127.0.0.1:18080:18080     # spark history server
 
   sparkworker:
-    image: edxops/analytics_pipeline_spark_worker:latest
+    image: edxops/analytics_pipeline_spark_worker:${OPENEDX_RELEASE:-latest}
     container_name: edx.devstack.analytics_pipeline.sparkworker
     hostname: sparkworker
     depends_on:
@@ -93,7 +93,7 @@ services:
       - vertica_data:/home/dbadmin/docker
 
   analyticspipeline:
-    image: edxops/analytics_pipeline:latest
+    image: edxops/analytics_pipeline:${OPENEDX_RELEASE:-latest}
     container_name: edx.devstack.analytics_pipeline
     hostname: analyticspipeline
     volumes:
