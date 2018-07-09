@@ -25,6 +25,6 @@ services:
       - DRUPAL_EXTRA_SETTINGS=${DRUPAL_EXTRA_SETTINGS:-/var/www/html/sites/default/docker.settings.php}
       # IP address of your machine to enable debugging (IP_ADDRESS set in .env file)
       - XDEBUG_CONFIG=remote_host=${XDEBUG_IP_ADDRESS:-127.0.0.1}
-    image: edxops/edx-mktg:latest
+    image: edxops/edx-mktg:${OPENEDX_RELEASE:-latest}
     ports:
       - "8080:80"

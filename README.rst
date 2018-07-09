@@ -351,14 +351,17 @@ How do I build images?
 
 There are `Docker CI Jenkins jobs`_ on tools-edx-jenkins that build and push new
 Docker images to DockerHub on code changes to either the configuration repository or the IDA's codebase. These images
-are tagged ``latest``. Images that require tags other than ``latest`` are built and pushed by hand (see NOTES below).
+are tagged according to the branch from which they were built (see NOTES below).
 If you want to build the images on your own, the Dockerfiles are available in the ``edx/configuration`` repo.
 
 NOTES:
 
-1. edxapp and IDAs use the ``latest`` tag since their configuration changes have been merged to master branch of
-   ``edx/configuration``.
-2. The elasticsearch used in devstack is built using elasticsearch-devstack/Dockerfile and the ``devstack`` tag.
+1. edxapp and IDAs use the ``latest`` tag for configuration changes which have been merged to master branch of
+   their repository and ``edx/configuration``.
+2. Images for a named Open edX release are built from the corresponding branch
+   of each repository and tagged appropriately, for example ``hawthorn.master``
+   or ``hawthorn.rc1``.
+3. The elasticsearch used in devstack is built using elasticsearch-devstack/Dockerfile and the ``devstack`` tag.
 
 BUILD COMMANDS:
 
@@ -384,6 +387,22 @@ and not ``EDXAPP_VERSION``.
 For example, if you wanted to build tag ``release-2017-03-03`` for the
 E-Commerce Service, you would modify ``ECOMMERCE_VERSION`` in
 ``docker/build/ecommerce/ansible_overrides.yml``.
+
+How do I run the images for a named Open edX release?
+-----------------------------------------------------
+
+1. Set the ``OPENEDX_RELEASE`` environment variable to the appropriate image
+   tag; "hawthorn.master", "zebrawood.rc1", etc.  Note that unlike a server
+   install, ``OPENEDX_RELEASE`` should not have the "open-release/" prefix.
+2. Use ``make dev.checkout`` to check out the correct branch in the local
+   checkout of each service repository once you've set the ``OPENEDX_RELEASE``
+   environment variable above.
+3. ``make pull`` to get the correct images.
+
+All ``make`` target and ``docker-compose`` calls should now use the correct
+images until you change or unset ``OPENEDX_RELEASE`` again.  To work on the
+master branches and ``latest`` images, unset ``OPENEDX_RELEASE`` or set it to
+an empty string.
 
 How do I create database dumps?
 -------------------------------
