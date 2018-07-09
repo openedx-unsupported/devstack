@@ -34,6 +34,9 @@ upgrade: ## Upgrade requirements with pip-tools
 		requirements/pip-tools.txt \
 		requirements/base.txt \
 
+dev.checkout: ## Check out "openedx-release/$OPENEDX_RELEASE" in each repo if set, "master" otherwise
+	./repo.sh checkout
+
 dev.clone: ## Clone service repos to the parent directory
 	./repo.sh clone
 
