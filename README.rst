@@ -346,6 +346,13 @@ available. This will NOT be useful to those outside of edX. For details on
 getting things up and running, see
 https://openedx.atlassian.net/wiki/display/OpenDev/Marketing+Site.
 
+
+How to add source respositories 
+-------------------------------
+
+WIP: @clobert
+
+
 How do I build images?
 ----------------------
 
