@@ -65,9 +65,10 @@ use the following options:
 
     - ``/edx/app/<SERVICE_NAME>/venvs/<SERVICE_NAME>/bin/python``
 
-  - For example, the path would be the following for the Credentials Service:
+  - For example, the path would be the following for the Ecommerce Service:
 
-    - ``/edx/app/credentials/venvs/credentials/bin/python``
+    - ``/edx/app/ecommerce/venvs/ecommerce/bin/python``
+    - Note: The Credentials Service might not have a virtualenv set up in the container. 
 
   - For either lms or studio, you need to use edxapp:
 
