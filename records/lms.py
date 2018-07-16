@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from lms.djangoapps.grades.config.models import PersistentGradesEnabledFlag
+from openedx.core.djangoapps.credentials.models import CredentialsApiConfig
 
 
 def set_current_config(cls, args):
@@ -51,6 +52,12 @@ def verify(username):
 
 
 set_current_config(PersistentGradesEnabledFlag, {'enabled': True, 'enabled_for_all_courses': True})
+set_current_config(CredentialsApiConfig, {
+    'internal_service_url': 'http://example.com',
+    'public_service_url': 'http://example.com',
+    'enable_learner_issuance': True,
+    'enabled': True,
+})
 
 
 verify('records_one_cert')

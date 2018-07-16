@@ -78,6 +78,10 @@ notice Programs...
 docker_exec discovery refresh_course_metadata
 docker_exec_file discovery.py
 
+notice Credentials...
+docker_exec credentials copy_catalog
+docker_exec_file credentials.py
+
 # Enroll users
 docker_exec lms "lms enroll_user_in_course -e records_one_no_cert@example.com -c course-v1:edX+RecordsSelfPaced+1"
 docker_exec lms "lms change_enrollment -u records_one_no_cert -c course-v1:edX+RecordsSelfPaced+1 -f audit -t verified"
