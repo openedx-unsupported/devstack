@@ -121,7 +121,7 @@ services:
     stdin_open: true
     tty: true
     environment:
-      ENABLE_DJANGO_TOOLBAR: 0
+      ENABLE_DJANGO_TOOLBAR: 1
     image: edxops/ecommerce:${OPENEDX_RELEASE:-latest}
     ports:
       - "18130:18130"
