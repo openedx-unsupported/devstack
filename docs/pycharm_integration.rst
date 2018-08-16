@@ -84,6 +84,8 @@ so you can easily switch back to old without this delay.
 **Warning**: When you change configuration files, the service drop-down gets
 reset. Remember to restore to the IDA you wish to test.
 
+**Some Tips**: If your remote isn't loading you may need to set your DEVSTACK_WORKSPACE variable globally in your ./bash_profile. Additionally try reseting docker as a last resort and things should sync successfully after that.
+
 Setup Django Support
 --------------------
 
