@@ -696,7 +696,7 @@ and run the tests manually via paver:
     paver e2e_test --exclude="whitelabel\|enterprise"
 
 The browser running the tests can be seen and interacted with via VNC as
-described above (Chrome is used by default).
+described above (Firefox is used by default).
 
 Troubleshooting: General Tips
 -----------------------------
