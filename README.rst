@@ -743,7 +743,7 @@ data volumes.
 Reset
 ~~~~~
 
-Somtimes you just aren't sure what's wrong, if you would like to hit the reset button
+Sometimes you just aren't sure what's wrong, if you would like to hit the reset button
 run ``make dev.reset``.
 
 Running this command will perform the following steps:
