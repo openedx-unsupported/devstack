@@ -117,10 +117,10 @@ xqueue_consumer-logs: ## View logs from containers running in detached mode
 	docker-compose -f docker-compose-xqueue.yml logs -f xqueue_consumer
 
 pull: ## Update Docker images
-	docker-compose pull --parallel
+	docker-compose pull
 
 pull.xqueue: ## Update XQueue Docker images
-	docker-compose -f docker-compose-xqueue.yml pull --parallel
+	docker-compose -f docker-compose-xqueue.yml pull
 
 validate: ## Validate the devstack configuration
 	docker-compose config
@@ -248,7 +248,7 @@ dev.up.analytics_pipeline: | check-memory ## Bring up analytics pipeline service
 	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml -f docker-compose-host.yml up -d analyticspipeline
 
 pull.analytics_pipeline: ## Update analytics pipeline docker images
-	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml pull --parallel
+	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml pull
 
 analytics-pipeline-devstack-test: ## Run analytics pipeline tests in travis build
 	docker exec -u hadoop -i edx.devstack.analytics_pipeline bash -c 'sudo chown -R hadoop:hadoop /edx/app/analytics_pipeline && source /edx/app/hadoop/.bashrc && make develop-local && make docker-test-acceptance-local ONLY_TESTS=edx.analytics.tasks.tests.acceptance.test_internal_reporting_database && make docker-test-acceptance-local ONLY_TESTS=edx.analytics.tasks.tests.acceptance.test_user_activity'
