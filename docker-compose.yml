@@ -88,6 +88,7 @@ services:
       DB_HOST: edx.devstack.mysql
       SOCIAL_AUTH_EDX_OIDC_URL_ROOT: http://edx.devstack.lms:18000/oauth2
       ENABLE_DJANGO_TOOLBAR: 1
+      PYTHONDONTWRITEBYTECODE: 1
     image: edxops/credentials:${OPENEDX_RELEASE:-latest}
     ports:
       - "18150:18150"
@@ -105,6 +106,7 @@ services:
     environment:
       TEST_ELASTICSEARCH_URL: "http://edx.devstack.elasticsearch:9200"
       ENABLE_DJANGO_TOOLBAR: 1
+      PYTHONDONTWRITEBYTECODE: 1
     image: edxops/discovery:${OPENEDX_RELEASE:-latest}
     ports:
       - "18381:18381"
@@ -122,6 +124,7 @@ services:
     tty: true
     environment:
       ENABLE_DJANGO_TOOLBAR: 1
+      PYTHONDONTWRITEBYTECODE: 1
     image: edxops/ecommerce:${OPENEDX_RELEASE:-latest}
     ports:
       - "18130:18130"
@@ -143,6 +146,7 @@ services:
       BOK_CHOY_CMS_PORT: 18031
       EDXAPP_TEST_MONGO_HOST: edx.devstack.mongo
       NO_PYTHON_UNINSTALL: 1
+      PYTHONDONTWRITEBYTECODE: 1
     image: edxops/edxapp:${OPENEDX_RELEASE:-latest}
     ports:
       - "18000:18000"
@@ -171,6 +175,7 @@ services:
       DB_USER: "notes001"
       ENABLE_DJANGO_TOOLBAR: 1
       ELASTICSEARCH_URL: "http://edx.devstack.elasticsearch:9200"
+      PYTHONDONTWRITEBYTECODE: 1
 
   studio:
     command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py cms runserver 0.0.0.0:18010 --settings devstack_docker; sleep 2; done'
@@ -189,6 +194,7 @@ services:
       BOK_CHOY_CMS_PORT: 18131
       EDXAPP_TEST_MONGO_HOST: edx.devstack.mongo
       NO_PYTHON_UNINSTALL: 1
+      PYTHONDONTWRITEBYTECODE: 1
     image: edxops/edxapp:${OPENEDX_RELEASE:-latest}
     ports:
       - "18010:18010"
