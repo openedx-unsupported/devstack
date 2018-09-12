@@ -1236,6 +1236,7 @@ CREATE TABLE `branding_brandingapiconfig` (
 
 LOCK TABLES `branding_brandingapiconfig` WRITE;
 /*!40000 ALTER TABLE `branding_brandingapiconfig` DISABLE KEYS */;
+INSERT INTO `branding_brandingapiconfig` VALUES (1, '2018-09-12 04:43:16.006423', 1, 2);
 /*!40000 ALTER TABLE `branding_brandingapiconfig` ENABLE KEYS */;
 UNLOCK TABLES;
 
