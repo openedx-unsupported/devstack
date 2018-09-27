@@ -11,6 +11,8 @@ environment:
 install:
 - curl -fsSL -o make-4.2.1-without-guile-w32-bin.zip https://sourceforge.net/projects/ezwinports/files/make-4.2.1-without-guile-w32-bin.zip/download
 - 7z x make-4.2.1-without-guile-w32-bin.zip -oC:\"Program Files"\Git\mingw64
+- "\"%ProgramFiles%/Git/bin/bash.exe\" -c \"uname\""
+- "\"%ProgramFiles%/Git/bin/bash.exe\" -c \"env\""
 
 build_script:
 # Increase the Linux VM memory from the default 2 GB to 4 GB

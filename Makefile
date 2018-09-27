@@ -126,6 +126,8 @@ xqueue_consumer-logs: ## View logs from containers running in detached mode
 	docker-compose -f docker-compose-xqueue.yml logs -f xqueue_consumer
 
 pull: ## Update Docker images
+	uname
+	env
 	docker-compose pull --parallel
 
 pull.xqueue: ## Update XQueue Docker images
