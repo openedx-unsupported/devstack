@@ -11,12 +11,18 @@ DEVSTACK_WORKSPACE ?= $(shell pwd)/..
 
 OS := $(shell uname)
 
-# Need to run some things under winpty in Windows
-ifneq (,$(findstring MINGW,$(OS)))
+# Need to run some things under winpty in a Windows git-bash shell
+# (but not when calling bash from a command shell or PowerShell)
+ifneq (,$(MINGW_PREFIX))
     WINPTY := winpty
-    DEVNULL :=
 else
     WINPTY :=
+endif
+
+# Don't try redirecting to /dev/null in any Windows shell
+ifneq (,$(findstring MINGW,$(OS)))
+    DEVNULL :=
+else
     DEVNULL := >/dev/null
 endif
 
@@ -50,22 +56,22 @@ dev.clone: ## Clone service repos to the parent directory
 	./repo.sh clone
 
 dev.provision.run: ## Provision all services with local mounted directories
-	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml" bash ./provision.sh
+	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml" $(WINPTY) bash ./provision.sh
 
 dev.provision: | check-memory dev.clone dev.provision.run stop ## Provision dev environment with all services stopped
 
 dev.provision.xqueue: | check-memory dev.provision.xqueue.run stop stop.xqueue
 
 dev.provision.xqueue.run:
-	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-xqueue.yml" ./provision-xqueue.sh
+	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-xqueue.yml" $(WINPTY) bash ./provision-xqueue.sh
 
 dev.reset: | down dev.repo.reset pull dev.up static update-db ## Attempts to reset the local devstack to a the master working state
 
 dev.status: ## Prints the status of all git repositories
-	./repo.sh status
+	$(WINPTY) bash ./repo.sh status
 
 dev.repo.reset: ## Attempts to reset the local repo checkouts to the master working state
-	./repo.sh reset
+	$(WINPTY) bash ./repo.sh reset
 
 dev.up: | check-memory ## Bring up all services with host volumes
 	bash -c 'docker-compose -f docker-compose.yml -f docker-compose-host.yml up -d'
@@ -111,7 +117,7 @@ down: ## Remove all service containers and networks
 	docker-compose -f docker-compose.yml -f docker-compose-watchers.yml -f docker-compose-xqueue.yml -f docker-compose-analytics-pipeline.yml down
 
 destroy: ## Remove all devstack-related containers, networks, and volumes
-	./destroy.sh
+	$(WINPTY) bash ./destroy.sh
 
 logs: ## View logs from containers running in detached mode
 	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml logs -f
@@ -126,8 +132,6 @@ xqueue_consumer-logs: ## View logs from containers running in detached mode
 	docker-compose -f docker-compose-xqueue.yml logs -f xqueue_consumer
 
 pull: ## Update Docker images
-	uname
-	env
 	docker-compose pull --parallel
 
 pull.xqueue: ## Update XQueue Docker images
@@ -219,7 +223,7 @@ studio-static: ## Rebuild static assets for the Studio container
 static: | credentials-static discovery-static ecommerce-static lms-static studio-static ## Rebuild static assets for all service containers
 
 healthchecks: ## Run a curl against all services' healthcheck endpoints to make sure they are up. This will eventually be parameterized
-	./healthchecks.sh
+	$(WINPTY) bash ./healthchecks.sh
 
 e2e-tests: ## Run the end-to-end tests against the service containers
 	docker run -t --network=devstack_default -v ${DEVSTACK_WORKSPACE}/edx-e2e-tests:/edx-e2e-tests -v ${DEVSTACK_WORKSPACE}/edx-platform:/edx-e2e-tests/lib/edx-platform --env-file ${DEVSTACK_WORKSPACE}/edx-e2e-tests/devstack_env edxops/e2e env TERM=$(TERM)  bash -c 'paver e2e_test --exclude="whitelabel\|enterprise"'
@@ -274,13 +278,13 @@ hadoop-application-logs-%: ## View hadoop logs by application Id
 # Provisions studio, ecommerce, and marketing with course(s) in test-course.json
 # Modify test-course.json before running this make target to generate a custom course
 create-test-course: ## NOTE: marketing course creation is not available for those outside edX
-	./course-generator/create-courses.sh --studio --ecommerce --marketing course-generator/test-course.json
+	$(WINPTY) bash ./course-generator/create-courses.sh --studio --ecommerce --marketing course-generator/test-course.json
 
 # Run the course json builder script and use the outputted course json to provision studio, ecommerce, and marketing
 # Modify the list of courses in build-course-json.sh beforehand to generate custom courses
 build-courses: ## NOTE: marketing course creation is not available for those outside edX
-	./course-generator/build-course-json.sh course-generator/tmp-config.json
-	./course-generator/create-courses.sh --studio --ecommerce --marketing course-generator/tmp-config.json
+	$(WINPTY) bash ./course-generator/build-course-json.sh course-generator/tmp-config.json
+	$(WINPTY) bash ./course-generator/create-courses.sh --studio --ecommerce --marketing course-generator/tmp-config.json
 	rm course-generator/tmp-config.json
 
 check-memory: ## Check if enough memory has been allocated to Docker
