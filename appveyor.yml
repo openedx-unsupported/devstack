@@ -22,12 +22,20 @@ build_script:
 # the time required to start the "MobyLinuxVM" VM:
 - docker-switch-linux
 - md X:\devstack
-- "\"%ProgramFiles%/Git/bin/bash.exe\" -c \"make pull\""
+- "\"%ProgramFiles%/Git/bin/bash.exe\" -c \"make dev.clone\""
+# Stop here until we get provisioning to finish reliably
+#- "\"%ProgramFiles%/Git/bin/bash.exe\" -c \"make pull\""
 
 test_script:
-- "\"%ProgramFiles%/Git/bin/bash.exe\" -c \"make dev.provision\""
-- "\"%ProgramFiles%/Git/bin/bash.exe\" -c \"make dev.up\""
+- "\"%ProgramFiles%/Git/bin/bash.exe\" -c \"make help\""
+- "\"%ProgramFiles%/Git/bin/bash.exe\" -c \"make check-memory\""
+- "\"%ProgramFiles%/Git/bin/bash.exe\" -c \"make validate\""
+- "\"%ProgramFiles%/Git/bin/bash.exe\" -c \"make dev.status\""
+- "\"%ProgramFiles%/Git/bin/bash.exe\" -c \"make dev.checkout\""
+# Stop here until we get provisioning to finish reliably
+#- "\"%ProgramFiles%/Git/bin/bash.exe\" -c \"make dev.provision\""
+#- "\"%ProgramFiles%/Git/bin/bash.exe\" -c \"make dev.up\""
 # LMS needs like 60 seconds to come up
-- ps: Start-Sleep -s 60
-- "\"%ProgramFiles%/Git/bin/bash.exe\" -c \"make healthchecks\""
-- "\"%ProgramFiles%/Git/bin/bash.exe\" -c \"make validate-lms-volume\""
+#- ps: Start-Sleep -s 60
+#- "\"%ProgramFiles%/Git/bin/bash.exe\" -c \"make healthchecks\""
+#- "\"%ProgramFiles%/Git/bin/bash.exe\" -c \"make validate-lms-volume\""
