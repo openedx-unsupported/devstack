@@ -1,0 +1,69 @@
+# This file contains the additional insights service (analytics-dashboard)
+
+version: "2.1"
+
+services:
+  analyticsapi:
+    command: bash -c 'source /edx/app/analytics_api/analytics_api_env && while true; do python /edx/app/analytics_api/analytics_api/manage.py runserver 0.0.0.0:18180; sleep 2; done'
+    container_name: edx.devstack.analyticsapi
+    depends_on:
+      - mysql
+      - elasticsearch
+    environment:
+      ELASTICSEARCH_LEARNERS_HOST: 'http://edx.devstack.elasticsearch:9200/'
+      ELASTICSEARCH_LEARNERS_INDEX: 'learner'
+      ELASTICSEARCH_LEARNERS_UPDATE_INDEX: 'index_update'
+    build:
+      context: .
+      dockerfile: insights_images/analytics_api/Dockerfile
+      args:
+        OPENEDX_RELEASE: ${OPENEDX_RELEASE:-master}
+        ANALYTICS_API_LMS_BASE_URL: 'http://edx.devstack.lms:18000/'
+        ANALYTICS_API_DEFAULT_HOST: 'edx.devstack.mysql'
+        ANALYTICS_API_REPORTS_HOST: 'edx.devstack.mysql'
+    image: analytics_api:${OPENEDX_RELEASE:-latest}
+    ports:
+      - "18180:18180"
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/edx-analytics-data-api:/edx/app/analytics_api/analytics_api:cached
+      - analytics_api_node_modules:/edx/app/analytics_api/analytics_api/node_modules
+  insights:
+    command: bash -c 'source /edx/app/insights/insights_env && while true; do python /edx/app/insights/edx_analytics_dashboard/manage.py runserver 0.0.0.0:18110; sleep 2; done'
+    container_name: edx.devstack.insights
+    depends_on:
+      - mysql
+      - lms
+      - analyticsapi
+    # Allows attachment to the insights service using 'docker attach <containerID>'.
+    stdin_open: true
+    tty: true
+    environment:
+      ENABLE_DJANGO_TOOLBAR: 1
+      API_SERVER_URL: 'http://edx.devstack.analyticsapi:18180/api/v0'
+      API_AUTH_TOKEN: 'edx'
+      LMS_HOSTNAME: 'edx.devstack.lms'
+      ENABLE_ERROR_PAGE_TESTS: "False"
+      DISPLAY_LEARNER_ANALYTICS: "True"
+      ENABLE_COURSE_LIST_FILTERS: "True"
+      ENABLE_COURSE_LIST_PASSING: "True"
+    build:
+      context: .
+      dockerfile: insights_images/insights/Dockerfile
+      args:
+        OPENEDX_RELEASE: ${OPENEDX_RELEASE:-master}
+        ANALYTICS_API_ENDPOINT: 'http://edx.devstack.analyticsapi:18180/api/v0'
+        INSIGHTS_DATA_API_AUTH_TOKEN: 'dataapitoken'
+        INSIGHTS_DATABASE_HOST: 'edx.devstack.mysql'
+        INSIGHTS_LMS_BASE: 'http://edx.devstack.lms:18000'
+        INSIGHTS_CMS_BASE: 'http://edx.devstack.lms:18010'
+    image: insights:${OPENEDX_RELEASE:-latest}
+    ports:
+      - "18110:18110"
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/edx-analytics-dashboard:/edx/app/insights/edx_analytics_dashboard:cached
+      - edx_analytics_dashboard_node_modules:/edx/app/insights/edx_analytics_dashboard/node_modules
+
+volumes:
+  edx_analytics_dashboard_node_modules:
+  analytics_api_node_modules:
+

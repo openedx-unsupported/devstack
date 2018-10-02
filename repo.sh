@@ -33,6 +33,8 @@ repos=(
     "https://github.com/edx/edx-platform.git"
     "https://github.com/edx/xqueue.git"
     "https://github.com/edx/edx-analytics-pipeline.git"
+    "https://github.com/edx/edx-analytics-dashboard.git"
+    "https://github.com/edx/edx-analytics-data-api.git"
 )
 
 private_repos=(

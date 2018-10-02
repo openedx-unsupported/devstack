@@ -1,0 +1,28 @@
+---
+# We override this value as we change the following values
+# INSIGHTS_DATA_API_AUTH_TOKEN:
+# ANALYTICS_API_ENDPOINT:
+# so we need to redefine all dependent variables
+
+
+INSIGHTS_REPOS:
+  - PROTOCOL: "{{ COMMON_GIT_PROTOCOL }}"
+    DOMAIN: "{{ COMMON_GIT_MIRROR }}"
+    PATH: "{{ COMMON_GIT_PATH }}"
+    REPO: edx-analytics-dashboard.git
+    VERSION: "{{ (INSIGHTS_VERSION == \"master\") | ternary('','open-release/') }}{{ INSIGHTS_VERSION }}"
+    DESTINATION: "{{ insights_code_dir }}"
+    SSH_KEY: "{{ INSIGHTS_GIT_IDENTITY }}"
+
+insights_requirements:
+  - local.txt
+  - test.txt
+  - optional.txt
+  - production.txt
+
+
+insights_environment:
+  DJANGO_SETTINGS_MODULE: "{{ insights_django_settings }}"
+  ANALYTICS_DASHBOARD_CFG: "{{ COMMON_CFG_DIR  }}/{{ insights_service_name }}.yml"
+  PATH: "{{ insights_nodeenv_bin }}:{{ insights_venv_dir }}/bin:{{ ansible_env.PATH }}"
+  THEME_SCSS: '{{ INSIGHTS_THEME_SCSS }}'

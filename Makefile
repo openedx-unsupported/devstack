@@ -292,3 +292,23 @@ check-memory: ## Check if enough memory has been allocated to Docker
 
 stats: ## Get per-container CPU and memory utilization data
 	docker stats --format "table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}"
+
+## analytics dashboard commands
+
+dev.provision.insights: | check-memory dev.provision dev.provision.insights.run stop.insights stop ## Provision analyticstack dev environment with all services stopped
+
+dev.provision.insights.run:
+	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml -f docker-compose-insights.yml" ./provision-insights.sh
+
+insights-shell: ## Run a shell on the insights container
+	docker exec -it edx.devstack.insights env TERM=$(TERM) /edx/app/insights/devstack.sh open
+
+dev.up.insights: | check-memory ## Bring up insights services
+	docker-compose -f docker-compose.yml -f docker-compose-host.yml -f docker-compose-insights.yml  up -d analyticsapi insights
+
+pull.insights: ## Update insight docker images
+	docker-compose -f docker-compose.yml -f docker-compose-insights.yml pull --parallel
+
+stop.insights: ## Stop insights services
+	docker-compose -f docker-compose.yml -f docker-compose-insights.yml  stop
+
