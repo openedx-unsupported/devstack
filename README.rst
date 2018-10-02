@@ -346,6 +346,14 @@ available. This will NOT be useful to those outside of edX. For details on
 getting things up and running, see
 https://openedx.atlassian.net/wiki/display/OpenDev/Marketing+Site.
 
+How do I develop on an installed Python package?
+------------------------------------------------
+
+If you want to modify an installed package – for instance ``edx-enterprise`` or ``completion`` – clone the repository in
+``~/workspace/src/your-package``. Next, ssh into the appropriate docker container (``make lms-shell``),
+run ``pip install -e /edx/src/your-package``, and restart the service.
+
+
 How do I build images?
 ----------------------
 
