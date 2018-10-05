@@ -18,8 +18,9 @@ https://openedx.atlassian.net/projects/PLAT/issues
 FYI
 ---
 
-You should run any ``make`` targets described below on your local machine, *not*
-from within a VM.
+You should run all ``make`` commands described below on your local machine, *not*
+from within a VM (virtualenvs are ok, and in fact recommended) as these commands
+are for standing up a new docker based VM.
 
 Prerequisites
 -------------
@@ -96,7 +97,13 @@ a minimum of 2 CPUs and 6GB of memory works well.
    Be sure to share the cloned directories in the Docker -> Preferences... ->
    File Sharing box.
 
-3. Run the provision command, if you haven't already, to configure the various
+3. Pull any changes made to the various images on which the devstack depends.
+
+   .. code:: sh
+
+       make pull
+
+4. Run the provision command, if you haven't already, to configure the various
    services with superusers (for development without the auth service) and
    tenants (for multi-tenancy).
 
@@ -120,7 +127,7 @@ a minimum of 2 CPUs and 6GB of memory works well.
        make dev.sync.provision
 
 
-4. Start the services. This command will mount the repositories under the
+5. Start the services. This command will mount the repositories under the
    DEVSTACK\_WORKSPACE directory.
 
    **NOTE:** it may take up to 60 seconds for the LMS to start, even after the ``make dev.up`` command outputs ``done``.
