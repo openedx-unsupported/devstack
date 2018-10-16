@@ -9,6 +9,11 @@ project is meant to replace the traditional Vagrant-based devstack with a
 multi-container approach driven by `Docker Compose`_. It is still in the
 beta testing phase.
 
+Updated Documentation
+---------------------
+
+These docs might be out of date. Please see the updated docs at https://edx.readthedocs.io/projects/edx-installing-configuring-and-running/en/latest/installation/installation_prerequisites.html#software-prerequisites at https://edx.readthedocs.io/.
+
 Support
 -------
 
