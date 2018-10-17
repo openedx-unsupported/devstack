@@ -65,7 +65,7 @@ dev.provision.xqueue: | check-memory dev.provision.xqueue.run stop stop.xqueue
 dev.provision.xqueue.run:
 	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-xqueue.yml" $(WINPTY) bash ./provision-xqueue.sh
 
-dev.reset: | down dev.repo.reset pull dev.up static update-db ## Attempts to reset the local devstack to a the master working state
+dev.reset: | down dev.repo.reset pull dev.up static update-db ## Attempts to reset the local devstack to the master working state
 
 dev.status: ## Prints the status of all git repositories
 	$(WINPTY) bash ./repo.sh status
