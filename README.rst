@@ -12,7 +12,7 @@ beta testing phase.
 Updated Documentation
 ---------------------
 
-These docs might be out of date. Please see the updated docs at https://edx.readthedocs.io/projects/edx-installing-configuring-and-running/en/latest/installation/installation_prerequisites.html#software-prerequisites at https://edx.readthedocs.io/.
+These docs might be out of date. Please see the updated docs at https://edx.readthedocs.io/projects/edx-installing-configuring-and-running/en/latest/installation/index.html.
 
 Support
 -------
