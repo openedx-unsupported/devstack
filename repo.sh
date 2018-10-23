@@ -87,10 +87,16 @@ _clone ()
         # If a directory exists and it is nonempty, assume the repo has been checked out
         # and only make sure it's on the required branch
         if [ -d "$name" -a -n "$(ls -A "$name" 2>/dev/null)" ]; then
-            printf "The [%s] repo is already checked out.\n" $name
+            printf "The [%s] repo is already checked out. Checking for updates.\n" $name
             cd ${DEVSTACK_WORKSPACE}/${name}
-            git fetch origin ${OPENEDX_GIT_BRANCH}
-            git checkout ${OPENEDX_GIT_BRANCH}
+            GIT_SYMBOLIC_REF="$(git symbolic-ref HEAD 2>/dev/null)"
+            BRANCH_NAME=${GIT_SYMBOLIC_REF##refs/heads/}
+            if [ "${BRANCH_NAME}" == "${OPENEDX_GIT_BRANCH}" ]; then
+                git pull
+            else
+                git fetch origin ${OPENEDX_GIT_BRANCH}:${OPENEDX_GIT_BRANCH}
+                git checkout ${OPENEDX_GIT_BRANCH}
+            fi
             cd ..
         else
             if [ "${SHALLOW_CLONE}" == "1" ]; then
