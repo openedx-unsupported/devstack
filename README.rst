@@ -688,9 +688,9 @@ you can connect to the container running it via VNC.
 | Chrome (via Selenium)  | vnc://0.0.0.0:15900  |
 +------------------------+----------------------+
 
-On macOS, enter the VNC connection string in Safari to connect via VNC. The VNC
-passwords for both browsers are randomly generated and logged at container
-startup, and can be found by running ``make vnc-passwords``.
+On macOS, enter the VNC connection string in the address bar in Safari to
+connect via VNC. The VNC passwords for both browsers are randomly generated and
+logged at container startup, and can be found by running ``make vnc-passwords``.
 
 Most tests are run in Firefox by default.  To use Chrome for tests that normally
 use Firefox instead, prefix the test command with
