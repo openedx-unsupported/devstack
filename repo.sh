@@ -90,7 +90,9 @@ _clone ()
                 git clone -c core.symlinks=true $repo
             fi
             if [ -n "${OPENEDX_RELEASE}" ]; then
+                cd $name
                 git checkout open-release/${OPENEDX_RELEASE}
+                cd ..
             fi
         fi
     done
