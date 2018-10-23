@@ -72,7 +72,11 @@ _clone ()
 {
     # for repo in ${repos[*]}
     repos_to_clone=("$@")
-
+    if [ -n "${OPENEDX_RELEASE}" ]; then
+        OPENEDX_GIT_BRANCH=open-release/${OPENEDX_RELEASE}
+    else
+        OPENEDX_GIT_BRANCH=master
+    fi
     for repo in "${repos_to_clone[@]}"
     do
         # Use Bash's regex match operator to capture the name of the repo.
@@ -80,17 +84,19 @@ _clone ()
         [[ $repo =~ $name_pattern ]]
         name="${BASH_REMATCH[1]}"
 
-        # If a directory exists and it is nonempty, assume the repo has been checked out.
+        # If a directory exists and it is nonempty, assume the repo has been checked out
+        # and only make sure it's on the required branch
         if [ -d "$name" -a -n "$(ls -A "$name" 2>/dev/null)" ]; then
-            printf "The [%s] repo is already checked out. Continuing.\n" $name
+            printf "The [%s] repo is already checked out.\n" $name
+            cd ${DEVSTACK_WORKSPACE}/${name}
+            git fetch origin ${OPENEDX_GIT_BRANCH}
+            git checkout ${OPENEDX_GIT_BRANCH}
+            cd ..
         else
             if [ "${SHALLOW_CLONE}" == "1" ]; then
-                git clone -c core.symlinks=true --depth=1 $repo
+                git clone --single-branch -b ${OPENEDX_GIT_BRANCH} -c core.symlinks=true --depth=1 ${repo}
             else
-                git clone -c core.symlinks=true $repo
-            fi
-            if [ -n "${OPENEDX_RELEASE}" ]; then
-                git checkout open-release/${OPENEDX_RELEASE}
+                git clone --single-branch -b ${OPENEDX_GIT_BRANCH} -c core.symlinks=true ${repo}
             fi
         fi
     done
