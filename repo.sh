@@ -57,14 +57,7 @@ _checkout ()
         if [ -d "$name" -a -n "$(ls -A "$name" 2>/dev/null)" ]; then
             echo "Checking out branch ${OPENEDX_GIT_BRANCH} of $name"
             cd $name
-            GIT_SYMBOLIC_REF="$(git symbolic-ref HEAD 2>/dev/null)"
-            BRANCH_NAME=${GIT_SYMBOLIC_REF##refs/heads/}
-            if [ "${BRANCH_NAME}" == "${OPENEDX_GIT_BRANCH}" ]; then
-                git pull origin ${OPENEDX_GIT_BRANCH}
-            else
-                git fetch origin ${OPENEDX_GIT_BRANCH}:${OPENEDX_GIT_BRANCH}
-                git checkout ${OPENEDX_GIT_BRANCH}
-            fi
+            _checkout_and_update_branch
             cd ..
         fi
     done
@@ -91,14 +84,7 @@ _clone ()
         if [ -d "$name" -a -n "$(ls -A "$name" 2>/dev/null)" ]; then
             printf "The [%s] repo is already checked out. Checking for updates.\n" $name
             cd ${DEVSTACK_WORKSPACE}/${name}
-            GIT_SYMBOLIC_REF="$(git symbolic-ref HEAD 2>/dev/null)"
-            BRANCH_NAME=${GIT_SYMBOLIC_REF##refs/heads/}
-            if [ "${BRANCH_NAME}" == "${OPENEDX_GIT_BRANCH}" ]; then
-                git pull origin ${OPENEDX_GIT_BRANCH}
-            else
-                git fetch origin ${OPENEDX_GIT_BRANCH}:${OPENEDX_GIT_BRANCH}
-                git checkout ${OPENEDX_GIT_BRANCH}
-            fi
+            _checkout_and_update_branch
             cd ..
         else
             if [ "${SHALLOW_CLONE}" == "1" ]; then
@@ -109,6 +95,18 @@ _clone ()
         fi
     done
     cd - &> /dev/null
+}
+
+_checkout_and_update_branch ()
+{
+    GIT_SYMBOLIC_REF="$(git symbolic-ref HEAD 2>/dev/null)"
+    BRANCH_NAME=${GIT_SYMBOLIC_REF##refs/heads/}
+    if [ "${BRANCH_NAME}" == "${OPENEDX_GIT_BRANCH}" ]; then
+        git pull origin ${OPENEDX_GIT_BRANCH}
+    else
+        git fetch origin ${OPENEDX_GIT_BRANCH}:${OPENEDX_GIT_BRANCH}
+        git checkout ${OPENEDX_GIT_BRANCH}
+    fi
 }
 
 clone ()
