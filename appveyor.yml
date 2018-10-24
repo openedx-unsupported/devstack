@@ -20,7 +20,9 @@ build_script:
 #
 # Switching Docker to Linux for the first time takes around a minute. This is
 # the time required to start the "MobyLinuxVM" VM:
-- docker-switch-linux
+# This won't work until we switch back to a paid AppVeyor plan after resolving
+# https://openedx.atlassian.net/browse/TE-2761
+#- docker-switch-linux
 - md X:\devstack
 - "\"%ProgramFiles%/Git/bin/bash.exe\" -c \"make dev.clone\""
 # Stop here until we get provisioning to finish reliably
