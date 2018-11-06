@@ -30,7 +30,7 @@ repos=(
     "https://github.com/edx/ecommerce.git"
     "https://github.com/edx/edx-e2e-tests.git"
     "https://github.com/edx/edx-notes-api.git"
-    "https://github.com/edx/edx-platform.git"
+    "https://github.com/appsembler/edx-platform.git"
     "https://github.com/edx/xqueue.git"
     "https://github.com/edx/edx-analytics-pipeline.git"
 )
@@ -40,7 +40,7 @@ private_repos=(
     "https://github.com/edx/edx-themes.git"
 )
 
-name_pattern=".*edx/(.*).git"
+name_pattern=".*(edx|appsembler)/(.*).git"
 
 _checkout ()
 {
@@ -51,7 +51,7 @@ _checkout ()
         # Use Bash's regex match operator to capture the name of the repo.
         # Results of the match are saved to an array called $BASH_REMATCH.
         [[ $repo =~ $name_pattern ]]
-        name="${BASH_REMATCH[1]}"
+        name="${BASH_REMATCH[2]}"
 
         # If a directory exists and it is nonempty, assume the repo has been cloned.
         if [ -d "$name" -a -n "$(ls -A "$name" 2>/dev/null)" ]; then
@@ -77,7 +77,7 @@ _clone ()
         # Use Bash's regex match operator to capture the name of the repo.
         # Results of the match are saved to an array called $BASH_REMATCH.
         [[ $repo =~ $name_pattern ]]
-        name="${BASH_REMATCH[1]}"
+        name="${BASH_REMATCH[2]}"
 
         # If a directory exists and it is nonempty, assume the repo has been checked out
         # and only make sure it's on the required branch
@@ -125,7 +125,7 @@ reset ()
     for repo in ${repos[*]}
     do
         [[ $repo =~ $name_pattern ]]
-        name="${BASH_REMATCH[1]}"
+        name="${BASH_REMATCH[2]}"
 
         if [ -d "$name" ]; then
             cd $name;git reset --hard HEAD;git checkout master;git reset --hard origin/master;git pull;cd "$currDir"
@@ -142,7 +142,7 @@ status ()
     for repo in ${repos[*]}
     do
         [[ $repo =~ $name_pattern ]]
-        name="${BASH_REMATCH[1]}"
+        name="${BASH_REMATCH[2]}"
 
         if [ -d "$name" ]; then
             printf "\nGit status for [%s]:\n" $name
