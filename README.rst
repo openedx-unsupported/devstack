@@ -464,6 +464,21 @@ of the migrations included in the database dump used by provisioning.  In these
 cases, it's usually best to first rebase the branch onto master to
 get the missing migrations.
 
+How do I access a database shell?
+---------------------------------
+
+To access a MySQL or Mongo shell, run the following commands, respectively:
+
+.. code:: sh
+
+   make mysql-shell
+   mysql
+
+.. code:: sh
+    
+   make mongo-shell
+   mongo
+
 How do I make migrations?
 -------------------------
 
