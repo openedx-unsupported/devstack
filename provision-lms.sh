@@ -15,6 +15,9 @@ done
 
 docker-compose exec lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && NO_PYTHON_UNINSTALL=1 paver install_prereqs'
 
+#Installing Appsembler specific requirements
+docker-compose exec lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && NO_PYTHON_UNINSTALL=1 pip install --disable-pip-version-check --exists-action w -r requirements/edx/appsembler.txt'
+
 #Installing prereqs crashes the process
 docker-compose restart lms
 
