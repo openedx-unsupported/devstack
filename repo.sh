@@ -107,6 +107,7 @@ _checkout_and_update_branch ()
         git fetch origin ${OPENEDX_GIT_BRANCH}:${OPENEDX_GIT_BRANCH}
         git checkout ${OPENEDX_GIT_BRANCH}
     fi
+    find . -name '*.pyc' -not -path './.git/*' -delete 
 }
 
 clone ()
