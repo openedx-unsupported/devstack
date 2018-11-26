@@ -17,11 +17,7 @@ else
     exit 1
 fi
 
-if [ -n "${OPENEDX_RELEASE}" ]; then
-    OPENEDX_GIT_BRANCH=open-release/${OPENEDX_RELEASE}
-else
-    OPENEDX_GIT_BRANCH=master
-fi
+OPENEDX_GIT_BRANCH=open-release/hawthorn.master
 
 APPSEMBLER_EDX_PLATFORM_BRANCH="appsembler/tahoe/master"
 
