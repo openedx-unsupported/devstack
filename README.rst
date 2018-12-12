@@ -1,6 +1,63 @@
 Open edX Devstack |Build Status|
 ================================
 
+Tahoe Devstack Docs
+===================
+To run a Tahoe devstack, follow the same instructions in the "Prerequisites" section,
+but use ``$ make tahoe.up`` instead of ``$ make dev.up`` to use the Tahoe specific
+features and environment settings.
+
+Environment Files
+-----------------
+The environment files are now stored in the ``src/edxapp-envs`` directory near the ``edx-platform``
+so it can be edited using layman editors such as PyCharm and VSCode.
+
+Why? By default to edit the ``lms.env.json`` file and other JSON files,
+one need to SSH into the container and edit the file. Anyway, changes don't really persist after restarting the
+devstack.
+
+``$ tahoe.up`` command brings those files outside the container.
+
+Theme
+-----
+Tahoe themes are copied and available in the directory ``src/themes/edx-codebase-theme`` near the ``edx-platform``.
+
+How to Solve a Devstack Problem
+-------------------------------
+If something goes wrong, you can use ``$ make tahoe.reset.light`` to do a lightweight reset for the environment
+files and the theme. This will remove all of the local changes in the theme, so push to GitHub first.
+
+If it's not fixed, use ``$ make tahoe.reset.full`` for a full reset
+including removing all of the local changes that are not being pushed to GitHub.
+
+Other Tahoe Make Commands
+-------------------------
+There's a couple of other shortcuts specific for Tahoe, run ``$ make help | grep tahoe`` for a full list or checkout
+the ``tahoe.mk`` file to see the source code. Currently the commands like like this:
+
+
+.. code::
+
+    $ make help | grep tahoe
+      tahoe.chown               Fix an annoying docker permission issue in both `edx-platform` and `src`
+      tahoe.clone-theme         Clone the theme with Tahoe versions
+      tahoe.exec.edxapp         Execute a command in both LMS and Studio (edxapp containers)
+      tahoe.exec.single         Execute a command inside a devstack docker container
+      tahoe.init                Make the devstack more Tahoe'ish
+      tahoe.init.provision-script Execute the `provision-tahoe.py` script in both of LMS and Studio
+      tahoe.install-pip.edxapp  Install a pip package in both of LMS and Studio
+      tahoe.reset.light         Resets the Tahoe settings including a fresh theme copy and new environment files
+      tahoe.restart             Restarts both of LMS and Studio python processes while keeping the same container
+      tahoe.up                  Run the devstack with proper Tahoe settings, use instead of `$ make dev.up`
+
+
+Enterprise Devstack Docs
+========================
+TBD
+
+Open edX Docs
+=============
+
 Get up and running quickly with Open edX services.
 
 If you are seeking info on the Vagrant-based devstack, please see
