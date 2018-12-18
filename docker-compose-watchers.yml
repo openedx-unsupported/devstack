@@ -11,6 +11,7 @@ services:
     volumes:
       - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform:cached
       - edxapp_lms_assets:/edx/var/edxapp/staticfiles/
+      - edxapp_node_modules:/edx/app/edxapp/edx-platform/node_modules
       - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
 
   studio_watcher:
@@ -23,8 +24,10 @@ services:
     volumes:
       - edxapp_studio_assets:/edx/var/edxapp/staticfiles/
       - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform:cached
+      - edxapp_node_modules:/edx/app/edxapp/edx-platform/node_modules
       - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
 
 volumes:
   edxapp_lms_assets:
   edxapp_studio_assets:
+  edxapp_node_modules:
