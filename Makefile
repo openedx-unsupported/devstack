@@ -74,7 +74,7 @@ dev.repo.reset: ## Attempts to reset the local repo checkouts to the master work
 	$(WINPTY) bash ./repo.sh reset
 
 dev.up: | check-memory ## Bring up all services with host volumes
-	bash -c 'docker-compose -f docker-compose.yml -f docker-compose-host.yml up -d'
+	bash -c 'docker-compose -f docker-compose.yml -f docker-compose-host.yml -f docker-compose-themes.yml up -d'
 	@# Comment out this next line if you want to save some time and don't care about catalog programs
 	$(WINPTY) bash ./programs/provision.sh cache $(DEVNULL)
 
