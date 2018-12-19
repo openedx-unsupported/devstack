@@ -40,14 +40,16 @@ the ``tahoe.mk`` file to see the source code. Currently the commands like like t
 
     $ make help | grep tahoe
       tahoe.chown               Fix an annoying docker permission issue in both `edx-platform` and `src`
-      tahoe.clone-theme         Clone the theme with Tahoe versions
       tahoe.exec.edxapp         Execute a command in both LMS and Studio (edxapp containers)
       tahoe.exec.single         Execute a command inside a devstack docker container
       tahoe.init                Make the devstack more Tahoe'ish
       tahoe.init.provision-script Execute the `provision-tahoe.py` script in both of LMS and Studio
       tahoe.install-pip.edxapp  Install a pip package in both of LMS and Studio
-      tahoe.reset.light         Resets the Tahoe settings including a fresh theme copy and new environment files
+      tahoe.reset.full          Does a full reset for everything known to devstack. Will loose all git and database changes.
+      tahoe.reset.light         Resets the Tahoe settings including a fresh theme copy and new environment files.
       tahoe.restart             Restarts both of LMS and Studio python processes while keeping the same container
+      tahoe.theme.clone         Clone the theme with Tahoe branches
+      tahoe.theme.compile       Compile the static assets of the theme
       tahoe.up                  Run the devstack with proper Tahoe settings, use instead of `$ make dev.up`
 
 
