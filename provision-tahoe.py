@@ -39,6 +39,17 @@ def update_lms_env_with_tahoe_prefs():
             'ENABLE_COMPREHENSIVE_THEMING': True,
         })
 
+        lms_env['REGISTRATION_EXTRA_FIELDS'] = {
+            'city': 'hidden',
+            'country': 'hidden',
+            'gender': 'optional',
+            'goals': 'optional',
+            'honor_code': 'required',
+            'level_of_education': 'optional',
+            'mailing_address': 'optional',
+            'year_of_birth': 'optional',
+        }
+
         # Disable by default. Can be enabled from within the lms.env.json file
         lms_env['FEATURES'].update({
             'ENABLE_TIERS_APP': False,  # TODO: Fix the tiers app in devstack
