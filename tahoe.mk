@@ -14,9 +14,12 @@ tahoe.install-pip.edxapp:  ## Install a pip package in both of LMS and Studio
 	make COMMAND='pip install $(PACKAGE)' SERVICE=lms tahoe.exec.single
 	make COMMAND='pip install $(PACKAGE)' SERVICE=studio tahoe.exec.single
 
+tahoe.chown.dir:  # Fix permissions for a single directory
+	find $(DIRECTORY) \! -user $(USER) -print -exec sudo chown -R $(USER) {} \;
+
 tahoe.chown:  ## Fix an annoying docker permission issue in both `edx-platform` and `src`
-	sudo chown -R $(USER):$(USER) $(DEVSTACK_WORKSPACE)/edx-platform/
-	sudo chown -R $(USER):$(USER) $(DEVSTACK_WORKSPACE)/src/
+	make DIRECTORY='$(DEVSTACK_WORKSPACE)/edx-platform/' tahoe.chown.dir
+	make DIRECTORY='$(DEVSTACK_WORKSPACE)/src/' tahoe.chown.dir
 
 tahoe.theme.compile:  ## Compile the static assets of the theme
 	make COMMAND='make requirements' tahoe.exec.edxapp
