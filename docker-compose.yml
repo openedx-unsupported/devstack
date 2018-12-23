@@ -209,6 +209,20 @@ services:
     ports:
       - "44567:4567"
 
+  postgres:
+    image: postgres:9.4
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  redis:
+    image: redis:3.0
+    ports:
+      - 6379:6379
+    volumes:
+      - redis_data:/data
+
   devpi:
     container_name: edx.devstack.devpi
     image: edxops/devpi:${OPENEDX_RELEASE:-latest}
@@ -222,6 +236,8 @@ volumes:
   edxapp_lms_assets:
   edxapp_studio_assets:
   elasticsearch_data:
+  postgres_data:
+  redis_data:
   mongo_data:
   mysql_data:
   devpi_data:
