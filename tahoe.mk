@@ -67,7 +67,7 @@ tahoe.up:  ## Run the devstack with proper Tahoe settings, use instead of `$ mak
 	make dev.up
 	@sleep 1
 	make tahoe.init
-	test -d $(CUSTOMER_THEME_DIR) || (make tahoe.theme.reset && tahoe.theme.compile)
+	test -d $(CUSTOMER_THEME_DIR) || (make tahoe.theme.reset && make tahoe.theme.compile)
 	test -d $(AMC_DIR) || make amc.reset
 	test -f $(AMC_DIR)/amc/.env || make amc.env-file
 	make tahoe.chown
