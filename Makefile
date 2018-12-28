@@ -60,7 +60,7 @@ dev.provision.run: ## Provision all services with local mounted directories
 
 dev.provision: | check-memory dev.clone dev.provision.run stop ## Provision dev environment with all services stopped
 
-dev.provision.xqueue: | check-memory dev.provision.xqueue.run stop stop.xqueue
+dev.provision.xqueue: | check-memory dev.provision.xqueue.run stop stop.xqueue  # Provision XQueue; run after other services are provisioned
 
 dev.provision.xqueue.run:
 	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-xqueue.yml" $(WINPTY) bash ./provision-xqueue.sh
@@ -109,7 +109,7 @@ stop.watchers: ## Stop asset watchers
 
 stop.all: | stop.analytics_pipeline stop stop.watchers ## Stop all containers, including asset watchers
 
-stop.xqueue:
+stop.xqueue: ## Stop the XQueue service container
 	docker-compose -f docker-compose-xqueue.yml stop
 
 down: ## Remove all service containers and networks
@@ -155,7 +155,7 @@ restore:  ## Restore all data volumes from the host. WARNING: THIS WILL OVERWRIT
 %-shell: ## Run a shell on the specified service container
 	docker exec -it edx.devstack.$* /bin/bash
 
-credentials-shell:
+credentials-shell: ## Run a shell on the credentials container
 	docker exec -it edx.devstack.credentials env TERM=$(TERM) bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials && /bin/bash'
 
 discovery-shell: ## Run a shell on the discovery container

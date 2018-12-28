@@ -73,6 +73,7 @@ def process_compose_file(filename, output_dir):
     for service_name in services:
         service = services[service_name]
         image = service['image']
+        image = re.sub(r'\$.*', 'latest', image)
         container_name = service['container_name']
         # Don't save the same image twice, like edxapp for lms and studio
         if image not in saved_images:
