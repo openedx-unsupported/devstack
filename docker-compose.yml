@@ -231,6 +231,16 @@ services:
     volumes:
       - devpi_data:/data
 
+  gradebook:
+    command: bash -c 'npm install && npm run start'
+    working_dir: '/edx/app/gradebook'
+    container_name: edx.devstack.gradebook
+    image: node:10
+    ports:
+      - "1994:1994"
+    environment:
+      - NODE_ENV=development
+      
 volumes:
   discovery_assets:
   edxapp_lms_assets:
