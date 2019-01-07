@@ -33,9 +33,14 @@ services:
   forum:
     volumes:
       - ${DEVSTACK_WORKSPACE}/cs_comments_service:/edx/app/forum/cs_comments_service:cached
+  gradebook:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/gradebook:/edx/app/gradebook:cached
+      - gradebook_node_modules:/edx/app/gradebook/node_modules
       
 volumes:
   credentials_node_modules:
   discovery_node_modules:
   ecommerce_node_modules:
   edxapp_node_modules:
+  gradebook_node_modules:
