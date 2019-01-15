@@ -107,7 +107,6 @@ amc.reset:  ## Removes and re-initialize AMC
 	cd $(AMC_DIR)/amc/ && virtualenv -p python3 env
 	cd $(AMC_DIR)/amc/ && . env/bin/activate && pip install --upgrade pip
 	cd $(AMC_DIR)/amc/ && . env/bin/activate && pip install -r ../requirements/local.txt
-	cd $(AMC_DIR)/amc/ && . env/bin/activate && pip install mysql-python
 
 	cd $(AMC_DIR)/frontend/ && npm install || true
 
