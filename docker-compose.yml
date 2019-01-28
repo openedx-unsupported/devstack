@@ -211,6 +211,7 @@ services:
 
   postgres:
     image: postgres:9.4
+    container_name: tahoe.devstack.postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
@@ -218,6 +219,7 @@ services:
 
   redis:
     image: redis:3.0
+    container_name: tahoe.devstack.redis
     ports:
       - 6379:6379
     volumes:
