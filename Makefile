@@ -158,11 +158,17 @@ restore:  ## Restore all data volumes from the host. WARNING: THIS WILL OVERWRIT
 credentials-shell: ## Run a shell on the credentials container
 	docker exec -it edx.devstack.credentials env TERM=$(TERM) bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials && /bin/bash'
 
+credentials-restart: ## Kill the credentials development server. The watcher process will restart it.
+	docker exec -t edx.devstack.credentials bash -c 'kill $$(ps aux | grep "manage.py runserver" | grep "venvs" | egrep -v "while|grep" | awk "{print \$$2}")'
+
 discovery-shell: ## Run a shell on the discovery container
 	docker exec -it edx.devstack.discovery env TERM=$(TERM) /edx/app/discovery/devstack.sh open
 
 ecommerce-shell: ## Run a shell on the ecommerce container
 	docker exec -it edx.devstack.ecommerce env TERM=$(TERM) /edx/app/ecommerce/devstack.sh open
+
+ecommerce-restart: ## Kill the ecommerce development server. The watcher process will restart it.
+	docker exec -t edx.devstack.ecommerce bash -c 'kill $$(ps aux | grep "manage.py runserver" | grep "venvs" | egrep -v "while|grep" | awk "{print \$$2}")'
 
 e2e-shell: ## Start the end-to-end tests container with a shell
 	docker run -it --network=devstack_default -v ${DEVSTACK_WORKSPACE}/edx-e2e-tests:/edx-e2e-tests -v ${DEVSTACK_WORKSPACE}/edx-platform:/edx-e2e-tests/lib/edx-platform --env-file ${DEVSTACK_WORKSPACE}/edx-e2e-tests/devstack_env edxops/e2e env TERM=$(TERM) bash
