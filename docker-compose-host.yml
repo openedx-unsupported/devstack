@@ -37,6 +37,10 @@ services:
     volumes:
       - ${DEVSTACK_WORKSPACE}/gradebook:/edx/app/gradebook:cached
       - gradebook_node_modules:/edx/app/gradebook/node_modules
+  registrar:
+      volumes:
+      - ${DEVSTACK_WORKSPACE}/registrar:/edx/app/registrar/registrar:cached
+      - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
       
 volumes:
   credentials_node_modules:

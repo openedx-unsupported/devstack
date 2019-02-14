@@ -208,6 +208,9 @@ xqueue-restart: ## Kill the XQueue development server. The watcher process will 
 xqueue_consumer-shell: ## Run a shell on the XQueue consumer container
 	docker exec -it edx.devstack.xqueue_consumer env TERM=$(TERM) /edx/app/xqueue/devstack.sh open
 
+registrar-shell:
+	docker exec -it edx.devstack.registrar env TERM=$(TERM) /edx/app/registrar/devstack.sh open
+
 xqueue_consumer-restart: ## Kill the XQueue development server. The watcher process will restart it.
 	docker exec -t edx.devstack.xqueue_consumer bash -c 'kill $$(ps aux | grep "manage.py run_consumer" | egrep -v "while|grep" | awk "{print \$$2}")'
 

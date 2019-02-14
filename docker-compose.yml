@@ -240,6 +240,20 @@ services:
       - "1994:1994"
     environment:
       - NODE_ENV=development
+
+  registrar:
+    command: bash -c 'source /edx/app/registrar/registrar_env && while true; do python /edx/app/registrar/registrar/manage.py runserver 0.0.0.0:18734; sleep 2; done'
+    container_name: edx.devstack.registrar
+    hostname: registrar.devstack.edx
+    depends_on:
+      - mysql
+      - memcached
+    # Allows attachment to the registrar service using 'docker attach <containerID>'.
+    stdin_open: true
+    tty: true
+    image: kdmccormick96/registrar
+    ports:
+      - "18734:18734"
       
 volumes:
   discovery_assets:
