@@ -1,0 +1,10 @@
+version: "2.1"
+
+services:
+  marketing:
+    volumes:
+      - registrar-sync
+
+volumes:
+  registrar-sync:
+    external: true

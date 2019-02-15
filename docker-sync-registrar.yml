@@ -1,0 +1,35 @@
+version: "2"
+
+options:
+  compose-file-path:
+    - 'docker-compose.yml'
+    - 'docker-compose-registrar.yml'
+  compose-dev-file-path:
+    - 'docker-compose-sync.yml'
+    - 'docker-compose-registrar-sync.yml'
+
+syncs:
+  credentials-sync:
+    host_disk_mount_mode: 'cached'
+    src: '../credentials/'
+    sync_excludes: [ '.git', '.idea', 'node_modules', 'credentials/assets', 'credentials/static/bundles', 'webpack-stats.json' ]
+
+  discovery-sync:
+    host_disk_mount_mode: 'cached'
+    src: '../course-discovery/'
+    sync_excludes: [ '.git', '.idea', 'node_modules', 'course_discovery/assets', 'course_discovery/static/bower_components', 'course_discovery/static/build' ]
+
+  ecommerce-sync:
+    host_disk_mount_mode: 'cached'
+    src: '../ecommerce/'
+    sync_excludes: [ '.git', '.idea', 'node_modules', 'assets', 'ecommerce/static/bower_components', 'ecommerce/static/build' ]
+
+  edxapp-sync:
+    host_disk_mount_mode: 'cached'
+    src: '../edx-platform/'
+    sync_excludes: [ '.git', '.idea', 'node_modules', '.prereqs_cache' ]
+
+  regsistrar-sync:
+    host_disk_mount_mode: 'cached'
+    src: '../registrar/'
+    sync_excludes: [ '.git', '.idea' Z]
