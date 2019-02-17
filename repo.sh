@@ -158,7 +158,7 @@ reset ()
             if [ "$name" == "edx-platform" ]; then
                 cd $name;git reset --hard HEAD;git checkout ${APPSEMBLER_EDX_PLATFORM_BRANCH};git reset --hard origin/${APPSEMBLER_EDX_PLATFORM_BRANCH};git pull;cd "$currDir"                
             else
-                cd $name;git reset --hard HEAD;git checkout master;git reset --hard origin/master;git pull;cd "$currDir"
+                cd $name;git reset --hard HEAD;git checkout open-release/hawthorn.master;git reset --hard origin/open-release/hawthorn.master;git pull;cd "$currDir"
             fi
         else
             printf "The [%s] repo is not cloned. Continuing.\n" $name
