@@ -58,8 +58,6 @@ tahoe.init.provision-script:  ## Execute the `provision-tahoe.py` script in both
 
 tahoe.init:  ## Make the devstack more Tahoe'ish
 	make tahoe.init.provision-script
-	# TODO: Install within the Tahoe Open edX images
-	make PACKAGE='git+https://github.com/appsembler/edx-organizations.git@0.4.10-appsembler3' tahoe.install-pip.edxapp
 	make tahoe.restart || true
 
 tahoe.up:  ## Run the devstack with proper Tahoe settings, use instead of `$ make dev.up`
