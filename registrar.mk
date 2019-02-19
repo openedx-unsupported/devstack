@@ -29,10 +29,15 @@ up-registrar-sync:  ## Bring up all services (including the registrar site) with
 clean-registrar-sync:   ## Remove the docker-sync containers for all services (including the registrar site)
 	docker-sync-stack clean -c docker-sync-registrar.yml
 
-registrar-setup: registrar-requirements registrar-update-db registrar-create-superuser registrar-provision-ida-user registrar-static  ## Set up Registrar development environment
+registrar-setup: registrar-requirements registrar-create-db registrar-update-db registrar-create-superuser registrar-provision-ida-user registrar-static  ## Set up Registrar development environment
 
 registrar-requirements:  ## Install requirements for registrar service
 	docker exec -it edx.devstack.registrar env TERM=$(TERM) bash -c 'cd /edx/app/registrar/registrar && make requirements && make production-requirements'
+
+registrar-create-db:  ## Ensure that the Registrar database is created
+	docker exec -i edx.devstack.mysql mysql -uroot mysql < provision.sql
+	@# We just re-run provision.sql. This only has an effect on devstacks
+	@# that were provisioned before Registrar was introduced
 
 registrar-update-db: ## Run migrations for Registrar database
 	docker exec -t edx.devstack.registrar bash -c 'source /edx/app/registrar/registrar_env && cd /edx/app/registrar/registrar && make migrate'
