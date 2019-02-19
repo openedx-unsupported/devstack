@@ -13,12 +13,13 @@ services:
     tty: true
     environment:
       DB_HOST: edx.devstack.mysql
-      DB_NAME: edxmktg
+      DB_NAME: registrar
+      DB_PORT: 3306
+      DB_USER: registrar001
       DB_PASSWORD: password
-      DB_USER: edxmktg001
       LMS_HOST: http://localhost:18000
       MEMCACHE_HOST: edx.devstack.memcached
-    image: kdmccormick96/registrar:latest
+    image: edxops/registrar:${OPENEDX_RELEASE:-latest}
     ports:
       - "18734:18734"
     volumes:
