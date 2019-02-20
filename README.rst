@@ -1070,8 +1070,8 @@ GitHub issue which explains the `current status of implementing delegated consis
 .. _devpi documentation: docs/devpi.rst
 .. _edx-platform testing documentation: https://github.com/edx/edx-platform/blob/master/docs/testing.rst#running-python-unit-tests
 .. _docker-sync: #improve-mac-osx-performance-with-docker-sync
-.. |Build Status| image:: https://travis-ci.org/edx/devstack.svg?branch=master
-    :target: https://travis-ci.org/edx/devstack
+.. |Build Status| image:: https://travis-ci.org/appsembler/devstack.svg?branch=master
+    :target: https://travis-ci.org/appsembler/devstack
     :alt: Travis
 .. _Docker CI Jenkins Jobs: https://tools-edx-jenkins.edx.org/job/DockerCI
 .. _How do I build images?: https://github.com/edx/devstack/tree/master#how-do-i-build-images
