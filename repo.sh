@@ -18,15 +18,15 @@ else
 fi
 
 repos=(
-    "https://github.com/edx/course-discovery.git"
-    "https://github.com/edx/credentials.git"
-    "https://github.com/edx/cs_comments_service.git"
-    "https://github.com/edx/ecommerce.git"
-    "https://github.com/edx/edx-e2e-tests.git"
-    "https://github.com/edx/edx-notes-api.git"
-    "https://github.com/edx/edx-platform.git"
-    "https://github.com/edx/xqueue.git"
-    "https://github.com/edx/edx-analytics-pipeline.git"
+    "https://github.com/Edraak/course-discovery.git"
+    "https://github.com/Edraak/credentials.git"
+    "https://github.com/Edraak/cs_comments_service.git"
+    "https://github.com/Edraak/ecommerce.git"
+    "https://github.com/Edraak/edx-e2e-tests.git"
+    "https://github.com/Edraak/edx-notes-api.git"
+    "https://github.com/Edraak/edx-platform.git"
+    "https://github.com/Edraak/xqueue.git"
+    "https://github.com/Edraak/edx-analytics-pipeline.git"
 )
 
 private_repos=(
@@ -34,7 +34,7 @@ private_repos=(
     "https://github.com/edx/edx-themes.git"
 )
 
-name_pattern=".*edx/(.*).git"
+name_pattern=".*Edraak/(.*).git"
 
 _checkout ()
 {
@@ -45,6 +45,9 @@ _checkout ()
     else
         branch="open-release/${OPENEDX_RELEASE}"
     fi
+
+    branch="master"  # Edraak: Use master, because it's pinned to Hawthorn.
+
     for repo in "${repos_to_checkout[@]}"
     do
         # Use Bash's regex match operator to capture the name of the repo.

@@ -60,6 +60,15 @@ dev.repo.reset: ## Attempts to reset the local repo checkouts to the master work
 
 dev.up: | check-memory ## Bring up all services with host volumes
 	docker-compose -f docker-compose.yml -f docker-compose-host.yml up -d
+
+	# Start: Edraak hacks
+	# TODO: Add this to `base.in` (thus `development.txt`) and rebuild the docker image
+	docker exec -it edx.devstack.lms bash -c 'source /edx/app/edxapp/edxapp_env && pip install python-bidi==0.4.0'
+	docker exec -it edx.devstack.lms bash -c 'source /edx/app/edxapp/edxapp_env && pip install wand==0.5.1'
+	docker exec -it edx.devstack.lms bash -c 'source /edx/app/edxapp/edxapp_env && pip install -e /edx/app/edxapp/edx-platform'
+	docker exec -it edx.devstack.studio bash -c 'source /edx/app/edxapp/edxapp_env && pip install -e /edx/app/edxapp/edx-platform'
+	# End: Edraak hacks
+
 	@# Comment out this next line if you want to save some time and don't care about catalog programs
 	./programs/provision.sh cache >/dev/null
 
