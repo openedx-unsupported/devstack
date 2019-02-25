@@ -3,9 +3,105 @@ Open edX Devstack |Build Status|
 
 Tahoe Devstack Docs
 ===================
-To run a Tahoe devstack, follow the same instructions in the "Prerequisites" section,
-but use ``$ make tahoe.up`` instead of ``$ make dev.up`` to use the Tahoe specific
-features and environment settings.
+To run a Tahoe devstack follow the steps below:
+
+This project requires **Docker 17.06+ CE**.
+
+.. code::
+
+    $ mkdir -p ~/work/tahoe-hawthorn  # It needs its own new directory
+    $ cd ~/work/tahoe-hawthorn
+    $ git clone https://github.com/appsembler/devstack.git
+    $ cd devstack  # Now the `devstack` repo should be on the `hawthorn` branch
+    $ make dev.clone
+    $ make dev.provision
+    $ make tahoe.up
+
+Running AMC
+-----------
+AMC is not Dockerized yet, until then you need to open two new Terminal instances to use it:
+
+.. code::
+
+    $ make amc.start.backend
+
+and for frontend:
+
+.. code::
+
+    $ make amc.start.frontend
+
+Add /etc/hosts Entries
+----------------------
+
+Tahoe is all about subdomains, so please add the following entries to your ``/etc/hosts`` file:
+
+.. code::
+
+    127.0.0.1 red.localhost
+    127.0.0.1 blue.localhost
+    127.0.0.1 green.localhost
+
+
+Using Tahoe and AMC
+-------------------
+
+The project is now available on the following URLs:
+
+- **AMC:** http://localhost:19000/
+- **Studio:** http://localhost:18010/, if AMC says it's http://studio.localhost:18000 that's a bug, just use the former URL.
+- **LMS:** http://red.localhost:18000/, or any other subdomain you choose except for http://localhost:18000 since that's reserved for other use.
+
+Superuser passwords are:
+
+- **AMC:** ``amc`` with email ``amc@example.com`` and password ``amc``.
+- **Studio and LMS superuser:** ``edx`` with email ``edx@example.com`` and password ``edx``.
+
+But, But, But Where's My Site?
+------------------------------
+
+`Until we automate that <https://trello.com/c/wS5rTBFp>`_ you have to create the site manually. It's not that hard:
+
+- Go to http://localhost:19000/signup-wizard/0
+- Follow the steps setting the site name to ``red`` so it matches the earlier ``/etc/hosts`` entries.
+- In the terminal of ``$ make amc.start.backend`` scroll up to activate your email
+- After complete the steps, you should be able to access all of Tahoe and AMC URLs via the user you created.
+
+More Good Devstack Stuff
+------------------------
+
+There's a couple of other shortcuts specific for Tahoe, run ``$ make help | grep -e tahoe -e amc``
+for a full list or checkout the ``tahoe.mk`` file to see the source code.
+Currently the commands looks like this:
+
+.. code::
+
+    $ make help | grep -e tahoe -e amc
+      amc.env-file              Removes and uses a fresh copy of the AMC env file
+      amc.migrate               Migrate the AMC database
+      amc.reset                 Removes and re-initialize AMC
+      amc.start.backend         Starts the AMC Django app
+      amc.start.frontend        Starts the AMC Frontend
+      tahoe.amc.oauth-client    Creates the AMC OAuth client in the LMS
+      tahoe.amc.superuser       Creates the devstack admin user
+      tahoe.chown               Fix an annoying docker permission issue in both `edx-platform` and `src`
+      tahoe.envs._delete        Remove settings, in prep for resetting it
+      tahoe.envs.reset          Reset the JSON envs
+      tahoe.exec.edxapp         Execute a command in both LMS and Studio (edxapp containers)
+      tahoe.exec.single         Execute a command inside a devstack docker container
+      tahoe.figures             Install Figures
+      tahoe.init                Make the devstack more Tahoe'ish
+      tahoe.init.provision-script Execute the `provision-tahoe.py` script in both of LMS and Studio
+      tahoe.install-pip.edxapp  Install a pip package in both of LMS and Studio
+      tahoe.os.exec             Executes operating system-specific commands
+      tahoe.reset.full          Does a full reset for everything known to devstack. Will loose all git and database changes.
+      tahoe.reset.light         Resets the Tahoe settings including a fresh theme copy and new environment files.
+      tahoe.restart             Restarts both of LMS and Studio python processes while keeping the same container
+      tahoe.theme.compile       Compile the static assets of the theme
+      tahoe.theme.reset         Removes and re-clone the theme with Tahoe branches
+      tahoe.up                  Run the devstack with proper Tahoe settings, use instead of `$ make dev.up`
+
+If something goes wrong, check the rest of this README for additional details.
 
 Environment Files
 -----------------
@@ -29,28 +125,6 @@ files and the theme. This will remove all of the local changes in the theme, so 
 
 If it's not fixed, use ``$ make tahoe.reset.full`` for a full reset
 including removing all of the local changes that are not being pushed to GitHub.
-
-Other Tahoe Make Commands
--------------------------
-There's a couple of other shortcuts specific for Tahoe, run ``$ make help | grep tahoe`` for a full list or checkout
-the ``tahoe.mk`` file to see the source code. Currently the commands like like this:
-
-
-.. code::
-
-    $ make help | grep tahoe
-      tahoe.chown               Fix an annoying docker permission issue in both `edx-platform` and `src`
-      tahoe.exec.edxapp         Execute a command in both LMS and Studio (edxapp containers)
-      tahoe.exec.single         Execute a command inside a devstack docker container
-      tahoe.init                Make the devstack more Tahoe'ish
-      tahoe.init.provision-script Execute the `provision-tahoe.py` script in both of LMS and Studio
-      tahoe.install-pip.edxapp  Install a pip package in both of LMS and Studio
-      tahoe.reset.full          Does a full reset for everything known to devstack. Will loose all git and database changes.
-      tahoe.reset.light         Resets the Tahoe settings including a fresh theme copy and new environment files.
-      tahoe.restart             Restarts both of LMS and Studio python processes while keeping the same container
-      tahoe.theme.clone         Clone the theme with Tahoe branches
-      tahoe.theme.compile       Compile the static assets of the theme
-      tahoe.up                  Run the devstack with proper Tahoe settings, use instead of `$ make dev.up`
 
 
 Enterprise Devstack Docs
