@@ -4,7 +4,7 @@ Open edX Devstack |Build Status|
 Get up and running quickly with Open edX services.
 
 If you are seeking info on the Vagrant-based devstack, please see
-https://openedx.atlassian.net/wiki/display/OpenOPS/Running+Devstack. This
+https://openedx.atlassian.net/wiki/spaces/OpenOPS/pages/60227787/Running+Vagrant-based+Devstack. This
 project is meant to replace the traditional Vagrant-based devstack with a
 multi-container approach driven by `Docker Compose`_. It is still in the
 beta testing phase.
