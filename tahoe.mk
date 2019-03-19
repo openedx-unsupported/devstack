@@ -118,10 +118,10 @@ amc.reset:  ## Removes and re-initialize AMC
 	make tahoe.amc.oauth-client
 
 amc.start.backend:  ## Starts the AMC Django app
-	bash -c 'cd $(AMC_DIR)/amc/ && source env/bin/activate && source .env && python manage.py runserver 0.0.0.0:9000'
+	bash -c 'cd $(AMC_DIR)/amc/ && source env/bin/activate && source .env && python manage.py runserver localhost:19000'
 
 amc.migrate:  ## Migrate the AMC database
 	bash -c 'cd $(AMC_DIR)/amc/ && source env/bin/activate && source .env && python manage.py migrate'
 
 amc.start.frontend:  ## Starts the AMC Frontend
-	bash -c 'cd $(AMC_DIR)/frontend/ && npm start'
+	bash -c 'cd $(AMC_DIR)/frontend/ && LMS_BASE='localhost:18000' PORT=13000 HOST=localhost npm start'
