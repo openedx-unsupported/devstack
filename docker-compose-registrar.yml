@@ -1,6 +1,15 @@
 version: "2.1"
 
 services:
+  # Third-party services
+  redis:
+    container_name: edx.devstack.redis
+    hostname: redis.devstack.edx
+    image: redis:2.8
+    command: redis-server --requirepass password
+    # ports:
+    #   - "6379:6379"
+
   registrar:
     command: bash -c 'source /edx/app/registrar/registrar_env && while true; do python /edx/app/registrar/registrar/manage.py runserver 0.0.0.0:18734; sleep 2; done'
     container_name: edx.devstack.registrar
@@ -8,6 +17,7 @@ services:
     depends_on:
       - mysql
       - memcached
+      - redis
     # Allows attachment to the registrar service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
@@ -19,8 +29,40 @@ services:
       DB_PASSWORD: password
       LMS_HOST: http://localhost:18000
       MEMCACHE_HOST: edx.devstack.memcached
+      DJANGO_SETTINGS_MODULE: registrar.settings.devstack
+      CELERY_BROKER_TRANSPORT: redis
+      CELERY_BROKER_HOSTNAME: edx.devstack.redis:6379
+      CELERY_BROKER_VHOST: 10
+      CELERY_BROKER_PASSWORD: password
     image: edxops/registrar:${OPENEDX_RELEASE:-latest}
     ports:
       - "18734:18734"
     volumes:
       - /edx/var/registrar/
+
+  registrar-worker:
+    command: bash -c 'source /edx/app/registrar/registrar_env && cd /edx/app/registrar/registrar && make requirements && celery -A registrar worker -l debug -c 2'
+    container_name: edx.devstack.registrar-worker
+    hostname: registrar-worker.devstack.edx
+    depends_on:
+      - registrar
+    stdin_open: true
+    tty: true
+    environment:
+      DB_HOST: edx.devstack.mysql
+      DB_NAME: registrar
+      DB_PORT: 3306
+      DB_USER: registrar001
+      DB_PASSWORD: password
+      LMS_HOST: http://localhost:18000
+      MEMCACHE_HOST: edx.devstack.memcached
+      DJANGO_SETTINGS_MODULE: registrar.settings.devstack
+      CELERY_BROKER_TRANSPORT: redis
+      CELERY_BROKER_HOSTNAME: edx.devstack.redis:6379
+      CELERY_BROKER_VHOST: 10
+      CELERY_BROKER_PASSWORD: password
+    image: edxops/registrar:${OPENEDX_RELEASE:-latest}
+    ports:
+      - "18735:18735"
+    volumes:
+      - /edx/var/registrar

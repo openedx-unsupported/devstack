@@ -47,3 +47,6 @@ registrar-create-superuser:  ## Create admin user with username/password of edx/
 
 registrar-logs:  ## View logs for registrar
 	docker-compose -f docker-compose.yml -f docker-compose-host.yml -f docker-compose-registrar.yml -f docker-compose-registrar-host.yml logs -f --tail=500 registrar
+
+registrar-worker-logs:  ## View logs for registrar-worker
+	docker-compose -f docker-compose.yml -f docker-compose-host.yml -f docker-compose-registrar.yml -f docker-compose-registrar-host.yml logs -f --tail=500 registrar-worker
