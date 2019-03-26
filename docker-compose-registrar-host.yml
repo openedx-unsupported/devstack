@@ -4,3 +4,6 @@ services:
   registrar:
     volumes:
       - ../registrar:/edx/app/registrar/registrar
+  registrar-worker:
+    volumes:
+      - ../registrar:/edx/app/registrar/registrar
