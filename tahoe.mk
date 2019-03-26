@@ -95,6 +95,16 @@ tahoe.amc.oauth-client:  ## Creates the AMC OAuth client in the LMS
 	# Keep in sync with `amc.env.initial` file
 	make COMMAND='python manage.py lms create_oauth2_client http://localhost:9000/     http://localhost:9000/oauth2/access_token/ confidential --client_name AMC --client_id 6f2b93d5c02560c3f93f     --client_secret 2c6c9ac52dd19d7255dd569fb7eedbe0ebdab2db --trusted --settings=devstack_docker' SERVICE='lms' tahoe.exec.single
 
+
+tahoe.amc.superuser: SHELL:=/bin/bash
+tahoe.amc.superuser: ## Creates the devstack admin user
+	@cd $(AMC_DIR)/amc/; \
+	. env/bin/activate; \
+	. .env ; \
+	echo "from django.contrib.auth.models import User; User.objects.filter(username=\"amc\").exists() or User.objects.create_superuser(\"amc\", email=\"amc@example.com\", password=\"amc\");" | python manage.py shell -i python
+
+	@echo Created the superuser amc with password=amc successfully
+
 amc.env-file:  ## Removes and uses a fresh copy of the AMC env file
 	rm -f $(AMC_DIR)/amc/.env
 	cp $(DEVSTACK_WORKSPACE)/devstack/amc.env.initial $(AMC_DIR)/amc/.env
@@ -116,6 +126,7 @@ amc.reset:  ## Removes and re-initialize AMC
 
 	make amc.migrate
 	make tahoe.amc.oauth-client
+	make tahoe.amc.superuser
 
 amc.start.backend:  ## Starts the AMC Django app
 	bash -c 'cd $(AMC_DIR)/amc/ && source env/bin/activate && source .env && python manage.py runserver localhost:19000'
