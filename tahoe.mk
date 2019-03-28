@@ -51,7 +51,7 @@ tahoe.theme.reset:  ## Removes and re-clone the theme with Tahoe branches
 	cd $(THEMES_DIR)/edx-theme-codebase && git checkout hawthorn/master
 
 	git clone git@github.com:appsembler/edx-theme-customers.git $(CUSTOMER_THEME_DIR)
-	cd $(CUSTOMER_THEME_DIR) && git checkout hawthorn/amc
+	cd $(CUSTOMER_THEME_DIR) && git checkout hawthorn/tahoe
 
 	make tahoe.chown
 
