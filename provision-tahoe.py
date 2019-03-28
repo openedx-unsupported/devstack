@@ -22,24 +22,24 @@ ENVS_DIR = SRC_DIR / 'edxapp-envs'
 EDXAPP_DIR = Path('/edx/app/edxapp')
 
 
-def update_lms_env_with_tahoe_prefs():
+def update_tahoe_env_with_tahoe_prefs(filename):
     """
-    Apply a couple of patches to the lms.env.json files to match Tahoe needs.
+    Apply a couple of patches to the lms/cms.env.json files to match Tahoe needs.
 
     TODO: Move inside the Docker images, via Ansible.
     """
-    lms_env_file = ENVS_DIR / 'lms.env.json'
-    with open(lms_env_file, 'r') as lms_env_fd:
-        lms_env = json.load(lms_env_fd, encoding='utf-8')
+    env_file_path = ENVS_DIR / filename
+    with open(env_file_path, 'r') as env_fd:
+        env_object = json.load(env_fd, encoding='utf-8')
 
         # Theme is enabled by default, can be disabled from within the lms.env.json file
-        lms_env.update({
+        env_object.update({
             'COMPREHENSIVE_THEME_DIRS': ['/edx/src/themes'],
             'DEFAULT_SITE_THEME': 'edx-theme-codebase',
             'ENABLE_COMPREHENSIVE_THEMING': True,
         })
 
-        lms_env['REGISTRATION_EXTRA_FIELDS'] = {
+        env_object['REGISTRATION_EXTRA_FIELDS'] = {
             'city': 'hidden',
             'country': 'hidden',
             'gender': 'optional',
@@ -51,14 +51,14 @@ def update_lms_env_with_tahoe_prefs():
         }
 
         # Disable by default. Can be enabled from within the lms.env.json file
-        lms_env['FEATURES'].update({
+        env_object['FEATURES'].update({
             'ENABLE_TIERS_APP': False,  # TODO: Fix the tiers app in devstack
         })
 
-        lms_env_encoded = json.dumps(lms_env, ensure_ascii=False, indent=4).encode('utf-8')
+        lms_env_encoded = json.dumps(env_object, ensure_ascii=False, indent=4).encode('utf-8')
 
-    with open(lms_env_file, 'w') as lms_env_fd:
-        lms_env_fd.write(lms_env_encoded)
+    with open(env_file_path, 'w') as env_fd:
+        env_fd.write(lms_env_encoded)
 
 
 def move_environment_files_to_host():
@@ -86,8 +86,8 @@ def move_environment_files_to_host():
 
             symlink(src_path, container_path)
 
-        if newly_copied and filename == 'lms.env.json':
-            update_lms_env_with_tahoe_prefs()
+        if newly_copied and filename.endswith('.env.json'):
+            update_tahoe_env_with_tahoe_prefs(filename)
 
 
 def main():
