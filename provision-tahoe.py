@@ -53,6 +53,8 @@ def update_tahoe_env_with_tahoe_prefs(filename):
         # Disable by default. Can be enabled from within the lms.env.json file
         env_object['FEATURES'].update({
             'ENABLE_TIERS_APP': False,  # TODO: Fix the tiers app in devstack
+            'ENABLE_CREATOR_GROUP': True,
+            'DISABLE_COURSE_CREATION': False,
         })
 
         lms_env_encoded = json.dumps(env_object, ensure_ascii=False, indent=4).encode('utf-8')
