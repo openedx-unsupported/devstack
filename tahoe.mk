@@ -2,6 +2,7 @@ DEVSTACK_WORKSPACE ?= ..
 THEMES_DIR = $(DEVSTACK_WORKSPACE)/src/themes
 CUSTOMER_THEME_DIR = $(THEMES_DIR)/edx-theme-codebase/customer_specific
 AMC_DIR = $(DEVSTACK_WORKSPACE)/amc
+FIGURES_DIR = $(DEVSTACK_WORKSPACE)/src/figures
 
 UNAME_S := $(shell uname -s)
 LINUX_CMD ?= true
@@ -58,6 +59,7 @@ tahoe.theme.reset:  ## Removes and re-clone the theme with Tahoe branches
 tahoe.init.provision-script:  ## Execute the `provision-tahoe.py` script in both of LMS and Studio
 	cat $(DEVSTACK_WORKSPACE)/devstack/provision-tahoe.py > $(DEVSTACK_WORKSPACE)/src/provision-tahoe.py
 	make COMMAND='python /edx/src/provision-tahoe.py' tahoe.exec.edxapp
+	make COMMAND='pip install -e /edx/src/figures' SERVICE=lms tahoe.exec.single
 	rm $(DEVSTACK_WORKSPACE)/src/provision-tahoe.py
 
 tahoe.init:  ## Make the devstack more Tahoe'ish
@@ -66,6 +68,7 @@ tahoe.init:  ## Make the devstack more Tahoe'ish
 
 tahoe.up:  ## Run the devstack with proper Tahoe settings, use instead of `$ make dev.up`
 	make tahoe.chown
+	test -d $(FIGURES_DIR) || make tahoe.figures
 	make dev.up
 	@sleep 1
 	make tahoe.init
@@ -81,6 +84,11 @@ tahoe.envs.reset:  ## Reset the JSON envs
 	make down
 	make tahoe.envs._delete
 	make tahoe.up
+
+tahoe.figures:  ## Install Figures
+	make COMMAND='rm -rf /edx/src/figures' SERVICE=lms tahoe.exec.single
+	git clone -b omar/no-fork git@github.com:appsembler/figures.git $(FIGURES_DIR)
+	make lms-update-db
 
 tahoe.reset.light:  ## Resets the Tahoe settings including a fresh theme copy and new environment files.
 	make down
