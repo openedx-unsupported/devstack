@@ -77,7 +77,7 @@ All of the services can be run by following the steps below. For analyticstack, 
 **NOTE:** Since a Docker-based devstack runs many containers,
 you should configure Docker with a sufficient
 amount of resources. We find that `configuring Docker for Mac`_ with
-a minimum of 2 CPUs and 6GB of memory works well.
+a minimum of 2 CPUs and 8GB of memory does work.
 
 1. Install the requirements inside of a `Python virtualenv`_.
 
