@@ -74,9 +74,17 @@ tahoe.up:  ## Run the devstack with proper Tahoe settings, use instead of `$ mak
 	test -f $(AMC_DIR)/amc/.env || make amc.env-file
 	make tahoe.chown
 
+tahoe.envs._delete:  ## Remove settings, in prep for resetting it
+	sudo rm -rf $(DEVSTACK_WORKSPACE)/src/edxapp-envs
+
+tahoe.envs.reset:  ## Reset the JSON envs
+	make down
+	make tahoe.envs._delete
+	make tahoe.up
+
 tahoe.reset.light:  ## Resets the Tahoe settings including a fresh theme copy and new environment files.
 	make down
-	sudo rm -rf $(DEVSTACK_WORKSPACE)/src/edxapp-envs
+	make tahoe.envs._delete
 	make amc.reset
 	make tahoe.theme.reset
 	@sleep 1
