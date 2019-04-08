@@ -41,7 +41,7 @@ private_repos=(
     "https://github.com/edx/edx-themes.git"
 )
 
-name_pattern=".*edx/(.*).git"
+name_pattern=".*/(.*).git"
 
 _checkout ()
 {
