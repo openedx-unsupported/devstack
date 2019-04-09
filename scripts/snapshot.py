@@ -20,7 +20,7 @@ DEVSTACK_WORKSPACE = os.path.dirname(REPO_ROOT)
 REPO_SCRIPT = os.path.join(REPO_ROOT, 'repo.sh')
 
 # Use this minimal container image to fetch volume content
-BACKUP_IMAGE = 'alpine:3.7'
+BACKUP_IMAGE = 'alpine:latest'
 
 
 def make_directories(output_dir):
