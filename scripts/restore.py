@@ -16,7 +16,7 @@ VOLUMES_JSON = os.path.join(VOLUMES_DIR, 'volumes.json')
 DEVSTACK_REPO_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Use this minimal container image to restore volume content
-BACKUP_IMAGE = 'alpine:3.7'
+BACKUP_IMAGE = 'alpine:latest'
 
 
 def load_images():

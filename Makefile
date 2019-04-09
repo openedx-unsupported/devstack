@@ -41,13 +41,11 @@ help: ## Display this help message
 requirements: ## Install requirements
 	pip install -r requirements/base.txt
 
+upgrade: export CUSTOM_COMPILE_COMMAND=make upgrade
 upgrade: ## Upgrade requirements with pip-tools
 	pip install -qr requirements/pip-tools.txt
 	pip-compile --upgrade -o requirements/pip-tools.txt requirements/pip-tools.in
 	pip-compile --upgrade -o requirements/base.txt requirements/base.in
-	bash post-pip-compile.sh \
-		requirements/pip-tools.txt \
-		requirements/base.txt \
 
 dev.checkout: ## Check out "openedx-release/$OPENEDX_RELEASE" in each repo if set, "master" otherwise
 	./repo.sh checkout
