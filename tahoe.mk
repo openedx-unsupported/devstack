@@ -87,7 +87,7 @@ tahoe.envs.reset:  ## Reset the JSON envs
 
 tahoe.figures:  ## Install Figures
 	make COMMAND='rm -rf /edx/src/figures' SERVICE=lms tahoe.exec.single
-	git clone -b omar/no-fork git@github.com:appsembler/figures.git $(FIGURES_DIR)
+	git clone -b develop git@github.com:appsembler/figures.git $(FIGURES_DIR)
 	make lms-update-db
 
 tahoe.reset.light:  ## Resets the Tahoe settings including a fresh theme copy and new environment files.
