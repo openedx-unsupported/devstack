@@ -42,7 +42,7 @@ docker_exec() {
     /edx/app/$app/$repo/manage.py $cmd
     "
 
-    docker-compose exec "$service" bash -c "$CMDS"
+    docker-compose exec -T "$service" bash -c "$CMDS"
 }
 
 provision_ida() {
