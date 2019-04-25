@@ -11,7 +11,7 @@ import json
 import os
 import re
 from shutil import copyfile
-from subprocess import check_call
+from subprocess import STDOUT, CalledProcessError, check_output
 
 import yaml
 
@@ -52,7 +52,7 @@ def archive_repos(output_dir):
     for directory in dirs:
         print('Archiving {}'.format(directory))
         output = os.path.join(repositories_dir, '{}.tar.gz'.format(directory))
-        check_call(['tar', 'czf', output, directory])
+        check_output(['tar', 'czf', output, directory], stderr=STDOUT)
     os.chdir(cwd)
 
 
@@ -79,8 +79,9 @@ def process_compose_file(filename, output_dir):
         if image not in saved_images:
             output = os.path.join(images_dir, '{}.tar'.format(service_name))
             print('Saving image {}'.format(service_name))
-            check_call(['docker', 'save', '--output', output, image])
-            check_call(['gzip', output])
+            check_output(['docker', 'save', '--output', output, image],
+                         stderr=STDOUT)
+            check_output(['gzip', output], stderr=STDOUT)
             saved_images.add(image)
 
         if 'volumes' in service:
@@ -96,13 +97,13 @@ def process_compose_file(filename, output_dir):
                 volume_list.append({'container': container_name,
                                     'path': volume_path, 'tarball': tarball})
                 print('Saving volume {}'.format(volume_name))
-                check_call(['docker', 'run', '--rm', '--volumes-from', container_name, '-v',
+                check_output(['docker', 'run', '--rm', '--volumes-from', container_name, '-v',
                             '{}:/backup'.format(volumes_dir), BACKUP_IMAGE, 'tar', 'czf',
-                            '/backup/{}'.format(tarball), volume_path])
+                            '/backup/{}'.format(tarball), volume_path], stderr=STDOUT)
     print('Saving image alpine')
     output = os.path.join(images_dir, 'alpine.tar')
-    check_call(['docker', 'save', '--output', output, BACKUP_IMAGE])
-    check_call(['gzip', output])
+    check_output(['docker', 'save', '--output', output, BACKUP_IMAGE], stderr=STDOUT)
+    check_output(['gzip', output], stderr=STDOUT)
     print('Saving volume metadata')
     with open(os.path.join(volumes_dir, 'volumes.json'), 'w') as f:
         f.write(json.dumps(volume_list))
@@ -112,10 +113,14 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('output_dir', help='The directory in which to create the devstack snapshot')
     args = parser.parse_args()
-    output_dir = args.output_dir
+    output_dir = os.path.abspath(args.output_dir)
     make_directories(output_dir)
-    archive_repos(output_dir)
-    process_compose_file('docker-compose.yml', output_dir)
+    try:
+        archive_repos(output_dir)
+        process_compose_file('docker-compose.yml', output_dir)
+    except CalledProcessError as e:
+        print(e.output)
+        raise
     copyfile(os.path.join(REPO_ROOT, 'scripts', 'extract_snapshot_linux.sh'),
              os.path.join(output_dir, 'linux.sh'))
     copyfile(os.path.join(REPO_ROOT, 'scripts', 'extract_snapshot_mac.sh'),
