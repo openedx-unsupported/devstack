@@ -45,8 +45,9 @@ tahoe.theme.reset:  ## Removes and re-clone the theme with Tahoe branches
 	rm -rf $(THEMES_DIR)
 
 	# Remove and recreated the customer themes css directory
-	sudo rm -rf $(DEVSTACK_WORKSPACE)/themes/customer_themes
-	make COMMAND='mkdir -p /edx/src/themes/customer_themes' SERVICE=lms tahoe.exec.single
+	sudo rm -rf $(DEVSTACK_WORKSPACE)/src/themes/customer_themes
+	mkdir -p $(DEVSTACK_WORKSPACE)/src/themes/  # Make it writeble for the user
+	make COMMAND='mkdir -p /edx/src/themes/customer_themes' SERVICE=lms tahoe.exec.single  # Writeable for the container
 
 	git clone git@github.com:appsembler/edx-theme-codebase.git $(THEMES_DIR)/edx-theme-codebase
 	cd $(THEMES_DIR)/edx-theme-codebase && git checkout hawthorn/master
