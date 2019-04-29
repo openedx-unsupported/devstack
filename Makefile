@@ -63,8 +63,10 @@ dev.up: | check-memory ## Bring up all services with host volumes
 
 	# Start: Edraak hacks
 	# TODO: Add this to `base.in` (thus `development.txt`) and rebuild the docker image
-	docker exec -it edx.devstack.lms bash -c 'source /edx/app/edxapp/edxapp_env && pip install python-bidi==0.3.4'
-	docker exec -it edx.devstack.lms bash -c 'source /edx/app/edxapp/edxapp_env && pip install wand==0.3.7'
+	docker exec -it edx.devstack.lms bash -c 'source /edx/app/edxapp/edxapp_env && pip install python-bidi==0.4.0'
+	docker exec -it edx.devstack.lms bash -c 'source /edx/app/edxapp/edxapp_env && pip install wand==0.5.1'
+	docker exec -it edx.devstack.lms bash -c 'source /edx/app/edxapp/edxapp_env && pip install -e /edx/app/edxapp/edx-platform'
+	docker exec -it edx.devstack.studio bash -c 'source /edx/app/edxapp/edxapp_env && pip install -e /edx/app/edxapp/edx-platform'
 	# End: Edraak hacks
 
 	@# Comment out this next line if you want to save some time and don't care about catalog programs
