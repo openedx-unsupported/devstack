@@ -369,7 +369,7 @@ BUILD COMMANDS:
 
     git checkout master
     git pull
-    docker build -f docker/build/edxapp/Dockerfile . -t edxops/edxapp:latest
+    docker build -f docker/build/edxapp/Dockerfile . -t eu.gcr.io/openedx-231314/edraak/edxapp:latest
 
 .. code:: sh
 
