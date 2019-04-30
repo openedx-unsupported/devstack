@@ -69,10 +69,10 @@ tahoe.init:  ## Make the devstack more Tahoe'ish
 
 tahoe.up:  ## Run the devstack with proper Tahoe settings, use instead of `$ make dev.up`
 	make tahoe.chown
-	test -d $(FIGURES_DIR) || make tahoe.figures
 	make dev.up
 	@sleep 1
 	make tahoe.init
+	test -d $(FIGURES_DIR) || make tahoe.figures
 	test -d $(CUSTOMER_THEME_DIR) || (make tahoe.theme.reset && make tahoe.theme.compile)
 	test -d $(AMC_DIR) || make amc.reset
 	test -f $(AMC_DIR)/amc/.env || make amc.env-file
