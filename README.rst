@@ -313,9 +313,21 @@ meant to be user-facing, the "homepage" may be the API root.
 +---------------------+-------------------------------------+
 | Studio/CMS          | http://localhost:18010/             |
 +---------------------+-------------------------------------+
+| Registrar           | http://localhost:18734/             |
++---------------------+-------------------------------------+
 
 Useful Commands
 ---------------
+
+``make dev.up`` can take a long time, as it starts all services, whether or not
+you need them. To instead only start a single service and its dependencies, run
+``make dev.up.<service>``. For example, the following will bring up LMS
+(along with Memcached, MySQL, and devpi), but it will not bring up Discovery,
+Credentials, etc:
+
+.. code:: sh
+
+    make dev.up.lms
 
 Sometimes you may need to restart a particular application server. To do so,
 simply use the ``docker-compose restart`` command:
@@ -324,7 +336,7 @@ simply use the ``docker-compose restart`` command:
 
     docker-compose restart <service>
 
-``<service>`` should be replaced with one of the following:
+In all the above commands, ``<service>`` should be replaced with one of the following:
 
 -  credentials
 -  discovery
@@ -332,6 +344,7 @@ simply use the ``docker-compose restart`` command:
 -  lms
 -  edx_notes_api
 -  studio
+-  registrar
 
 If you'd like to add some convenience make targets, you can add them to a ``local.mk`` file, ignored by git.
 
@@ -641,12 +654,11 @@ start up the containers as usual with:
 This command starts each relevant container with the equivalent of the '--it' option,
 allowing a developer to attach to the process once the process is up and running.
 
-To attach to the LMS/Studio containers and their process, use either:
+To attach to a container and its process, use ``make <service>-attach``. For example:
 
 .. code:: sh
 
     make lms-attach
-    make studio-attach
 
 Set a PDB breakpoint anywhere in the code using:
 
@@ -667,6 +679,9 @@ or a manual Docker command to bring down the container:
 .. code:: sh
 
    docker kill $(docker ps -a -q --filter="name=edx.devstack.<container name>")
+
+Alternatively, some terminals allow detachment from a running container with the
+``Ctrl-P, Ctrl-Q`` key sequence.
 
 Running LMS and Studio Tests
 ----------------------------
