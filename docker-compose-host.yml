@@ -39,10 +39,10 @@ services:
       - gradebook_node_modules:/edx/app/gradebook/node_modules
   registrar:
     volumes:
-      - ../registrar:/edx/app/registrar/registrar
+      - ${DEVSTACK_WORKSPACE}/registrar:/edx/app/registrar/registrar
   registrar-worker:
     volumes:
-      - ../registrar:/edx/app/registrar/registrar
+      - ${DEVSTACK_WORKSPACE}/registrar:/edx/app/registrar/registrar
 
 volumes:
   credentials_node_modules:

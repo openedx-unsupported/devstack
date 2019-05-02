@@ -21,7 +21,7 @@ services:
       - forum-sync:/edx/app/forum/cs_comments_service:nocopy
   registrar:
     volumes:
-      - registrar-sync
+      - registrar-sync:/edx/app/registrar/registrar:nocopy
 
 volumes:
   credentials-sync:
