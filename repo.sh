@@ -24,9 +24,13 @@ repos=(
     "https://github.com/Edraak/ecommerce.git"
     "https://github.com/Edraak/edx-e2e-tests.git"
     "https://github.com/Edraak/edx-notes-api.git"
-    "https://github.com/Edraak/edx-platform.git"
+    "https://github.com/Edraak/edraak-platform.git"
     "https://github.com/Edraak/xqueue.git"
     "https://github.com/Edraak/edx-analytics-pipeline.git"
+)
+
+repo_alternative_directory=(
+	"https://github.com/Edraak/edraak-platform.git,edx-platform"
 )
 
 private_repos=(
@@ -35,6 +39,24 @@ private_repos=(
 )
 
 name_pattern=".*Edraak/(.*).git"
+
+_get_name()
+{
+	for altdir in "${repo_alternative_directory[@]}"
+	do
+		# Use Bash's regex match operator to capture the name of the repo.
+		# Results of the match are saved to an array called $BASH_REMATCH.
+		[[ $altdir =~ (.*),(.*) ]]
+
+		if [ "${1}" == "${BASH_REMATCH[1]}" ]; then
+			echo "${BASH_REMATCH[2]}"
+			return 0
+		fi
+	done
+
+	[[ $1 =~ $name_pattern ]]
+	echo "${BASH_REMATCH[1]}"
+}
 
 _checkout ()
 {
@@ -50,10 +72,7 @@ _checkout ()
 
     for repo in "${repos_to_checkout[@]}"
     do
-        # Use Bash's regex match operator to capture the name of the repo.
-        # Results of the match are saved to an array called $BASH_REMATCH.
-        [[ $repo =~ $name_pattern ]]
-        name="${BASH_REMATCH[1]}"
+        name=$(_get_name $repo)
 
         # If a directory exists and it is nonempty, assume the repo has been cloned.
         if [ -d "$name" -a -n "$(ls -A "$name" 2>/dev/null)" ]; then
@@ -78,19 +97,16 @@ _clone ()
 
     for repo in "${repos_to_clone[@]}"
     do
-        # Use Bash's regex match operator to capture the name of the repo.
-        # Results of the match are saved to an array called $BASH_REMATCH.
-        [[ $repo =~ $name_pattern ]]
-        name="${BASH_REMATCH[1]}"
+        name=$(_get_name $repo)
 
         # If a directory exists and it is nonempty, assume the repo has been checked out.
         if [ -d "$name" -a -n "$(ls -A "$name" 2>/dev/null)" ]; then
             printf "The [%s] repo is already checked out. Continuing.\n" $name
         else
             if [ "${SHALLOW_CLONE}" == "1" ]; then
-                git clone --depth=1 $repo
+                git clone --depth=1 $repo $name
             else
-                git clone $repo
+                git clone $repo $name
             fi
             if [ -n "${OPENEDX_RELEASE}" ]; then
                 git checkout open-release/${OPENEDX_RELEASE}
@@ -115,8 +131,7 @@ reset ()
     currDir=$(pwd)
     for repo in ${repos[*]}
     do
-        [[ $repo =~ $name_pattern ]]
-        name="${BASH_REMATCH[1]}"
+        name=$(_get_name $repo)
 
         if [ -d "$name" ]; then
             cd $name;git reset --hard HEAD;git checkout master;git reset --hard origin/master;git pull;cd "$currDir"
@@ -132,8 +147,7 @@ status ()
     currDir=$(pwd)
     for repo in ${repos[*]}
     do
-        [[ $repo =~ $name_pattern ]]
-        name="${BASH_REMATCH[1]}"
+        name=$(_get_name $repo)
 
         if [ -d "$name" ]; then
             printf "\nGit status for [%s]:\n" $name
