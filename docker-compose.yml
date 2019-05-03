@@ -79,6 +79,12 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
 
+  redis:
+    container_name: edx.devstack.redis
+    hostname: redis.devstack.edx
+    image: redis:2.8
+    command: redis-server --requirepass password
+
   # edX services
   credentials:
     command: bash -c 'source /edx/app/credentials/credentials_env && while true; do python /edx/app/credentials/credentials/manage.py runserver 0.0.0.0:18150; sleep 2; done'
@@ -182,6 +188,68 @@ services:
       DB_USER: "notes001"
       ENABLE_DJANGO_TOOLBAR: 1
       ELASTICSEARCH_URL: "http://edx.devstack.elasticsearch:9200"
+
+  registrar:
+    command: bash -c 'source /edx/app/registrar/registrar_env && while true; do python /edx/app/registrar/registrar/manage.py runserver 0.0.0.0:18734; sleep 2; done'
+    container_name: edx.devstack.registrar
+    hostname: registrar.devstack.edx
+    depends_on:
+      - discovery
+      - lms
+      - mysql
+      - memcached
+      - redis
+      - registrar-worker
+    # Allows attachment to the registrar service using 'docker attach <containerID>'.
+    stdin_open: true
+    tty: true
+    environment:
+      DB_HOST: edx.devstack.mysql
+      DB_NAME: registrar
+      DB_PORT: 3306
+      DB_USER: registrar001
+      DB_PASSWORD: password
+      LMS_HOST: http://localhost:18000
+      MEMCACHE_HOST: edx.devstack.memcached
+      DJANGO_SETTINGS_MODULE: registrar.settings.devstack
+      CELERY_BROKER_TRANSPORT: redis
+      CELERY_BROKER_HOSTNAME: edx.devstack.redis:6379
+      CELERY_BROKER_VHOST: 10
+      CELERY_BROKER_PASSWORD: password
+    image: edxops/registrar:${OPENEDX_RELEASE:-latest}
+    ports:
+      - "18734:18734"
+    volumes:
+      - /edx/var/registrar/
+
+  registrar-worker:
+    command: bash -c 'source /edx/app/registrar/registrar_env && cd /edx/app/registrar/registrar && celery -A registrar worker -l debug -c 2'
+    container_name: edx.devstack.registrar-worker
+    hostname: registrar-worker.devstack.edx
+    depends_on:
+      - lms
+      - mysql
+      - redis
+    stdin_open: true
+    tty: true
+    environment:
+      DB_HOST: edx.devstack.mysql
+      DB_NAME: registrar
+      DB_PORT: 3306
+      DB_USER: registrar001
+      DB_PASSWORD: password
+      LMS_HOST: http://localhost:18000
+      MEMCACHE_HOST: edx.devstack.memcached
+      DJANGO_SETTINGS_MODULE: registrar.settings.devstack
+      CELERY_BROKER_TRANSPORT: redis
+      CELERY_BROKER_HOSTNAME: edx.devstack.redis:6379
+      CELERY_BROKER_VHOST: 10
+      CELERY_BROKER_PASSWORD: password
+    image: edxops/registrar:${OPENEDX_RELEASE:-latest}
+    ports:
+      - "18735:18735"
+    volumes:
+      - /edx/var/registrar/
 
   studio:
     command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py cms runserver 0.0.0.0:18010 --settings devstack_docker; sleep 2; done'
