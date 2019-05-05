@@ -90,16 +90,20 @@ def process_compose_file(filename, output_dir):
                 if volume[0] == '.':
                     # Mount of a host directory, skip it
                     continue
-                parts = volume.split(':')
-                volume_name = parts[0]
-                volume_path = parts[1]
+                if ':' in volume:
+                    parts = volume.split(':')
+                    volume_name = parts[0]
+                    volume_path = parts[1]
+                else:
+                    volume_name = volume[1:].replace('/', '_')
+                    volume_path = volume
                 tarball = '{}.tar.gz'.format(volume_name)
                 volume_list.append({'container': container_name,
                                     'path': volume_path, 'tarball': tarball})
                 print('Saving volume {}'.format(volume_name))
                 check_output(['docker', 'run', '--rm', '--volumes-from', container_name, '-v',
-                            '{}:/backup'.format(volumes_dir), BACKUP_IMAGE, 'tar', 'czf',
-                            '/backup/{}'.format(tarball), volume_path], stderr=STDOUT)
+                             '{}:/backup'.format(volumes_dir), BACKUP_IMAGE, 'tar', 'czf',
+                             '/backup/{}'.format(tarball), volume_path], stderr=STDOUT)
     print('Saving image alpine')
     output = os.path.join(images_dir, 'alpine.tar')
     check_output(['docker', 'save', '--output', output, BACKUP_IMAGE], stderr=STDOUT)
