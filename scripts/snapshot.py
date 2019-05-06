@@ -129,3 +129,5 @@ if __name__ == '__main__':
              os.path.join(output_dir, 'linux.sh'))
     copyfile(os.path.join(REPO_ROOT, 'scripts', 'extract_snapshot_mac.sh'),
              os.path.join(output_dir, 'mac.sh'))
+    copyfile(os.path.join(REPO_ROOT, 'scripts', 'README.txt'),
+             os.path.join(output_dir, 'README.txt'))
