@@ -14,13 +14,16 @@ done
 
 # Load Docker containers and their associated volumes
 # Calls to "docker" usually require sudo privileges on Linux
-sudo python devstack/scripts/restore.py
+# add sudo here (and line 25 & 28) if needed...
+# However, best practice is to create docker group:
+# q.v. https://docs.docker.com/install/linux/linux-postinstall/
+python devstack/scripts/restore.py
 
 # For the rest, we need to be in the directory with the devstack Makefile
 cd devstack
 
 # Shut down all the running containers, the volumes were incomplete at startup
-sudo make down
+make down
 
 # Start all the containers again with correctly populated volumes.
-sudo make dev.up
+make dev.up
