@@ -60,7 +60,7 @@ tahoe.theme.reset:  ## Removes and re-clone the theme with Tahoe branches
 tahoe.init.provision-script:  ## Execute the `provision-tahoe.py` script in both of LMS and Studio
 	cat $(DEVSTACK_WORKSPACE)/devstack/provision-tahoe.py > $(DEVSTACK_WORKSPACE)/src/provision-tahoe.py
 	make COMMAND='python /edx/src/provision-tahoe.py' tahoe.exec.edxapp
-	make COMMAND='pip install -e /edx/src/figures' SERVICE=lms tahoe.exec.single
+	# make COMMAND='pip install -e /edx/src/figures' SERVICE=lms tahoe.exec.single
 	rm $(DEVSTACK_WORKSPACE)/src/provision-tahoe.py
 
 tahoe.init:  ## Make the devstack more Tahoe'ish
@@ -72,7 +72,7 @@ tahoe.up:  ## Run the devstack with proper Tahoe settings, use instead of `$ mak
 	make dev.up
 	@sleep 1
 	make tahoe.init
-	test -d $(FIGURES_DIR) || make tahoe.figures
+	# test -d $(FIGURES_DIR) || make tahoe.figures
 	test -d $(CUSTOMER_THEME_DIR) || (make tahoe.theme.reset && make tahoe.theme.compile)
 	test -d $(AMC_DIR) || make amc.reset
 	test -f $(AMC_DIR)/amc/.env || make amc.env-file
