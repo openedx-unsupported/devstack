@@ -94,8 +94,8 @@ tahoe.figures:  ## Install Figures
 tahoe.reset.light:  ## Resets the Tahoe settings including a fresh theme copy and new environment files.
 	make down
 	make tahoe.envs._delete
-	make amc.reset
 	make tahoe.theme.reset
+	make amc.reset
 	@sleep 1
 	make tahoe.up
 	make tahoe.theme.compile
