@@ -14,7 +14,7 @@ services:
   # Third-party services
   chrome:
     container_name: edx.devstack.chrome
-    image: edxops/chrome:${OPENEDX_RELEASE:-latest}
+    image: edxops/chrome:hawthorn.master
     shm_size: 2g
     ports:
       - "15900:5900"
@@ -35,7 +35,7 @@ services:
 
   firefox:
     container_name: edx.devstack.firefox
-    image: edxops/firefox:${OPENEDX_RELEASE:-latest}
+    image: edxops/firefox:hawthorn.master
     shm_size: 2g
     ports:
       - "25900:5900"
@@ -88,7 +88,7 @@ services:
       DB_HOST: edx.devstack.mysql
       SOCIAL_AUTH_EDX_OIDC_URL_ROOT: http://edx.devstack.lms:18000/oauth2
       ENABLE_DJANGO_TOOLBAR: 1
-    image: edxops/credentials:${OPENEDX_RELEASE:-latest}
+    image: edxops/credentials:hawthorn.master
     ports:
       - "18150:18150"
 
@@ -105,7 +105,7 @@ services:
     environment:
       TEST_ELASTICSEARCH_URL: "http://edx.devstack.elasticsearch:9200"
       ENABLE_DJANGO_TOOLBAR: 1
-    image: edxops/discovery:${OPENEDX_RELEASE:-latest}
+    image: edxops/discovery:hawthorn.master
     ports:
       - "18381:18381"
     volumes:
@@ -122,7 +122,7 @@ services:
     tty: true
     environment:
       ENABLE_DJANGO_TOOLBAR: 1
-    image: edxops/ecommerce:${OPENEDX_RELEASE:-latest}
+    image: edxops/ecommerce:hawthorn.master
     ports:
       - "18130:18130"
 
@@ -143,7 +143,7 @@ services:
       BOK_CHOY_CMS_PORT: 18031
       EDXAPP_TEST_MONGO_HOST: edx.devstack.mongo
       NO_PYTHON_UNINSTALL: 1
-    image: appsembler/edxapp:${OPENEDX_RELEASE:-latest}
+    image: appsembler/edxapp:latest  # Will work fine until we have Ironwood
     ports:
       - "18000:18000"
       - "19876:19876" # JS test debugging
@@ -159,7 +159,7 @@ services:
       - devpi
       - elasticsearch
       - mysql
-    image: edxops/notes:${OPENEDX_RELEASE:-latest}
+    image: edxops/notes:latest  # Will work fine until we have Ironwood
     ports:
       - "18120:18120"
     environment:
@@ -189,7 +189,7 @@ services:
       BOK_CHOY_CMS_PORT: 18131
       EDXAPP_TEST_MONGO_HOST: edx.devstack.mongo
       NO_PYTHON_UNINSTALL: 1
-    image: appsembler/edxapp:${OPENEDX_RELEASE:-latest}
+    image: appsembler/edxapp:latest # Will work fine until we have Ironwood
     ports:
       - "18010:18010"
       - "19877:19877" # JS test debugging
@@ -205,7 +205,7 @@ services:
       - mongo
       - memcached
       - elasticsearch
-    image: edxops/forum:${OPENEDX_RELEASE:-latest}
+    image: edxops/forum:hawthorn.master
     ports:
       - "44567:4567"
 
@@ -227,7 +227,7 @@ services:
 
   devpi:
     container_name: edx.devstack.devpi
-    image: edxops/devpi:${OPENEDX_RELEASE:-latest}
+    image: edxops/devpi:hawthorn.master
     ports:
       - "3141:3141"
     volumes:
