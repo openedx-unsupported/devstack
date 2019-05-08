@@ -45,8 +45,9 @@ tahoe.theme.reset:  ## Removes and re-clone the theme with Tahoe branches
 	rm -rf $(THEMES_DIR)
 
 	# Remove and recreated the customer themes css directory
-	sudo rm -rf $(DEVSTACK_WORKSPACE)/themes/customer_themes
-	make COMMAND='mkdir -p /edx/src/themes/customer_themes' SERVICE=lms tahoe.exec.single
+	sudo rm -rf $(DEVSTACK_WORKSPACE)/src/themes/customer_themes
+	mkdir -p $(DEVSTACK_WORKSPACE)/src/themes/  # Make it writeble for the user
+	make COMMAND='mkdir -p /edx/src/themes/customer_themes' SERVICE=lms tahoe.exec.single  # Writeable for the container
 
 	git clone git@github.com:appsembler/edx-theme-codebase.git $(THEMES_DIR)/edx-theme-codebase
 	cd $(THEMES_DIR)/edx-theme-codebase && git checkout hawthorn/master
@@ -59,7 +60,7 @@ tahoe.theme.reset:  ## Removes and re-clone the theme with Tahoe branches
 tahoe.init.provision-script:  ## Execute the `provision-tahoe.py` script in both of LMS and Studio
 	cat $(DEVSTACK_WORKSPACE)/devstack/provision-tahoe.py > $(DEVSTACK_WORKSPACE)/src/provision-tahoe.py
 	make COMMAND='python /edx/src/provision-tahoe.py' tahoe.exec.edxapp
-	make COMMAND='pip install -e /edx/src/figures' SERVICE=lms tahoe.exec.single
+	# make COMMAND='pip install -e /edx/src/figures' SERVICE=lms tahoe.exec.single
 	rm $(DEVSTACK_WORKSPACE)/src/provision-tahoe.py
 
 tahoe.init:  ## Make the devstack more Tahoe'ish
@@ -68,10 +69,10 @@ tahoe.init:  ## Make the devstack more Tahoe'ish
 
 tahoe.up:  ## Run the devstack with proper Tahoe settings, use instead of `$ make dev.up`
 	make tahoe.chown
-	test -d $(FIGURES_DIR) || make tahoe.figures
 	make dev.up
 	@sleep 1
 	make tahoe.init
+	# test -d $(FIGURES_DIR) || make tahoe.figures
 	test -d $(CUSTOMER_THEME_DIR) || (make tahoe.theme.reset && make tahoe.theme.compile)
 	test -d $(AMC_DIR) || make amc.reset
 	test -f $(AMC_DIR)/amc/.env || make amc.env-file
@@ -93,8 +94,8 @@ tahoe.figures:  ## Install Figures
 tahoe.reset.light:  ## Resets the Tahoe settings including a fresh theme copy and new environment files.
 	make down
 	make tahoe.envs._delete
-	make amc.reset
 	make tahoe.theme.reset
+	make amc.reset
 	@sleep 1
 	make tahoe.up
 	make tahoe.theme.compile

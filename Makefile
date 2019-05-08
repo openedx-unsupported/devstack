@@ -220,6 +220,17 @@ lms-static: ## Rebuild static assets for the LMS container
 studio-static: ## Rebuild static assets for the Studio container
 	docker exec -t edx.devstack.studio bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && npm install && paver update_assets'
 
+## Appsembler: Remove `credentials-static`, `discovery-static` and `ecommerce-static`
+##             because they're problematic and not needed for us
+credentials-static:
+	@echo 'credentials-static: Disabled at Appsembler'
+
+discovery-static:
+	@echo 'discovery-static: Disabled at Appsembler'
+
+ecommerce-static:
+	@echo 'ecommerce-static: Disabled at Appsembler'
+
 static: | credentials-static discovery-static ecommerce-static lms-static studio-static ## Rebuild static assets for all service containers
 
 healthchecks: ## Run a curl against all services' healthcheck endpoints to make sure they are up. This will eventually be parameterized
