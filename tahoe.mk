@@ -46,8 +46,7 @@ tahoe.theme.reset:  ## Removes and re-clone the theme with Tahoe branches
 
 	# Remove and recreated the customer themes css directory
 	sudo rm -rf $(DEVSTACK_WORKSPACE)/src/themes/customer_themes
-	mkdir -p $(DEVSTACK_WORKSPACE)/src/themes/  # Make it writeble for the user
-	make COMMAND='mkdir -p /edx/src/themes/customer_themes' SERVICE=lms tahoe.exec.single  # Writeable for the container
+	mkdir -p $(DEVSTACK_WORKSPACE)/src/themes/customer_themes/  # Make it writeble for the user
 
 	git clone git@github.com:appsembler/edx-theme-codebase.git $(THEMES_DIR)/edx-theme-codebase
 	cd $(THEMES_DIR)/edx-theme-codebase && git checkout hawthorn/master
@@ -95,9 +94,9 @@ tahoe.reset.light:  ## Resets the Tahoe settings including a fresh theme copy an
 	make down
 	make tahoe.envs._delete
 	make tahoe.theme.reset
-	make amc.reset
 	@sleep 1
 	make tahoe.up
+	make amc.reset
 	make tahoe.theme.compile
 
 tahoe.reset.full:  ## Does a full reset for everything known to devstack. Will loose all git and database changes.
