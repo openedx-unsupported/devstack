@@ -32,7 +32,11 @@ services:
       - ../edx-platform/common/test/data:/edx/app/edxapp/edx-platform/common/test/data
 
   elasticsearch:
-    container_name: edx.devstack.elasticsearch
+    container_name: elasticsearch.local.edx.org
+    networks:
+      devstack_default:
+        aliases:
+          - edx.devstack.elasticsearch
     hostname: elasticsearch.devstack.edx
     image: edxops/elasticsearch:devstack
     # TODO: What to do about these forwarded ports? They'll conflict with ports forwarded by the Vagrant VM.
@@ -125,7 +129,7 @@ services:
     stdin_open: true
     tty: true
     environment:
-      TEST_ELASTICSEARCH_URL: "http://edx.devstack.elasticsearch:9200"
+      TEST_ELASTICSEARCH_URL: "http://elasticsearch.local.edx.org:9200"
       ENABLE_DJANGO_TOOLBAR: 1
     image: edxops/discovery:${OPENEDX_RELEASE:-latest}
     ports:
@@ -195,7 +199,7 @@ services:
       DB_PORT: "3306"
       DB_USER: "notes001"
       ENABLE_DJANGO_TOOLBAR: 1
-      ELASTICSEARCH_URL: "http://edx.devstack.elasticsearch:9200"
+      ELASTICSEARCH_URL: "http://elasticsearch.local.edx.org:9200"
 
   registrar:
     command: bash -c 'source /edx/app/registrar/registrar_env && while true; do python /edx/app/registrar/registrar/manage.py runserver 0.0.0.0:18734; sleep 2; done'
