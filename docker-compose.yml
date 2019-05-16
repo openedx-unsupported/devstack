@@ -78,7 +78,11 @@ services:
     # to conserve disk space, and disable the journal for a minor performance gain.
     # See https://docs.mongodb.com/v3.0/reference/program/mongod/#options for complete details.
     command: mongod --smallfiles --nojournal --storageEngine wiredTiger
-    container_name: edx.devstack.mongo
+    container_name: mongo.local.edx.org
+    networks:
+      devstack_default:
+        aliases:
+          - edx.devstack.mongo
     hostname: mongo.devstack.edx
     image: mongo:3.2.16
     # ports:
@@ -177,7 +181,7 @@ services:
       BOK_CHOY_HOSTNAME: edx.devstack.lms
       BOK_CHOY_LMS_PORT: 18003
       BOK_CHOY_CMS_PORT: 18031
-      EDXAPP_TEST_MONGO_HOST: edx.devstack.mongo
+      EDXAPP_TEST_MONGO_HOST: mongo.local.edx.org
       NO_PYTHON_UNINSTALL: 1
     image: edxops/edxapp:${OPENEDX_RELEASE:-latest}
     ports:
@@ -287,7 +291,7 @@ services:
       BOK_CHOY_HOSTNAME: edx.devstack.studio
       BOK_CHOY_LMS_PORT: 18103
       BOK_CHOY_CMS_PORT: 18131
-      EDXAPP_TEST_MONGO_HOST: edx.devstack.mongo
+      EDXAPP_TEST_MONGO_HOST: mongo.local.edx.org
       NO_PYTHON_UNINSTALL: 1
     image: edxops/edxapp:${OPENEDX_RELEASE:-latest}
     ports:
