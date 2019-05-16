@@ -63,7 +63,11 @@ services:
       - ../edx-platform/common/test/data:/edx/app/edxapp/edx-platform/common/test/data
 
   memcached:
-    container_name: edx.devstack.memcached
+    container_name: memcached.local.edx.org
+    networks:
+      devstack_default:
+        aliases:
+          - edx.devstack.memcached
     hostname: memcached.devstack.edx
     image: memcached:1.4.24
     # ports:
@@ -113,7 +117,7 @@ services:
     stdin_open: true
     tty: true
     environment:
-      CACHE_LOCATION: edx.devstack.memcached:12211
+      CACHE_LOCATION: memcached.local.edx.org:12211
       DB_HOST: edx.devstack.mysql
       SOCIAL_AUTH_EDX_OIDC_URL_ROOT: http://edx.devstack.lms:18000/oauth2
       ENABLE_DJANGO_TOOLBAR: 1
@@ -226,7 +230,7 @@ services:
       DB_USER: registrar001
       DB_PASSWORD: password
       LMS_HOST: http://localhost:18000
-      MEMCACHE_HOST: edx.devstack.memcached
+      MEMCACHE_HOST: memcached.local.edx.org
       DJANGO_SETTINGS_MODULE: registrar.settings.devstack
       CELERY_BROKER_TRANSPORT: redis
       CELERY_BROKER_HOSTNAME: edx.devstack.redis:6379
@@ -255,7 +259,7 @@ services:
       DB_USER: registrar001
       DB_PASSWORD: password
       LMS_HOST: http://localhost:18000
-      MEMCACHE_HOST: edx.devstack.memcached
+      MEMCACHE_HOST: memcached.local.edx.org
       DJANGO_SETTINGS_MODULE: registrar.settings.devstack
       CELERY_BROKER_TRANSPORT: redis
       CELERY_BROKER_HOSTNAME: edx.devstack.redis:6379

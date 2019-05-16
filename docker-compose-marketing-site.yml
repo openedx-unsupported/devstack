@@ -17,7 +17,7 @@ services:
       - DB_PASSWORD=password
       - DB_USER=edxmktg001
       - LMS_HOST=http://localhost:18000
-      - MEMCACHE_HOST=edx.devstack.memcached
+      - MEMCACHE_HOST=memcached.local.edx.org
       # Used by PhpStorm to attach the debug connection
       - PHP_IDE_CONFIG=serverName=edx.docker
       # For the settings below, see .env.example to provide values (default is after the ':-')
