@@ -48,7 +48,11 @@ services:
       - elasticsearch_data:/usr/share/elasticsearch/logs
 
   firefox:
-    container_name: edx.devstack.firefox
+    container_name: firefox.local.edx.org
+    networks:
+      devstack_default:
+        aliases:
+          - edx.devstack.firefox
     hostname: firefox.devstack.edx
     image: edxops/firefox:${OPENEDX_RELEASE:-latest}
     shm_size: 2g

@@ -241,7 +241,7 @@ validate-lms-volume: ## Validate that changes to the local workspace are reflect
 
 vnc-passwords: ## Get the VNC passwords for the Chrome and Firefox Selenium containers
 	@docker logs chrome.local.edx.org 2>&1 | grep "VNC password" | tail -1
-	@docker logs edx.devstack.firefox 2>&1 | grep "VNC password" | tail -1
+	@docker logs firefox.local.edx.org 2>&1 | grep "VNC password" | tail -1
 
 devpi-password: ## Get the root devpi password for the devpi container
 	docker-compose exec devpi bash -c "cat /data/server/.serverpassword"
