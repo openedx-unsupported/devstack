@@ -741,7 +741,7 @@ logged at container startup, and can be found by running ``make vnc-passwords``.
 
 Most tests are run in Firefox by default.  To use Chrome for tests that normally
 use Firefox instead, prefix the test command with
-``SELENIUM_BROWSER=chrome SELENIUM_HOST=edx.devstack.chrome``.
+``SELENIUM_BROWSER=chrome SELENIUM_HOST=chrome.local.edx.org``.
 
 Running End-to-End Tests
 ------------------------
