@@ -34,3 +34,13 @@ syncs:
     host_disk_mount_mode: 'cached'
     src: '../registrar/'
     sync_excludes: [ '.git', '.idea' ]
+
+  gradebook-sync:
+    host_disk_mount_mode: 'cached'
+    src: '../gradebook/'
+    sync_excludes: [ '.git', '.idea' ]
+
+  program-manager-sync:
+    host_disk_mount_mode: 'cached'
+    src: '../frontend-app-program-manager/'
+    sync_excludes: [ '.git', '.idea' ]
