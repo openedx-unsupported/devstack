@@ -10,6 +10,10 @@
 
 version: "2.1"
 
+networks: 
+  devstack_default:
+    name: devstack_default
+
 services:
   # Third-party services
   chrome:
