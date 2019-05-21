@@ -13,7 +13,6 @@ This project requires **Docker 17.06+ CE**.
     $ cd ~/work/tahoe-hawthorn
     $ git clone https://github.com/appsembler/devstack.git
     $ cd devstack  # Now the `devstack` repo should be on the `hawthorn` branch
-    $ make dev.clone
     $ make dev.provision
     $ make tahoe.up
 
@@ -77,29 +76,15 @@ Currently the commands looks like this:
 .. code::
 
     $ make help | grep -e tahoe -e amc
-      amc.env-file              Removes and uses a fresh copy of the AMC env file
-      amc.migrate               Migrate the AMC database
-      amc.reset                 Removes and re-initialize AMC
-      amc.start.backend         Starts the AMC Django app
-      amc.start.frontend        Starts the AMC Frontend
-      tahoe.amc.oauth-client    Creates the AMC OAuth client in the LMS
-      tahoe.amc.superuser       Creates the devstack admin user
-      tahoe.chown               Fix an annoying docker permission issue in both `edx-platform` and `src`
+      amc.provision             Initializes the AMC
+      tahoe.chown               Fix annoying docker permission issues
       tahoe.envs._delete        Remove settings, in prep for resetting it
-      tahoe.envs.reset          Reset the JSON envs
       tahoe.exec.edxapp         Execute a command in both LMS and Studio (edxapp containers)
       tahoe.exec.single         Execute a command inside a devstack docker container
-      tahoe.figures             Install Figures
-      tahoe.init                Make the devstack more Tahoe'ish
-      tahoe.init.provision-script Execute the `provision-tahoe.py` script in both of LMS and Studio
-      tahoe.install-pip.edxapp  Install a pip package in both of LMS and Studio
-      tahoe.os.exec             Executes operating system-specific commands
-      tahoe.reset.full          Does a full reset for everything known to devstack. Will loose all git and database changes.
-      tahoe.reset.light         Resets the Tahoe settings including a fresh theme copy and new environment files.
+      tahoe.provision           Make the devstack more Tahoe'ish
       tahoe.restart             Restarts both of LMS and Studio python processes while keeping the same container
-      tahoe.theme.compile       Compile the static assets of the theme
-      tahoe.theme.reset         Removes and re-clone the theme with Tahoe branches
       tahoe.up                  Run the devstack with proper Tahoe settings, use instead of `$ make dev.up`
+
 
 If something goes wrong, check the rest of this README for additional details.
 

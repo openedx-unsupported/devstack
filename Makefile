@@ -58,7 +58,11 @@ dev.clone: ## Clone service repos to the parent directory
 dev.provision.run: ## Provision all services with local mounted directories
 	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml" $(WINPTY) bash ./provision.sh
 
-dev.provision: | check-memory dev.clone dev.provision.run stop ## Provision dev environment with all services stopped
+dev.provision: | check-memory dev.clone dev.provision.run ## Provision dev environment with all services stopped
+	make dev.up
+	make tahoe.provision
+	make amc.provision
+	make stop
 
 dev.provision.xqueue: | check-memory dev.provision.xqueue.run stop stop.xqueue
 

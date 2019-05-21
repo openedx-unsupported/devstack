@@ -225,6 +225,50 @@ services:
     volumes:
       - redis_data:/data
 
+  amc:
+    command: bash -c 'while true; do python manage.py runserver 0.0.0.0:19000; sleep 2; done'
+    container_name: tahoe.devstack.amc
+    depends_on:
+      - redis
+      - lms
+      - postgres
+    # Allows attachment to the LMS service using 'docker attach <containerID>'.
+    stdin_open: true
+    tty: true
+    environment:
+      DJANGO_DEBUG: "true"
+      DJANGO_CELERY_ALWAYS_EAGER: "true"
+      SSL_ENABLED: "false"
+      DATABASE_URL: "postgres://postgres:postgres@tahoe.devstack.postgres:5432/postgres"
+      BROKER_URL: "redis://tahoe.devstack.redis:6379/1"
+      LMS_BASE_URL: "http://edx.devstack.lms:18000"
+      CMS_BASE_URL: "http://tahoe.devstack.studio:18010"
+      APPSEMBLER_EDX_OAUTH_CLIENT_ID: 6f2b93d5c02560c3f93f
+      APPSEMBLER_EDX_OAUTH_CLIENT_SECRET: 2c6c9ac52dd19d7255dd569fb7eedbe0ebdab2db
+      DJANGO_SETTINGS_MODULE: config.settings
+      DJANGO_SECRET_KEY: DUMMY KEY ONLY FOR TO DEVSTACK
+      DJANGO_ALLOWED_HOSTS: '*'
+      OAUTHLIB_INSECURE_TRANSPORT: "true"
+      APPSEMBLER_EDX_API_KEY: test
+      APPSEMBLER_SECRET_KEY: secret_key
+    image: gcr.io/appsembler-tahoe-0/amc
+    ports:
+      - "19000:19000"
+
+  amc-frontend:
+    command: bash -c 'while true; do npm start; sleep 2; done'
+    container_name: tahoe.devstack.amc-frontend
+    # Allows attachment to the LMS service using 'docker attach <containerID>'.
+    stdin_open: true
+    tty: true
+    environment:
+      LMS_BASE: "localhost:18000"
+      PORT: "13000"
+      HOST: 0.0.0.0
+    image: gcr.io/appsembler-tahoe-0/amc-frontend
+    ports:
+      - "13000:13000"
+
   devpi:
     container_name: edx.devstack.devpi
     image: edxops/devpi:hawthorn.master
