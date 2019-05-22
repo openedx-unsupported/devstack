@@ -92,7 +92,11 @@ services:
 
   mysql:
     command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci
-    container_name: edx.devstack.mysql
+    container_name: mysql.local.edx.org
+    networks:
+      devstack_default:
+        aliases:
+          - edx.devstack.mysql
     hostname: mysql.devstack.edx
     environment:
       MYSQL_ROOT_PASSWORD: ""
@@ -122,7 +126,7 @@ services:
     tty: true
     environment:
       CACHE_LOCATION: memcached.local.edx.org:12211
-      DB_HOST: edx.devstack.mysql
+      DB_HOST: mysql.local.edx.org
       SOCIAL_AUTH_EDX_OIDC_URL_ROOT: http://edx.devstack.lms:18000/oauth2
       ENABLE_DJANGO_TOOLBAR: 1
     image: edxops/credentials:${OPENEDX_RELEASE:-latest}
@@ -205,7 +209,7 @@ services:
       - "18120:18120"
     environment:
       DB_ENGINE: "django.db.backends.mysql"
-      DB_HOST: "edx.devstack.mysql"
+      DB_HOST: "mysql.local.edx.org"
       DB_NAME: "notes"
       DB_PASSWORD: "password"
       DB_PORT: "3306"
@@ -228,7 +232,7 @@ services:
     stdin_open: true
     tty: true
     environment:
-      DB_HOST: edx.devstack.mysql
+      DB_HOST: mysql.local.edx.org
       DB_NAME: registrar
       DB_PORT: 3306
       DB_USER: registrar001
@@ -257,7 +261,7 @@ services:
     stdin_open: true
     tty: true
     environment:
-      DB_HOST: edx.devstack.mysql
+      DB_HOST: mysql.local.edx.org
       DB_NAME: registrar
       DB_PORT: 3306
       DB_USER: registrar001

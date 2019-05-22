@@ -12,7 +12,7 @@ services:
       - mysql
       - memcached
     environment:
-      - DB_HOST=edx.devstack.mysql
+      - DB_HOST=mysql.local.edx.org
       - DB_NAME=edxmktg
       - DB_PASSWORD=password
       - DB_USER=edxmktg001

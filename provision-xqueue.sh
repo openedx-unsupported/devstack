@@ -11,13 +11,13 @@ docker-compose up -d mysql
 
 # Ensure the MySQL server is online and usable
 echo "Waiting for MySQL"
-until docker exec -i edx.devstack.mysql mysql -uroot -se "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = 'root')" &> /dev/null
+until docker exec -i mysql.local.edx.org mysql -uroot -se "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = 'root')" &> /dev/null
 do
   printf "."
   sleep 1
 done
 
-docker exec -i edx.devstack.mysql mysql -uroot mysql < provision-xqueue.sql
+docker exec -i mysql.local.edx.org mysql -uroot mysql < provision-xqueue.sql
 # Update dependencies
 docker-compose $DOCKER_COMPOSE_FILES exec xqueue bash -c 'source /edx/app/xqueue/xqueue_env && cd /edx/app/xqueue/xqueue && make requirements'
 # Run migrations
