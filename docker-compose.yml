@@ -108,7 +108,11 @@ services:
       - mysql_data:/var/lib/mysql
 
   redis:
-    container_name: edx.devstack.redis
+    container_name: redis.local.edx.org
+    networks:
+      devstack_default:
+        aliases:
+          - edx.devstack.redis
     hostname: redis.devstack.edx
     image: redis:2.8
     command: redis-server --requirepass password
@@ -241,7 +245,7 @@ services:
       MEMCACHE_HOST: memcached.local.edx.org
       DJANGO_SETTINGS_MODULE: registrar.settings.devstack
       CELERY_BROKER_TRANSPORT: redis
-      CELERY_BROKER_HOSTNAME: edx.devstack.redis:6379
+      CELERY_BROKER_HOSTNAME: redis.local.edx.org:6379
       CELERY_BROKER_VHOST: 10
       CELERY_BROKER_PASSWORD: password
     image: edxops/registrar:${OPENEDX_RELEASE:-latest}
@@ -270,7 +274,7 @@ services:
       MEMCACHE_HOST: memcached.local.edx.org
       DJANGO_SETTINGS_MODULE: registrar.settings.devstack
       CELERY_BROKER_TRANSPORT: redis
-      CELERY_BROKER_HOSTNAME: edx.devstack.redis:6379
+      CELERY_BROKER_HOSTNAME: redis.local.edx.org:6379
       CELERY_BROKER_VHOST: 10
       CELERY_BROKER_PASSWORD: password
     image: edxops/registrar:${OPENEDX_RELEASE:-latest}
