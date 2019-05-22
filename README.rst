@@ -313,7 +313,21 @@ meant to be user-facing, the "homepage" may be the API root.
 +---------------------+-------------------------------------+
 | Studio/CMS          | http://localhost:18010/             |
 +---------------------+-------------------------------------+
-| Registrar           | http://localhost:18734/             |
+| Registrar           | http://localhost:18734/api-docs/    |
++---------------------+-------------------------------------+
+
+Microfrontend URLs
+------------
+
+Each microfrontend is accessible at ``localhost`` on a specific port. The table below
+provides links to each microfrontend.
+
++---------------------+-------------------------------------+
+| Service             | URL                                 |
++=====================+=====================================+
+| Gradebook           | http://localhost:1994/              |
++---------------------+-------------------------------------+
+| Program Manager     | http://localhost:1976/              |
 +---------------------+-------------------------------------+
 
 Useful Commands
@@ -345,6 +359,8 @@ In all the above commands, ``<service>`` should be replaced with one of the foll
 -  edx_notes_api
 -  studio
 -  registrar
+-  gradebook
+-  program-manager
 
 If you'd like to add some convenience make targets, you can add them to a ``local.mk`` file, ignored by git.
 

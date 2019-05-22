@@ -33,16 +33,20 @@ services:
   forum:
     volumes:
       - ${DEVSTACK_WORKSPACE}/cs_comments_service:/edx/app/forum/cs_comments_service:cached
-  gradebook:
-    volumes:
-      - ${DEVSTACK_WORKSPACE}/gradebook:/edx/app/gradebook:cached
-      - gradebook_node_modules:/edx/app/gradebook/node_modules
   registrar:
     volumes:
       - ${DEVSTACK_WORKSPACE}/registrar:/edx/app/registrar/registrar
   registrar-worker:
     volumes:
       - ${DEVSTACK_WORKSPACE}/registrar:/edx/app/registrar/registrar
+  gradebook:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/gradebook:/edx/app/gradebook:cached
+      - gradebook_node_modules:/edx/app/gradebook/node_modules
+  program-manager:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/frontend-app-program-manager:/edx/app/program-manager:cached
+      - program_manager_node_modules:/edx/app/program-manager/node_modules
 
 volumes:
   credentials_node_modules:
@@ -50,3 +54,4 @@ volumes:
   ecommerce_node_modules:
   edxapp_node_modules:
   gradebook_node_modules:
+  program_manager_node_modules:

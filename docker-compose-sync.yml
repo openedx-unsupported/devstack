@@ -22,6 +22,12 @@ services:
   registrar:
     volumes:
       - registrar-sync:/edx/app/registrar/registrar:nocopy
+  gradebook:
+    volumes:
+      - gradebook-sync:/edx/app/gradebook/gradebook:nocopy
+  program-manager:
+    volumes:
+      - program-manager-sync:/edx/app/program-manager:nocopy
 
 volumes:
   credentials-sync:
@@ -35,4 +41,8 @@ volumes:
   forum-sync:
     external: true
   registrar-sync:
+    external: true
+  gradebook-sync:
+    external: true
+  program-manager-sync:
     external: true
