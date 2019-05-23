@@ -313,7 +313,11 @@ services:
 
   studio:
     command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py cms runserver 0.0.0.0:18010 --settings devstack_docker; sleep 2; done'
-    container_name: edx.devstack.studio
+    container_name: studio.local.edx.org
+    networks:
+      devstack_default:
+        aliases:
+          - edx.devstack.studio
     hostname: studio.devstack.edx
     depends_on:
       - devpi
@@ -324,7 +328,7 @@ services:
     stdin_open: true
     tty: true
     environment:
-      BOK_CHOY_HOSTNAME: edx.devstack.studio
+      BOK_CHOY_HOSTNAME: studio.local.edx.org
       BOK_CHOY_LMS_PORT: 18103
       BOK_CHOY_CMS_PORT: 18131
       EDXAPP_TEST_MONGO_HOST: mongo.local.edx.org

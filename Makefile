@@ -177,7 +177,7 @@ registrar-shell: ## Run a shell on the registrar site container
 	docker exec -t edx.devstack.$* bash -c 'source /edx/app/$*/$*_env && cd /edx/app/$*/$*/ && make migrate'
 
 studio-update-db: ## Run migrations for the Studio container
-	docker exec -t edx.devstack.studio bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_db'
+	docker exec -t studio.local.edx.org bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_db'
 
 lms-update-db: ## Run migrations LMS container
 	docker exec -t lms.local.edx.org bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_db'
@@ -197,13 +197,13 @@ lms-restart: ## Kill the LMS Django development server. The watcher process will
 	docker exec -t lms.local.edx.org bash -c 'kill $$(ps aux | grep "manage.py lms" | egrep -v "while|grep" | awk "{print \$$2}")'
 
 studio-shell: ## Run a shell on the Studio container
-	docker exec -it edx.devstack.studio env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
+	docker exec -it studio.local.edx.org env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
 
 studio-watcher-shell: ## Run a shell on the studio watcher container
 	docker exec -it edx.devstack.studio_watcher env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
 
 studio-restart: ## Kill the LMS Django development server. The watcher process will restart it.
-	docker exec -t edx.devstack.studio bash -c 'kill $$(ps aux | grep "manage.py cms" | egrep -v "while|grep" | awk "{print \$$2}")'
+	docker exec -t studio.local.edx.org bash -c 'kill $$(ps aux | grep "manage.py cms" | egrep -v "while|grep" | awk "{print \$$2}")'
 
 xqueue-shell: ## Run a shell on the XQueue container
 	docker exec -it edx.devstack.xqueue env TERM=$(TERM) /edx/app/xqueue/devstack.sh open
@@ -224,7 +224,7 @@ lms-static: ## Rebuild static assets for the LMS container
 	docker exec -t lms.local.edx.org bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_assets'
 
 studio-static: ## Rebuild static assets for the Studio container
-	docker exec -t edx.devstack.studio bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_assets'
+	docker exec -t studio.local.edx.org bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_assets'
 
 static: | credentials-static discovery-static ecommerce-static lms-static studio-static ## Rebuild static assets for all service containers
 
