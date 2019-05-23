@@ -376,7 +376,12 @@ services:
       file: microfrontend.yml
       service: microfrontend
     working_dir: '/edx/app/gradebook'
-    container_name: edx.devstack.gradebook
+    container_name: gradebook.local.edx.org
+    networks:
+      devstack_default:
+        aliases:
+          - edx.devstack.gradebook
+    image: node:10
     ports:
       - "1994:1994"
     depends_on:
