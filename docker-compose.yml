@@ -135,7 +135,7 @@ services:
     environment:
       CACHE_LOCATION: memcached.local.edx.org:12211
       DB_HOST: mysql.local.edx.org
-      SOCIAL_AUTH_EDX_OIDC_URL_ROOT: http://edx.devstack.lms:18000/oauth2
+      SOCIAL_AUTH_EDX_OIDC_URL_ROOT: http://lms.local.edx.org:18000/oauth2
       ENABLE_DJANGO_TOOLBAR: 1
     image: edxops/credentials:${OPENEDX_RELEASE:-latest}
     ports:
@@ -187,7 +187,11 @@ services:
 
   lms:
     command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py lms runserver 0.0.0.0:18000 --settings devstack_docker; sleep 2; done'
-    container_name: edx.devstack.lms
+    container_name: lms.local.edx.org
+    networks:
+      devstack_default:
+        aliases:
+          - edx.devstack.lms
     hostname: lms.devstack.edx
     depends_on:
       - devpi
@@ -198,7 +202,7 @@ services:
     stdin_open: true
     tty: true
     environment:
-      BOK_CHOY_HOSTNAME: edx.devstack.lms
+      BOK_CHOY_HOSTNAME: lms.local.edx.org
       BOK_CHOY_LMS_PORT: 18003
       BOK_CHOY_CMS_PORT: 18031
       EDXAPP_TEST_MONGO_HOST: mongo.local.edx.org

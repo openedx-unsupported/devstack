@@ -278,9 +278,9 @@ Cannot open the manage.py file
 
 The error happens when you try to run a stack (lms or studio for example)::
 
-    Attaching to edx.devstack.lms
-    edx.devstack.lms | /edx/app/edxapp/venvs/edxapp/bin/python: can't open file '/edx/app/edxapp/edx-platform/manage.py': [Errno 2] No such file or directory
-    edx.devstack.lms exited with code 2
+    Attaching to lms.local.edx.org
+    lms.local.edx.org | /edx/app/edxapp/venvs/edxapp/bin/python: can't open file '/edx/app/edxapp/edx-platform/manage.py': [Errno 2] No such file or directory
+    lms.local.edx.org exited with code 2
     Aborting on container exit...
 
 Best is to recheck all your settings in particular the Remote Interpreter's settings and make sure that you have included the docker-compose-host.yml file. Make also sure
@@ -291,7 +291,7 @@ maps /opt/project to the local source file folder. You can safely ignore this un
 
 For info, the Docker Tool Window (https://www.jetbrains.com/help/pycharm/using-docker-compose-as-a-remote-interpreter.html) can help to see what's happening:
 
-1. Click on the Docker/devstack instances and find your instance (for example Docker/devstack/lms/edx.devstack.lms)
+1. Click on the Docker/devstack instances and find your instance (for example Docker/devstack/lms/lms.local.edx.org)
 
 2. Select the Volume Bindings tab
 
