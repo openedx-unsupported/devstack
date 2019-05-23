@@ -694,7 +694,7 @@ or a manual Docker command to bring down the container:
 
 .. code:: sh
 
-   docker kill $(docker ps -a -q --filter="name=edx.devstack.<container name>")
+   docker kill $(docker ps -a -q --filter="name=<container name>.local.edx.org")
 
 Alternatively, some terminals allow detachment from a running container with the
 ``Ctrl-P, Ctrl-Q`` key sequence.

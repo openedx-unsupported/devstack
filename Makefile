@@ -156,7 +156,7 @@ restore:  ## Restore all data volumes from the host. WARNING: THIS WILL OVERWRIT
 # TODO: Print out help for this target. Even better if we can iterate over the
 # services in docker-compose.yml, and print the actual service names.
 %-shell: ## Run a shell on the specified service container
-	docker exec -it edx.devstack.$* /bin/bash
+	docker exec -it $*.local.edx.org /bin/bash
 
 credentials-shell: ## Run a shell on the credentials container
 	docker exec -it credentials.local.edx.org env TERM=$(TERM) bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials && /bin/bash'
@@ -174,7 +174,7 @@ registrar-shell: ## Run a shell on the registrar site container
 	docker exec -it registrar.local.edx.org env TERM=$(TERM) bash -c 'source /edx/app/registrar/registrar_env && cd /edx/app/registrar/registrar && /bin/bash'
 
 %-update-db: ## Run migrations for the specified service container
-	docker exec -t edx.devstack.$* bash -c 'source /edx/app/$*/$*_env && cd /edx/app/$*/$*/ && make migrate'
+	docker exec -t $*.local.edx.org bash -c 'source /edx/app/$*/$*_env && cd /edx/app/$*/$*/ && make migrate'
 
 studio-update-db: ## Run migrations for the Studio container
 	docker exec -t studio.local.edx.org bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_db'
@@ -191,7 +191,7 @@ lms-watcher-shell: ## Run a shell on the LMS watcher container
 	docker exec -it edx.devstack.lms_watcher env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
 
 %-attach: ## Attach to the specified service container process to use the debugger & see logs.
-	docker attach edx.devstack.$*
+	docker attach $*.local.edx.org
 
 lms-restart: ## Kill the LMS Django development server. The watcher process will restart it.
 	docker exec -t lms.local.edx.org bash -c 'kill $$(ps aux | grep "manage.py lms" | egrep -v "while|grep" | awk "{print \$$2}")'
@@ -218,7 +218,7 @@ xqueue_consumer-restart: ## Kill the XQueue development server. The watcher proc
 	docker exec -t edx.devstack.xqueue_consumer bash -c 'kill $$(ps aux | grep "manage.py run_consumer" | egrep -v "while|grep" | awk "{print \$$2}")'
 
 %-static: ## Rebuild static assets for the specified service container
-	docker exec -t edx.devstack.$* bash -c 'source /edx/app/$*/$*_env && cd /edx/app/$*/$*/ && make static'
+	docker exec -t $*.local.edx.org bash -c 'source /edx/app/$*/$*_env && cd /edx/app/$*/$*/ && make static'
 
 lms-static: ## Rebuild static assets for the LMS container
 	docker exec -t lms.local.edx.org bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_assets'
