@@ -159,7 +159,7 @@ restore:  ## Restore all data volumes from the host. WARNING: THIS WILL OVERWRIT
 	docker exec -it edx.devstack.$* /bin/bash
 
 credentials-shell: ## Run a shell on the credentials container
-	docker exec -it edx.devstack.credentials env TERM=$(TERM) bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials && /bin/bash'
+	docker exec -it credentials.local.edx.org env TERM=$(TERM) bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials && /bin/bash'
 
 discovery-shell: ## Run a shell on the discovery container
 	docker exec -it edx.devstack.discovery env TERM=$(TERM) /edx/app/discovery/devstack.sh open

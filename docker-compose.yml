@@ -120,7 +120,11 @@ services:
   # edX services
   credentials:
     command: bash -c 'source /edx/app/credentials/credentials_env && while true; do python /edx/app/credentials/credentials/manage.py runserver 0.0.0.0:18150; sleep 2; done'
-    container_name: edx.devstack.credentials
+    container_name: credentials.local.edx.org
+    networks:
+      devstack_default:
+        aliases:
+          - edx.devstack.credentials
     hostname: credentials.devstack.edx
     depends_on:
       - mysql
