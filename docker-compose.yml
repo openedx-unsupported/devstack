@@ -243,7 +243,11 @@ services:
 
   registrar:
     command: bash -c 'source /edx/app/registrar/registrar_env && while true; do python /edx/app/registrar/registrar/manage.py runserver 0.0.0.0:18734; sleep 2; done'
-    container_name: edx.devstack.registrar
+    container_name: registrar.local.edx.org
+    networks:
+      devstack_default:
+        aliases:
+          - edx.devstack.registrar
     hostname: registrar.devstack.edx
     depends_on:
       - discovery
