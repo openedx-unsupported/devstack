@@ -167,7 +167,11 @@ services:
 
   ecommerce:
     command: bash -c 'source /edx/app/ecommerce/ecommerce_env && while true; do python /edx/app/ecommerce/ecommerce/manage.py runserver 0.0.0.0:18130; sleep 2; done'
-    container_name: edx.devstack.ecommerce
+    container_name: ecommerce.local.edx.org
+    networks:
+      devstack_default:
+        aliases:
+          - edx.devstack.ecommerce
     hostname: ecommerce.devstack.edx
     depends_on:
       - mysql

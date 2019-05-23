@@ -15,7 +15,7 @@ for arg in "$@"; do
             studio=true
         fi
     elif [ $arg == "--ecommerce" ]; then
-        if [ ! "$(docker exec -t edx.devstack.ecommerce bash -c 'echo "Course will be created for ecommerce"; exit $?')" ]; then
+        if [ ! "$(docker exec -t ecommerce.local.edx.org bash -c 'echo "Course will be created for ecommerce"; exit $?')" ]; then
             echo "Issue with ecommerce container"
             container_error=true
         else
@@ -54,7 +54,7 @@ fi
 
 if $ecommerce ; then
 	echo "Creating courses on ecommerce."
-	docker exec -t edx.devstack.ecommerce bash -c "source /edx/app/ecommerce/ecommerce_env && python /edx/app/ecommerce/ecommerce/manage.py generate_courses '$course_json'"
+	docker exec -t ecommerce.local.edx.org bash -c "source /edx/app/ecommerce/ecommerce_env && python /edx/app/ecommerce/ecommerce/manage.py generate_courses '$course_json'"
 fi
 
 if $marketing ; then
