@@ -280,7 +280,11 @@ services:
 
   registrar-worker:
     command: bash -c 'source /edx/app/registrar/registrar_env && cd /edx/app/registrar/registrar && celery -A registrar worker -l debug -c 2'
-    container_name: edx.devstack.registrar-worker
+    container_name: registrar-worker.local.edx.org
+    networks:
+      devstack_default:
+        aliases:
+          - edx.devstack.registrar-worker
     hostname: registrar-worker.devstack.edx
     depends_on:
       - lms
