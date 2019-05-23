@@ -359,7 +359,11 @@ services:
       - "44567:4567"
 
   devpi:
-    container_name: edx.devstack.devpi
+    container_name: devpi.local.edx.org
+    networks:
+      devstack_default:
+        aliases:
+          - edx.devstack.devpi
     hostname: devpi.devstack.edx
     image: edxops/devpi:${OPENEDX_RELEASE:-latest}
     ports:
