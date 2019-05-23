@@ -143,7 +143,11 @@ services:
 
   discovery:
     command: bash -c 'source /edx/app/discovery/discovery_env && while true; do python /edx/app/discovery/discovery/manage.py runserver 0.0.0.0:18381; sleep 2; done'
-    container_name: edx.devstack.discovery
+    container_name: discovery.local.edx.org
+    networks:
+      devstack_default:
+        aliases:
+          - edx.devstack.discovery
     hostname: discovery.devstack.edx
     depends_on:
       - mysql
