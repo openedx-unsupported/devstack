@@ -206,16 +206,16 @@ studio-restart: ## Kill the LMS Django development server. The watcher process w
 	docker exec -t studio.local.edx.org bash -c 'kill $$(ps aux | grep "manage.py cms" | egrep -v "while|grep" | awk "{print \$$2}")'
 
 xqueue-shell: ## Run a shell on the XQueue container
-	docker exec -it edx.devstack.xqueue env TERM=$(TERM) /edx/app/xqueue/devstack.sh open
+	docker exec -it xqueue.local.edx.org env TERM=$(TERM) /edx/app/xqueue/devstack.sh open
 
 xqueue-restart: ## Kill the XQueue development server. The watcher process will restart it.
-	docker exec -t edx.devstack.xqueue bash -c 'kill $$(ps aux | grep "manage.py runserver" | egrep -v "while|grep" | awk "{print \$$2}")'
+	docker exec -t xqueue.local.edx.org bash -c 'kill $$(ps aux | grep "manage.py runserver" | egrep -v "while|grep" | awk "{print \$$2}")'
 
 xqueue_consumer-shell: ## Run a shell on the XQueue consumer container
-	docker exec -it edx.devstack.xqueue_consumer env TERM=$(TERM) /edx/app/xqueue/devstack.sh open
+	docker exec -it xqueue_consumer.local.edx.org env TERM=$(TERM) /edx/app/xqueue/devstack.sh open
 
 xqueue_consumer-restart: ## Kill the XQueue development server. The watcher process will restart it.
-	docker exec -t edx.devstack.xqueue_consumer bash -c 'kill $$(ps aux | grep "manage.py run_consumer" | egrep -v "while|grep" | awk "{print \$$2}")'
+	docker exec -t xqueue_consumer.local.edx.org bash -c 'kill $$(ps aux | grep "manage.py run_consumer" | egrep -v "while|grep" | awk "{print \$$2}")'
 
 %-static: ## Rebuild static assets for the specified service container
 	docker exec -t $*.local.edx.org bash -c 'source /edx/app/$*/$*_env && cd /edx/app/$*/$*/ && make static'
