@@ -22,7 +22,7 @@ for arg in "$@"; do
             ecommerce=true
         fi
     elif [ $arg == "--marketing" ]; then
-        if [ ! "$(docker exec -t edx.devstack.marketing bash -c 'echo "Course will be created for marketing"; exit $?')" ]; then
+        if [ ! "$(docker exec -t marketing.local.edx.org bash -c 'echo "Course will be created for marketing"; exit $?')" ]; then
             echo "Issue with marketing container. Course creation will proceed without marketing container."
         else
             marketing=true
@@ -59,5 +59,5 @@ fi
 
 if $marketing ; then
 	echo "Creating courses on marketing."
-	docker exec -t edx.devstack.marketing bash -c "drush generate_courses '$course_json'"
+	docker exec -t marketing.local.edx.org bash -c "drush generate_courses '$course_json'"
 fi

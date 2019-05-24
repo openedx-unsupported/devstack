@@ -7,7 +7,11 @@ services:
       - MARKETING_SITE_ROOT="http://localhost:8080"
 
   marketing:
-    container_name: edx.devstack.marketing
+    container_name: marketing.local.edx.org
+    networks:
+      devstack_default:
+        aliases:
+          - edx.devstack.marketing
     depends_on:
       - mysql
       - memcached
