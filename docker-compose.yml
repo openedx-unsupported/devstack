@@ -5,7 +5,7 @@
 # - Group third-party and edX services separately
 # - Alphabetize services in the groups
 # - Alphabetize individual configuration options for each service
-# - Every service's container name should be prefixed with "edx.devstack." to avoid conflicts with other containers
+# - Every service's container name should be suffixed with ".local.edx.org" to avoid conflicts with other containers
 #   that might be running for the same service.
 
 version: "2.1"
@@ -392,7 +392,11 @@ services:
       file: microfrontend.yml
       service: microfrontend
     working_dir: '/edx/app/program-manager'
-    container_name: edx.devstack.program-manager
+    container_name: program-manager.local.edx.org
+    networks:
+      devstack_default:
+        aliases:
+          - edx.devstack.program-manager
     ports:
       - "1976:1976"
     depends_on:
