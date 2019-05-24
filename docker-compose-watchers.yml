@@ -3,9 +3,13 @@ version: "2.1"
 services:
   lms_watcher:
     command: bash -c 'cd /edx/app/edxapp/edx-platform && source ../edxapp_env && while true; do paver watch_assets --w=$$ASSET_WATCHER_TIMEOUT; sleep 2; done'
-    container_name: edx.devstack.lms_watcher
+    container_name: lms_watcher.local.edx.org
+    networks:
+      devstack_default:
+        aliases:
+          - edx.devstack.lms_watcher
     environment:
-      BOK_CHOY_HOSTNAME: edx.devstack.lms_watcher
+      BOK_CHOY_HOSTNAME: lms_watcher.local.edx.org
       ASSET_WATCHER_TIMEOUT: 12
     image: edxops/edxapp:${OPENEDX_RELEASE:-latest}
     volumes:
@@ -16,9 +20,13 @@ services:
 
   studio_watcher:
     command: bash -c 'cd /edx/app/edxapp/edx-platform && source ../edxapp_env && while true; do paver watch_assets --w=$$ASSET_WATCHER_TIMEOUT; sleep 2; done'
-    container_name: edx.devstack.studio_watcher
+    container_name: studio_watcher.local.edx.org
+    networks:
+      devstack_default:
+        aliases:
+          - edx.devstack.studio_watcher
     environment:
-      BOK_CHOY_HOSTNAME: edx.devstack.studio_watcher
+      BOK_CHOY_HOSTNAME: studio_watcher.local.edx.org
       ASSET_WATCHER_TIMEOUT: 12
     image: edxops/edxapp:${OPENEDX_RELEASE:-latest}
     volumes:
