@@ -132,6 +132,8 @@ services:
     depends_on:
       - mysql
       - memcached
+      - discovery
+      - lms  # lms handles login
     # Allows attachment to the ecommerce service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
