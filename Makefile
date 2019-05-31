@@ -298,3 +298,6 @@ check-memory: ## Check if enough memory has been allocated to Docker
 
 stats: ## Get per-container CPU and memory utilization data
 	docker stats --format "table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}"
+
+feature-toggle-state: ## Gather the state of feature toggles configured for various IDAs
+	$(WINPTY) bash ./gather-feature-toggle-state.sh
