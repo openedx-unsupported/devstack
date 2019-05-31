@@ -20,6 +20,9 @@ fi
 OPENEDX_GIT_BRANCH=open-release/hawthorn.master
 
 APPSEMBLER_EDX_PLATFORM_BRANCH="appsembler/tahoe/master"
+AMC_BRANCH="omar/docker-amc"  # TODO: Change to `develop` ASAP
+THEME_CODEBASE_BRANCH="hawthorn/master"
+THEME_CUSTOMERS_BRANCH="hawthorn/tahoe"
 
 repos=(
     "https://github.com/edx/course-discovery.git"
@@ -28,7 +31,10 @@ repos=(
     "https://github.com/edx/ecommerce.git"
     "https://github.com/edx/edx-e2e-tests.git"
     "https://github.com/edx/edx-notes-api.git"
-    "https://github.com/appsembler/edx-platform.git"
+    "git@github.com:appsembler/amc.git"
+    "git@github.com:appsembler/edx-theme-codebase.git"
+    "git@github.com:appsembler/edx-theme-customers.git"
+    "git@github.com:appsembler/edx-platform.git"
     "https://github.com/edx/xqueue.git"
     "https://github.com/edx/edx-analytics-pipeline.git"
 )
@@ -86,11 +92,13 @@ _clone ()
             cd ..
         else
             if [ "$name" == "edx-platform" ]; then
-                if [ "${SHALLOW_CLONE}" == "1" ]; then
-                    git clone --single-branch -b ${APPSEMBLER_EDX_PLATFORM_BRANCH} -c core.symlinks=true --depth=1 ${repo}
-                else
-                    git clone --single-branch -b ${APPSEMBLER_EDX_PLATFORM_BRANCH} -c core.symlinks=true ${repo}
-                fi
+                git clone -b ${APPSEMBLER_EDX_PLATFORM_BRANCH} -c core.symlinks=true ${repo}
+            elif [ "$name" == "amc" ]; then
+                git clone -b ${AMC_BRANCH} -c core.symlinks=true ${repo}
+            elif [ "$name" == "edx-theme-codebase" ]; then
+                git clone -b ${THEME_CODEBASE_BRANCH} -c core.symlinks=true ${repo}
+            elif [ "$name" == "edx-theme-customers" ]; then
+                git clone -b ${THEME_CUSTOMERS_BRANCH} -c core.symlinks=true ${repo}
             else
                 if [ "${SHALLOW_CLONE}" == "1" ]; then
                     git clone --single-branch -b ${OPENEDX_GIT_BRANCH} -c core.symlinks=true --depth=1 ${repo}
@@ -115,21 +123,19 @@ _checkout_and_update_branch ()
     fi
 }
 
-# our version to handle the fact that edx-platform needs a
-# different branch, not `master`
+# our version to handle the fact that both edx-platform and AMC need
+# different branches, not `master`
 _appsembler_checkout_and_update_branch ()
 {
     repo="$1"
     if [ "${repo}" == "edx-platform" ]; then
-        
-        GIT_SYMBOLIC_REF="$(git symbolic-ref HEAD 2>/dev/null)"
-        BRANCH_NAME=${GIT_SYMBOLIC_REF##refs/heads/}
-        if [ "${BRANCH_NAME}" == "${APPSEMBLER_EDX_PLATFORM_BRANCH}" ]; then
-            git pull origin ${APPSEMBLER_EDX_PLATFORM_BRANCH}
-        else
-            git fetch origin ${APPSEMBLER_EDX_PLATFORM_BRANCH}
-            git checkout ${APPSEMBLER_EDX_PLATFORM_BRANCH}
-        fi
+        OPENEDX_GIT_BRANCH="${APPSEMBLER_EDX_PLATFORM_BRANCH}" _checkout_and_update_branch
+    elif [ "${repo}" == "amc" ]; then
+        OPENEDX_GIT_BRANCH="${AMC_BRANCH}" _checkout_and_update_branch
+    elif [ "${repo}" == "edx-theme-codebase" ]; then
+        OPENEDX_GIT_BRANCH="${THEME_CODEBASE_BRANCH}" _checkout_and_update_branch
+    elif [ "${repo}" == "edx-theme-customers" ]; then
+        OPENEDX_GIT_BRANCH="${THEME_CUSTOMERS_BRANCH}" _checkout_and_update_branch
     else
         # default to the old behavior
         _checkout_and_update_branch
@@ -156,7 +162,9 @@ reset ()
 
         if [ -d "$name" ]; then
             if [ "$name" == "edx-platform" ]; then
-                cd $name;git reset --hard HEAD;git checkout ${APPSEMBLER_EDX_PLATFORM_BRANCH};git reset --hard origin/${APPSEMBLER_EDX_PLATFORM_BRANCH};git pull;cd "$currDir"                
+                cd $name;git reset --hard HEAD;git checkout ${APPSEMBLER_EDX_PLATFORM_BRANCH};git reset --hard origin/${APPSEMBLER_EDX_PLATFORM_BRANCH};git pull;cd "$currDir"
+            elif [ "$name" == "amc" ]; then
+                cd $name;git reset --hard HEAD;git checkout ${AMC_BRANCH};git reset --hard origin/${AMC_BRANCH};git pull;cd "$currDir"
             else
                 cd $name;git reset --hard HEAD;git checkout open-release/hawthorn.master;git reset --hard origin/open-release/hawthorn.master;git pull;cd "$currDir"
             fi
