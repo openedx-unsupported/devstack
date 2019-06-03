@@ -11,7 +11,7 @@ cached-property==1.5.1    # via docker-compose
 certifi==2019.3.9         # via requests
 cffi==1.12.3              # via bcrypt, cryptography, pynacl
 chardet==3.0.4            # via requests
-cryptography==2.6.1       # via paramiko
+cryptography==2.7         # via paramiko
 docker-compose==1.24.0
 docker-pycreds==0.4.0     # via docker
 docker[ssh]==3.7.2        # via docker-compose
