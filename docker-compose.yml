@@ -132,6 +132,8 @@ services:
     depends_on:
       - mysql
       - memcached
+      - lms
+      - discovery
     # Allows attachment to the ecommerce service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
@@ -150,6 +152,10 @@ services:
       - mysql
       - memcached
       - mongo
+      - discovery
+      - forum
+      - firefox
+      - chrome
     # Allows attachment to the LMS service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
@@ -260,6 +266,8 @@ services:
       - mysql
       - memcached
       - mongo
+      - firefox
+      - chrome
     # Allows attachment to the Studio service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
