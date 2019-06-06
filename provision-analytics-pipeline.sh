@@ -42,11 +42,11 @@ else
   docker exec -i edx.devstack.mysql mysql -uroot mysql < provision.sql
   ./load-db.sh edxapp
   docker-compose $DOCKER_COMPOSE_FILES up -d lms studio
-  docker-compose exec lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && NO_PYTHON_UNINSTALL=1 paver install_prereqs'
+  docker-compose exec -T lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && NO_PYTHON_UNINSTALL=1 paver install_prereqs'
   #Installing prereqs crashes the process
   docker-compose restart lms
   # Run edxapp migrations first since they are needed for the service users and OAuth clients
-  docker-compose exec lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && paver update_db --settings devstack_docker'
+  docker-compose exec -T lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && paver update_db --settings devstack_docker'
 fi
 
 echo -e "${GREEN}LMS database provisioned successfully...${NC}"

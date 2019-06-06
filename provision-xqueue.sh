@@ -18,6 +18,8 @@ do
 done
 
 docker exec -i edx.devstack.mysql mysql -uroot mysql < provision-xqueue.sql
+# Update dependencies
+docker-compose $DOCKER_COMPOSE_FILES exec xqueue bash -c 'source /edx/app/xqueue/xqueue_env && cd /edx/app/xqueue/xqueue && make requirements'
 # Run migrations
 docker-compose $DOCKER_COMPOSE_FILES exec xqueue bash -c 'source /edx/app/xqueue/xqueue_env && cd /edx/app/xqueue/xqueue && python manage.py migrate'
 # Add users that graders use to fetch data, there's one default user in Ansible which is part of our settings

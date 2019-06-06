@@ -33,6 +33,9 @@ repos=(
     "https://github.com/edx/edx-platform.git"
     "https://github.com/edx/xqueue.git"
     "https://github.com/edx/edx-analytics-pipeline.git"
+    "https://github.com/edx/registrar.git"
+    "https://github.com/edx/gradebook.git"
+    "https://github.com/edx/frontend-app-program-manager.git"
 )
 
 private_repos=(
@@ -40,7 +43,7 @@ private_repos=(
     "https://github.com/edx/edx-themes.git"
 )
 
-name_pattern=".*edx/(.*).git"
+name_pattern=".*/(.*).git"
 
 _checkout ()
 {
@@ -82,6 +85,10 @@ _clone ()
         # If a directory exists and it is nonempty, assume the repo has been checked out
         # and only make sure it's on the required branch
         if [ -d "$name" -a -n "$(ls -A "$name" 2>/dev/null)" ]; then
+            if [ ! -d "$name/.git" ]; then
+                printf "ERROR: [%s] exists but is not a git repo.\n" $name
+                exit 1
+            fi
             printf "The [%s] repo is already checked out. Checking for updates.\n" $name
             cd ${DEVSTACK_WORKSPACE}/${name}
             _checkout_and_update_branch
@@ -107,7 +114,7 @@ _checkout_and_update_branch ()
         git fetch origin ${OPENEDX_GIT_BRANCH}:${OPENEDX_GIT_BRANCH}
         git checkout ${OPENEDX_GIT_BRANCH}
     fi
-    find . -name '*.pyc' -not -path './.git/*' -delete 
+    find . -name '*.pyc' -not -path './.git/*' -delete
 }
 
 clone ()

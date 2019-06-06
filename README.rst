@@ -4,7 +4,7 @@ Open edX Devstack |Build Status|
 Get up and running quickly with Open edX services.
 
 If you are seeking info on the Vagrant-based devstack, please see
-https://openedx.atlassian.net/wiki/display/OpenOPS/Running+Devstack. This
+https://openedx.atlassian.net/wiki/spaces/OpenOPS/pages/60227787/Running+Vagrant-based+Devstack. This
 project is meant to replace the traditional Vagrant-based devstack with a
 multi-container approach driven by `Docker Compose`_. It is still in the
 beta testing phase.
@@ -77,7 +77,7 @@ All of the services can be run by following the steps below. For analyticstack, 
 **NOTE:** Since a Docker-based devstack runs many containers,
 you should configure Docker with a sufficient
 amount of resources. We find that `configuring Docker for Mac`_ with
-a minimum of 2 CPUs and 6GB of memory works well.
+a minimum of 2 CPUs and 8GB of memory does work.
 
 1. Install the requirements inside of a `Python virtualenv`_.
 
@@ -98,7 +98,7 @@ a minimum of 2 CPUs and 6GB of memory works well.
 
    You may customize where the local repositories are found by setting the
    DEVSTACK\_WORKSPACE environment variable.
-   
+
    Be sure to share the cloned directories in the Docker -> Preferences... ->
    File Sharing box.
 
@@ -131,6 +131,7 @@ a minimum of 2 CPUs and 6GB of memory works well.
 
        make dev.sync.provision
 
+   This is expected to take a while, produce a lot of output from a bunch of steps, and finally end with ``Provisioning complete!``
 
 5. Start the services. This command will mount the repositories under the
    DEVSTACK\_WORKSPACE directory.
@@ -253,11 +254,11 @@ analyticstack ( e.g. lms, studio etc ) consider setting higher memory.
    .. code:: sh
 
      make analytics-pipeline-shell
-    
+
    - To see logs from containers running in detached mode, you can either use
      "Kitematic" (available from the "Docker for Mac" menu), or by running the
      following command:
-    
+
       .. code:: sh
 
         make logs
@@ -268,9 +269,9 @@ analyticstack ( e.g. lms, studio etc ) consider setting higher memory.
       .. code:: sh
 
         make namenode-logs
-    
+
    - To reset your environment and start provisioning from scratch, you can run:
-    
+
       .. code:: sh
 
         make destroy
@@ -278,9 +279,9 @@ analyticstack ( e.g. lms, studio etc ) consider setting higher memory.
      **NOTE:** Be warned! This will remove all the containers and volumes
      initiated by this repository and all the data ( in these docker containers )
      will be lost.
-    
+
    - For information on all the available ``make`` commands, you can run:
-    
+
       .. code:: sh
 
         make help
@@ -312,9 +313,35 @@ meant to be user-facing, the "homepage" may be the API root.
 +---------------------+-------------------------------------+
 | Studio/CMS          | http://localhost:18010/             |
 +---------------------+-------------------------------------+
+| Registrar           | http://localhost:18734/api-docs/    |
++---------------------+-------------------------------------+
+
+Microfrontend URLs
+------------
+
+Each microfrontend is accessible at ``localhost`` on a specific port. The table below
+provides links to each microfrontend.
+
++---------------------+-------------------------------------+
+| Service             | URL                                 |
++=====================+=====================================+
+| Gradebook           | http://localhost:1994/              |
++---------------------+-------------------------------------+
+| Program Manager     | http://localhost:1976/              |
++---------------------+-------------------------------------+
 
 Useful Commands
 ---------------
+
+``make dev.up`` can take a long time, as it starts all services, whether or not
+you need them. To instead only start a single service and its dependencies, run
+``make dev.up.<service>``. For example, the following will bring up LMS
+(along with Memcached, MySQL, and devpi), but it will not bring up Discovery,
+Credentials, etc:
+
+.. code:: sh
+
+    make dev.up.lms
 
 Sometimes you may need to restart a particular application server. To do so,
 simply use the ``docker-compose restart`` command:
@@ -323,7 +350,7 @@ simply use the ``docker-compose restart`` command:
 
     docker-compose restart <service>
 
-``<service>`` should be replaced with one of the following:
+In all the above commands, ``<service>`` should be replaced with one of the following:
 
 -  credentials
 -  discovery
@@ -331,6 +358,9 @@ simply use the ``docker-compose restart`` command:
 -  lms
 -  edx_notes_api
 -  studio
+-  registrar
+-  gradebook
+-  program-manager
 
 If you'd like to add some convenience make targets, you can add them to a ``local.mk`` file, ignored by git.
 
@@ -475,7 +505,7 @@ To access a MySQL or Mongo shell, run the following commands, respectively:
    mysql
 
 .. code:: sh
-    
+
    make mongo-shell
    mongo
 
@@ -640,12 +670,11 @@ start up the containers as usual with:
 This command starts each relevant container with the equivalent of the '--it' option,
 allowing a developer to attach to the process once the process is up and running.
 
-To attach to the LMS/Studio containers and their process, use either:
+To attach to a container and its process, use ``make <service>-attach``. For example:
 
 .. code:: sh
 
     make lms-attach
-    make studio-attach
 
 Set a PDB breakpoint anywhere in the code using:
 
@@ -666,6 +695,9 @@ or a manual Docker command to bring down the container:
 .. code:: sh
 
    docker kill $(docker ps -a -q --filter="name=edx.devstack.<container name>")
+
+Alternatively, some terminals allow detachment from a running container with the
+``Ctrl-P, Ctrl-Q`` key sequence.
 
 Running LMS and Studio Tests
 ----------------------------
@@ -1024,7 +1056,7 @@ GitHub issue which explains the `current status of implementing delegated consis
 .. _Docker Hub: https://hub.docker.com/
 .. _Pycharm Integration documentation: docs/pycharm_integration.rst
 .. _devpi documentation: docs/devpi.rst
-.. _edx-platform testing documentation: https://github.com/edx/edx-platform/blob/master/docs/testing.rst#running-python-unit-tests
+.. _edx-platform testing documentation: https://github.com/edx/edx-platform/blob/master/docs/testing/testing.rst#running-python-unit-tests
 .. _docker-sync: #improve-mac-osx-performance-with-docker-sync
 .. |Build Status| image:: https://travis-ci.org/edx/devstack.svg?branch=master
     :target: https://travis-ci.org/edx/devstack

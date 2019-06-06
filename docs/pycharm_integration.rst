@@ -98,14 +98,18 @@ If your Django Project contains a single repo, like ecommerce, your settings
 would look as follows:
 
 Django Project Root: /Path/to/docker_devstack/ecommerce
+
 Settings: ecommerce/settings/devstack.py
+
 Manage Script: manage.py
 
 If you have all of the repos open in a single Django Project, you would use the
 following:
 
 Django Project Root: /Path/to/docker_devstack
+
 Settings: ecommerce/ecommerce/settings/devstack.py
+
 Manage Script: ecommerce/manage.py
 
 Note: With all repos in the same project, you would need to update these
@@ -163,6 +167,7 @@ Configuration`_, with the following specific values.
    - ``DJANGO_SETTINGS_MODULE=lms.envs.devstack_docker`` (or
      cms.envs.devstack_docker)
    - ``PYTHONUNBUFFERED=1``
+   - ``LMS_CFG=/edx/etc/lms.yml``
 
 5. Python Interpreter: Choose the Docker Compose interpreter for this
    service.
