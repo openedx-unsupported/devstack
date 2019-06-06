@@ -54,7 +54,7 @@ dev.clone: ## Clone service repos to the parent directory
 	./repo.sh clone
 
 dev.provision.run: ## Provision all services with local mounted directories
-	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml" $(WINPTY) bash ./provision.sh
+	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml -f docker-compose-themes.yml" $(WINPTY) bash ./provision.sh
 
 dev.provision: | check-memory dev.clone dev.provision.run stop ## Provision dev environment with all services stopped
 
@@ -72,12 +72,12 @@ dev.repo.reset: ## Attempts to reset the local repo checkouts to the master work
 	$(WINPTY) bash ./repo.sh reset
 
 dev.up: | check-memory ## Bring up all services with host volumes
-	bash -c 'docker-compose -f docker-compose.yml -f docker-compose-host.yml up -d'
+	bash -c 'docker-compose -f docker-compose.yml -f docker-compose-host.yml -f docker-compose-themes.yml up -d'
 	@# Comment out this next line if you want to save some time and don't care about catalog programs
 	$(WINPTY) bash ./programs/provision.sh cache $(DEVNULL)
 
 dev.up.%: | check-memory ## Bring up a specific service and its dependencies with host volumes
-	bash -c 'docker-compose -f docker-compose.yml -f docker-compose-host.yml up -d $*'
+	bash -c 'docker-compose -f docker-compose.yml -f docker-compose-host.yml -f docker-compose-themes.yml up -d $*'
 	@# Comment out this next line if you want to save some time and don't care about catalog programs
 	$(WINPTY) bash ./programs/provision.sh cache $(DEVNULL)
 
@@ -85,7 +85,7 @@ dev.up.watchers: | check-memory ## Bring up asset watcher containers
 	bash -c 'docker-compose -f docker-compose-watchers.yml up -d'
 
 dev.up.xqueue: | check-memory ## Bring up xqueue, assumes you already have lms running
-	bash -c 'docker-compose -f docker-compose.yml -f docker-compose-xqueue.yml -f docker-compose-host.yml up -d'
+	bash -c 'docker-compose -f docker-compose.yml -f docker-compose-xqueue.yml -f docker-compose-host.yml -f docker-compose-themes.yml up -d'
 
 dev.up.all: | dev.up dev.up.watchers ## Bring up all services with host volumes, including watchers
 
@@ -260,13 +260,13 @@ mongo-shell: ## Run a shell on the mongo container
 dev.provision.analytics_pipeline: | check-memory dev.provision.analytics_pipeline.run stop.analytics_pipeline stop ## Provision analyticstack dev environment with all services stopped
 
 dev.provision.analytics_pipeline.run:
-	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml -f docker-compose-analytics-pipeline.yml" ./provision-analytics-pipeline.sh
+	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml -f docker-compose-themes.yml -f docker-compose-analytics-pipeline.yml" ./provision-analytics-pipeline.sh
 
 analytics-pipeline-shell: ## Run a shell on the analytics pipeline container
 	docker exec -it edx.devstack.analytics_pipeline env TERM=$(TERM) /edx/app/analytics_pipeline/devstack.sh open
 
 dev.up.analytics_pipeline: | check-memory ## Bring up analytics pipeline services
-	bash -c 'docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml -f docker-compose-host.yml up -d analyticspipeline'
+	bash -c 'docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml -f docker-compose-host.yml -f docker-compose-themes.yml up -d analyticspipeline'
 
 pull.analytics_pipeline: ## Update analytics pipeline docker images
 	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml pull
