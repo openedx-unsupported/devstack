@@ -16,19 +16,6 @@ This project requires **Docker 17.06+ CE**.
     $ make dev.provision
     $ make tahoe.up
 
-Running AMC
------------
-AMC is not Dockerized yet, until then you need to open two new Terminal instances to use it:
-
-.. code::
-
-    $ make amc.start.backend
-
-and for frontend:
-
-.. code::
-
-    $ make amc.start.frontend
 
 Add /etc/hosts Entries
 ----------------------
@@ -63,7 +50,8 @@ But, But, But Where's My Site?
 
 - Go to http://localhost:19000/signup-wizard/0
 - Follow the steps setting the site name to ``red`` so it matches the earlier ``/etc/hosts`` entries.
-- In the terminal of ``$ make amc.start.backend`` scroll up to activate your email
+- In the terminal run ``$ make logs`` scroll up to activate your email
+- This is a shortcut if you don't like scrolling: ``$ make logs | grep devstack.amc | grep -o 'http:.*accounts/confirm-email/[^/]*/' | tail -n1``
 - After complete the steps, you should be able to access all of Tahoe and AMC URLs via the user you created.
 
 More Good Devstack Stuff
