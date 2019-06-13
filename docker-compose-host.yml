@@ -19,7 +19,9 @@ services:
   lms:
     volumes:
       - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform:cached
+      - edxapp_media:/edx/var/edxapp/media
       - edxapp_node_modules:/edx/app/edxapp/edx-platform/node_modules
+      - edxapp_uploads:/edx/var/edxapp/uploads
       - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
   edx_notes_api:
     volumes:
@@ -28,7 +30,9 @@ services:
   studio:
     volumes:
       - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform:cached
+      - edxapp_media:/edx/var/edxapp/media
       - edxapp_node_modules:/edx/app/edxapp/edx-platform/node_modules
+      - edxapp_uploads:/edx/var/edxapp/uploads
       - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
   forum:
     volumes:
@@ -52,6 +56,8 @@ volumes:
   credentials_node_modules:
   discovery_node_modules:
   ecommerce_node_modules:
+  edxapp_media:
   edxapp_node_modules:
+  edxapp_uploads:
   gradebook_node_modules:
   program_manager_node_modules:
