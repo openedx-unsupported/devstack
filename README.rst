@@ -553,7 +553,7 @@ starts, you have a few options:
 * Merge your updated requirements files and wait for a new `edxops Docker image`_
   for that service to be built and uploaded to `Docker Hub`_.  You can
   then download and use the updated image (for example, via ``make pull``).
-  The discovery and edxapp images are buit automatically via a Jenkins job. All other
+  The discovery and edxapp images are built automatically via a Jenkins job. All other
   images are currently built as needed by edX employees, but will soon be built
   automatically on a regular basis. See `How do I build images?`_
   for more information.
@@ -593,6 +593,22 @@ To rebuild static assets for all service containers:
 .. code:: sh
 
    make static
+
+How do I connect to the databases from an outside editor?
+---------------------------------------------------------
+
+To connect to the databases from an outside editor (such as MySQLWorkbench),
+use the values below. Note that the username and password will vary depending
+on the database. For all of the options, see ``provision.sql``.
+
+- Host: ``localhost``
+- Port: ``3506``
+- Username: ``edxapp001``
+- Password: ``password``
+
+If you have trouble connecting, ensure the port was mapped successfully by
+running ``docker-compose ps`` and looking for a line like this:
+``edx.devstack.mysql docker-entrypoint.sh mysql ... Up 0.0.0.0:3506→3306/tcp``.
 
 Switching branches
 ------------------
