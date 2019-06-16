@@ -20,6 +20,8 @@ services:
     volumes:
       - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform:cached
       - edxapp_node_modules:/edx/app/edxapp/edx-platform/node_modules
+      - edxapp_media:/edx/var/edxapp/media
+      - edxapp_uploads:/edx/var/edxapp/uploads
       - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
       - ${DEVSTACK_WORKSPACE}/customer_themes:/edx/var/edxapp/themes/customer_themes:cached
       - ${DEVSTACK_WORKSPACE}/edx-theme-codebase:/edx/var/edxapp/themes/edx-theme-codebase:cached
@@ -32,6 +34,8 @@ services:
     volumes:
       - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform:cached
       - edxapp_node_modules:/edx/app/edxapp/edx-platform/node_modules
+      - edxapp_media:/edx/var/edxapp/media
+      - edxapp_uploads:/edx/var/edxapp/uploads
       - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
       - ${DEVSTACK_WORKSPACE}/customer_themes:/edx/var/edxapp/themes/customer_themes:cached
       - ${DEVSTACK_WORKSPACE}/edx-theme-codebase:/edx/var/edxapp/themes/edx-theme-codebase:cached
@@ -51,3 +55,5 @@ volumes:
   discovery_node_modules:
   ecommerce_node_modules:
   edxapp_node_modules:
+  edxapp_media:
+  edxapp_uploads:
