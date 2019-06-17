@@ -58,11 +58,17 @@ _checkout ()
         name="${BASH_REMATCH[2]}"
 
         # If a directory exists and it is nonempty, assume the repo has been cloned.
-        if [ -d "$name" -a -n "$(ls -A "$name" 2>/dev/null)" ]; then
+        cd "${DEVSTACK_WORKSPACE}"  # Appsembler: Just in case `customer_specific` had an error.
+        if [ "$name" != "edx-theme-customers" -a -d "$name" -a -n "$(ls -A "$name" 2>/dev/null)" ]; then
             echo "Checking out branch ${OPENEDX_GIT_BRANCH} of $name"
             cd $name
             _appsembler_checkout_and_update_branch $name
             cd ..
+        elif [ "$name" == "edx-theme-customers" -a -d "edx-theme-codebase/customer_specific/.git" ]; then
+            echo "Checking out branch ${OPENEDX_GIT_BRANCH} of $name"
+            cd edx-theme-codebase/customer_specific
+            _appsembler_checkout_and_update_branch $name
+            cd ../..
         fi
     done
 }
@@ -85,11 +91,18 @@ _clone ()
 
         # If a directory exists and it is nonempty, assume the repo has been checked out
         # and only make sure it's on the required branch
-        if [ -d "$name" -a -n "$(ls -A "$name" 2>/dev/null)" ]; then
+
+        cd "${DEVSTACK_WORKSPACE}"  # Appsembler: Just in case `customer_specific` had an error.
+
+        if [ "$name" != "edx-theme-customers" -a -d "$name" -a -n "$(ls -A "$name" 2>/dev/null)" ]; then
             printf "The [%s] repo is already checked out. Checking for updates.\n" $name
             cd ${DEVSTACK_WORKSPACE}/${name}
             _appsembler_checkout_and_update_branch $name
             cd ..
+        elif [ "$name" == "edx-theme-customers" -a -d "edx-theme-codebase/customer_specific/.git" ]; then
+            cd "${DEVSTACK_WORKSPACE}/edx-theme-codebase/customer_specific"
+            _appsembler_checkout_and_update_branch $name
+            cd ../..
         else
             if [ "$name" == "edx-platform" ]; then
                 git clone -b ${APPSEMBLER_EDX_PLATFORM_BRANCH} -c core.symlinks=true ${repo}
@@ -98,7 +111,9 @@ _clone ()
             elif [ "$name" == "edx-theme-codebase" ]; then
                 git clone -b ${THEME_CODEBASE_BRANCH} -c core.symlinks=true ${repo}
             elif [ "$name" == "edx-theme-customers" ]; then
-                git clone -b ${THEME_CUSTOMERS_BRANCH} -c core.symlinks=true ${repo}
+                cd edx-theme-codebase
+                sudo rm -rf customer_specific
+                git clone -b ${THEME_CUSTOMERS_BRANCH} -c core.symlinks=true ${repo} customer_specific
             else
                 if [ "${SHALLOW_CLONE}" == "1" ]; then
                     git clone --single-branch -b ${OPENEDX_GIT_BRANCH} -c core.symlinks=true --depth=1 ${repo}
