@@ -218,6 +218,7 @@ services:
       LMS_HOST: http://localhost:18000
       MEMCACHE_HOST: edx.devstack.memcached
       DJANGO_SETTINGS_MODULE: registrar.settings.devstack
+      CELERY_ALWAYS_EAGER: 'false'
       CELERY_BROKER_TRANSPORT: redis
       CELERY_BROKER_HOSTNAME: edx.devstack.redis:6379
       CELERY_BROKER_VHOST: 10
