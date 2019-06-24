@@ -5,7 +5,16 @@ Tahoe Devstack Docs
 ===================
 To run a Tahoe devstack follow the steps below:
 
-This project requires **Docker 17.06+ CE**.
+Requirements
+-------------
+
+- This project requires **Docker 17.06+ CE**.
+- You are required to have the needed GCloud permissions. To authenticate your requests, follow the steps in: `Authentication methods <https://cloud.google.com/container-registry/docs/advanced-authentication>`_
+
+Desclaimer
+----------
+- Apparently Docker behavior is inconsistent between Mac and Linux due to some core differences between both operating systems.
+- This README.md contains some known bugs and issues, make sure to search your issues here as they might be an issue we ran into before. 
 
 .. code::
 
@@ -15,7 +24,6 @@ This project requires **Docker 17.06+ CE**.
     $ cd devstack  # Now the `devstack` repo should be on the `hawthorn` branch
     $ make dev.provision
     $ make tahoe.up
-
 
 Add /etc/hosts Entries
 ----------------------
@@ -27,6 +35,7 @@ Tahoe is all about subdomains, so please add the following entries to your ``/et
     127.0.0.1 red.localhost
     127.0.0.1 blue.localhost
     127.0.0.1 green.localhost
+    127.0.0.1 edx.devstack.lms
 
 
 Using Tahoe and AMC
@@ -35,8 +44,12 @@ Using Tahoe and AMC
 The project is now available on the following URLs:
 
 - **AMC:** http://localhost:19000/
-- **Studio:** http://localhost:18010/, if AMC says it's http://studio.localhost:18000 that's a bug, just use the former URL.
-- **LMS:** http://red.localhost:18000/, or any other subdomain you choose except for http://localhost:18000 since that's reserved for other use.
+- **Studio:** http://localhost:18010/
+    - This will not work until you finish section setting up your env as shown in `But, But, But Where's My Site? <https://github.com/appsembler/devstack#but-but-but-wheres-my-site>`_    
+    - If AMC says it's http://studio.localhost:18000 that's a bug, just use the former URL.
+- **LMS:** http://red.localhost:18000/
+    - This will not work until you finish section setting up your env as shown in `But, But, But Where's My Site? <https://github.com/appsembler/devstack#but-but-but-wheres-my-site>`_    
+    - You can use any other subdomain you choose except for http://localhost:18000 since that's reserved for other use.
 
 Superuser passwords are:
 
@@ -52,6 +65,7 @@ But, But, But Where's My Site?
 - Follow the steps setting the site name to ``red`` so it matches the earlier ``/etc/hosts`` entries.
 - In the terminal run ``$ make logs`` scroll up to activate your email
 - This is a shortcut if you don't like scrolling: ``$ make logs | grep devstack.amc | grep -o 'http:.*accounts/confirm-email/[^/]*/' | tail -n1``
+- Refer to `Theme <https://github.com/appsembler/devstack#theme>`_ section to get your theme ready for your first site.
 - After complete the steps, you should be able to access all of Tahoe and AMC URLs via the user you created.
 
 More Good Devstack Stuff
@@ -89,7 +103,7 @@ devstack.
 
 Theme
 -----
-Tahoe themes are copied and available in the directory ``src/themes/edx-codebase-theme`` near the ``edx-platform``.
+Tahoe themes are copied and available in ``edx-codebase-theme`` directory near the ``edx-platform``. Refer to `edx-theme-codebase#How to use on Devstack <https://github.com/appsembler/edx-theme-codebase#how-to-use-on-devstack>`_ for more info on setting up your custom theme.
 
 How to Solve a Devstack Problem
 -------------------------------
