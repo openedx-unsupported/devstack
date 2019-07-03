@@ -18,7 +18,7 @@ tahoe.provision:  ## Make the devstack more Tahoe'ish
 	rm $(DEVSTACK_WORKSPACE)/src/provision-tahoe.py
 	make tahoe.restart || true
 
-tahoe.up:  ## Run the partial devstack with proper Tahoe settings, use instead of `$ make dev.up`
+tahoe.up:  ## Run the lightweight devstack with proper Tahoe settings, use instead of `$ make dev.up`
 	bash -c 'docker-compose -f docker-compose.yml -f docker-compose-host.yml -f docker-compose-tahoe.yml up -d'
 	@sleep 1
 	make tahoe.provision

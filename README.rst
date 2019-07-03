@@ -14,7 +14,7 @@ Requirements
 Desclaimer
 ----------
 - Apparently Docker behavior is inconsistent between Mac and Linux due to some core differences between both operating systems.
-- This README.md contains some known bugs and issues, make sure to search your issues here as they might be an issue we ran into before. 
+- This README contains some known bugs and issues, make sure to search your issues here as they might be an issue we ran into before.
 
 .. code::
 
@@ -32,10 +32,10 @@ Tahoe is all about subdomains, so please add the following entries to your ``/et
 
 .. code::
 
+    127.0.0.1 edx.devstack.lms
     127.0.0.1 red.localhost
     127.0.0.1 blue.localhost
     127.0.0.1 green.localhost
-    127.0.0.1 edx.devstack.lms
 
 
 Using Tahoe and AMC
@@ -78,6 +78,8 @@ Currently the commands looks like this:
 .. code::
 
     $ make help | grep -e tahoe -e amc
+      tahoe.up                  Run the lightweight devstack with proper Tahoe settings, use instead of `$ make dev.up`
+      tahoe.up.full             Run the full devstack with proper Tahoe settings, use instead of `$ make dev.up`
       amc.provision             Initializes the AMC
       tahoe.chown               Fix annoying docker permission issues
       tahoe.envs._delete        Remove settings, in prep for resetting it
@@ -85,10 +87,9 @@ Currently the commands looks like this:
       tahoe.exec.single         Execute a command inside a devstack docker container
       tahoe.provision           Make the devstack more Tahoe'ish
       tahoe.restart             Restarts both of LMS and Studio python processes while keeping the same container
-      tahoe.up                  Run the devstack with proper Tahoe settings, use instead of `$ make dev.up`
 
 
-If something goes wrong, check the rest of this README for additional details.
+If something goes wrong, check out the rest of this README for additional details.
 
 Environment Files
 -----------------
