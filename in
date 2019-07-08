@@ -1,0 +1,7 @@
+#! /usr/bin/env bash
+
+SERVICE=$1
+shift
+export DEVSTACK_WORKSPACE=${DEVSTACK_WORKSPACE:-$(pwd)/..}
+
+docker-compose -f docker-compose.yml -f docker-compose-host.yml -f docker-compose-themes.yml run $SERVICE exec "$@"

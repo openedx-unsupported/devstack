@@ -744,6 +744,13 @@ Tests can also be run individually. Example:
 
     pytest openedx/core/djangoapps/user_api
 
+Tests can also be easily run with a shortcut from the host machine,
+so that you maintain your command history:
+
+.. code:: sh
+
+    ./in lms pytest openedx/core/djangoapps/user_api
+
 Connecting to Browser
 ~~~~~~~~~~~~~~~~~~~~~
 
