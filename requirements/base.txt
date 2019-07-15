@@ -6,15 +6,15 @@
 #
 asn1crypto==0.24.0        # via cryptography
 backports.ssl-match-hostname==3.7.0.1  # via docker, docker-compose
-bcrypt==3.1.6             # via paramiko
+bcrypt==3.1.7             # via paramiko
 cached-property==1.5.1    # via docker-compose
-certifi==2019.3.9         # via requests
+certifi==2019.6.16        # via requests
 cffi==1.12.3              # via bcrypt, cryptography, pynacl
 chardet==3.0.4            # via requests
-cryptography==2.6.1       # via paramiko
-docker-compose==1.24.0
+cryptography==2.7         # via paramiko
+docker-compose==1.24.1
 docker-pycreds==0.4.0     # via docker
-docker[ssh]==3.7.2        # via docker-compose
+docker[ssh]==3.7.3        # via docker-compose
 dockerpty==0.4.1          # via docker-compose
 docopt==0.6.2             # via docker-compose
 enum34==1.1.6             # via cryptography, docker-compose
@@ -22,8 +22,7 @@ functools32==3.2.3.post2 ; python_version == "2.7"  # via jsonschema
 idna==2.7                 # via requests
 ipaddress==1.0.22         # via cryptography, docker, docker-compose
 jsonschema==2.6.0         # via docker-compose
-paramiko==2.4.2           # via docker
-pyasn1==0.4.5             # via paramiko
+paramiko==2.6.0           # via docker
 pycparser==2.19           # via cffi
 pynacl==1.3.0             # via paramiko
 pyyaml==3.13
