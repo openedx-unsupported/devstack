@@ -217,6 +217,34 @@ services:
     volumes:
       - devpi_data:/data
 
+  edraak_programs:
+    image: edraak-devstack-programs
+    environment:
+      PROGS_CFG: '/app/docker.json'
+      NODE_ENV: development
+    command: bash -c 'while true; do python manage.py runserver 0.0.0.0:8800 --settings=edraakprograms.dev; sleep 2; done'
+    container_name: edraak.devstack.programs
+    working_dir: /app
+    ports:
+      - "18901:8800"
+    depends_on:
+      - mysql
+      - mongo
+      - memcached
+
+  edraak_marketing:
+    image: edraak-devstack-marketing
+    environment:
+      NODE_ENV: development
+    command: bash -c 'while true; do python manage.py runserver 0.0.0.0:8800 --settings=marketingsite.envs.dev; sleep 2; done'
+    container_name: edraak.devstack.marketing
+    working_dir: /app
+    ports:
+      - "18902:8800"
+    depends_on:
+      - mysql
+      - memcached
+
 volumes:
   discovery_assets:
   edxapp_lms_assets:

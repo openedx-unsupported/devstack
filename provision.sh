@@ -48,6 +48,7 @@ docker-compose $DOCKER_COMPOSE_FILES up -d studio
 ./provision-e2e.sh
 ./provision-forum.sh
 ./provision-notes.sh
+./provision-edraak.sh
 
 docker image prune -f
 
