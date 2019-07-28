@@ -18,7 +18,7 @@ tahoe.provision:  ## Make the devstack more Tahoe'ish
 	rm $(DEVSTACK_WORKSPACE)/src/provision-tahoe.py
 
 tahoe.up:  ## Run the lightweight devstack with proper Tahoe settings, use instead of `$ make dev.up`
-	make make dev.up
+	make dev.up
 	make tahoe.provision
 	make tahoe.chown
 
