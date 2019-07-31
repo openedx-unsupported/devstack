@@ -9,9 +9,9 @@ services:
       ASSET_WATCHER_TIMEOUT: 12
     image: appsembler/edxapp:latest  # Will work fine until we have Ironwood
     volumes:
-      - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform:cached
+      - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform:${DEVSTACK_CACHE:-cached}
       - edxapp_lms_assets:/edx/var/edxapp/staticfiles/
-      - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
+      - ${DEVSTACK_WORKSPACE}/src:/edx/src:${DEVSTACK_CACHE:-cached}
 
   studio_watcher:
     command: bash -c 'cd /edx/app/edxapp/edx-platform && source ../edxapp_env && while true; do paver watch_assets --w=$$ASSET_WATCHER_TIMEOUT; sleep 2; done'
@@ -22,8 +22,8 @@ services:
     image: appsembler/edxapp:latest  # Will work fine until we have Ironwood
     volumes:
       - edxapp_studio_assets:/edx/var/edxapp/staticfiles/
-      - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform:cached
-      - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
+      - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform:${DEVSTACK_CACHE:-cached}
+      - ${DEVSTACK_WORKSPACE}/src:/edx/src:${DEVSTACK_CACHE:-cached}
 
 volumes:
   edxapp_lms_assets:

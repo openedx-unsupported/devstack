@@ -3,25 +3,25 @@ version: "2.1"
 services:
   lms:
     volumes:
-      - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform:cached
+      - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform:${DEVSTACK_CACHE:-cached}
       - edxapp_node_modules:/edx/app/edxapp/edx-platform/node_modules
       - edxapp_media:/edx/var/edxapp/media
       - edxapp_uploads:/edx/var/edxapp/uploads
-      - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
-      - ${DEVSTACK_WORKSPACE}/customer_themes:/edx/var/edxapp/themes/customer_themes:cached
-      - ${DEVSTACK_WORKSPACE}/edx-theme-codebase:/edx/var/edxapp/themes/edx-theme-codebase:cached
+      - ${DEVSTACK_WORKSPACE}/src:/edx/src:${DEVSTACK_CACHE:-cached}
+      - ${DEVSTACK_WORKSPACE}/customer_themes:/edx/var/edxapp/themes/customer_themes:${DEVSTACK_CACHE:-cached}
+      - ${DEVSTACK_WORKSPACE}/edx-theme-codebase:/edx/var/edxapp/themes/edx-theme-codebase:${DEVSTACK_CACHE:-cached}
   studio:
     volumes:
-      - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform:cached
+      - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform:${DEVSTACK_CACHE:-cached}
       - edxapp_node_modules:/edx/app/edxapp/edx-platform/node_modules
       - edxapp_media:/edx/var/edxapp/media
       - edxapp_uploads:/edx/var/edxapp/uploads
-      - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
-      - ${DEVSTACK_WORKSPACE}/customer_themes:/edx/var/edxapp/themes/customer_themes:cached
-      - ${DEVSTACK_WORKSPACE}/edx-theme-codebase:/edx/var/edxapp/themes/edx-theme-codebase:cached
+      - ${DEVSTACK_WORKSPACE}/src:/edx/src:${DEVSTACK_CACHE:-cached}
+      - ${DEVSTACK_WORKSPACE}/customer_themes:/edx/var/edxapp/themes/customer_themes:${DEVSTACK_CACHE:-cached}
+      - ${DEVSTACK_WORKSPACE}/edx-theme-codebase:/edx/var/edxapp/themes/edx-theme-codebase:${DEVSTACK_CACHE:-cached}
   amc:
     volumes:
-      - ${DEVSTACK_WORKSPACE}/amc:/opt/amc:cached
+      - ${DEVSTACK_WORKSPACE}/amc:/opt/amc:${DEVSTACK_CACHE:-cached}
 
 volumes:
   credentials_node_modules:
