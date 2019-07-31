@@ -6,7 +6,7 @@ services:
     image: edxops/xqueue:hawthorn.master
     command: bash -c 'source /edx/app/xqueue/xqueue_env && while true; do python /edx/app/xqueue/xqueue/manage.py runserver 0.0.0.0:18040 ; sleep 2; done'
     volumes:
-      - ${DEVSTACK_WORKSPACE}/xqueue:/edx/app/xqueue/xqueue:cached
+      - ${DEVSTACK_WORKSPACE}/xqueue:/edx/app/xqueue/xqueue:${DEVSTACK_CACHE:-cached}
     # depends_on: even though we need mysql, we can't refer to it because it's started in the other compose file
     ports:
       - 18040:18040
@@ -16,5 +16,5 @@ services:
     image: edxops/xqueue:hawthorn.master
     command: bash -c 'source /edx/app/xqueue/xqueue_env && while true; do python /edx/app/xqueue/xqueue/manage.py run_consumer ; sleep 2; done'
     volumes:
-      - ${DEVSTACK_WORKSPACE}/xqueue:/edx/app/xqueue/xqueue:cached
+      - ${DEVSTACK_WORKSPACE}/xqueue:/edx/app/xqueue/xqueue:${DEVSTACK_CACHE:-cached}
     # depends_on: even though we need mysql, we can't refer to it because it's started in the other compose file
