@@ -1,40 +1,36 @@
-sudo: required
-
+# Travis CI configuration file for running tests
 language: python
-
 python:
-  - "3.6"
+  - "2.7"
 
 branches:
   only:
-    - master
-
-env:
-  - DEVSTACK_WORKSPACE=/tmp DOCKER_COMPOSE_VERSION=1.13.0 SHALLOW_CLONE=1 DEVSTACK='lms'
-  - DEVSTACK_WORKSPACE=/tmp DOCKER_COMPOSE_VERSION=1.13.0 SHALLOW_CLONE=1 DEVSTACK='analytics_pipeline'
+  - master
 
 services:
   - docker
+  
+addons:
+  apt:
+    packages:
+      - nodejs
 
 before_install:
-  # Upgrade Docker to the latest version
-  - docker version
-  - sudo apt-get update
-  - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
-  - docker version
+  - sudo apt-get -y update
+  - sudo apt-get -y install -o Dpkg::Options::="--force-confold" docker-ce
 
-  # Upgrade Docker Compose to the latest version
-  - docker-compose --version
-  - sudo rm /usr/local/bin/docker-compose
-  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
-  - chmod +x docker-compose
-  - sudo mv docker-compose /usr/local/bin
-  - docker-compose --version
+install:
+  - "pip install --allow-all-external -r requirements.txt"
+  - "pip install --allow-all-external demjson"
 
-  - make requirements
-  - make dev.clone
-  - if [[ $DEVSTACK == 'lms' ]]; then make pull; fi
-  - if [[ $DEVSTACK == 'analytics_pipeline' ]]; then make dev.up.analytics_pipeline; fi
+env:
+  - MAKE_TARGET=test.syntax SHARD=0 SHARDS=1
+  - MAKE_TARGET=test.playbooks SHARD=0 SHARDS=1
+  - MAKE_TARGET=docker.test.shard SHARD=0 SHARDS=3
+  - MAKE_TARGET=docker.test.shard SHARD=1 SHARDS=3
+  - MAKE_TARGET=docker.test.shard SHARD=2 SHARDS=3
 
 script:
-  - "./.travis/run.sh"
+  - docker --version
+  - make --version
+  - travis_wait 50 make --keep-going $MAKE_TARGET SHARD=$SHARD SHARDS=$SHARDS
