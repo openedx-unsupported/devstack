@@ -18,7 +18,7 @@ https://openedx.atlassian.net/projects/PLAT/issues
 FYI
 ---
 
-You should run any ``make`` targets described below on your local machine, *not*
+You shoul run any ``make`` targets described below on your local machine, *not*
 from within a VM.
 
 Prerequisites
