@@ -1,5 +1,5 @@
 pipeline {
-    agent { label "codejail-worker" }
+    agent { label "devstack-worker" }
     environment {
         COMPOSE_HTTP_TIMEOUT = '120'
         DOCKER_CLIENT_TIMEOUT = '120'
