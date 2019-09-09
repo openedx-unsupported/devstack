@@ -45,7 +45,7 @@ services:
       - ${DEVSTACK_WORKSPACE}/registrar:/edx/app/registrar/registrar
   gradebook:
     volumes:
-      - ${DEVSTACK_WORKSPACE}/gradebook:/edx/app/gradebook:cached
+      - ${DEVSTACK_WORKSPACE}/frontend-app-gradebook:/edx/app/gradebook:cached
       - gradebook_node_modules:/edx/app/gradebook/node_modules
   program-manager:
     volumes:
