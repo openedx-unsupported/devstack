@@ -16,9 +16,17 @@ tahoe.provision:  ## Make the devstack more Tahoe'ish
 	cat $(DEVSTACK_WORKSPACE)/devstack/provision-tahoe.py > $(DEVSTACK_WORKSPACE)/src/provision-tahoe.py
 	make COMMAND='python /edx/src/provision-tahoe.py' tahoe.exec.edxapp
 	rm $(DEVSTACK_WORKSPACE)/src/provision-tahoe.py
+	make tahoe.restart || true
 
 tahoe.up:  ## Run the lightweight devstack with proper Tahoe settings, use instead of `$ make dev.up`
+	bash -c 'docker-compose -f docker-compose.yml -f docker-compose-host.yml -f docker-compose-tahoe.yml up -d'
+	@sleep 1
+	make tahoe.provision
+	make tahoe.chown
+
+tahoe.up.full:  ## Run the full devstack with proper Tahoe settings, use instead of `$ make dev.up`
 	make dev.up
+	@sleep 1
 	make tahoe.provision
 	make tahoe.chown
 
@@ -32,65 +40,16 @@ tahoe.restart:  ## Restarts both of LMS and Studio python processes while keepin
 
 amc.provision:  ## Initializes the AMC
 	docker exec -it tahoe.devstack.amc python manage.py migrate
+	make COMMAND='python manage.py lms create_oauth2_client http://localhost:9000/     http://localhost:9000/oauth2/access_token/ confidential --client_name AMC --client_id 6f2b93d5c02560c3f93f     --client_secret 2c6c9ac52dd19d7255dd569fb7eedbe0ebdab2db --trusted --settings=devstack_docker' SERVICE='lms' tahoe.exec.single
 	docker exec -it tahoe.devstack.amc python manage.py create_devstack_superuser
-	cd $(DEVSTACK_WORKSPACE)/amc/frontend && npm install
+	docker exec -it tahoe.devstack.amc-frontend npm install
 
 amc-shell:
 	docker exec -it tahoe.devstack.amc bash
 
 amc-frontend-shell:
-	@echo "AMC frontend is running in your local machine"
+	docker exec -it tahoe.devstack.amc-frontend bash
 
 amc-restart:
 	docker exec -t tahoe.devstack.amc bash -c 'killall5'
-	@echo "Note: AMC frontend is running in your local machine"
-
-amc.start.frontend:
-	@echo "Running AMC frontend  in your local machine"
-	cd $(DEVSTACK_WORKSPACE)/amc/frontend && npm start
-
-tahoe.macosx.install-nodejs-v10:
-	brew install node@10
-	brew link --overwrite --force node@10
-
-amc.check-node-version:
-	node --version $(DEVNULL)
-ifneq ($(shell node --version | grep -o '^v10\.'), v10.)
-	@echo "AMC needs Node.js v10, no more no less."
-	@echo "You DO NOT have Node.js v10 installed. Please install it."
-	@echo "Try running '$ make tahoe.macosx.install-nodejs-v10' on MacOSX."
-	@exit 1
-endif
-
-tahoe.clean-provision:
-	make amc.check-node-version
-	make down
-	make tahoe.chown
-	docker volume prune --force
-
-	@# Ignoring AMC since we're building it locally.
-	docker-compose pull lms studio devpi memcached mongo mysql postgres redis
-
-	cd $(DEVSTACK_WORKSPACE) && \
-		rm -rf amc && \
-		rm -rf course-discovery && \
-		rm -rf credentials && \
-		rm -rf cs_comments_service && \
-		rm -rf ecommerce && \
-		rm -rf edx-analytics-pipeline && \
-		rm -rf edx-e2e-tests && \
-		rm -rf edx-notes-api && \
-		rm -rf edx-platform && \
-		rm -rf edx-theme-codebase && \
-		rm -rf edx-theme-customers && \
-		rm -rf src && \
-		rm -rf xqueue
-
-	make dev.clone
-
-	cd $(DEVSTACK_WORKSPACE)/amc && \
-		docker build -f Dockerfile . -t gcr.io/appsembler-tahoe-0/amc
-
-	make dev.provision
-	@echo "Provisioning Tahoe is now complete. Please run the following command to start the AMC frontend (outside the Docker devstack: '$ make amc.start.frontend')"
-
+	docker exec -t tahoe.devstack.amc-frontend bash -c 'killall5'

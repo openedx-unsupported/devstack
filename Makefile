@@ -62,6 +62,7 @@ dev.provision: | check-memory dev.clone dev.provision.run ## Provision dev envir
 	make dev.up
 	make tahoe.provision
 	make amc.provision
+	make stop
 
 dev.provision.xqueue: | check-memory dev.provision.xqueue.run stop stop.xqueue
 
@@ -218,10 +219,10 @@ xqueue_consumer-restart: ## Kill the XQueue development server. The watcher proc
 	docker exec -t edx.devstack.$* bash -c 'source /edx/app/$*/$*_env && cd /edx/app/$*/$*/ && npm install && make static'
 
 lms-static: ## Rebuild static assets for the LMS container
-	docker exec -t edx.devstack.lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && NO_PREREQ_INSTALL=1 paver update_assets'
+	docker exec -t edx.devstack.lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && npm install && paver update_assets'
 
 studio-static: ## Rebuild static assets for the Studio container
-	docker exec -t edx.devstack.studio bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && NO_PREREQ_INSTALL=1 paver update_assets'
+	docker exec -t edx.devstack.studio bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && npm install && paver update_assets'
 
 ## Appsembler: Remove `credentials-static`, `discovery-static` and `ecommerce-static`
 ##             because they're problematic and not needed for us
