@@ -264,7 +264,7 @@ services:
     environment:
       LMS_BASE: "localhost:18000"
       PORT: "13000"
-      HOST: 0.0.0.0
+      HOST: ${HOST:-0.0.0.0}
     image: gcr.io/appsembler-tahoe-0/amc-frontend
     ports:
       - "13000:13000"
