@@ -1,6 +1,21 @@
 version: "2.1"
 
 services:
+  credentials:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/credentials:/edx/app/credentials/credentials:${DEVSTACK_CACHE:-cached}
+      - credentials_node_modules:/edx/app/credentials/credentials/node_modules
+      - ${DEVSTACK_WORKSPACE}/src:/edx/src:${DEVSTACK_CACHE:-cached}
+  discovery:
+      volumes:
+      - ${DEVSTACK_WORKSPACE}/course-discovery:/edx/app/discovery/discovery:${DEVSTACK_CACHE:-cached}
+      - discovery_node_modules:/edx/app/discovery/discovery/node_modules
+      - ${DEVSTACK_WORKSPACE}/src:/edx/src:${DEVSTACK_CACHE:-cached}
+  ecommerce:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/ecommerce:/edx/app/ecommerce/ecommerce:${DEVSTACK_CACHE:-cached}
+      - ecommerce_node_modules:/edx/app/ecommerce/ecommerce/node_modules
+      - ${DEVSTACK_WORKSPACE}/src:/edx/src:${DEVSTACK_CACHE:-cached}
   lms:
     volumes:
       - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform:${DEVSTACK_CACHE:-cached}
@@ -10,6 +25,10 @@ services:
       - ${DEVSTACK_WORKSPACE}/src:/edx/src:${DEVSTACK_CACHE:-cached}
       - ${DEVSTACK_WORKSPACE}/customer_themes:/edx/var/edxapp/themes/customer_themes:${DEVSTACK_CACHE:-cached}
       - ${DEVSTACK_WORKSPACE}/edx-theme-codebase:/edx/var/edxapp/themes/edx-theme-codebase:${DEVSTACK_CACHE:-cached}
+  edx_notes_api:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/edx-notes-api:/edx/app/edx_notes_api/edx_notes_api:${DEVSTACK_CACHE:-cached}
+      - ${DEVSTACK_WORKSPACE}/src:/edx/src:${DEVSTACK_CACHE:-cached}
   studio:
     volumes:
       - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform:${DEVSTACK_CACHE:-cached}
@@ -19,7 +38,13 @@ services:
       - ${DEVSTACK_WORKSPACE}/src:/edx/src:${DEVSTACK_CACHE:-cached}
       - ${DEVSTACK_WORKSPACE}/customer_themes:/edx/var/edxapp/themes/customer_themes:${DEVSTACK_CACHE:-cached}
       - ${DEVSTACK_WORKSPACE}/edx-theme-codebase:/edx/var/edxapp/themes/edx-theme-codebase:${DEVSTACK_CACHE:-cached}
+  forum:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/cs_comments_service:/edx/app/forum/cs_comments_service:${DEVSTACK_CACHE:-cached}
   amc:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/amc:/opt/amc:${DEVSTACK_CACHE:-cached}
+  amc-frontend:
     volumes:
       - ${DEVSTACK_WORKSPACE}/amc:/opt/amc:${DEVSTACK_CACHE:-cached}
 

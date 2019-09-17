@@ -1,3 +1,30 @@
 version: "2.1"
 
-services: {}
+services:
+  lms:
+    environment:
+      - ENABLE_MARKETING_SITE=1
+      - MARKETING_SITE_ROOT="http://localhost:8080"
+
+  marketing:
+    container_name: edx.devstack.marketing
+    depends_on:
+      - mysql
+      - memcached
+    environment:
+      - DB_HOST=edx.devstack.mysql
+      - DB_NAME=edxmktg
+      - DB_PASSWORD=password
+      - DB_USER=edxmktg001
+      - LMS_HOST=http://localhost:18000
+      - MEMCACHE_HOST=edx.devstack.memcached
+      # Used by PhpStorm to attach the debug connection
+      - PHP_IDE_CONFIG=serverName=edx.docker
+      # For the settings below, see .env.example to provide values (default is after the ':-')
+      # Provides local environment overrides.  (PRIVATE_SETTINGS set in .env file)
+      - DRUPAL_EXTRA_SETTINGS=${DRUPAL_EXTRA_SETTINGS:-/var/www/html/sites/default/docker.settings.php}
+      # IP address of your machine to enable debugging (IP_ADDRESS set in .env file)
+      - XDEBUG_CONFIG=remote_host=${XDEBUG_IP_ADDRESS:-127.0.0.1}
+    image: edxops/edx-mktg:hawthorn.master
+    ports:
+      - "8080:80"
