@@ -215,13 +215,13 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
-      - ${TAHOE_POSTGRES_PORT}:5432
+      - ${TAHOE_POSTGRES_PORT-5432}:5432
 
   redis:
     image: redis:3.0
     container_name: tahoe.devstack.redis
     ports:
-      - ${TAHOE_REDIS_PORT}:6379
+      - ${TAHOE_REDIS_PORT:-6379}:6379
     volumes:
       - redis_data:/data
 
