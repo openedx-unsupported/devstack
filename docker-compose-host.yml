@@ -33,7 +33,13 @@ services:
   forum:
     volumes:
       - ${DEVSTACK_WORKSPACE}/cs_comments_service:/edx/app/forum/cs_comments_service:cached
-      
+  edraak_programs:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/edraak-programs:/app:cached
+  edraak_marketing:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/marketing-site:/app:cached
+
 volumes:
   credentials_node_modules:
   discovery_node_modules:

@@ -1,0 +1,2 @@
+CREATE DATABASE IF NOT EXISTS edraakprograms;
+CREATE DATABASE IF NOT EXISTS marketingsite;
