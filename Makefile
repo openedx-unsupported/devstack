@@ -58,7 +58,7 @@ dev.status: ## Prints the status of all git repositories
 dev.repo.reset: ## Attempts to reset the local repo checkouts to the master working state
 	./repo.sh reset
 
-dev.editable-envs:  ## Copy env files to the docker-devstack so it's editable by the developer
+dev.editable-envs:  ## Copy env files outside the docker containers so it's editable by the developer
 	@sudo mkdir -p $(DEVSTACK_WORKSPACE)/src/edxapp-envs/
 	@docker exec -it edx.devstack.lms bash -c 'test -f /edx/src/edxapp-envs/lms.env.json || mv /edx/app/edxapp/lms.{env,auth}.json /edx/src/edxapp-envs/'
 	@docker exec -it edx.devstack.lms bash -c 'ln -sf /edx/src/edxapp-envs/lms.{env,auth}.json /edx/app/edxapp/'
@@ -69,7 +69,7 @@ dev.editable-envs:  ## Copy env files to the docker-devstack so it's editable by
 	@make studio-restart
 
 dev.up: | check-memory ## Bring up all services with host volumes
-	docker-compose -f docker-compose.yml -f docker-compose-host.yml up -d
+	docker-compose -f docker-compose.yml -f docker-compose-host.yml -f docker-compose-themes.yml up -d
 
 	@# Start: Edraak hacks
 	@# TODO: Add this to `base.in` (thus `development.txt`) and rebuild the docker image
