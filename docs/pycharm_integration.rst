@@ -69,7 +69,7 @@ use the following options:
   - For example, the path would be the following for the Ecommerce Service:
 
     - ``/edx/app/ecommerce/venvs/ecommerce/bin/python``
-    - Note: The Credentials Service might not have a virtualenv set up in the container. 
+    - Note: The Credentials Service might not have a virtualenv set up in the container.
 
   - For either lms or studio, you need to use edxapp:
 
@@ -324,6 +324,6 @@ One way to do this is to follow these instructions:
 .. _Django Server Run/Debug Configuration: https://www.jetbrains.com/help/pycharm/2017.1/run-debug-configuration-django-server.html
 .. _Jetbrains ticket PY-22893: https://youtrack.jetbrains.com/issue/PY-22893
 .. _PyCharm: https://www.jetbrains.com/pycharm/
-.. _PyCharm IDE setup: https://openedx.atlassian.net/wiki/spaces/OpenDev/pages/92209229/PyCharm
+.. _PyCharm IDE setup: https://openedx.atlassian.net/wiki/spaces/AC/pages/92209229/PyCharm
 .. _README: ../README.rst
 .. _vendor documentation: https://www.jetbrains.com/help/pycharm/2017.1/configuring-remote-interpreters-via-docker-compose.html
