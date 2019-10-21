@@ -20,7 +20,7 @@ BASEDIR=$(dirname "$0")
 # for error cases and the like.
 notice() {
     SWITCH='\033['
-    GREY="${SWITCH}1;30m"
+    GREY="${SWITCH}1;90m"
     GREEN="${SWITCH}0;32m"
     echo -e "${GREEN}${@}${GREY}"
 }
