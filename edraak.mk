@@ -62,6 +62,9 @@ edraak.programs.install_all:
 edraak.programs.watch_js:
 	docker-compose exec edraak_programs gulp watch
 
+edraak.programs.provision:
+	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml" ./provision-edraak-programs.sh
+
 edraak.programs.watch_css:
 	docker-compose exec edraak_programs npm run watch-scss
 
@@ -71,3 +74,5 @@ edraak.programs.shell:
 edraak.marketing.shell:
 	docker-compose exec edraak_marketing bash
 
+edraak.marketing.provision:
+	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml" ./provision-edraak-marketing.sh
