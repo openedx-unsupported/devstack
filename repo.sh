@@ -27,6 +27,8 @@ repos=(
     "https://github.com/Edraak/edraak-platform.git"
     "https://github.com/Edraak/xqueue.git"
     "https://github.com/Edraak/edx-analytics-pipeline.git"
+    "git@github.com:Edraak/marketing-site.git"
+    "git@github.com:Edraak/edraak-programs.git"
 )
 
 repo_alternative_directory=(
