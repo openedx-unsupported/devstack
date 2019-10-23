@@ -71,6 +71,12 @@ dev.status: ## Prints the status of all git repositories
 dev.repo.reset: ## Attempts to reset the local repo checkouts to the master working state
 	$(WINPTY) bash ./repo.sh reset
 
+dev.pull: ## Pull *all* required Docker images. Consider `make dev.pull.<service>` instead.
+	docker-compose pull
+
+dev.pull.%: ## Pull latest Docker images for a given service and all its dependencies
+	docker-compose pull --include-deps $*
+
 dev.up: | check-memory ## Bring up all services with host volumes
 	bash -c 'docker-compose -f docker-compose.yml -f docker-compose-host.yml -f docker-compose-themes.yml up -d'
 	@# Comment out this next line if you want to save some time and don't care about catalog programs
@@ -134,8 +140,27 @@ xqueue-logs: ## View logs from containers running in detached mode
 xqueue_consumer-logs: ## View logs from containers running in detached mode
 	docker-compose -f docker-compose-xqueue.yml logs -f xqueue_consumer
 
-pull: ## Update Docker images
-	docker-compose pull
+pull:
+	@echo "This command is deprecated."
+	@echo "Please use 'make dev.pull.<service>'."
+	@echo "It will pull all the images that the given serivce depends upon."
+	@echo "Example: "
+	@echo "----------------------------------"
+	@echo "~/devstack$$ make dev.pull.lms"
+	@echo "   Pulling chrome        ... done"
+	@echo "   Pulling firefox       ... done"
+	@echo "   Pulling memcached     ... done"
+	@echo "   Pulling mongo         ... done"
+	@echo "   Pulling mysql         ... done"
+	@echo "   Pulling elasticsearch ... done"
+	@echo "   Pulling discovery     ... done"
+	@echo "   Pulling forum         ... done"
+	@echo "   Pulling devpi         ... done"
+	@echo "   Pulling lms           ... done"
+	@echo "~/devstack$$"
+	@echo "----------------------------------"
+	@echo "If you must pull all images (for example, for initial provisioning),"
+	@echo "run 'make dev.pull'."
 
 pull.xqueue: ## Update XQueue Docker images
 	docker-compose -f docker-compose-xqueue.yml pull

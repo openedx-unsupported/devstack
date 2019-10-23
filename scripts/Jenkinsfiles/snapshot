@@ -16,7 +16,7 @@ pipeline {
                     dir('devstack') {
                         sh 'make requirements'
                         sh 'make dev.clone'
-                        sh 'make pull'
+                        sh 'make dev.pull'
                         sh 'make dev.provision'
                         sh 'python scripts/snapshot.py ../devstack_snapshot'
                     }
