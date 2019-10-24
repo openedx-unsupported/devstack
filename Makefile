@@ -140,12 +140,21 @@ xqueue-logs: ## View logs from containers running in detached mode
 xqueue_consumer-logs: ## View logs from containers running in detached mode
 	docker-compose -f docker-compose-xqueue.yml logs -f xqueue_consumer
 
-pull:
-	@echo "This command is deprecated."
+RED="\033[0;31m"
+YELLOW="\033[0;33m"
+GREY="\033[1;90m"
+NO_COLOR="\033[0m"
+
+pull: dev.pull
+	@echo -n $(RED)
+	@echo "******************* PLEASE NOTE ********************************"
+	@echo -n $(YELLOW)
+	@echo "The 'make pull' command is deprecated."
 	@echo "Please use 'make dev.pull.<service>'."
 	@echo "It will pull all the images that the given serivce depends upon."
 	@echo "Example: "
 	@echo "----------------------------------"
+	@echo -n $(GREY)
 	@echo "~/devstack$$ make dev.pull.lms"
 	@echo "   Pulling chrome        ... done"
 	@echo "   Pulling firefox       ... done"
@@ -158,9 +167,13 @@ pull:
 	@echo "   Pulling devpi         ... done"
 	@echo "   Pulling lms           ... done"
 	@echo "~/devstack$$"
+	@echo -n $(YELLOW)
 	@echo "----------------------------------"
-	@echo "If you must pull all images (for example, for initial provisioning),"
-	@echo "run 'make dev.pull'."
+	@echo "If you must pull all images, such as for initial"
+	@echo "provisioning, run 'make dev.pull'."
+	@echo -n $(RED)
+	@echo "****************************************************************"
+	@echo -n $(NO_COLOR)
 
 pull.xqueue: ## Update XQueue Docker images
 	docker-compose -f docker-compose-xqueue.yml pull
