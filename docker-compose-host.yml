@@ -39,6 +39,9 @@ services:
   edraak_marketing:
     volumes:
       - ${DEVSTACK_WORKSPACE}/marketing-site:/app:cached
+  edraak_marketing_gulp:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/marketing-site:/app:cached
 
 volumes:
   credentials_node_modules:

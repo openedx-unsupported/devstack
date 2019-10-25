@@ -76,3 +76,15 @@ edraak.marketing.shell:
 
 edraak.marketing.provision:
 	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml" ./provision-edraak-marketing.sh
+
+marketing-restart: ## Kill the Marketing Django development server. The watcher process will restart it.
+	docker exec -t edraak.devstack.marketing bash -c 'kill $$(ps aux | grep "manage.py" | egrep -v "while|grep" | awk "{print \$$2}")'
+
+programs-restart: ## Kill the Edraak Programs Django development server. The watcher process will restart it.
+	docker exec -t edraak.devstack.programs bash -c 'kill $$(ps aux | grep "manage.py" | egrep -v "while|grep" | awk "{print \$$2}")'
+
+edraak.restart:  ## Restart all of the lms, studio, marketing and progs
+	make marketing-restart
+	make programs-restart
+	make lms-restart
+	make studio-restart
