@@ -28,6 +28,12 @@ do
   sleep 1
 done
 
+# In the event of a fresh MySQL container, wait a few seconds for the server to restart
+# This can be removed once https://github.com/docker-library/mysql/issues/245 is resolved.
+sleep 20
+
+echo -e "MySQL ready"
+
 # Ensure the MongoDB server is online and usable
 echo "Waiting for MongoDB"
 until docker exec -i edx.devstack.mongo mongo --eval "printjson(db.serverStatus())" &> /dev/null
@@ -36,12 +42,6 @@ do
   sleep 1
 done
 
-
-# In the event of a fresh MySQL container, wait a few seconds for the server to restart
-# This can be removed once https://github.com/docker-library/mysql/issues/245 is resolved.
-sleep 20
-
-echo -e "MySQL ready"
 echo -e "MongoDB ready"
 
 echo -e "${GREEN}Creating databases and users...${NC}"
