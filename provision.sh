@@ -34,6 +34,16 @@ sleep 20
 
 echo -e "MySQL ready"
 
+# Ensure the MongoDB server is online and usable
+echo "Waiting for MongoDB"
+until docker exec -i edx.devstack.mongo mongo --eval "printjson(db.serverStatus())" &> /dev/null
+do
+  printf "."
+  sleep 1
+done
+
+echo -e "MongoDB ready"
+
 echo -e "${GREEN}Creating databases and users...${NC}"
 docker exec -i edx.devstack.mysql mysql -uroot mysql < provision.sql
 docker exec -i edx.devstack.mongo mongo < mongo-provision.js
