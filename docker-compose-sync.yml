@@ -1,15 +1,15 @@
 version: "2.1"
 
 services:
-  credentials:
-    volumes:
-      - credentials-sync:/edx/app/credentials/credentials:nocopy
-  discovery:
-    volumes:
-      - discovery-sync:/edx/app/discovery/discovery:nocopy
-  ecommerce:
-    volumes:
-      - ecommerce-sync:/edx/app/ecommerce/ecommerce:nocopy
+#  credentials:
+#    volumes:
+#      - credentials-sync:/edx/app/credentials/credentials:nocopy
+#  discovery:
+#    volumes:
+#      - discovery-sync:/edx/app/discovery/discovery:nocopy
+#  ecommerce:
+#    volumes:
+#      - ecommerce-sync:/edx/app/ecommerce/ecommerce:nocopy
   lms:
     volumes:
       - edxapp-sync:/edx/app/edxapp/edx-platform:nocopy
@@ -19,15 +19,28 @@ services:
   forum:
     volumes:
       - forum-sync:/edx/app/forum/cs_comments_service:nocopy
+  edraak_marketing:
+    volumes:
+      - edraak-marketing-sync:/app:nocopy
+  edraak_marketing_gulp:
+    volumes:
+      - edraak-marketing-sync:/app:nocopy
+  edraak_programs:
+    volumes:
+      - edraak-programs-sync:/app:nocopy
 
 volumes:
-  credentials-sync:
-    external: true
-  discovery-sync:
-    external: true
-  ecommerce-sync:
-    external: true
+#  credentials-sync:
+#    external: true
+#  discovery-sync:
+#    external: true
+#  ecommerce-sync:
+#    external: true
   edxapp-sync:
     external: true
   forum-sync:
+    external: true
+  edraak-marketing-sync:
+    external: true
+  edraak-programs-sync:
     external: true

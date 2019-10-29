@@ -42,12 +42,12 @@ docker exec -i edx.devstack.mongo mongo < mongo-provision.js
 
 # Nothing special needed for studio
 docker-compose $DOCKER_COMPOSE_FILES up -d studio
-./provision-ecommerce.sh
-./provision-discovery.sh
-./provision-credentials.sh
-./provision-e2e.sh
+#./provision-ecommerce.sh
+#./provision-discovery.sh
+#./provision-credentials.sh
+#./provision-e2e.sh
 ./provision-forum.sh
-./provision-notes.sh
+#./provision-notes.sh
 ./provision-edraak.sh
 
 docker image prune -f

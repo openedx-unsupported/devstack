@@ -18,15 +18,15 @@ else
 fi
 
 repos=(
-    "https://github.com/Edraak/course-discovery.git"
-    "https://github.com/Edraak/credentials.git"
+#    "https://github.com/Edraak/course-discovery.git"
+#    "https://github.com/Edraak/credentials.git"
     "https://github.com/Edraak/cs_comments_service.git"
-    "https://github.com/Edraak/ecommerce.git"
-    "https://github.com/Edraak/edx-e2e-tests.git"
-    "https://github.com/Edraak/edx-notes-api.git"
+#    "https://github.com/Edraak/ecommerce.git"
+#    "https://github.com/Edraak/edx-e2e-tests.git"
+#    "https://github.com/Edraak/edx-notes-api.git"
     "https://github.com/Edraak/edraak-platform.git"
-    "https://github.com/Edraak/xqueue.git"
-    "https://github.com/Edraak/edx-analytics-pipeline.git"
+#    "https://github.com/Edraak/xqueue.git"
+#    "https://github.com/Edraak/edx-analytics-pipeline.git"
     "git@github.com:Edraak/marketing-site.git"
     "git@github.com:Edraak/edraak-programs.git"
 )
