@@ -4,6 +4,7 @@ echo "** Restarting **"
 docker-compose restart edraak_marketing
 
 echo "** Migrating databases **"
+docker-compose exec edraak_programs bash -c 'cp -Rnv /cache/* /app/.'
 docker-compose exec edraak_marketing bash -c 'python manage.py migrate --settings=marketingsite.envs.dev'
 
 echo "** Compiling assets **"
