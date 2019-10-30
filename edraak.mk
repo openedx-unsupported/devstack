@@ -1,8 +1,8 @@
 edraak.provision:
 	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml" ./provision-edraak.sh
 
-provision.edraak:
-	$(MAKE) edraak.provision
+edraak.sync.provision: | dev.sync.daemon.start
+	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-sync.yml" ./provision-edraak.sh
 
 edraak.build.all:
 	$(MAKE) edraak.build.programs

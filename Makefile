@@ -59,28 +59,20 @@ dev.repo.reset: ## Attempts to reset the local repo checkouts to the master work
 	./repo.sh reset
 
 dev.editable-envs:  ## Copy env files outside the docker containers so it's editable by the developer
-	@sudo mkdir -p $(DEVSTACK_WORKSPACE)/src/edxapp-envs/
+	sudo mkdir -p $(DEVSTACK_WORKSPACE)/src/edxapp-envs/
 	@docker exec -it edx.devstack.lms bash -c 'test -f /edx/src/edxapp-envs/lms.env.json || mv /edx/app/edxapp/lms.{env,auth}.json /edx/src/edxapp-envs/'
 	@docker exec -it edx.devstack.lms bash -c 'ln -sf /edx/src/edxapp-envs/lms.{env,auth}.json /edx/app/edxapp/'
 	@docker exec -it edx.devstack.studio bash -c 'test -f /edx/src/edxapp-envs/cms.env.json || mv /edx/app/edxapp/cms.{env,auth}.json /edx/src/edxapp-envs/'
 	@docker exec -it edx.devstack.studio bash -c 'ln -sf /edx/src/edxapp-envs/cms.{env,auth}.json /edx/app/edxapp/'
-	@sudo chown $(USER) -R $(DEVSTACK_WORKSPACE)/src
+	@sudo chown -R $(USER) $(DEVSTACK_WORKSPACE)/src
 	@make lms-restart
 	@make studio-restart
 
 dev.up: | check-memory ## Bring up all services with host volumes
 	docker-compose -f docker-compose.yml -f docker-compose-host.yml -f docker-compose-themes.yml up -d
-
-	@# Start: Edraak hacks
-	@# TODO: Add this to `base.in` (thus `development.txt`) and rebuild the docker image
-	@docker exec -it edx.devstack.lms bash -c 'source /edx/app/edxapp/edxapp_env && pip install python-bidi==0.4.0'
-	@docker exec -it edx.devstack.lms bash -c 'source /edx/app/edxapp/edxapp_env && pip install wand==0.5.1'
-	@docker exec -it edx.devstack.lms bash -c 'source /edx/app/edxapp/edxapp_env && pip install -e /edx/app/edxapp/edx-platform'
-	@docker exec -it edx.devstack.studio bash -c 'source /edx/app/edxapp/edxapp_env && pip install -e /edx/app/edxapp/edx-platform'
-	@make dev.editable-envs
-	@# End: Edraak hacks
+	@make edraak.dev.up.hacks
 	@# Comment out this next line if you want to save some time and don't care about catalog programs
-	./programs/provision.sh cache >/dev/null
+	#./programs/provision.sh cache >/dev/null
 
 dev.up.watchers: | check-memory ## Bring up asset watcher containers
 	docker-compose -f docker-compose-watchers.yml up -d
@@ -100,6 +92,19 @@ dev.sync.requirements: ## Install requirements
 
 dev.sync.up: dev.sync.daemon.start ## Bring up all services with docker-sync enabled
 	docker-compose -f docker-compose.yml -f docker-compose-sync.yml up -d
+	@make edraak.dev.up.hacks
+	@# Comment out this next line if you want to save some time and don't care about catalog programs
+	#./programs/provision.sh cache >/dev/null
+
+edraak.dev.up.hacks:
+	@# Start: Edraak hacks
+	@# TODO: Add this to `base.in` (thus `development.txt`) and rebuild the docker image
+	@docker exec -it edx.devstack.lms bash -c 'source /edx/app/edxapp/edxapp_env && pip install python-bidi==0.4.0'
+	@docker exec -it edx.devstack.lms bash -c 'source /edx/app/edxapp/edxapp_env && pip install wand==0.5.1'
+	@docker exec -it edx.devstack.lms bash -c 'source /edx/app/edxapp/edxapp_env && pip install -e /edx/app/edxapp/edx-platform'
+	@docker exec -it edx.devstack.studio bash -c 'source /edx/app/edxapp/edxapp_env && pip install -e /edx/app/edxapp/edx-platform'
+	@make dev.editable-envs
+	@# End: Edraak hacks
 
 provision: | dev.provision ## This command will be deprecated in a future release, use dev.provision
 	echo "\033[0;31mThis command will be deprecated in a future release, use dev.provision\033[0m"

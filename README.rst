@@ -73,7 +73,7 @@ you should configure Docker with a sufficient
 amount of resources. We find that `configuring Docker for Mac`_ with
 a minimum of 2 CPUs and 6GB of memory works well.
 
-1. Install the requirements inside of a `Python virtualenv`_.
+1. (Optional) Install the requirements inside of a `Python virtualenv`_.
 
    .. code:: sh
 
@@ -118,6 +118,13 @@ a minimum of 2 CPUs and 6GB of memory works well.
    .. code:: sh
 
        make dev.sync.provision
+
+
+4. Build edraak images
+
+   .. code:: sh
+
+       edraak.build.all
 
 
 4. Start the services. This command will mount the repositories under the
