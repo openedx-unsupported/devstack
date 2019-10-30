@@ -249,7 +249,7 @@ services:
     image: edraak-devstack-marketing
     environment:
       NODE_ENV: development
-    command: bash -c 'while true; do npx gulp; sleep 2; done'
+    command: bash -c 'while true; do npx gulp watch; sleep 2; done'
     container_name: edraak.devstack.marketing-gulp
     working_dir: /app
     depends_on:
