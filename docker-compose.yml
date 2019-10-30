@@ -235,7 +235,7 @@ services:
     image: edraak-devstack-marketing
     environment:
       NODE_ENV: development
-    command: bash -c 'while true; do python manage.py runserver 0.0.0.0:8800 --settings=marketingsite.envs.dev; sleep 2; done'
+    command: bash -c 'while true; do python manage.py runserver 0.0.0.0:8500 --settings=marketingsite.envs.dev; sleep 2; done'
     container_name: edraak.devstack.marketing
     working_dir: /app
     ports:
