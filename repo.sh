@@ -60,6 +60,14 @@ _get_name()
 	echo "${BASH_REMATCH[1]}"
 }
 
+_get_edraak_repo_branch() {
+  if [ "$1" == "marketing-site" ] || [ "$1" == "edraak-programs" ]; then
+    echo "hawthorn"  # TODO: Switch to `master` once the Hawthorn upgrade is complete.
+  else
+    echo "master"  # Edraak: Use master, because it's pinned to Hawthorn.
+  fi
+}
+
 _checkout ()
 {
     repos_to_checkout=("$@")
@@ -70,7 +78,6 @@ _checkout ()
         branch="open-release/${OPENEDX_RELEASE}"
     fi
 
-    branch="master"  # Edraak: Use master, because it's pinned to Hawthorn.
 
     for repo in "${repos_to_checkout[@]}"
     do
@@ -79,6 +86,8 @@ _checkout ()
         # If a directory exists and it is nonempty, assume the repo has been cloned.
         if [ -d "$name" -a -n "$(ls -A "$name" 2>/dev/null)" ]; then
             cd $name
+
+            branch=$(_get_edraak_repo_branch "$name")
             echo "Checking out branch $branch of $name"
             git pull
             git checkout "$branch"
@@ -110,9 +119,9 @@ _clone ()
             else
                 git clone $repo $name
             fi
-            if [ -n "${OPENEDX_RELEASE}" ]; then
-                git checkout open-release/${OPENEDX_RELEASE}
-            fi
+
+            branch=$(_get_edraak_repo_branch "$name")
+            git checkout "$branch"
         fi
     done
     cd - &> /dev/null
@@ -135,8 +144,9 @@ reset ()
     do
         name=$(_get_name $repo)
 
+        branch=$(_get_edraak_repo_branch "$name")
         if [ -d "$name" ]; then
-            cd $name;git reset --hard HEAD;git checkout master;git reset --hard origin/master;git pull;cd "$currDir"
+            cd $name;git reset --hard HEAD;git checkout "$branch";git reset --hard "origin/$branch";git pull;cd "$currDir"
         else
             printf "The [%s] repo is not cloned. Continuing.\n" $name
         fi
