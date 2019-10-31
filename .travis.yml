@@ -33,7 +33,7 @@ before_install:
 
   - make requirements
   - make dev.clone
-  - if [[ $DEVSTACK == 'lms' ]]; then make pull; fi
+  - if [[ $DEVSTACK == 'lms' ]]; then make dev.pull; fi
   - if [[ $DEVSTACK == 'analytics_pipeline' ]]; then make dev.up.analytics_pipeline; fi
 
 script:

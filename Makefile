@@ -71,6 +71,12 @@ dev.status: ## Prints the status of all git repositories
 dev.repo.reset: ## Attempts to reset the local repo checkouts to the master working state
 	$(WINPTY) bash ./repo.sh reset
 
+dev.pull: ## Pull *all* required Docker images. Consider `make dev.pull.<service>` instead.
+	docker-compose pull
+
+dev.pull.%: ## Pull latest Docker images for a given service and all its dependencies
+	docker-compose pull --include-deps $*
+
 dev.up: | check-memory ## Bring up all services with host volumes
 	bash -c 'docker-compose -f docker-compose.yml -f docker-compose-host.yml -f docker-compose-themes.yml up -d'
 	@# Comment out this next line if you want to save some time and don't care about catalog programs
@@ -134,8 +140,40 @@ xqueue-logs: ## View logs from containers running in detached mode
 xqueue_consumer-logs: ## View logs from containers running in detached mode
 	docker-compose -f docker-compose-xqueue.yml logs -f xqueue_consumer
 
-pull: ## Update Docker images
-	docker-compose pull
+RED="\033[0;31m"
+YELLOW="\033[0;33m"
+GREY="\033[1;90m"
+NO_COLOR="\033[0m"
+
+pull: dev.pull
+	@echo -n $(RED)
+	@echo "******************* PLEASE NOTE ********************************"
+	@echo -n $(YELLOW)
+	@echo "The 'make pull' command is deprecated."
+	@echo "Please use 'make dev.pull.<service>'."
+	@echo "It will pull all the images that the given serivce depends upon."
+	@echo "Example: "
+	@echo "----------------------------------"
+	@echo -n $(GREY)
+	@echo "~/devstack$$ make dev.pull.lms"
+	@echo "   Pulling chrome        ... done"
+	@echo "   Pulling firefox       ... done"
+	@echo "   Pulling memcached     ... done"
+	@echo "   Pulling mongo         ... done"
+	@echo "   Pulling mysql         ... done"
+	@echo "   Pulling elasticsearch ... done"
+	@echo "   Pulling discovery     ... done"
+	@echo "   Pulling forum         ... done"
+	@echo "   Pulling devpi         ... done"
+	@echo "   Pulling lms           ... done"
+	@echo "~/devstack$$"
+	@echo -n $(YELLOW)
+	@echo "----------------------------------"
+	@echo "If you must pull all images, such as for initial"
+	@echo "provisioning, run 'make dev.pull'."
+	@echo -n $(RED)
+	@echo "****************************************************************"
+	@echo -n $(NO_COLOR)
 
 pull.xqueue: ## Update XQueue Docker images
 	docker-compose -f docker-compose-xqueue.yml pull

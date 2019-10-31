@@ -64,7 +64,7 @@ below, run the following sequence of commands if you want to use the most up-to-
 .. code:: sh
 
     make down
-    make pull
+    make dev.pull
     make dev.up
 
 This will stop any running devstack containers, pull the latest images, and then start all of the devstack containers.
@@ -106,7 +106,7 @@ a minimum of 2 CPUs and 8GB of memory does work.
 
    .. code:: sh
 
-       make pull
+       make dev.pull
 
 4. Run the provision command, if you haven't already, to configure the various
    services with superusers (for development without the auth service) and
@@ -230,7 +230,7 @@ analyticstack ( e.g. lms, studio etc ) consider setting higher memory.
 
    .. code:: sh
 
-       make pull
+       make dev.pull
        make pull.analytics_pipeline
 
 3. Run the provision command to configure the analyticstack.
@@ -343,6 +343,11 @@ Credentials, etc:
 
     make dev.up.lms
 
+Similarly, ``make dev.pull`` can take a long time, as it pulls all services' images,
+whether or not you need them.
+To instead only pull images required by your service and its dependencies,
+run ``make dev.pull.<service>``.
+
 Sometimes you may need to restart a particular application server. To do so,
 simply use the ``docker-compose restart`` command:
 
@@ -447,7 +452,7 @@ How do I run the images for a named Open edX release?
 2. Use ``make dev.checkout`` to check out the correct branch in the local
    checkout of each service repository once you've set the ``OPENEDX_RELEASE``
    environment variable above.
-3. ``make pull`` to get the correct images.
+3. ``make dev.pull`` to get the correct images.
 
 All ``make`` target and ``docker-compose`` calls should now use the correct
 images until you change or unset ``OPENEDX_RELEASE`` again.  To work on the
@@ -552,7 +557,7 @@ starts, you have a few options:
 
 * Merge your updated requirements files and wait for a new `edxops Docker image`_
   for that service to be built and uploaded to `Docker Hub`_.  You can
-  then download and use the updated image (for example, via ``make pull``).
+  then download and use the updated image (for example, via ``make dev.pull.<service>``).
   The discovery and edxapp images are built automatically via a Jenkins job. All other
   images are currently built as needed by edX employees, but will soon be built
   automatically on a regular basis. See `How do I build images?`_
@@ -629,7 +634,7 @@ database migrations and package updates.
 When switching to a branch which differs greatly from the one you've been
 working on (especially if the new branch is more recent), you may wish to
 halt the existing containers via ``make down``, pull the latest Docker
-images via ``make pull``, and then re-run ``make dev.provision`` or
+images via ``make dev.pull.<service>``, and then re-run ``make dev.provision`` or
 ``make dev.sync.provision`` in order to recreate up-to-date databases,
 static assets, etc.
 
@@ -817,7 +822,7 @@ directory:
 
 .. code:: sh
 
-   make pull
+   make dev.pull
 
 Pull the latest Docker Compose configuration and provisioning scripts by running
 the following command from the devstack directory:
@@ -926,7 +931,7 @@ No space left on device
 If you see the error ``no space left on device`` on a Mac, Docker has run
 out of space in its Docker.qcow2 file.
 
-Here is an example error while running ``make pull``:
+Here is an example error while running ``make dev.pull``:
 
 .. code:: sh
 
