@@ -140,8 +140,11 @@ xqueue-logs: ## View logs from containers running in detached mode
 xqueue_consumer-logs: ## View logs from containers running in detached mode
 	docker-compose -f docker-compose-xqueue.yml logs -f xqueue_consumer
 
-pull: ## Update Docker images
-	docker-compose pull --parallel
+pull: edraak.build.all ## Update Docker images
+	@echo "The progs and marketing images are only built"
+	@echo "locally, so 'pull' will fail and that's okay."
+	docker-compose pull --parallel --ignore-pull-failures
+	@echo "Once again ^^^ please ignore the errors above ^^^."
 
 pull.xqueue: ## Update XQueue Docker images
 	docker-compose -f docker-compose-xqueue.yml pull --parallel
