@@ -36,6 +36,9 @@ services:
   edraak_programs:
     volumes:
       - ${DEVSTACK_WORKSPACE}/edraak-programs:/app:cached
+  edraak_programs_gulp:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/edraak-programs:/app:cached
   edraak_marketing:
     volumes:
       - ${DEVSTACK_WORKSPACE}/marketing-site:/app:cached

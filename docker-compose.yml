@@ -232,6 +232,17 @@ services:
       - mongo
       - memcached
 
+  edraak_programs_gulp:
+    image: edraak-devstack-programs
+    environment:
+      NODE_ENV: development
+    command: bash -c 'while true; do npx gulp watch; sleep 2; done'
+    container_name: edraak.devstack.programs-gulp
+    working_dir: /app
+    depends_on:
+      - mysql
+      - memcached
+
   edraak_marketing:
     image: edraak-devstack-marketing
     environment:
