@@ -226,10 +226,21 @@ services:
     container_name: edraak.devstack.programs
     working_dir: /app
     ports:
-      - "18901:8800" # TODO: change to "18800:8800"
+      - "18800:8800"
     depends_on:
       - mysql
       - mongo
+      - memcached
+
+  edraak_programs_gulp:
+    image: edraak-devstack-programs
+    environment:
+      NODE_ENV: development
+    command: bash -c 'while true; do npx gulp watch; sleep 2; done'
+    container_name: edraak.devstack.programs-gulp
+    working_dir: /app
+    depends_on:
+      - mysql
       - memcached
 
   edraak_marketing:
@@ -240,7 +251,7 @@ services:
     container_name: edraak.devstack.marketing
     working_dir: /app
     ports:
-      - "18902:8800" # TODO: change to "18500:8500"
+      - "18500:8800"
     depends_on:
       - mysql
       - memcached
