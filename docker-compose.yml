@@ -25,10 +25,9 @@ services:
   elasticsearch:
     container_name: edx.devstack.elasticsearch
     image: edxops/elasticsearch:devstack
-    # TODO: What to do about these forwarded ports? They'll conflict with ports forwarded by the Vagrant VM.
-    # ports:
-    #   - "9200:9200"
-    #   - "9300:9300"
+    ports:
+       - "9200:9200"
+       - "9300:9300"
     volumes:
       - elasticsearch_data:/usr/share/elasticsearch/data
       - elasticsearch_data:/usr/share/elasticsearch/logs
@@ -46,8 +45,8 @@ services:
   memcached:
     container_name: edx.devstack.memcached
     image: memcached:1.4.24
-    # ports:
-    #   - "11211:11211"
+    ports:
+       - "11211:11211"
 
   mongo:
     # We use WiredTiger in all environments. In development environments we use small files
@@ -56,8 +55,8 @@ services:
     command: mongod --smallfiles --nojournal --storageEngine wiredTiger
     container_name: edx.devstack.mongo
     image: mongo:3.2.16
-    # ports:
-    #  - "27017:27017"
+    ports:
+      - "27017:27017"
     volumes:
       - mongo_data:/data/db
 
@@ -68,8 +67,8 @@ services:
       MYSQL_ROOT_PASSWORD: ""
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     image: mysql:5.6
-    # ports:
-    #   - "3306:3306"
+    ports:
+       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
 
@@ -147,8 +146,8 @@ services:
     ports:
       - "18000:18000"
       - "19876:19876" # JS test debugging
-      # - "18003:18003"
-      # - "18031:18031"
+      - "18003:18003"
+      - "18031:18031"
     volumes:
       - edxapp_lms_assets:/edx/var/edxapp/staticfiles/
 
@@ -193,8 +192,8 @@ services:
     ports:
       - "18010:18010"
       - "19877:19877" # JS test debugging
-      # - "18103:18103"
-      # - "18131:18131"
+      - "18103:18103"
+      - "18131:18131"
     volumes:
       - edxapp_studio_assets:/edx/var/edxapp/staticfiles/
 
@@ -247,11 +246,11 @@ services:
     image: edraak-devstack-marketing
     environment:
       NODE_ENV: development
-    command: bash -c 'while true; do python manage.py runserver 0.0.0.0:8800 --settings=marketingsite.envs.dev; sleep 2; done'
+    command: bash -c 'while true; do python manage.py runserver 0.0.0.0:8500 --settings=marketingsite.envs.dev; sleep 2; done'
     container_name: edraak.devstack.marketing
     working_dir: /app
     ports:
-      - "18500:8800"
+      - "18500:8500"
     depends_on:
       - mysql
       - memcached
