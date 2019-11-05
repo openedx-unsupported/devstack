@@ -69,7 +69,7 @@ dev.editable-envs:  ## Copy env files outside the docker containers so it's edit
 	@make studio-restart
 
 dev.up: | check-memory ## Bring up all services with host volumes
-	docker-compose -f docker-compose.yml -f docker-compose-host.yml -f docker-compose-themes.yml up -d
+	docker-compose -f docker-compose.yml -f docker-compose-host.yml -f docker-compose-themes.yml -f docker-compose-watchers.yml up -d
 	@make edraak.dev.up.hacks
 	@# Comment out this next line if you want to save some time and don't care about catalog programs
 	#./programs/provision.sh cache >/dev/null
@@ -132,7 +132,7 @@ logs: ## View logs from containers running in detached mode
 	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml logs -f
 
 %-logs: ## View the logs of the specified service container
-	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml logs -f --tail=500 $*
+	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml -f docker-compose-watchers.yml logs -f --tail=500 $*
 
 xqueue-logs: ## View logs from containers running in detached mode
 	docker-compose -f docker-compose-xqueue.yml logs -f xqueue
