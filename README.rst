@@ -96,11 +96,12 @@ a minimum of 2 CPUs and 6GB of memory works well.
    Be sure to share the cloned directories in the Docker -> Preferences... ->
    File Sharing box.
 
-3. Build edraak images
+2. 2 options here you can either build the images your self (check the build section below) or use gcloud to configure docker access to GCR
 
    .. code:: sh
 
-       edraak.build.all
+       gcloud auth configure-docker
+
 
 3. Run the provision command, if you haven't already, to configure the various
    services with superusers (for development without the auth service) and
@@ -303,7 +304,7 @@ meant to be user-facing, the "homepage" may be the API root.
 +---------------------+-------------------------------------+
 | Notes/edx-notes-api | http://localhost:18120/api/v1/      |
 +---------------------+-------------------------------------+
-| Studio/CMS          | http://localhost:18010/             |
+| Studio/CMS          | http://studio.edraak.dev/             |
 +---------------------+-------------------------------------+
 
 Useful Commands
@@ -381,6 +382,16 @@ BUILD COMMANDS:
     git checkout master
     git pull
     docker build -f docker/build/ecommerce/Dockerfile . -t edxops/ecommerce:devstack
+
+For both progs and marketing do
+.. code:: sh
+    make edraak.build.all
+
+OR for each
+.. code:: sh
+    make edraak.build.programs
+    make edraak.build.marketing
+
 
 The build commands above will use your local configuration, but will pull
 application code from the master branch of the application's repository. If you

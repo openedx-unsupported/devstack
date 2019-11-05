@@ -29,10 +29,14 @@ repos=(
 #    "https://github.com/Edraak/edx-analytics-pipeline.git"
     "git@github.com:Edraak/marketing-site.git"
     "git@github.com:Edraak/edraak-programs.git"
+    "git@github.com:Edraak/edraak-2019-theme.git"
+    "git@github.com:Edraak/shared-devstack-configs.git"
 )
 
 repo_alternative_directory=(
 	"https://github.com/Edraak/edraak-platform.git,edx-platform"
+	"git@github.com:Edraak/edraak-2019-theme.git,edx-themes/edraak-2019-theme"
+      "git@github.com:Edraak/shared-devstack-configs.git,src/edxapp-envs"
 )
 
 private_repos=(

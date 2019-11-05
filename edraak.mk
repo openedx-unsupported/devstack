@@ -9,10 +9,10 @@ edraak.build.all:
 	$(MAKE) edraak.build.marketing
 
 edraak.build.programs:
-	docker build -t edraak-devstack-programs -f ../edraak-programs/Dockerfile ../edraak-programs
+	docker build -t eu.gcr.io/openedx-231314/edraak/progs -f ../edraak-programs/Dockerfile ../edraak-programs
 
 edraak.build.marketing:
-	docker build -t edraak-devstack-marketing -f ../marketing-site/Dockerfile ../marketing-site
+	docker build -t eu.gcr.io/openedx-231314/edraak/marketing -f ../marketing-site/Dockerfile ../marketing-site
 
 edraak.programs.help:
 	echo ""
