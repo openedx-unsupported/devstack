@@ -3,22 +3,15 @@ Open edX Devstack |Build Status|
 
 Get up and running quickly with Open edX services.
 
-If you are seeking info on the Vagrant-based devstack, please see
-https://openedx.atlassian.net/wiki/spaces/OpenOPS/pages/60227787/Running+Vagrant-based+Devstack. This
-project is meant to replace the traditional Vagrant-based devstack with a
-multi-container approach driven by `Docker Compose`_. It is still in the
-beta testing phase.
-
 Updated Documentation
 ---------------------
 
 These docs might be out of date. Please see the updated docs at https://edx.readthedocs.io/projects/edx-installing-configuring-and-running/en/latest/installation/index.html.
 
-Support
--------
+Where to Find Help
+------------------
 
-Tickets or issues should be filed in Jira under the platform project:
-https://openedx.atlassian.net/projects/PLAT/issues
+There are a number of places to get help, including mailing lists and real-time chat. Please choose an appropriate venue for your question. This helps ensure that you get good prompt advice, and keeps discussion focused. For details of your options, see the `Community`_ pages.
 
 FYI
 ---
@@ -37,10 +30,7 @@ Docker Edge should work as well.
 settings.  Don't forget to restore your memory setting and be prepared to
 provision.
 
-For macOS users, please use `Docker for Mac`_. Previous Mac-based tools (e.g.
-boot2docker) are *not* supported.
-
-`Docker for Windows`_ may work but has not been tested and is *not* supported.
+For macOS users, please use `Docker for Mac`_. `Docker for Windows`_ may work but has not been tested and is *not* supported.
 
 Linux users should *not* be using the ``overlay`` storage driver.  ``overlay2``
 is tested and supported, but requires kernel version 4.0+.  Check which storage
@@ -905,8 +895,7 @@ Running LMS commands within a container
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Most of the ``paver`` commands require a settings flag. If omitted, the flag defaults to
-``devstack``, which is the settings flag for vagrant-based devstack instances.
-So if you run into issues running ``paver`` commands in a docker container, you should append
+``devstack``, if you run into issues running ``paver`` commands in a docker container, you should append
 the ``devstack_docker`` flag. For example:
 
 .. code:: sh
@@ -1103,3 +1092,4 @@ GitHub issue which explains the `current status of implementing delegated consis
 .. _Python virtualenv: http://docs.python-guide.org/en/latest/dev/virtualenvs/#lower-level-virtualenv
 .. _Running analytics acceptance tests in docker: http://edx-analytics-pipeline-reference.readthedocs.io/en/latest/running_acceptance_tests_in_docker.html
 .. _Troubleshooting docker analyticstack: http://edx-analytics-pipeline-reference.readthedocs.io/en/latest/troubleshooting_docker_analyticstack.html
+.. _Community: https://open.edx.org/community/connect/
