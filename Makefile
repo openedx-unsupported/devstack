@@ -99,10 +99,11 @@ dev.sync.up: dev.sync.daemon.start ## Bring up all services with docker-sync ena
 edraak.dev.up.hacks:
 	@# Start: Edraak hacks
 	@# TODO: Add this to `base.in` (thus `development.txt`) and rebuild the docker image
-	@docker exec -it edx.devstack.lms bash -c 'source /edx/app/edxapp/edxapp_env && pip install python-bidi==0.4.0'
-	@docker exec -it edx.devstack.lms bash -c 'source /edx/app/edxapp/edxapp_env && pip install wand==0.5.1'
-	@docker exec -it edx.devstack.lms bash -c 'source /edx/app/edxapp/edxapp_env && pip install -e /edx/app/edxapp/edx-platform'
-	@docker exec -it edx.devstack.studio bash -c 'source /edx/app/edxapp/edxapp_env && pip install -e /edx/app/edxapp/edx-platform'
+	@for container in lms studio lms_watcher studio_watcher; do \
+		 docker exec -it edx.devstack.$$container bash -c 'source /edx/app/edxapp/edxapp_env && pip install python-bidi==0.4.0'; \
+		 docker exec -it edx.devstack.$$container bash -c 'source /edx/app/edxapp/edxapp_env && pip install wand==0.5.1'; \
+		 docker exec -it edx.devstack.$$container bash -c 'source /edx/app/edxapp/edxapp_env && pip install -e /edx/app/edxapp/edx-platform'; \
+    done;
 	@make dev.editable-envs
 	@# End: Edraak hacks
 
@@ -140,11 +141,8 @@ xqueue-logs: ## View logs from containers running in detached mode
 xqueue_consumer-logs: ## View logs from containers running in detached mode
 	docker-compose -f docker-compose-xqueue.yml logs -f xqueue_consumer
 
-pull: edraak.build.all ## Update Docker images
-	@echo "The progs and marketing images are only built"
-	@echo "locally, so 'pull' will fail and that's okay."
-	docker-compose pull --parallel --ignore-pull-failures
-	@echo "Once again ^^^ please ignore the errors above ^^^."
+pull:
+	docker-compose pull --parallel
 
 pull.xqueue: ## Update XQueue Docker images
 	docker-compose -f docker-compose-xqueue.yml pull --parallel
