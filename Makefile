@@ -59,12 +59,12 @@ dev.repo.reset: ## Attempts to reset the local repo checkouts to the master work
 	./repo.sh reset
 
 dev.editable-envs:  ## Copy env files outside the docker containers so it's editable by the developer
-	sudo mkdir -p $(DEVSTACK_WORKSPACE)/src/edxapp-envs/
+	mkdir -p $(DEVSTACK_WORKSPACE)/src/edxapp-envs/
 	@docker exec -it edx.devstack.lms bash -c 'test -f /edx/src/edxapp-envs/lms.env.json || mv /edx/app/edxapp/lms.{env,auth}.json /edx/src/edxapp-envs/'
 	@docker exec -it edx.devstack.lms bash -c 'ln -sf /edx/src/edxapp-envs/lms.{env,auth}.json /edx/app/edxapp/'
 	@docker exec -it edx.devstack.studio bash -c 'test -f /edx/src/edxapp-envs/cms.env.json || mv /edx/app/edxapp/cms.{env,auth}.json /edx/src/edxapp-envs/'
 	@docker exec -it edx.devstack.studio bash -c 'ln -sf /edx/src/edxapp-envs/cms.{env,auth}.json /edx/app/edxapp/'
-	@sudo chown -R $(USER) $(DEVSTACK_WORKSPACE)/src
+	chown -R $(USER) $(DEVSTACK_WORKSPACE)/src
 	@make lms-restart
 	@make studio-restart
 
