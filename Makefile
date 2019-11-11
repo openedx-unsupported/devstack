@@ -99,12 +99,14 @@ dev.sync.up: dev.sync.daemon.start ## Bring up all services with docker-sync ena
 edraak.dev.up.hacks:
 	@# Start: Edraak hacks
 	@# TODO: Add this to `base.in` (thus `development.txt`) and rebuild the docker image
+	@make dev.editable-envs
 	@for container in lms studio lms_watcher studio_watcher; do \
 		 docker exec -it edx.devstack.$$container bash -c 'source /edx/app/edxapp/edxapp_env && pip install python-bidi==0.4.0'; \
 		 docker exec -it edx.devstack.$$container bash -c 'source /edx/app/edxapp/edxapp_env && pip install wand==0.5.1'; \
 		 docker exec -it edx.devstack.$$container bash -c 'source /edx/app/edxapp/edxapp_env && pip install -e /edx/app/edxapp/edx-platform'; \
     done;
-	@make dev.editable-envs
+	@make lms-restart
+	@make studio-restart
 	@# End: Edraak hacks
 
 provision: | dev.provision ## This command will be deprecated in a future release, use dev.provision
