@@ -70,7 +70,6 @@ dev.editable-envs:  ## Copy env files outside the docker containers so it's edit
 
 dev.up: | check-memory ## Bring up all services with host volumes
 	docker-compose -f docker-compose.yml -f docker-compose-host.yml -f docker-compose-themes.yml -f docker-compose-watchers.yml up -d
-	@make edraak.dev.up.hacks
 	@# Comment out this next line if you want to save some time and don't care about catalog programs
 	#./programs/provision.sh cache >/dev/null
 
@@ -92,7 +91,6 @@ dev.sync.requirements: ## Install requirements
 
 dev.sync.up: dev.sync.daemon.start ## Bring up all services with docker-sync enabled
 	docker-compose -f docker-compose.yml -f docker-compose-sync.yml up -d
-	@make edraak.dev.up.hacks
 	@# Comment out this next line if you want to save some time and don't care about catalog programs
 	#./programs/provision.sh cache >/dev/null
 
