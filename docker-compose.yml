@@ -325,6 +325,7 @@ services:
       file: microfrontend.yml
       service: microfrontend
     working_dir: '/edx/app/program-manager'
+    image: node:12
     container_name: edx.devstack.program-manager
     ports:
       - "1976:1976"
