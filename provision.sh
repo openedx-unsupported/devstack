@@ -49,7 +49,8 @@ docker exec -i edx.devstack.mysql mysql -uroot mysql < provision.sql
 docker exec -i edx.devstack.mongo mongo < mongo-provision.js
 
 ./provision-lms.sh
-
+if [ $TESTING!='lms' ];
+then
 # Nothing special needed for studio
 docker-compose $DOCKER_COMPOSE_FILES up -d studio
 ./provision-ecommerce.sh
@@ -59,7 +60,7 @@ docker-compose $DOCKER_COMPOSE_FILES up -d studio
 ./provision-forum.sh
 ./provision-notes.sh
 ./provision-registrar.sh
-
+fi
 docker image prune -f
 
 echo -e "${GREEN}Provisioning complete!${NC}"
