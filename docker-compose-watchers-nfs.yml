@@ -1,0 +1,32 @@
+version: "2.1"
+
+services:
+  lms_watcher:
+    command: bash -c 'cd /edx/app/edxapp/edx-platform && source ../edxapp_env && while true; do paver watch_assets $$EXTRA --w=$$ASSET_WATCHER_TIMEOUT; sleep 2; done'
+    container_name: edx.devstack.lms_watcher
+    environment:
+      BOK_CHOY_HOSTNAME: edx.devstack.lms_watcher
+      ASSET_WATCHER_TIMEOUT: 12
+      EXTRA: '--themes edraak-2019-theme --theme-dirs /edx/app/edx-themes'
+    image: eu.gcr.io/openedx-231314/edraak/edxapp:hawthorn.edraak.v2
+    volumes:
+      - edx-nfs:/edx/app/edxapp/edx-platform
+      - edxapp_lms_assets:/edx/var/edxapp/staticfiles/
+      - src-nfs:/edx/src:cached
+
+  studio_watcher:
+    command: bash -c 'cd /edx/app/edxapp/edx-platform && source ../edxapp_env && while true; do paver watch_assets $$EXTRA --w=$$ASSET_WATCHER_TIMEOUT; sleep 2; done'
+    container_name: edx.devstack.studio_watcher
+    environment:
+      BOK_CHOY_HOSTNAME: edx.devstack.studio_watcher
+      ASSET_WATCHER_TIMEOUT: 12
+      EXTRA: '--themes edraak-2019-theme --theme-dirs /edx/app/edx-themes'
+    image: eu.gcr.io/openedx-231314/edraak/edxapp:hawthorn.edraak.v2
+    volumes:
+      - edxapp_studio_assets:/edx/var/edxapp/staticfiles/
+      - edx-nfs:/edx/app/edxapp/edx-platform
+      - src-nfs:/edx/src:cached
+
+volumes:
+  edxapp_lms_assets:
+  edxapp_studio_assets:
