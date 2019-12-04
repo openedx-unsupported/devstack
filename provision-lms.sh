@@ -10,9 +10,11 @@ apps=( lms studio )
 
 # Bring edxapp containers online
 for app in "${apps[@]}"; do
+    echo $DOCKER_COMPOSE_FILES
     docker-compose $DOCKER_COMPOSE_FILES up -d $app
 done
 
+echo $DOCKER_COMPOSE_FILES
 docker-compose exec lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && NO_PYTHON_UNINSTALL=1 paver install_prereqs'
 
 #Installing prereqs crashes the process

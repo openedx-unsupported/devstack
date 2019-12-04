@@ -391,7 +391,7 @@ BUILD COMMANDS:
 
     git checkout master
     git pull
-    docker build -f docker/build/edxapp/Dockerfile . -t eu.gcr.io/openedx-231314/edraak/edxapp:hawthorn.edraak.v2
+    docker build -f docker/build/edxapp/Dockerfile . -t eu.gcr.io/openedx-231314/edraak/edxapp:hawthorn.edraak.v3
 
 .. code:: sh
 
