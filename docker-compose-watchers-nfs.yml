@@ -7,7 +7,7 @@ services:
     environment:
       BOK_CHOY_HOSTNAME: edx.devstack.lms_watcher
       ASSET_WATCHER_TIMEOUT: 12
-      EXTRA: '--themes edraak-2019-theme --theme-dirs /edx/app/edx-themes'
+      EXTRA: '--themes edraak-2019-theme --theme-dirs /edx/src'
     image: eu.gcr.io/openedx-231314/edraak/edxapp:hawthorn.edraak.v3
     volumes:
       - edx-nfs:/edx/app/edxapp/edx-platform
@@ -20,7 +20,7 @@ services:
     environment:
       BOK_CHOY_HOSTNAME: edx.devstack.studio_watcher
       ASSET_WATCHER_TIMEOUT: 12
-      EXTRA: '--themes edraak-2019-theme --theme-dirs /edx/app/edx-themes'
+      EXTRA: '--themes edraak-2019-theme --theme-dirs /edx/src'
     image: eu.gcr.io/openedx-231314/edraak/edxapp:hawthorn.edraak.v3
     volumes:
       - edxapp_studio_assets:/edx/var/edxapp/staticfiles/

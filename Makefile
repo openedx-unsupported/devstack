@@ -73,21 +73,17 @@ dev.editable-envs:  ## Copy env files outside the docker containers so it's edit
 
 dev.up: | check-memory ## Bring up all services with host volumes
 	docker-compose -f docker-compose.yml -f docker-compose-host.yml up -d
-	@# Comment out this next line if you want to save some time and don't care about catalog programs
-	#./programs/provision.sh cache >/dev/null
 
 dev.nfs.setup:  ## set's up an nfs server on the /Users folder, allowing nfs mounting on docker
 	./setup_native_nfs_docker_osx.sh
 
-dev.nfs.up.watchers: | check-memory ## Bring up asset watcher containers
-	docker-compose -f docker-compose-watchers-nfs.yml up -d
-
 dev.nfs.up: | check-memory ## Bring up all services with host volumes
-	docker-compose -f docker-compose.yml -f docker-compose-host-nfs.yml up -d
+	docker-compose -f docker-composedraak_dev_routere.yml -f docker-compose-host-nfs.yml up -d
 	@# Comment out this next line if you want to save some time and don't care about catalog programs
 	#./programs/provision.sh cache >/dev/null
 
-dev.nfs.up.all: | dev.nfs.up dev.nfs.up.watchers ## Bring up all services with host volumes, including watchers
+dev.nfs.up.all: ## Bring up all services with host volumes, including watchers
+	docker-compose -f docker-compose.yml -f docker-compose-host-nfs.yml -f docker-compose-watchers-nfs.yml up -d
 
 dev.nfs.provision: | check-memory dev.clone dev.provision.nfs.run stop ## Provision dev environment with all services stopped
 
