@@ -101,7 +101,7 @@ dev.up.all: | dev.up dev.up.watchers ## Bring up all services with host volumes,
 dev.sync.daemon.start: ## Start the docker-sycn daemon
 	docker-sync start
 
-dev.sync.provision: | dev.sync.daemon.start check-memory dev.clone dev.provision.sync.run stop ## Provision dev environment with all services stopped
+dev.sync.provision: | dev.sync.daemon.start dev.provision ## Provision with docker-sync enabled
 
 dev.sync.requirements: ## Install requirements
 	gem install docker-sync
