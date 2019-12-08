@@ -78,7 +78,7 @@ dev.nfs.setup:  ## set's up an nfs server on the /Users folder, allowing nfs mou
 	./setup_native_nfs_docker_osx.sh
 
 dev.nfs.up: | check-memory ## Bring up all services with host volumes
-	docker-compose -f docker-composedraak_dev_routere.yml -f docker-compose-host-nfs.yml up -d
+	docker-compose -f docker-compose.yml -f docker-compose-host-nfs.yml up -d
 	@# Comment out this next line if you want to save some time and don't care about catalog programs
 	#./programs/provision.sh cache >/dev/null
 
