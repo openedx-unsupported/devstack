@@ -142,7 +142,7 @@ services:
       BOK_CHOY_CMS_PORT: 18031
       EDXAPP_TEST_MONGO_HOST: edx.devstack.mongo
       NO_PYTHON_UNINSTALL: 1
-    image: eu.gcr.io/openedx-231314/edraak/edxapp:hawthorn.edraak.v2
+    image: eu.gcr.io/openedx-231314/edraak/edxapp:hawthorn.edraak.v3
     ports:
       - "18000:18000"
       - "19876:19876" # JS test debugging
@@ -188,7 +188,7 @@ services:
       BOK_CHOY_CMS_PORT: 18131
       EDXAPP_TEST_MONGO_HOST: edx.devstack.mongo
       NO_PYTHON_UNINSTALL: 1
-    image: eu.gcr.io/openedx-231314/edraak/edxapp:hawthorn.edraak.v2
+    image: eu.gcr.io/openedx-231314/edraak/edxapp:hawthorn.edraak.v3
     ports:
       - "18010:18010"
       - "19877:19877" # JS test debugging
@@ -269,6 +269,8 @@ services:
   edraak_dev_router:
     image: nginx
     container_name: edraak_dev_router
+    logging:
+      driver: none
     volumes:
       - ./nginx:/etc/nginx/conf.d
     command: bash -c 'while true; do nginx -g "daemon off;"; sleep 2; done'

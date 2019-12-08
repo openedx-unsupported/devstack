@@ -102,6 +102,10 @@ a minimum of 2 CPUs and 6GB of memory works well.
 
        gcloud auth configure-docker
 
+3. You have an option to use nfs on MacOS which will improve the performance significantly, to set it up ONLY ON MAC, do
+    .. code:: sh
+
+        make dev.nfs.setup
 
 3. Run the provision command, if you haven't already, to configure the various
    services with superusers (for development without the auth service) and
@@ -126,6 +130,12 @@ a minimum of 2 CPUs and 6GB of memory works well.
 
        make dev.sync.provision
 
+   Provision using `nfs`_:
+
+   .. code:: sh
+
+       make dev.nfs.provision
+
 4. Start the services. This command will mount the repositories under the
    DEVSTACK\_WORKSPACE directory.
 
@@ -142,6 +152,12 @@ a minimum of 2 CPUs and 6GB of memory works well.
    .. code:: sh
 
        make dev.sync.up
+
+   Start using `nfs`_:
+
+   .. code:: sh
+
+       make dev.nfs.up
 
 
 After the services have started, if you need shell access to one of the
@@ -375,7 +391,7 @@ BUILD COMMANDS:
 
     git checkout master
     git pull
-    docker build -f docker/build/edxapp/Dockerfile . -t eu.gcr.io/openedx-231314/edraak/edxapp:hawthorn.edraak.v2
+    docker build -f docker/build/edxapp/Dockerfile . -t eu.gcr.io/openedx-231314/edraak/edxapp:hawthorn.edraak.v3
 
 .. code:: sh
 
