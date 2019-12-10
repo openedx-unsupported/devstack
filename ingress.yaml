@@ -1,0 +1,30 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    ingress.gcp.kubernetes.io/pre-shared-cert: mcrt-238e7ad1-c504-406a-a02c-30ad165b3769
+    ingress.kubernetes.io/backends: '{"k8s-be-31006--01cf32500b55490f":"HEALTHY"}'
+    ingress.kubernetes.io/forwarding-rule: k8s-fw-default-edraak-recommendation-https--01cf32500b55490f
+    ingress.kubernetes.io/https-forwarding-rule: k8s-fws-default-edraak-recommendation-https--01cf32500b55490f
+    ingress.kubernetes.io/https-target-proxy: k8s-tps-default-edraak-recommendation-https--01cf32500b55490f
+    ingress.kubernetes.io/ssl-cert: mcrt-238e7ad1-c504-406a-a02c-30ad165b3769
+    ingress.kubernetes.io/static-ip: k8s-fw-default-edraak-recommendation-https--01cf32500b55490f
+    ingress.kubernetes.io/target-proxy: k8s-tp-default-edraak-recommendation-https--01cf32500b55490f
+    ingress.kubernetes.io/url-map: k8s-um-default-edraak-recommendation-https--01cf32500b55490f
+    networking.gke.io/managed-certificates: recommender-edraakbeta-org
+  creationTimestamp: "2019-12-10T10:30:23Z"
+  generation: 1
+  name: edraak-recommendation-https
+  namespace: default
+  resourceVersion: "16372959"
+  selfLink: /apis/extensions/v1beta1/namespaces/default/ingresses/edraak-recommendation-https
+  uid: 1294aaa7-1b38-11ea-8555-42010a9a002b
+spec:
+  backend:
+    serviceName: edraak-recommendation-api
+    servicePort: 80
+status:
+  loadBalancer:
+    ingress:
+    - ip: 107.178.246.246
+
