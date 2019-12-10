@@ -7,8 +7,9 @@ if [ $? -ne 0 ]; then
     exit 2
 fi
 
-if [ $TESTING=='lms' ];
-then
+if [ $TESTING=='lms' ];then
+    echo "Skipping non lms health checks"
+else
     echo
     echo "Checking Studio heartbeat:"
     curl http://localhost:18010/heartbeat # Studio
