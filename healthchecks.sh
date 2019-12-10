@@ -1,6 +1,6 @@
 set -x
 
-echo "Checking LMS heartbeat:"
+echo "Checking LMS  heartbeat:"
 curl http://localhost:18000/heartbeat
 if [ $? -ne 0 ]; then
     docker-compose logs
