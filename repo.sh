@@ -178,6 +178,10 @@ reset ()
         if [ -d "$name" ]; then
             if [ "$name" == "edx-platform" ]; then
                 cd $name;git reset --hard HEAD;git checkout ${APPSEMBLER_EDX_PLATFORM_BRANCH};git reset --hard origin/${APPSEMBLER_EDX_PLATFORM_BRANCH};git pull;cd "$currDir"
+            elif [ "$name" == "edx-theme-codebase" ]; then
+                cd $name;git reset --hard HEAD;git checkout ${THEME_CODEBASE_BRANCH};git reset --hard origin/${THEME_CODEBASE_BRANCH};git pull;cd "$currDir"
+            elif [ "$name" == "edx-theme-customers" ]; then
+                cd edx-theme-codebase/customer_specific;git reset --hard HEAD;git checkout ${THEME_CUSTOMERS_BRANCH};git reset --hard origin/${THEME_CUSTOMERS_BRANCH};git pull;cd "$currDir"
             elif [ "$name" == "amc" ]; then
                 cd $name;git reset --hard HEAD;git checkout ${AMC_BRANCH};git reset --hard origin/${AMC_BRANCH};git pull;cd "$currDir"
             else
