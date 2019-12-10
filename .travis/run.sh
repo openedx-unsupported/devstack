@@ -14,7 +14,7 @@ if [[ $DEVSTACK == 'lms' ]]; then
     # * We have a way to test the infrastructure for testing but ignore the test results.
     # See PLAT-1712
     # - make e2e-tests
-    make up-marketing-detached
+    # make up-marketing-detached
 fi
 
 if [[ $DEVSTACK == 'analytics_pipeline' ]]; then
