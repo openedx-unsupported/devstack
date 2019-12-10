@@ -5,7 +5,7 @@ set -x
 
 if [[ $DEVSTACK == 'lms' ]]; then
     make dev.provision
-    make dev.up
+    make dev.up.lms
     sleep 60  # LMS needs like 60 seconds to come up
     make healthchecks
     make validate-lms-volume
