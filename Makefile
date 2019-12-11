@@ -81,6 +81,10 @@ dev.up: | check-memory ## Bring up all services with host volumes
 	bash -c 'docker-compose -f docker-compose.yml -f docker-compose-host.yml up -d'
 	@# Comment out this next line if you want to save some time and don't care about catalog programs
 	@# $(WINPTY) bash ./programs/provision.sh cache $(DEVNULL)  # Appsembler: That's exactly what we did ^^!
+	@# Appsembler: Making sure that Tahoe and AMC are ready when the devstack starts.
+	@sleep 1
+	make tahoe.provision
+	make tahoe.chown
 
 dev.up.watchers: | check-memory ## Bring up asset watcher containers
 	bash -c 'docker-compose -f docker-compose-watchers.yml up -d'

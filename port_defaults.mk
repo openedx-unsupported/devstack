@@ -1,6 +1,6 @@
 # define external port default values here
 # these can be overridden at the commandline
-# (eg, `REDIS_PORT=16739 make tahoe.up`) or in a .env file
+# (eg, `REDIS_PORT=16739 make dev.up`) or in a .env file
 # this is useful to avoid port conflicts if you already
 # have services running locally
 

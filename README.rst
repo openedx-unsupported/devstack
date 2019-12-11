@@ -23,7 +23,7 @@ Desclaimer
     $ git clone https://github.com/appsembler/devstack.git
     $ cd devstack  # Now the `devstack` repo should be on the `hawthorn` branch
     $ make dev.provision
-    $ make tahoe.up
+    $ make dev.up
 
 Add /etc/hosts Entries
 ----------------------
@@ -78,8 +78,6 @@ Currently the commands looks like this:
 .. code::
 
     $ make help | grep -e tahoe -e amc
-      tahoe.up                  Run the lightweight devstack with proper Tahoe settings, use instead of `$ make dev.up`
-      tahoe.up.full             Run the full devstack with proper Tahoe settings, use instead of `$ make dev.up`
       amc.provision             Initializes the AMC
       tahoe.chown               Fix annoying docker permission issues
       tahoe.envs._delete        Remove settings, in prep for resetting it
@@ -100,7 +98,7 @@ Why? By default to edit the ``lms.env.json`` file and other JSON files,
 one need to SSH into the container and edit the file. Anyway, changes don't really persist after restarting the
 devstack.
 
-``$ tahoe.up`` command brings those files outside the container.
+``$ dev.up`` command brings those files outside the container.
 
 Theme
 -----
