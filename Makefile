@@ -31,6 +31,8 @@ COMPOSE_PROJECT_NAME=devstack
 export DEVSTACK_WORKSPACE
 export COMPOSE_PROJECT_NAME
 
+STANDARD_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml -f docker-compose-themes.yml"
+
 include *.mk
 
 # Generates a help message. Borrowed from https://github.com/pydanny/cookiecutter-djangopackage.
@@ -53,10 +55,10 @@ dev.checkout: ## Check out "openedx-release/$OPENEDX_RELEASE" in each repo if se
 dev.clone: ## Clone service repos to the parent directory
 	./repo.sh clone
 
-dev.provision.run: ## Provision all services with local mounted directories
-	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml -f docker-compose-themes.yml" $(WINPTY) bash ./provision.sh
+dev.provision.%: ## Provision specified service with local mounted directories
+	DOCKER_COMPOSE_FILES=$(STANDARD_COMPOSE_FILES) $(WINPTY) bash ./provision.sh $*
 
-dev.provision: | check-memory dev.clone dev.provision.run stop ## Provision dev environment with all services stopped
+dev.provision: | check-memory dev.clone dev.provision.all stop ## Provision dev environment with all services stopped
 
 dev.provision.xqueue: | check-memory dev.provision.xqueue.run stop stop.xqueue  # Provision XQueue; run after other services are provisioned
 
@@ -78,12 +80,12 @@ dev.pull.%: ## Pull latest Docker images for a given service and all its depende
 	docker-compose pull --include-deps $*
 
 dev.up: | check-memory ## Bring up all services with host volumes
-	bash -c 'docker-compose -f docker-compose.yml -f docker-compose-host.yml -f docker-compose-themes.yml up -d'
+	bash -c 'docker-compose $(STANDARD_COMPOSE_FILES) up -d'
 	@# Comment out this next line if you want to save some time and don't care about catalog programs
 	$(WINPTY) bash ./programs/provision.sh cache
 
 dev.up.%: | check-memory ## Bring up a specific service and its dependencies with host volumes
-	bash -c 'docker-compose -f docker-compose.yml -f docker-compose-host.yml -f docker-compose-themes.yml up -d $*'
+	bash -c 'docker-compose $(STANDARD_COMPOSE_FILES) up -d $*'
 	@# Comment out this next line if you want to save some time and don't care about catalog programs
 	$(WINPTY) bash ./programs/provision.sh cache
 
@@ -295,16 +297,18 @@ mongo-shell: ## Run a shell on the mongo container
 
 ### analytics pipeline commands
 
+ANALYTICS_COMPOSE_FILES="$(STANDARD_COMPOSE_FILES) -f docker-compose-analytics-pipeline.yml"
+
 dev.provision.analytics_pipeline: | check-memory dev.provision.analytics_pipeline.run stop.analytics_pipeline stop ## Provision analyticstack dev environment with all services stopped
 
 dev.provision.analytics_pipeline.run:
-	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml -f docker-compose-themes.yml -f docker-compose-analytics-pipeline.yml" ./provision-analytics-pipeline.sh
+	DOCKER_COMPOSE_FILES="$(ANALYTICS_COMPOSE_FILES)" ./provision-analytics-pipeline.sh
 
 analytics-pipeline-shell: ## Run a shell on the analytics pipeline container
 	docker exec -it edx.devstack.analytics_pipeline env TERM=$(TERM) /edx/app/analytics_pipeline/devstack.sh open
 
 dev.up.analytics_pipeline: | check-memory ## Bring up analytics pipeline services
-	bash -c 'docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml -f docker-compose-host.yml -f docker-compose-themes.yml up -d analyticspipeline'
+	bash -c 'docker-compose $(ANALYTICS_COMPOSE_FILES) up -d analyticspipeline'
 
 pull.analytics_pipeline: ## Update analytics pipeline docker images
 	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml pull

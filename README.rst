@@ -270,6 +270,15 @@ whether or not you need them.
 To instead only pull images required by your service and its dependencies,
 run ``make dev.pull.<service>``.
 
+Finally, ``make dev.provision.<service>`` can be used in place of
+``make dev.provision`` in order to run an expedited version of
+provisioning for that singular service. For example, if you mess up just your
+Course Discovery database, running ``make dev.provision.discovery``
+will take much less time than the full provisioning process.
+However, note that some services' provisioning processes depend on other services
+already being correcty provisioned.
+So, when in doubt, it may still be best to run the full ``make dev.provision``.
+
 Sometimes you may need to restart a particular application server. To do so,
 simply use the ``docker-compose restart`` command:
 
