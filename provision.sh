@@ -49,13 +49,13 @@ docker exec -i edx.devstack.mysql mysql -uroot mysql < provision.sql
 docker exec -i edx.devstack.mongo mongo < mongo-provision.js
 
 ./provision-lms.sh
+./provision-discovery.sh
 if [ $TESTING=='lms' ];then
     echo -e "Skipping provisioning of thigns"
 else
 # Nothing special needed for studio
 docker-compose $DOCKER_COMPOSE_FILES up -d studio
 ./provision-ecommerce.sh
-./provision-discovery.sh
 ./provision-credentials.sh
 ./provision-e2e.sh
 ./provision-forum.sh
