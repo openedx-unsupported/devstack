@@ -80,12 +80,12 @@ dev.pull.%: ## Pull latest Docker images for a given service and all its depende
 dev.up: | check-memory ## Bring up all services with host volumes
 	bash -c 'docker-compose -f docker-compose.yml -f docker-compose-host.yml -f docker-compose-themes.yml up -d'
 	@# Comment out this next line if you want to save some time and don't care about catalog programs
-	$(WINPTY) bash ./programs/provision.sh cache
+# 	$(WINPTY) bash ./programs/provision.sh cache
 
 dev.up.%: | check-memory ## Bring up a specific service and its dependencies with host volumes
 	bash -c 'docker-compose -f docker-compose.yml -f docker-compose-host.yml -f docker-compose-themes.yml up -d $*'
 	@# Comment out this next line if you want to save some time and don't care about catalog programs
-	$(WINPTY) bash ./programs/provision.sh cache
+# 	$(WINPTY) bash ./programs/provision.sh cache
 
 dev.up.watchers: | check-memory ## Bring up asset watcher containers
 	bash -c 'docker-compose -f docker-compose-watchers.yml up -d'
