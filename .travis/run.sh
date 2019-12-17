@@ -17,6 +17,14 @@ if [[ $DEVSTACK == 'lms' ]]; then
     make up-marketing-detached
 fi
 
+if [[ $DEVSTACK == 'registrar' ]]; then
+    make dev.provision.registrar
+    make dev.up.registrar
+    sleep 60
+    make helthchecks.registrar
+
+fi
+
 if [[ $DEVSTACK == 'analytics_pipeline' ]]; then
     make dev.provision.analytics_pipeline
     make dev.up.analytics_pipeline

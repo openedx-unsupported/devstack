@@ -31,7 +31,7 @@ COMPOSE_PROJECT_NAME=devstack
 export DEVSTACK_WORKSPACE
 export COMPOSE_PROJECT_NAME
 
-STANDARD_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml -f docker-compose-themes.yml"
+STANDARD_COMPOSE_FILES=-f docker-compose.yml -f docker-compose-host.yml -f docker-compose-themes.yml
 
 include *.mk
 
@@ -87,7 +87,7 @@ dev.up: | check-memory ## Bring up all services with host volumes
 dev.up.%: | check-memory ## Bring up a specific service and its dependencies with host volumes
 	bash -c 'docker-compose $(STANDARD_COMPOSE_FILES) up -d $*'
 	@# Comment out this next line if you want to save some time and don't care about catalog programs
-	$(WINPTY) bash ./programs/provision.sh cache
+# 	$(WINPTY) bash ./programs/provision.sh cache
 
 dev.up.watchers: | check-memory ## Bring up asset watcher containers
 	bash -c 'docker-compose -f docker-compose-watchers.yml up -d'
@@ -270,6 +270,9 @@ static: | credentials-static discovery-static ecommerce-static lms-static studio
 
 healthchecks: ## Run a curl against all services' healthcheck endpoints to make sure they are up. This will eventually be parameterized
 	$(WINPTY) bash ./healthchecks.sh
+
+healthchecks.%:
+	$(WINPTY) bash ./healthchecks.sh $*
 
 e2e-tests: ## Run the end-to-end tests against the service containers
 	docker run -t --network=devstack_default -v ${DEVSTACK_WORKSPACE}/edx-e2e-tests:/edx-e2e-tests -v ${DEVSTACK_WORKSPACE}/edx-platform:/edx-e2e-tests/lib/edx-platform --env-file ${DEVSTACK_WORKSPACE}/edx-e2e-tests/devstack_env edxops/e2e env TERM=$(TERM)  bash -c 'paver e2e_test --exclude="whitelabel\|enterprise"'

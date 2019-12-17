@@ -11,6 +11,7 @@ branches:
 
 env:
   - DEVSTACK_WORKSPACE=/tmp DOCKER_COMPOSE_VERSION=1.13.0 SHALLOW_CLONE=1 DEVSTACK='lms'
+  - DEVSTACK_WORKSPACE=/tmp DOCKER_COMPOSE_VERSION=1.23.1 SHALLOW_CLONE=1 DEVSTACK='registrar'
   - DEVSTACK_WORKSPACE=/tmp DOCKER_COMPOSE_VERSION=1.13.0 SHALLOW_CLONE=1 DEVSTACK='analytics_pipeline'
 
 services:
@@ -34,6 +35,7 @@ before_install:
   - make requirements
   - make dev.clone
   - if [[ $DEVSTACK == 'lms' ]]; then make dev.pull; fi
+  - if [[ $DEVSTACK == 'registrar' ]]; then docker-compose pull --include-deps registrar; fi
   - if [[ $DEVSTACK == 'analytics_pipeline' ]]; then make dev.up.analytics_pipeline; fi
 
 script:
