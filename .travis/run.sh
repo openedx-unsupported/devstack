@@ -21,7 +21,7 @@ if [[ $DEVSTACK == 'registrar' ]]; then
     make dev.provision.registrar
     make dev.up.registrar
     sleep 60
-    make helthchecks.registrar
+    make healthchecks.registrar
 
 fi
 
