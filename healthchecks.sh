@@ -9,7 +9,8 @@ if [[ $service == "registrar" ]]; then
         exit 2
     fi
     echo
-else
+fi
+if [[ $service == "lms" ]]; then
     echo "Checking LMS heartbeat:"
     curl http://localhost:18000/heartbeat
     if [ $? -ne 0 ]; then
@@ -24,6 +25,8 @@ else
         exit 2
     fi
     echo
+fi
+if [[ $service == "ecommerce" ]]; then
     echo "Checking ecommerce health:"
     curl http://localhost:18130/health/ # Ecommerce
     if [ $? -ne 0 ]; then
@@ -31,6 +34,8 @@ else
         exit 2
     fi
     echo
+fi
+if [[ $service == "discovery" ]]; then
     echo "Checking discovery health:"
     curl http://localhost:18381/health/ # Discovery
     if [ $? -ne 0 ]; then
@@ -38,11 +43,12 @@ else
         exit 2
     fi
     echo
+fi
+if [[ $service == "forum" ]]; then
     echo "Checking forum health:"
     curl http://localhost:44567/heartbeat # Forums
     if [ $? -ne 0 ]; then
         docker-compose logs
         exit 2
     fi
-
 fi

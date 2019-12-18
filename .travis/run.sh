@@ -4,16 +4,11 @@ set -e
 set -x
 
 if [[ $DEVSTACK == 'lms' ]]; then
-    make dev.provision.all
-    make dev.up
+    make dev.provision.lms
+    make dev.up.lms
     sleep 60  # LMS needs like 60 seconds to come up
-    make healthchecks
+    make healthchecks.lms
     make validate-lms-volume
-    # Disable e2e-tests until either:
-    # * tests are less flaky
-    # * We have a way to test the infrastructure for testing but ignore the test results.
-    # See PLAT-1712
-    # - make e2e-tests
     make up-marketing-detached
 fi
 
@@ -22,6 +17,30 @@ if [[ $DEVSTACK == 'registrar' ]]; then
     make dev.up.registrar
     sleep 60
     make healthchecks.registrar
+
+fi
+
+if [[ $DEVSTACK == 'ecommerce' ]]; then
+    make dev.provision.ecommerce
+    make dev.up.ecommerce
+    sleep 60
+    make healthchecks.ecommerce
+
+fi
+
+if [[ $DEVSTACK == 'discovery' ]]; then
+    make dev.provision.discovery
+    make dev.up.discovery
+    sleep 60
+    make healthchecks.discovery
+
+fi
+
+if [[ $DEVSTACK == 'forum' ]]; then
+    make dev.provision.forum
+    make dev.up.forum
+    sleep 60
+    make healthchecks.forum
 
 fi
 
