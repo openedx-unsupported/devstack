@@ -30,6 +30,7 @@ service=$1
 case $service in
 	all)
 		echo -e "${GREEN}Will provision all services.${NC}"
+		service=""
 		;;
 	lms|ecommerce|discovery|credentials|e2e|forum|notes|registrar)
 		echo -e "${GREEN}Will provision one service: ${service}.${NC}"

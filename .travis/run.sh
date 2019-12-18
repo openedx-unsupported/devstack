@@ -4,7 +4,7 @@ set -e
 set -x
 
 if [[ $DEVSTACK == 'lms' ]]; then
-    make dev.provision
+    make dev.provision.all
     make dev.up
     sleep 60  # LMS needs like 60 seconds to come up
     make healthchecks
