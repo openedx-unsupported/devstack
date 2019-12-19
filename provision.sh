@@ -35,12 +35,12 @@ case $service in
 	lms|ecommerce|discovery|credentials|e2e|forum|registrar)
 		echo -e "${GREEN}Will provision one service: ${service}.${NC}"
 		;;
-	studio)
+	edx_notes_api)
 		echo -e "${GREEN}Will Provision edx_notes_api${NC}"
 		service="notes"
 		exit 0
 		;;
-	edx_notes_api)
+	studio)
 		echo -e "${YELLOW}Studio is provisioned along with LMS; try running './provision.sh lms'${NC}"
 		exit 0
 	*)
