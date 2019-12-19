@@ -13,6 +13,8 @@ env:
   - DEVSTACK_WORKSPACE=/tmp SHALLOW_CLONE=1 DEVSTACK='lms'
   - DEVSTACK_WORKSPACE=/tmp SHALLOW_CLONE=1 DEVSTACK='registrar'
   - DEVSTACK_WORKSPACE=/tmp SHALLOW_CLONE=1 DEVSTACK='ecommerce'
+  - DEVSTACK_WORKSPACE=/tmp SHALLOW_CLONE=1 DEVSTACK='notes'
+  - DEVSTACK_WORKSPACE=/tmp SHALLOW_CLONE=1 DEVSTACK='credentials'
   - DEVSTACK_WORKSPACE=/tmp SHALLOW_CLONE=1 DEVSTACK='analytics_pipeline'
 
 services:
@@ -31,6 +33,8 @@ before_install:
   - if [[ $DEVSTACK == 'lms' ]]; then make dev.pull.lms; fi
   - if [[ $DEVSTACK == 'registrar' ]]; then make dev.pull.registrar; fi
   - if [[ $DEVSTACK == 'ecommerce' ]]; then make dev.pull.ecommerce; fi
+  - if [[ $DEVSTACK == 'notes' ]]; then make dev.pull.notes; fi
+  - if [[ $DEVSTACK == 'credentials' ]]; then make dev.pull.credentials; fi
   - if [[ $DEVSTACK == 'analytics_pipeline' ]]; then make dev.up.analytics_pipeline; fi
 
 script:

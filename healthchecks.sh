@@ -52,3 +52,22 @@ if [[ $service == "forum" ]]; then
         exit 2
     fi
 fi
+
+if [[ $service == "notes" ]]; then
+    echo "Checking notes health:"
+    curl http://localhost:18120/heartbeat # Forums
+    if [ $? -ne 0 ]; then
+        docker-compose logs
+        exit 2
+    fi
+fi
+
+if [[ $service == "credentials" ]]; then
+    echo "Checking credentials health:"
+    curl http://localhost:18150/heartbeat # Forums
+    if [ $? -ne 0 ]; then
+        docker-compose logs
+        exit 2
+    fi
+fi
+

@@ -34,6 +34,22 @@ if [[ $DEVSTACK == 'ecommerce' ]]; then
 
 fi
 
+if [[ $DEVSTACK == 'notes' ]]; then
+    make dev.provision.notes
+    make dev.up.notes
+    sleep 60
+    make healthchecks.notes
+
+fi
+
+if [[ $DEVSTACK == 'credentials' ]]; then
+    make dev.provision.credentials
+    make dev.up.credentials
+    sleep 60
+    make healthchecks.credentials
+
+fi
+
 
 if [[ $DEVSTACK == 'analytics_pipeline' ]]; then
     echo "HAHAHAH"
