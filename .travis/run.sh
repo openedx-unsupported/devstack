@@ -45,8 +45,12 @@ if [[ $DEVSTACK == 'forum' ]]; then
 fi
 
 if [[ $DEVSTACK == 'analytics_pipeline' ]]; then
-    make dev.provision.analytics_pipeline
+    echo "HAHAHAH"
+    # make dev.provision.analytics_pipeline
+    echo "HAHAHAH2"
     make dev.up.analytics_pipeline
+    echo "yasssss"
     sleep 30 # hadoop services need some time to be fully functional and out of safemode
+    echo "HWYYYYYYYY"
     make analytics-pipeline-devstack-test
 fi

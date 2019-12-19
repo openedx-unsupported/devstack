@@ -56,6 +56,7 @@ dev.clone: ## Clone service repos to the parent directory
 	./repo.sh clone
 
 dev.provision.%: ## Provision specified service with local mounted directories
+	echo "CALLLING with %"
 	DOCKER_COMPOSE_FILES="$(STANDARD_COMPOSE_FILES)" $(WINPTY) bash ./provision.sh $*
 
 dev.provision: | check-memory dev.clone dev.provision.all stop ## Provision dev environment with all services stopped
