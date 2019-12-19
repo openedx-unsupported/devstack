@@ -300,7 +300,7 @@ mongo-shell: ## Run a shell on the mongo container
 
 ### analytics pipeline commands
 
-ANALYTICS_COMPOSE_FILES="$(STANDARD_COMPOSE_FILES) -f docker-compose-analytics-pipeline.yml"
+ANALYTICS_COMPOSE_FILES=$(STANDARD_COMPOSE_FILES) -f docker-compose-analytics-pipeline.yml
 
 dev.provision.analytics_pipeline: | check-memory dev.provision.analytics_pipeline.run stop.analytics_pipeline stop ## Provision analyticstack dev environment with all services stopped
 
