@@ -46,7 +46,7 @@ fi
 
 if [[ $DEVSTACK == 'analytics_pipeline' ]]; then
     echo "HAHAHAH"
-    # make dev.provision.analytics_pipeline
+    make dev.provision.analytics_pipeline
     echo "HAHAHAH2"
     make dev.up.analytics_pipeline
     echo "yasssss"
