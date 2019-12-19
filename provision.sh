@@ -32,13 +32,17 @@ case $service in
 		echo -e "${GREEN}Will provision all services.${NC}"
 		service=""
 		;;
-	lms|ecommerce|discovery|credentials|e2e|forum|notes|registrar)
+	lms|ecommerce|discovery|credentials|e2e|forum|registrar)
 		echo -e "${GREEN}Will provision one service: ${service}.${NC}"
 		;;
 	studio)
-		echo -e "${YELLOW}Studio is provisioned along with LMS; try running './provision.sh lms'${NC}"
+		echo -e "${GREEN}Will Provision edx_notes_api${NC}"
+		service="notes"
 		exit 0
 		;;
+	edx_notes_api)
+		echo -e "${YELLOW}Studio is provisioned along with LMS; try running './provision.sh lms'${NC}"
+		exit 0
 	*)
 		echo -e "${YELLOW}Service '${service}' either doesn't exist or isn't provisionable. Exiting.${NC}"
 		exit 1

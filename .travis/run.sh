@@ -34,11 +34,11 @@ if [[ $DEVSTACK == 'ecommerce' ]]; then
 
 fi
 
-if [[ $DEVSTACK == 'notes' ]]; then
-    make dev.provision.notes
-    make dev.up.notes
+if [[ $DEVSTACK == 'edx_notes_api' ]]; then
+    make dev.provision.edx_notes_api
+    make dev.up.edx_notes_api
     sleep 60
-    make healthchecks.notes
+    make healthchecks.edx_notes_api
 
 fi
 

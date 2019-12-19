@@ -3,7 +3,7 @@ set -x
 service=$1
 
 if [[ $service == "registrar" ]]; then
-    curl http://localhost:18734/heartbeat
+    curl http://localhost:18734/heartbeat # registrar
     if [ $? -ne 0 ]; then
         docker-compose logs
         exit 2
@@ -12,7 +12,7 @@ if [[ $service == "registrar" ]]; then
 fi
 if [[ $service == "lms" ]]; then
     echo "Checking LMS heartbeat:"
-    curl http://localhost:18000/heartbeat
+    curl http://localhost:18000/heartbeat #LMs
     if [ $? -ne 0 ]; then
         docker-compose logs
         exit 2
@@ -53,9 +53,9 @@ if [[ $service == "forum" ]]; then
     fi
 fi
 
-if [[ $service == "notes" ]]; then
-    echo "Checking notes health:"
-    curl http://localhost:18120/heartbeat # Forums
+if [[ $service == "edx_notes_api" ]]; then
+    echo "Checking edx_notes_api health:"
+    curl http://localhost:18120/heartbeat # edx_notes_api
     if [ $? -ne 0 ]; then
         docker-compose logs
         exit 2
@@ -64,7 +64,7 @@ fi
 
 if [[ $service == "credentials" ]]; then
     echo "Checking credentials health:"
-    curl http://localhost:18150/heartbeat # Forums
+    curl http://localhost:18150/heartbeat # credentials
     if [ $? -ne 0 ]; then
         docker-compose logs
         exit 2
