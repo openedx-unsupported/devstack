@@ -10,8 +10,6 @@ if [[ $DEVSTACK == 'lms' ]]; then
     make dev.provision.discovery
     make dev.provision.forum
     make dev.up.lms
-    make dev.up.discovery
-    make dev.up.forum
     sleep 60  # LMS needs like 60 seconds to come up
     make healthchecks.lms
     make healthchecks.discovery
@@ -36,21 +34,6 @@ if [[ $DEVSTACK == 'ecommerce' ]]; then
 
 fi
 
-if [[ $DEVSTACK == 'discovery' ]]; then
-    make dev.provision.discovery
-    make dev.up.discovery
-    sleep 60
-    make healthchecks.discovery
-
-fi
-
-if [[ $DEVSTACK == 'forum' ]]; then
-    make dev.provision.forum
-    make dev.up.forum
-    sleep 60
-    make healthchecks.forum
-
-fi
 
 if [[ $DEVSTACK == 'analytics_pipeline' ]]; then
     echo "HAHAHAH"
