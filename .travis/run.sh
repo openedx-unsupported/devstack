@@ -52,11 +52,8 @@ fi
 
 
 if [[ $DEVSTACK == 'analytics_pipeline' ]]; then
-    echo "HAHAHAH"
     make dev.provision.analytics_pipeline
-    echo "HAHAHAH2"
     make dev.up.analytics_pipeline
-    echo "fgsdgfs"
     sleep 30 # hadoop services need some time to be fully functional and out of safemode
     make analytics-pipeline-devstack-test
 fi
