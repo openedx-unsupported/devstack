@@ -38,11 +38,11 @@ case $service in
 	edx_notes_api)
 		echo -e "${GREEN}Will Provision edx_notes_api${NC}"
 		service="notes"
-		exit 0
 		;;
 	studio)
 		echo -e "${YELLOW}Studio is provisioned along with LMS; try running './provision.sh lms'${NC}"
 		exit 0
+		;;
 	*)
 		echo -e "${YELLOW}Service '${service}' either doesn't exist or isn't provisionable. Exiting.${NC}"
 		exit 1
