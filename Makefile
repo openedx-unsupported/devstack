@@ -88,7 +88,11 @@ dev.up: | check-memory ## Bring up all services with host volumes
 dev.up.%: | check-memory ## Bring up a specific service and its dependencies with host volumes
 	bash -c 'docker-compose $(STANDARD_COMPOSE_FILES) up -d $*'
 	@# Comment out this next line if you want to save some time and don't care about catalog programs
-# 	$(WINPTY) bash ./programs/provision.sh cache
+ifdef no_cache
+	echo "Not runing bash ./programs/provision.sh cache"
+else
+	$(WINPTY) bash ./programs/provision.sh cache
+endif
 
 dev.up.watchers: | check-memory ## Bring up asset watcher containers
 	bash -c 'docker-compose -f docker-compose-watchers.yml up -d'

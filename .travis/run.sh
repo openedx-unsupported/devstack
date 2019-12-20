@@ -9,7 +9,7 @@ if [[ $DEVSTACK == 'lms' ]]; then
     make dev.provision.lms
     make dev.provision.discovery
     make dev.provision.forum
-    make dev.up.lms
+    make no_cache=True dev.up.lms
     sleep 60  # LMS needs like 60 seconds to come up
     make healthchecks.lms
     make healthchecks.discovery
@@ -20,7 +20,7 @@ fi
 
 if [[ $DEVSTACK == 'registrar' ]]; then
     make dev.provision.registrar
-    make dev.up.registrar
+    make no_cache=True dev.up.registrar
     sleep 60
     make healthchecks.registrar
 
@@ -28,7 +28,7 @@ fi
 
 if [[ $DEVSTACK == 'ecommerce' ]]; then
     make dev.provision.ecommerce
-    make dev.up.ecommerce
+    make no_cache=True dev.up.ecommerce
     sleep 60
     make healthchecks.ecommerce
 
@@ -36,7 +36,7 @@ fi
 
 if [[ $DEVSTACK == 'edx_notes_api' ]]; then
     make dev.provision.edx_notes_api
-    make dev.up.edx_notes_api
+    make no_cache=True dev.up.edx_notes_api
     sleep 60
     make healthchecks.edx_notes_api
 
@@ -44,7 +44,7 @@ fi
 
 if [[ $DEVSTACK == 'credentials' ]]; then
     make dev.provision.credentials
-    make dev.up.credentials
+    make no_cache=True dev.up.credentials
     sleep 60
     make healthchecks.credentials
 
