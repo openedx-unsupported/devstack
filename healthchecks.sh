@@ -2,7 +2,7 @@ set -x
 
 service=$1
 
-if [[ $service == "registrar" ]]; then
+if [[ $service == "registrar" ]] || [[ $service == "all" ]]; then
     curl http://localhost:18734/heartbeat # registrar
     if [ $? -ne 0 ]; then
         docker-compose logs
@@ -10,7 +10,7 @@ if [[ $service == "registrar" ]]; then
     fi
     echo
 fi
-if [[ $service == "lms" ]]; then
+if [[ $service == "lms" ]] || [[ $service == "all" ]]; then
     echo "Checking LMS heartbeat:"
     curl http://localhost:18000/heartbeat #LMs
     if [ $? -ne 0 ]; then
@@ -26,7 +26,7 @@ if [[ $service == "lms" ]]; then
     fi
     echo
 fi
-if [[ $service == "ecommerce" ]]; then
+if [[ $service == "ecommerce" ]] || [[ $service == "all" ]]; then
     echo "Checking ecommerce health:"
     curl http://localhost:18130/health/ # Ecommerce
     if [ $? -ne 0 ]; then
@@ -35,7 +35,7 @@ if [[ $service == "ecommerce" ]]; then
     fi
     echo
 fi
-if [[ $service == "discovery" ]]; then
+if [[ $service == "discovery" ]] || [[ $service == "all" ]]; then
     echo "Checking discovery health:"
     curl http://localhost:18381/health/ # Discovery
     if [ $? -ne 0 ]; then
@@ -44,7 +44,7 @@ if [[ $service == "discovery" ]]; then
     fi
     echo
 fi
-if [[ $service == "forum" ]]; then
+if [[ $service == "forum" ]] || [[ $service == "all" ]]; then
     echo "Checking forum health:"
     curl http://localhost:44567/heartbeat # Forums
     if [ $? -ne 0 ]; then

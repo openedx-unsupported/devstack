@@ -274,7 +274,7 @@ studio-static: ## Rebuild static assets for the Studio container
 static: | credentials-static discovery-static ecommerce-static lms-static studio-static ## Rebuild static assets for all service containers
 
 healthchecks: ## Run a curl against all services' healthcheck endpoints to make sure they are up. This will eventually be parameterized
-	$(WINPTY) bash ./healthchecks.sh
+	$(WINPTY) bash ./healthchecks.sh all
 
 healthchecks.%:
 	$(WINPTY) bash ./healthchecks.sh $*
