@@ -8,11 +8,13 @@
 
 .PHONY: analytics-pipeline-devstack-test analytics-pipeline-shell backup \
         build-courses check-memory create-test-course credentials-shell \
-        destroy dev.checkout dev.clone devpi-password dev.provision \
-        dev.provision.analytics_pipeline dev.provision.analytics_pipeline.run \
-        dev.provision.xqueue dev.provision.xqueue.run dev.pull dev.repo.reset \
-        dev.reset dev.status dev.sync.daemon.start dev.sync.provision \
-        dev.sync.requirements dev.sync.up dev.up dev.up.all \
+        destroy dev.checkout dev.clone dev.nfs.provision dev.nfs.setup \
+        dev.nfs.up dev.nfs.up.all dev.nfs.up.watchers devpi-password \
+        dev.provision dev.provision.analytics_pipeline \
+        dev.provision.analytics_pipeline.run dev.provision.nfs.run \
+        dev.provision.services dev.provision.xqueue dev.provision.xqueue.run \
+        dev.pull dev.repo.reset dev.reset dev.status dev.sync.daemon.start \
+        dev.sync.provision dev.sync.requirements dev.sync.up dev.up dev.up.all \
         dev.up.analytics_pipeline dev.up.watchers dev.up.xqueue \
         discovery-shell down e2e-shell e2e-tests ecommerce-shell \
         feature-toggle-state healthchecks help lms-restart lms-shell \
@@ -74,12 +76,13 @@ dev.checkout: ## Check out "openedx-release/$OPENEDX_RELEASE" in each repo if se
 dev.clone: ## Clone service repos to the parent directory
 	./repo.sh clone
 
-dev.provision.%: ## Provision specified service with local mounted directories
-	echo "CALLLING with %"
+dev.provision.services: ## Provision all services with local mounted directories
+	DOCKER_COMPOSE_FILES="$(STANDARD_COMPOSE_FILES)" $(WINPTY) bash ./provision.sh
+
+dev.provision.services.%: ## Provision specified services with local mounted directories, separated by plus signs
 	DOCKER_COMPOSE_FILES="$(STANDARD_COMPOSE_FILES)" $(WINPTY) bash ./provision.sh $*
 
-
-dev.provision: | check-memory dev.clone dev.provision.all stop ## Provision dev environment with all services stopped
+dev.provision: | check-memory dev.clone dev.provision.services stop ## Provision dev environment with all services stopped
 
 dev.provision.xqueue: | check-memory dev.provision.xqueue.run stop stop.xqueue  # Provision XQueue; run after other services are provisioned
 
