@@ -253,7 +253,7 @@ services:
       APPSEMBLER_SECRET_KEY: secret_key
     image: gcr.io/appsembler-tahoe-0/amc
     ports:
-      - "19000:19000"
+      - "29000:19000"  # Discourage the use of the Python backend, but make it available for debugging purposes
 
   amc-frontend:
     command: bash -c 'while true; do npm start; sleep 2; done'
