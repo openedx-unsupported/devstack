@@ -43,7 +43,7 @@ Using Tahoe and AMC
 
 The project is now available on the following URLs:
 
-- **AMC:** http://localhost:19000/
+- **AMC:** http://localhost:13000/
 - **Studio:** http://localhost:18010/
     - This will not work until you finish section setting up your env as shown in `But, But, But Where's My Site? <https://github.com/appsembler/devstack#but-but-but-wheres-my-site>`_    
     - If AMC says it's http://studio.localhost:18000 that's a bug, just use the former URL.
@@ -61,7 +61,7 @@ But, But, But Where's My Site?
 
 `Until we automate that <https://trello.com/c/wS5rTBFp>`_ you have to create the site manually. It's not that hard:
 
-- Go to http://localhost:19000/signup-wizard/0
+- Go to http://localhost:13000/signup-wizard/0
 - Follow the steps setting the site name to ``red`` so it matches the earlier ``/etc/hosts`` entries.
 - In the terminal run ``$ make logs`` scroll up to activate your email
 - This is a shortcut if you don't like scrolling: ``$ make logs | grep devstack.amc | grep -o 'http:.*accounts/confirm-email/[^/]*/' | tail -n1``
