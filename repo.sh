@@ -36,6 +36,7 @@ repos=(
     "https://github.com/edx/registrar.git"
     "https://github.com/edx/frontend-app-gradebook.git"
     "https://github.com/edx/frontend-app-program-manager.git"
+    "https://github.com/edx/frontend-app-publisher.git"
 )
 
 private_repos=(
