@@ -332,6 +332,17 @@ services:
       - lms
       - registrar
 
+  frontend-app-publisher:
+    extends:
+      file: microfrontend.yml
+      service: microfrontend
+    working_dir: '/edx/app/frontend-app-publisher'
+    container_name: edx.devstack.frontend-app-publisher
+    ports:
+      - "18400:18400"
+    depends_on:
+      - discovery
+
 volumes:
   discovery_assets:
   edxapp_lms_assets:

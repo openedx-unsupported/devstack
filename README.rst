@@ -322,13 +322,15 @@ Microfrontend URLs
 Each microfrontend is accessible at ``localhost`` on a specific port. The table below
 provides links to each microfrontend.
 
-+---------------------+-------------------------------------+
-| Service             | URL                                 |
-+=====================+=====================================+
-| Gradebook           | http://localhost:1994/              |
-+---------------------+-------------------------------------+
-| Program Manager     | http://localhost:1976/              |
-+---------------------+-------------------------------------+
++-------------------------+---------------------------------+
+| Service                 | URL                             |
++=========================+=================================+
+| Gradebook               | http://localhost:1994/          |
++-------------------------+---------------------------------+
+| Program Manager         | http://localhost:1976/          |
++-------------------------+---------------------------------+
+| Publisher App Frontend  | http://localhost:18400/         |
++-------------------------+---------------------------------+
 
 Useful Commands
 ---------------
@@ -375,6 +377,7 @@ In all the above commands, ``<service>`` should be replaced with one of the foll
 -  registrar
 -  gradebook
 -  program-manager
+-  frontend-app-publisher
 
 If you'd like to add some convenience make targets, you can add them to a ``local.mk`` file, ignored by git.
 
