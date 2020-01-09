@@ -59,6 +59,7 @@ dev.provision.%: ## Provision specified service with local mounted directories
 	echo "CALLLING with %"
 	DOCKER_COMPOSE_FILES="$(STANDARD_COMPOSE_FILES)" $(WINPTY) bash ./provision.sh $*
 
+
 dev.provision: | check-memory dev.clone dev.provision.all stop ## Provision dev environment with all services stopped
 
 dev.provision.xqueue: | check-memory dev.provision.xqueue.run stop stop.xqueue  # Provision XQueue; run after other services are provisioned
@@ -96,6 +97,25 @@ endif
 
 dev.up.watchers: | check-memory ## Bring up asset watcher containers
 	bash -c 'docker-compose -f docker-compose-watchers.yml up -d'
+
+dev.nfs.setup:  ## set's up an nfs server on the /Users folder, allowing nfs mounting on docker
+	./setup_native_nfs_docker_osx.sh
+
+dev.nfs.up.watchers: | check-memory ## Bring up asset watcher containers
+	docker-compose -f docker-compose-watchers-nfs.yml up -d
+
+dev.nfs.up: | check-memory ## Bring up all services with host volumes
+	docker-compose -f docker-compose.yml -f docker-compose-host-nfs.yml up -d
+	@# Comment out this next line if you want to save some time and don't care about catalog programs
+	#./programs/provision.sh cache >/dev/null
+
+dev.nfs.up.all: | dev.nfs.up dev.nfs.up.watchers ## Bring up all services with host volumes, including watchers
+
+dev.nfs.provision: | check-memory dev.clone dev.provision.nfs.run stop ## Provision dev environment with all services stopped
+
+dev.provision.nfs.run: ## Provision all services with local mounted directories
+	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host-nfs.yml" ./provision.sh
+
 
 dev.up.xqueue: | check-memory ## Bring up xqueue, assumes you already have lms running
 	bash -c 'docker-compose -f docker-compose.yml -f docker-compose-xqueue.yml -f docker-compose-host.yml -f docker-compose-themes.yml up -d'

@@ -79,7 +79,7 @@ you should configure Docker with a sufficient
 amount of resources. We find that `configuring Docker for Mac`_ with
 a minimum of 2 CPUs and 8GB of memory does work.
 
-1. Install the requirements inside of a `Python virtualenv`_.
+1. (Optional) Install the requirements inside of a `Python virtualenv`_.
 
    .. code:: sh
 
@@ -108,6 +108,12 @@ a minimum of 2 CPUs and 8GB of memory does work.
 
        make dev.pull
 
+3. (Optional) You have an option to use nfs on MacOS which will improve the performance significantly, to set it up ONLY ON MAC, do
+    .. code:: sh
+
+        make dev.nfs.setup
+
+
 4. Run the provision command, if you haven't already, to configure the various
    services with superusers (for development without the auth service) and
    tenants (for multi-tenancy).
@@ -131,6 +137,12 @@ a minimum of 2 CPUs and 8GB of memory does work.
 
        make dev.sync.provision
 
+    Provision using `nfs`_:
+
+   .. code:: sh
+
+       make dev.nfs.provision
+
    This is expected to take a while, produce a lot of output from a bunch of steps, and finally end with ``Provisioning complete!``
 
 5. Start the services. This command will mount the repositories under the
@@ -149,6 +161,12 @@ a minimum of 2 CPUs and 8GB of memory does work.
    .. code:: sh
 
        make dev.sync.up
+
+   Start using `nfs`_:
+
+   .. code:: sh
+
+       make dev.nfs.up
 
 
 After the services have started, if you need shell access to one of the
