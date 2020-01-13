@@ -341,7 +341,7 @@ services:
     ports:
       - "18400:18400"
     depends_on:
-      - discovery
+      - lms
 
 volumes:
   discovery_assets:
