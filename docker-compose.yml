@@ -195,6 +195,34 @@ services:
       ENABLE_DJANGO_TOOLBAR: 1
       ELASTICSEARCH_URL: "http://edx.devstack.elasticsearch:9200"
 
+  analyticsapi:
+    command: /edx/app/analytics_api/venvs/analytics_api/bin/python /edx/app/analytics_api/analytics_api/manage.py runserver 0.0.0.0:80
+    image: edxops/analytics_api:${DATA_API_VERSION:-latest}
+    container_name: edx.devstack.analytics_api
+    environment:
+      ELASTICSEARCH_LEARNERS_HOST: 'http://edx.devstack.elasticsearch:9200'
+      ELASTICSEARCH_LEARNERS_INDEX: 'learner'
+      ELASTICSEARCH_LEARNERS_UPDATE_INDEX: 'index_update'
+
+  insights:
+    command: bash -c 'source /edx/app/insights/venvs/insights/bin/activate && source /edx/app/insights/nodeenvs/insights/bin/activate && while true; do python /edx/app/insights/edx_analytics_dashboard/manage.py runserver 0.0.0.0:18555; sleep 2; done'
+    container_name: edx.devstack.insights
+    hostname: insights.devstack.edx
+    depends_on:
+      - elasticsearch
+      - analyticsapi
+      - mysql
+      - lms
+    image: edxops/insights:latest
+    environment:
+      DJANGO_SETTINGS_MODULE: "analytics_dashboard.settings.devstack"
+      ANALYTICS_DASHBOARD_CFG: "/edx/app/insights/edx_analytics_dashboard/analytics_dashboard/settings/devstack.yml"
+    # Allows attachment using 'docker attach <containerID>'.
+    stdin_open: true
+    tty: true
+    ports:
+      - "18555:18555"
+
   registrar:
     command: bash -c 'source /edx/app/registrar/registrar_env && while true; do python /edx/app/registrar/registrar/manage.py runserver 0.0.0.0:18734; sleep 2; done'
     container_name: edx.devstack.registrar

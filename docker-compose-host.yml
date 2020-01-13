@@ -27,6 +27,11 @@ services:
     volumes:
       - ${DEVSTACK_WORKSPACE}/edx-notes-api:/edx/app/edx_notes_api/edx_notes_api:cached
       - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
+  insights:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/edx-analytics-dashboard:/edx/app/insights/edx_analytics_dashboard
+      - insights_node_modules:/edx/app/insights/edx_analytics_dashboard/node_modules
+      - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
   studio:
     volumes:
       - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform:cached
@@ -64,5 +69,6 @@ volumes:
   edxapp_node_modules:
   edxapp_uploads:
   gradebook_node_modules:
+  insights_node_modules:
   program_manager_node_modules:
   frontend_app_publisher_node_modules:

@@ -28,8 +28,11 @@ endif
 
 COMPOSE_PROJECT_NAME=devstack
 
+DATA_API_VERSION=0.28.0
+
 export DEVSTACK_WORKSPACE
 export COMPOSE_PROJECT_NAME
+export DATA_API_VERSION
 
 STANDARD_COMPOSE_FILES=-f docker-compose.yml -f docker-compose-host.yml -f docker-compose-themes.yml
 
