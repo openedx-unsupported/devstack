@@ -3,11 +3,8 @@ Open edX Devstack |Build Status|
 
 Get up and running quickly with Open edX services.
 
-If you are seeking info on the Vagrant-based devstack, please see
-https://openedx.atlassian.net/wiki/spaces/OpenOPS/pages/60227787/Running+Vagrant-based+Devstack. This
-project is meant to replace the traditional Vagrant-based devstack with a
-multi-container approach driven by `Docker Compose`_. It is still in the
-beta testing phase.
+This project replaces the older Vagrant-based devstack with a
+multi-container approach driven by `Docker Compose`_.
 
 Updated Documentation
 ---------------------
@@ -937,8 +934,8 @@ Running LMS commands within a container
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Most of the ``paver`` commands require a settings flag. If omitted, the flag defaults to
-``devstack``, which is the settings flag for vagrant-based devstack instances.
-So if you run into issues running ``paver`` commands in a docker container, you should append
+``devstack``, which was the settings flag for vagrant-based devstack instances.
+Since docker is now the standard, you should usually append
 the ``devstack_docker`` flag. For example:
 
 .. code:: sh
