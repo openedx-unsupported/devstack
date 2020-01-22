@@ -94,11 +94,19 @@ _clone ()
             _checkout_and_update_branch
             cd ..
         else
+           OPENEDX_GIT_BRANCH_SAVED=${OPENEDX_GIT_BRANCH}
+           if [[ $(git ls-remote --heads ${repo} ${OPENEDX_GIT_BRANCH}) ]]; then
+               printf "Cloning the right branch\n"
+           else
+               OPENEDX_GIT_BRANCH=master
+               printf "Cloning master\n"
+            fi
             if [ "${SHALLOW_CLONE}" == "1" ]; then
                 git clone --single-branch -b ${OPENEDX_GIT_BRANCH} -c core.symlinks=true --depth=1 ${repo}
             else
                 git clone --single-branch -b ${OPENEDX_GIT_BRANCH} -c core.symlinks=true ${repo}
             fi
+           OPENEDX_GIT_BRANCH=${OPENEDX_GIT_BRANCH_SAVED}
         fi
     done
     cd - &> /dev/null
@@ -109,10 +117,29 @@ _checkout_and_update_branch ()
     GIT_SYMBOLIC_REF="$(git symbolic-ref HEAD 2>/dev/null)"
     BRANCH_NAME=${GIT_SYMBOLIC_REF##refs/heads/}
     if [ "${BRANCH_NAME}" == "${OPENEDX_GIT_BRANCH}" ]; then
-        git pull origin ${OPENEDX_GIT_BRANCH}
+        OPENEDX_GIT_BRANCH_SAVED=${OPENEDX_GIT_BRANCH}
+        if [[ $(git ls-remote --heads ${repo} ${OPENEDX_GIT_BRANCH}) ]]; then
+            printf "Cloning the right branch\n"
+        else
+            OPENEDX_GIT_BRANCH=master
+            printf "Cloning master\n"
+        fi
+        git pull origin $OPENEDX_GIT_BRANCH
+        OPENEDX_GIT_BRANCH_SAVED=${OPENEDX_GIT_BRANCH_SAVED}
     else
-        git fetch origin ${OPENEDX_GIT_BRANCH}:${OPENEDX_GIT_BRANCH}
-        git checkout ${OPENEDX_GIT_BRANCH}
+        OPENEDX_GIT_BRANCH_SAVED=${OPENEDX_GIT_BRANCH}
+        if [[ $(git ls-remote --heads ${repo} ${OPENEDX_GIT_BRANCH}) ]]; then
+            printf "Cloning the right branch\n"
+            git fetch origin ${OPENEDX_GIT_BRANCH}:${OPENEDX_GIT_BRANCH}
+            git checkout ${OPENEDX_GIT_BRANCH}
+        else
+            OPENEDX_GIT_BRANCH=master
+            printf "Cloning master\n"
+            git fetch origin ${OPENEDX_GIT_BRANCH}
+            git checkout ${OPENEDX_GIT_BRANCH}
+        fi
+
+        OPENEDX_GIT_BRANCH_SAVED=${OPENEDX_GIT_BRANCH_SAVED}
     fi
     find . -name '*.pyc' -not -path './.git/*' -delete
 }

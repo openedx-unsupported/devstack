@@ -15,7 +15,7 @@ services:
   chrome:
     container_name: edx.devstack.chrome
     hostname: chrome.devstack.edx
-    image: edxops/chrome:${OPENEDX_RELEASE:-latest}
+    image: edxops/chrome:latest
     shm_size: 2g
     ports:
       - "15900:5900"
@@ -38,7 +38,7 @@ services:
   firefox:
     container_name: edx.devstack.firefox
     hostname: firefox.devstack.edx
-    image: edxops/firefox:${OPENEDX_RELEASE:-latest}
+    image: edxops/firefox:latest
     shm_size: 2g
     ports:
       - "25900:5900"
@@ -119,7 +119,7 @@ services:
     environment:
       TEST_ELASTICSEARCH_URL: "http://edx.devstack.elasticsearch:9200"
       ENABLE_DJANGO_TOOLBAR: 1
-    image: edxops/discovery:${OPENEDX_RELEASE:-latest}
+    image: edxops/discovery:latest
     ports:
       - "18381:18381"
     volumes:
@@ -165,7 +165,7 @@ services:
       BOK_CHOY_CMS_PORT: 18031
       EDXAPP_TEST_MONGO_HOST: edx.devstack.mongo
       NO_PYTHON_UNINSTALL: 1
-    image: edxops/edxapp:${OPENEDX_RELEASE:-latest}
+    image: edxops/edxapp:latest
     ports:
       - "18000:18000"
       - "19876:19876" # JS test debugging
@@ -223,7 +223,7 @@ services:
       CELERY_BROKER_HOSTNAME: edx.devstack.redis:6379
       CELERY_BROKER_VHOST: 10
       CELERY_BROKER_PASSWORD: password
-    image: edxops/registrar:${OPENEDX_RELEASE:-latest}
+    image: edxops/registrar:latest
     ports:
       - "18734:18734"
     volumes:
@@ -252,7 +252,7 @@ services:
       CELERY_BROKER_HOSTNAME: edx.devstack.redis:6379
       CELERY_BROKER_VHOST: 10
       CELERY_BROKER_PASSWORD: password
-    image: edxops/registrar:${OPENEDX_RELEASE:-latest}
+    image: edxops/registrar:latest
     ports:
       - "18735:18735"
     volumes:
@@ -279,7 +279,7 @@ services:
       BOK_CHOY_CMS_PORT: 18131
       EDXAPP_TEST_MONGO_HOST: edx.devstack.mongo
       NO_PYTHON_UNINSTALL: 1
-    image: edxops/edxapp:${OPENEDX_RELEASE:-latest}
+    image: edxops/edxapp:latest
     ports:
       - "18010:18010"
       - "19877:19877" # JS test debugging
@@ -296,14 +296,14 @@ services:
       - mongo
       - memcached
       - elasticsearch
-    image: edxops/forum:${OPENEDX_RELEASE:-latest}
+    image: edxops/forum:latest
     ports:
       - "44567:4567"
 
   devpi:
     container_name: edx.devstack.devpi
     hostname: devpi.devstack.edx
-    image: edxops/devpi:${OPENEDX_RELEASE:-latest}
+    image: edxops/devpi:latest
     ports:
       - "3141:3141"
     volumes:
