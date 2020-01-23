@@ -13,6 +13,16 @@ for app in "${apps[@]}"; do
     docker-compose $DOCKER_COMPOSE_FILES up -d $app
 done
 
+# Perform basic configuration
+# Add conf files to the images : add revisions.yml, lms.yml, cms.yml into /edx/etc, these files should have the same permissions as /edx/app/edxapp/lms.env.json
+# Checkout custom repos
+for app in "${apps[@]}"; do
+    docker cp revisions.yml $app:/edx/etc/
+    docker cp cms.yml $app:/edx/etc/
+    docker cp lms.yml $app:/edx/etc/
+    docker-compose exec -T $app bash -c 'cd /edx/app/edxapp/edx-platform && git stash && git remote set-url https://github.com/weuplearning/edx-platform.git && git pull && git checkout open-release/juniper.alpha1'
+done
+
 docker-compose exec -T lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && NO_PYTHON_UNINSTALL=1 paver install_prereqs'
 
 #Installing prereqs crashes the process
