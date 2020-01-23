@@ -5,7 +5,26 @@
 #
 ########################################################################################################################
 .DEFAULT_GOAL := help
-.PHONY: requirements
+
+.PHONY: analytics-pipeline-devstack-test analytics-pipeline-shell backup \
+        build-courses check-memory create-test-course credentials-shell \
+        destroy dev.checkout dev.clone devpi-password dev.provision \
+        dev.provision.analytics_pipeline dev.provision.analytics_pipeline.run \
+        dev.provision.xqueue dev.provision.xqueue.run dev.pull dev.repo.reset \
+        dev.reset dev.status dev.sync.daemon.start dev.sync.provision \
+        dev.sync.requirements dev.sync.up dev.up dev.up.all \
+        dev.up.analytics_pipeline dev.up.watchers dev.up.xqueue \
+        discovery-shell down e2e-shell e2e-tests ecommerce-shell \
+        feature-toggle-state healthchecks help lms-restart lms-shell \
+        lms-static lms-update-db lms-watcher-shell logs mongo-shell \
+        mysql-shell mysql-shell-edxapp provision pull pull.analytics_pipeline \
+        pull.xqueue registrar-shell requirements restore static stats stop \
+        stop.all stop.analytics_pipeline stop.watchers stop.xqueue \
+        studio-restart studio-shell studio-static studio-update-db \
+        studio-watcher-shell update-db upgrade upgrade validate \
+        validate-lms-volume vnc-passwords xqueue_consumer-logs \
+        xqueue_consumer-restart xqueue_consumer-shell xqueue-logs \
+        xqueue-restart xqueue-shell
 
 DEVSTACK_WORKSPACE ?= $(shell pwd)/..
 
