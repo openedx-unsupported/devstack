@@ -13,20 +13,21 @@ for app in "${apps[@]}"; do
     docker-compose $DOCKER_COMPOSE_FILES up -d $app
 done
 
+docker-compose exec -T lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && NO_PYTHON_UNINSTALL=1 paver install_prereqs'
+
+#Installing prereqs crashes the process
+docker-compose restart lms
+
 # Perform basic configuration
 # Add conf files to the images : add revisions.yml, lms.yml, cms.yml into /edx/etc, these files should have the same permissions as /edx/app/edxapp/lms.env.json
 # Checkout custom repos
+pwd
 for app in "${apps[@]}"; do
     docker cp revisions.yml $app:/edx/etc/
     docker cp cms.yml $app:/edx/etc/
     docker cp lms.yml $app:/edx/etc/
     docker-compose exec -T $app bash -c 'cd /edx/app/edxapp/edx-platform && git stash && git remote set-url https://github.com/weuplearning/edx-platform.git && git pull && git checkout open-release/juniper.alpha1'
 done
-
-docker-compose exec -T lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && NO_PYTHON_UNINSTALL=1 paver install_prereqs'
-
-#Installing prereqs crashes the process
-docker-compose restart lms
 
 # Run edxapp migrations first since they are needed for the service users and OAuth clients
 docker-compose exec -T lms bash -c 'source /edx/app/edxapp/edxapp_env && export LMS_CFG=/edx/etc/lms.yml && export REVISION_CFG=/edx/etc/revisions.cfg && export STUDIO_CFG=/edx/etc/cms.yml && cd /edx/app/edxapp/edx-platform && paver update_db --settings devstack_docker'
