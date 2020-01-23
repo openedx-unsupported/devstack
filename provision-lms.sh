@@ -21,11 +21,10 @@ docker-compose restart lms
 # Perform basic configuration
 # Add conf files to the images : add revisions.yml, lms.yml, cms.yml into /edx/etc, these files should have the same permissions as /edx/app/edxapp/lms.env.json
 # Checkout custom repos
-pwd
 for app in "${apps[@]}"; do
-    docker cp revisions.yml $app:/edx/etc/
-    docker cp cms.yml $app:/edx/etc/
-    docker cp lms.yml $app:/edx/etc/
+    docker cp revisions.yml edx.devstack.$app:/edx/etc/
+    docker cp cms.yml edx.devstack.$app:/edx/etc/
+    docker cp lms.yml edx.devstack.$app:/edx/etc/
     docker-compose exec -T $app bash -c 'cd /edx/app/edxapp/edx-platform && git stash && git remote set-url https://github.com/weuplearning/edx-platform.git && git pull && git checkout open-release/juniper.alpha1'
 done
 
