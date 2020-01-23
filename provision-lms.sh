@@ -25,7 +25,6 @@ for app in "${apps[@]}"; do
     docker cp revisions.yml edx.devstack.$app:/edx/etc/
     docker cp cms.yml edx.devstack.$app:/edx/etc/
     docker cp lms.yml edx.devstack.$app:/edx/etc/
-    docker-compose exec -T $app bash -c 'cd /edx/app/edxapp/edx-platform && git stash && git remote set-url https://github.com/weuplearning/edx-platform.git && git pull && git checkout open-release/juniper.alpha1'
 done
 
 # Run edxapp migrations first since they are needed for the service users and OAuth clients
