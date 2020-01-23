@@ -101,7 +101,7 @@ services:
       DB_HOST: edx.devstack.mysql
       SOCIAL_AUTH_EDX_OIDC_URL_ROOT: http://edx.devstack.lms:18000/oauth2
       ENABLE_DJANGO_TOOLBAR: 1
-    image: edxops/credentials:${OPENEDX_RELEASE:-latest}
+    image: edxops/credentials:latest
     ports:
       - "18150:18150"
 
@@ -139,7 +139,7 @@ services:
     tty: true
     environment:
       ENABLE_DJANGO_TOOLBAR: 1
-    image: edxops/ecommerce:${OPENEDX_RELEASE:-latest}
+    image: edxops/ecommerce:latest
     ports:
       - "18130:18130"
 
@@ -182,7 +182,7 @@ services:
       - devpi
       - elasticsearch
       - mysql
-    image: edxops/notes:${OPENEDX_RELEASE:-latest}
+    image: edxops/notes:latest
     ports:
       - "18120:18120"
     environment:
