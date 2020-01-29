@@ -368,10 +368,12 @@ whether or not you need them.
 To instead only pull images required by your service and its dependencies,
 run ``make dev.pull.<service>``.
 
-Finally, ``make dev.provision.<service>`` can be used in place of
-``make dev.provision`` in order to run an expedited version of
-provisioning for that singular service. For example, if you mess up just your
-Course Discovery database, running ``make dev.provision.discovery``
+Finally, ``make dev.provision.services.<service1>+<service2>+...``
+can be used in place of ``make dev.provision`` in order to run an expedited version of
+provisioning for a specific set of services.
+For example, if you mess up just your
+Course Discovery and Registrar databases,
+running ``make dev.provision.services.discovery+registrar``
 will take much less time than the full provisioning process.
 However, note that some services' provisioning processes depend on other services
 already being correcty provisioned.
@@ -996,7 +998,7 @@ While provisioning, some have seen the following error:
    ...
    cwd = os.getcwdu()
    OSError: [Errno 2] No such file or directory
-   make: *** [dev.provision.run] Error 1
+   make: *** [dev.provision.services] Error 1
 
 This issue can be worked around, but there's no guaranteed method to do so.
 Rebooting and restarting Docker does *not* seem to correct the issue. It

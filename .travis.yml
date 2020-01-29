@@ -30,12 +30,12 @@ before_install:
 
   - make requirements
   - make dev.clone
-  - if [[ $DEVSTACK == 'lms' ]]; then make dev.pull.lms; fi
-  - if [[ $DEVSTACK == 'registrar' ]]; then make dev.pull.registrar; fi
-  - if [[ $DEVSTACK == 'ecommerce' ]]; then make dev.pull.ecommerce; fi
-  - if [[ $DEVSTACK == 'edx_notes_api' ]]; then make dev.pull.edx_notes_api; fi
-  - if [[ $DEVSTACK == 'credentials' ]]; then make dev.pull.credentials; fi
-  - if [[ $DEVSTACK == 'analytics_pipeline' ]]; then make dev.up.analytics_pipeline; fi
+  - |
+    if [[ $DEVSTACK == 'analytics_pipeline' ]]; then
+        make dev.up.analytics_pipeline
+    else
+        make dev.pull.${DEVSTACK}
+    fi
 
 script:
   - "./.travis/run.sh"
