@@ -8,7 +8,7 @@
 
 .PHONY: analytics-pipeline-devstack-test analytics-pipeline-shell backup \
         build-courses check-memory create-test-course credentials-shell \
-        destroy dev.checkout dev.clone dev.nfs.provision dev.nfs.setup \
+        destroy dev.checkout dev.clone dev.clone.ssh dev.nfs.provision dev.nfs.setup \
         dev.nfs.up dev.nfs.up.all dev.nfs.up.watchers devpi-password \
         dev.provision dev.provision.analytics_pipeline \
         dev.provision.analytics_pipeline.run dev.provision.nfs.run \
@@ -73,8 +73,11 @@ upgrade: ## Upgrade requirements with pip-tools
 dev.checkout: ## Check out "openedx-release/$OPENEDX_RELEASE" in each repo if set, "master" otherwise
 	./repo.sh checkout
 
-dev.clone: ## Clone service repos to the parent directory
+dev.clone: ## Clone service repos using HTTPS method to the parent directory
 	./repo.sh clone
+
+dev.clone.ssh: ## Clone service repos using SSH method to the parent directory
+	./repo.sh clone_ssh
 
 dev.provision.services: ## Provision all services with local mounted directories
 	DOCKER_COMPOSE_FILES="$(STANDARD_COMPOSE_FILES)" $(WINPTY) bash ./provision.sh
@@ -82,7 +85,7 @@ dev.provision.services: ## Provision all services with local mounted directories
 dev.provision.services.%: ## Provision specified services with local mounted directories, separated by plus signs
 	DOCKER_COMPOSE_FILES="$(STANDARD_COMPOSE_FILES)" $(WINPTY) bash ./provision.sh $*
 
-dev.provision: | check-memory dev.clone dev.provision.services stop ## Provision dev environment with all services stopped
+dev.provision: | check-memory dev.clone.ssh dev.provision.services stop ## Provision dev environment with all services stopped
 
 dev.provision.xqueue: | check-memory dev.provision.xqueue.run stop stop.xqueue  # Provision XQueue; run after other services are provisioned
 
