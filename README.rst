@@ -94,7 +94,7 @@ a minimum of 2 CPUs and 8GB of memory does work.
 
    .. code:: sh
 
-       make dev.clone
+       make dev.clone  # or, `make dev.clone.ssh` if you have SSH keys set up.
 
    You may customize where the local repositories are found by setting the
    DEVSTACK\_WORKSPACE environment variable.

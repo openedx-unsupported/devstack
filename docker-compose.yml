@@ -258,6 +258,35 @@ services:
     volumes:
       - /edx/var/registrar/
 
+  registrar-msg-consumer:
+     command: bash -c 'source /edx/app/registrar/registrar_env && cd /edx/app/registrar/registrar && python3 ./consumer.py'
+     container_name: edx.devstack.registrar-msg-consumer
+     hostname: registrar-msg-consumer.devstack.edx
+     depends_on:
+       - lms
+       - mysql
+       - redis
+     stdin_open: true
+     tty: true
+     environment:
+       DB_HOST: edx.devstack.mysql
+       DB_NAME: registrar
+       DB_PORT: 3306
+       DB_USER: registrar001
+       DB_PASSWORD: password
+       LMS_HOST: http://localhost:18000
+       MEMCACHE_HOST: edx.devstack.memcached
+       DJANGO_SETTINGS_MODULE: registrar.settings.devstack
+       CELERY_BROKER_TRANSPORT: redis
+       CELERY_BROKER_HOSTNAME: edx.devstack.redis:6379
+       CELERY_BROKER_VHOST: 10
+       CELERY_BROKER_PASSWORD: password
+     image: edxops/registrar:${OPENEDX_RELEASE:-latest}
+     ports:
+       - "18736:18736"
+     volumes:
+       - /edx/var/registrar/
+
   studio:
     command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py cms runserver 0.0.0.0:18010 --settings devstack_docker; sleep 2; done'
     container_name: edx.devstack.studio
