@@ -49,7 +49,7 @@ services:
   memcached:
     container_name: edx.devstack.memcached
     hostname: memcached.devstack.edx
-    image: memcached:1.4.24
+    image: memcached:1.5.10-alpine
     # ports:
     #   - "11211:11211"
 
