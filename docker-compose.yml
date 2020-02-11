@@ -35,6 +35,18 @@ services:
       - elasticsearch_data:/usr/share/elasticsearch/data
       - elasticsearch_data:/usr/share/elasticsearch/logs
 
+  elasticsearch5:
+    container_name: edx.devstack.elasticsearch
+    hostname: elasticsearch.devstack.edx
+    image: edxops/elasticsearch:devstack
+    # TODO: What to do about these forwarded ports? They'll conflict with ports forwarded by the Vagrant VM.
+    # ports:
+    #   - "9200:9200"
+    #   - "9300:9300"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+      - elasticsearch_data:/usr/share/elasticsearch/logs
+
   firefox:
     container_name: edx.devstack.firefox
     hostname: firefox.devstack.edx
@@ -74,6 +86,19 @@ services:
       MYSQL_ROOT_PASSWORD: ""
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     image: mysql:5.6
+    # ports:
+    #   - "3506:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  mysql57:
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci
+    container_name: edx.devstack.mysql57
+    hostname: mysql57.devstack.edx
+    environment:
+      MYSQL_ROOT_PASSWORD: ""
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    image: mysql:5.7
     # ports:
     #   - "3506:3306"
     volumes:
@@ -187,7 +212,7 @@ services:
       - "18120:18120"
     environment:
       DB_ENGINE: "django.db.backends.mysql"
-      DB_HOST: "edx.devstack.mysql"
+      DB_HOST: "edx.devstack.mysql57"
       DB_NAME: "notes"
       DB_PASSWORD: "password"
       DB_PORT: "3306"
