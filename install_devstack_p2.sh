@@ -16,17 +16,13 @@ cd devstack_files
 echo "#Cloning devstack"
 git clone https://github.com/weuplearning/devstack
 cd devstack
-git checkout open-release/juniper.alpha1
+git checkout atp_juniper
 
 echo "#Starting deployment"
 export OPENEDX_RELEASE=juniper.alpha1
 make dev.checkout
 make dev.clone
 make dev.provision
-
-echo '#Getting atp_juniper repo'
-cd ~/edx/devstack_files/devstack
-git checkout atp_juniper
 
 echo '#setting media folder and atp_theme'
 cd ~/edx/devstack_files/
