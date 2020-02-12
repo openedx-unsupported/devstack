@@ -43,6 +43,9 @@ services:
   registrar-worker:
     volumes:
       - ${DEVSTACK_WORKSPACE}/registrar:/edx/app/registrar/registrar
+  registrar-msg-consumer:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/registrar:/edx/app/registrar/registrar
   gradebook:
     volumes:
       - ${DEVSTACK_WORKSPACE}/frontend-app-gradebook:/edx/app/gradebook:cached

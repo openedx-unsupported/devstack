@@ -259,7 +259,7 @@ services:
       - /edx/var/registrar/
 
   registrar-msg-consumer:
-     command: bash -c 'source /edx/app/registrar/registrar_env && cd /edx/app/registrar/registrar && python3 ./consumer.py'
+     command: bash -c 'source /edx/app/registrar/registrar_env && python3 /edx/app/registrar/registrar/manage.py run_consumer'
      container_name: edx.devstack.registrar-msg-consumer
      hostname: registrar-msg-consumer.devstack.edx
      depends_on:
