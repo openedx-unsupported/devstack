@@ -4,6 +4,7 @@
 #   - If you are adding a new service make sure the dev.reset target will fully reset said service.
 #
 ########################################################################################################################
+no_cache=1
 .DEFAULT_GOAL := help
 
 .PHONY: analytics-pipeline-devstack-test analytics-pipeline-shell backup \
@@ -105,6 +106,8 @@ dev.pull: ## Pull *all* required Docker images. Consider `make dev.pull.<service
 
 dev.pull.%: ## Pull latest Docker images for a given service and all its dependencies
 	docker-compose pull --include-deps $*
+clean:
+	docker image prune
 
 dev.up: | check-memory ## Bring up all services with host volumes
 	bash -c 'docker-compose $(STANDARD_COMPOSE_FILES) up -d'
