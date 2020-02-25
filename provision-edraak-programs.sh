@@ -5,6 +5,7 @@ docker-compose restart edraak_programs
 
 echo "** Progs: Copy cacheed files to code dir **"
 docker-compose exec edraak_programs bash -c 'cp -Rn /cache/* /app/.'
+docker-compose exec edraak_programs bash -c 'pip install -r requirements.txt'
 
 echo "** Progs: Migrating databases **"
 docker-compose exec edraak_programs bash -c 'python manage.py migrate --settings=edraakprograms.dev'
