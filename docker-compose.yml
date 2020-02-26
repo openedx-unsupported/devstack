@@ -35,6 +35,12 @@ services:
       - elasticsearch_data:/usr/share/elasticsearch/data
       - elasticsearch_data:/usr/share/elasticsearch/logs
 
+  # This is meant to be used to test ES upgrades so that we do not have to upgrade all of our services to ES5 at once.
+  elasticsearch-5:
+    container_name: edx.devstack.elasticsearch-5
+    hostname: elasticsearch-5.devstack.edx
+    image: elasticsearch:5.6.16
+
   firefox:
     container_name: edx.devstack.firefox
     hostname: firefox.devstack.edx
