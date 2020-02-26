@@ -39,3 +39,4 @@ before_install:
 
 script:
   - "./.travis/run.sh"
+
