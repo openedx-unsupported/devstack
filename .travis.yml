@@ -15,6 +15,7 @@ env:
   - DEVSTACK_WORKSPACE=/tmp SHALLOW_CLONE=1 DEVSTACK='ecommerce'
   - DEVSTACK_WORKSPACE=/tmp SHALLOW_CLONE=1 DEVSTACK='edx_notes_api'
   - DEVSTACK_WORKSPACE=/tmp SHALLOW_CLONE=1 DEVSTACK='credentials'
+  - DEVSTACK_WORKSPACE=/tmp SHALLOW_CLONE=1 DEVSTACK='xqueue'
   - DEVSTACK_WORKSPACE=/tmp SHALLOW_CLONE=1 DEVSTACK='analytics_pipeline'
 
 services:
@@ -27,15 +28,9 @@ before_install:
   - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
   - docker version
   - docker-compose --version
-
   - make requirements
   - make dev.clone
-  - |
-    if [[ $DEVSTACK == 'analytics_pipeline' ]]; then
-        make dev.up.analytics_pipeline
-    else
-        make dev.pull.${DEVSTACK}
-    fi
+  - make dev.pull.${DEVSTACK}
 
 script:
   - "./.travis/run.sh"

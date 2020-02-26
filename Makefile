@@ -8,25 +8,21 @@
 
 .PHONY: analytics-pipeline-devstack-test analytics-pipeline-shell backup \
         build-courses check-memory create-test-course credentials-shell \
-        destroy dev.checkout dev.clone dev.clone.ssh dev.nfs.provision dev.nfs.setup \
-        dev.nfs.up dev.nfs.up.all dev.nfs.up.watchers devpi-password \
-        dev.provision dev.provision.analytics_pipeline \
-        dev.provision.analytics_pipeline.run dev.provision.nfs.run \
-        dev.provision.services dev.provision.xqueue dev.provision.xqueue.run \
-        dev.pull dev.repo.reset dev.reset dev.status dev.sync.daemon.start \
-        dev.sync.provision dev.sync.requirements dev.sync.up dev.up dev.up.all \
-        dev.up.analytics_pipeline dev.up.watchers dev.up.xqueue \
-        discovery-shell down e2e-shell e2e-tests ecommerce-shell \
-        feature-toggle-state healthchecks help lms-restart lms-shell \
-        lms-static lms-update-db lms-watcher-shell logs mongo-shell \
+        destroy dev.checkout dev.clone dev.clone.ssh dev.nfs.provision \
+        dev.nfs.setup dev.nfs.up dev.nfs.up.all dev.nfs.up.watchers \
+        devpi-password dev.provision dev.provision.analytics_pipeline \
+        dev.provision.analytics_pipeline.run dev.provision.default_services \
+        dev.provision.nfs.run dev.pull dev.repo.reset dev.reset dev.status \
+        dev.sync.daemon.start dev.sync.provision dev.sync.requirements \
+        dev.sync.up dev.up dev.up.all dev.up.analytics_pipeline \
+        dev.up.watchers discovery-shell down e2e-shell e2e-tests \
+        ecommerce-shell feature-toggle-state healthchecks help lms-restart \
+        lms-shell lms-static lms-update-db lms-watcher-shell logs mongo-shell \
         mysql-shell mysql-shell-edxapp provision pull pull.analytics_pipeline \
-        pull.xqueue registrar-shell requirements restore static stats stop \
-        stop.all stop.analytics_pipeline stop.watchers stop.xqueue \
-        studio-restart studio-shell studio-static studio-update-db \
-        studio-watcher-shell update-db upgrade upgrade validate \
-        validate-lms-volume vnc-passwords xqueue_consumer-logs \
-        xqueue_consumer-restart xqueue_consumer-shell xqueue-logs \
-        xqueue-restart xqueue-shell
+        registrar-shell requirements restore static stats stop stop.all \
+        stop.analytics_pipeline stop.watchers studio-restart studio-shell \
+        studio-static studio-update-db studio-watcher-shell update-db upgrade \
+        upgrade validate validate-lms-volume vnc-passwords
 
 DEVSTACK_WORKSPACE ?= $(shell pwd)/..
 
@@ -79,18 +75,12 @@ dev.clone: ## Clone service repos using HTTPS method to the parent directory
 dev.clone.ssh: ## Clone service repos using SSH method to the parent directory
 	./repo.sh clone_ssh
 
-dev.provision.services: ## Provision all services with local mounted directories
-	DOCKER_COMPOSE_FILES="$(STANDARD_COMPOSE_FILES)" $(WINPTY) bash ./provision.sh
+dev.provision.default_services: dev.provision.services.lms+ecommerce+discovery+credentials+e2e+forum+notes+registrar ## Provision default devstack services
 
 dev.provision.services.%: ## Provision specified services with local mounted directories, separated by plus signs
 	DOCKER_COMPOSE_FILES="$(STANDARD_COMPOSE_FILES)" $(WINPTY) bash ./provision.sh $*
 
-dev.provision: | check-memory dev.clone.ssh dev.provision.services stop ## Provision dev environment with all services stopped
-
-dev.provision.xqueue: | check-memory dev.provision.xqueue.run stop stop.xqueue  # Provision XQueue; run after other services are provisioned
-
-dev.provision.xqueue.run:
-	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-xqueue.yml" $(WINPTY) bash ./provision-xqueue.sh
+dev.provision: | check-memory dev.clone.ssh dev.provision.default_services stop ## Provision dev environment with all services stopped
 
 dev.reset: | down dev.repo.reset pull dev.up static update-db ## Attempts to reset the local devstack to the master working state
 
@@ -141,10 +131,6 @@ dev.nfs.provision: | check-memory dev.clone dev.provision.nfs.run stop ## Provis
 dev.provision.nfs.run: ## Provision all services with local mounted directories
 	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host-nfs.yml" ./provision.sh
 
-
-dev.up.xqueue: | check-memory ## Bring up xqueue, assumes you already have lms running
-	bash -c 'docker-compose -f docker-compose.yml -f docker-compose-xqueue.yml -f docker-compose-host.yml -f docker-compose-themes.yml up -d'
-
 dev.up.all: | dev.up dev.up.watchers ## Bring up all services with host volumes, including watchers
 
 dev.sync.daemon.start: ## Start the docker-sycn daemon
@@ -170,12 +156,9 @@ stop.watchers: ## Stop asset watchers
 
 stop.all: | stop.analytics_pipeline stop stop.watchers ## Stop all containers, including asset watchers
 
-stop.xqueue: ## Stop the XQueue service container
-	docker-compose -f docker-compose-xqueue.yml stop
-
 down: ## Remove all service containers and networks
 	(test -d .docker-sync && docker-sync clean) || true ## Ignore failure here
-	docker-compose -f docker-compose.yml -f docker-compose-watchers.yml -f docker-compose-xqueue.yml -f docker-compose-analytics-pipeline.yml down
+	docker-compose -f docker-compose.yml -f docker-compose-watchers.yml -f docker-compose-analytics-pipeline.yml down
 
 destroy: ## Remove all devstack-related containers, networks, and volumes
 	$(WINPTY) bash ./destroy.sh
@@ -185,12 +168,6 @@ logs: ## View logs from containers running in detached mode
 
 %-logs: ## View the logs of the specified service container
 	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml logs -f --tail=500 $*
-
-xqueue-logs: ## View logs from containers running in detached mode
-	docker-compose -f docker-compose-xqueue.yml logs -f xqueue
-
-xqueue_consumer-logs: ## View logs from containers running in detached mode
-	docker-compose -f docker-compose-xqueue.yml logs -f xqueue_consumer
 
 RED="\033[0;31m"
 YELLOW="\033[0;33m"
@@ -226,9 +203,6 @@ pull: dev.pull
 	@echo -n $(RED)
 	@echo "****************************************************************"
 	@echo -n $(NO_COLOR)
-
-pull.xqueue: ## Update XQueue Docker images
-	docker-compose -f docker-compose-xqueue.yml pull
 
 validate: ## Validate the devstack configuration
 	docker-compose config
@@ -294,18 +268,6 @@ studio-watcher-shell: ## Run a shell on the studio watcher container
 
 studio-restart: ## Kill the LMS Django development server. The watcher process will restart it.
 	docker exec -t edx.devstack.studio bash -c 'kill $$(ps aux | grep "manage.py cms" | egrep -v "while|grep" | awk "{print \$$2}")'
-
-xqueue-shell: ## Run a shell on the XQueue container
-	docker exec -it edx.devstack.xqueue env TERM=$(TERM) /edx/app/xqueue/devstack.sh open
-
-xqueue-restart: ## Kill the XQueue development server. The watcher process will restart it.
-	docker exec -t edx.devstack.xqueue bash -c 'kill $$(ps aux | grep "manage.py runserver" | egrep -v "while|grep" | awk "{print \$$2}")'
-
-xqueue_consumer-shell: ## Run a shell on the XQueue consumer container
-	docker exec -it edx.devstack.xqueue_consumer env TERM=$(TERM) /edx/app/xqueue/devstack.sh open
-
-xqueue_consumer-restart: ## Kill the XQueue development server. The watcher process will restart it.
-	docker exec -t edx.devstack.xqueue_consumer bash -c 'kill $$(ps aux | grep "manage.py run_consumer" | egrep -v "while|grep" | awk "{print \$$2}")'
 
 %-static: ## Rebuild static assets for the specified service container
 	docker exec -t edx.devstack.$* bash -c 'source /edx/app/$*/$*_env && cd /edx/app/$*/$*/ && make static'

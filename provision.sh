@@ -37,7 +37,7 @@ NC='\033[0m' # No Color
 
 # All provisionable services.
 # Note: leading and trailing space are necessary for if-checks.
-ALL_SERVICES=" lms ecommerce discovery credentials e2e forum notes registrar "
+ALL_SERVICES=" lms ecommerce discovery credentials e2e forum notes registrar xqueue "
 
 # What should we provision?
 if [[ $# -eq 0 ]]; then
