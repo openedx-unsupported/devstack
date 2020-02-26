@@ -91,6 +91,7 @@ services:
     container_name: edx.devstack.credentials
     hostname: credentials.devstack.edx
     depends_on:
+      - lms
       - mysql
       - memcached
     # Allows attachment to the credentials service using 'docker attach <containerID>'.
@@ -179,6 +180,7 @@ services:
     container_name: edx.devstack.edxnotesapi
     hostname: edx_notes_api.devstack.edx
     depends_on:
+      - lms
       - devpi
       - elasticsearch
       - mysql
