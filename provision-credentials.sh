@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+set -e
+set -o pipefail
+set -x
 
 # NOTE (CCB): We do NOT call provision-ida because it expects a virtualenv.
 # The new images for Credentials do not use virtualenv.

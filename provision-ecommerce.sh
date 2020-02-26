@@ -1,3 +1,8 @@
+#!/usr/bin/env bash
+set -e
+set -o pipefail
+set -x
+
 # Load database dumps for the largest databases to save time
 ./load-db.sh ecommerce
 

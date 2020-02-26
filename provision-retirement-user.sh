@@ -1,4 +1,8 @@
-#This script depends on the LMS being up!
+#!/usr/bin/env bash
+# This script depends on the LMS being up!
+set -e
+set -o pipefail
+set -x
 
 app_name=$1
 user_name=$2

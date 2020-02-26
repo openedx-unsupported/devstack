@@ -1,3 +1,8 @@
+#!/usr/bin/env bash
+set -e
+set -o pipefail
+set -x
+
 # Provisioning script for the discovery service
 ./provision-ida.sh discovery discovery 18381
 

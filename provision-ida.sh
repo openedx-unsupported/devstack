@@ -1,4 +1,8 @@
-#!/bin/sh -x
+#!/usr/bin/env bash
+set -e
+set -o pipefail
+set -x
+
 app_name=$1  # The name of the IDA application, i.e. /edx/app/<app_name>
 client_name=$2  # The name of the Oauth client stored in the edxapp DB.
 client_port=$3  # The port corresponding to this IDA service in devstack.

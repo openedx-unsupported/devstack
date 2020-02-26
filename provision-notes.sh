@@ -1,4 +1,8 @@
+#!/usr/bin/env bash
 # Provisioning script for the notes service
+set -e
+set -o pipefail
+set -x
 
 # Common provisioning tasks for IDAs, including requirements, migrations, oauth client creation, etc.
 ./provision-ida.sh edx_notes_api edx-notes 18120 edxnotesapi

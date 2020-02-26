@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+set -e
+set -o pipefail
+set -x
 
 name=registrar
 port=18734
