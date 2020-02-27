@@ -23,6 +23,7 @@ env:
     - SERVICES=analyticspipeline
     - SERVICES=xqueue
     - SERVICES=marketing
+    - SERVICES=insights+analyticsapi
 
 services:
   - docker

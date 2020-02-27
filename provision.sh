@@ -49,6 +49,7 @@ discovery \
 credentials \
 e2e \
 forum \
+insights \
 notes \
 registrar \
 analyticspipeline \

@@ -123,6 +123,20 @@ if should_check marketing; then
         "curl --fail -L http://localhost:8080"
 fi
 
+
+if should_check insights; then
+    echo "Running Analytics Dashboard Devstack tests: "
+    run_check insights_heartbeat insights \
+        "curl --fail -L http://localhost:18110/health/"
+fi
+
+if should_check analyticsapi; then
+    echo "Running Analytics Data API Devstack tests: "
+    run_check analyticsapi_heartbeat analyticsapi \
+        "curl --fail -L http://localhost:18100/health/"
+fi
+
+
 echo "Successful checks:${succeeded:- NONE}"
 echo "Failed checks:${failed:- NONE}"
 if [[ "$succeeded" ]]; then

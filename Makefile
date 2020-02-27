@@ -80,6 +80,7 @@ COMPOSE_FILE := docker-compose-host.yml
 COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-themes.yml
 COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-watchers.yml
 COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-xqueue.yml
+COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-analytics-dashboard.yml
 COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-analytics-pipeline.yml
 COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-marketing-site.yml
 endif
@@ -395,6 +396,9 @@ dev.shell.%: ## Run a shell on the specified service's container.
 dev.shell.analyticspipeline:
 	docker-compose exec analyticspipeline env TERM=$(TERM) /edx/app/analytics_pipeline/devstack.sh open
 
+dev.shell.analyticsapi: ## Run a shell on the Insights container
+	docker exec -it edx.devstack.analyticsapi env TERM=$(TERM) /edx/app/analytics_api/devstack.sh open
+
 dev.shell.credentials:
 	docker-compose exec credentials env TERM=$(TERM) bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials && /bin/bash'
 
@@ -403,6 +407,9 @@ dev.shell.discovery:
 
 dev.shell.ecommerce:
 	docker-compose exec ecommerce env TERM=$(TERM) /edx/app/ecommerce/devstack.sh open
+
+dev.shell.insights: ## Run a shell on the Insights container
+	docker exec -it edx.devstack.insights env TERM=$(TERM) bash -c 'source /edx/app/insights/insights_env source /edx/app/insights/venvs/insights/bin/activate && cd /edx/app/insights/edx_analytics_dashboard && /bin/bash'
 
 dev.shell.registrar:
 	docker-compose exec registrar env TERM=$(TERM) /edx/app/registrar/devstack.sh open

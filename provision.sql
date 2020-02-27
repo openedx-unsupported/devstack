@@ -24,4 +24,13 @@ CREATE DATABASE IF NOT EXISTS edxapp_csmh;
 GRANT ALL ON edxapp.* TO 'edxapp001'@'%' IDENTIFIED BY 'password';
 GRANT ALL ON edxapp_csmh.* TO 'edxapp001'@'%';
 
+CREATE DATABASE IF NOT EXISTS dashboard;
+GRANT ALL PRIVILEGES ON `dashboard`.* TO 'rosencrantz'@'%' IDENTIFIED BY 'secret';
+
+CREATE DATABASE IF NOT EXISTS reports;
+GRANT ALL PRIVILEGES ON `reports`.* TO 'reports001'@'%' IDENTIFIED BY 'password';
+
+CREATE DATABASE IF NOT EXISTS `analytics-api`;
+GRANT ALL PRIVILEGES ON `analytics-api`.* TO 'api001'@'%' IDENTIFIED BY 'password';
+
 FLUSH PRIVILEGES;

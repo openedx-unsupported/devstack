@@ -1,0 +1,53 @@
+version: "2.1"
+
+services:
+  insights:
+    image: edxops/insights:${OPENEDX_RELEASE:-latest}
+    hostname: insights
+    container_name: edx.devstack.insights
+    command: bash -c 'source /edx/app/insights/insights_env && source /edx/app/insights/venvs/insights/bin/activate && while true; do python /edx/app/insights/edx_analytics_dashboard/manage.py runserver 0.0.0.0:18110 --settings analytics_dashboard.settings.devstack; sleep 2; done'
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/edx-analytics-dashboard:/edx/app/insights/edx_analytics_dashboard
+      - insights_node_modules:/edx/app/insights/edx_analytics_dashboard/node_modules
+    depends_on:
+      - mysql
+      - analyticsapi
+      - insights_frontend
+      - lms
+      - memcached
+    ports:
+      - "18110:18110"
+    stdin_open: true
+    tty: true
+
+  insights_frontend:
+    image: node:12
+    hostname: insightsfe
+    container_name: edx.devstack.insightsfe
+    working_dir: '/edx/app/insights/edx_analytics_dashboard'
+    command: bash -c 'npm install && npm run start'
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/edx-analytics-dashboard:/edx/app/insights/edx_analytics_dashboard
+      - insights_node_modules:/edx/app/insights/edx_analytics_dashboard/node_modules
+    environment:
+      DJANGO_DEV_SERVER: http://edx.devstack.insights:18110
+    ports:
+      - "8080:8080"
+
+  analyticsapi:
+    image: edxops/analytics_api:${OPENEDX_RELEASE:-latest}
+    container_name: edx.devstack.analyticsapi
+    command: bash -c 'source /edx/app/analytics_api/analytics_api_env && source /edx/app/analytics_api/venvs/analytics_api/bin/activate && while true;  do python /edx/app/analytics_api/analytics_api/manage.py runserver 0.0.0.0:18100 --settings analyticsdataserver.settings.devstack; sleep 2; done'
+    stdin_open: true
+    tty: true
+    hostname: analyticsapi
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/edx-analytics-data-api:/edx/app/analytics_api/analytics_api
+    depends_on:
+      - mysql
+      - elasticsearch
+    ports:
+      - "18100:18100"
+
+volumes:
+  insights_node_modules:
