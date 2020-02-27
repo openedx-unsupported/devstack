@@ -1,12 +1,23 @@
 #!/usr/bin/env bash
 # This script depends on the LMS being up!
-set -e
 set -o pipefail
 set -x
 
 app_name=$1
 client_name=$2
 client_port=$3
+
+# By default, we want this script to fail if any of its commands fail.
+# However, in certain circumstances (specifically, when testing
+# per-service provisioning in CI), we want this script to tolerate
+# the case where the LMS is not provisioned.
+# So, if you set the environment variable TOLERATE_PROVISIONING_ERRORS_IN_LMS
+# to 'true', then this script will not fail even if any of its commands fail.
+if [[ "$TOLERATE_PROVISIONING_ERRORS_IN_LMS" = true ]]; then
+	set +e
+else
+	set -e
+fi
 
 echo -e "${GREEN}Creating service user and OAuth2 applications for ${app_name}...${NC}"
 
@@ -16,3 +27,7 @@ docker exec -t edx.devstack.lms  bash -c 'source /edx/app/edxapp/edxapp_env && p
 # Create the DOT applications - one for single sign-on and one for backend service IDA-to-IDA authentication.
 docker exec -t edx.devstack.lms  bash -c 'source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack_docker create_dot_application --grant-type authorization-code --skip-authorization --redirect-uris "http://localhost:$3/complete/edx-oauth2/" --client-id "$1-sso-key" --client-secret "$1-sso-secret" --scopes "user_id" $1-sso $1_worker' -- "$app_name" "$client_name" "$client_port"
 docker exec -t edx.devstack.lms  bash -c 'source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack_docker create_dot_application --grant-type client-credentials --client-id "$1-backend-service-key" --client-secret "$1-backend-service-secret" $1-backend-service $1_worker' -- "$app_name" "$client_name" "$client_port"
+
+# If we made it here, make sure this script returns successfully,
+# whether or not the last command failed.
+true

@@ -17,6 +17,7 @@ elif [[ "$DEVSTACK" == "lms" ]]; then
     make up-marketing-detached
 else
     service="$DEVSTACK"
+    export TOLERATE_PROVISIONING_ERRORS_IN_LMS=true
     make dev.provision.services."$service"
     make no_cache=True dev.up."$service"
     sleep 60
