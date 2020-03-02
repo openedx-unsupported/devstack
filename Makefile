@@ -400,3 +400,6 @@ stats: ## Get per-container CPU and memory utilization data
 
 feature-toggle-state: ## Gather the state of feature toggles configured for various IDAs
 	$(WINPTY) bash ./gather-feature-toggle-state.sh
+
+edx-me-clone:
+	/Users/awaisjibran/workspace/edX.me/edX.me.sh clone
