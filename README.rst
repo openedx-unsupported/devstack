@@ -422,6 +422,7 @@ In all the above commands, ``<service>`` should be replaced with one of the foll
 -  registrar
 -  gradebook
 -  program-console
+-  frontend-app-learning
 -  frontend-app-publisher
 
 If you'd like to add some convenience make targets, you can add them to a ``local.mk`` file, ignored by git.

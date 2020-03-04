@@ -57,6 +57,10 @@ services:
     volumes:
       - ${DEVSTACK_WORKSPACE}/frontend-app-publisher:/edx/app/frontend-app-publisher:cached
       - frontend_app_publisher_node_modules:/edx/app/frontend-app-publisher/node_modules
+  frontend-app-learning:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/frontend-app-learning:/edx/app/frontend-app-learning:cached
+      - frontend_app_learning_node_modules:/edx/app/frontend-app-learning/node_modules
 
 volumes:
   credentials_node_modules:
@@ -68,3 +72,4 @@ volumes:
   gradebook_node_modules:
   program_console_node_modules:
   frontend_app_publisher_node_modules:
+  frontend_app_learning_node_modules:
