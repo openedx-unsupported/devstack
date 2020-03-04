@@ -1,3 +1,5 @@
+# Update docker-compose-host-nfs.yml too in case of any change in this file.
+
 version: "2.1"
 
 services:

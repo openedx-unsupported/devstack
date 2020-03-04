@@ -130,7 +130,7 @@ dev.nfs.up.watchers: | check-memory ## Bring up asset watcher containers
 	docker-compose -f docker-compose-watchers-nfs.yml up -d
 
 dev.nfs.up: | check-memory ## Bring up all services with host volumes
-	docker-compose -f docker-compose.yml -f docker-compose-host-nfs.yml up -d
+	docker-compose -f docker-compose.yml -f docker-compose-host-nfs.yml -f docker-compose-themes-nfs.yml up -d
 	@# Comment out this next line if you want to save some time and don't care about catalog programs
 	#./programs/provision.sh cache >/dev/null
 
@@ -139,7 +139,7 @@ dev.nfs.up.all: | dev.nfs.up dev.nfs.up.watchers ## Bring up all services with h
 dev.nfs.provision: | check-memory dev.clone dev.provision.nfs.run stop ## Provision dev environment with all services stopped
 
 dev.provision.nfs.run: ## Provision all services with local mounted directories
-	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host-nfs.yml" ./provision.sh
+	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host-nfs.yml -f docker-compose-themes-nfs.yml" ./provision.sh
 
 
 dev.up.xqueue: | check-memory ## Bring up xqueue, assumes you already have lms running
