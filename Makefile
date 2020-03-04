@@ -108,14 +108,18 @@ dev.pull.%: ## Pull latest Docker images for a given service and all its depende
 
 dev.up: | check-memory ## Bring up all services with host volumes
 	bash -c 'docker-compose $(STANDARD_COMPOSE_FILES) up -d'
-	@# Comment out this next line if you want to save some time and don't care about catalog programs
+	@# If you want to save some time and don't care about catalog programs run "make no_cache=True dev.up"
+ifdef no_cache
+	echo "no_cache set: Not running bash ./programs/provision.sh cache"
+else
 	$(WINPTY) bash ./programs/provision.sh cache
+endif
 
 dev.up.%: | check-memory ## Bring up a specific service and its dependencies with host volumes
 	bash -c 'docker-compose $(STANDARD_COMPOSE_FILES) up -d $*'
-	@# Comment out this next line if you want to save some time and don't care about catalog programs
+	@# If you want to save some time and don't care about catalog programs run "make no_cache=True dev.up.%"
 ifdef no_cache
-	echo "Not runing bash ./programs/provision.sh cache"
+	echo "no_cache set: Not running bash ./programs/provision.sh cache"
 else
 	$(WINPTY) bash ./programs/provision.sh cache
 endif
@@ -131,8 +135,12 @@ dev.nfs.up.watchers: | check-memory ## Bring up asset watcher containers
 
 dev.nfs.up: | check-memory ## Bring up all services with host volumes
 	docker-compose -f docker-compose.yml -f docker-compose-host-nfs.yml up -d
-	@# Comment out this next line if you want to save some time and don't care about catalog programs
+	@# If you want to save some time and don't care about catalog programs run "make no_cache=True dev.nfs.up"
+ifdef no_cache
+	echo "no_cache set: Not running ./programs/provision.sh cache"
+else
 	#./programs/provision.sh cache >/dev/null
+endif
 
 dev.nfs.up.all: | dev.nfs.up dev.nfs.up.watchers ## Bring up all services with host volumes, including watchers
 
