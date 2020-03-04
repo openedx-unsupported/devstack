@@ -48,4 +48,8 @@ syncs:
   frontend-app-learning-sync:
     host_disk_mount_mode: 'cached'
     src: '../frontend-app-learning/'
+
+  source-sync:
+    host_disk_mount_mode: 'cached'
+    src: '../src/'
     sync_excludes: [ '.git', '.idea' ]
