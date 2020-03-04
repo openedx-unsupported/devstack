@@ -139,7 +139,7 @@ dev.nfs.up: | check-memory ## Bring up all services with host volumes
 ifdef no_cache
 	echo "no_cache set: Not running ./programs/provision.sh cache"
 else
-	#./programs/provision.sh cache >/dev/null
+	./programs/provision.sh cache >/dev/null
 endif
 
 dev.nfs.up.all: | dev.nfs.up dev.nfs.up.watchers ## Bring up all services with host volumes, including watchers
