@@ -16,9 +16,8 @@ elif [[ "$DEVSTACK" == "lms" ]]; then
     make healthchecks.lms healthchecks.discovery validate-lms-volume
     make up-marketing-detached
 else
-    service="$DEVSTACK"
-    make dev.provision.services."$service"
-    make no_cache=True dev.up."$service"
+    make dev.provision.services."$DEVSTACK"
+    make no_cache=True dev.up."$DEVSTACK"
     sleep 60
-    make healthchecks."$service"
+    make healthchecks."$DEVSTACK"
 fi
