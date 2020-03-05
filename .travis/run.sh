@@ -16,6 +16,12 @@ elif [[ "$DEVSTACK" == "lms" ]]; then
     make healthchecks.lms healthchecks.discovery validate-lms-volume
     make up-marketing-detached
 else
+    case "$DEVSTACK" in
+        # Other services can be added in here seperated by '|', i.e. "registrar|discovery)"
+        registrar)
+            echo "Provisioning LMS first because $DEVSTACK requires it"
+            make dev.provision.services.lms
+    esac
     make dev.provision.services."$DEVSTACK"
     make no_cache=True dev.up."$DEVSTACK"
     sleep 60
