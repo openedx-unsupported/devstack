@@ -3,19 +3,19 @@ version: "2.1"
 services:
   discovery:
       volumes:
-      - edx-nfs:/edx/app/edx-themes:cached
+      - themes-nfs:/edx/app/edx-themes:cached
   ecommerce:
       volumes:
-      - edx-nfs:/edx/app/edx-themes:cached
+      - themes-nfs:/edx/app/edx-themes:cached
   lms:
       volumes:
-      - edx-nfs:/edx/app/edx-themes:cached
+      - themes-nfs:/edx/app/edx-themes:cached
   studio:
       volumes:
-      - edx-nfs:/edx/app/edx-themes:cached
+      - themes-nfs:/edx/app/edx-themes:cached
 
 volumes:
-  edx-nfs:
+  themes-nfs:
     driver: local
     driver_opts:
       type: nfs
