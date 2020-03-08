@@ -95,7 +95,7 @@ _checkout ()
             echo "Checking out branch $branch of $name"
             git pull
             git checkout "$branch"
-            cd ..
+            cd -
         fi
     done
 }
@@ -123,9 +123,10 @@ _clone ()
             else
                 git clone $repo $name
             fi
-
+            cd $name
             branch=$(_get_edraak_repo_branch "$name")
             git checkout "$branch"
+            cd -
         fi
     done
     cd - &> /dev/null
