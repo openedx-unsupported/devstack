@@ -1,3 +1,5 @@
+# Update docker-compose-host.yml too in case of any change in this file.
+
 version: "2.1"
 
 services:
@@ -51,11 +53,21 @@ services:
     volumes:
       - ${DEVSTACK_WORKSPACE}/frontend-app-program-manager:/edx/app/program-manager:cached
       - program_manager_node_modules:/edx/app/program-manager/node_modules
+  frontend-app-publisher:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/frontend-app-publisher:/edx/app/frontend-app-publisher:cached
+      - frontend_app_publisher_node_modules:/edx/app/frontend-app-publisher/node_modules
 
 volumes:
   credentials_node_modules:
   discovery_node_modules:
   ecommerce_node_modules:
+  edxapp_media:
+  edxapp_node_modules:
+  edxapp_uploads:
+  gradebook_node_modules:
+  program_manager_node_modules:
+  frontend_app_publisher_node_modules:
   edx-nfs:
     driver: local
     driver_opts:

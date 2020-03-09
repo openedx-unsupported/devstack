@@ -11,7 +11,7 @@
         destroy dev.checkout dev.clone dev.clone.ssh dev.nfs.provision dev.nfs.setup \
         dev.nfs.up dev.nfs.up.all dev.nfs.up.watchers devpi-password \
         dev.provision dev.provision.analytics_pipeline \
-        dev.provision.analytics_pipeline.run dev.provision.nfs.run \
+        dev.provision.analytics_pipeline.run dev.nfs.provision.services \
         dev.provision.services dev.provision.xqueue dev.provision.xqueue.run \
         dev.pull dev.repo.reset dev.reset dev.status dev.sync.daemon.start \
         dev.sync.provision dev.sync.requirements dev.sync.up dev.up dev.up.all \
@@ -53,7 +53,7 @@ export DEVSTACK_WORKSPACE
 export COMPOSE_PROJECT_NAME
 
 STANDARD_COMPOSE_FILES=-f docker-compose.yml -f docker-compose-host.yml -f docker-compose-themes.yml
-
+NFS_COMPOSE_FILES=-f docker-compose.yml -f docker-compose-host-nfs.yml -f docker-compose-themes-nfs.yml
 include *.mk
 
 # Generates a help message. Borrowed from https://github.com/pydanny/cookiecutter-djangopackage.
@@ -130,17 +130,19 @@ dev.nfs.up.watchers: | check-memory ## Bring up asset watcher containers
 	docker-compose -f docker-compose-watchers-nfs.yml up -d
 
 dev.nfs.up: | check-memory ## Bring up all services with host volumes
-	docker-compose -f docker-compose.yml -f docker-compose-host-nfs.yml up -d
+	docker-compose $(NFS_COMPOSE_FILES) up -d
 	@# Comment out this next line if you want to save some time and don't care about catalog programs
 	#./programs/provision.sh cache >/dev/null
 
 dev.nfs.up.all: | dev.nfs.up dev.nfs.up.watchers ## Bring up all services with host volumes, including watchers
 
-dev.nfs.provision: | check-memory dev.clone dev.provision.nfs.run stop ## Provision dev environment with all services stopped
+dev.nfs.provision: | check-memory dev.clone dev.nfs.provision.services stop ## Provision dev environment with all services stopped
 
-dev.provision.nfs.run: ## Provision all services with local mounted directories
-	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host-nfs.yml" ./provision.sh
+dev.nfs.provision.services: ## Provision all services with local mounted directories
+	DOCKER_COMPOSE_FILES=$(NFS_COMPOSE_FILES) ./provision.sh
 
+dev.nfs.provision.services.%: ## Provision specified services with local mounted directories, separated by plus signs
+	DOCKER_COMPOSE_FILES=$(NFS_COMPOSE_FILES) ./provision.sh $*
 
 dev.up.xqueue: | check-memory ## Bring up xqueue, assumes you already have lms running
 	bash -c 'docker-compose -f docker-compose.yml -f docker-compose-xqueue.yml -f docker-compose-host.yml -f docker-compose-themes.yml up -d'
