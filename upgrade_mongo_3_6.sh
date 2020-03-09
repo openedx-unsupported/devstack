@@ -24,16 +24,13 @@ do
 done
 
 echo -e "${GREEN}MongoDB ready.${NC}"
-MONGO_VERSION_LIVE=$(docker-compose exec mongo mongo --quiet \
-    --eval "printjson(db.version())" \
-    | sed 's|"\r||' | sed 's/^"//')
+MONGO_VERSION_LIVE=$(docker-compose exec mongo mongo --quiet --eval "printjson(db.version())")
 MONGO_VERSION_COMPAT=$(docker-compose exec mongo mongo --quiet \
-    --eval "printjson(db.adminCommand( { getParameter: 1, featureCompatibilityVersion: 1 } )['featureCompatibilityVersion'])" \
-    | sed 's|"\r||' | sed 's/^"//')
+    --eval "printjson(db.adminCommand( { getParameter: 1, featureCompatibilityVersion: 1 } )['featureCompatibilityVersion'])")
 echo -e "${GREEN}Mongo Server version: ${MONGO_VERSION_LIVE}${NC}"
 echo -e "${GREEN}Mongo FeatureCompatibilityVersion version: ${MONGO_VERSION_COMPAT}${NC}"
 
-if [[ "${MONGO_VERSION_COMPAT}" == "3.2" ]]; then
+if echo "${MONGO_VERSION_COMPAT}" | grep -q "3\.2" ; then
     echo -e "${GREEN}Upgrading FeatureCompatibilityVersion to 3.4${NC}"
     docker-compose exec mongo mongo --eval "db.adminCommand( { setFeatureCompatibilityVersion: \"3.4\" } )"
 else
@@ -55,16 +52,13 @@ do
 done
 
 echo -e "${GREEN}MongoDB ready.${NC}"
-MONGO_VERSION_LIVE=$(docker-compose exec mongo mongo --quiet \
-    --eval "printjson(db.version())" \
-    | sed 's|"\r||' | sed 's/^"//')
+MONGO_VERSION_LIVE=$(docker-compose exec mongo mongo --quiet --eval "printjson(db.version())")
 MONGO_VERSION_COMPAT=$(docker-compose exec mongo mongo --quiet \
-    --eval "printjson(db.adminCommand( { getParameter: 1, featureCompatibilityVersion: 1 } )['featureCompatibilityVersion']['version'])" \
-    | sed 's|"\r||' | sed 's/^"//')
+    --eval "printjson(db.adminCommand( { getParameter: 1, featureCompatibilityVersion: 1 } )['featureCompatibilityVersion'])")
 echo -e "${GREEN}Mongo Server version: ${MONGO_VERSION_LIVE}${NC}"
 echo -e "${GREEN}Mongo FeatureCompatibilityVersion version: ${MONGO_VERSION_COMPAT}${NC}"
 
-if [[ "${MONGO_VERSION_COMPAT}" == "3.4" ]]; then
+if echo "${MONGO_VERSION_COMPAT}" | grep -q "3\.4" ; then
     echo -e "${GREEN}Upgrading FeatureCompatibilityVersion to 3.6${NC}"
     docker-compose exec mongo mongo --eval "db.adminCommand( { setFeatureCompatibilityVersion: \"3.6\" } )"
 else
