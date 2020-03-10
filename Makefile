@@ -147,7 +147,7 @@ destroy: ## Remove all devstack-related containers, networks, and volumes
 	./destroy.sh
 
 logs: ## View logs from containers running in detached mode
-	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml logs -f
+	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml logs -f --tail 0
 
 %-logs: ## View the logs of the specified service container
 	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml -f docker-compose-watchers.yml logs -f --tail=500 $*

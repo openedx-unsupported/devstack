@@ -282,6 +282,14 @@ services:
       - studio
       - edraak_marketing
       - edraak_programs
+    networks:
+      default:
+        aliases:
+          - www.edraak.dev
+          - courses.edraak.dev
+          - programs.edraak.dev
+          - edraak.dev
+
 
 volumes:
 #  discovery_assets:
