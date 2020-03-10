@@ -22,6 +22,12 @@ are for standing up a new docker based VM.
 Prerequisites
 -------------
 
+You will need to have the following installed:
+
+- make
+- python 3
+- docker
+
 This project requires **Docker 17.06+ CE**.  We recommend Docker Stable, but
 Docker Edge should work as well.
 
@@ -47,14 +53,6 @@ you should configure Docker with a sufficient
 amount of resources. We find that `configuring Docker for Mac`_ with
 a minimum of 2 CPUs and 8GB of memory does work.
 
-You will also need the following installed:
-
-- ``make``
-- ``python pip`` (optional for MacOS)
-- ``docker-compose`` (on macOS, installing Docker for Mac takes care
-  of this requirement)
-
-
 Using the Latest Images
 -----------------------
 
@@ -74,11 +72,13 @@ Getting Started
 
 All of the services can be run by following the steps below. For analyticstack, follow `Getting Started on Analytics`_.
 
-1. (Optional) Install the requirements inside of a `Python virtualenv`_.
+1. Install the requirements inside of a `Python virtualenv`_.
 
    .. code:: sh
 
        make requirements
+
+   This will install docker-compose and other utilities into your virtualenv.
 
 2. The Docker Compose file mounts a host volume for each service's executing
    code. The host directory defaults to be a sibling of this directory. For
