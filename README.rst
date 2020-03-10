@@ -6,11 +6,6 @@ Get up and running quickly with Open edX services.
 This project replaces the older Vagrant-based devstack with a
 multi-container approach driven by `Docker Compose`_.
 
-Updated Documentation
----------------------
-
-These docs might be out of date. Please see the updated docs at https://edx.readthedocs.io/projects/edx-installing-configuring-and-running/en/latest/installation/index.html.
-
 Support
 -------
 
