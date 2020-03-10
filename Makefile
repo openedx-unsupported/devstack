@@ -87,6 +87,9 @@ dev.provision.services.%: ## Provision specified services with local mounted dir
 
 dev.provision: | check-memory dev.clone.ssh dev.provision.services stop ## Provision dev environment with all services stopped
 
+dev.cache-programs: ## Copy programs from Discovery to Memcached for use in LMS.
+	$(WINPTY) bash ./programs/provision.sh cache
+
 dev.provision.xqueue: | check-memory dev.provision.xqueue.run stop stop.xqueue  # Provision XQueue; run after other services are provisioned
 
 dev.provision.xqueue.run:
@@ -108,17 +111,13 @@ dev.pull.%: ## Pull latest Docker images for a given service and all its depende
 
 dev.up: | check-memory ## Bring up all services with host volumes
 	bash -c 'docker-compose $(STANDARD_COMPOSE_FILES) up -d'
-	@# Comment out this next line if you want to save some time and don't care about catalog programs
-	$(WINPTY) bash ./programs/provision.sh cache
 
 dev.up.%: | check-memory ## Bring up a specific service and its dependencies with host volumes
 	bash -c 'docker-compose $(STANDARD_COMPOSE_FILES) up -d $*'
-	@# Comment out this next line if you want to save some time and don't care about catalog programs
-ifdef no_cache
-	echo "Not runing bash ./programs/provision.sh cache"
-else
-	$(WINPTY) bash ./programs/provision.sh cache
-endif
+
+dev.up.with-programs: dev.up dev.cache-programs  ## Bring up a all services and cache programs in LMS.
+
+dev.up.with-programs.%: dev.up.$* dev.cache-programs  ## Bring up a service and its dependencies and cache programs in LMS.
 
 dev.up.watchers: | check-memory ## Bring up asset watcher containers
 	bash -c 'docker-compose -f docker-compose-watchers.yml up -d'
@@ -131,8 +130,6 @@ dev.nfs.up.watchers: | check-memory ## Bring up asset watcher containers
 
 dev.nfs.up: | check-memory ## Bring up all services with host volumes
 	docker-compose $(NFS_COMPOSE_FILES) up -d
-	@# Comment out this next line if you want to save some time and don't care about catalog programs
-	#./programs/provision.sh cache >/dev/null
 
 dev.nfs.up.all: | dev.nfs.up dev.nfs.up.watchers ## Bring up all services with host volumes, including watchers
 

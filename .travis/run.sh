@@ -11,7 +11,7 @@ if [[ "$DEVSTACK" == "analytics_pipeline" ]]; then
 elif [[ "$DEVSTACK" == "lms" ]]; then
     make dev.pull.discovery dev.pull.forum
     make dev.provision.services.lms+discovery+forum
-    make no_cache=True dev.up.lms
+    make dev.up.lms
     sleep 60  # LMS needs like 60 seconds to come up
     make healthchecks.lms healthchecks.discovery validate-lms-volume
     make up-marketing-detached
@@ -23,7 +23,7 @@ else
             make dev.provision.services.lms
     esac
     make dev.provision.services."$DEVSTACK"
-    make no_cache=True dev.up."$DEVSTACK"
+    make dev.up."$DEVSTACK"
     sleep 60
     make healthchecks."$DEVSTACK"
 fi
