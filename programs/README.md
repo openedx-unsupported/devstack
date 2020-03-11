@@ -20,6 +20,10 @@ If you have an existing devstack with the demo program, but want to recache the 
 
     make dev.cache-programs
 
-To launch a service and recache the programs, run instead:
+To do this while launching a service, run:
 
-    make dev.up.<service> dev.cache-programs
+    make dev.up.with-programs.<service>
+
+To make this the default behavior for `dev.up.*`, add the following to `options.local.mk`, creating the file if it does not yet exist:
+
+	ALWAYS_CACHE_PROGRAMS=true
