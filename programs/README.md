@@ -10,7 +10,7 @@ Normally you don't need to manually run these scripts to provision the demo cour
 
 If you have an existing older devstack installation and want to add the demo program to it, simply run:
 
-``./programs/provision.sh``
+    ./programs/provision.sh
 
 And it will set it up for you. This can be run mutiple times safely.
 
@@ -18,4 +18,8 @@ And it will set it up for you. This can be run mutiple times safely.
 
 If you have an existing devstack with the demo program, but want to recache the programs inside LMS (something you need to do every time you bring the LMS container back up), simply run:
 
-``./programs/provision.sh cache``
+    make dev.cache-programs
+
+To launch a service and recache the programs, run instead:
+
+    make dev.up.<service> dev.cache-programs
