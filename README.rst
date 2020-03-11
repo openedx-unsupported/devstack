@@ -38,6 +38,11 @@ provision.
 For macOS users, please use `Docker for Mac`_. Previous Mac-based tools (e.g.
 boot2docker) are *not* supported.
 
+Since a Docker-based devstack runs many containers,
+you should configure Docker with a sufficient
+amount of resources. We find that `configuring Docker for Mac`_ with
+a minimum of 2 CPUs and 8GB of memory does work.
+
 `Docker for Windows`_ may work but has not been tested and is *not* supported.
 
 If you are using Linux, use the ``overlay2`` storage driver, kernel version
@@ -47,11 +52,6 @@ If you are using Linux, use the ``overlay2`` storage driver, kernel version
 .. code:: sh
 
    docker info | grep -i 'storage driver'
-
-**NOTE:** Since a Docker-based devstack runs many containers,
-you should configure Docker with a sufficient
-amount of resources. We find that `configuring Docker for Mac`_ with
-a minimum of 2 CPUs and 8GB of memory does work.
 
 Using the Latest Images
 -----------------------
@@ -94,8 +94,8 @@ All of the services can be run by following the steps below. For analyticstack, 
    You may customize where the local repositories are found by setting the
    DEVSTACK\_WORKSPACE environment variable.
 
-   Be sure to share the cloned directories in the Docker -> Preferences... ->
-   File Sharing box.
+   (macOS only) Share the cloned service directories in Docker, using
+   **Docker -> Preferences -> File Sharing** in the Docker menu.
 
 3. Pull any changes made to the various images on which the devstack depends.
 
