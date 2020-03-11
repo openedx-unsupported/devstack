@@ -117,7 +117,9 @@ dev.up.%: | check-memory ## Bring up a specific service and its dependencies wit
 
 dev.up.with-programs: dev.up dev.cache-programs  ## Bring up a all services and cache programs in LMS.
 
-dev.up.with-programs.%: dev.up.$* dev.cache-programs  ## Bring up a service and its dependencies and cache programs in LMS.
+dev.up.with-programs.%: ## Bring up a service and its dependencies and cache programs in LMS.
+	make dev.up.$*
+	make dev.cache-programs
 
 dev.up.watchers: | check-memory ## Bring up asset watcher containers
 	bash -c 'docker-compose -f docker-compose-watchers.yml up -d'
