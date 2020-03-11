@@ -8,15 +8,15 @@
 
 .PHONY: analytics-pipeline-devstack-test analytics-pipeline-shell backup \
         build-courses check-memory create-test-course credentials-shell \
-        destroy dev.checkout dev.clone dev.clone.ssh dev.nfs.provision dev.nfs.setup \
-        dev.nfs.up dev.nfs.up.all dev.nfs.up.watchers devpi-password \
-        dev.provision dev.provision.analytics_pipeline \
-        dev.provision.analytics_pipeline.run dev.nfs.provision.services \
+        destroy dev.cache-programs dev.checkout dev.clone dev.clone.ssh \
+        dev.nfs.provision dev.nfs.provision.services dev.nfs.setup dev.nfs.up \
+        dev.nfs.up.all dev.nfs.up.watchers devpi-password dev.provision \
+        dev.provision.analytics_pipeline dev.provision.analytics_pipeline.run \
         dev.provision.services dev.provision.xqueue dev.provision.xqueue.run \
         dev.pull dev.repo.reset dev.reset dev.status dev.sync.daemon.start \
         dev.sync.provision dev.sync.requirements dev.sync.up dev.up dev.up.all \
-        dev.up.analytics_pipeline dev.up.watchers dev.up.xqueue \
-        discovery-shell down e2e-shell e2e-tests ecommerce-shell \
+        dev.up.analytics_pipeline dev.up.watchers dev.up.with-programs \
+        dev.up.xqueue discovery-shell down e2e-shell e2e-tests ecommerce-shell \
         feature-toggle-state healthchecks help lms-restart lms-shell \
         lms-static lms-update-db lms-watcher-shell logs mongo-shell \
         mysql-shell mysql-shell-edxapp provision pull pull.analytics_pipeline \
@@ -28,7 +28,9 @@
         xqueue_consumer-restart xqueue_consumer-shell xqueue-logs \
         xqueue-restart xqueue-shell
 
-DEVSTACK_WORKSPACE ?= $(shell pwd)/..
+# Include options (configurable through options.local.mk)
+include options.mk
+export
 
 OS := $(shell uname)
 
@@ -47,14 +49,8 @@ else
     DEVNULL := >/dev/null
 endif
 
-COMPOSE_PROJECT_NAME=devstack
-
-export DEVSTACK_WORKSPACE
-export COMPOSE_PROJECT_NAME
-
-STANDARD_COMPOSE_FILES=-f docker-compose.yml -f docker-compose-host.yml -f docker-compose-themes.yml
-NFS_COMPOSE_FILES=-f docker-compose.yml -f docker-compose-host-nfs.yml -f docker-compose-themes-nfs.yml
-include *.mk
+# Include specialized Make commands.
+include marketing.mk
 
 # Generates a help message. Borrowed from https://github.com/pydanny/cookiecutter-djangopackage.
 help: ## Display this help message
@@ -111,9 +107,15 @@ dev.pull.%: ## Pull latest Docker images for a given service and all its depende
 
 dev.up: | check-memory ## Bring up all services with host volumes
 	bash -c 'docker-compose $(STANDARD_COMPOSE_FILES) up -d'
+ifeq ($(ALWAYS_CACHE_PROGRAMS),true)
+	make dev.cache-programs
+endif
 
 dev.up.%: | check-memory ## Bring up a specific service and its dependencies with host volumes
 	bash -c 'docker-compose $(STANDARD_COMPOSE_FILES) up -d $*'
+ifeq ($(ALWAYS_CACHE_PROGRAMS),true)
+	make dev.cache-programs
+endif
 
 dev.up.with-programs: dev.up dev.cache-programs  ## Bring up a all services and cache programs in LMS.
 
