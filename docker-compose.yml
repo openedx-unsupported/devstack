@@ -115,6 +115,7 @@ services:
     depends_on:
       - mysql
       - memcached
+      - lms
     # Allows attachment to the credentials service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
