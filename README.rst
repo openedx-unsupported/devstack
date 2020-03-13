@@ -3,16 +3,30 @@ Open edX Devstack |Build Status|
 
 Get up and running quickly with Open edX services.
 
-If you are seeking info on the Vagrant-based devstack, please see
-https://openedx.atlassian.net/wiki/spaces/OpenOPS/pages/60227787/Running+Vagrant-based+Devstack. This
-project is meant to replace the traditional Vagrant-based devstack with a
-multi-container approach driven by `Docker Compose`_. It is still in the
-beta testing phase.
+This project replaces the older Vagrant-based devstack with a
+multi-container approach driven by `Docker Compose`_.
 
-Updated Documentation
----------------------
+A Devstack installation includes the following Open edX components:
 
-These docs might be out of date. Please see the updated docs at https://edx.readthedocs.io/projects/edx-installing-configuring-and-running/en/latest/installation/index.html.
+* The Learning Management System (LMS)
+* Open edX Studio
+* Discussion Forums
+* Open Response Assessments (ORA)
+* E-Commerce
+* Credentials
+* Notes
+* Course Discovery
+* XQueue
+* Open edX Search
+* A demonstration Open edX course
+
+Analytics Devstack also includes the following Open edX components:
+
+* Open edX Analytics Data API
+* Open edX Insights
+* The components needed to run the Open edX Analytics Pipeline. This is the
+  primary extract, transform, and load (ETL) tool that extracts and analyzes
+  data from the other Open edX services.
 
 Support
 -------
@@ -30,6 +44,12 @@ are for standing up a new docker based VM.
 Prerequisites
 -------------
 
+You will need to have the following installed:
+
+- make
+- python 3
+- docker
+
 This project requires **Docker 17.06+ CE**.  We recommend Docker Stable, but
 Docker Edge should work as well.
 
@@ -40,20 +60,20 @@ provision.
 For macOS users, please use `Docker for Mac`_. Previous Mac-based tools (e.g.
 boot2docker) are *not* supported.
 
+Since a Docker-based devstack runs many containers,
+you should configure Docker with a sufficient
+amount of resources. We find that `configuring Docker for Mac`_ with
+a minimum of 2 CPUs and 8GB of memory does work.
+
 `Docker for Windows`_ may work but has not been tested and is *not* supported.
 
-Linux users should *not* be using the ``overlay`` storage driver.  ``overlay2``
-is tested and supported, but requires kernel version 4.0+.  Check which storage
-driver your docker-daemon is configured to use:
+If you are using Linux, use the ``overlay2`` storage driver, kernel version
+4.0+ and *not* ``overlay``. To check which storage driver your
+``docker-daemon`` uses, run the following command.
 
 .. code:: sh
 
    docker info | grep -i 'storage driver'
-
-You will also need the following installed:
-
-- make
-- python pip (optional for MacOS)
 
 Using the Latest Images
 -----------------------
@@ -74,16 +94,13 @@ Getting Started
 
 All of the services can be run by following the steps below. For analyticstack, follow `Getting Started on Analytics`_.
 
-**NOTE:** Since a Docker-based devstack runs many containers,
-you should configure Docker with a sufficient
-amount of resources. We find that `configuring Docker for Mac`_ with
-a minimum of 2 CPUs and 8GB of memory does work.
-
-1. (Optional) Install the requirements inside of a `Python virtualenv`_.
+1. Install the requirements inside of a `Python virtualenv`_.
 
    .. code:: sh
 
        make requirements
+
+   This will install docker-compose and other utilities into your virtualenv.
 
 2. The Docker Compose file mounts a host volume for each service's executing
    code. The host directory defaults to be a sibling of this directory. For
@@ -99,8 +116,8 @@ a minimum of 2 CPUs and 8GB of memory does work.
    You may customize where the local repositories are found by setting the
    DEVSTACK\_WORKSPACE environment variable.
 
-   Be sure to share the cloned directories in the Docker -> Preferences... ->
-   File Sharing box.
+   (macOS only) Share the cloned service directories in Docker, using
+   **Docker -> Preferences -> File Sharing** in the Docker menu.
 
 3. Pull any changes made to the various images on which the devstack depends.
 
@@ -218,17 +235,26 @@ The provisioning script creates a Django superuser for every service.
 The LMS also includes demo accounts. The passwords for each of these accounts
 is ``edx``.
 
-+------------+------------------------+
-| Username   | Email                  |
-+============+========================+
-| audit      | audit@example.com      |
-+------------+------------------------+
-| honor      | honor@example.com      |
-+------------+------------------------+
-| staff      | staff@example.com      |
-+------------+------------------------+
-| verified   | verified@example.com   |
-+------------+------------------------+
+  .. list-table::
+   :widths: 20 60
+   :header-rows: 1
+
+   * - Account
+     - Description
+   * - ``staff@example.com``
+     - An LMS and Studio user with course creation and editing permissions.
+       This user is a course team member with the Admin role, which gives
+       rights to work with the demonstration course in Studio, the LMS, and
+       Insights.
+   * - ``verified@example.com``
+     - A student account that you can use to access the LMS for testing
+       verified certificates.
+   * - ``audit@example.com``
+     - A student account that you can use to access the LMS for testing course
+       auditing.
+   * - ``honor@example.com``
+     - A student account that you can use to access the LMS for testing honor
+       code certificates.
 
 Getting Started on Analytics
 ----------------------------
@@ -478,13 +504,14 @@ E-Commerce Service, you would modify ``ECOMMERCE_VERSION`` in
 How do I run the images for a named Open edX release?
 -----------------------------------------------------
 
-1. Set the ``OPENEDX_RELEASE`` environment variable to the appropriate image
+#. Set the ``OPENEDX_RELEASE`` environment variable to the appropriate image
    tag; "hawthorn.master", "zebrawood.rc1", etc.  Note that unlike a server
    install, ``OPENEDX_RELEASE`` should not have the "open-release/" prefix.
-2. Use ``make dev.checkout`` to check out the correct branch in the local
+#. Check out the appropriate branch in devstack, e.g. ``git checkout open-release/ironwood.master``
+#. Use ``make dev.checkout`` to check out the correct branch in the local
    checkout of each service repository once you've set the ``OPENEDX_RELEASE``
    environment variable above.
-3. ``make dev.pull`` to get the correct images.
+#. ``make dev.pull`` to get the correct images.
 
 All ``make`` target and ``docker-compose`` calls should now use the correct
 images until you change or unset ``OPENEDX_RELEASE`` again.  To work on the
@@ -937,9 +964,9 @@ Running LMS commands within a container
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Most of the ``paver`` commands require a settings flag. If omitted, the flag defaults to
-``devstack``, which is the settings flag for vagrant-based devstack instances.
-So if you run into issues running ``paver`` commands in a docker container, you should append
-the ``devstack_docker`` flag. For example:
+``devstack``, which was the settings flag for vagrant-based devstack instances.
+Since docker is now the standard, you should usually append
+the ``devstack_docker`` flag, especially if you run into issues. For example:
 
 .. code:: sh
 
