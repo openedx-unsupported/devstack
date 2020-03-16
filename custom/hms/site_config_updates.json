@@ -1,0 +1,32 @@
+{
+  "extended_profile_fields":[
+    "first_name",
+    "last_name",
+    "mailing_address",
+    "city",
+    "state",
+    "country",
+    "ZIP/Postal Code"
+  ],
+  "student_profile_download_fields":[
+    "id",
+    "username",
+    "name",
+    "meta.first_name",
+    "meta.last_name",
+    "email",
+    "language",
+    "location",
+    "year_of_birth",
+    "gender",
+    "level_of_education",
+    "goals",
+    "enrollment_mode",
+    "verification_status",
+    "meta.mailing_address",
+    "meta.city",
+    "meta.state",
+    "country",
+    "meta.ZIP/Postal Code"
+  ]
+}

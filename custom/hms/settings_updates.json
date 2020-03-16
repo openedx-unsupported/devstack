@@ -1,0 +1,56 @@
+{
+    "COMPREHENSIVE_THEME_DIRS": [ "/edx/src/themes"],
+    "ENABLE_COMPREHENSIVE_THEMING": true,
+
+    "REGISTRATION_EXTRA_FIELDS": {
+        "city": "hidden",
+        "country": "hidden",
+        "gender": "hidden",
+        "goals": "hidden",
+        "honor_code": "hidden",
+        "terms_of_service": "required",
+        "terms_of_service": "required",
+        "level_of_education": "hidden",
+        "mailing_address": "hidden",
+        "year_of_birth": "hidden",
+        "year_of_birth": "hidden",
+        "confirm_email": "hidden",
+        "first_name": "required",
+        "last_name": "required",
+        "mailing_address": "required",
+        "city": "required",
+        "state": "required",
+        "country": "required"
+    },
+
+
+  "ENABLE_ACCOUNT_DELETION":false,
+  "ENABLE_SOCIAL_MEDIA_LINKS":false,
+  "ENABLE_COMBINED_LOGIN_REGISTRATION":true,
+  "ENABLE_THIRD_PARTY_AUTH":true,
+  "REGISTRATION_FIELD_ORDER":[
+    "email",
+    "name",
+    "first_name",
+    "last_name",
+    "username",
+    "password",
+    "confirm_email",
+    "mailing_address",
+    "city",
+    "state",
+    "country",
+    "gender",
+    "year_of_birth",
+    "level_of_education",
+    "company",
+    "job_title",
+    "title",
+    "goals",
+    "honor_code",
+    "terms_of_service",
+    "profession",
+    "specialty"
+  ]
+
+}
