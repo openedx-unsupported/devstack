@@ -3,23 +3,27 @@
 set -e
 set -x
 
-if [[ $DEVSTACK == 'lms' ]]; then
-    make dev.provision
-    make dev.up
-    sleep 60  # LMS needs like 60 seconds to come up
-    make healthchecks
-    make validate-lms-volume
-    # Disable e2e-tests until either:
-    # * tests are less flaky
-    # * We have a way to test the infrastructure for testing but ignore the test results.
-    # See PLAT-1712
-    # - make e2e-tests
-    make up-marketing-detached
-fi
-
-if [[ $DEVSTACK == 'analytics_pipeline' ]]; then
+if [[ "$DEVSTACK" == "analytics_pipeline" ]]; then
     make dev.provision.analytics_pipeline
     make dev.up.analytics_pipeline
     sleep 30 # hadoop services need some time to be fully functional and out of safemode
     make analytics-pipeline-devstack-test
+elif [[ "$DEVSTACK" == "lms" ]]; then
+    make dev.pull.discovery dev.pull.forum
+    make dev.provision.services.lms+discovery+forum
+    make dev.up.lms
+    sleep 60  # LMS needs like 60 seconds to come up
+    make healthchecks.lms healthchecks.discovery validate-lms-volume
+    make up-marketing-detached
+else
+    case "$DEVSTACK" in
+        # Other services can be added in here seperated by '|', i.e. "registrar|discovery)"
+        registrar)
+            echo "Provisioning LMS first because $DEVSTACK requires it"
+            make dev.provision.services.lms
+    esac
+    make dev.provision.services."$DEVSTACK"
+    make dev.up."$DEVSTACK"
+    sleep 60
+    make healthchecks."$DEVSTACK"
 fi

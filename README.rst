@@ -3,10 +3,30 @@ Open edX Devstack |Build Status|
 
 Get up and running quickly with Open edX services.
 
-Updated Documentation
----------------------
+This project replaces the older Vagrant-based devstack with a
+multi-container approach driven by `Docker Compose`_.
 
-These docs might be out of date. Please see the updated docs at https://edx.readthedocs.io/projects/edx-installing-configuring-and-running/en/latest/installation/index.html.
+A Devstack installation includes the following Open edX components:
+
+* The Learning Management System (LMS)
+* Open edX Studio
+* Discussion Forums
+* Open Response Assessments (ORA)
+* E-Commerce
+* Credentials
+* Notes
+* Course Discovery
+* XQueue
+* Open edX Search
+* A demonstration Open edX course
+
+Analytics Devstack also includes the following Open edX components:
+
+* Open edX Analytics Data API
+* Open edX Insights
+* The components needed to run the Open edX Analytics Pipeline. This is the
+  primary extract, transform, and load (ETL) tool that extracts and analyzes
+  data from the other Open edX services.
 
 Where to Find Help
 ------------------
@@ -23,6 +43,12 @@ are for standing up a new docker based VM.
 Prerequisites
 -------------
 
+You will need to have the following installed:
+
+- make
+- python 3
+- docker
+
 This project requires **Docker 17.06+ CE**.  We recommend Docker Stable, but
 Docker Edge should work as well.
 
@@ -30,20 +56,23 @@ Docker Edge should work as well.
 settings.  Don't forget to restore your memory setting and be prepared to
 provision.
 
-For macOS users, please use `Docker for Mac`_. `Docker for Windows`_ may work but has not been tested and is *not* supported.
+For macOS users, please use `Docker for Mac`_. Previous Mac-based tools (e.g.
+boot2docker) are *not* supported.
 
-Linux users should *not* be using the ``overlay`` storage driver.  ``overlay2``
-is tested and supported, but requires kernel version 4.0+.  Check which storage
-driver your docker-daemon is configured to use:
+Since a Docker-based devstack runs many containers,
+you should configure Docker with a sufficient
+amount of resources. We find that `configuring Docker for Mac`_ with
+a minimum of 2 CPUs and 8GB of memory does work.
+
+`Docker for Windows`_ may work but has not been tested and is *not* supported.
+
+If you are using Linux, use the ``overlay2`` storage driver, kernel version
+4.0+ and *not* ``overlay``. To check which storage driver your
+``docker-daemon`` uses, run the following command.
 
 .. code:: sh
 
    docker info | grep -i 'storage driver'
-
-You will also need the following installed:
-
-- make
-- python pip (optional for MacOS)
 
 Using the Latest Images
 -----------------------
@@ -64,16 +93,13 @@ Getting Started
 
 All of the services can be run by following the steps below. For analyticstack, follow `Getting Started on Analytics`_.
 
-**NOTE:** Since a Docker-based devstack runs many containers,
-you should configure Docker with a sufficient
-amount of resources. We find that `configuring Docker for Mac`_ with
-a minimum of 2 CPUs and 8GB of memory does work.
-
 1. Install the requirements inside of a `Python virtualenv`_.
 
    .. code:: sh
 
        make requirements
+
+   This will install docker-compose and other utilities into your virtualenv.
 
 2. The Docker Compose file mounts a host volume for each service's executing
    code. The host directory defaults to be a sibling of this directory. For
@@ -84,19 +110,25 @@ a minimum of 2 CPUs and 8GB of memory does work.
 
    .. code:: sh
 
-       make dev.clone
+       make dev.clone  # or, `make dev.clone.ssh` if you have SSH keys set up.
 
    You may customize where the local repositories are found by setting the
    DEVSTACK\_WORKSPACE environment variable.
 
-   Be sure to share the cloned directories in the Docker -> Preferences... ->
-   File Sharing box.
+   (macOS only) Share the cloned service directories in Docker, using
+   **Docker -> Preferences -> File Sharing** in the Docker menu.
 
 3. Pull any changes made to the various images on which the devstack depends.
 
    .. code:: sh
 
        make dev.pull
+
+3. (Optional) You have an option to use nfs on MacOS which will improve the performance significantly, to set it up ONLY ON MAC, do
+    .. code:: sh
+
+        make dev.nfs.setup
+
 
 4. Run the provision command, if you haven't already, to configure the various
    services with superusers (for development without the auth service) and
@@ -121,6 +153,12 @@ a minimum of 2 CPUs and 8GB of memory does work.
 
        make dev.sync.provision
 
+    Provision using `nfs`_:
+
+   .. code:: sh
+
+       make dev.nfs.provision
+
    This is expected to take a while, produce a lot of output from a bunch of steps, and finally end with ``Provisioning complete!``
 
 5. Start the services. This command will mount the repositories under the
@@ -139,6 +177,12 @@ a minimum of 2 CPUs and 8GB of memory does work.
    .. code:: sh
 
        make dev.sync.up
+
+   Start using `nfs`_:
+
+   .. code:: sh
+
+       make dev.nfs.up
 
 
 After the services have started, if you need shell access to one of the
@@ -190,17 +234,26 @@ The provisioning script creates a Django superuser for every service.
 The LMS also includes demo accounts. The passwords for each of these accounts
 is ``edx``.
 
-+------------+------------------------+
-| Username   | Email                  |
-+============+========================+
-| audit      | audit@example.com      |
-+------------+------------------------+
-| honor      | honor@example.com      |
-+------------+------------------------+
-| staff      | staff@example.com      |
-+------------+------------------------+
-| verified   | verified@example.com   |
-+------------+------------------------+
+  .. list-table::
+   :widths: 20 60
+   :header-rows: 1
+
+   * - Account
+     - Description
+   * - ``staff@example.com``
+     - An LMS and Studio user with course creation and editing permissions.
+       This user is a course team member with the Admin role, which gives
+       rights to work with the demonstration course in Studio, the LMS, and
+       Insights.
+   * - ``verified@example.com``
+     - A student account that you can use to access the LMS for testing
+       verified certificates.
+   * - ``audit@example.com``
+     - A student account that you can use to access the LMS for testing course
+       auditing.
+   * - ``honor@example.com``
+     - A student account that you can use to access the LMS for testing honor
+       code certificates.
 
 Getting Started on Analytics
 ----------------------------
@@ -312,13 +365,15 @@ Microfrontend URLs
 Each microfrontend is accessible at ``localhost`` on a specific port. The table below
 provides links to each microfrontend.
 
-+---------------------+-------------------------------------+
-| Service             | URL                                 |
-+=====================+=====================================+
-| Gradebook           | http://localhost:1994/              |
-+---------------------+-------------------------------------+
-| Program Manager     | http://localhost:1976/              |
-+---------------------+-------------------------------------+
++-------------------------+---------------------------------+
+| Service                 | URL                             |
++=========================+=================================+
+| Gradebook               | http://localhost:1994/          |
++-------------------------+---------------------------------+
+| Program Manager         | http://localhost:1976/          |
++-------------------------+---------------------------------+
+| Publisher App Frontend  | http://localhost:18400/         |
++-------------------------+---------------------------------+
 
 Useful Commands
 ---------------
@@ -338,6 +393,17 @@ whether or not you need them.
 To instead only pull images required by your service and its dependencies,
 run ``make dev.pull.<service>``.
 
+Finally, ``make dev.provision.services.<service1>+<service2>+...``
+can be used in place of ``make dev.provision`` in order to run an expedited version of
+provisioning for a specific set of services.
+For example, if you mess up just your
+Course Discovery and Registrar databases,
+running ``make dev.provision.services.discovery+registrar``
+will take much less time than the full provisioning process.
+However, note that some services' provisioning processes depend on other services
+already being correcty provisioned.
+So, when in doubt, it may still be best to run the full ``make dev.provision``.
+
 Sometimes you may need to restart a particular application server. To do so,
 simply use the ``docker-compose restart`` command:
 
@@ -356,6 +422,7 @@ In all the above commands, ``<service>`` should be replaced with one of the foll
 -  registrar
 -  gradebook
 -  program-manager
+-  frontend-app-publisher
 
 If you'd like to add some convenience make targets, you can add them to a ``local.mk`` file, ignored by git.
 
@@ -436,13 +503,14 @@ E-Commerce Service, you would modify ``ECOMMERCE_VERSION`` in
 How do I run the images for a named Open edX release?
 -----------------------------------------------------
 
-1. Set the ``OPENEDX_RELEASE`` environment variable to the appropriate image
+#. Set the ``OPENEDX_RELEASE`` environment variable to the appropriate image
    tag; "hawthorn.master", "zebrawood.rc1", etc.  Note that unlike a server
    install, ``OPENEDX_RELEASE`` should not have the "open-release/" prefix.
-2. Use ``make dev.checkout`` to check out the correct branch in the local
+#. Check out the appropriate branch in devstack, e.g. ``git checkout open-release/ironwood.master``
+#. Use ``make dev.checkout`` to check out the correct branch in the local
    checkout of each service repository once you've set the ``OPENEDX_RELEASE``
    environment variable above.
-3. ``make dev.pull`` to get the correct images.
+#. ``make dev.pull`` to get the correct images.
 
 All ``make`` target and ``docker-compose`` calls should now use the correct
 images until you change or unset ``OPENEDX_RELEASE`` again.  To work on the
@@ -955,7 +1023,7 @@ While provisioning, some have seen the following error:
    ...
    cwd = os.getcwdu()
    OSError: [Errno 2] No such file or directory
-   make: *** [dev.provision.run] Error 1
+   make: *** [dev.provision.services] Error 1
 
 This issue can be worked around, but there's no guaranteed method to do so.
 Rebooting and restarting Docker does *not* seem to correct the issue. It

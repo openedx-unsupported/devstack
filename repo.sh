@@ -23,6 +23,7 @@ else
     OPENEDX_GIT_BRANCH=master
 fi
 
+# When you add new services should add them to both repos and ssh_repos
 repos=(
     "https://github.com/edx/course-discovery.git"
     "https://github.com/edx/credentials.git"
@@ -36,6 +37,23 @@ repos=(
     "https://github.com/edx/registrar.git"
     "https://github.com/edx/frontend-app-gradebook.git"
     "https://github.com/edx/frontend-app-program-manager.git"
+    "https://github.com/edx/frontend-app-publisher.git"
+)
+
+ssh_repos=(
+    "git@github.com:edx/course-discovery.git"
+    "git@github.com:edx/credentials.git"
+    "git@github.com:edx/cs_comments_service.git"
+    "git@github.com:edx/ecommerce.git"
+    "git@github.com:edx/edx-e2e-tests.git"
+    "git@github.com:edx/edx-notes-api.git"
+    "git@github.com:edx/edx-platform.git"
+    "git@github.com:edx/xqueue.git"
+    "git@github.com:edx/edx-analytics-pipeline.git"
+    "git@github.com:edx/registrar.git"
+    "git@github.com:edx/frontend-app-gradebook.git"
+    "git@github.com:edx/frontend-app-program-manager.git"
+    "git@github.com:edx/frontend-app-publisher.git"
 )
 
 private_repos=(
@@ -73,7 +91,7 @@ checkout ()
 
 _clone ()
 {
-    # for repo in ${repos[*]}
+
     repos_to_clone=("$@")
     for repo in "${repos_to_clone[@]}"
     do
@@ -122,6 +140,11 @@ clone ()
     _clone "${repos[@]}"
 }
 
+clone_ssh ()
+{
+    _clone "${ssh_repos[@]}"
+}
+
 clone_private ()
 {
     _clone "${private_repos[@]}"
@@ -166,6 +189,8 @@ if [ "$1" == "checkout" ]; then
     checkout
 elif [ "$1" == "clone" ]; then
     clone
+elif [ "$1" == "clone_ssh" ]; then
+    clone_ssh
 elif [ "$1" == "whitelabel" ]; then
     clone_private
 elif [ "$1" == "reset" ]; then

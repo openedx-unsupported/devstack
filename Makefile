@@ -5,9 +5,32 @@
 #
 ########################################################################################################################
 .DEFAULT_GOAL := help
-.PHONY: requirements
 
-DEVSTACK_WORKSPACE ?= $(shell pwd)/..
+.PHONY: analytics-pipeline-devstack-test analytics-pipeline-shell backup \
+        build-courses check-memory create-test-course credentials-shell \
+        destroy dev.cache-programs dev.checkout dev.clone dev.clone.ssh \
+        dev.nfs.provision dev.nfs.provision.services dev.nfs.setup dev.nfs.up \
+        dev.nfs.up.all dev.nfs.up.watchers devpi-password dev.provision \
+        dev.provision.analytics_pipeline dev.provision.analytics_pipeline.run \
+        dev.provision.services dev.provision.xqueue dev.provision.xqueue.run \
+        dev.pull dev.repo.reset dev.reset dev.status dev.sync.daemon.start \
+        dev.sync.provision dev.sync.requirements dev.sync.up dev.up dev.up.all \
+        dev.up.analytics_pipeline dev.up.watchers dev.up.with-programs \
+        dev.up.xqueue discovery-shell down e2e-shell e2e-tests ecommerce-shell \
+        feature-toggle-state healthchecks help lms-restart lms-shell \
+        lms-static lms-update-db lms-watcher-shell logs mongo-shell \
+        mysql-shell mysql-shell-edxapp provision pull pull.analytics_pipeline \
+        pull.xqueue registrar-shell requirements restore static stats stop \
+        stop.all stop.analytics_pipeline stop.watchers stop.xqueue \
+        studio-restart studio-shell studio-static studio-update-db \
+        studio-watcher-shell update-db upgrade upgrade validate \
+        validate-lms-volume vnc-passwords xqueue_consumer-logs \
+        xqueue_consumer-restart xqueue_consumer-shell xqueue-logs \
+        xqueue-restart xqueue-shell
+
+# Include options (configurable through options.local.mk)
+include options.mk
+export
 
 OS := $(shell uname)
 
@@ -26,12 +49,8 @@ else
     DEVNULL := >/dev/null
 endif
 
-COMPOSE_PROJECT_NAME=devstack
-
-export DEVSTACK_WORKSPACE
-export COMPOSE_PROJECT_NAME
-
-include *.mk
+# Include specialized Make commands.
+include marketing.mk
 
 # Generates a help message. Borrowed from https://github.com/pydanny/cookiecutter-djangopackage.
 help: ## Display this help message
@@ -50,13 +69,22 @@ upgrade: ## Upgrade requirements with pip-tools
 dev.checkout: ## Check out "openedx-release/$OPENEDX_RELEASE" in each repo if set, "master" otherwise
 	./repo.sh checkout
 
-dev.clone: ## Clone service repos to the parent directory
+dev.clone: ## Clone service repos using HTTPS method to the parent directory
 	./repo.sh clone
 
-dev.provision.run: ## Provision all services with local mounted directories
-	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml -f docker-compose-themes.yml" $(WINPTY) bash ./provision.sh
+dev.clone.ssh: ## Clone service repos using SSH method to the parent directory
+	./repo.sh clone_ssh
 
-dev.provision: | check-memory dev.clone dev.provision.run stop ## Provision dev environment with all services stopped
+dev.provision.services: ## Provision all services with local mounted directories
+	DOCKER_COMPOSE_FILES="$(STANDARD_COMPOSE_FILES)" $(WINPTY) bash ./provision.sh
+
+dev.provision.services.%: ## Provision specified services with local mounted directories, separated by plus signs
+	DOCKER_COMPOSE_FILES="$(STANDARD_COMPOSE_FILES)" $(WINPTY) bash ./provision.sh $*
+
+dev.provision: | check-memory dev.clone.ssh dev.provision.services stop ## Provision dev environment with all services stopped
+
+dev.cache-programs: ## Copy programs from Discovery to Memcached for use in LMS.
+	$(WINPTY) bash ./programs/provision.sh cache
 
 dev.provision.xqueue: | check-memory dev.provision.xqueue.run stop stop.xqueue  # Provision XQueue; run after other services are provisioned
 
@@ -78,17 +106,44 @@ dev.pull.%: ## Pull latest Docker images for a given service and all its depende
 	docker-compose pull --include-deps $*
 
 dev.up: | check-memory ## Bring up all services with host volumes
-	bash -c 'docker-compose -f docker-compose.yml -f docker-compose-host.yml -f docker-compose-themes.yml up -d'
-	@# Comment out this next line if you want to save some time and don't care about catalog programs
-	$(WINPTY) bash ./programs/provision.sh cache
+	bash -c 'docker-compose $(STANDARD_COMPOSE_FILES) up -d'
+ifeq ($(ALWAYS_CACHE_PROGRAMS),true)
+	make dev.cache-programs
+endif
 
 dev.up.%: | check-memory ## Bring up a specific service and its dependencies with host volumes
-	bash -c 'docker-compose -f docker-compose.yml -f docker-compose-host.yml -f docker-compose-themes.yml up -d $*'
-	@# Comment out this next line if you want to save some time and don't care about catalog programs
-	$(WINPTY) bash ./programs/provision.sh cache
+	bash -c 'docker-compose $(STANDARD_COMPOSE_FILES) up -d $*'
+ifeq ($(ALWAYS_CACHE_PROGRAMS),true)
+	make dev.cache-programs
+endif
+
+dev.up.with-programs: dev.up dev.cache-programs  ## Bring up a all services and cache programs in LMS.
+
+dev.up.with-programs.%: ## Bring up a service and its dependencies and cache programs in LMS.
+	make dev.up.$*
+	make dev.cache-programs
 
 dev.up.watchers: | check-memory ## Bring up asset watcher containers
 	bash -c 'docker-compose -f docker-compose-watchers.yml up -d'
+
+dev.nfs.setup:  ## set's up an nfs server on the /Users folder, allowing nfs mounting on docker
+	./setup_native_nfs_docker_osx.sh
+
+dev.nfs.up.watchers: | check-memory ## Bring up asset watcher containers
+	docker-compose -f docker-compose-watchers-nfs.yml up -d
+
+dev.nfs.up: | check-memory ## Bring up all services with host volumes
+	docker-compose $(NFS_COMPOSE_FILES) up -d
+
+dev.nfs.up.all: | dev.nfs.up dev.nfs.up.watchers ## Bring up all services with host volumes, including watchers
+
+dev.nfs.provision: | check-memory dev.clone dev.nfs.provision.services stop ## Provision dev environment with all services stopped
+
+dev.nfs.provision.services: ## Provision all services with local mounted directories
+	DOCKER_COMPOSE_FILES=$(NFS_COMPOSE_FILES) ./provision.sh
+
+dev.nfs.provision.services.%: ## Provision specified services with local mounted directories, separated by plus signs
+	DOCKER_COMPOSE_FILES=$(NFS_COMPOSE_FILES) ./provision.sh $*
 
 dev.up.xqueue: | check-memory ## Bring up xqueue, assumes you already have lms running
 	bash -c 'docker-compose -f docker-compose.yml -f docker-compose-xqueue.yml -f docker-compose-host.yml -f docker-compose-themes.yml up -d'
@@ -267,7 +322,10 @@ studio-static: ## Rebuild static assets for the Studio container
 static: | credentials-static discovery-static ecommerce-static lms-static studio-static ## Rebuild static assets for all service containers
 
 healthchecks: ## Run a curl against all services' healthcheck endpoints to make sure they are up. This will eventually be parameterized
-	$(WINPTY) bash ./healthchecks.sh
+	$(WINPTY) bash ./healthchecks.sh all
+
+healthchecks.%:
+	$(WINPTY) bash ./healthchecks.sh $*
 
 e2e-tests: ## Run the end-to-end tests against the service containers
 	docker run -t --network=devstack_default -v ${DEVSTACK_WORKSPACE}/edx-e2e-tests:/edx-e2e-tests -v ${DEVSTACK_WORKSPACE}/edx-platform:/edx-e2e-tests/lib/edx-platform --env-file ${DEVSTACK_WORKSPACE}/edx-e2e-tests/devstack_env edxops/e2e env TERM=$(TERM)  bash -c 'paver e2e_test --exclude="whitelabel\|enterprise"'
@@ -295,16 +353,19 @@ mongo-shell: ## Run a shell on the mongo container
 
 ### analytics pipeline commands
 
+ANALYTICS_COMPOSE_FILES=$(STANDARD_COMPOSE_FILES) -f docker-compose-analytics-pipeline.yml
+
 dev.provision.analytics_pipeline: | check-memory dev.provision.analytics_pipeline.run stop.analytics_pipeline stop ## Provision analyticstack dev environment with all services stopped
+	echo "Ran dev.provision.analytics_pipeline"
 
 dev.provision.analytics_pipeline.run:
-	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml -f docker-compose-themes.yml -f docker-compose-analytics-pipeline.yml" ./provision-analytics-pipeline.sh
+	DOCKER_COMPOSE_FILES="$(ANALYTICS_COMPOSE_FILES)" ./provision-analytics-pipeline.sh
 
 analytics-pipeline-shell: ## Run a shell on the analytics pipeline container
 	docker exec -it edx.devstack.analytics_pipeline env TERM=$(TERM) /edx/app/analytics_pipeline/devstack.sh open
 
 dev.up.analytics_pipeline: | check-memory ## Bring up analytics pipeline services
-	bash -c 'docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml -f docker-compose-host.yml -f docker-compose-themes.yml up -d analyticspipeline'
+	bash -c 'docker-compose $(ANALYTICS_COMPOSE_FILES) up -d analyticspipeline'
 
 pull.analytics_pipeline: ## Update analytics pipeline docker images
 	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml pull
@@ -339,3 +400,4 @@ stats: ## Get per-container CPU and memory utilization data
 
 feature-toggle-state: ## Gather the state of feature toggles configured for various IDAs
 	$(WINPTY) bash ./gather-feature-toggle-state.sh
+
