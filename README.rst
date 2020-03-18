@@ -28,11 +28,10 @@ Analytics Devstack also includes the following Open edX components:
   primary extract, transform, and load (ETL) tool that extracts and analyzes
   data from the other Open edX services.
 
-Support
--------
+Where to Find Help
+------------------
 
-Tickets or issues should be filed in Jira under the platform project:
-https://openedx.atlassian.net/projects/PLAT/issues
+There are a number of places to get help, including mailing lists and real-time chat. Please choose an appropriate venue for your question. This helps ensure that you get good prompt advice, and keeps discussion focused. For details of your options, see the `Community`_ pages.
 
 FYI
 ---
@@ -964,9 +963,8 @@ Running LMS commands within a container
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Most of the ``paver`` commands require a settings flag. If omitted, the flag defaults to
-``devstack``, which was the settings flag for vagrant-based devstack instances.
-Since docker is now the standard, you should usually append
-the ``devstack_docker`` flag, especially if you run into issues. For example:
+``devstack``. If you run into issues running ``paver`` commands in a docker container, you should append
+the ``devstack_docker`` flag. For example:
 
 .. code:: sh
 
@@ -1162,3 +1160,4 @@ GitHub issue which explains the `current status of implementing delegated consis
 .. _Python virtualenv: http://docs.python-guide.org/en/latest/dev/virtualenvs/#lower-level-virtualenv
 .. _Running analytics acceptance tests in docker: http://edx-analytics-pipeline-reference.readthedocs.io/en/latest/running_acceptance_tests_in_docker.html
 .. _Troubleshooting docker analyticstack: http://edx-analytics-pipeline-reference.readthedocs.io/en/latest/troubleshooting_docker_analyticstack.html
+.. _Community: https://open.edx.org/community/connect/
