@@ -895,7 +895,7 @@ Running LMS commands within a container
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Most of the ``paver`` commands require a settings flag. If omitted, the flag defaults to
-``devstack``, if you run into issues running ``paver`` commands in a docker container, you should append
+``devstack``. If you run into issues running ``paver`` commands in a docker container, you should append
 the ``devstack_docker`` flag. For example:
 
 .. code:: sh
