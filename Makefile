@@ -17,8 +17,8 @@
         dev.sync.provision dev.sync.requirements dev.sync.up dev.up dev.up.all \
         dev.up.analytics_pipeline dev.up.watchers dev.up.with-programs \
         dev.up.xqueue discovery-shell down e2e-shell e2e-tests ecommerce-shell \
-        feature-toggle-state healthchecks help lms-restart lms-shell \
-        lms-static lms-update-db lms-watcher-shell logs mongo-shell \
+        feature-toggle-state forum-restart-devserver healthchecks help lms-restart \
+        lms-shell lms-static lms-update-db lms-watcher-shell logs mongo-shell \
         mysql-shell mysql-shell-edxapp provision pull pull.analytics_pipeline \
         pull.xqueue registrar-shell requirements restore static stats stop \
         stop.all stop.analytics_pipeline stop.watchers stop.xqueue \
@@ -276,6 +276,9 @@ lms-update-db: ## Run migrations LMS container
 	docker exec -t edx.devstack.lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_db'
 
 update-db: | studio-update-db lms-update-db discovery-update-db ecommerce-update-db credentials-update-db ## Run the migrations for all services
+
+forum-restart-devserver: ## Kill the forum's Sinatra development server. The watcher process will restart it.
+	docker exec -t edx.devstack.forum bash -c 'kill $$(ps aux | grep "ruby app.rb" | egrep -v "while|grep" | awk "{print \$$2}")'
 
 lms-shell: ## Run a shell on the LMS container
 	docker exec -it edx.devstack.lms env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
