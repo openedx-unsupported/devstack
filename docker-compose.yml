@@ -366,12 +366,12 @@ services:
     depends_on:
       - lms
 
-  program-manager:
+  program-console:
     extends:
       file: microfrontend.yml
       service: microfrontend
-    working_dir: '/edx/app/program-manager'
-    container_name: edx.devstack.program-manager
+    working_dir: '/edx/app/program-console'
+    container_name: edx.devstack.program-console
     ports:
       - "1976:1976"
     depends_on:
