@@ -98,19 +98,6 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
 
-  mysql57:
-    command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci
-    container_name: edx.devstack.mysql57
-    hostname: mysql57.devstack.edx
-    environment:
-      MYSQL_ROOT_PASSWORD: ""
-      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-    image: mysql:5.7
-    # ports:
-    #   - "3506:3306"
-    volumes:
-      - mysql_data:/var/lib/mysql
-
   redis:
     container_name: edx.devstack.redis
     hostname: redis.devstack.edx
