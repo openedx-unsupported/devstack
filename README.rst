@@ -370,7 +370,7 @@ provides links to each microfrontend.
 +=========================+=================================+
 | Gradebook               | http://localhost:1994/          |
 +-------------------------+---------------------------------+
-| Program Manager         | http://localhost:1976/          |
+| Program Console         | http://localhost:1976/          |
 +-------------------------+---------------------------------+
 | Publisher App Frontend  | http://localhost:18400/         |
 +-------------------------+---------------------------------+
@@ -421,7 +421,7 @@ In all the above commands, ``<service>`` should be replaced with one of the foll
 -  studio
 -  registrar
 -  gradebook
--  program-manager
+-  program-console
 -  frontend-app-publisher
 
 If you'd like to add some convenience make targets, you can add them to a ``local.mk`` file, ignored by git.

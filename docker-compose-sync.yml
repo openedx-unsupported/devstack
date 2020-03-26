@@ -25,9 +25,9 @@ services:
   gradebook:
     volumes:
       - gradebook-sync:/edx/app/gradebook/gradebook:nocopy
-  program-manager:
+  program-console:
     volumes:
-      - program-manager-sync:/edx/app/program-manager:nocopy
+      - program-console-sync:/edx/app/program-console:nocopy
 
 volumes:
   credentials-sync:
@@ -44,5 +44,5 @@ volumes:
     external: true
   gradebook-sync:
     external: true
-  program-manager-sync:
+  program-console-sync:
     external: true
