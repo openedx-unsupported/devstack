@@ -109,7 +109,7 @@ services:
     # ports:
     #   - "3506:3306"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - mysql57_data:/var/lib/mysql
 
   redis:
     container_name: edx.devstack.redis
@@ -385,4 +385,5 @@ volumes:
   elasticsearch_data:
   mongo_data:
   mysql_data:
+  mysql57_data:
   devpi_data:
