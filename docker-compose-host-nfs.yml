@@ -49,10 +49,10 @@ services:
     volumes:
       - ${DEVSTACK_WORKSPACE}/frontend-app-gradebook:/edx/app/gradebook:cached
       - gradebook_node_modules:/edx/app/gradebook/node_modules
-  program-manager:
+  program-console:
     volumes:
-      - ${DEVSTACK_WORKSPACE}/frontend-app-program-manager:/edx/app/program-manager:cached
-      - program_manager_node_modules:/edx/app/program-manager/node_modules
+      - ${DEVSTACK_WORKSPACE}/frontend-app-program-console:/edx/app/program-console:cached
+      - program_console_node_modules:/edx/app/program-console/node_modules
   frontend-app-publisher:
     volumes:
       - ${DEVSTACK_WORKSPACE}/frontend-app-publisher:/edx/app/frontend-app-publisher:cached
@@ -66,7 +66,7 @@ volumes:
   edxapp_node_modules:
   edxapp_uploads:
   gradebook_node_modules:
-  program_manager_node_modules:
+  program_console_node_modules:
   frontend_app_publisher_node_modules:
   edx-nfs:
     driver: local
