@@ -95,6 +95,11 @@ if should_check credentials; then
     do_curl credentials http://localhost:18150/heartbeat
 fi
 
+if should_check xqueue; then
+    echo "Checking xqueue heartbeat:"
+    do_curl xqueue http://localhost:18040/heartbeat
+fi
+
 echo "Successful healthchecks:${succeeded:- NONE}"
 echo "Failed healthchecks:${failed:- NONE}"
 if [[ "$succeeded" ]]; then

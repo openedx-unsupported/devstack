@@ -30,7 +30,6 @@
 
 # Docker Compose files that define services.
 MAIN_COMPOSE_FILE=-f docker-compose.yml
-XQUEUE_COMPOSE_FILE=-f docker-compose-xqueue.yml
 WATCHERS_COMPOSE_FILE=-f docker-compose-watchers.yml
 WATCHERS_COMPOSE_FILE_FOR_NFS=-f docker-compose-watchers-nfs.yml
 ANALYTICS_COMPOSE_FILE=-f docker-compose-analytics-pipeline.yml
@@ -47,7 +46,6 @@ SUPPORTING_COMPOSE_FILES_FOR_SYNC=-f docker-compose-sync.yml
 STANDARD_COMPOSE_SUITE=$(MAIN_COMPOSE_FILE) $(SUPPORTING_COMPOSE_FILES)
 STANDARD_COMPOSE_SUITE_FOR_NFS=$(MAIN_COMPOSE_FILE) $(SUPPORTING_COMPOSE_FILES_FOR_NFS)
 STANDARD_COMPOSE_SUITE_FOR_SYNC=$(MAIN_COMPOSE_FILE)  $(SUPPORTING_COMPOSE_FILES_FOR_SYNC)
-XQUEUE_COMPOSE_SUITE=$(MAIN_COMPOSE_FILE) $(XQUEUE_COMPOSE_FILE) $(SUPPORTING_COMPOSE_FILES)
 ANALYTICS_COMPOSE_SUITE=$(STANDARD_COMPOSE_SUITE) $(ANALYTICS_COMPOSE_FILE)
 
 # All Docker Compose YAML files that contain service definitions.
@@ -112,10 +110,7 @@ dev.provision: | check-memory dev.clone.ssh dev.provision.services stop ## Provi
 dev.cache-programs: ## Copy programs from Discovery to Memcached for use in LMS.
 	$(WINPTY) bash ./programs/provision.sh cache
 
-dev.provision.xqueue: | check-memory dev.provision.xqueue.run stop stop.xqueue  # Provision XQueue; run after other services are provisioned
-
-dev.provision.xqueue.run:
-	DOCKER_COMPOSE_FILES="$(MAIN_COMPOSE_FILE) $(XQUEUE_COMPOSE_FILE)" $(WINPTY) bash ./provision-xqueue.sh
+dev.provision.xqueue: dev.provision.services.xqueue
 
 dev.reset: | down dev.repo.reset pull dev.up static update-db ## Attempts to reset the local devstack to the master working state
 
@@ -174,9 +169,6 @@ dev.nfs.provision.services: ## Provision all services with local mounted directo
 dev.nfs.provision.services.%: ## Provision specified services with local mounted directories, separated by plus signs
 	DOCKER_COMPOSE_FILES=$(STANDARD_COMPOSE_SUITE_FOR_NFS) ./provision.sh $*
 
-dev.up.xqueue: | check-memory ## Bring up xqueue, assumes you already have lms running
-	bash -c 'docker-compose $(XQUEUE_COMPOSE_SUITE) up -d'
-
 dev.up.all: | dev.up dev.up.watchers ## Bring up all services with host volumes, including watchers
 
 dev.sync.daemon.start: ## Start the docker-sycn daemon
@@ -202,9 +194,6 @@ stop.watchers: ## Stop asset watchers
 
 stop.all: | stop.analytics_pipeline stop stop.watchers ## Stop all containers, including asset watchers
 
-stop.xqueue: ## Stop the XQueue service container
-	docker-compose $(XQUEUE_COMPOSE_FILE) stop
-
 down: ## Remove all service containers and networks
 	(test -d .docker-sync && docker-sync clean) || true ## Ignore failure here
 	docker-compose $(ALL_SERVICE_COMPOSE_FILES) down
@@ -217,12 +206,6 @@ logs: ## View logs from containers running in detached mode
 
 %-logs: ## View the logs of the specified service container
 	docker-compose $(ALL_SERVICE_COMPOSE_FILES) logs -f --tail=500 $*
-
-xqueue-logs: ## View logs from containers running in detached mode
-	docker-compose $(XQUEUE_COMPOSE_FILE) logs -f xqueue
-
-xqueue_consumer-logs: ## View logs from containers running in detached mode
-	docker-compose $(XQUEUE_COMPOSE_FILE) logs -f xqueue_consumer
 
 RED="\033[0;31m"
 YELLOW="\033[0;33m"
@@ -259,8 +242,7 @@ pull: dev.pull
 	@echo "****************************************************************"
 	@echo -n $(NO_COLOR)
 
-pull.xqueue: ## Update XQueue Docker images
-	docker-compose $(XQUEUE_COMPOSE_FILE) pull
+pull.xqueue: dev.pull.xqueue
 
 validate: ## Validate the devstack configuration
 	docker-compose config

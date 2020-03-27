@@ -17,6 +17,7 @@ env:
   - DEVSTACK_WORKSPACE=/tmp SHALLOW_CLONE=1 DEVSTACK='edx_notes_api'
   - DEVSTACK_WORKSPACE=/tmp SHALLOW_CLONE=1 DEVSTACK='credentials'
   - DEVSTACK_WORKSPACE=/tmp SHALLOW_CLONE=1 DEVSTACK='analytics_pipeline'
+  - DEVSTACK_WORKSPACE=/tmp SHALLOW_CLONE=1 DEVSTACK='xqueue'
 
 services:
   - docker

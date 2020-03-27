@@ -37,7 +37,7 @@ NC='\033[0m' # No Color
 
 # All provisionable services.
 # Note: leading and trailing space are necessary for if-checks.
-ALL_SERVICES=" lms ecommerce discovery credentials e2e forum notes registrar "
+ALL_SERVICES=" lms ecommerce discovery credentials e2e forum notes registrar xqueue "
 
 # What should we provision?
 if [[ $# -eq 0 ]]; then
@@ -77,6 +77,10 @@ for serv in $requested_services; do
 	case "$serv" in
 		studio)
 			echo -e "${YELLOW}Studio is provisioned alongside LMS.\nPass 'lms' as an argument to ensure that Studio is provisioned.${NC}"
+			continue
+			;;
+		xqueue_consumer)
+			echo -e "${YELLOW}XQueue-Consumer is provisioned alongside XQueue.\nPass 'xqueue' as an argument to ensure that XQueue-Consumer is provisioned.${NC}"
 			continue
 			;;
 		edx_notes_api)
