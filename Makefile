@@ -6,22 +6,23 @@
 ########################################################################################################################
 .DEFAULT_GOAL := help
 
-.PHONY: analytics-pipeline-devstack-test analytics-pipeline-shell backup \
-        build-courses check-memory create-test-course credentials-shell \
-        destroy dev.cache-programs dev.checkout dev.clone dev.clone.ssh \
-        dev.nfs.provision dev.nfs.provision.services dev.nfs.setup dev.nfs.up \
-        dev.nfs.up.all dev.nfs.up.watchers devpi-password dev.provision \
-        dev.provision.analytics_pipeline dev.provision.analytics_pipeline.run \
-        dev.provision.services dev.provision.xqueue dev.provision.xqueue.run \
-        dev.pull dev.repo.reset dev.reset dev.status dev.sync.daemon.start \
-        dev.sync.provision dev.sync.requirements dev.sync.up dev.up dev.up.all \
+.PHONY: analytics-pipeline-devstack-test analytics-pipeline-shell \
+        analyticspipeline-shell backup build-courses check-memory \
+        create-test-course credentials-shell destroy dev.cache-programs \
+        dev.checkout dev.clone dev.clone.ssh dev.nfs.provision \
+        dev.nfs.provision.services dev.nfs.setup dev.nfs.up dev.nfs.up.all \
+        dev.nfs.up.watchers devpi-password dev.provision \
+        dev.provision.analytics_pipeline dev.provision.services \
+        dev.provision.xqueue dev.provision.xqueue.run dev.pull dev.repo.reset \
+        dev.reset dev.status dev.sync.daemon.start dev.sync.provision \
+        dev.sync.requirements dev.sync.up dev.up dev.up.all \
         dev.up.analytics_pipeline dev.up.watchers dev.up.with-programs \
         dev.up.xqueue discovery-shell down e2e-shell e2e-tests ecommerce-shell \
         feature-toggle-state forum-restart-devserver healthchecks help lms-restart \
         lms-shell lms-static lms-update-db lms-watcher-shell logs mongo-shell \
         mysql-shell mysql-shell-edxapp provision pull pull.analytics_pipeline \
-        pull.xqueue registrar-shell requirements restore static stats stop \
-        stop.all stop.analytics_pipeline stop.watchers stop.xqueue \
+        pull.xqueue registrar-shell requirements restore selfcheck static \
+        stats stop stop.all stop.analytics_pipeline stop.watchers stop.xqueue \
         studio-restart studio-shell studio-static studio-update-db \
         studio-watcher-shell update-db upgrade upgrade validate \
         validate-lms-volume vnc-passwords xqueue_consumer-logs \
@@ -113,7 +114,7 @@ dev.provision.services: ## Provision all services with local mounted directories
 	DOCKER_COMPOSE_FILES="$(STANDARD_COMPOSE_SUITE)" $(WINPTY) bash ./provision.sh
 
 dev.provision.services.%: ## Provision specified services with local mounted directories, separated by plus signs
-	DOCKER_COMPOSE_FILES="$(STANDARD_COMPOSE_SUITE)" $(WINPTY) bash ./provision.sh $*
+	DOCKER_COMPOSE_FILES="$(FULL_COMPOSE_SUITE)" $(WINPTY) bash ./provision.sh $*
 
 dev.provision: | check-memory dev.clone.ssh dev.provision.services stop ## Provision dev environment with all services stopped
 
@@ -149,7 +150,7 @@ ifeq ($(ALWAYS_CACHE_PROGRAMS),true)
 endif
 
 dev.up.%: | check-memory ## Bring up specific services (separated by plus-signs) and their dependencies with host volumes.
-	bash -c 'docker-compose $(STANDARD_COMPOSE_SUITE) up -d $$(echo $* | tr + " ")'
+	bash -c 'docker-compose $(FULL_COMPOSE_SUITE) up -d $$(echo $* | tr + " ")'
 ifeq ($(ALWAYS_CACHE_PROGRAMS),true)
 	make dev.cache-programs
 endif
@@ -197,6 +198,9 @@ dev.sync.requirements: ## Install requirements
 
 dev.sync.up: dev.sync.daemon.start ## Bring up all services with docker-sync enabled
 	docker-compose $(STANDARD_COMPOSE_SUITE_FOR_SYNC) up -d
+
+dev.check.%:  # Run checks for a given service or set of services (separated by plus-signs).
+	$(WINPTY) bash ./check.sh $*
 
 provision: | dev.provision ## This command will be deprecated in a future release, use dev.provision
 	echo "\033[0;31mThis command will be deprecated in a future release, use dev.provision\033[0m"
@@ -288,6 +292,9 @@ restore: dev.up.mysql+mongo+elasticsearch ## Restore all data volumes from the h
 %-shell: ## Run a shell on the specified service container
 	docker exec -it edx.devstack.$* /bin/bash
 
+analyticspipeline-shell: ## Run a shell on the analytics pipeline container
+	docker exec -it edx.devstack.analytics_pipeline env TERM=$(TERM) /edx/app/analytics_pipeline/devstack.sh open
+
 credentials-shell: ## Run a shell on the credentials container
 	docker exec -it edx.devstack.credentials env TERM=$(TERM) bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials && /bin/bash'
 
@@ -361,11 +368,9 @@ studio-static: ## Rebuild static assets for the Studio container
 
 static: | credentials-static discovery-static ecommerce-static lms-static studio-static ## Rebuild static assets for all service containers
 
-healthchecks: ## Run a curl against all services' healthcheck endpoints to make sure they are up. This will eventually be parameterized
-	$(WINPTY) bash ./check.sh all
+healthchecks: dev.check.registrar+lms+ecommerce+discovery+forum+edx_notes_api+credentials
 
-healthchecks.%:
-	$(WINPTY) bash ./check.sh $*
+healthchecks.%: dev.check.%
 
 e2e-tests: ## Run the end-to-end tests against the service containers
 	docker run -t --network=devstack_default -v ${DEVSTACK_WORKSPACE}/edx-e2e-tests:/edx-e2e-tests -v ${DEVSTACK_WORKSPACE}/edx-platform:/edx-e2e-tests/lib/edx-platform --env-file ${DEVSTACK_WORKSPACE}/edx-e2e-tests/devstack_env edxops/e2e env TERM=$(TERM)  bash -c 'paver e2e_test --exclude="whitelabel\|enterprise"'
@@ -391,23 +396,13 @@ mysql-shell-edxapp: ## Run a mysql shell on the edxapp database
 mongo-shell: ## Run a shell on the mongo container
 	docker-compose exec mongo bash
 
-### analytics pipeline commands
+dev.provision.analytics_pipeline: dev.provision.services.analyticspipeline
 
+analytics-pipeline-shell: analyticspipeline-shell
 
-dev.provision.analytics_pipeline: | check-memory dev.provision.analytics_pipeline.run stop.analytics_pipeline stop ## Provision analyticstack dev environment with all services stopped
-	echo "Ran dev.provision.analytics_pipeline"
+dev.up.analytics_pipeline: dev.up.analyticspipeline ## Bring up analytics pipeline services
 
-dev.provision.analytics_pipeline.run:
-	DOCKER_COMPOSE_FILES="$(ANALYTICS_COMPOSE_SUITE)" ./provision-analytics-pipeline.sh
-
-analytics-pipeline-shell: ## Run a shell on the analytics pipeline container
-	docker exec -it edx.devstack.analytics_pipeline env TERM=$(TERM) /edx/app/analytics_pipeline/devstack.sh open
-
-dev.up.analytics_pipeline: | check-memory ## Bring up analytics pipeline services
-	bash -c 'docker-compose $(ANALYTICS_COMPOSE_SUITE) up -d analyticspipeline'
-
-pull.analytics_pipeline: ## Update analytics pipeline docker images
-	docker-compose $(ANALYTICS_COMPOSE_SUITE) pull
+pull.analytics_pipeline: dev.pull.analyticspipeline ## Update analytics pipeline docker images
 
 analytics-pipeline-devstack-test: ## Run analytics pipeline tests in travis build
 	docker exec -u hadoop -i edx.devstack.analytics_pipeline bash -c 'sudo chown -R hadoop:hadoop /edx/app/analytics_pipeline && source /edx/app/hadoop/.bashrc && make develop-local && make docker-test-acceptance-local ONLY_TESTS=edx.analytics.tasks.tests.acceptance.test_internal_reporting_database && make docker-test-acceptance-local ONLY_TESTS=edx.analytics.tasks.tests.acceptance.test_user_activity'

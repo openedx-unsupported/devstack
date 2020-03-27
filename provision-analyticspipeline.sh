@@ -16,20 +16,8 @@ elif [ ! -d "$DEVSTACK_WORKSPACE" ]; then
     exit 1
 fi
 
-# Bring the mysql & pipeline containers online.
-docker-compose $DOCKER_COMPOSE_FILES up -d mysql analyticspipeline
-
-# Ensure the MySQL server is online and usable
-echo "Waiting for MySQL"
-until docker exec -i edx.devstack.mysql mysql -uroot -se "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = 'root')" &> /dev/null
-do
-  printf "."
-  sleep 1
-done
-
-# In the event of a fresh MySQL container, wait a few seconds for the server to restart.
-# This can be removed once https://github.com/docker-library/mysql/issues/245 is resolved.
-sleep 20
+# Bring the pipeline containers online.
+docker-compose $DOCKER_COMPOSE_FILES up -d analyticspipeline
 
 # Analytics pipeline has dependency on lms but we only need its db schema & not full lms. So we'll just load their db
 # schemas as part of analytics pipeline provisioning. If there is a need of a fully fledged LMS, then provision lms
@@ -69,7 +57,3 @@ sleep 10 # for datanode & other services to activate
 echo -e "${GREEN}Namenode is ready!${NC}"
 
 docker exec -u hadoop -i edx.devstack.analytics_pipeline bash -c 'sudo /edx/app/hadoop/hadoop/bin/hdfs dfs -chown -R hadoop:hadoop hdfs://namenode:8020/; hdfs dfs -mkdir -p hdfs://namenode:8020/edx-analytics-pipeline/{warehouse,marker,manifest,packages} hdfs://namenode:8020/{spark-warehouse,data} hdfs://namenode:8020/tmp/spark-events;hdfs dfs -copyFromLocal -f /edx/app/hadoop/lib/edx-analytics-hadoop-util.jar hdfs://namenode:8020/edx-analytics-pipeline/packages/;'
-
-docker image prune -f
-
-echo -e "${GREEN}Analytics pipeline provisioning complete!${NC}"

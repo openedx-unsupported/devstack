@@ -28,6 +28,7 @@
 
 set -e
 set -o pipefail
+set -u
 set -x
 
 RED='\033[0;31m'
@@ -37,13 +38,24 @@ NC='\033[0m' # No Color
 
 # All provisionable services.
 # Note: leading and trailing space are necessary for if-checks.
-ALL_SERVICES=" lms ecommerce discovery credentials e2e forum notes registrar "
+ALL_SERVICES=" \
+lms \
+ecommerce \
+discovery \
+credentials \
+e2e \
+forum \
+notes \
+registrar \
+analyticspipeline \
+marketing \
+ "
 
 # What should we provision?
 if [[ $# -eq 0 ]]; then
 	requested_services=$ALL_SERVICES
 else
-	arg_string=" $@ "
+	arg_string=" $* "
 	# Replace plus signs with spaces in order to allow plus-sign-separated
 	# services in addition to space-separated services.
 	requested_services="${arg_string//+/ }"
@@ -53,7 +65,7 @@ fi
 is_substring() {
 	local str="$1"
 	local substr="$2"
-	if [[ "$1" == *" ${2} "* ]]; then
+	if [[ "$str" == *" ${substr} "* ]]; then
 		return 0  # Note that '0' means 'success' (i.e., true) in bash.
 	else
 		return 1
@@ -145,7 +157,7 @@ fi
 # Run the service-specific provisioning script(s)
 for service in $to_provision; do
 	echo -e "${GREEN} Provisioning ${service}...${NC}"
-	./provision-${service}.sh
+	./provision-"$service".sh
 	echo -e "${GREEN} Provisioned ${service}.${NC}"
 done
 
