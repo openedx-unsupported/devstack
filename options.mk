@@ -13,12 +13,6 @@ DEVSTACK_WORKSPACE ?= $(shell pwd)/..
 # Defaults to 'devstack'.
 COMPOSE_PROJECT_NAME=devstack
 
-# Set of Docker Compose YAML files that we use for normal commands.
-STANDARD_COMPOSE_FILES=-f docker-compose.yml -f docker-compose-host.yml -f docker-compose-themes.yml
-
-# Set of Docker Compose YAML files that we use for NFS commands.
-NFS_COMPOSE_FILES=-f docker-compose.yml -f docker-compose-host-nfs.yml -f docker-compose-themes-nfs.yml
-
 # Whether we should always copy programs to LMS cache upon LMS startup.
 # If 'true', then run `make dev.cache-programs` whenever we bring up
 # containers.
