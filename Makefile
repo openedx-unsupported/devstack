@@ -28,6 +28,32 @@
         xqueue_consumer-restart xqueue_consumer-shell xqueue-logs \
         xqueue-restart xqueue-shell
 
+# Docker Compose files that define services.
+MAIN_COMPOSE_FILE=-f docker-compose.yml
+XQUEUE_COMPOSE_FILE=-f docker-compose-xqueue.yml
+WATCHERS_COMPOSE_FILE=-f docker-compose-watchers.yml
+WATCHERS_COMPOSE_FILE_FOR_NFS=-f docker-compose-watchers-nfs.yml
+ANALYTICS_COMPOSE_FILE=-f docker-compose-analytics-pipeline.yml
+
+# Supprting Docker Compose files to enable volume mounting
+# (which allows us to use source code from our host machien)
+# as well as theming.
+SUPPORTING_COMPOSE_FILES=-f docker-compose-host.yml -f docker-compose-themes.yml
+SUPPORTING_COMPOSE_FILES_FOR_NFS=-f docker-compose-host-nfs.yml -f docker-compose-themes-nfs.yml
+SUPPORTING_COMPOSE_FILES_FOR_SYNC=-f docker-compose-sync.yml
+
+# "Suites" of Docker Compose files that can be used together to run
+# run different sets of services.
+STANDARD_COMPOSE_SUITE=$(MAIN_COMPOSE_FILE) $(SUPPORTING_COMPOSE_FILES)
+STANDARD_COMPOSE_SUITE_FOR_NFS=$(MAIN_COMPOSE_FILE) $(SUPPORTING_COMPOSE_FILES_FOR_NFS)
+STANDARD_COMPOSE_SUITE_FOR_SYNC=$(MAIN_COMPOSE_FILE)  $(SUPPORTING_COMPOSE_FILES_FOR_SYNC)
+XQUEUE_COMPOSE_SUITE=$(MAIN_COMPOSE_FILE) $(XQUEUE_COMPOSE_FILE) $(SUPPORTING_COMPOSE_FILES)
+ANALYTICS_COMPOSE_SUITE=$(STANDARD_COMPOSE_SUITE) $(ANALYTICS_COMPOSE_FILE)
+
+# All Docker Compose YAML files that contain service definitions.
+# Useful for Makefile targets like `dev.pull` and `down`
+ALL_SERVICE_COMPOSE_FILES=$(MAIN_COMPOSE_FILE) $(XQUEUE_COMPOSE_FILE) $(WATCHERS_COMPOSE_FILE) $(ANALYTICS_COMPOSE_FILE)
+
 # Include options (configurable through options.local.mk)
 include options.mk
 export
@@ -76,10 +102,10 @@ dev.clone.ssh: ## Clone service repos using SSH method to the parent directory
 	./repo.sh clone_ssh
 
 dev.provision.services: ## Provision all services with local mounted directories
-	DOCKER_COMPOSE_FILES="$(STANDARD_COMPOSE_FILES)" $(WINPTY) bash ./provision.sh
+	DOCKER_COMPOSE_FILES="$(STANDARD_COMPOSE_SUITE)" $(WINPTY) bash ./provision.sh
 
 dev.provision.services.%: ## Provision specified services with local mounted directories, separated by plus signs
-	DOCKER_COMPOSE_FILES="$(STANDARD_COMPOSE_FILES)" $(WINPTY) bash ./provision.sh $*
+	DOCKER_COMPOSE_FILES="$(STANDARD_COMPOSE_SUITE)" $(WINPTY) bash ./provision.sh $*
 
 dev.provision: | check-memory dev.clone.ssh dev.provision.services stop ## Provision dev environment with all services stopped
 
@@ -89,7 +115,7 @@ dev.cache-programs: ## Copy programs from Discovery to Memcached for use in LMS.
 dev.provision.xqueue: | check-memory dev.provision.xqueue.run stop stop.xqueue  # Provision XQueue; run after other services are provisioned
 
 dev.provision.xqueue.run:
-	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-xqueue.yml" $(WINPTY) bash ./provision-xqueue.sh
+	DOCKER_COMPOSE_FILES="$(MAIN_COMPOSE_FILE) $(XQUEUE_COMPOSE_FILE)" $(WINPTY) bash ./provision-xqueue.sh
 
 dev.reset: | down dev.repo.reset pull dev.up static update-db ## Attempts to reset the local devstack to the master working state
 
@@ -103,19 +129,19 @@ dev.pull: ## Pull *all* required Docker images. Consider `make dev.pull.<service
 	docker-compose pull
 
 dev.pull-nodeps.%: ## Pull latest Docker images for services (separated by plus-signs).
-	ARG=$* docker-compose pull $$(echo $* | tr + " ")
+	ARG=$* docker-compose $(ALL_SERVICE_COMPOSE_FILES) pull $$(echo $* | tr + " ")
 
 dev.pull.%: ## Pull latest Docker images for services (separated by plus-signs) and all their dependencies.
-	docker-compose pull --include-deps $$(echo $* | tr + " ")
+	docker-compose $(ALL_SERVICE_COMPOSE_FILES) pull --include-deps $$(echo $* | tr + " ")
 
 dev.up: | check-memory ## Bring up all services with host volumes
-	bash -c 'docker-compose $(STANDARD_COMPOSE_FILES) up -d'
+	bash -c 'docker-compose $(STANDARD_COMPOSE_SUITE) up -d'
 ifeq ($(ALWAYS_CACHE_PROGRAMS),true)
 	make dev.cache-programs
 endif
 
 dev.up.%: | check-memory ## Bring up specific services (separated by plus-signs) and their dependencies with host volumes.
-	bash -c 'docker-compose $(STANDARD_COMPOSE_FILES) up -d $$(echo $* | tr + " ")'
+	bash -c 'docker-compose $(STANDARD_COMPOSE_SUITE) up -d $$(echo $* | tr + " ")'
 ifeq ($(ALWAYS_CACHE_PROGRAMS),true)
 	make dev.cache-programs
 endif
@@ -127,29 +153,29 @@ dev.up.with-programs.%: ## Bring up a service and its dependencies and cache pro
 	make dev.cache-programs
 
 dev.up.watchers: | check-memory ## Bring up asset watcher containers
-	bash -c 'docker-compose -f docker-compose-watchers.yml up -d'
+	bash -c 'docker-compose $(WATCHERS_COMPOSE_FILE) up -d'
 
 dev.nfs.setup:  ## set's up an nfs server on the /Users folder, allowing nfs mounting on docker
 	./setup_native_nfs_docker_osx.sh
 
 dev.nfs.up.watchers: | check-memory ## Bring up asset watcher containers
-	docker-compose -f docker-compose-watchers-nfs.yml up -d
+	docker-compose $(WATCHERS_COMPOSE_FILE_FOR_NFS) up -d
 
 dev.nfs.up: | check-memory ## Bring up all services with host volumes
-	docker-compose $(NFS_COMPOSE_FILES) up -d
+	docker-compose $(STANDARD_COMPOSE_SUITE_FOR_NFS) up -d
 
 dev.nfs.up.all: | dev.nfs.up dev.nfs.up.watchers ## Bring up all services with host volumes, including watchers
 
 dev.nfs.provision: | check-memory dev.clone dev.nfs.provision.services stop ## Provision dev environment with all services stopped
 
 dev.nfs.provision.services: ## Provision all services with local mounted directories
-	DOCKER_COMPOSE_FILES=$(NFS_COMPOSE_FILES) ./provision.sh
+	DOCKER_COMPOSE_FILES=$(STANDARD_COMPOSE_SUITE_FOR_NFS) ./provision.sh
 
 dev.nfs.provision.services.%: ## Provision specified services with local mounted directories, separated by plus signs
-	DOCKER_COMPOSE_FILES=$(NFS_COMPOSE_FILES) ./provision.sh $*
+	DOCKER_COMPOSE_FILES=$(STANDARD_COMPOSE_SUITE_FOR_NFS) ./provision.sh $*
 
 dev.up.xqueue: | check-memory ## Bring up xqueue, assumes you already have lms running
-	bash -c 'docker-compose -f docker-compose.yml -f docker-compose-xqueue.yml -f docker-compose-host.yml -f docker-compose-themes.yml up -d'
+	bash -c 'docker-compose $(XQUEUE_COMPOSE_SUITE) up -d'
 
 dev.up.all: | dev.up dev.up.watchers ## Bring up all services with host volumes, including watchers
 
@@ -162,7 +188,7 @@ dev.sync.requirements: ## Install requirements
 	gem install docker-sync
 
 dev.sync.up: dev.sync.daemon.start ## Bring up all services with docker-sync enabled
-	docker-compose -f docker-compose.yml -f docker-compose-sync.yml up -d
+	docker-compose $(STANDARD_COMPOSE_SUITE_FOR_SYNC) up -d
 
 provision: | dev.provision ## This command will be deprecated in a future release, use dev.provision
 	echo "\033[0;31mThis command will be deprecated in a future release, use dev.provision\033[0m"
@@ -172,31 +198,31 @@ stop: ## Stop all services
 	docker-compose stop
 
 stop.watchers: ## Stop asset watchers
-	docker-compose -f docker-compose-watchers.yml stop
+	docker-compose $(WATCHERS_COMPOSE_FILE) stop
 
 stop.all: | stop.analytics_pipeline stop stop.watchers ## Stop all containers, including asset watchers
 
 stop.xqueue: ## Stop the XQueue service container
-	docker-compose -f docker-compose-xqueue.yml stop
+	docker-compose $(XQUEUE_COMPOSE_FILE) stop
 
 down: ## Remove all service containers and networks
 	(test -d .docker-sync && docker-sync clean) || true ## Ignore failure here
-	docker-compose -f docker-compose.yml -f docker-compose-watchers.yml -f docker-compose-xqueue.yml -f docker-compose-analytics-pipeline.yml down
+	docker-compose $(ALL_SERVICE_COMPOSE_FILES) down
 
 destroy: ## Remove all devstack-related containers, networks, and volumes
 	$(WINPTY) bash ./destroy.sh
 
 logs: ## View logs from containers running in detached mode
-	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml logs -f
+	docker-compose $(ALL_SERVICE_COMPOSE_FILES) logs -f
 
 %-logs: ## View the logs of the specified service container
-	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml logs -f --tail=500 $*
+	docker-compose $(ALL_SERVICE_COMPOSE_FILES) logs -f --tail=500 $*
 
 xqueue-logs: ## View logs from containers running in detached mode
-	docker-compose -f docker-compose-xqueue.yml logs -f xqueue
+	docker-compose $(XQUEUE_COMPOSE_FILE) logs -f xqueue
 
 xqueue_consumer-logs: ## View logs from containers running in detached mode
-	docker-compose -f docker-compose-xqueue.yml logs -f xqueue_consumer
+	docker-compose $(XQUEUE_COMPOSE_FILE) logs -f xqueue_consumer
 
 RED="\033[0;31m"
 YELLOW="\033[0;33m"
@@ -234,7 +260,7 @@ pull: dev.pull
 	@echo -n $(NO_COLOR)
 
 pull.xqueue: ## Update XQueue Docker images
-	docker-compose -f docker-compose-xqueue.yml pull
+	docker-compose $(XQUEUE_COMPOSE_FILE) pull
 
 validate: ## Validate the devstack configuration
 	docker-compose config
@@ -356,28 +382,27 @@ mongo-shell: ## Run a shell on the mongo container
 
 ### analytics pipeline commands
 
-ANALYTICS_COMPOSE_FILES=$(STANDARD_COMPOSE_FILES) -f docker-compose-analytics-pipeline.yml
 
 dev.provision.analytics_pipeline: | check-memory dev.provision.analytics_pipeline.run stop.analytics_pipeline stop ## Provision analyticstack dev environment with all services stopped
 	echo "Ran dev.provision.analytics_pipeline"
 
 dev.provision.analytics_pipeline.run:
-	DOCKER_COMPOSE_FILES="$(ANALYTICS_COMPOSE_FILES)" ./provision-analytics-pipeline.sh
+	DOCKER_COMPOSE_FILES="$(ANALYTICS_COMPOSE_SUITE)" ./provision-analytics-pipeline.sh
 
 analytics-pipeline-shell: ## Run a shell on the analytics pipeline container
 	docker exec -it edx.devstack.analytics_pipeline env TERM=$(TERM) /edx/app/analytics_pipeline/devstack.sh open
 
 dev.up.analytics_pipeline: | check-memory ## Bring up analytics pipeline services
-	bash -c 'docker-compose $(ANALYTICS_COMPOSE_FILES) up -d analyticspipeline'
+	bash -c 'docker-compose $(ANALYTICS_COMPOSE_SUITE) up -d analyticspipeline'
 
 pull.analytics_pipeline: ## Update analytics pipeline docker images
-	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml pull
+	docker-compose $(ANALYTICS_COMPOSE_SUITE) pull
 
 analytics-pipeline-devstack-test: ## Run analytics pipeline tests in travis build
 	docker exec -u hadoop -i edx.devstack.analytics_pipeline bash -c 'sudo chown -R hadoop:hadoop /edx/app/analytics_pipeline && source /edx/app/hadoop/.bashrc && make develop-local && make docker-test-acceptance-local ONLY_TESTS=edx.analytics.tasks.tests.acceptance.test_internal_reporting_database && make docker-test-acceptance-local ONLY_TESTS=edx.analytics.tasks.tests.acceptance.test_user_activity'
 
 stop.analytics_pipeline: ## Stop analytics pipeline services
-	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml stop
+	docker-compose $(ANALYTICS_COMPOSE_SUITE) stop
 	docker-compose up -d mysql      ## restart mysql as other containers need it
 
 hadoop-application-logs-%: ## View hadoop logs by application Id
@@ -404,3 +429,5 @@ stats: ## Get per-container CPU and memory utilization data
 feature-toggle-state: ## Gather the state of feature toggles configured for various IDAs
 	$(WINPTY) bash ./gather-feature-toggle-state.sh
 
+selfcheck: ## check that the Makefile is well-formed
+	@echo "The Makefile is well-formed."
