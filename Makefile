@@ -114,8 +114,8 @@ ifeq ($(ALWAYS_CACHE_PROGRAMS),true)
 	make dev.cache-programs
 endif
 
-dev.up.%: | check-memory ## Bring up a specific service and its dependencies with host volumes
-	bash -c 'docker-compose $(STANDARD_COMPOSE_FILES) up -d $*'
+dev.up.%: | check-memory ## Bring up specific services (separated by plus-signs) and their dependencies with host volumes.
+	bash -c 'docker-compose $(STANDARD_COMPOSE_FILES) up -d $$(echo $* | tr + " ")'
 ifeq ($(ALWAYS_CACHE_PROGRAMS),true)
 	make dev.cache-programs
 endif
