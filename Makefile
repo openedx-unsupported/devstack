@@ -20,8 +20,8 @@
         feature-toggle-state healthchecks help lms-restart lms-shell \
         lms-static lms-update-db lms-watcher-shell logs mongo-shell \
         mysql-shell mysql-shell-edxapp provision pull pull.analytics_pipeline \
-        pull.xqueue registrar-shell requirements restore static stats stop \
-        stop.all stop.analytics_pipeline stop.watchers stop.xqueue \
+        pull.xqueue registrar-shell requirements restore selfcheck static \
+        stats stop stop.all stop.analytics_pipeline stop.watchers stop.xqueue \
         studio-restart studio-shell studio-static studio-update-db \
         studio-watcher-shell update-db upgrade upgrade validate \
         validate-lms-volume vnc-passwords xqueue_consumer-logs \
