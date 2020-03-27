@@ -102,8 +102,11 @@ dev.repo.reset: ## Attempts to reset the local repo checkouts to the master work
 dev.pull: ## Pull *all* required Docker images. Consider `make dev.pull.<service>` instead.
 	docker-compose pull
 
-dev.pull.%: ## Pull latest Docker images for a given service and all its dependencies
-	docker-compose pull --include-deps $*
+dev.pull-nodeps.%: ## Pull latest Docker images for services (separated by plus-signs).
+	ARG=$* docker-compose pull $$(echo $* | tr + " ")
+
+dev.pull.%: ## Pull latest Docker images for services (separated by plus-signs) and all their dependencies.
+	docker-compose pull --include-deps $$(echo $* | tr + " ")
 
 dev.up: | check-memory ## Bring up all services with host volumes
 	bash -c 'docker-compose $(STANDARD_COMPOSE_FILES) up -d'
