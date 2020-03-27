@@ -10,12 +10,13 @@ branches:
     - master
 
 env:
-  - DEVSTACK_WORKSPACE=/tmp SHALLOW_CLONE=1 DEVSTACK='lms'
-  - DEVSTACK_WORKSPACE=/tmp SHALLOW_CLONE=1 DEVSTACK='registrar'
-  - DEVSTACK_WORKSPACE=/tmp SHALLOW_CLONE=1 DEVSTACK='ecommerce'
-  - DEVSTACK_WORKSPACE=/tmp SHALLOW_CLONE=1 DEVSTACK='edx_notes_api'
-  - DEVSTACK_WORKSPACE=/tmp SHALLOW_CLONE=1 DEVSTACK='credentials'
-  - DEVSTACK_WORKSPACE=/tmp SHALLOW_CLONE=1 DEVSTACK='analytics_pipeline'
+  - DEVSTACK_WORKSPACE=/tmp SHALLOW_CLONE=1 SERVICES='lms+discovery+forum'
+  - DEVSTACK_WORKSPACE=/tmp SHALLOW_CLONE=1 SERVICES='lms+registrar'
+  - DEVSTACK_WORKSPACE=/tmp SHALLOW_CLONE=1 SERVICES='ecommerce'
+  - DEVSTACK_WORKSPACE=/tmp SHALLOW_CLONE=1 SERVICES='edx_notes_api'
+  - DEVSTACK_WORKSPACE=/tmp SHALLOW_CLONE=1 SERVICES='credentials'
+  - DEVSTACK_WORKSPACE=/tmp SHALLOW_CLONE=1 SERVICES='analyticspipeline'
+  - DEVSTACK_WORKSPACE=/tmp SHALLOW_CLONE=1 SERVICES='marketing'
 
 services:
   - docker
@@ -27,15 +28,11 @@ before_install:
   - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
   - docker version
   - docker-compose --version
-
   - make requirements
   - make dev.clone
-  - |
-    if [[ $DEVSTACK == 'analytics_pipeline' ]]; then
-        make dev.up.analytics_pipeline
-    else
-        make dev.pull.${DEVSTACK}
-    fi
+  - make dev.pull."$SERVICES"
 
 script:
-  - "./.travis/run.sh"
+  - make dev.provision.services."$SERVICES"
+  - make dev.up."$SERVICES"
+  - make dev.check."$SERVICES"
