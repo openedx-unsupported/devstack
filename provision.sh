@@ -49,6 +49,7 @@ notes \
 registrar \
 analyticspipeline \
 marketing \
+xqueue \
  "
 
 # What should we provision?
