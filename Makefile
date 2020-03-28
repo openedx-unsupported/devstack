@@ -289,8 +289,7 @@ lms-watcher-shell: ## Run a shell on the LMS watcher container
 %-attach: ## Attach to the specified service container process to use the debugger & see logs.
 	docker attach edx.devstack.$*
 
-lms-restart: ## Kill the LMS Django development server. The watcher process will restart it.
-	docker exec -t edx.devstack.lms bash -c 'kill $$(ps aux | grep "manage.py lms" | egrep -v "while|grep" | awk "{print \$$2}")'
+lms-restart: lms-restart-devserver
 
 studio-shell: ## Run a shell on the Studio container
 	docker exec -it edx.devstack.studio env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
@@ -298,14 +297,15 @@ studio-shell: ## Run a shell on the Studio container
 studio-watcher-shell: ## Run a shell on the studio watcher container
 	docker exec -it edx.devstack.studio_watcher env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
 
-studio-restart: ## Kill the LMS Django development server. The watcher process will restart it.
-	docker exec -t edx.devstack.studio bash -c 'kill $$(ps aux | grep "manage.py cms" | egrep -v "while|grep" | awk "{print \$$2}")'
+studio-restart: studio-restart-devserver
 
 xqueue-shell: ## Run a shell on the XQueue container
 	docker exec -it edx.devstack.xqueue env TERM=$(TERM) /edx/app/xqueue/devstack.sh open
 
-xqueue-restart: ## Kill the XQueue development server. The watcher process will restart it.
-	docker exec -t edx.devstack.xqueue bash -c 'kill $$(ps aux | grep "manage.py runserver" | egrep -v "while|grep" | awk "{print \$$2}")'
+xqueue-restart: xqueue-restart-devserver
+
+%-restart-devserver: ## Kill a service's Django development server. The watcher process should restart it.
+	docker exec -t edx.devstack.$* bash -c 'kill $$(ps aux | egrep "manage.py ?\w* runserver" | egrep -v "while|grep" | awk "{print \$$2}")'
 
 xqueue_consumer-shell: ## Run a shell on the XQueue consumer container
 	docker exec -it edx.devstack.xqueue_consumer env TERM=$(TERM) /edx/app/xqueue/devstack.sh open
