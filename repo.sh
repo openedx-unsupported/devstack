@@ -11,7 +11,7 @@ if [ -z "$DEVSTACK_WORKSPACE" ]; then
     echo "need to set workspace dir"
     exit 1
 elif [ -d "$DEVSTACK_WORKSPACE" ]; then
-    cd $DEVSTACK_WORKSPACE
+    cd "$DEVSTACK_WORKSPACE"
 else
     echo "Workspace directory $DEVSTACK_WORKSPACE doesn't exist"
     exit 1
@@ -75,9 +75,9 @@ _checkout ()
         name="${BASH_REMATCH[1]}"
 
         # If a directory exists and it is nonempty, assume the repo has been cloned.
-        if [ -d "$name" -a -n "$(ls -A "$name" 2>/dev/null)" ]; then
+        if [ -d "$name" ] && [ -n "$(ls -A "$name" 2>/dev/null)" ]; then
             echo "Checking out branch ${OPENEDX_GIT_BRANCH} of $name"
-            cd $name
+            cd "$name"
             _checkout_and_update_branch
             cd ..
         fi
@@ -102,20 +102,20 @@ _clone ()
 
         # If a directory exists and it is nonempty, assume the repo has been checked out
         # and only make sure it's on the required branch
-        if [ -d "$name" -a -n "$(ls -A "$name" 2>/dev/null)" ]; then
+        if [ -d "$name" ] && [ -n "$(ls -A "$name" 2>/dev/null)" ]; then
             if [ ! -d "$name/.git" ]; then
-                printf "ERROR: [%s] exists but is not a git repo.\n" $name
+                printf "ERROR: [%s] exists but is not a git repo.\n" "$name"
                 exit 1
             fi
-            printf "The [%s] repo is already checked out. Checking for updates.\n" $name
-            cd ${DEVSTACK_WORKSPACE}/${name}
+            printf "The [%s] repo is already checked out. Checking for updates.\n" "$name"
+            cd "${DEVSTACK_WORKSPACE}/${name}"
             _checkout_and_update_branch
             cd ..
         else
             if [ "${SHALLOW_CLONE}" == "1" ]; then
-                git clone --single-branch -b ${OPENEDX_GIT_BRANCH} -c core.symlinks=true --depth=1 ${repo}
+                git clone --single-branch -b ${OPENEDX_GIT_BRANCH} -c core.symlinks=true --depth=1 "${repo}"
             else
-                git clone --single-branch -b ${OPENEDX_GIT_BRANCH} -c core.symlinks=true ${repo}
+                git clone --single-branch -b ${OPENEDX_GIT_BRANCH} -c core.symlinks=true "${repo}"
             fi
         fi
     done
@@ -159,9 +159,9 @@ reset ()
         name="${BASH_REMATCH[1]}"
 
         if [ -d "$name" ]; then
-            cd $name;git reset --hard HEAD;git checkout master;git reset --hard origin/master;git pull;cd "$currDir"
+            cd "$name";git reset --hard HEAD;git checkout master;git reset --hard origin/master;git pull;cd "$currDir"
         else
-            printf "The [%s] repo is not cloned. Continuing.\n" $name
+            printf "The [%s] repo is not cloned. Continuing.\n" "$name"
         fi
     done
     cd - &> /dev/null
@@ -176,10 +176,10 @@ status ()
         name="${BASH_REMATCH[1]}"
 
         if [ -d "$name" ]; then
-            printf "\nGit status for [%s]:\n" $name
-            cd $name;git status;cd "$currDir"
+            printf "\nGit status for [%s]:\n" "$name"
+            cd "$name";git status;cd "$currDir"
         else
-            printf "The [%s] repo is not cloned. Continuing.\n" $name
+            printf "The [%s] repo is not cloned. Continuing.\n" "$name"
         fi
     done
     cd - &> /dev/null
