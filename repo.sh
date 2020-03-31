@@ -64,14 +64,6 @@ _get_name()
 	echo "${BASH_REMATCH[1]}"
 }
 
-_get_edraak_repo_branch() {
-  if [ "$1" == "marketing-site" ] || [ "$1" == "edraak-programs" ]; then
-    echo "hawthorn"  # TODO: Switch to `master` once the Hawthorn upgrade is complete.
-  else
-    echo "master"  # Edraak: Use master, because it's pinned to Hawthorn.
-  fi
-}
-
 _checkout ()
 {
     repos_to_checkout=("$@")
@@ -91,7 +83,7 @@ _checkout ()
         if [ -d "$name" -a -n "$(ls -A "$name" 2>/dev/null)" ]; then
             cd $name
 
-            branch=$(_get_edraak_repo_branch "$name")
+            branch=master
             echo "Checking out branch $branch of $name"
             git pull
             git checkout "$branch"
@@ -124,7 +116,7 @@ _clone ()
                 git clone $repo $name
             fi
             cd $name
-            branch=$(_get_edraak_repo_branch "$name")
+            branch=master
             git checkout "$branch"
             cd -
         fi
@@ -149,7 +141,7 @@ reset ()
     do
         name=$(_get_name $repo)
 
-        branch=$(_get_edraak_repo_branch "$name")
+        branch=master
         if [ -d "$name" ]; then
             cd $name;git reset --hard HEAD;git checkout "$branch";git reset --hard "origin/$branch";git pull;cd "$currDir"
         else
