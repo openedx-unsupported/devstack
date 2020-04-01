@@ -32,41 +32,35 @@ Tahoe is all about subdomains, so please add the following entries to your ``/et
 
 .. code::
 
-    127.0.0.1 edx.devstack.lms
-    127.0.0.1 red.localhost
-    127.0.0.1 blue.localhost
-    127.0.0.1 green.localhost
+    127.0.0.1 edx.devstack.lms  # Needed for devstack nascence
+    127.0.0.1 red.localhost  # Your default site
+    127.0.0.1 blue.localhost green.localhost  # Create as many of those as you wish
 
+Where's my Site?
+----------------
 
-Using Tahoe and AMC
--------------------
+Now you have a site of your own:
 
-The project is now available on the following URLs:
+  - **LMS:** http://red.localhost:18000/
+  - **Studio:** http://localhost:18010/
+  - **AMC:** http://localhost:13000/
 
-- **AMC:** http://localhost:13000/
-- **Studio:** http://localhost:18010/
-    - This will not work until you finish section setting up your env as shown in `But, But, But Where's My Site? <https://github.com/appsembler/devstack#but-but-but-wheres-my-site>`_    
-    - If AMC says it's http://studio.localhost:18000 that's a bug, just use the former URL.
-- **LMS:** http://red.localhost:18000/
-    - This will not work until you finish section setting up your env as shown in `But, But, But Where's My Site? <https://github.com/appsembler/devstack#but-but-but-wheres-my-site>`_    
-    - You can use any other subdomain you choose except for http://localhost:18000 since that's reserved for other use.
+Credentials are:
 
-Superuser passwords are:
+ - **Email:** ``red@example.com``
+ - **Username:** ``red``
+ - **Password:** ``red``
 
-- **AMC:** ``amc`` with email ``amc@example.com`` and password ``amc``.
-- **Studio and LMS superuser:** ``edx`` with email ``edx@example.com`` and password ``edx``.
+More on Tahoe and AMC
+---------------------
 
-But, But, But Where's My Site?
-------------------------------
+You might want to access the ``/admin`` URLs below:
 
-`Until we automate that <https://trello.com/c/wS5rTBFp>`_ you have to create the site manually. It's not that hard:
+- **LMS:** http://localhost:18000/admin/ and **Studio:** http://localhost:18010/admin/
+  Superuser credentials are ``edx`` with email ``edx@example.com`` and password ``edx``.
 
-- Go to http://localhost:13000/signup-wizard/0
-- Follow the steps setting the site name to ``red`` so it matches the earlier ``/etc/hosts`` entries.
-- In the terminal run ``$ make logs`` scroll up to activate your email
-- This is a shortcut if you don't like scrolling: ``$ make logs | grep devstack.amc | grep -o 'http:.*accounts/confirm-email/[^/]*/' | tail -n1``
-- Refer to `Theme <https://github.com/appsembler/devstack#theme>`_ section to get your theme ready for your first site.
-- After complete the steps, you should be able to access all of Tahoe and AMC URLs via the user you created.
+- **AMC:** http://localhost:13000/admin/
+  Superuser credentials are ``amc`` with email ``amc@example.com`` and password ``amc``.
 
 More Good Devstack Stuff
 ------------------------
@@ -85,6 +79,16 @@ Currently the commands looks like this:
       tahoe.exec.single         Execute a command inside a devstack docker container
       tahoe.provision           Make the devstack more Tahoe'ish
       tahoe.restart             Restarts both of LMS and Studio python processes while keeping the same container
+
+
+Creating more sites is possible via the commands below:
+
+.. code:: bash
+
+    $ make amc-shell  # Inside your machine to open the AMC shell
+    $ ./manage.py create_devstack_site blue  # Inside the AMC shell
+    $ make lms-shell  # Inside your machine to open the LMS shell
+    $ ./manage.py lms create_devstack_site blue
 
 
 If something goes wrong, check out the rest of this README for additional details.
