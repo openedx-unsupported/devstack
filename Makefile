@@ -177,10 +177,15 @@ restore:  ## Restore all data volumes from the host. WARNING: THIS WILL OVERWRIT
 	docker run --rm --volumes-from edx.devstack.mongo -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/mongo.tar.gz
 	docker run --rm --volumes-from edx.devstack.elasticsearch -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/elasticsearch.tar.gz
 
+%-edbash: ## Run a shell on the specified service container
+	docker exec -it edraak.devstack.$* /bin/bash
+
+
 # TODO: Print out help for this target. Even better if we can iterate over the
 # services in docker-compose.yml, and print the actual service names.
 %-shell: ## Run a shell on the specified service container
 	docker exec -it edx.devstack.$* /bin/bash
+
 
 credentials-shell:
 	docker exec -it edx.devstack.credentials env TERM=$(TERM) bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials && /bin/bash'
