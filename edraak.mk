@@ -83,6 +83,10 @@ marketing-restart: ## Kill the Marketing Django development server. The watcher 
 programs-restart: ## Kill the Edraak Programs Django development server. The watcher process will restart it.
 	docker exec -t edraak.devstack.programs bash -c 'kill $$(ps aux | grep "manage.py" | egrep -v "while|grep" | awk "{print \$$2}")'
 
+programs_gulp-restart:
+	docker exec -t edraak.devstack.programs-gulp bash -c 'kill $$(ps aux | grep "gulp" | egrep -v "while|grep" | awk "{print \$$2}")'
+
+
 edraak.restart:  ## Restart all of the lms, studio, marketing and progs
 	make marketing-restart
 	make programs-restart
