@@ -67,7 +67,7 @@ dev.editable-envs:  ## Copy env files outside the docker containers so it's edit
 	@docker exec -it edx.devstack.lms bash -c 'ln -sf /edx/src/edxapp-envs/lms.{env,auth}.json /edx/app/edxapp/'
 	@docker exec -it edx.devstack.studio bash -c 'test -f /edx/src/edxapp-envs/cms.env.json || mv /edx/app/edxapp/cms.{env,auth}.json /edx/src/edxapp-envs/'
 	@docker exec -it edx.devstack.studio bash -c 'ln -sf /edx/src/edxapp-envs/cms.{env,auth}.json /edx/app/edxapp/'
-	chown -R $(USER) $(DEVSTACK_WORKSPACE)/src
+	@sudo chown -R $(USER) $(DEVSTACK_WORKSPACE)/src
 	@make lms-restart
 	@make studio-restart
 
