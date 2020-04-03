@@ -11,7 +11,7 @@ Requirements
 - This project requires **Docker 17.06+ CE**.
 - You are required to have the needed GCloud permissions. To authenticate your requests, follow the steps in: `Authentication methods <https://cloud.google.com/container-registry/docs/advanced-authentication>`_
 
-Desclaimer
+Disclaimer
 ----------
 - Apparently Docker behavior is inconsistent between Mac and Linux due to some core differences between both operating systems.
 - This README contains some known bugs and issues, make sure to search your issues here as they might be an issue we ran into before.
@@ -93,8 +93,13 @@ Creating more sites is possible via the commands below:
 
 If something goes wrong, check out the rest of this README for additional details.
 
-Environment Files
------------------
+Tahoe Specific Devstack Features
+--------------------------------
+The features below are specific to this Tahoe devstack repository and not found in
+the upstream devstck:
+
+Persistent Environment Files
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The environment files are now stored in the ``src/edxapp-envs`` directory near the ``edx-platform``
 so it can be edited using layman editors such as PyCharm and VSCode.
 
@@ -103,6 +108,28 @@ one need to SSH into the container and edit the file. Anyway, changes don't real
 devstack.
 
 ``$ dev.up`` command brings those files outside the container.
+
+Persistent Custom Python Packages
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Because of the statelessness of Docker containers, the devstack will forget any
+``pip install`` you'd do after restart.
+
+Knowing that most of the packages like Figures and Course Access Groups
+need to survive such restarts, this feature only works on LMS/Studio.
+
+The ``$ make tahoe.provision`` command will install all packages located inside
+the ``src/edxapp-pip`` directory. There's no need to run this command manually as it will
+run on every ``$ make dev.up``.
+
+For example to make Course Access Groups installed on every devstack startup:
+
+.. code:: bash
+
+    $ cd devstack/../src/edxapp-pip/
+    $ git clone git@github.com:appsembler/course-access-groups.git
+    $ cd ../../devstack
+    $ make dev.up  # Now the repository will always be installed on every startup
 
 Theme
 -----
