@@ -140,10 +140,10 @@ dev.nfs.up.all: | dev.nfs.up dev.nfs.up.watchers ## Bring up all services with h
 dev.nfs.provision: | check-memory dev.clone dev.nfs.provision.services stop ## Provision dev environment with all services stopped
 
 dev.nfs.provision.services: ## Provision all services with local mounted directories
-	DOCKER_COMPOSE_FILES=$(NFS_COMPOSE_FILES) ./provision.sh
+	DOCKER_COMPOSE_FILES="$(NFS_COMPOSE_FILES)" ./provision.sh
 
 dev.nfs.provision.services.%: ## Provision specified services with local mounted directories, separated by plus signs
-	DOCKER_COMPOSE_FILES=$(NFS_COMPOSE_FILES) ./provision.sh $*
+	DOCKER_COMPOSE_FILES="$(NFS_COMPOSE_FILES)" ./provision.sh $*
 
 dev.up.xqueue: | check-memory ## Bring up xqueue, assumes you already have lms running
 	bash -c 'docker-compose -f docker-compose.yml -f docker-compose-xqueue.yml -f docker-compose-host.yml -f docker-compose-themes.yml up -d'
