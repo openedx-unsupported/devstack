@@ -57,7 +57,7 @@ def install_auto_pip_requirements():
     This useful to avoid the need to re-install pip requirements every time a `$ make dev.up` is done.
     """
     if not PIP_DIR.exists():
-        makedirs(ENVS_DIR)
+        return
 
     for package_dir in PIP_DIR.dirs():
         setup_file = package_dir / 'setup.py'

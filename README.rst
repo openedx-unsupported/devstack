@@ -111,7 +111,7 @@ Persistent Custom Python Packages
 Because of the statelessness of Docker containers, the devstack will forget any
 ``pip install`` you'd do after restart.
 
-Knowing that most of the packages like Figures and Course Access Groups are normally
+Knowing that most of the packages like Figures and Course Access Groups
 need to survive such restarts, this feature only works on LMS/Studio.
 
 The ``$ make tahoe.provision`` command will install all packages located inside
