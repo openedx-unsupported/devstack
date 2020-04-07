@@ -140,6 +140,7 @@ _checkout_and_update_branch ()
         git pull origin ${OPENEDX_GIT_BRANCH}
     else
         git fetch origin ${OPENEDX_GIT_BRANCH}:${OPENEDX_GIT_BRANCH}
+        git reset --hard HEAD; git clean -dfx
         git checkout ${OPENEDX_GIT_BRANCH}
     fi
     find . -name '*.pyc' -not -path './.git/*' -delete
@@ -195,19 +196,23 @@ status ()
     cd - &> /dev/null
 }
 
-if [ "$1" == "checkout" ]; then
-    checkout
-elif [ "$1" == "clone" ]; then
-    clone
-elif [ "$1" == "clone_ssh" ]; then
-    clone_ssh
-elif [ "$1" == "whitelabel" ]; then
-    clone_private
-elif [ "$1" == "reset" ]; then
-    read -p "This will override any uncommited changes in your local git checkouts. Would you like to proceed? [y/n] " -r
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
+if [ "$1" == "status" ]; then
+    status
+else
+    read -p "This will delete any uncommited changes in your local git repositories. Would you like to proceed? [y/n] " -r
+    if ! [[ $REPLY =~ ^[Yy]$ ]]; then
+        exit 0
+    fi
+
+    if [ "$1" == "checkout" ]; then
+        checkout
+    elif [ "$1" == "clone" ]; then
+        clone
+    elif [ "$1" == "clone_ssh" ]; then
+        clone_ssh
+    elif [ "$1" == "whitelabel" ]; then
+        clone_private
+    elif [ "$1" == "reset" ]; then
         reset
     fi
-elif [ "$1" == "status" ]; then
-    status
 fi
