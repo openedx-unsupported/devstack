@@ -212,6 +212,8 @@ services:
   postgres:
     image: postgres:9.4
     container_name: tahoe.devstack.postgres
+    environment:
+      POSTGRES_PASSWORD: 'postgres'
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
