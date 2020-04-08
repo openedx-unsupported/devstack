@@ -62,7 +62,7 @@ def install_auto_pip_requirements():
     for package_dir in PIP_DIR.dirs():
         setup_file = package_dir / 'setup.py'
         if setup_file.exists():  # Ensure it's a proper Python package.
-            call(['pip', 'install', '-e', package_dir])
+            call(['pip', 'install', '--no-deps', '-e', package_dir])
 
 
 def main():

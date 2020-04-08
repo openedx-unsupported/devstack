@@ -212,6 +212,8 @@ services:
   postgres:
     image: postgres:9.4
     container_name: tahoe.devstack.postgres
+    environment:
+      POSTGRES_PASSWORD: 'postgres'
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
@@ -242,7 +244,7 @@ services:
       DATABASE_URL: "postgres://postgres:postgres@tahoe.devstack.postgres:5432/postgres"
       BROKER_URL: "redis://tahoe.devstack.redis:6379/1"
       LMS_BASE_URL: "http://edx.devstack.lms:18000"
-      CMS_BASE_URL: "http://tahoe.devstack.studio:18010"
+      CMS_BASE_URL: "http://edx.devstack.studio:18010"
       APPSEMBLER_EDX_OAUTH_CLIENT_ID: 6f2b93d5c02560c3f93f
       APPSEMBLER_EDX_OAUTH_CLIENT_SECRET: 2c6c9ac52dd19d7255dd569fb7eedbe0ebdab2db
       DJANGO_SETTINGS_MODULE: config.settings
@@ -251,7 +253,7 @@ services:
       OAUTHLIB_INSECURE_TRANSPORT: "true"
       APPSEMBLER_EDX_API_KEY: test
       APPSEMBLER_SECRET_KEY: secret_key
-    image: gcr.io/appsembler-tahoe-0/amc
+    image: appsembler/amc-backend-base
     ports:
       - "29000:19000"  # Discourage the use of the Python backend, but make it available for debugging purposes
 
@@ -268,7 +270,7 @@ services:
       BACKEND_HOST: "http://tahoe.devstack.amc:19000"
     depends_on:
       - amc
-    image: gcr.io/appsembler-tahoe-0/amc-frontend
+    image: appsembler/amc-frontend-base
     ports:
       - "13000:13000"
 
