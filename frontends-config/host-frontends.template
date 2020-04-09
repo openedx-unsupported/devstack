@@ -1,0 +1,30 @@
+# This is template file to demonstrate the syntax of a `host-frontends` file,
+# which allows you  develop microfrontends locally while still having all
+# requests be routed through the edx.devstack.frontends container.
+
+# To make use of this, create a file called `host-frontends` in the
+# same directory as this file, using the syntax described here.
+# You may start by copying this file if you wish.
+# The `host-frontends` file will be ignored by git, allowing you to `git pull`
+# the devstack repository without losing any changes to the file.
+
+# Syntax: Each line should be one of the following:
+#    1. Blank
+#    2. A comment (starts with #)
+#    3. Of the form FRONTEND_NAME PORT
+# Lines of type (1) and (2) are ignored.
+# Lines of type (3) have the effect of redirecting all requests
+#   from `http://localhost:19000/FRONTEND_NAME/*` to `http://localhost:PORT/*`.
+
+# For example, this file:
+
+learning 2000
+program-console 1976
+
+# would make it so
+#   `http://localhost:19000/learning/` and `http://localhost:19000/learning/`
+# gets redirected to
+#   `http://localhost:2000/` and `http://localhost:1976/`, respectively.
+# This would allow you to develop your frontend-app-learning and
+# frontend-app-program-console code and manage the serving of it with
+# `npm start` as you normally would.

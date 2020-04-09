@@ -225,6 +225,7 @@ services:
       - forum
       - firefox
       - chrome
+      - frontends
     # Allows attachment to the LMS service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
@@ -338,45 +339,13 @@ services:
 
   # ==========================================================================
   # edX Microfrontends
-  #
-  # TODO: Instead of having an nginx container for every single microfrontend
-  # (there are like 12 now, right?), we should come up with an actual strategy
-  # for micro-frontends in devtack.
   # ==========================================================================
 
-  frontend-app-publisher:
-    extends:
-      file: microfrontend.yml
-      service: microfrontend
-    working_dir: '/edx/app/frontend-app-publisher'
-    container_name: edx.devstack.frontend-app-publisher
+  frontends:
+    image: kdmccormick96/devstack-frontends:latest
+    container_name: edx.devstack.frontends
     ports:
-      - "18400:18400"
-    depends_on:
-      - lms
-
-  gradebook:
-    extends:
-      file: microfrontend.yml
-      service: microfrontend
-    working_dir: '/edx/app/gradebook'
-    container_name: edx.devstack.gradebook
-    ports:
-      - "1994:1994"
-    depends_on:
-      - lms
-
-  program-console:
-    extends:
-      file: microfrontend.yml
-      service: microfrontend
-    working_dir: '/edx/app/program-console'
-    container_name: edx.devstack.program-console
-    ports:
-      - "1976:1976"
-    depends_on:
-      - lms
-      - registrar
+      - "19000:19000"
 
 volumes:
   discovery_assets:
@@ -386,4 +355,5 @@ volumes:
   mongo_data:
   mysql_data:
   mysql57_data:
+  devpi_data:
   devpi_data:

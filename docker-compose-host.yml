@@ -45,18 +45,9 @@ services:
   registrar-worker:
     volumes:
       - ${DEVSTACK_WORKSPACE}/registrar:/edx/app/registrar/registrar
-  gradebook:
+  frontends:
     volumes:
-      - ${DEVSTACK_WORKSPACE}/frontend-app-gradebook:/edx/app/gradebook:cached
-      - gradebook_node_modules:/edx/app/gradebook/node_modules
-  program-console:
-    volumes:
-      - ${DEVSTACK_WORKSPACE}/frontend-app-program-console:/edx/app/program-console:cached
-      - program_console_node_modules:/edx/app/program-console/node_modules
-  frontend-app-publisher:
-    volumes:
-      - ${DEVSTACK_WORKSPACE}/frontend-app-publisher:/edx/app/frontend-app-publisher:cached
-      - frontend_app_publisher_node_modules:/edx/app/frontend-app-publisher/node_modules
+      - ${DEVSTACK_WORKSPACE}/devstack/frontends-config:/edx/app/mounted-config
 
 volumes:
   credentials_node_modules:

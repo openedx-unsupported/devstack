@@ -17,8 +17,8 @@
         dev.sync.provision dev.sync.requirements dev.sync.up dev.up dev.up.all \
         dev.up.analytics_pipeline dev.up.watchers dev.up.with-programs \
         dev.up.xqueue discovery-shell down e2e-shell e2e-tests ecommerce-shell \
-        feature-toggle-state healthchecks help lms-restart lms-shell \
-        lms-static lms-update-db lms-watcher-shell logs mongo-shell \
+        feature-toggle-state frontends-kick healthchecks help lms-restart \
+        lms-shell lms-static lms-update-db lms-watcher-shell logs mongo-shell \
         mysql-shell mysql-shell-edxapp provision pull pull.analytics_pipeline \
         pull.xqueue registrar-shell requirements restore static stats stop \
         stop.all stop.analytics_pipeline stop.watchers stop.xqueue \
@@ -245,6 +245,10 @@ restore:  ## Restore all data volumes from the host. WARNING: THIS WILL OVERWRIT
 	docker run --rm --volumes-from edx.devstack.mysql -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/mysql.tar.gz
 	docker run --rm --volumes-from edx.devstack.mongo -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/mongo.tar.gz
 	docker run --rm --volumes-from edx.devstack.elasticsearch -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/elasticsearch.tar.gz
+
+frontends-kick:
+	docker-compose exec frontends \
+		bash -c 'kill $$(ps aux | grep "nginx: master process" | egrep -v "grep" | awk "{print \$$2}")'
 
 # TODO: Print out help for this target. Even better if we can iterate over the
 # services in docker-compose.yml, and print the actual service names.
