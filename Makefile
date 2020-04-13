@@ -9,24 +9,22 @@
 .PHONY: analytics-pipeline-devstack-test analytics-pipeline-shell \
         analyticspipeline-shell backup build-courses check-memory \
         create-test-course credentials-shell destroy dev.cache-programs \
-        dev.checkout dev.clone dev.clone.ssh dev.nfs.provision \
-        dev.nfs.provision.services dev.nfs.setup dev.nfs.up dev.nfs.up.all \
-        dev.nfs.up.watchers devpi-password dev.provision \
-        dev.provision.analytics_pipeline dev.provision.services \
-        dev.provision.xqueue dev.pull dev.repo.reset dev.reset dev.status \
-        dev.sync.daemon.start dev.sync.provision dev.sync.requirements \
-        dev.sync.up dev.up dev.up.all dev.up.analytics_pipeline \
-        dev.up.watchers dev.up.with-programs discovery-shell down e2e-shell \
-        e2e-tests ecommerce-shell feature-toggle-state forum-restart-devserver \
-        healthchecks help lms-restart lms-shell lms-static lms-update-db \
-        lms-watcher-shell logs mongo-shell mysql-shell mysql-shell-edxapp \
-        provision pull pull.analytics_pipeline pull.xqueue registrar-shell \
-        requirements restore selfcheck static stats stop stop.all \
-        stop.analytics_pipeline stop.watchers stop.xqueue studio-restart \
-        studio-shell studio-static studio-update-db studio-watcher-shell \
-        update-db upgrade upgrade validate validate-lms-volume vnc-passwords \
-        xqueue_consumer-restart xqueue_consumer-shell xqueue-restart \
-        xqueue-shell
+        dev.check dev.checkout dev.clone dev.clone.ssh dev.nfs.setup \
+        devpi-password dev.provision dev.provision.analytics_pipeline \
+        dev.provision.services dev.provision.xqueue dev.pull dev.repo.reset \
+        dev.reset dev.status dev.sync.daemon.start dev.sync.provision \
+        dev.sync.requirements dev.sync.up dev.up dev.up.all \
+        dev.up.analytics_pipeline dev.up.watchers dev.up.with-programs \
+        discovery-shell down e2e-shell e2e-tests ecommerce-shell \
+        feature-toggle-state forum-restart-devserver healthchecks help \
+        lms-restart lms-shell lms-static lms-update-db lms-watcher-shell logs \
+        mongo-shell mysql-shell mysql-shell-edxapp provision pull \
+        pull.analytics_pipeline pull.xqueue registrar-shell requirements \
+        restore selfcheck static stats stop stop.all stop.analytics_pipeline \
+        stop.watchers stop.xqueue studio-restart studio-shell studio-static \
+        studio-update-db studio-watcher-shell update-db upgrade upgrade \
+        validate validate-lms-volume vnc-passwords xqueue_consumer-restart \
+        xqueue_consumer-shell xqueue-restart xqueue-shell
 
 
 # Docker Compose files that define services.
@@ -64,7 +62,47 @@ FULL_COMPOSE_SUITE=$(ALL_SERVICE_COMPOSE_FILES) $(SUPPORTING_COMPOSE_FILES)
 
 # Include options (configurable through options.local.mk)
 include options.mk
-export
+
+# Include local overrides to options.
+# You can use this file to configure your Devstack. It is ignored by git.
+-include options.local.mk  # Prefix with hyphen to tolerate absence of file.
+
+# Docker Compose YAML files to define services and their volumes.
+# Depending on the value of FS_SYNC_STRATEGY, we use a slightly different set of
+# files, enabling use of different strategies to synchronize files between the host and
+# the containers.
+# Some services are only available for certain values of FS_SYNC_STRATEGY.
+# For example, the LMS/Studio asset watchers are only available for local-mounts and nfs,
+# and XQueue and the Analytics Pipeline are only available for local-mounts.
+
+ifeq ($(FS_SYNC_STRATEGY),local-mounts)
+DOCKER_COMPOSE_FILES := \
+-f docker-compose-host.yml \
+-f docker-compose-themes.yml \
+-f docker-compose-watchers.yml \
+-f docker-compose-xqueue.yml \
+-f docker-compose-analytics-pipeline.yml \
+-f docker-compose-marketing-site.yml
+endif
+
+ifeq ($(FS_SYNC_STRATEGY),nfs)
+DOCKER_COMPOSE_FILES := \
+-f docker-compose-host-nfs.yml \
+-f docker-compose-themes-nfs.yml \
+-f docker-compose-watchers-nfs.yml
+endif
+
+ifeq ($(FS_SYNC_STRATEGY),docker-sync)
+DOCKER_COMPOSE_FILES := \
+-f docker-compose-sync.yml
+endif
+
+ifndef DOCKER_COMPOSE_FILES
+$(error FS_SYNC_STRATEGY is set to $(FS_SYNC_STRATEGY). Must be one of: local-mounts, nfs, docker-sync)
+endif
+
+# All three filesystem synchronization strategy require the main docker-compose.yml file.
+DOCKER_COMPOSE_FILES := -f docker-compose.yml $(DOCKER_COMPOSE_FILES)
 
 OS := $(shell uname)
 
@@ -85,6 +123,9 @@ endif
 
 # Include specialized Make commands.
 include marketing.mk
+
+# Export Makefile variables to recipe shells.
+export
 
 # Generates a help message. Borrowed from https://github.com/pydanny/cookiecutter-djangopackage.
 help: ## Display this help message
@@ -109,20 +150,24 @@ dev.clone: ## Clone service repos using HTTPS method to the parent directory
 dev.clone.ssh: ## Clone service repos using SSH method to the parent directory
 	./repo.sh clone_ssh
 
-dev.provision.services: ## Provision all services with local mounted directories
-	DOCKER_COMPOSE_FILES="$(STANDARD_COMPOSE_SUITE)" $(WINPTY) bash ./provision.sh
+dev.provision.services: ## Provision default services with local mounted directories
+	# We provision all default services as well as 'e2e' (end-to-end tests).
+	# e2e is not part of `DEFAULT_SERVICES` because it isn't a service;
+	# it's just a way to tell ./provision.sh that the fake data for end-to-end
+	# tests should be prepared.
+	$(WINPTY) bash ./provision.sh $(DEFAULT_SERVICES)+e2e
 
 dev.provision.services.%: ## Provision specified services with local mounted directories, separated by plus signs
-	DOCKER_COMPOSE_FILES="$(FULL_COMPOSE_SUITE)" $(WINPTY) bash ./provision.sh $*
+	$(WINPTY) bash ./provision.sh $*
 
-dev.provision: | check-memory dev.clone.ssh dev.provision.services stop ## Provision dev environment with all services stopped
+dev.provision: check-memory dev.clone.ssh dev.provision.services stop ## Provision dev environment with default services, and then stop them.
 
 dev.cache-programs: ## Copy programs from Discovery to Memcached for use in LMS.
 	$(WINPTY) bash ./programs/provision.sh cache
 
 dev.provision.xqueue: dev.provision.services.xqueue
 
-dev.reset: | down dev.repo.reset pull dev.up static update-db ## Attempts to reset the local devstack to the master working state
+dev.reset: down dev.repo.reset pull dev.up static update-db ## Attempts to reset the local devstack to the master working state
 
 dev.status: ## Prints the status of all git repositories
 	$(WINPTY) bash ./repo.sh status
@@ -130,67 +175,52 @@ dev.status: ## Prints the status of all git repositories
 dev.repo.reset: ## Attempts to reset the local repo checkouts to the master working state
 	$(WINPTY) bash ./repo.sh reset
 
-dev.pull: ## Pull *all* required Docker images. Consider `make dev.pull.<service>` instead.
-	docker-compose pull
+dev.pull: dev.pull.$(DEFAULT_SERVICES) ## Pull Docker images required by default services.
 
 dev.pull-without-deps.%: ## Pull latest Docker images for services (separated by plus-signs).
-	ARG=$* docker-compose $(ALL_SERVICE_COMPOSE_FILES) pull $$(echo $* | tr + " ")
+	docker-compose $(DOCKER_COMPOSE_FILES) pull $$(echo $* | tr + " ")
 
 dev.pull.%: ## Pull latest Docker images for services (separated by plus-signs) and all their dependencies.
-	docker-compose $(ALL_SERVICE_COMPOSE_FILES) pull --include-deps $$(echo $* | tr + " ")
+	docker-compose $(DOCKER_COMPOSE_FILES) pull --include-deps $$(echo $* | tr + " ")
 
-dev.up: | check-memory ## Bring up all services with host volumes
-	bash -c 'docker-compose $(STANDARD_COMPOSE_SUITE) up -d'
-ifeq ($(ALWAYS_CACHE_PROGRAMS),true)
-	make dev.cache-programs
-endif
+dev.up: dev.up.$(DEFAULT_SERVICES) check-memory ## Bring up default services.
 
 dev.up.%: | check-memory ## Bring up specific services (separated by plus-signs) and their dependencies with host volumes.
-	bash -c 'docker-compose $(FULL_COMPOSE_SUITE) up -d $$(echo $* | tr + " ")'
+	docker-compose $(DOCKER_COMPOSE_FILES) up -d $$(echo $* | tr + " ")
 ifeq ($(ALWAYS_CACHE_PROGRAMS),true)
 	make dev.cache-programs
 endif
 
 dev.up.with-programs: dev.up dev.cache-programs  ## Bring up a all services and cache programs in LMS.
 
-dev.up.with-programs.%: ## Bring up a service and its dependencies and cache programs in LMS.
-	make dev.up.$*
-	make dev.cache-programs
+dev.up.with-programs.%: dev.up.$* dev.cache-programs ## Bring up a service and its dependencies and cache programs in LMS.
 
-dev.up.watchers: | check-memory ## Bring up asset watcher containers
-	bash -c 'docker-compose $(WATCHERS_COMPOSE_FILE) up -d'
+dev.up.watchers: check-memory dev.up.lms_watcher+studio_watcher ## Bring up asset watcher containers
 
-dev.nfs.setup:  ## set's up an nfs server on the /Users folder, allowing nfs mounting on docker
+dev.nfs.setup:  ## Sets up an nfs server on the /Users folder, allowing nfs mounting on docker
 	./setup_native_nfs_docker_osx.sh
 
-dev.nfs.up.watchers: | check-memory ## Bring up asset watcher containers
-	docker-compose $(WATCHERS_COMPOSE_FILE_FOR_NFS) up -d
+dev.nfs.%:
+	FS_SYNC_STRATEGY=nfs make dev.$*
 
-dev.nfs.up: | check-memory ## Bring up all services with host volumes
-	docker-compose $(STANDARD_COMPOSE_SUITE_FOR_NFS) up -d
+dev.up.all: dev.up dev.up.watchers ## Bring up all services with host volumes, including watchers
 
-dev.nfs.up.all: | dev.nfs.up dev.nfs.up.watchers ## Bring up all services with host volumes, including watchers
-
-dev.nfs.provision: | check-memory dev.clone dev.nfs.provision.services stop ## Provision dev environment with all services stopped
-
-dev.nfs.provision.services: ## Provision all services with local mounted directories
-	DOCKER_COMPOSE_FILES="$(STANDARD_COMPOSE_SUITE_FOR_NFS)" ./provision.sh
-
-dev.nfs.provision.services.%: ## Provision specified services with local mounted directories, separated by plus signs
-	DOCKER_COMPOSE_FILES="$(STANDARD_COMPOSE_SUITE_FOR_NFS)" ./provision.sh $*
-
-dev.up.all: | dev.up dev.up.watchers ## Bring up all services with host volumes, including watchers
+# TODO: Improve or rip out Docker Sync targets.
+#       They are not well-fleshed-out and it is not clear if anyone uses them.
 
 dev.sync.daemon.start: ## Start the docker-sycn daemon
 	docker-sync start
 
-dev.sync.provision: | dev.sync.daemon.start dev.provision ## Provision with docker-sync enabled
+dev.sync.provision: dev.sync.daemon.start ## Provision with docker-sync enabled
+	FS_SYNC_STRATEGY=docker-sync make dev.provision
 
 dev.sync.requirements: ## Install requirements
 	gem install docker-sync
 
 dev.sync.up: dev.sync.daemon.start ## Bring up all services with docker-sync enabled
-	docker-compose $(STANDARD_COMPOSE_SUITE_FOR_SYNC) up -d
+	FS_SYNC_STRATEGY=docker-sync make dev.up
+
+dev.check: dev.check.$(DEFAULT_SERVICES) ## Run checks for the default service set.
 
 dev.check.%:  # Run checks for a given service or set of services (separated by plus-signs).
 	$(WINPTY) bash ./check.sh $*
@@ -203,25 +233,25 @@ stop: ## Stop all services
 	docker-compose stop
 
 stop.watchers: ## Stop asset watchers
-	docker-compose $(WATCHERS_COMPOSE_FILE) stop
+	docker-compose $(DOCKER_COMPOSE_FILES) stop lms_watcher studio_watcher
 
 stop.all: | stop.analytics_pipeline stop stop.watchers ## Stop all containers, including asset watchers
 
 stop.xqueue: ## Stop the XQueue and XQueue-Consumer containers
-	docker-compose $(ALL_SERVICE_COMPOSE_FILES) stop xqueue xqueue_consumer
+	docker-compose $(DOCKER_COMPOSE_FILES) stop xqueue xqueue_consumer
 
 down: ## Remove all service containers and networks
 	(test -d .docker-sync && docker-sync clean) || true ## Ignore failure here
-	docker-compose $(ALL_SERVICE_COMPOSE_FILES) down
+	docker-compose $(DOCKER_COMPOSE_FILES) down
 
 destroy: ## Remove all devstack-related containers, networks, and volumes
 	$(WINPTY) bash ./destroy.sh
 
 logs: ## View logs from containers running in detached mode
-	docker-compose $(ALL_SERVICE_COMPOSE_FILES) logs -f
+	docker-compose $(DOCKER_COMPOSE_FILES) logs -f
 
 %-logs: ## View the logs of the specified service container
-	docker-compose $(ALL_SERVICE_COMPOSE_FILES) logs -f --tail=500 $*
+	docker-compose $(DOCKER_COMPOSE_FILES) logs -f --tail=500 $*
 
 RED="\033[0;31m"
 YELLOW="\033[0;33m"
@@ -354,7 +384,7 @@ studio-static: ## Rebuild static assets for the Studio container
 
 static: | credentials-static discovery-static ecommerce-static lms-static studio-static ## Rebuild static assets for all service containers
 
-healthchecks: dev.check.registrar+lms+ecommerce+discovery+forum+edx_notes_api+credentials
+healthchecks: dev.check.$(DEFAULT_SERVICES)
 
 healthchecks.%: dev.check.%
 
@@ -393,9 +423,10 @@ pull.analytics_pipeline: dev.pull.analyticspipeline ## Update analytics pipeline
 analytics-pipeline-devstack-test: ## Run analytics pipeline tests in travis build
 	docker exec -u hadoop -i edx.devstack.analytics_pipeline bash -c 'sudo chown -R hadoop:hadoop /edx/app/analytics_pipeline && source /edx/app/hadoop/.bashrc && make develop-local && make docker-test-acceptance-local ONLY_TESTS=edx.analytics.tasks.tests.acceptance.test_internal_reporting_database && make docker-test-acceptance-local ONLY_TESTS=edx.analytics.tasks.tests.acceptance.test_user_activity'
 
-stop.analytics_pipeline: ## Stop analytics pipeline services
-	docker-compose $(ANALYTICS_COMPOSE_SUITE) stop
-	docker-compose up -d mysql      ## restart mysql as other containers need it
+stop.analytics_pipeline: ## Stop all Analytics pipeline services.
+	docker-compose $(DOCKER_COMPOSE_FILES) stop \
+		namenode datanode resourcemanager nodemanager sparkmaster \
+		sparkworker vertica analyticspipeline
 
 hadoop-application-logs-%: ## View hadoop logs by application Id
 	docker exec -it edx.devstack.analytics_pipeline.nodemanager yarn logs -applicationId $*

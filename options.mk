@@ -19,7 +19,16 @@ COMPOSE_PROJECT_NAME ?= devstack
 # Defaults to false.
 ALWAYS_CACHE_PROGRAMS ?= false
 
-# Load local overrides to options.
-# The dash in front of 'include' makes it so we don't
-# fail if the overrides file doesn't exist.
--include options.local.mk
+# FileSystem Synchronization Strategy.
+# How should we synchronize files between the host machine and the Docker containers?
+# Options are 'local-mount', 'nfs', and 'docker-sync'.
+# Note that 'local-mount' is the most tested and supported with edX's Devstack
+# and 'docker-sync' the least.
+FS_SYNC_STRATEGY ?= local-mounts
+
+# Services that are pulled, provisioned, run, and checked by default
+# when no services are specified manually.
+# TODO: Re-evaluate this list and consider paring it down to a tighter core.
+#       The current value was chosen such that it would not change the existing
+#       Devstack behavior.
+DEFAULT_SERVICES ?= lms+studio+ecommerce+discovery+credentials+forum+edx_notes_api+registrar
