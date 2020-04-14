@@ -40,7 +40,7 @@ program, _ = Program.objects.update_or_create(
 # Now, after an ID has been created, connect the program to other models
 
 course = Course.objects.get(key='edX+DemoX')
-program.courses = [course]
+program.courses.set([course])
 
 try:
     # This run causes run-time exceptions, because it uses old style key.
@@ -51,8 +51,8 @@ except CourseRun.DoesNotExist:
     pass
 
 edx_org = Organization.objects.get(key='edX')
-program.authoring_organizations = [edx_org]
-program.credit_backing_organizations = [edx_org]
+program.authoring_organizations.set([edx_org])
+program.credit_backing_organizations.set([edx_org])
 
 # And set up the banner image
 if not program.banner_image.name:
