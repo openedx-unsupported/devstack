@@ -137,6 +137,7 @@ services:
       DB_HOST: edx.devstack.mysql
       SOCIAL_AUTH_EDX_OIDC_URL_ROOT: http://edx.devstack.lms:18000/oauth2
       ENABLE_DJANGO_TOOLBAR: 1
+      DJANGO_WATCHMAN_TIMEOUT: 30
     image: edxops/credentials:${OPENEDX_RELEASE:-latest}
     ports:
       - "18150:18150"
@@ -155,6 +156,7 @@ services:
     environment:
       TEST_ELASTICSEARCH_URL: "http://edx.devstack.elasticsearch:9200"
       ENABLE_DJANGO_TOOLBAR: 1
+      DJANGO_WATCHMAN_TIMEOUT: 30
     image: edxops/discovery:${OPENEDX_RELEASE:-latest}
     ports:
       - "18381:18381"
@@ -174,6 +176,7 @@ services:
     stdin_open: true
     tty: true
     environment:
+      DJANGO_WATCHMAN_TIMEOUT: 30
       ENABLE_DJANGO_TOOLBAR: 1
     image: edxops/ecommerce:${OPENEDX_RELEASE:-latest}
     ports:
@@ -197,6 +200,7 @@ services:
       DB_PASSWORD: "password"
       DB_PORT: "3306"
       DB_USER: "notes001"
+      DJANGO_WATCHMAN_TIMEOUT: 30
       ENABLE_DJANGO_TOOLBAR: 1
       ELASTICSEARCH_URL: "http://edx.devstack.elasticsearch:9200"
 
@@ -234,6 +238,7 @@ services:
       BOK_CHOY_CMS_PORT: 18031
       EDXAPP_TEST_MONGO_HOST: edx.devstack.mongo
       NO_PYTHON_UNINSTALL: 1
+      DJANGO_WATCHMAN_TIMEOUT: 30
     image: edxops/edxapp:${OPENEDX_RELEASE:-latest}
     ports:
       - "18000:18000"
@@ -271,6 +276,7 @@ services:
       CELERY_BROKER_HOSTNAME: edx.devstack.redis:6379
       CELERY_BROKER_VHOST: 10
       CELERY_BROKER_PASSWORD: password
+      DJANGO_WATCHMAN_TIMEOUT: 30
     image: edxops/registrar:${OPENEDX_RELEASE:-latest}
     ports:
       - "18734:18734"
@@ -300,6 +306,7 @@ services:
       CELERY_BROKER_HOSTNAME: edx.devstack.redis:6379
       CELERY_BROKER_VHOST: 10
       CELERY_BROKER_PASSWORD: password
+      DJANGO_WATCHMAN_TIMEOUT: 30
     image: edxops/registrar:${OPENEDX_RELEASE:-latest}
     ports:
       - "18735:18735"
@@ -327,6 +334,7 @@ services:
       BOK_CHOY_CMS_PORT: 18131
       EDXAPP_TEST_MONGO_HOST: edx.devstack.mongo
       NO_PYTHON_UNINSTALL: 1
+      DJANGO_WATCHMAN_TIMEOUT: 30
     image: edxops/edxapp:${OPENEDX_RELEASE:-latest}
     ports:
       - "18010:18010"
