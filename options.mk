@@ -19,6 +19,9 @@ STANDARD_COMPOSE_FILES=-f docker-compose.yml -f docker-compose-host.yml -f docke
 # Set of Docker Compose YAML files that we use for NFS commands.
 NFS_COMPOSE_FILES=-f docker-compose.yml -f docker-compose-host-nfs.yml -f docker-compose-themes-nfs.yml
 
+# increase Docker Compose HTTP timeout so that devstack provisioning does not fail in unstable networks
+COMPOSE_HTTP_TIMEOUT=180
+
 # Whether we should always copy programs to LMS cache upon LMS startup.
 # If 'true', then run `make dev.cache-programs` whenever we bring up
 # containers.
