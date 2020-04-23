@@ -1,0 +1,2 @@
+docker-compose exec -T lms bash -c 'source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack_docker manage_user enterprise_worker enterprise_worker@example.com --staff'
+cat $DEVSTACK_WORKSPACE/devstack/enterprise/worker_permissions.py | docker-compose exec -T lms bash -c 'source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms shell  --settings=devstack_docker'
