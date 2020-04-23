@@ -177,7 +177,7 @@ dev.repo.reset: ## Attempts to reset the local repo checkouts to the master work
 
 dev.pull: dev.pull.$(DEFAULT_SERVICES) ## Pull Docker images required by default services.
 
-dev.pull-without-deps.%: ## Pull latest Docker images for services (separated by plus-signs).
+dev.pull.without-deps.%: ## Pull latest Docker images for services (separated by plus-signs).
 	docker-compose $(DOCKER_COMPOSE_FILES) pull $$(echo $* | tr + " ")
 
 dev.pull.%: ## Pull latest Docker images for services (separated by plus-signs) and all their dependencies.
@@ -190,6 +190,9 @@ dev.up.%: | check-memory ## Bring up specific services (separated by plus-signs)
 ifeq ($(ALWAYS_CACHE_PROGRAMS),true)
 	make dev.cache-programs
 endif
+
+dev.up.without-deps.%:  ## Bring up specific services (separated by plus-signs) without dependencies.
+	docker-compose $(DOCKER_COMPOSE_FILES) up --d --no-deps $$(echo $* | tr + " ")
 
 dev.up.with-programs: dev.up dev.cache-programs  ## Bring up a all services and cache programs in LMS.
 
@@ -288,7 +291,7 @@ pull: dev.pull
 	@echo "****************************************************************"
 	@echo -n $(NO_COLOR)
 
-pull.xqueue: dev.pull-without-deps.xqueue+xqueue_consumer
+pull.xqueue: dev.pull.without-deps.xqueue+xqueue_consumer
 
 validate: ## Validate the devstack configuration
 	docker-compose config
