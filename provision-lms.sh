@@ -25,8 +25,8 @@ docker-compose exec -T lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx
 docker-compose exec -T lms bash -c 'source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack_docker manage_user edx edx@example.com --superuser --staff'
 docker-compose exec -T lms bash -c 'source /edx/app/edxapp/edxapp_env && echo "from django.contrib.auth import get_user_model; User = get_user_model(); user = User.objects.get(username=\"edx\"); user.set_password(\"edx\"); user.save()" | python /edx/app/edxapp/edx-platform/manage.py lms shell  --settings=devstack_docker'
 
-# Create an enterprise service user for edxapp
-docker-compose exec -T lms bash -c 'source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack_docker manage_user enterprise_worker enterprise_worker@example.com'
+# Create an enterprise service user for edxapp and give them appropriate permissions
+./enterprise/provision.sh
 
 # Enable the LMS-E-Commerce integration
 docker-compose exec -T lms bash -c 'source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack_docker configure_commerce'
