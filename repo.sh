@@ -17,13 +17,9 @@ else
     exit 1
 fi
 
-if [ -n "${OPENEDX_RELEASE}" ]; then
-    OPENEDX_GIT_BRANCH=open-release/${OPENEDX_RELEASE}
-else
-    OPENEDX_GIT_BRANCH=master
-fi
-
 # When you add new services should add them to both repos and ssh_repos
+# (or non_release_repos and non_release_ssh_repos if they are not part
+# of Open edX releases).
 repos=(
     "https://github.com/edx/course-discovery.git"
     "https://github.com/edx/credentials.git"
@@ -34,10 +30,13 @@ repos=(
     "https://github.com/edx/edx-platform.git"
     "https://github.com/edx/xqueue.git"
     "https://github.com/edx/edx-analytics-pipeline.git"
-    "https://github.com/edx/registrar.git"
     "https://github.com/edx/frontend-app-gradebook.git"
-    "https://github.com/edx/frontend-app-program-console.git"
     "https://github.com/edx/frontend-app-publisher.git"
+)
+
+non_release_repos=(
+    "https://github.com/edx/registrar.git"
+    "https://github.com/edx/frontend-app-program-console.git"
 )
 
 ssh_repos=(
@@ -50,16 +49,27 @@ ssh_repos=(
     "git@github.com:edx/edx-platform.git"
     "git@github.com:edx/xqueue.git"
     "git@github.com:edx/edx-analytics-pipeline.git"
-    "git@github.com:edx/registrar.git"
     "git@github.com:edx/frontend-app-gradebook.git"
-    "git@github.com:edx/frontend-app-program-console.git"
     "git@github.com:edx/frontend-app-publisher.git"
+)
+
+non_release_ssh_repos=(
+    "git@github.com:edx/registrar.git"
+    "git@github.com:edx/frontend-app-program-console.git"
 )
 
 private_repos=(
     # Needed to run whitelabel tests.
     "https://github.com/edx/edx-themes.git"
 )
+
+if [ -n "${OPENEDX_RELEASE}" ]; then
+    OPENEDX_GIT_BRANCH=open-release/${OPENEDX_RELEASE}
+else
+    OPENEDX_GIT_BRANCH=master
+    repos+=("${non_release_repos[@]}")
+    ssh_repos+=("${non_release_ssh_repos[@]}")
+fi
 
 name_pattern=".*/(.*).git"
 
