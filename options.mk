@@ -13,6 +13,9 @@ DEVSTACK_WORKSPACE ?= $(shell pwd)/..
 # Defaults to 'devstack'.
 COMPOSE_PROJECT_NAME ?= devstack
 
+# increase Docker Compose HTTP timeout so that devstack provisioning does not fail in unstable networks
+COMPOSE_HTTP_TIMEOUT=180
+
 # Whether we should always copy programs to LMS cache upon LMS startup.
 # If 'true', then run `make dev.cache-programs` whenever we bring up
 # containers.
