@@ -39,6 +39,6 @@ before_install:
 
 script:
   - set -e  # If one of these commands fails, exit immediately.
-  - make dev.provision.services."$SERVICES"
+  - travis_wait 30 make dev.provision.services."$SERVICES"
   - make dev.up."$SERVICES"
   - make dev.check."$SERVICES"
