@@ -34,4 +34,4 @@ FS_SYNC_STRATEGY ?= local-mounts
 # TODO: Re-evaluate this list and consider paring it down to a tighter core.
 #       The current value was chosen such that it would not change the existing
 #       Devstack behavior.
-DEFAULT_SERVICES ?= lms+studio+ecommerce+discovery+credentials+forum+edx_notes_api+registrar
+DEFAULT_SERVICES ?= lms+studio+ecommerce+discovery+credentials+forum+edx_notes_api+registrar+gradebook+program-console+frontend-app-publisher
