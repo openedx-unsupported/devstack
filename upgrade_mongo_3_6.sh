@@ -13,7 +13,7 @@ echo -e "${GREEN}Sarting Mongo ${MONGO_VERSION}${NC}"
 docker-compose up -d mongo
 
 echo -e "${GREEN}Waiting for MongoDB...${NC}"
-until docker exec -i edx.devstack.mongo mongo --eval "printjson(db.serverStatus())" &> /dev/null
+until docker-compose exec -T mongo bash -c 'mongo --eval \"printjson(db.serverStatus())\"' &> /dev/null
 do
     if docker-compose logs mongo | grep -q "BadValue: Invalid value for version, found 3.6, expected '3.4' or '3.2'"; then
         echo -e "${YELLOW}Already upgraded to Mongo 3.6, exiting${NC}"
@@ -45,7 +45,7 @@ echo -e "${GREEN}Restarting Mongo on version ${MONGO_VERSION}${NC}"
 docker-compose up -d mongo
 
 echo -e "${GREEN}Waiting for MongoDB...${NC}"
-until docker exec -i edx.devstack.mongo mongo --eval "printjson(db.serverStatus())" &> /dev/null
+until docker-compose exec -T mongo bash -c 'mongo --eval \"printjson(db.serverStatus())\"' &> /dev/null
 do
     printf "."
     sleep 1

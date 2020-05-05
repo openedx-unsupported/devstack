@@ -7,7 +7,6 @@ services:
       - MARKETING_SITE_ROOT="http://localhost:8080"
 
   marketing:
-    container_name: edx.devstack.marketing
     depends_on:
       - mysql
       - memcached
@@ -26,5 +25,9 @@ services:
       # IP address of your machine to enable debugging (IP_ADDRESS set in .env file)
       - XDEBUG_CONFIG=remote_host=${XDEBUG_IP_ADDRESS:-127.0.0.1}
     image: edxops/edx-mktg:${OPENEDX_RELEASE:-latest}
+    networks:
+      default:
+        aliases:
+          - edx.devstack.marketing
     ports:
       - "8080:80"
