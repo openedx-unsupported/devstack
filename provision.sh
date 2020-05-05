@@ -3,7 +3,7 @@
 # This script will provision the services specified in the argument list,
 # or all services if no arguments are provided.
 #
-# Specifying invalid services will cause the script to exit early.
+# Non-existant services will be ignored.
 # Specifying services more than once will cause them to be provisioned more
 # than once.
 #
@@ -104,8 +104,7 @@ for serv in $requested_services; do
 			to_provision="${to_provision}${service} "
 		fi
 	else
-		echo -e "${RED}Service '${service}' either doesn't exist or isn't provisionable. Exiting.${NC}"
-		exit 1
+		echo -e "${YELLOW}Service '${service}' either doesn't exist or isn't provisionable.${NC}"
 	fi
 done
 
