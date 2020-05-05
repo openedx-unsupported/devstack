@@ -26,40 +26,6 @@
         validate validate-lms-volume vnc-passwords xqueue_consumer-restart \
         xqueue_consumer-shell xqueue-restart xqueue-shell
 
-
-# Docker Compose files that define services.
-MAIN_COMPOSE_FILE=-f docker-compose.yml
-XQUEUE_COMPOSE_FILE=-f docker-compose-xqueue.yml
-WATCHERS_COMPOSE_FILE=-f docker-compose-watchers.yml
-WATCHERS_COMPOSE_FILE_FOR_NFS=-f docker-compose-watchers-nfs.yml
-ANALYTICS_COMPOSE_FILE=-f docker-compose-analytics-pipeline.yml
-MARKETING_COMPOSE_FILE=-f docker-compose-marketing-site.yml
-
-# Supporting Docker Compose files to enable volume mounting (which allows us to use
-# source code from our host machine) as well as theming.
-SUPPORTING_COMPOSE_FILES=-f docker-compose-host.yml -f docker-compose-themes.yml
-SUPPORTING_COMPOSE_FILES_FOR_NFS=-f docker-compose-host-nfs.yml -f docker-compose-themes-nfs.yml
-SUPPORTING_COMPOSE_FILES_FOR_SYNC=-f docker-compose-sync.yml
-
-# "Suites" of Docker Compose files that can be used together to run different
-# sets of services.
-STANDARD_COMPOSE_SUITE=$(MAIN_COMPOSE_FILE) $(SUPPORTING_COMPOSE_FILES)
-STANDARD_COMPOSE_SUITE_FOR_NFS=$(MAIN_COMPOSE_FILE) $(SUPPORTING_COMPOSE_FILES_FOR_NFS)
-STANDARD_COMPOSE_SUITE_FOR_SYNC=$(MAIN_COMPOSE_FILE)  $(SUPPORTING_COMPOSE_FILES_FOR_SYNC)
-ANALYTICS_COMPOSE_SUITE=$(STANDARD_COMPOSE_SUITE) $(ANALYTICS_COMPOSE_FILE)
-
-# All Docker Compose YAML files that contain service definitions.
-# Useful for Makefile targets like `dev.pull` and `down`
-ALL_SERVICE_COMPOSE_FILES=\
-$(MAIN_COMPOSE_FILE) \
-$(WATCHERS_COMPOSE_FILE) \
-$(ANALYTICS_COMPOSE_FILE) \
-$(XQUEUE_COMPOSE_FILE) \
-$(MARKETING_COMPOSE_FILE)
-
-# All Docker Compose files (except those for NFS and Docker Sync).
-FULL_COMPOSE_SUITE=$(ALL_SERVICE_COMPOSE_FILES) $(SUPPORTING_COMPOSE_FILES)
-
 # Include options (configurable through options.local.mk)
 include options.mk
 
