@@ -3,7 +3,7 @@ help-marketing: ## Display this help message
 	@awk -F ':.*?## ' '/^[a-zA-Z]/ && NF==2 {printf "\033[36m  %-25s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST) | grep marketing | sort
 
 marketing-shell: ## Run a shell on the marketing site container
-	docker exec -it edx.devstack.marketing env TERM=$(TERM) bash -c 'cd /edx/app/edx-mktg/edx-mktg; exec /bin/bash -sh'
+	docker-compose exec marketing env TERM=$(TERM) bash -c 'cd /edx/app/edx-mktg/edx-mktg; exec /bin/bash -sh'
 
 stop-marketing:   ## Stop all services (including the marketing site) with host volumes
 	docker-compose -f docker-compose.yml -f docker-compose-host.yml -f docker-compose-themes.yml -f docker-compose-marketing-site.yml -f docker-compose-marketing-site-host.yml stop
