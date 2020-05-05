@@ -3,10 +3,14 @@ version: "2.1"
 services:
   namenode:
     image: edxops/analytics_pipeline_hadoop_namenode:${OPENEDX_RELEASE:-latest}
-    container_name: edx.devstack.analytics_pipeline.namenode
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.analytics_pipeline.namenode"
     hostname: namenode
     environment:
       - CLUSTER_NAME=devstack
+    networks:
+      default:
+        aliases:
+          - edx.devstack.analytics_pipeline.namenode
     ports:
       - 127.0.0.1:50070:50070
     command: ["/run.sh"]
@@ -15,12 +19,16 @@ services:
 
   datanode:
     image: edxops/analytics_pipeline_hadoop_datanode:${OPENEDX_RELEASE:-latest}
-    container_name: edx.devstack.analytics_pipeline.datanode
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.analytics_pipeline.datanode"
     hostname: datanode
     environment:
       CORE_CONF_fs_defaultFS: "hdfs://namenode:8020"
     depends_on:
       - namenode
+    networks:
+      default:
+        aliases:
+          - edx.devstack.analytics_pipeline.datanode
     ports:
       - 127.0.0.1:50075:50075
     command: ["/run.sh"]
@@ -29,7 +37,7 @@ services:
 
   resourcemanager:
     image: edxops/analytics_pipeline_hadoop_resourcemanager:${OPENEDX_RELEASE:-latest}
-    container_name: edx.devstack.analytics_pipeline.resourcemanager
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.analytics_pipeline.resourcemanager"
     hostname: resourcemanager
     environment:
       CORE_CONF_fs_defaultFS: "hdfs://namenode:8020"
@@ -40,13 +48,17 @@ services:
     depends_on:
       - namenode
       - datanode
+    networks:
+      default:
+        aliases:
+          - edx.devstack.analytics_pipeline.resourcemanager
     ports:
       - 127.0.0.1:8088:8088      # resource manager web ui
     command: ["/run.sh"]
 
   nodemanager:
     image: edxops/analytics_pipeline_hadoop_nodemanager:${OPENEDX_RELEASE:-latest}
-    container_name: edx.devstack.analytics_pipeline.nodemanager
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.analytics_pipeline.nodemanager"
     hostname: nodemanager
     environment:
       CORE_CONF_fs_defaultFS: "hdfs://namenode:8020"
@@ -60,6 +72,10 @@ services:
       - resourcemanager
       - namenode
       - datanode
+    networks:
+      default:
+        aliases:
+          - edx.devstack.analytics_pipeline.nodemanager
     ports:
       - 127.0.0.1:8042:8042      # node manager web ui
       - 127.0.0.1:19888:19888    # node manager job history server ui
@@ -67,8 +83,12 @@ services:
 
   sparkmaster:
     image: edxops/analytics_pipeline_spark_master:${OPENEDX_RELEASE:-latest}
-    container_name: edx.devstack.analytics_pipeline.sparkmaster
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.analytics_pipeline.sparkmaster"
     hostname: sparkmaster
+    networks:
+      default:
+        aliases:
+          - edx.devstack.analytics_pipeline.sparkmaster
     ports:
       - 127.0.0.1:8080:8080
       - 127.0.0.1:7077:7077       # spark master port
@@ -77,25 +97,33 @@ services:
 
   sparkworker:
     image: edxops/analytics_pipeline_spark_worker:${OPENEDX_RELEASE:-latest}
-    container_name: edx.devstack.analytics_pipeline.sparkworker
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.analytics_pipeline.sparkworker"
     hostname: sparkworker
     depends_on:
       - sparkmaster
     environment:
       - SPARK_MASTER=spark://sparkmaster:7077
+    networks:
+      default:
+        aliases:
+          - edx.devstack.analytics_pipeline.sparkworker
     ports:
       - 127.0.0.1:8081:8081       # spark worker UI
 
   vertica:
     image: iamamr/vertica:9.1.0-0
     hostname: vertica
-    container_name: edx.devstack.analytics_pipeline.vertica
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.analytics_pipeline.vertica"
     volumes:
       - vertica_data:/home/dbadmin/docker
+    networks:
+      default:
+        aliases:
+          - edx.devstack.analytics_pipeline.vertica
 
   analyticspipeline:
     image: edxops/analytics_pipeline:${OPENEDX_RELEASE:-latest}
-    container_name: edx.devstack.analytics_pipeline
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.analytics_pipeline"
     hostname: analyticspipeline
     volumes:
       - ${DEVSTACK_WORKSPACE}/edx-analytics-pipeline:/edx/app/analytics_pipeline/analytics_pipeline
@@ -109,6 +137,10 @@ services:
       - sparkworker
       - elasticsearch
       - vertica
+    networks:
+      default:
+        aliases:
+          - edx.devstack.analytics_pipeline
     ports:
       - 127.0.0.1:4040:4040     # spark web UI
     environment:
