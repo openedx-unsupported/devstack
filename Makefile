@@ -67,6 +67,9 @@ include options.mk
 # You can use this file to configure your Devstack. It is ignored by git.
 -include options.local.mk  # Prefix with hyphen to tolerate absence of file.
 
+# Include local makefile with additional targets.
+-include local.mk  # Prefix with hyphen to tolerate absence of file.
+
 # Docker Compose YAML files to define services and their volumes.
 # Depending on the value of FS_SYNC_STRATEGY, we use a slightly different set of
 # files, enabling use of different strategies to synchronize files between the host and
