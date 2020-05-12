@@ -4,6 +4,8 @@
 #
 
 OS=`uname -s`
+OSX_CATALINA=10.15.*
+OSX_VERSION=$(sw_vers -productVersion)
 
 if [ $OS != "Darwin" ]; then
   echo "This script is OSX-only. Please do not run it on any other Unix."
@@ -52,7 +54,14 @@ G=`id -g`
 sudo chown -R "$U":"$G" .
 
 echo "== Setting up nfs..."
-LINE="/System/Volumes/Data/Users -alldirs -mapall=$U:$G localhost"
+
+if [[ "$OSX_VERSION" == $OSX_CATALINA ]]
+then
+   LINE="/System/Volumes/Data/Users -alldirs -mapall=$U:$G localhost"
+else
+   LINE="/Users -alldirs -mapall=$U:$G localhost"
+fi
+
 FILE=/etc/exports
 grep -xqF -- "$LINE" "$FILE" || sudo echo "$LINE" | sudo tee -a $FILE > /dev/null
 
