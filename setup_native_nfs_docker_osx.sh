@@ -4,8 +4,11 @@
 #
 
 OS=`uname -s`
-OSX_CATALINA=10.15.*
+
+# Finding OS X version https://scriptingosx.com/2017/11/on-the-macos-version/
 OSX_VERSION=$(sw_vers -productVersion)
+OSX_CATALINA=10.15.*
+IFS='.' read -r -a OSX_VERSION_ARRAY <<< "$OSX_VERSION"
 
 if [ $OS != "Darwin" ]; then
   echo "This script is OSX-only. Please do not run it on any other Unix."
@@ -55,7 +58,8 @@ sudo chown -R "$U":"$G" .
 
 echo "== Setting up nfs..."
 
-if [[ "$OSX_VERSION" == $OSX_CATALINA ]]
+# Handle `/Users` path differently for releases Catalina (10.15.*) or newer since this changed with the Catalina release.
+if [[ "$OSX_VERSION" == $OSX_CATALINA || "$OSX_VERSION_ARRAY[0]" -ge 11 ]]
 then
    LINE="/System/Volumes/Data/Users -alldirs -mapall=$U:$G localhost"
 else
