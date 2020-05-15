@@ -307,7 +307,7 @@ studio-update-db: ## Run migrations for the Studio container
 lms-update-db: ## Run migrations LMS container
 	docker exec -t edx.devstack.lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_db'
 
-update-db: | studio-update-db lms-update-db discovery-update-db ecommerce-update-db credentials-update-db ## Run the migrations for all services
+update-db: | $(DB_MIGRATION_TARGETS) ## Run the migrations for DEFAULT_SERVICES
 
 forum-restart-devserver: ## Kill the forum's Sinatra development server. The watcher process will restart it.
 	docker exec -t edx.devstack.forum bash -c 'kill $$(ps aux | grep "ruby app.rb" | egrep -v "while|grep" | awk "{print \$$2}")'
