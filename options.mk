@@ -35,3 +35,16 @@ FS_SYNC_STRATEGY ?= local-mounts
 #       The current value was chosen such that it would not change the existing
 #       Devstack behavior.
 DEFAULT_SERVICES ?= lms+studio+ecommerce+discovery+credentials+forum+edx_notes_api+registrar+gradebook+program-console+frontend-app-publisher
+
+# List of all services with database migrations.
+# Services must provide a Makefile target named: $(service)-update-db
+# Note: This list should contain _all_ db-backed services, even if not
+# configured to run; the list will be filtered later against $(DEFAULT_SERVICES)
+DB_SERVICES ?= credentials discovery ecommerce lms registrar studio
+
+# List of Makefile targets to run database migrations, in the form $(service)-update-db
+# Services will only have their migrations added here
+# if the service is present in both $(DEFAULT_SERVICES) and $(DB_SERVICES).
+DB_MIGRATION_TARGETS = $(foreach db_service,$(DB_SERVICES),\
+	$(if $(filter $(db_service),$(subst +, ,$(DEFAULT_SERVICES))),\
+		$(db_service)-update-db))
