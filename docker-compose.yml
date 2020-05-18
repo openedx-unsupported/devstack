@@ -159,7 +159,7 @@ services:
       - devpi
       - elasticsearch
       - mysql
-    image: edxops/notes:latest  # Will work fine until we have Ironwood
+    image: edxops/notes:hawthorn.master  # Will work fine until we have Ironwood
     ports:
       - "18120:18120"
     environment:
