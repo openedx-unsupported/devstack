@@ -21,6 +21,10 @@ services:
     hostname: chrome.devstack.edx
     image: edxops/chrome:${OPENEDX_RELEASE:-latest}
     shm_size: 2g
+    networks:
+      default:
+        aliases:
+          - edx.devstack.chrome
     ports:
       - "15900:5900"
     volumes:  # for file uploads
@@ -31,6 +35,10 @@ services:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.devpi"
     hostname: devpi.devstack.edx
     image: edxops/devpi:${OPENEDX_RELEASE:-latest}
+    networks:
+      default:
+        aliases:
+          - edx.devstack.devpi
     ports:
       - "3141:3141"
     volumes:
@@ -40,6 +48,10 @@ services:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.elasticsearch"
     hostname: elasticsearch.devstack.edx
     image: edxops/elasticsearch:devstack
+    networks:
+      default:
+        aliases:
+          - edx.devstack.elasticsearch
     # TODO: What to do about these forwarded ports? They'll conflict with ports forwarded by the Vagrant VM.
     # ports:
     #   - "9200:9200"
@@ -53,12 +65,20 @@ services:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.elasticsearch-5"
     hostname: elasticsearch-5.devstack.edx
     image: elasticsearch:5.6.16
+    networks:
+      default:
+        aliases:
+          - edx.devstack.elasticsearch-5
 
   firefox:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.firefox"
     hostname: firefox.devstack.edx
     image: edxops/firefox:${OPENEDX_RELEASE:-latest}
     shm_size: 2g
+    networks:
+      default:
+        aliases:
+          - edx.devstack.firefox
     ports:
       - "25900:5900"
     volumes:  # for file uploads
@@ -69,6 +89,10 @@ services:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.memcached"
     hostname: memcached.devstack.edx
     image: memcached:1.5.10-alpine
+    networks:
+      default:
+        aliases:
+          - edx.devstack.memcached
     # ports:
     #   - "11211:11211"
 
@@ -80,6 +104,10 @@ services:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.mongo"
     hostname: mongo.devstack.edx
     image: mongo:${MONGO_VERSION:-3.6.17}
+    networks:
+      default:
+        aliases:
+          - edx.devstack.mongo
     # ports:
     #  - "27017:27017"
     volumes:
@@ -93,6 +121,10 @@ services:
       MYSQL_ROOT_PASSWORD: ""
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     image: mysql:5.6
+    networks:
+      default:
+        aliases:
+          - edx.devstack.mysql
     # ports:
     #   - "3506:3306"
     volumes:
@@ -106,6 +138,10 @@ services:
       MYSQL_ROOT_PASSWORD: ""
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     image: mysql:5.7
+    networks:
+      default:
+        aliases:
+          - edx.devstack.mysql57
     # ports:
     #   - "3506:3306"
     volumes:
@@ -116,6 +152,10 @@ services:
     hostname: redis.devstack.edx
     image: redis:2.8
     command: redis-server --requirepass password
+    networks:
+      default:
+        aliases:
+          - edx.devstack.redis
 
   # ================================================
   # edX services
@@ -139,6 +179,10 @@ services:
       ENABLE_DJANGO_TOOLBAR: 1
       DJANGO_WATCHMAN_TIMEOUT: 30
     image: edxops/credentials:${OPENEDX_RELEASE:-latest}
+    networks:
+      default:
+        aliases:
+          - edx.devstack.credentials
     ports:
       - "18150:18150"
 
@@ -158,6 +202,10 @@ services:
       ENABLE_DJANGO_TOOLBAR: 1
       DJANGO_WATCHMAN_TIMEOUT: 30
     image: edxops/discovery:${OPENEDX_RELEASE:-latest}
+    networks:
+      default:
+        aliases:
+          - edx.devstack.discovery
     ports:
       - "18381:18381"
     volumes:
@@ -179,6 +227,10 @@ services:
       DJANGO_WATCHMAN_TIMEOUT: 30
       ENABLE_DJANGO_TOOLBAR: 1
     image: edxops/ecommerce:${OPENEDX_RELEASE:-latest}
+    networks:
+      default:
+        aliases:
+          - edx.devstack.ecommerce
     ports:
       - "18130:18130"
 
@@ -191,6 +243,10 @@ services:
       - elasticsearch
       - mysql
     image: edxops/notes:${OPENEDX_RELEASE:-latest}
+    networks:
+      default:
+        aliases:
+          - edx.devstack.edxnotesapi
     ports:
       - "18120:18120"
     environment:
@@ -213,6 +269,10 @@ services:
       - memcached
       - elasticsearch
     image: edxops/forum:${OPENEDX_RELEASE:-latest}
+    networks:
+      default:
+        aliases:
+          - edx.devstack.forum
     ports:
       - "44567:4567"
 
@@ -240,6 +300,10 @@ services:
       NO_PYTHON_UNINSTALL: 1
       DJANGO_WATCHMAN_TIMEOUT: 30
     image: edxops/edxapp:${OPENEDX_RELEASE:-latest}
+    networks:
+      default:
+        aliases:
+          - edx.devstack.lms
     ports:
       - "18000:18000"
       - "19876:19876" # JS test debugging
@@ -278,6 +342,10 @@ services:
       CELERY_BROKER_PASSWORD: password
       DJANGO_WATCHMAN_TIMEOUT: 30
     image: edxops/registrar:${OPENEDX_RELEASE:-latest}
+    networks:
+      default:
+        aliases:
+          - edx.devstack.registrar
     ports:
       - "18734:18734"
     volumes:
@@ -308,6 +376,10 @@ services:
       CELERY_BROKER_PASSWORD: password
       DJANGO_WATCHMAN_TIMEOUT: 30
     image: edxops/registrar:${OPENEDX_RELEASE:-latest}
+    networks:
+      default:
+        aliases:
+          - edx.devstack.registrar-worker
     ports:
       - "18735:18735"
     volumes:
@@ -336,6 +408,10 @@ services:
       NO_PYTHON_UNINSTALL: 1
       DJANGO_WATCHMAN_TIMEOUT: 30
     image: edxops/edxapp:${OPENEDX_RELEASE:-latest}
+    networks:
+      default:
+        aliases:
+          - edx.devstack.studio
     ports:
       - "18010:18010"
       - "19877:19877" # JS test debugging
@@ -358,6 +434,10 @@ services:
       service: microfrontend
     working_dir: '/edx/app/frontend-app-publisher'
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-publisher"
+    networks:
+      default:
+        aliases:
+          - edx.devstack.frontend-app-publisher
     ports:
       - "18400:18400"
     depends_on:
@@ -369,6 +449,10 @@ services:
       service: microfrontend
     working_dir: '/edx/app/gradebook'
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.gradebook"
+    networks:
+      default:
+        aliases:
+          - edx.devstack.gradebook
     ports:
       - "1994:1994"
     depends_on:
@@ -380,6 +464,10 @@ services:
       service: microfrontend
     working_dir: '/edx/app/program-console'
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.program-console"
+    networks:
+      default:
+        aliases:
+          - edx.devstack.program-console
     ports:
       - "1976:1976"
     depends_on:
