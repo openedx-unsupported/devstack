@@ -24,7 +24,7 @@ dev.provision.whitelabel:
 # AND the test must be setup using the 'dev.provision.whitelabel' target.
 whitelabel-tests:
 	docker-compose run -T -d --name=devstack.whitelabel --network=devstack_default -v ${DEVSTACK_WORKSPACE}/edx-e2e-tests:/edx-e2e-tests -v ${DEVSTACK_WORKSPACE}/edx-platform:/edx-e2e-tests/lib/edx-platform --env-file ${DEVSTACK_WORKSPACE}/edx-e2e-tests/devstack_env edxops/e2e
-	docker cp ${DEVSTACK_WORKSPACE}/edx-themes/edx-platform/run_whitelabel_tests.sh $(docker-compose ps -q devstack.whitelabel)":/tmp/run_whitelabel_tests.sh
+	docker cp ${DEVSTACK_WORKSPACE}/edx-themes/edx-platform/run_whitelabel_tests.sh $(make --silent dev.print-container.studio)":/tmp/run_whitelabel_tests.sh
 	docker-compose exec devstack.whitelabel env TEST_ENV=devstack TERM=$(TERM) bash /tmp/run_whitelabel_tests.sh
 
 whitelabel-cleanup:
