@@ -9,11 +9,12 @@
 .PHONY: analytics-pipeline-devstack-test analytics-pipeline-shell \
         analyticspipeline-shell backup build-courses check-memory \
         create-test-course credentials-shell destroy dev.cache-programs \
-        dev.check dev.checkout dev.clone dev.clone.ssh dev.nfs.setup \
-        devpi-password dev.provision dev.provision.analytics_pipeline \
-        dev.provision.services dev.provision.xqueue dev.pull dev.repo.reset \
-        dev.reset dev.status dev.sync.daemon.start dev.sync.provision \
-        dev.sync.requirements dev.sync.up dev.up dev.up.all \
+        dev.check dev.checkout dev.clone dev.clone.ssh dev.down dev.kill \
+        dev.nfs.setup devpi-password dev.provision \
+        dev.provision.analytics_pipeline dev.provision.services \
+        dev.provision.xqueue dev.ps dev.pull dev.repo.reset dev.reset \
+        dev.rm-stopped dev.status dev.stop dev.sync.daemon.start \
+        dev.sync.provision dev.sync.requirements dev.sync.up dev.up dev.up.all \
         dev.up.analytics_pipeline dev.up.watchers dev.up.with-programs \
         discovery-shell down e2e-shell e2e-tests ecommerce-shell \
         feature-toggle-state forum-restart-devserver healthchecks help \
@@ -110,6 +111,12 @@ upgrade: ## Upgrade requirements with pip-tools
 	pip-compile --upgrade -o requirements/pip-tools.txt requirements/pip-tools.in
 	pip-compile --upgrade -o requirements/base.txt requirements/base.in
 
+dev.print-container.%: ## Get the ID of the running container for a given service. Run with ``make --silent`` for just ID.
+	@echo -n $$(docker-compose $(DOCKER_COMPOSE_FILES) ps --quiet $*)
+
+dev.ps: ## View list of created services and their statuses.
+	docker-compose $(DOCKER_COMPOSE_FILES) ps
+
 dev.checkout: ## Check out "openedx-release/$OPENEDX_RELEASE" in each repo if set, "master" otherwise
 	./repo.sh checkout
 
@@ -200,21 +207,39 @@ dev.check.%:  # Run checks for a given service or set of services (separated by 
 provision: | dev.provision ## This command will be deprecated in a future release, use dev.provision
 	echo "\033[0;31mThis command will be deprecated in a future release, use dev.provision\033[0m"
 
-stop: ## Stop all services
+dev.stop: ## Stop all services.
 	(test -d .docker-sync && docker-sync stop) || true ## Ignore failure here
-	docker-compose stop
+	docker-compose $(DOCKER_COMPOSE_FILES) stop
 
-stop.watchers: ## Stop asset watchers
-	docker-compose $(DOCKER_COMPOSE_FILES) stop lms_watcher studio_watcher
+dev.stop.%: ## Stop specific services, separated by plus-signs.
+	docker-compose $(DOCKER_COMPOSE_FILES) stop $$(echo $* | tr + " ")
 
-stop.all: | stop.analytics_pipeline stop stop.watchers ## Stop all containers, including asset watchers
+stop: dev.stop.$(DEFAULT_SERVICES)
 
-stop.xqueue: ## Stop the XQueue and XQueue-Consumer containers
-	docker-compose $(DOCKER_COMPOSE_FILES) stop xqueue xqueue_consumer
+stop.watchers: dev.stop.lms_watcher+studio_watcher
 
-down: ## Remove all service containers and networks
+stop.all: dev.stop
+
+stop.xqueue: dev.stop.xqueue+xqueue_consumer
+
+dev.kill: ## Kill specific services, separated by plus-signs.
+	(test -d .docker-sync && docker-sync stop) || true ## Ignore failure here
+	docker-compose $(DOCKER_COMPOSE_FILES) stop
+
+dev.kill.%: ## Kill specific services, separated by plus-signs.
+	docker-compose $(DOCKER_COMPOSE_FILES) kill $$(echo $* | tr + " ")
+
+dev.rm-stopped: ## Remove stopped containers. Does not affect running containers.
+	docker-compose $(DOCKER_COMPOSE_FILES) rm --force
+
+dev.down.%: ## Stop and remove specific services, separated by plus-signs.
+	docker-compose $(DOCKER_COMPOSE_FILES) rm --force --stop $$(echo $* | tr + " ")
+
+dev.down: ## Stop and remove all service containers and networks
 	(test -d .docker-sync && docker-sync clean) || true ## Ignore failure here
 	docker-compose $(DOCKER_COMPOSE_FILES) down
+
+down: dev.down
 
 destroy: ## Remove all devstack-related containers, networks, and volumes
 	$(WINPTY) bash ./destroy.sh
@@ -319,7 +344,7 @@ lms-watcher-shell: ## Run a shell on the LMS watcher container
 	docker-compose exec lms_watcher env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
 
 %-attach: ## Attach to the specified service container process to use the debugger & see logs.
-	docker-compose attach $*
+	docker attach "$$(make --silent dev.print-container.$*)"
 
 lms-restart: lms-restart-devserver
 
@@ -395,10 +420,7 @@ pull.analytics_pipeline: dev.pull.analyticspipeline ## Update analytics pipeline
 analytics-pipeline-devstack-test: ## Run analytics pipeline tests in travis build
 	docker-compose $(DOCKER_COMPOSE_FILES) exec -u hadoop -T analyticspipeline bash -c 'sudo chown -R hadoop:hadoop /edx/app/analytics_pipeline && source /edx/app/hadoop/.bashrc && make develop-local && make docker-test-acceptance-local ONLY_TESTS=edx.analytics.tasks.tests.acceptance.test_internal_reporting_database && make docker-test-acceptance-local ONLY_TESTS=edx.analytics.tasks.tests.acceptance.test_user_activity'
 
-stop.analytics_pipeline: ## Stop all Analytics pipeline services.
-	docker-compose $(DOCKER_COMPOSE_FILES) stop \
-		namenode datanode resourcemanager nodemanager sparkmaster \
-		sparkworker vertica analyticspipeline
+stop.analytics_pipeline: dev.stop.namenode+datanode+resourcemanager+nodemanager+sparkmaster+sparkworker+vertica+analyticspipeline ## Stop all Analytics pipeline services.
 
 hadoop-application-logs-%: ## View hadoop logs by application Id
 	docker-compose exec nodemanager yarn logs -applicationId $*
