@@ -386,6 +386,17 @@ services:
       - lms
       - registrar
 
+  frontend-app-learning:
+    extends:
+      file: microfrontend.yml
+      service: microfrontend
+    working_dir: '/edx/app/frontend-app-learning'
+    container_name: edx.devstack.frontend-app-learning
+    ports:
+      - "2000:2000"
+    depends_on:
+      - lms
+
 volumes:
   discovery_assets:
   edxapp_lms_assets:
