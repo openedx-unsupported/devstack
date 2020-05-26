@@ -222,7 +222,7 @@ stop.all: dev.stop
 
 stop.xqueue: dev.stop.xqueue+xqueue_consumer
 
-dev.kill: ## Kill specific services, separated by plus-signs.
+dev.kill: ## Kill all services.
 	(test -d .docker-sync && docker-sync stop) || true ## Ignore failure here
 	docker-compose $(DOCKER_COMPOSE_FILES) stop
 
