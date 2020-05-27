@@ -3,7 +3,7 @@
 name=registrar
 port=18734
 
-docker-compose $DOCKER_COMPOSE_FILES up -d $name
+docker-compose up -d $name
 
 echo -e "${GREEN}Installing requirements for ${name}...${NC}"
 docker-compose exec ${name}  bash -c 'source /edx/app/registrar/registrar_env && cd /edx/app/registrar/registrar && make requirements' -- "$name"

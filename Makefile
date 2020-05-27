@@ -38,6 +38,8 @@ include options.mk
 -include local.mk  # Prefix with hyphen to tolerate absence of file.
 
 # Docker Compose YAML files to define services and their volumes.
+# This environment variable tells `docker-compose` which files to load definitions
+# of services, volumes, and networks from.
 # Depending on the value of FS_SYNC_STRATEGY, we use a slightly different set of
 # files, enabling use of different strategies to synchronize files between the host and
 # the containers.
@@ -45,34 +47,34 @@ include options.mk
 # For example, the LMS/Studio asset watchers are only available for local-mounts and nfs,
 # and XQueue and the Analytics Pipeline are only available for local-mounts.
 
+# Compose files are separated by a colon.
+COMPOSE_PATH_SEPARATOR := :
+
 ifeq ($(FS_SYNC_STRATEGY),local-mounts)
-DOCKER_COMPOSE_FILES := \
--f docker-compose-host.yml \
--f docker-compose-themes.yml \
--f docker-compose-watchers.yml \
--f docker-compose-xqueue.yml \
--f docker-compose-analytics-pipeline.yml \
--f docker-compose-marketing-site.yml
+COMPOSE_FILE := docker-compose-host.yml
+COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-themes.yml
+COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-watchers.yml
+COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-xqueue.yml
+COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-analytics-pipeline.yml
+COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-marketing-site.yml
 endif
 
 ifeq ($(FS_SYNC_STRATEGY),nfs)
-DOCKER_COMPOSE_FILES := \
--f docker-compose-host-nfs.yml \
--f docker-compose-themes-nfs.yml \
--f docker-compose-watchers-nfs.yml
+COMPOSE_FILE := docker-compose-host-nfs.yml
+COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-themes-nfs.yml
+COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-watchers-nfs.yml
 endif
 
 ifeq ($(FS_SYNC_STRATEGY),docker-sync)
-DOCKER_COMPOSE_FILES := \
--f docker-compose-sync.yml
+COMPOSE_FILE := docker-compose-sync.yml
 endif
 
-ifndef DOCKER_COMPOSE_FILES
+ifndef COMPOSE_FILE
 $(error FS_SYNC_STRATEGY is set to $(FS_SYNC_STRATEGY). Must be one of: local-mounts, nfs, docker-sync)
 endif
 
 # All three filesystem synchronization strategy require the main docker-compose.yml file.
-DOCKER_COMPOSE_FILES := -f docker-compose.yml $(DOCKER_COMPOSE_FILES)
+COMPOSE_FILE := docker-compose.yml:$(COMPOSE_FILE)
 
 OS := $(shell uname)
 
@@ -112,10 +114,10 @@ upgrade: ## Upgrade requirements with pip-tools
 	pip-compile --upgrade -o requirements/base.txt requirements/base.in
 
 dev.print-container.%: ## Get the ID of the running container for a given service. Run with ``make --silent`` for just ID.
-	@echo $$(docker-compose $(DOCKER_COMPOSE_FILES) ps --quiet $*)
+	@echo $$(docker-compose ps --quiet $*)
 
 dev.ps: ## View list of created services and their statuses.
-	docker-compose $(DOCKER_COMPOSE_FILES) ps
+	docker-compose ps
 
 dev.checkout: ## Check out "openedx-release/$OPENEDX_RELEASE" in each repo if set, "master" otherwise
 	./repo.sh checkout
@@ -154,21 +156,21 @@ dev.repo.reset: ## Attempts to reset the local repo checkouts to the master work
 dev.pull: dev.pull.$(DEFAULT_SERVICES) ## Pull Docker images required by default services.
 
 dev.pull.without-deps.%: ## Pull latest Docker images for services (separated by plus-signs).
-	docker-compose $(DOCKER_COMPOSE_FILES) pull $$(echo $* | tr + " ")
+	docker-compose pull $$(echo $* | tr + " ")
 
 dev.pull.%: ## Pull latest Docker images for services (separated by plus-signs) and all their dependencies.
-	docker-compose $(DOCKER_COMPOSE_FILES) pull --include-deps $$(echo $* | tr + " ")
+	docker-compose pull --include-deps $$(echo $* | tr + " ")
 
 dev.up: dev.up.$(DEFAULT_SERVICES) check-memory ## Bring up default services.
 
 dev.up.%: | check-memory ## Bring up specific services (separated by plus-signs) and their dependencies with host volumes.
-	docker-compose $(DOCKER_COMPOSE_FILES) up -d $$(echo $* | tr + " ")
+	docker-compose up -d $$(echo $* | tr + " ")
 ifeq ($(ALWAYS_CACHE_PROGRAMS),true)
 	make dev.cache-programs
 endif
 
 dev.up.without-deps.%:  ## Bring up specific services (separated by plus-signs) without dependencies.
-	docker-compose $(DOCKER_COMPOSE_FILES) up --d --no-deps $$(echo $* | tr + " ")
+	docker-compose up --d --no-deps $$(echo $* | tr + " ")
 
 dev.up.with-programs: dev.up dev.cache-programs  ## Bring up a all services and cache programs in LMS.
 
@@ -209,10 +211,10 @@ provision: | dev.provision ## This command will be deprecated in a future releas
 
 dev.stop: ## Stop all services.
 	(test -d .docker-sync && docker-sync stop) || true ## Ignore failure here
-	docker-compose $(DOCKER_COMPOSE_FILES) stop
+	docker-compose stop
 
 dev.stop.%: ## Stop specific services, separated by plus-signs.
-	docker-compose $(DOCKER_COMPOSE_FILES) stop $$(echo $* | tr + " ")
+	docker-compose stop $$(echo $* | tr + " ")
 
 stop: dev.stop.$(DEFAULT_SERVICES)
 
@@ -224,20 +226,20 @@ stop.xqueue: dev.stop.xqueue+xqueue_consumer
 
 dev.kill: ## Kill all services.
 	(test -d .docker-sync && docker-sync stop) || true ## Ignore failure here
-	docker-compose $(DOCKER_COMPOSE_FILES) stop
+	docker-compose stop
 
 dev.kill.%: ## Kill specific services, separated by plus-signs.
-	docker-compose $(DOCKER_COMPOSE_FILES) kill $$(echo $* | tr + " ")
+	docker-compose kill $$(echo $* | tr + " ")
 
 dev.rm-stopped: ## Remove stopped containers. Does not affect running containers.
-	docker-compose $(DOCKER_COMPOSE_FILES) rm --force
+	docker-compose rm --force
 
 dev.down.%: ## Stop and remove specific services, separated by plus-signs.
-	docker-compose $(DOCKER_COMPOSE_FILES) rm --force --stop $$(echo $* | tr + " ")
+	docker-compose rm --force --stop $$(echo $* | tr + " ")
 
 dev.down: ## Stop and remove all service containers and networks
 	(test -d .docker-sync && docker-sync clean) || true ## Ignore failure here
-	docker-compose $(DOCKER_COMPOSE_FILES) down
+	docker-compose down
 
 down: dev.down
 
@@ -245,10 +247,10 @@ destroy: ## Remove all devstack-related containers, networks, and volumes
 	$(WINPTY) bash ./destroy.sh
 
 logs: ## View logs from containers running in detached mode
-	docker-compose $(DOCKER_COMPOSE_FILES) logs -f
+	docker-compose logs -f
 
 %-logs: ## View the logs of the specified service container
-	docker-compose $(DOCKER_COMPOSE_FILES) logs -f --tail=500 $*
+	docker-compose logs -f --tail=500 $*
 
 RED="\033[0;31m"
 YELLOW="\033[0;33m"
@@ -418,7 +420,7 @@ dev.up.analytics_pipeline: dev.up.analyticspipeline ## Bring up analytics pipeli
 pull.analytics_pipeline: dev.pull.analyticspipeline ## Update analytics pipeline docker images
 
 analytics-pipeline-devstack-test: ## Run analytics pipeline tests in travis build
-	docker-compose $(DOCKER_COMPOSE_FILES) exec -u hadoop -T analyticspipeline bash -c 'sudo chown -R hadoop:hadoop /edx/app/analytics_pipeline && source /edx/app/hadoop/.bashrc && make develop-local && make docker-test-acceptance-local ONLY_TESTS=edx.analytics.tasks.tests.acceptance.test_internal_reporting_database && make docker-test-acceptance-local ONLY_TESTS=edx.analytics.tasks.tests.acceptance.test_user_activity'
+	docker-compose exec -u hadoop -T analyticspipeline bash -c 'sudo chown -R hadoop:hadoop /edx/app/analytics_pipeline && source /edx/app/hadoop/.bashrc && make develop-local && make docker-test-acceptance-local ONLY_TESTS=edx.analytics.tasks.tests.acceptance.test_internal_reporting_database && make docker-test-acceptance-local ONLY_TESTS=edx.analytics.tasks.tests.acceptance.test_user_activity'
 
 stop.analytics_pipeline: dev.stop.namenode+datanode+resourcemanager+nodemanager+sparkmaster+sparkworker+vertica+analyticspipeline ## Stop all Analytics pipeline services.
 

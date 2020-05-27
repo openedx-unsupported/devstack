@@ -6,7 +6,7 @@
 name=credentials
 port=18150
 
-docker-compose $DOCKER_COMPOSE_FILES up -d $name
+docker-compose up -d $name
 
 echo -e "${GREEN}Installing requirements for ${name}...${NC}"
 docker-compose exec ${name}  bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials && make requirements && make production-requirements' -- "$name"
