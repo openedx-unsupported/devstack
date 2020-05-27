@@ -7,7 +7,7 @@ set -x
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
-docker-compose $DOCKER_COMPOSE_FILES up -d marketing
+docker-compose up -d marketing
 
 set +x
 echo -e "${YELLOW}edX Marketing Site is not fully provisioned yet.${NC}"

@@ -17,7 +17,7 @@ elif [ ! -d "$DEVSTACK_WORKSPACE" ]; then
 fi
 
 # Bring the pipeline containers online.
-docker-compose $DOCKER_COMPOSE_FILES up -d analyticspipeline
+docker-compose up -d analyticspipeline
 
 # Analytics pipeline has dependency on lms but we only need its db schema & not full lms. So we'll just load their db
 # schemas as part of analytics pipeline provisioning. If there is a need of a fully fledged LMS, then provision lms
@@ -29,7 +29,7 @@ else
   echo -e "${GREEN}LMS DB not found, provisioning lms schema.${NC}"
   docker-compose exec -T mysql bash -c 'mysql -uroot mysql' < provision.sql
   ./load-db.sh edxapp
-  docker-compose $DOCKER_COMPOSE_FILES up -d lms studio
+  docker-compose up -d lms studio
   docker-compose exec -T lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && NO_PYTHON_UNINSTALL=1 paver install_prereqs'
   #Installing prereqs crashes the process
   docker-compose restart lms
@@ -43,7 +43,7 @@ docker-compose exec -T mysql bash -c 'mysql -uroot mysql' < provision-analytics-
 
 # initialize hive metastore
 echo -e "${GREEN}Initializing HIVE metastore...${NC}"
-docker-compose $DOCKER_COMPOSE_FILES exec analyticspipeline bash -c '/edx/app/hadoop/hive/bin/schematool -dbType mysql -initSchema'
+docker-compose exec analyticspipeline bash -c '/edx/app/hadoop/hive/bin/schematool -dbType mysql -initSchema'
 
 # materialize hadoop directory structure
 echo -e "${GREEN}Initializing Hadoop directory structure...${NC}"
@@ -56,4 +56,4 @@ done
 sleep 10 # for datanode & other services to activate
 echo -e "${GREEN}Namenode is ready!${NC}"
 
-docker-compose $DOCKER_COMPOSE_FILES exec -u hadoop analyticspipeline bash -c 'sudo /edx/app/hadoop/hadoop/bin/hdfs dfs -chown -R hadoop:hadoop hdfs://namenode:8020/; hdfs dfs -mkdir -p hdfs://namenode:8020/edx-analytics-pipeline/{warehouse,marker,manifest,packages} hdfs://namenode:8020/{spark-warehouse,data} hdfs://namenode:8020/tmp/spark-events;hdfs dfs -copyFromLocal -f /edx/app/hadoop/lib/edx-analytics-hadoop-util.jar hdfs://namenode:8020/edx-analytics-pipeline/packages/;'
+docker-compose exec -u hadoop analyticspipeline bash -c 'sudo /edx/app/hadoop/hadoop/bin/hdfs dfs -chown -R hadoop:hadoop hdfs://namenode:8020/; hdfs dfs -mkdir -p hdfs://namenode:8020/edx-analytics-pipeline/{warehouse,marker,manifest,packages} hdfs://namenode:8020/{spark-warehouse,data} hdfs://namenode:8020/tmp/spark-events;hdfs dfs -copyFromLocal -f /edx/app/hadoop/lib/edx-analytics-hadoop-util.jar hdfs://namenode:8020/edx-analytics-pipeline/packages/;'

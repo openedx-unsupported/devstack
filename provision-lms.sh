@@ -10,7 +10,7 @@ apps=( lms studio )
 
 # Bring edxapp containers online
 for app in "${apps[@]}"; do
-    docker-compose $DOCKER_COMPOSE_FILES up -d $app
+    docker-compose up -d $app
 done
 
 docker-compose exec -T lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && NO_PYTHON_UNINSTALL=1 paver install_prereqs'

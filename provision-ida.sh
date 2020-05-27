@@ -4,7 +4,7 @@ client_name=$2  # The name of the Oauth client stored in the edxapp DB.
 client_port=$3  # The port corresponding to this IDA service in devstack.
 container_name=${4:-$1} # (Optional) The name of the container.  If missing, will use app_name.
 
-docker-compose $DOCKER_COMPOSE_FILES up -d $app_name
+docker-compose up -d $app_name
 
 echo -e "${GREEN}Installing requirements for ${app_name}...${NC}"
 docker-compose exec ${container_name}  bash -c 'source /edx/app/$1/$1_env && cd /edx/app/$1/$1/ && make requirements' -- "$app_name"
