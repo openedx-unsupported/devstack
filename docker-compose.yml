@@ -240,6 +240,7 @@ services:
     environment:
       DJANGO_DEBUG: "true"
       DJANGO_CELERY_ALWAYS_EAGER: "true"
+      AMC_SIGNUP_WIZARD_ENABLED: "true"
       SSL_ENABLED: "false"
       DATABASE_URL: "postgres://postgres:postgres@tahoe.devstack.postgres:5432/postgres"
       BROKER_URL: "redis://tahoe.devstack.redis:6379/1"
