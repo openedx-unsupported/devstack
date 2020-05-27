@@ -320,7 +320,7 @@ ecommerce-shell: ## Run a shell on the ecommerce container
 	docker-compose exec ecommerce env TERM=$(TERM) /edx/app/ecommerce/devstack.sh open
 
 e2e-shell: ## Start the end-to-end tests container with a shell
-	docker-compose run --network=devstack_default -v ${DEVSTACK_WORKSPACE}/edx-e2e-tests:/edx-e2e-tests -v ${DEVSTACK_WORKSPACE}/edx-platform:/edx-e2e-tests/lib/edx-platform --env-file ${DEVSTACK_WORKSPACE}/edx-e2e-tests/devstack_env edxops/e2e env TERM=$(TERM) bash
+	docker run -it --network=${COMPOSE_PROJECT_NAME:-devstack}_default -v ${DEVSTACK_WORKSPACE}/edx-e2e-tests:/edx-e2e-tests -v ${DEVSTACK_WORKSPACE}/edx-platform:/edx-e2e-tests/lib/edx-platform --env-file ${DEVSTACK_WORKSPACE}/edx-e2e-tests/devstack_env edxops/e2e env TERM=$(TERM) bash
 
 registrar-shell: ## Run a shell on the registrar site container
 	docker-compose exec registrar env TERM=$(TERM) /edx/app/registrar/devstack.sh open
@@ -388,7 +388,7 @@ healthchecks: dev.check.$(DEFAULT_SERVICES)
 healthchecks.%: dev.check.%
 
 e2e-tests: ## Run the end-to-end tests against the service containers
-	docker-compose run --network=devstack_default -v ${DEVSTACK_WORKSPACE}/edx-e2e-tests:/edx-e2e-tests -v ${DEVSTACK_WORKSPACE}/edx-platform:/edx-e2e-tests/lib/edx-platform --env-file ${DEVSTACK_WORKSPACE}/edx-e2e-tests/devstack_env edxops/e2e env TERM=$(TERM)  bash -c 'paver e2e_test --exclude="whitelabel\|enterprise"'
+	docker run -t --network=${COMPOSE_PROJECT_NAME:-devstack}_default -v ${DEVSTACK_WORKSPACE}/edx-e2e-tests:/edx-e2e-tests -v ${DEVSTACK_WORKSPACE}/edx-platform:/edx-e2e-tests/lib/edx-platform --env-file ${DEVSTACK_WORKSPACE}/edx-e2e-tests/devstack_env edxops/e2e env TERM=$(TERM)  bash -c 'paver e2e_test --exclude="whitelabel\|enterprise"'
 
 validate-lms-volume: ## Validate that changes to the local workspace are reflected in the LMS container
 	touch $(DEVSTACK_WORKSPACE)/edx-platform/testfile
