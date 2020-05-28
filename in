@@ -1,7 +1,26 @@
-#! /usr/bin/env bash
+#!/usr/bin/env bash
+# Run a command in a service's container.
+# Try to bring up the service if it isn't already up.
+# Example:
+#   ~/devstack> ./in registrar ls /edx/app/
+#   edx_ansible  nginx  registrar  supervisor
+# Example 2:
+#   ~/devstack> ./in registrar "cd /edx/app/registrar && ls"
+#   data	     registrar		    registrar.sh	  venvs
+#   devstack.sh  registrar_env	    registrar-workers.sh
+#   nodeenvs     registrar_gunicorn.py  staticfiles
 
-SERVICE=$1
+set -e
+set -o pipefail
+set -u
+
+service="$1"
 shift
-export DEVSTACK_WORKSPACE=${DEVSTACK_WORKSPACE:-$(pwd)/..}
 
-docker-compose -f docker-compose.yml -f docker-compose-host.yml -f docker-compose-themes.yml run $SERVICE exec "$@"
+container_id=$(make --silent dev.print-container."$service")
+if [[ -z "$container_id" ]]; then
+	make --silent dev.up."$service"
+	container_id=$(make --silent dev.print-container."$service")
+fi
+
+docker exec -it "$container_id" bash -c "$*"
