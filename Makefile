@@ -13,7 +13,7 @@
         dev.nfs.setup devpi-password dev.provision \
         dev.provision.analytics_pipeline dev.provision.services \
         dev.provision.xqueue dev.ps dev.pull dev.repo.reset dev.reset \
-        dev.rm-stopped dev.status dev.stop dev.sync.daemon.start \
+        dev.restart dev.rm-stopped dev.status dev.stop dev.sync.daemon.start \
         dev.sync.provision dev.sync.requirements dev.sync.up dev.up dev.up.all \
         dev.up.analytics_pipeline dev.up.watchers dev.up.with-programs \
         discovery-shell down e2e-shell e2e-tests ecommerce-shell \
@@ -223,6 +223,12 @@ stop.watchers: dev.stop.lms_watcher+studio_watcher
 stop.all: dev.stop
 
 stop.xqueue: dev.stop.xqueue+xqueue_consumer
+
+dev.restart: ## Restart all services.
+	docker-compose restart $$(echo $* | tr + " ")
+
+dev.restart.%: ## Restart specific services, separated by plus-signs.
+	docker-compose restart $$(echo $* | tr + " ")
 
 dev.kill: ## Kill all services.
 	(test -d .docker-sync && docker-sync stop) || true ## Ignore failure here

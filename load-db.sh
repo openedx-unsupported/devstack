@@ -17,5 +17,6 @@ then
 fi
 
 echo "Loading the $1 database..."
-docker-compose exec -T mysql bash -c "mysql -uroot $1" < $1.sql
+mysql_container=$(make -s dev.print-container.mysql)
+docker exec "$mysql_container" bash -c "mysql -uroot $1" < $1.sql
 echo "Finished loading the $1 database!"
