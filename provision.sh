@@ -122,7 +122,7 @@ fi
 
 # Ensure the MySQL server is online and usable
 echo "${GREEN}Waiting for MySQL.${NC}"
-until docker exec -i edx.devstack.mysql mysql -uroot -se "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = 'root')" &> /dev/null
+until docker-compose exec -T mysql bash -c "mysql -uroot -se \"SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = 'root')\"" &> /dev/null
 do
   printf "."
   sleep 1
@@ -136,20 +136,20 @@ echo -e "${GREEN}MySQL ready.${NC}"
 # Ensure that the MySQL databases and users are created for all IDAs.
 # (A no-op for databases and users that already exist).
 echo -e "${GREEN}Ensuring MySQL databases and users exist...${NC}"
-docker exec -i edx.devstack.mysql mysql -uroot mysql < provision.sql
+docker-compose exec -T mysql bash -c "mysql -uroot mysql" < provision.sql
 
 # If necessary, ensure the MongoDB server is online and usable
 # and create its users.
 if needs_mongo "$to_provision"; then
 	echo -e "${GREEN}Waiting for MongoDB...${NC}"
-	until docker exec -i edx.devstack.mongo mongo --eval "printjson(db.serverStatus())" &> /dev/null
+	until docker-compose exec -T mongo bash -c 'mongo --eval "printjson(db.serverStatus())"' &> /dev/null
 	do
 	  printf "."
 	  sleep 1
 	done
 	echo -e "${GREEN}MongoDB ready.${NC}"
 	echo -e "${GREEN}Creating MongoDB users...${NC}"
-	docker exec -i edx.devstack.mongo mongo < mongo-provision.js
+    docker-compose exec -T mongo bash -c "mongo" < mongo-provision.js
 else
 	echo -e "${GREEN}MongoDB preparation not required; skipping.${NC}"
 fi

@@ -23,8 +23,8 @@ dev.provision.whitelabel:
 # The containers must be started with the 'dev.up.e2e_wl_tests' target.
 # AND the test must be setup using the 'dev.provision.whitelabel' target.
 whitelabel-tests:
-	docker run -d --name=devstack.whitelabel --network=devstack_default -v ${DEVSTACK_WORKSPACE}/edx-e2e-tests:/edx-e2e-tests -v ${DEVSTACK_WORKSPACE}/edx-platform:/edx-e2e-tests/lib/edx-platform --env-file ${DEVSTACK_WORKSPACE}/edx-e2e-tests/devstack_env edxops/e2e
-	docker cp ${DEVSTACK_WORKSPACE}/edx-themes/edx-platform/run_whitelabel_tests.sh devstack.whitelabel:/tmp/run_whitelabel_tests.sh
+	docker run -d --name=devstack.whitelabel --network=${COMPOSE_PROJECT_NAME:-devstack}_default -v ${DEVSTACK_WORKSPACE}/edx-e2e-tests:/edx-e2e-tests -v ${DEVSTACK_WORKSPACE}/edx-platform:/edx-e2e-tests/lib/edx-platform --env-file ${DEVSTACK_WORKSPACE}/edx-e2e-tests/devstack_env edxops/e2e
+	docker cp ${DEVSTACK_WORKSPACE}/edx-themes/edx-platform/run_whitelabel_tests.sh $(make --silent dev.print-container.devstack.whitelabel)":/tmp/run_whitelabel_tests.sh
 	docker exec -t devstack.whitelabel env TEST_ENV=devstack TERM=$(TERM) bash /tmp/run_whitelabel_tests.sh
 
 whitelabel-cleanup:

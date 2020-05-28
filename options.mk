@@ -10,8 +10,12 @@ DEVSTACK_WORKSPACE ?= $(shell pwd)/..
 
 # Name of Docker Compose project.
 # See https://docs.docker.com/compose/reference/envvars/#compose_project_name
-# Defaults to 'devstack'.
-COMPOSE_PROJECT_NAME ?= devstack
+# Defaults to 'devstack' should OPENEDX_RELEASE not be defined.
+ifdef OPENEDX_RELEASE
+	COMPOSE_PROJECT_NAME ?= devstack-${OPENEDX_RELEASE}
+else
+	COMPOSE_PROJECT_NAME ?= devstack
+endif
 
 # increase Docker Compose HTTP timeout so that devstack provisioning does not fail in unstable networks
 COMPOSE_HTTP_TIMEOUT=180

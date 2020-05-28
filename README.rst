@@ -405,11 +405,11 @@ already being correcty provisioned.
 So, when in doubt, it may still be best to run the full ``make dev.provision``.
 
 Sometimes you may need to restart a particular application server. To do so,
-simply use the ``docker-compose restart`` command:
+simply use the ``make dev.restart.%`` command:
 
 .. code:: sh
 
-    docker-compose restart <service>
+    make dev.restart.<service>
 
 In all the above commands, ``<service>`` should be replaced with one of the following:
 
@@ -681,7 +681,7 @@ vary depending on the database. For all of the options, see ``provision.sql``.
 - Password: ``password``
 
 If you have trouble connecting, ensure the port was mapped successfully by
-running ``docker-compose ps`` and looking for a line like this:
+running ``make dev.ps`` and looking for a line like this:
 ``edx.devstack.mysql docker-entrypoint.sh mysql ... Up 0.0.0.0:3506→3306/tcp``.
 
 Switching branches
@@ -774,20 +774,20 @@ Set a PDB breakpoint anywhere in the code using:
 
 and your attached session will offer an interactive PDB prompt when the breakpoint is hit.
 
-To detach from the container, you'll need to stop the container with:
+You may be able to detach from the container with the ``Ctrl-P, Ctrl-Q`` key sequence.
+If that doesn't work, you will have either close your terminal window,
+stop the container with:
 
 .. code:: sh
 
-    make stop
+    make dev.stop.<service>
 
-or a manual Docker command to bring down the container:
+or kill the container with:
 
 .. code:: sh
 
-   docker kill $(docker ps -a -q --filter="name=edx.devstack.<container name>")
+   make dev.kill.<service>
 
-Alternatively, some terminals allow detachment from a running container with the
-``Ctrl-P, Ctrl-Q`` key sequence.
 
 Running LMS and Studio Tests
 ----------------------------
@@ -872,7 +872,7 @@ Check the logs
 
 If a container stops unexpectedly, you can look at its logs for clues::
 
-    docker-compose logs lms
+    make <service>-logs
 
 Update the code and images
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
