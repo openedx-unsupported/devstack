@@ -96,6 +96,10 @@ include marketing.mk
 # Export Makefile variables to recipe shells.
 export
 
+# Fetch theme directory configuration
+theme_dir_cms=`python -c "import yaml;print(yaml.load(open('cms.yml'))['COMPREHENSIVE_THEME_DIRS'][0])"`
+theme_dir_lms=`python -c "import yaml;print(yaml.load(open('lms.yml'))['COMPREHENSIVE_THEME_DIRS'][0])"`
+
 # Generates a help message. Borrowed from https://github.com/pydanny/cookiecutter-djangopackage.
 help: ## Display this help message
 	@echo "Please use \`make <target>' where <target> is one of"
@@ -353,6 +357,18 @@ lms-static: ## Rebuild static assets for the LMS container
 
 studio-static: ## Rebuild static assets for the Studio container
 	docker exec -t edx.devstack.studio bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_assets studio'
+
+lms-sass-theme-%: ## Rebuild only sass assets for a specific LMS theme E.g.: make lms-sass-theme-mytheme
+	docker exec -t edx.devstack.lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver compile_sass --system=lms --theme-dirs $(echo theme_dir_cms) --themes=$*'
+
+lms-static-theme-%: ## Rebuild static assets for a specific LMS theme E.g.: make lms-static-theme-mytheme
+	docker exec -t edx.devstack.lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_assets lms --themes=$*'
+
+studio-sass-theme-%: ## Rebuild static assets for a specific Studio theme E.g.: make studio-sass-theme-mytheme
+	docker exec -t edx.devstack.lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver compile_sass --system=cms --theme-dirs $(echo theme_dir_cms) --themes=$*'
+
+studio-static-theme-%: ## Rebuild static assets for a specific Studio theme E.g.: make studio-static-theme-mytheme
+	docker exec -t edx.devstack.lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_assets cms --themes=$*'
 
 static: | credentials-static discovery-static ecommerce-static lms-static studio-static ## Rebuild static assets for all service containers
 
