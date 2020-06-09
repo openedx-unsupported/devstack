@@ -7,21 +7,23 @@
 attrs==19.3.0             # via jsonschema
 bcrypt==3.1.7             # via paramiko
 cached-property==1.5.1    # via docker-compose
-certifi==2020.4.5.1       # via requests
+certifi==2020.4.5.2       # via requests
 cffi==1.14.0              # via bcrypt, cryptography, pynacl
 chardet==3.0.4            # via requests
 cryptography==2.9.2       # via paramiko
-docker-compose==1.25.5    # via -r requirements/base.in
-docker[ssh]==4.2.0        # via docker-compose
+distro==1.5.0             # via docker-compose
+docker-compose==1.26.0    # via -r requirements/base.in
+docker[ssh]==4.2.1        # via docker-compose
 dockerpty==0.4.1          # via docker-compose
 docopt==0.6.2             # via docker-compose
 idna==2.9                 # via requests
-importlib-metadata==1.6.0  # via jsonschema
+importlib-metadata==1.6.1  # via jsonschema
 jsonschema==3.2.0         # via docker-compose
 paramiko==2.7.1           # via docker
 pycparser==2.20           # via cffi
 pynacl==1.4.0             # via paramiko
 pyrsistent==0.16.0        # via jsonschema
+python-dotenv==0.13.0     # via docker-compose
 pyyaml==5.3.1             # via -r requirements/base.in, docker-compose
 requests==2.23.0          # via docker, docker-compose
 six==1.15.0               # via bcrypt, cryptography, docker, docker-compose, dockerpty, jsonschema, pynacl, pyrsistent, websocket-client
