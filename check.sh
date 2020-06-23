@@ -114,7 +114,7 @@ fi
 if should_check analyticspipeline; then
     echo "Running Analytics Devstack tests: "
     run_check analyticspipeline_tests analyticspipeline \
-        "make analytics-pipeline-devstack-test"
+        "make analyticspipeline-tests"
 fi
 
 if should_check marketing; then
