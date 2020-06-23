@@ -40,6 +40,6 @@ before_install:
 
 script:
   - set -e  # If one of these commands fails, exit immediately.
-  - make dev.provision.services."$SERVICES"
+  - make dev.provision."$SERVICES"
   - make dev.up."$SERVICES"
   - make dev.check."$SERVICES"
