@@ -6,39 +6,34 @@ Get up and running quickly with Open edX services.
 This project replaces the older Vagrant-based devstack with a
 multi-container approach driven by `Docker Compose`_.
 
-A Devstack installation includes the following Open edX components:
+A Devstack installation includes the following Open edX components by default:
 
 * The Learning Management System (LMS)
+* LMS plug-ins such as Open Response Assessments (ORA)
 * Open edX Studio
 * Discussion Forums
-* Open Response Assessments (ORA)
 * E-Commerce
 * Credentials
 * Notes
 * Course Discovery
-* XQueue
 * Open edX Search
 * A demonstration Open edX course
+* The Publisher, Gradebook, and Program Console micro-frontends
+* edX Registrar Service
 
-Analytics Devstack also includes the following Open edX components:
+It also includes the following optional components:
 
-* Open edX Analytics Data API
-* Open edX Insights
+* XQueue
 * The components needed to run the Open edX Analytics Pipeline. This is the
   primary extract, transform, and load (ETL) tool that extracts and analyzes
   data from the other Open edX services.
+* The new Courseware experience micro-frontend
 
 Where to Find Help
 ------------------
 
 There are a number of places to get help, including mailing lists and real-time chat. Please choose an appropriate venue for your question. This helps ensure that you get good prompt advice, and keeps discussion focused. For details of your options, see the `Community`_ pages.
 
-FYI
----
-
-You should run all ``make`` commands described below on your local machine, *not*
-from within a VM (virtualenvs are ok, and in fact recommended) as these commands
-are for standing up a new docker based VM.
 
 Prerequisites
 -------------
@@ -46,8 +41,8 @@ Prerequisites
 You will need to have the following installed:
 
 - make
-- python 3
-- docker
+- Python 3
+- Docker
 
 This project requires **Docker 17.06+ CE**.  We recommend Docker Stable, but
 Docker Edge should work as well.
@@ -73,6 +68,17 @@ If you are using Linux, use the ``overlay2`` storage driver, kernel version
 .. code:: sh
 
    docker info | grep -i 'storage driver'
+
+Please note
+~~~~~~~~~~~
+
+You should run all ``make`` commands described below on your local machine, *not*
+from within a VM, as these commands are meant to stand up a VM-like environment using
+containers via Docker.
+
+However, you may want to run the ``make`` commands from within a Python 3 virtual
+environment. This will keep the Python packages required for Devstack separate from
+the ones installed globally on your system.
 
 Using the Latest Images
 -----------------------
@@ -405,11 +411,11 @@ already being correcty provisioned.
 So, when in doubt, it may still be best to run the full ``make dev.provision``.
 
 Sometimes you may need to restart a particular application server. To do so,
-simply use the ``make dev.restart.%`` command:
+simply use the ``make dev.restart-container.%`` command:
 
 .. code:: sh
 
-    make dev.restart.<service>
+    make dev.restart-container.<service>
 
 In all the above commands, ``<service>`` should be replaced with one of the following:
 
