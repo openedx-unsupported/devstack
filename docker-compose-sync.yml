@@ -4,30 +4,39 @@ services:
   credentials:
     volumes:
       - credentials-sync:/edx/app/credentials/credentials:nocopy
+      - source-sync:/edx/src:nocopy
   discovery:
     volumes:
       - discovery-sync:/edx/app/discovery/discovery:nocopy
+      - source-sync:/edx/src:nocopy
   ecommerce:
     volumes:
       - ecommerce-sync:/edx/app/ecommerce/ecommerce:nocopy
+      - source-sync:/edx/src:nocopy
   lms:
     volumes:
       - edxapp-sync:/edx/app/edxapp/edx-platform:nocopy
+      - source-sync:/edx/src:nocopy
   studio:
     volumes:
       - edxapp-sync:/edx/app/edxapp/edx-platform:nocopy
+      - source-sync:/edx/src:nocopy
   forum:
     volumes:
       - forum-sync:/edx/app/forum/cs_comments_service:nocopy
+      - source-sync:/edx/src:nocopy
   registrar:
     volumes:
       - registrar-sync:/edx/app/registrar/registrar:nocopy
+      - source-sync:/edx/src:nocopy
   gradebook:
     volumes:
       - gradebook-sync:/edx/app/gradebook/gradebook:nocopy
+      - source-sync:/edx/src:nocopy
   program-console:
     volumes:
       - program-console-sync:/edx/app/program-console:nocopy
+      - source-sync:/edx/src:nocopy
 
 volumes:
   credentials-sync:
@@ -46,3 +55,5 @@ volumes:
     external: true
   program-console-sync:
     external: true
+  source-sync:
+      external: true
