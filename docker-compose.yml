@@ -428,6 +428,21 @@ services:
   # for micro-frontends in devtack.
   # ==========================================================================
 
+  frontend-app-learning:
+    extends:
+      file: microfrontend.yml
+      service: microfrontend
+    working_dir: '/edx/app/frontend-app-learning'
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-learning"
+    networks:
+      default:
+        aliases:
+          - edx.devstack.frontend-app-learning
+    ports:
+      - "2000:2000"
+    depends_on:
+      - lms
+
   frontend-app-publisher:
     extends:
       file: microfrontend.yml
@@ -473,21 +488,6 @@ services:
     depends_on:
       - lms
       - registrar
-
-  frontend-app-learning:
-    extends:
-      file: microfrontend.yml
-      service: microfrontend
-    working_dir: '/edx/app/frontend-app-learning'
-    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-learning"
-    networks:
-      default:
-        aliases:
-          - edx.devstack.frontend-app-learning
-    ports:
-      - "2000:2000"
-    depends_on:
-      - lms
 
 volumes:
   discovery_assets:
