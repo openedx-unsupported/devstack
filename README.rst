@@ -153,7 +153,7 @@ All of the services can be run by following the steps below. For analyticstack, 
 
        make dev.sync.provision
 
-    Provision using `nfs`_:
+   Provision using `nfs`_:
 
    .. code:: sh
 
@@ -1086,6 +1086,10 @@ package versions installed.
 
 Performance
 -----------
+
+**NOTE**
+docker-sync is no longer actively supported. We now recommend using nfs on MacOS
+to greatly increase performance.
 
 Improve Mac OSX Performance with docker-sync
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
