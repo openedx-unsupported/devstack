@@ -9,7 +9,7 @@
 .PHONY: analytics-pipeline-devstack-test analytics-pipeline-shell \
         analyticspipeline-shell backup build-courses check-memory \
         create-test-course credentials-shell destroy dev.cache-programs \
-        dev.check dev.checkout dev.clone dev.clone.ssh dev.down dev.kill \
+        dev.check dev.checkout dev.clone dev.clone.https dev.down dev.kill \
         dev.nfs.setup devpi-password dev.provision \
         dev.provision.analytics_pipeline dev.provision.services \
         dev.provision.xqueue dev.ps dev.pull dev.repo.reset dev.reset \
@@ -122,10 +122,10 @@ dev.ps: ## View list of created services and their statuses.
 dev.checkout: ## Check out "openedx-release/$OPENEDX_RELEASE" in each repo if set, "master" otherwise
 	./repo.sh checkout
 
-dev.clone: ## Clone service repos using HTTPS method to the parent directory
+dev.clone.https: ## Clone service repos using HTTPS method to the parent directory
 	./repo.sh clone
 
-dev.clone.ssh: ## Clone service repos using SSH method to the parent directory
+dev.clone: ## Clone service repos using SSH method to the parent directory
 	./repo.sh clone_ssh
 
 dev.provision.services: ## Provision default services with local mounted directories
@@ -138,7 +138,7 @@ dev.provision.services: ## Provision default services with local mounted directo
 dev.provision.services.%: ## Provision specified services with local mounted directories, separated by plus signs
 	$(WINPTY) bash ./provision.sh $*
 
-dev.provision: check-memory dev.clone.ssh dev.provision.services stop ## Provision dev environment with default services, and then stop them.
+dev.provision: check-memory dev.clone dev.provision.services stop ## Provision dev environment with default services, and then stop them.
 
 dev.cache-programs: ## Copy programs from Discovery to Memcached for use in LMS.
 	$(WINPTY) bash ./programs/provision.sh cache

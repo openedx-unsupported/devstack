@@ -15,7 +15,7 @@ pipeline {
                 withPythonEnv('System-CPython-2.7') {
                     dir('devstack') {
                         sh 'make requirements'
-                        sh 'make dev.clone'
+                        sh 'make dev.clone.https'
                         sh 'make dev.pull'
                         sh 'make dev.provision'
                         sh 'python scripts/snapshot.py ../devstack_snapshot'
