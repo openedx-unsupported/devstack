@@ -1090,7 +1090,7 @@ Performance
 Improve Mac OSX Performace using nfs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The option to use docker with nfs on mac was added recently. The instructions to use this method are above in readme(look nfs). This can potentially increase preformance in mac osx. However, this option is still in testing phase. If you find any corrections that should be made, please start a PR with corrections.
+The option to use docker with nfs on mac was added recently. This can potentially increase preformance in mac osx. However, this option is still in testing phase. If you find any corrections that should be made, please start a PR with corrections.
 
 
 Improve Mac OSX Performance with docker-sync
