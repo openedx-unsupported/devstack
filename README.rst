@@ -1087,13 +1087,20 @@ package versions installed.
 Performance
 -----------
 
-**NOTE:**
+Improve Mac OSX Performace using nfs
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-docker-sync is no longer actively supported. We now recommend using nfs on MacOS
-to greatly increase performance.
+The option to use docker with nfs on mac was added recently. The instructions to use this method are above in readme(look nfs). This can potentially increase preformance in mac osx. However, this option is still in testing phase. If you find any corrections that should be made, please start a PR with corrections.
+
 
 Improve Mac OSX Performance with docker-sync
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**NOTE:**
+
+docker-sync is no longer actively supported. See section for nfs above for
+possible alternative.
 
 Docker for Mac has known filesystem issues that significantly decrease
 performance for certain use cases, for example running tests in edx-platform. To
