@@ -153,7 +153,7 @@ All of the services can be run by following the steps below. For analyticstack, 
 
        make dev.sync.provision
 
-    Provision using `nfs`_:
+   Provision using `nfs`_:
 
    .. code:: sh
 
@@ -1087,8 +1087,20 @@ package versions installed.
 Performance
 -----------
 
+Improve Mac OSX Performance using nfs
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The option to use docker with nfs on mac was added recently. This can potentially increase performance in mac osx. However, this option is still in testing phase. If you find any corrections that should be made, please start a PR with corrections.
+
+
 Improve Mac OSX Performance with docker-sync
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**NOTE:**
+
+docker-sync is no longer actively supported. See section for nfs above for
+possible alternative.
 
 Docker for Mac has known filesystem issues that significantly decrease
 performance for certain use cases, for example running tests in edx-platform. To
