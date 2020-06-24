@@ -58,7 +58,10 @@ use the following options:
 
 - Environment variables:
 
-  - ``DEVSTACK_WORKSPACE=/LOCAL/PARENT/PATH/TO/workspace`` (i.e.: Path to where your local repositories are cloned)
+  - ``DEVSTACK_WORKSPACE=/LOCAL/PARENT/PATH/TO/workspace`` (i.e.: Path to where your local repositories are cloned. This needs to be full path an not relative (e.g. './') path to ensure proper configuration of python packages.)
+  - ``VIRTUAL_ENV=/LOCAL/PARENT/PATH/TO/workspace/devstack/venv`` (i.e.: Path to where your local devstack virtual environment exists for release.)
+  - ``OPENEDX_RELEASE=release.version`` (i.e.: appropriate image tag; "juniper.master")
+  - ``COMPOSE_PROJECT_NAME=docker-compose.container`` (i.e.: "devstack-juniper.master"; appropriate docker-compose container project for devstack multiple release (same machine); ensures specific Docker containers get used based on release name; Ref: https://github.com/edx/devstack/pull/532)
 
 - Python interpreter path:
 
@@ -168,6 +171,7 @@ Configuration`_, with the following specific values.
    - ``DJANGO_SETTINGS_MODULE=lms.envs.devstack_docker`` (or
      cms.envs.devstack_docker)
    - ``PYTHONUNBUFFERED=1``
+   - ``CONFIG_ROOT=/edx/app/edxapp``
    - ``LMS_CFG=/edx/etc/lms.yml``
 
 5. Python Interpreter: Choose the Docker Compose interpreter for this
@@ -181,6 +185,31 @@ Configuration`_, with the following specific values.
    - Remote path: /edx/app/edxapp/edx-platform
 
 8. Deselect "Add content..." and "Add source..."
+
+9. Before launch: External tool, Activate tool window
+
+   (i.e ensures release services are stopped prior to launching the debug/run configuration)
+   e.g. ``make OPENEDX_RELEASE=juniper.master stop.all`` from "devstack" repo.)
+
+   - Click '+' then `Add New Configuration > Run External tool`
+
+     - Assign values:
+
+       - Name: "Stop all running containers for release."
+       - Description: "Stop all running containers for release."
+       - Tool Settings:
+
+         - Program: make
+         - Arugments: OPENEDX_RELEASE=juniper.master stop.all
+         - Working directory: $ProjectFileDir$/devstack
+
+     - Advanced Options
+
+       - (Deselect) Synchronize files after execution
+       - (Select) Open console for tool output
+
+         - (Select) Make console active on message in stdout
+         - (Select) Make console active on message in stderr
 
 Setup a Run/Debug Configuration for python tests
 ------------------------------------------------
