@@ -1087,7 +1087,8 @@ package versions installed.
 Performance
 -----------
 
-**NOTE**
+**NOTE:**
+
 docker-sync is no longer actively supported. We now recommend using nfs on MacOS
 to greatly increase performance.
 
