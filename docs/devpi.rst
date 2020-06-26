@@ -16,7 +16,7 @@ requirements of all Devstack applications.
 In general the operation of devpi should be transparent. You may notice
 some significant speedup in tox testing and ``paver update_prereqs``
 operations after the first run. Container storage should persist through
-``make down`` and ``make dev.up`` operations.
+``make dev.down`` and ``make dev.up`` operations.
 
 The devpi web interface can be browsed from the host at:
 http://localhost:3141/
@@ -52,7 +52,7 @@ Disabling devpi
 ---------------
 
 To temporarily remove devpi caching from an edxapp container, start a
-shell (``lms-shell`` or ``studio-shell``) and move or delete
+shell (``dev.shell.lms`` or ``dev.shell.studio``) and move or delete
 ``/root/.pip/pip.conf``. This will be undone on the next container
 restart unless the container state is persisted.
 
