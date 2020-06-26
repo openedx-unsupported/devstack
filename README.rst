@@ -6,39 +6,51 @@ Get up and running quickly with Open edX services.
 This project replaces the older Vagrant-based devstack with a
 multi-container approach driven by `Docker Compose`_.
 
-A Devstack installation includes the following Open edX components:
+A Devstack installation includes the following Open edX components by default:
 
 * The Learning Management System (LMS)
+* Open Response Assessments (ORA2), among other LMS plug-ins.
 * Open edX Studio
 * Discussion Forums
-* Open Response Assessments (ORA)
 * E-Commerce
 * Credentials
 * Notes
 * Course Discovery
-* XQueue
 * Open edX Search
 * A demonstration Open edX course
+* The Publisher, Gradebook, and Program Console micro-frontends
+* edX Registrar Service
 
-Analytics Devstack also includes the following Open edX components:
+It also includes the following extra components:
 
-* Open edX Analytics Data API
-* Open edX Insights
+* XQueue
 * The components needed to run the Open edX Analytics Pipeline. This is the
   primary extract, transform, and load (ETL) tool that extracts and analyzes
   data from the other Open edX services.
+* The Learning micro-frontend (A.K.A the new Courseware experience)
+
+.. Because GitHub doesn't support `toctree`, the Table of Contents is hand-written.
+.. Please keep it up-to-date with all the top-level headings.
+
+Table of Contents
+-----------------
+
+* `Where to Find Help`_
+* `Prerequisites`_
+* `Using the Latest Images`_
+* `Getting Started`_
+* `Usernames and Passwords`_
+* `Service List`_
+* `Useful Commands`_
+* `Troubleshooting: General Tips`_
+* `Troubleshooting: Common Issues`_
+* `Troubleshooting: Performance`_
+* `Advanced Configuration Options`_
 
 Where to Find Help
 ------------------
 
 There are a number of places to get help, including mailing lists and real-time chat. Please choose an appropriate venue for your question. This helps ensure that you get good prompt advice, and keeps discussion focused. For details of your options, see the `Community`_ pages.
-
-FYI
----
-
-You should run all ``make`` commands described below on your local machine, *not*
-from within a VM (virtualenvs are ok, and in fact recommended) as these commands
-are for standing up a new docker based VM.
 
 Prerequisites
 -------------
@@ -46,8 +58,8 @@ Prerequisites
 You will need to have the following installed:
 
 - make
-- python 3
-- docker
+- Python 3
+- Docker
 
 This project requires **Docker 17.06+ CE**.  We recommend Docker Stable, but
 Docker Edge should work as well.
@@ -74,11 +86,22 @@ If you are using Linux, use the ``overlay2`` storage driver, kernel version
 
    docker info | grep -i 'storage driver'
 
+Please note
+~~~~~~~~~~~
+
+You should run all ``make`` commands described below on your local machinge, *not*
+from within a Virtual Machine, as these commands are meant to stand up a VM-like environment using
+Docker containers.
+
+However, you may want to run the ``make`` commands from within a Python 3 virtual
+environment, as described in `Getting Started`_. This will keep the Python packages required for Devstack separate from
+the ones installed globally on your system.
+
 Using the Latest Images
 -----------------------
 
 New images for our services are published frequently.  Assuming that you've followed the steps in `Getting Started`_
-below, run the following sequence of commands if you want to use the most up-to-date versions of the devstack images.
+below, run the following sequence of commands if you want to use the most up-to-date versions of *all* default devstack images.
 
 .. code:: sh
 
@@ -88,10 +111,23 @@ below, run the following sequence of commands if you want to use the most up-to-
 
 This will stop any running devstack containers, pull the latest images, and then start all of the devstack containers.
 
+If you wish to pull only images relevant to certain services, you can run ``make dev.pull.<services>``.
+For example, the following only only pulls images of E-Commerce and Credentials, as well as their dependencies (like LMS).
+
+.. code:: sh
+
+    make dev.pull.ecommerce+credentials
+
+To further save time, ``make dev.pull.without-deps.<services>`` pulls the images for the specified service and *nothing else*.
+
+.. code:: sh
+
+    make dev.pull.without-deps.ecommerce+credentials
+
 Getting Started
 ---------------
 
-All of the services can be run by following the steps below. For analyticstack, follow `Getting Started on Analytics`_.
+The default devstack services can be run by following the steps below. For analyticstack, follow `Getting Started on Analytics`_.
 
 1. Install the requirements inside of a `Python virtualenv`_.
 
@@ -124,7 +160,7 @@ All of the services can be run by following the steps below. For analyticstack, 
 
        make dev.pull
 
-3. (Optional) You have an option to use nfs on MacOS which will improve the performance significantly, to set it up ONLY ON MAC, do
+3. Optional: You have an option to use NFS on MacOS which may improve the performance significantly. To set it up ONLY ON MAC, do
     .. code:: sh
 
         make dev.nfs.setup
@@ -153,7 +189,7 @@ All of the services can be run by following the steps below. For analyticstack, 
 
        make dev.sync.provision
 
-   Provision using `nfs`_:
+   Provision using NFS:
 
    .. code:: sh
 
@@ -178,7 +214,7 @@ All of the services can be run by following the steps below. For analyticstack, 
 
        make dev.sync.up
 
-   Start using `nfs`_:
+   Start using NFS:
 
    .. code:: sh
 
@@ -186,12 +222,12 @@ All of the services can be run by following the steps below. For analyticstack, 
 
 
 After the services have started, if you need shell access to one of the
-services, run ``make <service>-shell``. For example to access the
+services, run ``make dev.shell.<service>``. For example to access the
 Catalog/Course Discovery Service, you can run:
 
 .. code:: sh
 
-    make discovery-shell
+    make dev.shell.discovery
 
 To see logs from containers running in detached mode, you can either use
 "Kitematic" (available from the "Docker for Mac" menu), or by running the
@@ -199,26 +235,21 @@ following:
 
 .. code:: sh
 
-    make logs
+    make dev.logs
 
-To view the logs of a specific service container run ``make <service>-logs``.
+To view the logs of a specific service container run ``make dev.logs.<service>``.
 For example, to access the logs for Ecommerce, you can run:
 
 .. code:: sh
 
-    make ecommerce-logs
+    make dev.logs.ecommerce
 
-To reset your environment and start provisioning from scratch, you can run:
-
-.. code:: sh
-
-    make destroy
-
-For information on all the available ``make`` commands, you can run:
+For information on the supported ``make`` commands, you can run:
 
 .. code:: sh
 
     make help
+
 
 Usernames and Passwords
 -----------------------
@@ -255,254 +286,162 @@ is ``edx``.
      - A student account that you can use to access the LMS for testing honor
        code certificates.
 
-Getting Started on Analytics
-----------------------------
-
-Analyticstack can be run by following the steps below.
-
-**NOTE:** Since a Docker-based devstack runs many containers, you should configure
-Docker with a sufficient amount of resources. We find that
-`configuring Docker for Mac`_ with a minimum of 2 CPUs and 6GB of memory works
-well for **analyticstack**. If you intend on running other docker services besides
-analyticstack ( e.g. lms, studio etc ) consider setting higher memory.
-
-1. Follow steps `1` and `2` from `Getting Started`_ section.
-
-2. Before running the provision command, make sure to pull the relevant
-   docker images from dockerhub by running the following commands:
-
-   .. code:: sh
-
-       make dev.pull
-       make pull.analytics_pipeline
-
-3. Run the provision command to configure the analyticstack.
-
-   .. code:: sh
-
-       make dev.provision.analytics_pipeline
-
-4. Start the analytics service. This command will mount the repositories under the
-   DEVSTACK\_WORKSPACE directory.
-
-   **NOTE:** it may take up to 60 seconds for Hadoop services to start.
-
-   .. code:: sh
-
-       make dev.up.analytics_pipeline
-
-5. To access the analytics pipeline shell, run the following command. All analytics
-   pipeline job/workflows should be executed after accessing the shell.
-
-   .. code:: sh
-
-     make analytics-pipeline-shell
-
-   - To see logs from containers running in detached mode, you can either use
-     "Kitematic" (available from the "Docker for Mac" menu), or by running the
-     following command:
-
-      .. code:: sh
-
-        make logs
-
-   - To view the logs of a specific service container run ``make <service>-logs``.
-     For example, to access the logs for Hadoop's namenode, you can run:
-
-      .. code:: sh
-
-        make namenode-logs
-
-   - To reset your environment and start provisioning from scratch, you can run:
-
-      .. code:: sh
-
-        make destroy
-
-     **NOTE:** Be warned! This will remove all the containers and volumes
-     initiated by this repository and all the data ( in these docker containers )
-     will be lost.
-
-   - For information on all the available ``make`` commands, you can run:
-
-      .. code:: sh
-
-        make help
-
-6. For running acceptance tests on docker analyticstack, follow the instructions in the
-   `Running analytics acceptance tests in docker`_ guide.
-7. For troubleshooting docker analyticstack, follow the instructions in the
-   `Troubleshooting docker analyticstack`_ guide.
-
-Service URLs
+Service List
 ------------
 
-Each service is accessible at ``localhost`` on a specific port. The table below
-provides links to the homepage of each service. Since some services are not
-meant to be user-facing, the "homepage" may be the API root.
+These are the edX services that Devstack can provision, pull, run, attach to, etc.
+Each service is accessible at ``localhost`` on a specific port.
+The table below provides links to the homepage, API root, or API docs of each service,
+as well as links to the repository where each service's code lives.
 
-+---------------------+-------------------------------------+
-| Service             | URL                                 |
-+=====================+=====================================+
-| LMS                 | http://localhost:18000/             |
-+---------------------+-------------------------------------+
-| Studio/CMS          | http://localhost:18010/             |
-+---------------------+-------------------------------------+
-| Credentials         | http://localhost:18150/api/v2/      |
-+---------------------+-------------------------------------+
-| Catalog/Discovery   | http://localhost:18381/api-docs/    |
-+---------------------+-------------------------------------+
-| E-Commerce/Otto     | http://localhost:18130/dashboard/   |
-+---------------------+-------------------------------------+
-| Notes/edx-notes-api | http://localhost:18120/api/v1/      |
-+---------------------+-------------------------------------+
-| Registrar           | http://localhost:18734/api-docs/    |
-+---------------------+-------------------------------------+
+The services marked as ``Default`` are provisioned/pulled/run whenever you run
+``make dev.provision`` / ``make dev.pull`` / ``make dev.up``, respectively.
 
-Microfrontend URLs
-------------
+The extra services are provisioned/pulled/run when specifically requested (e.g.,
+``make dev.provision.xqueue`` / ``make dev.pull.xqueue`` / ``make dev.up.xqueue``).
+Alternatively, you can run these by modifying the ``DEFAULT_SERVICES`` option as described in the `Advanced Configuration Options`_ section.
 
-Each microfrontend is accessible at ``localhost`` on a specific port. The table below
-provides links to each microfrontend.
++---------------------------+-------------------------------------+----------------+------------+
+| Service                   | URL                                 | Type           | Role       |
++===========================+=====================================+================+============+
+| `lms`_                    | http://localhost:18000/             | Python/Django  | Default    |
++---------------------------+-------------------------------------+----------------+------------+
+| `studio`_                 | http://localhost:18010/             | Python/Django  | Default    |
++---------------------------+-------------------------------------+----------------+------------+
+| `forum`_                  | http://localhost:44567/api/v1/      | Ruby/Sinatra   | Default    |
++---------------------------+-------------------------------------+----------------+------------+
+| `discovery`_              | http://localhost:18381/api-docs/    | Python/Django  | Default    |
++---------------------------+-------------------------------------+----------------+------------+
+| `ecommerce`_              | http://localhost:18130/dashboard/   | Python/Django  | Default    |
++---------------------------+-------------------------------------+----------------+------------+
+| `credentials`_            | http://localhost:18150/api/v2/      | Python/Django  | Default    |
++---------------------------+-------------------------------------+----------------+------------+
+| `edx_notes_api`_          | http://localhost:18120/api/v1/      | Python/Django  | Default    |
++---------------------------+-------------------------------------+----------------+------------+
+| `registrar`_              | http://localhost:18734/api-docs/    | Python/Django  | Default    |
++---------------------------+-------------------------------------+----------------+------------+
+| `frontend-app-publisher`_ | http://localhost:18400/             | MFE (React.js) | Default    |
++---------------------------+-------------------------------------+----------------+------------+
+| `gradebook`_              | http://localhost:1994/              | MFE (React.js) | Default    |
++---------------------------+-------------------------------------+----------------+------------+
+| `program-console`_        | http://localhost:1976/              | MFE (React.js) | Default    |
++---------------------------+-------------------------------------+----------------+------------+
+| `frontend-app-learning`_  | http://localhost:2000/              | MFE (React.js) | Extra      |
++---------------------------+-------------------------------------+----------------+------------+
+| `xqueue`_                 | http://localhost:18040/api/v1/      | Python/Django  | Extra      |
++---------------------------+-------------------------------------+----------------+------------+
+| `analyticspipeline`_      | http://localhost:4040/              | Python         | Extra      |
++---------------------------+-------------------------------------+----------------+------------+
+| `marketing`_              | http://localhost:8080/              | PHP/Drupal     | Extra      |
++---------------------------+-------------------------------------+----------------+------------+
 
-+-------------------------+---------------------------------+
-| Service                 | URL                             |
-+=========================+=================================+
-| Gradebook               | http://localhost:1994/          |
-+-------------------------+---------------------------------+
-| Program Console         | http://localhost:1976/          |
-+-------------------------+---------------------------------+
-| Publisher App Frontend  | http://localhost:18400/         |
-+-------------------------+---------------------------------+
+.. _credentials: https://github.com/edx/credentials
+.. _discovery: https://github.com/edx/course-discovery
+.. _ecommerce: https://github.com/edx/ecommerce
+.. _edx_notes_api: https://github.com/edx/edx-notes-api
+.. _forum: https://github.com/edx/cs_comments_service
+.. _frontend-app-publisher: https://github.com/edx/frontend-app-publisher
+.. _gradebook: https://github.com/edx/frontend-app-gradebook
+.. _lms: https://github.com/edx/edx-platform
+.. _program-console: https://github.com/edx/frontend-app-program-console
+.. _registrar: https://github.com/edx/registrar
+.. _studio: https://github.com/edx/edx-platform
+.. _lms: https://github.com/edx/edx-platform
+.. _analyticspipeline: https://github.com/edx/edx-analytics-pipeline
+.. _marketing: https://github.com/edx/edx-mktg
+.. _frontend-app-learning: https://github.com/edx/frontend-app-learning
+.. _xqueue: https://github.com/edx/xqueue
 
 Useful Commands
 ---------------
 
+Abbreviated versions of commands
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You may notice that many Devstack commands come in the form ``dev.ACTION.SERVICE``.
+As examples:
+
+.. code:: sh
+
+    make dev.up.registrar
+    make dev.shell.lms
+    make dev.attach.studio
+    make dev.down.credentials
+    make dev.migrate.edx_notes_api
+    make dev.static.ecommerce
+    make dev.restart-devserver.forum
+    make dev.logs.gradebook
+
+In general, these commands can also be given in the form ``SERVICE-ACTION``,
+which saves some keystrokes and is often more friendly for automatic command-completion
+by hitting TAB. As examples:
+
+.. code:: sh
+
+    make registrar-up
+    make lms-shell
+    make studio-attach
+    make credentials-down
+    make edx_notes_api-migrate
+    make ecommerce-static
+    make forum-restart-devserver
+    make gradebook-logs
+
+Bringing up fewer services
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 ``make dev.up`` can take a long time, as it starts all services, whether or not
 you need them. To instead only start a single service and its dependencies, run
-``make dev.up.<service>``. For example, the following will bring up LMS
-(along with Memcached, MySQL, and devpi), but it will not bring up Discovery,
-Credentials, etc:
+``make dev.up.<services>``. For example:
 
 .. code:: sh
 
     make dev.up.lms
 
+That above command will bring up LMS (along with Memcached, MySQL, DevPI, et al), but it will not bring up Registrar,
+Credentials, Studio, or E-Commerce.
+
+You can also specify multiple services:
+
+.. code:: sh
+
+    make dev.up.ecommerce+studio
+
+Pulling fewer images
+~~~~~~~~~~~~~~~~~~~~
+
 Similarly, ``make dev.pull`` can take a long time, as it pulls all services' images,
 whether or not you need them.
 To instead only pull images required by your service and its dependencies,
-run ``make dev.pull.<service>``.
-
-Finally, ``make dev.provision.services.<service1>+<service2>+...``
-can be used in place of ``make dev.provision`` in order to run an expedited version of
-provisioning for a specific set of services.
-For example, if you mess up just your
-Course Discovery and Registrar databases,
-running ``make dev.provision.services.discovery+registrar``
-will take much less time than the full provisioning process.
-However, note that some services' provisioning processes depend on other services
-already being correcty provisioned.
-So, when in doubt, it may still be best to run the full ``make dev.provision``.
-
-Sometimes you may need to restart a particular application server. To do so,
-simply use the ``make dev.restart.%`` command:
+run ``make dev.pull.<services>``. For example:
 
 .. code:: sh
 
-    make dev.restart.<service>
+    make dev.pull.discovery
 
-In all the above commands, ``<service>`` should be replaced with one of the following:
+Restarting servers and containers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
--  credentials
--  discovery
--  ecommerce
--  lms
--  edx_notes_api
--  studio
--  registrar
--  gradebook
--  program-console
--  frontend-app-learning
--  frontend-app-publisher
-
-If you'd like to add some convenience make targets, you can add them to a ``local.mk`` file, ignored by git.
-
-Payments
---------
-
-The ecommerce image comes pre-configured for payments via CyberSource and PayPal. Additionally, the provisioning scripts
-add the demo course (``course-v1:edX+DemoX+Demo_Course``) to the ecommerce catalog. You can initiate a checkout by visiting
-http://localhost:18130/basket/add/?sku=8CF08E5 or clicking one of the various upgrade links in the LMS. The following
-details can be used for checkout. While the name and address fields are required for credit card payments, their values
-are not checked in development, so put whatever you want in those fields.
-
-- Card Type: Visa
-- Card Number: 4111111111111111
-- CVN: 123 (or any three digits)
-- Expiry Date: 06/2025 (or any date in the future)
-
-PayPal (same for username and password): devstack@edx.org
-
-Marketing Site
---------------
-
-Docker Compose files useful for integrating with the edx.org marketing site are
-available. This will NOT be useful to those outside of edX. For details on
-getting things up and running, see
-https://openedx.atlassian.net/wiki/display/OpenDev/Marketing+Site.
-
-How do I develop on an installed Python package?
-------------------------------------------------
-
-If you want to modify an installed package – for instance ``edx-enterprise`` or ``completion`` – clone the repository in
-``~/workspace/src/your-package``. Next, ssh into the appropriate docker container (``make lms-shell``),
-run ``pip install -e /edx/src/your-package``, and restart the service.
-
-
-How do I build images?
-----------------------
-
-There are `Docker CI Jenkins jobs`_ on tools-edx-jenkins that build and push new
-Docker images to DockerHub on code changes to either the configuration repository or the IDA's codebase. These images
-are tagged according to the branch from which they were built (see NOTES below).
-If you want to build the images on your own, the Dockerfiles are available in the ``edx/configuration`` repo.
-
-NOTES:
-
-1. edxapp and IDAs use the ``latest`` tag for configuration changes which have been merged to master branch of
-   their repository and ``edx/configuration``.
-2. Images for a named Open edX release are built from the corresponding branch
-   of each repository and tagged appropriately, for example ``hawthorn.master``
-   or ``hawthorn.rc1``.
-3. The elasticsearch used in devstack is built using elasticsearch-devstack/Dockerfile and the ``devstack`` tag.
-
-BUILD COMMANDS:
+Sometimes you may need to manually restart a particular application server To do so,
+the quickest command to run is ``make dev.restart-devserver.<service>``, which restarts the Django/Sinatra server inside the container without restarting the container itself. For example:
 
 .. code:: sh
 
-    git checkout master
-    git pull
-    docker build -f docker/build/edxapp/Dockerfile . -t edxops/edxapp:latest
+    make dev.restart-devserver.credentials
+
+This can be helpful, for example, if automatic code reloading isn't working for some reason.
+
+If you wish to restart the *container itself*, which takes a bit longer but may resolve a larger class of issues, use ``make dev.restart-container.<services>``. For example:
 
 .. code:: sh
 
-    git checkout master
-    git pull
-    docker build -f docker/build/ecommerce/Dockerfile . -t edxops/ecommerce:devstack
+    make dev.restart-container.credentials
 
-The build commands above will use your local configuration, but will pull
-application code from the master branch of the application's repository. If you
-would like to use code from another branch/tag/hash, modify the ``*_VERSION``
-variable that lives in the ``ansible_overrides.yml`` file beside the
-``Dockerfile``. Note that edx-platform is an exception; the variable to modify is ``edx_platform_version``
-and not ``EDXAPP_VERSION``.
-
-For example, if you wanted to build tag ``release-2017-03-03`` for the
-E-Commerce Service, you would modify ``ECOMMERCE_VERSION`` in
-``docker/build/ecommerce/ansible_overrides.yml``.
+Frequently Asked Questions
+--------------------------
 
 How do I run the images for a named Open edX release?
------------------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #. Set the ``OPENEDX_RELEASE`` environment variable to the appropriate image
    tag; "hawthorn.master", "zebrawood.rc1", etc.  Note that unlike a server
@@ -518,93 +457,36 @@ images until you change or unset ``OPENEDX_RELEASE`` again.  To work on the
 master branches and ``latest`` images, unset ``OPENEDX_RELEASE`` or set it to
 an empty string.
 
-How do I create relational database dumps?
-------------------------------------------
-We use relational database dumps to spend less time running relational database
-migrations and to speed up the provisioning of a devstack. These dumps are saved
-as .sql scripts in the root directory of this git repository and they should be
-updated occasionally - when relational database migrations take a prolonged amount
-of time *or* we want to incorporate database schema changes which were done manually.
+How do I define my own local targets?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To update the relational database dumps:
+If you'd like to add some convenience make targets, you can add them to a ``local.mk`` file, ignored by git.
 
-1. Backup the data of your existing devstack if needed
-2. If you are unsure whether the django_migrations tables (which keeps which migrations
-were already applied) in each database are consistent with the existing database dumps,
-disable the loading of these database dumps during provisioning by commenting out
-the calls to ``load-db.sh`` in the provision-*.sh scripts. This ensures a start with a
-completely fresh database and incorporates any changes that may have required some form
-of manual intervention for existing installations (e.g. drop/move tables).
-3. Run the shell script which destroys any existing devstack, creates a new one
-and updates the relational database dumps:
+How do I make payments?
+~~~~~~~~~~~~~~~~~~~~~~~
 
-.. code:: sh
+The ecommerce image comes pre-configured for payments via CyberSource and PayPal. Additionally, the provisioning scripts
+add the demo course (``course-v1:edX+DemoX+Demo_Course``) to the ecommerce catalog. You can initiate a checkout by visiting
+http://localhost:18130/basket/add/?sku=8CF08E5 or clicking one of the various upgrade links in the LMS. The following
+details can be used for checkout. While the name and address fields are required for credit card payments, their values
+are not checked in development, so put whatever you want in those fields.
 
-   ./update-dbs-init-sql-scripts.sh
+- Card Type: Visa
+- Card Number: 4111111111111111
+- CVN: 123 (or any three digits)
+- Expiry Date: 06/2025 (or any date in the future)
 
-How do I keep my database up to date?
--------------------------------------
+PayPal (same for username and password): devstack@edx.org
 
-You can run Django migrations as normal to apply any changes recently made
-to the database schema for a particular service.  For example, to run
-migrations for LMS, enter a shell via ``make lms-shell`` and then run:
+How do I develop on an installed Python package?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. code:: sh
-
-   paver update_db
-
-Alternatively, you can discard and rebuild the entire database for all
-devstack services by re-running ``make dev.provision`` or
-``make dev.sync.provision`` as appropriate for your configuration.  Note that
-if your branch has fallen significantly behind master, it may not include all
-of the migrations included in the database dump used by provisioning.  In these
-cases, it's usually best to first rebase the branch onto master to
-get the missing migrations.
-
-How do I access a database shell?
----------------------------------
-
-To access a MySQL or Mongo shell, run the following commands, respectively:
-
-.. code:: sh
-
-   make mysql-shell
-   mysql
-
-.. code:: sh
-
-   make mongo-shell
-   mongo
-
-How do I make migrations?
--------------------------
-
-Log into the LMS shell, source the ``edxapp`` virtualenv, and run the
-``makemigrations`` command with the ``devstack_docker`` settings:
-
-.. code:: sh
-
-   make lms-shell
-   source /edx/app/edxapp/edxapp_env
-   cd /edx/app/edxapp/edx-platform
-   ./manage.py <lms/cms> makemigrations <appname> --settings=devstack_docker
-
-Also, make sure you are aware of the `Django Migration Don'ts`_ as the
-edx-platform is deployed using the red-black method.
-
-
-How do I upgrade Node.JS packages?
-----------------------------------
-
-JavaScript packages for Node.js are installed into the ``node_modules``
-directory of the local git repository checkout which is synced into the
-corresponding Docker container.  Hence these can be upgraded via any of the
-usual methods for that service (``npm install``,
-``paver install_node_prereqs``, etc.), and the changes will persist between
-container restarts.
+If you want to modify an installed package – for instance ``edx-enterprise`` or ``completion`` – clone the repository in
+``~/workspace/src/your-package``. Next, ssh into the appropriate docker container (``make lms-shell``),
+run ``pip install -e /edx/src/your-package``, and restart the service.
 
 How do I upgrade Python packages?
----------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Unlike the ``node_modules`` directory, the ``virtualenv`` used to run Python
 code in a Docker container only exists inside that container.  Changes made to
@@ -622,8 +504,7 @@ starts, you have a few options:
   then download and use the updated image (for example, via ``make dev.pull.<service>``).
   The discovery and edxapp images are built automatically via a Jenkins job. All other
   images are currently built as needed by edX employees, but will soon be built
-  automatically on a regular basis. See `How do I build images?`_
-  for more information.
+  automatically on a regular basis. See `building images for devstack` for more information.
 * You can update your requirements files as appropriate and then build your
   own updated image for the service as described above, tagging it such that
   ``docker-compose`` will use it instead of the last image you downloaded.
@@ -643,31 +524,41 @@ starts, you have a few options:
   installed across stop/starts, modify ``docker-compose.yml`` as mentioned
   above.
 
+How do I upgrade Node.js packages?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+JavaScript packages for Node.js are installed into the ``node_modules``
+directory of the local git repository checkout which is synced into the
+corresponding Docker container.  Hence these can be upgraded via any of the
+usual methods for that service (``npm install``,
+``paver install_node_prereqs``, etc.), and the changes will persist between
+container restarts.
+
 How do I rebuild static assets?
--------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Optimized static assets are built for all the Open edX services during
 provisioning, but you may want to rebuild them for a particular service
 after changing some files without re-provisioning the entire devstack.  To
-do this, run the make target for the appropriate service.  For example:
+do this, run the ``make dev.static.<service>`` target.  For example:
 
 .. code:: sh
 
-   make credentials-static
+   make dev.static.credentials
 
 To rebuild static assets for all service containers:
 
 .. code:: sh
 
-   make static
+   make dev.static
 
 How do I connect to the databases from an outside editor?
----------------------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To connect to the databases from an outside editor (such as MySQLWorkbench),
 first uncomment these lines from ``docker-compose.yml``'s ``mysql`` section:
 
-.. code-block::
+.. code:: yaml
 
   ports:
     - "3506:3306"
@@ -684,8 +575,105 @@ If you have trouble connecting, ensure the port was mapped successfully by
 running ``make dev.ps`` and looking for a line like this:
 ``edx.devstack.mysql docker-entrypoint.sh mysql ... Up 0.0.0.0:3506→3306/tcp``.
 
+How do I run the edX.org Drupal Marketing Site?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The edX.org marketing site built on Drupal is being deprecated, but it can still be run via Devstack.
+See the `Marketing Site instructions`_ for details on getting it up and running.
+This will not be useful to those outside of edX, Inc.
+
+
+How do I build the service images myself?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+See the instructions for `building images for devstack`_.
+
+How do I create relational database dumps?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+See the instructions for `updating relational database dumps`_.
+
+How do I keep my database up to date?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To run Django migrations for a particular service, bring up the service and use
+``make dev.migrate.<service>``. For example:
+
+.. code:: sh
+
+   make dev.up.studio
+   make dev.migrate.studio
+
+To run migrations for all services at once, run:
+
+.. code:: sh
+
+   make dev.up
+   make dev.migrate
+
+Alternatively, you can discard and rebuild the entire database for all
+devstack services by re-running ``make dev.provision`` or
+``make dev.sync.provision`` as appropriate for your configuration.  Note that
+if your branch has fallen significantly behind master, it may not include all
+of the migrations included in the database dump used by provisioning.  In these
+cases, it's usually best to first rebase the branch onto master to
+get the missing migrations.
+
+How do I access a database shell?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To access a MongoDB shell, run the following commands:
+
+.. code:: sh
+
+   make dev.shell.mongo
+   mongo
+
+To access the MySQL shell for a particular database, run:
+
+.. code:: sh
+
+   make dev.shell.mysql
+   mysql
+   use <database>;
+
+Equivalently, you can use the command ``make dev.dbshell.<database>`` as a shortcut. For example,
+this will put you in a MySQL shell using the E-Commerce database:
+
+.. code:: sh
+
+  make dev.dbshell.ecommerce
+
+How do I create new migrations?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For LMS, log into the LMS shell and run the
+``makemigrations`` command with the ``devstack_docker`` settings:
+
+.. code:: sh
+
+   make dev.shell.lms
+   ./manage.py lms makemigrations <appname> --settings=devstack_docker
+
+For Studio, it is similar:
+
+.. code:: sh
+
+   make dev.shell.studio
+   ./manage.py cms makemigrations <appname> --settings=devstack_docker
+
+Finally, for any other service, run:
+
+.. code:: sh
+
+   make dev.shell.<service>
+   ./manage.py makemigrations <appname>
+
+Also, make sure you are aware of the `Django Migration Don'ts`_ as the
+edx-platform is deployed using the red-black method.
+
 Switching branches
-------------------
+~~~~~~~~~~~~~~~~~~
 
 You can usually switch branches on a service's repository without adverse
 effects on a running container for it.  The service in each container is
@@ -703,9 +691,10 @@ static assets, etc.
 If making a patch to a named release, you should pull and use Docker images
 which were tagged for that release.
 
-Changing LMS/CMS settings
--------------------------
-The LMS and CMS read many configuration settings from the container filesystem
+Changing LMS/Studio settings
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+LMS and Studio (a.k.a. CMS) read many configuration settings from the container filesystem
 in the following locations:
 
 - ``/edx/app/edxapp/lms.env.json``
@@ -715,40 +704,31 @@ in the following locations:
 
 Changes to these files will *not* persist over a container restart, as they
 are part of the layered container filesystem and not a mounted volume. However, you
-may need to change these settings and then have the LMS or CMS pick up the changes.
+may need to change these settings and then have the LMS or Studio pick up the changes.
 
-To restart the LMS/CMS process without restarting the container, kill the LMS or CMS
-process and the watcher process will restart the process within the container. You can
-kill the needed processes from a shell within the LMS/CMS container with a single line of bash script:
-
-LMS:
+After changing settings, you can restart the LMS/Studio process without restarting the container by running the following on your host machine:
 
 .. code:: sh
 
-    kill -9 $(ps aux | grep 'manage.py lms' | egrep -v 'while|grep' | awk '{print $2}')
+   make dev.restart-devserver.lms     # For LMS
+   make dev.restart-devserver.studio  # For Studio/CMS
 
-CMS:
-
-.. code:: sh
-
-    kill -9 $(ps aux | grep 'manage.py cms' | egrep -v 'while|grep' | awk '{print $2}')
-
-From your host machine, you can also run ``make lms-restart`` or
-``make studio-restart`` which run those commands in the containers for you.
-
-PyCharm Integration
--------------------
+How do I integrate with PyCharm?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 See the `Pycharm Integration documentation`_.
 
-devpi Caching
--------------
+What is DevPI and how does it affect Devstack?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 LMS and Studio use a devpi container to cache PyPI dependencies, which speeds up several Devstack operations.
 See the `devpi documentation`_.
 
+Testing and Debugging
+---------------------
+
 Debugging using PDB
--------------------
+~~~~~~~~~~~~~~~~~~~
 
 It's possible to debug any of the containers' Python services using PDB. To do so,
 start up the containers as usual with:
@@ -760,37 +740,37 @@ start up the containers as usual with:
 This command starts each relevant container with the equivalent of the '--it' option,
 allowing a developer to attach to the process once the process is up and running.
 
-To attach to a container and its process, use ``make <service>-attach``. For example:
+To attach to a container and its process, use ``make dev.attach.<service>``. For example:
 
 .. code:: sh
 
-    make lms-attach
+    make dev.attach.lms
 
-Set a PDB breakpoint anywhere in the code using:
+Set a PDB breakpoint anywhere in the code using one of the following:
 
 .. code:: sh
 
-    import pdb;pdb.set_trace()
+    breakpoint()                # Works in Python >= 3.7
+    import pdb;pdb.set_trace()  # Workg in any version of Python
 
 and your attached session will offer an interactive PDB prompt when the breakpoint is hit.
 
 You may be able to detach from the container with the ``Ctrl-P, Ctrl-Q`` key sequence.
-If that doesn't work, you will have either close your terminal window,
-stop the container with:
+If that doesn't work, you will have either close your terminal window or
+bring the service down with:
 
 .. code:: sh
 
-    make dev.stop.<service>
+    make dev.down.<service>
 
-or kill the container with:
+You can bring that same service back up with:
 
 .. code:: sh
 
-   make dev.kill.<service>
-
+    make dev.up.<service> 
 
 Running LMS and Studio Tests
-----------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 After entering a shell for the appropriate service via ``make lms-shell`` or
 ``make studio-shell``, you can run any of the usual paver commands from the
@@ -819,7 +799,7 @@ so that you maintain your command history:
     ./in lms pytest openedx/core/djangoapps/user_api
 
 Connecting to Browser
-~~~~~~~~~~~~~~~~~~~~~
+*********************
 
 If you want to see the browser being automated for JavaScript or bok-choy tests,
 you can connect to the container running it via VNC.
@@ -841,7 +821,7 @@ use Firefox instead, prefix the test command with
 ``SELENIUM_BROWSER=chrome SELENIUM_HOST=edx.devstack.chrome``.
 
 Running End-to-End Tests
-------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 To run the base set of end-to-end tests for edx-platform, run the following
 make target:
@@ -872,7 +852,7 @@ Check the logs
 
 If a container stops unexpectedly, you can look at its logs for clues::
 
-    make <service>-logs
+    make dev.logs.<service>
 
 Update the code and images
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -901,11 +881,11 @@ Clean the containers
 ~~~~~~~~~~~~~~~~~~~~
 
 Sometimes containers end up in strange states and need to be rebuilt. Run
-``make down`` to remove all containers and networks. This will **NOT** remove your
+``make dev.down`` to remove all containers and networks. This will **NOT** remove your
 data volumes.
 
-Reset
-~~~~~
+Reset to a sane state
+~~~~~~~~~~~~~~~~~~~~~
 
 Sometimes you just aren't sure what's wrong, if you would like to hit the reset button
 run ``make dev.reset``.
@@ -918,31 +898,41 @@ Running this command will perform the following steps:
 * Compile static assets for all services
 * Run migrations for all services
 
-It's good to run this before asking for help.
+This does not delete your data and you do not need to re-provision after running it.
+It can be good to try this before asking for help.
+
+Re-provision individual database(s)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you botched a migration for a service, or just want to start with a clean database for
+a service *without* re-provisioning every single service, you can drop that service's
+database and re-provision it.
+
+1. Drop the correct database (see ``provision.sql`` for the full list of database names):
+
+.. code:: sh
+
+    make dev.drop-db.<database>
+
+2. Re-provision the service(s):
+
+.. code:: sh
+
+    make dev.provision.<services>
+
+For example, if you messed up just your Course Discovery and Registrar databases, you could try running:
+
+.. code:: sh
+
+    make dev.drop-db.discovery
+    make dev.drop-db.registrar
+    make dev.provision.discovery+registrar
 
 Start over
 ~~~~~~~~~~
 
-If you want to completely start over, run ``make destroy``. This will remove
-all containers, networks, AND data volumes.
-
-Resetting a database
-~~~~~~~~~~~~~~~~~~~~
-
-In case you botched a migration or just want to start with a clean database.
-
-1. Open up the mysql shell and drop the database for the desired service::
-
-    make mysql-shell
-    mysql
-    DROP DATABASE (insert database here)
-
-2. From your devstack directory, run the provision script for the service. The
-   provision script should handle populating data such as Oauth clients and
-   Open edX users and running migrations::
-
-    ./provision-(service_name)
-
+If you want to completely start over, run ``make dev.destroy``. This will remove
+all containers, networks, AND data volumes, requiring you to re-provision.
 
 Troubleshooting: Common issues
 ------------------------------
@@ -989,7 +979,7 @@ To fix this, remove the directory manually outside of the container and run the 
 No space left on device
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-If you see the error ``no space left on device`` on a Mac, Docker has run
+If you see the error ``no space left on device``, Docker has run
 out of space in its Docker.qcow2 file.
 
 Here is an example error while running ``make dev.pull``:
@@ -1005,17 +995,19 @@ Try this first to clean up dangling images:
 
 .. code:: sh
 
-   docker image prune -f  # (This is very safe, so try this first.)
+   docker system prune -f  # (This is very safe, so try this first.)
 
 If you are still seeing issues, you can try cleaning up dangling volumes.
 
-**Warning**: In most cases this will only remove volumes you no longer need, but
-this is not a guarantee.
+1. Bring up all containers.
 
 .. code:: sh
 
-   docker volume prune -f  # (Be careful, this will remove your persistent data!)
+   make dev.up
 
+2. Remove all unused volumes. **Warning:** this will remove all Docker data on your system that is *not currently in use by a container*, which is why it's important to run the previous step. Otherwise, this will wipe out your Devstack data.
+
+   docker volume prune -f
 
 No such file or directory
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1066,14 +1058,14 @@ responsible for the CPU usage:
 
 .. code:: sh
 
-    make stats
+    make dev.stats
 
 Once you've identified a container using too much CPU time, check its logs;
 for example:
 
 .. code:: sh
 
-    make lms-logs
+    make dev.logs.lms
 
 The most common culprit is an infinite restart loop where an error during
 service startup causes the process to exit, but we've configured
@@ -1084,8 +1076,8 @@ what your current code branch expects; you may need to rerun ``pip`` on a
 requirements file or pull new container images that already have the required
 package versions installed.
 
-Performance
------------
+Troubleshooting: Performance
+----------------------------
 
 Improve Mac OSX Performance using nfs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1150,6 +1142,20 @@ docker-sync, but this feature hasn't been fully implemented yet (as of
 Docker 17.12.0-ce, "delegated" behaves the same as "cached").  There is a
 GitHub issue which explains the `current status of implementing delegated consistency mode`_.
 
+Advanced Configuration Options
+------------------------------
+
+The file ``options.mk`` sets several configuration options to default values.
+For example ``DEVSTACK_WORKSPACE`` (the folder where your Git repos are expected to be)
+is set to this directory's parent directory by default,
+and ``DEFAULT_SERVICES`` (the list of services that are provisioned and run by default)
+is set to a fairly long list of services out of the box.
+For more detail, refer to the comments in the file itself.
+
+If you're feeling brave, you can create an git-ignored overrides file called
+``options.local.mk`` in the same directory and set your own values. In general,
+it's good to bring down containers before changing any settings.
+
 .. _Docker Compose: https://docs.docker.com/compose/
 .. _Docker for Mac: https://docs.docker.com/docker-for-mac/
 .. _Docker for Windows: https://docs.docker.com/docker-for-windows/
@@ -1163,17 +1169,17 @@ GitHub issue which explains the `current status of implementing delegated consis
 .. _edxops Docker image: https://hub.docker.com/r/edxops/
 .. _Docker Hub: https://hub.docker.com/
 .. _Pycharm Integration documentation: docs/pycharm_integration.rst
+.. _Getting Started on Analytics: docs/analytics.rst
 .. _devpi documentation: docs/devpi.rst
 .. _edx-platform testing documentation: https://github.com/edx/edx-platform/blob/master/docs/guides/testing/testing.rst#running-python-unit-tests
 .. _docker-sync: #improve-mac-osx-performance-with-docker-sync
 .. |Build Status| image:: https://travis-ci.org/edx/devstack.svg?branch=master
     :target: https://travis-ci.org/edx/devstack
     :alt: Travis
-.. _Docker CI Jenkins Jobs: https://tools-edx-jenkins.edx.org/job/DockerCI
-.. _How do I build images?: https://github.com/edx/devstack/tree/master#how-do-i-build-images
-   :target: https://travis-ci.org/edx/devstack
+.. _How do I build images?: docs/building-images.rst
 .. _Django Migration Don'ts: https://engineering.edx.org/django-migration-donts-f4588fd11b64
 .. _Python virtualenv: http://docs.python-guide.org/en/latest/dev/virtualenvs/#lower-level-virtualenv
-.. _Running analytics acceptance tests in docker: http://edx-analytics-pipeline-reference.readthedocs.io/en/latest/running_acceptance_tests_in_docker.html
-.. _Troubleshooting docker analyticstack: http://edx-analytics-pipeline-reference.readthedocs.io/en/latest/troubleshooting_docker_analyticstack.html
 .. _Community: https://open.edx.org/community/connect/
+.. _Marketing site instructions: https://openedx.atlassian.net/wiki/spaces/ENG/pages/159162183/Marketing+Site
+.. _updating relational database dumps: docs/database-dumps.rst
+.. _building images for devstack: docs/building-images.rst
