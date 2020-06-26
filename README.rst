@@ -1,10 +1,7 @@
 Open edX Devstack |Build Status|
 ================================
 
-Get up and running quickly with Open edX services.
-
-This project replaces the older Vagrant-based devstack with a
-multi-container approach driven by `Docker Compose`_.
+Get up and running quickly with Open edX services. This is the recommended way for developers to run, test, and make changes to Open edX.
 
 A Devstack installation includes the following Open edX components:
 
