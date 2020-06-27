@@ -44,10 +44,10 @@
 .PHONY: analytics-pipeline-devstack-test build-courses clean-marketing-sync \
         create-test-course dev.attach dev.backup dev.cache-programs dev.check \
         dev.check-memory dev.checkout dev.clone dev.clone.https dev.clone.ssh \
-        dev.dbshell.edxapp dev.destroy dev.down dev.kill dev.logs dev.migrate \
-        dev.migrate.lms dev.migrate.studio dev.nfs.setup devpi-password \
-        dev.provision dev.ps dev.pull dev.pull.without-deps dev.reset \
-        dev.reset-repos dev.restart-container dev.restart-devserver \
+        dev.dbshell dev.destroy dev.down dev.drop-db dev.kill dev.logs \
+        dev.migrate dev.migrate.lms dev.migrate.studio dev.nfs.setup \
+        devpi-password dev.provision dev.ps dev.pull dev.pull.without-deps \
+        dev.reset dev.reset-repos dev.restart-container dev.restart-devserver \
         dev.restart-devserver.forum dev.restore dev.rm-stopped dev.shell \
         dev.shell.analyticspipeline dev.shell.credentials dev.shell.discovery \
         dev.shell.ecommerce dev.shell.lms dev.shell.lms_watcher \
@@ -55,11 +55,12 @@
         dev.shell.studio_watcher dev.shell.xqueue dev.shell.xqueue_consumer \
         dev.static dev.static.lms dev.static.studio dev.stats dev.status \
         dev.stop dev.sync.daemon.start dev.sync.provision \
-        dev.sync.requirements dev.sync.up dev.up dev.up.without-deps \
-        dev.up.with-programs dev.validate e2e-tests e2e-tests.with-shell \
+        dev.sync.requirements dev.sync.up dev.up dev.up.attach dev.up.shell \
+        dev.up.without-deps dev.up.without-deps.shell dev.up.with-programs \
+        dev.up.with-watchers dev.validate e2e-tests e2e-tests.with-shell \
         feature-toggle-state help requirements selfcheck upgrade upgrade \
         up-marketing-sync validate-lms-volume vnc-passwords
-
+        
 # Load up options (configurable through options.local.mk).
 include options.mk
 
@@ -252,6 +253,11 @@ dev.migrate.lms:
 dev.migrate.%: ## Run migrations on a service.
 	docker-compose exec $* bash -c 'source /edx/app/$*/$*_env && cd /edx/app/$*/$*/ && make migrate'
 
+dev.drop-db: _expects-database.dev.drop-db
+
+dev.drop-db.%: ## Irreversably drop the contents of a MySQL database.
+	docker-compose exec -T mysql bash -c "mysql --execute=\"DROP DATABASE $*;\""
+
 
 ########################################################################################
 # Developer interface: Container management.
@@ -265,14 +271,37 @@ ifeq ($(ALWAYS_CACHE_PROGRAMS),true)
 	make dev.cache-programs
 endif
 
+dev.up.attach: _expects-service.dev.up.attach
+
+dev.up.attach.%: ## Bring up a service and its dependencies + and attach to it.
+	docker-compose up $*
+
+dev.up.shell: _expects-service.dev.up.shell
+
+dev.up.shell.%: ## Bring up a service and its dependencies + shell into it.
+	make dev.up.$*
+	make dev.shell.$*
+
 dev.up.with-programs: dev.up dev.cache-programs ## Bring up default services + cache programs in LMS.
 
 dev.up.with-programs.%: dev.up.$* dev.cache-programs ## Bring up services and their dependencies + cache programs in LMS.
+
+dev.up.with-watchers: dev.up.$(DEFAULT_SERVICES)+lms_watcher+studio_watcher ## Bring up default services + asset watcher containers.
+
+dev.up.with-watchers.%: ## Bring up services and their dependencies + asset watcher containers.
+	make dev.up.$*
+	make dev.up.lms_watcher+studio_watcher
 
 dev.up.without-deps: _expects-service-list.dev.up.without-deps
 
 dev.up.without-deps.%: dev.check-memory ## Bring up services by themselves.
 	docker-compose up --d --no-deps $$(echo $* | tr + " ")
+
+dev.up.without-deps.shell: _expects-service.dev.up.without-deps.shell
+
+dev.up.without-deps.shell.%: ## Bring up a service by itself + shell into it.
+	make dev.up.without-deps.$*
+	make dev.shell.$*
 
 dev.ps: ## View list of created services and their statuses.
 	docker-compose ps
@@ -399,8 +428,11 @@ dev.shell.xqueue_consumer:
 dev.shell.marketing:
 	docker-compose exec marketing env TERM=$(TERM) bash -c 'cd /edx/app/edx-mktg/edx-mktg; exec /bin/bash -sh'
 
-dev.dbshell.edxapp: ## Run a SQL shell on edxapp database.
-	docker-compose exec mysql bash -c "mysql edxapp"
+dev.dbshell:
+	docker-compose exec mysql bash -c "mysql"
+
+dev.dbshell.%: ## Run a SQL shell on the given database.
+	docker-compose exec mysql bash -c "mysql $*"
 
 # List of Makefile targets to run static asset generation, in the form dev.static.$(service)
 # Services will only have their asset generation added here
@@ -487,8 +519,12 @@ $(addsuffix -pull, $(ALL_SERVICES_LIST)): %-pull: dev.pull.%
 $(addsuffix -pull-without-deps, $(ALL_SERVICES_LIST)): %-pull-without-deps: dev.pull.without-deps.%
 $(addsuffix -migrate, $(DB_SERVICES_LIST)): %-migrate: dev.migrate.%
 $(addsuffix -up, $(ALL_SERVICES_LIST)): %-up: dev.up.%
+$(addsuffix -up-attach, $(ALL_SERVICES_LIST)): %-up-attach: dev.up.attach.%
+$(addsuffix -up-shell, $(ALL_SERVICES_LIST)): %-up-shell: dev.up.shell.%
 $(addsuffix -up-with-programs, $(EDX_SERVICES_LIST)): %-up-with-programs: dev.up.with-programs.%
+$(addsuffix -up-with-watchers, $(ALL_SERVICES_LIST)): %-up-with-watchers: dev.up.with-watchers.%
 $(addsuffix -up-without-deps, $(ALL_SERVICES_LIST)): %-up-without-deps: dev.up.without-deps.%
+$(addsuffix -up-without-deps-shell, $(ALL_SERVICES_LIST)): %-up-without-deps-shell: dev.up.without-deps.shell.%
 $(addsuffix -print-container, $(ALL_SERVICES_LIST)): %-print-container: dev.print-container.%
 $(addsuffix -restart-container, $(ALL_SERVICES_LIST)): %-restart-container: dev.restart-container.%
 $(addsuffix -stop, $(ALL_SERVICES_LIST)): %-stop: dev.stop.%
@@ -512,7 +548,7 @@ $(addsuffix -static, $(ASSET_SERVICES_LIST)): %-static: dev.static.%
 # For example, `make dev.attach.lms` is valid, but `make dev.attach` is not.
 # For such targets, we still want to define the invalid stub target in this Makefile
 # for the purpose of including it in command-line completion.
-# These _expects-service targets can be used to define those stub targets such that they
+# These _expects-* targets can be used to define those stub targets such that they
 # print out something useful. See `dev.attach` for an example usage.
 
 _expects-service.%:
@@ -528,6 +564,12 @@ _expects-service-list.%:
 	@echo "    make $*.lms"
 	@echo "Or:"
 	@echo "    make $*.registrar+ecommerce+studio"
+
+_expects-database.%:
+	@echo "'make $*' on its own has no effect."
+	@echo "It expects a database as a suffix."
+	@echo "For example:"
+	@echo "    make $*.edxapp"
 
 
 ########################################################################################
