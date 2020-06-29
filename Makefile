@@ -9,7 +9,7 @@
 .PHONY: analytics-pipeline-devstack-test analytics-pipeline-shell \
         analyticspipeline-shell backup build-courses check-memory \
         create-test-course credentials-shell destroy dev.cache-programs \
-        dev.check dev.checkout dev.clone dev.clone.ssh dev.down dev.kill \
+        dev.check dev.checkout dev.clone dev.clone.ssh dev.clone.https dev.down dev.kill \
         dev.nfs.setup devpi-password dev.provision \
         dev.provision.analytics_pipeline dev.provision.services \
         dev.provision.xqueue dev.ps dev.pull dev.repo.reset dev.reset \
@@ -122,11 +122,13 @@ dev.ps: ## View list of created services and their statuses.
 dev.checkout: ## Check out "openedx-release/$OPENEDX_RELEASE" in each repo if set, "master" otherwise
 	./repo.sh checkout
 
-dev.clone: ## Clone service repos using HTTPS method to the parent directory
+dev.clone.https: ## Clone service repos using HTTPS method to the parent directory
 	./repo.sh clone
 
 dev.clone.ssh: ## Clone service repos using SSH method to the parent directory
 	./repo.sh clone_ssh
+
+dev.clone: dev.clone.ssh ## Clone service repos to the parent directory
 
 dev.provision.services: ## Provision default services with local mounted directories
 	# We provision all default services as well as 'e2e' (end-to-end tests).

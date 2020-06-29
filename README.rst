@@ -110,7 +110,7 @@ All of the services can be run by following the steps below. For analyticstack, 
 
    .. code:: sh
 
-       make dev.clone  # or, `make dev.clone.ssh` if you have SSH keys set up.
+       make dev.clone  # or, `make dev.clone.https` if you don't have SSH keys set up.
 
    You may customize where the local repositories are found by setting the
    DEVSTACK\_WORKSPACE environment variable.
