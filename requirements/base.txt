@@ -16,8 +16,8 @@ docker-compose==1.26.0    # via -r requirements/base.in
 docker[ssh]==4.2.1        # via docker-compose
 dockerpty==0.4.1          # via docker-compose
 docopt==0.6.2             # via docker-compose
-idna==2.9                 # via requests
-importlib-metadata==1.6.1  # via jsonschema
+idna==2.10                # via requests
+importlib-metadata==1.7.0  # via jsonschema
 jsonschema==3.2.0         # via docker-compose
 paramiko==2.7.1           # via docker
 pycparser==2.20           # via cffi
