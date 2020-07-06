@@ -92,8 +92,9 @@ endif
 
 # Files for use with Docker Sync.
 ifeq ($(FS_SYNC_STRATEGY),docker-sync)
-COMPOSE_FILE := docker-compose-sync.yml
-COMPOSE_FILE := docker-sync-marketing-site.yml
+COMPOSE_FILE := docker-compose-host.yml
+COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-sync.yml
+COMPOSE_FILE := $(COMPOSE_FILE):docker-sync-marketing-site.yml
 endif
 
 ifndef COMPOSE_FILE
