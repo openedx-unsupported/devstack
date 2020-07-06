@@ -38,6 +38,12 @@ edraak.programs.help:
 edraak.programs.migrate:
 	docker-compose exec edraak_programs python manage.py migrate --settings=edraakprograms.dev
 
+edraak.programs.langs_push:
+	docker-compose exec edraak_programs python manage.py langs_push --settings=edraakprograms.dev
+
+edraak.programs.langs_pull:
+	docker-compose exec edraak_programs python manage.py langs_pull --settings=edraakprograms.dev
+
 edraak.programs.compile_static:
 	docker-compose exec edraak_programs python manage.py compilestatic --settings=edraakprograms.static
 
@@ -79,6 +85,16 @@ edraak.marketing.provision:
 
 marketing-restart: ## Kill the Marketing Django development server. The watcher process will restart it.
 	docker exec -t edraak.devstack.marketing bash -c 'kill $$(ps aux | grep "manage.py" | egrep -v "while|grep" | awk "{print \$$2}")'
+
+edraak.marketing.migrate: ## Kill the Marketing Django development server. The watcher process will restart it.
+	docker-compose exec edraak_marketing bash -c 'python manage.py migrate --settings=marketingsite.envs.dev'
+
+edraak.marketing.langs_push:
+	docker-compose exec edraak_marketing python manage.transifex-clientpy langs_push --settings=marketingsite.envs.dev
+
+edraak.marketing.langs_push:
+	docker-compose exec edraak_marketing python manage.py langs_pull --settings=marketingsite.envs.dev
+
 
 programs-restart: ## Kill the Edraak Programs Django development server. The watcher process will restart it.
 	docker exec -t edraak.devstack.programs bash -c 'kill $$(ps aux | grep "manage.py" | egrep -v "while|grep" | awk "{print \$$2}")'
