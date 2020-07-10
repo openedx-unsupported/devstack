@@ -37,6 +37,7 @@ repos=(
 non_release_repos=(
     "https://github.com/edx/frontend-app-course-authoring.git"
     "https://github.com/edx/frontend-app-learning.git"
+    "https://github.com/edx/frontend-app-library-authoring.git"
     "https://github.com/edx/registrar.git"
     "https://github.com/edx/frontend-app-program-console.git"
 )
@@ -58,6 +59,7 @@ ssh_repos=(
 non_release_ssh_repos=(
     "git@github.com:edx/frontend-app-course-authoring.git"
     "git@github.com:edx/frontend-app-learning.git"
+    "git@github.com:edx/frontend-app-library-authoring.git"
     "git@github.com:edx/registrar.git"
     "git@github.com:edx/frontend-app-program-console.git"
 )

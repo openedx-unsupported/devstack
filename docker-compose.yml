@@ -506,6 +506,22 @@ services:
     depends_on: 
       - studio
 
+  frontend-app-library-authoring:
+    extends:
+      file: microfrontend.yml
+      service: microfrontend
+    working_dir: '/edx/app/frontend-app-library-authoring'
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-library-authoring"
+    networks:
+      default:
+        aliases:
+          - edx.devstack.frontend-app-library-authoring
+    ports:
+      - "3001:3001"
+    depends_on:
+      - lms
+      - studio
+
 volumes:
   discovery_assets:
   edxapp_lms_assets:
