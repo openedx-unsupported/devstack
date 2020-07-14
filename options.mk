@@ -59,6 +59,11 @@ FS_SYNC_STRATEGY ?= local-mounts
 # when no services are specified manually.
 # Should be a subset of $(EDX_SERVICES).
 # Separated by plus signs. Listed in alphabetical order for clarity.
+# WARNING: You may remove services from this list in order to make Devstack lighter,
+#          but beware that some services have implicit, undocumented dependencies on
+#          other ones. For example, Discovery depends on both LMS and Ecommerce being
+#          provisioned and started in order to provision correctly.
+#          Tread at your own risk.
 # TODO: Re-evaluate this list and consider paring it down to a tighter core.
 #       The current value was chosen such that it would not change the existing
 #       Devstack behavior.
