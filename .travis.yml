@@ -15,8 +15,8 @@ env:
     - DEVSTACK_WORKSPACE=/tmp
     - SHALLOW_CLONE=1
   matrix:
-    - SERVICES=lms+discovery+forum
-    - SERVICES=lms+registrar
+    - SERVICES=discovery+lms+forum  # provision.sh should ensure LMS provisions first.
+    - SERVICES=registrar+lms
     - SERVICES=ecommerce
     - SERVICES=edx_notes_api
     - SERVICES=credentials

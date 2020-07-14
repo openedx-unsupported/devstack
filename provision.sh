@@ -37,8 +37,12 @@ YELLOW='\033[0;33m'
 NC='\033[0m' # No Color
 
 # All provisionable services.
-# Note: leading and trailing space are necessary for if-checks.
-ALL_SERVICES=" \
+# (Leading and trailing space are necessary for if-checks.)
+# The order here is the order we will use when provisioning, even if only a subset
+# of services are requested.
+# Changing this order may break provisioning.
+# For example, Discovery breaks if LMS is not provisioned first.
+ALL_SERVICES_IN_ORDER=" \
 lms \
 ecommerce \
 discovery \
@@ -54,7 +58,7 @@ xqueue \
 
 # What should we provision?
 if [[ $# -eq 0 ]]; then
-	requested_services=$ALL_SERVICES
+	requested_services=$ALL_SERVICES_IN_ORDER
 else
 	arg_string=" $* "
 	# Replace plus signs with spaces in order to allow plus-sign-separated
@@ -99,7 +103,7 @@ for serv in $requested_services; do
 		*)
 			service="$serv"
 	esac
-	if is_substring "$ALL_SERVICES" "$service"; then
+	if is_substring "$ALL_SERVICES_IN_ORDER" "$service"; then
 		if ! is_substring "$to_provision" "$service"; then
 			to_provision="${to_provision}${service} "
 		fi
@@ -108,15 +112,23 @@ for serv in $requested_services; do
 	fi
 done
 
-if [[ "$to_provision" = " " ]]; then
+# Order the services based on $ALL_SERVICES_IN_ORDER.
+to_provision_ordered=" "
+for ordered_service in $ALL_SERVICES_IN_ORDER; do
+	if is_substring "$to_provision" "$ordered_service"; then
+		to_provision_ordered="${to_provision_ordered}${ordered_service} "
+	fi
+done
+
+if [[ "$to_provision_ordered" = " " ]]; then
 	echo -e "${YELLOW}Nothing to provision; will exit.${NC}"
 	exit 0
 fi
-echo -e "${GREEN}Will provision the following:\n  ${to_provision}${NC}"
+echo -e "${GREEN}Will provision the following:\n  ${to_provision_ordered}${NC}"
 
 # Bring the databases online.
 docker-compose up -d mysql
-if needs_mongo "$to_provision"; then
+if needs_mongo "$to_provision_ordered"; then
 	docker-compose up -d mongo
 fi
 
@@ -140,7 +152,7 @@ docker-compose exec -T mysql bash -c "mysql -uroot mysql" < provision.sql
 
 # If necessary, ensure the MongoDB server is online and usable
 # and create its users.
-if needs_mongo "$to_provision"; then
+if needs_mongo "$to_provision_ordered"; then
 	echo -e "${GREEN}Waiting for MongoDB...${NC}"
 	until docker-compose exec -T mongo bash -c 'mongo --eval "printjson(db.serverStatus())"' &> /dev/null
 	do
@@ -155,7 +167,7 @@ else
 fi
 
 # Run the service-specific provisioning script(s)
-for service in $to_provision; do
+for service in $to_provision_ordered; do
 	echo -e "${GREEN} Provisioning ${service}...${NC}"
 	./provision-"$service".sh
 	echo -e "${GREEN} Provisioned ${service}.${NC}"
