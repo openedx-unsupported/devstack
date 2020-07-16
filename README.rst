@@ -18,8 +18,7 @@ A Devstack installation includes the following Open edX components by default:
 * Course Discovery
 * Open edX Search
 * A demonstration Open edX course
-* The Publisher, Gradebook, and Program Console micro-frontends
-* edX Registrar Service
+* The Publisher and Gradebook micro-frontends
 
 It also includes the following extra components:
 
@@ -28,6 +27,8 @@ It also includes the following extra components:
   primary extract, transform, and load (ETL) tool that extracts and analyzes
   data from the other Open edX services.
 * The Learning micro-frontend (A.K.A the new Courseware experience)
+* The Program Console micro-frontend
+* edX Registrar service.
 
 .. Because GitHub doesn't support `toctree`, the Table of Contents is hand-written.
 .. Please keep it up-to-date with all the top-level headings.
@@ -318,13 +319,13 @@ Alternatively, you can run these by modifying the ``DEFAULT_SERVICES`` option as
 +---------------------------+-------------------------------------+----------------+------------+
 | `edx_notes_api`_          | http://localhost:18120/api/v1/      | Python/Django  | Default    |
 +---------------------------+-------------------------------------+----------------+------------+
-| `registrar`_              | http://localhost:18734/api-docs/    | Python/Django  | Default    |
-+---------------------------+-------------------------------------+----------------+------------+
 | `frontend-app-publisher`_ | http://localhost:18400/             | MFE (React.js) | Default    |
 +---------------------------+-------------------------------------+----------------+------------+
 | `gradebook`_              | http://localhost:1994/              | MFE (React.js) | Default    |
 +---------------------------+-------------------------------------+----------------+------------+
-| `program-console`_        | http://localhost:1976/              | MFE (React.js) | Default    |
+| `registrar`_              | http://localhost:18374/api-docs/    | Python/Django  | Extra      |
++---------------------------+-------------------------------------+----------------+------------+
+| `program-console`_        | http://localhost:1976/              | MFE (React.js) | Extra      |
 +---------------------------+-------------------------------------+----------------+------------+
 | `frontend-app-learning`_  | http://localhost:2000/              | MFE (React.js) | Extra      |
 +---------------------------+-------------------------------------+----------------+------------+
@@ -398,8 +399,8 @@ you need them. To instead only start a single service and its dependencies, run
 
     make dev.up.lms
 
-That above command will bring up LMS (along with Memcached, MySQL, DevPI, et al), but it will not bring up Registrar,
-Credentials, Studio, or E-Commerce.
+That above command will bring up LMS (along with Memcached, MySQL, DevPI, et al), but it will not bring up
+Credentials, Studio, or E-Commerce or any of the other default services.
 
 You can also specify multiple services:
 
@@ -767,7 +768,7 @@ You can bring that same service back up with:
 
 .. code:: sh
 
-    make dev.up.<service> 
+    make dev.up.<service>
 
 Running LMS and Studio Tests
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
