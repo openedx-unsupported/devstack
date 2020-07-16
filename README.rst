@@ -18,8 +18,7 @@ A Devstack installation includes the following Open edX components by default:
 * Course Discovery
 * Open edX Search
 * A demonstration Open edX course
-* The Publisher, Gradebook, and Program Console micro-frontends
-* edX Registrar Service
+* The Publisher and Gradebook micro-frontends
 
 It also includes the following extra components:
 
@@ -318,13 +317,9 @@ Alternatively, you can run these by modifying the ``DEFAULT_SERVICES`` option as
 +---------------------------+-------------------------------------+----------------+------------+
 | `edx_notes_api`_          | http://localhost:18120/api/v1/      | Python/Django  | Default    |
 +---------------------------+-------------------------------------+----------------+------------+
-| `registrar`_              | http://localhost:18734/api-docs/    | Python/Django  | Default    |
-+---------------------------+-------------------------------------+----------------+------------+
 | `frontend-app-publisher`_ | http://localhost:18400/             | MFE (React.js) | Default    |
 +---------------------------+-------------------------------------+----------------+------------+
 | `gradebook`_              | http://localhost:1994/              | MFE (React.js) | Default    |
-+---------------------------+-------------------------------------+----------------+------------+
-| `program-console`_        | http://localhost:1976/              | MFE (React.js) | Default    |
 +---------------------------+-------------------------------------+----------------+------------+
 | `frontend-app-learning`_  | http://localhost:2000/              | MFE (React.js) | Extra      |
 +---------------------------+-------------------------------------+----------------+------------+
@@ -343,8 +338,6 @@ Alternatively, you can run these by modifying the ``DEFAULT_SERVICES`` option as
 .. _frontend-app-publisher: https://github.com/edx/frontend-app-publisher
 .. _gradebook: https://github.com/edx/frontend-app-gradebook
 .. _lms: https://github.com/edx/edx-platform
-.. _program-console: https://github.com/edx/frontend-app-program-console
-.. _registrar: https://github.com/edx/registrar
 .. _studio: https://github.com/edx/edx-platform
 .. _lms: https://github.com/edx/edx-platform
 .. _analyticspipeline: https://github.com/edx/edx-analytics-pipeline
@@ -398,8 +391,8 @@ you need them. To instead only start a single service and its dependencies, run
 
     make dev.up.lms
 
-That above command will bring up LMS (along with Memcached, MySQL, DevPI, et al), but it will not bring up Registrar,
-Credentials, Studio, or E-Commerce.
+That above command will bring up LMS (along with Memcached, MySQL, DevPI, et al), but it will not bring up
+Credentials, Studio, or E-Commerce or any of the other default services.
 
 You can also specify multiple services:
 
@@ -767,7 +760,7 @@ You can bring that same service back up with:
 
 .. code:: sh
 
-    make dev.up.<service> 
+    make dev.up.<service>
 
 Running LMS and Studio Tests
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
