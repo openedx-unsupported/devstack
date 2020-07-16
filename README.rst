@@ -27,6 +27,8 @@ It also includes the following extra components:
   primary extract, transform, and load (ETL) tool that extracts and analyzes
   data from the other Open edX services.
 * The Learning micro-frontend (A.K.A the new Courseware experience)
+* The Program Console micro-frontend
+* edX Registrar service.
 
 .. Because GitHub doesn't support `toctree`, the Table of Contents is hand-written.
 .. Please keep it up-to-date with all the top-level headings.
@@ -321,6 +323,10 @@ Alternatively, you can run these by modifying the ``DEFAULT_SERVICES`` option as
 +---------------------------+-------------------------------------+----------------+------------+
 | `gradebook`_              | http://localhost:1994/              | MFE (React.js) | Default    |
 +---------------------------+-------------------------------------+----------------+------------+
+| `registrar`_              | http://localhost:18374/api-docs/    | Python/Django  | Extra      |
++---------------------------|-------------------------------------|----------------|------------|
+| `program-console`_        | http://localhost:1976/              | MFE (React.js) | Extra      |
++---------------------------+-------------------------------------+----------------+------------+
 | `frontend-app-learning`_  | http://localhost:2000/              | MFE (React.js) | Extra      |
 +---------------------------+-------------------------------------+----------------+------------+
 | `xqueue`_                 | http://localhost:18040/api/v1/      | Python/Django  | Extra      |
@@ -338,6 +344,8 @@ Alternatively, you can run these by modifying the ``DEFAULT_SERVICES`` option as
 .. _frontend-app-publisher: https://github.com/edx/frontend-app-publisher
 .. _gradebook: https://github.com/edx/frontend-app-gradebook
 .. _lms: https://github.com/edx/edx-platform
+.. _program-console: https://github.com/edx/frontend-app-program-console
+.. _registrar: https://github.com/edx/registrar
 .. _studio: https://github.com/edx/edx-platform
 .. _lms: https://github.com/edx/edx-platform
 .. _analyticspipeline: https://github.com/edx/edx-analytics-pipeline
