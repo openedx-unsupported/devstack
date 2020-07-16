@@ -324,7 +324,7 @@ Alternatively, you can run these by modifying the ``DEFAULT_SERVICES`` option as
 | `gradebook`_              | http://localhost:1994/              | MFE (React.js) | Default    |
 +---------------------------+-------------------------------------+----------------+------------+
 | `registrar`_              | http://localhost:18374/api-docs/    | Python/Django  | Extra      |
-+---------------------------|-------------------------------------|----------------|------------|
++---------------------------+-------------------------------------+----------------+------------+
 | `program-console`_        | http://localhost:1976/              | MFE (React.js) | Extra      |
 +---------------------------+-------------------------------------+----------------+------------+
 | `frontend-app-learning`_  | http://localhost:2000/              | MFE (React.js) | Extra      |
