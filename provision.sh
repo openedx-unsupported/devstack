@@ -44,6 +44,7 @@ NC='\033[0m' # No Color
 # For example, Discovery breaks if LMS is not provisioned first.
 ALL_SERVICES_IN_ORDER=" \
 lms \
+studio \
 ecommerce \
 discovery \
 credentials \
@@ -92,10 +93,6 @@ needs_mongo() {
 to_provision=" "
 for serv in $requested_services; do
 	case "$serv" in
-		studio)
-			echo -e "${YELLOW}Studio is provisioned alongside LMS.\nPass 'lms' as an argument to ensure that Studio is provisioned.${NC}"
-			continue
-			;;
 		edx_notes_api)
 			# Treat 'edx_notes_api' as an alias for 'notes'.
 			service="notes"
