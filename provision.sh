@@ -31,10 +31,12 @@ set -o pipefail
 set -u
 set -x
 
-RED='\033[0;31m'
+# RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 NC='\033[0m' # No Color
+
+PROVISION_SKIP_DB_PREPARATION="${PROVISION_SKIP_DB_PREPARATION:-}"
 
 # All provisionable services.
 # (Leading and trailing space are necessary for if-checks.)
@@ -129,44 +131,44 @@ if needs_mongo "$to_provision_ordered"; then
 	docker-compose up -d mongo
 fi
 
-# Ensure the MySQL server is online and usable
-echo "${GREEN}Waiting for MySQL.${NC}"
-until docker-compose exec -T mysql bash -c "mysql -uroot -se \"SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = 'root')\"" &> /dev/null
-do
-  printf "."
-  sleep 1
-done
-
-# In the event of a fresh MySQL container, wait a few seconds for the server to restart
-# See https://github.com/docker-library/mysql/issues/245 for why this is necessary.
-sleep 20
-echo -e "${GREEN}MySQL ready.${NC}"
-
-# Ensure that the MySQL databases and users are created for all IDAs.
-# (A no-op for databases and users that already exist).
-echo -e "${GREEN}Ensuring MySQL databases and users exist...${NC}"
-docker-compose exec -T mysql bash -c "mysql -uroot mysql" < provision.sql
-
-# If necessary, ensure the MongoDB server is online and usable
-# and create its users.
-if needs_mongo "$to_provision_ordered"; then
-	echo -e "${GREEN}Waiting for MongoDB...${NC}"
-	until docker-compose exec -T mongo bash -c 'mongo --eval "printjson(db.serverStatus())"' &> /dev/null
+if [[ -z "$PROVISION_SKIP_DB_PREPARATION" ]]; then
+	# Ensure the MySQL server is online and usable
+	echo "${GREEN}Waiting for MySQL.${NC}"
+	until docker-compose exec -T mysql bash -c "mysql -uroot -se \"SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = 'root')\"" &> /dev/null
 	do
 	  printf "."
 	  sleep 1
 	done
-	echo -e "${GREEN}MongoDB ready.${NC}"
-	echo -e "${GREEN}Creating MongoDB users...${NC}"
-    docker-compose exec -T mongo bash -c "mongo" < mongo-provision.js
-else
-	echo -e "${GREEN}MongoDB preparation not required; skipping.${NC}"
+	# In the event of a fresh MySQL container, wait a few seconds for the server to restart
+	# See https://github.com/docker-library/mysql/issues/245 for why this is necessary.
+	sleep 20
+	echo -e "${GREEN}MySQL ready.${NC}"
+	# Ensure that the MySQL databases and users are created for all IDAs.
+	# (A no-op for databases and users that already exist).
+	echo -e "${GREEN}Ensuring MySQL databases and users exist...${NC}"
+	docker-compose exec -T mysql bash -c "mysql -uroot mysql" < provision.sql
+	# If necessary, ensure the MongoDB server is online and usable
+	# and create its users.
+	if needs_mongo "$to_provision_ordered"; then
+		echo -e "${GREEN}Waiting for MongoDB...${NC}"
+		until docker-compose exec -T mongo bash -c 'mongo --eval "printjson(db.serverStatus())"' &> /dev/null
+		do
+		  printf "."
+		  sleep 1
+		done
+		echo -e "${GREEN}MongoDB ready.${NC}"
+		echo -e "${GREEN}Creating MongoDB users...${NC}"
+	    docker-compose exec -T mongo bash -c "mongo" < mongo-provision.js
+	else
+		echo -e "${GREEN}MongoDB preparation not required; skipping.${NC}"
+	fi
 fi
 
 # Run the service-specific provisioning script(s)
 for service in $to_provision_ordered; do
 	echo -e "${GREEN} Provisioning ${service}...${NC}"
-	./provision-"$service".sh
+	rm -f log.out
+	./provision-"$service".sh | tee log.out
 	echo -e "${GREEN} Provisioned ${service}.${NC}"
 done
 
