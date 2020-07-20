@@ -39,12 +39,12 @@ NC='\033[0m' # No Color
 PROVISION_MYSQL_WAIT_SECS="${PROVISION_MYSQL_WAIT_SECS:-20}"
 
 # These options are currently only relevant to provision-lms.sh
-export PROVISION_LOAD_DUMPS="${PROVISION_LOAD_DUMPS:-false}"
+export PROVISION_LOAD_DUMPS="${PROVISION_LOAD_DUMPS:-true}"
 export PROVISION_PULL_IMAGES="${PROVISION_PULL_IMAGES:-true}"
 export PROVISION_RUN_MIGRATIONS="${PROVISION_RUN_MIGRATIONS:-true}"
 export PROVISION_COMPILE_ASSETS="${PROVISION_COMPILE_ASSETS:-true}"
 export PROVISION_CREATE_USERS="${PROVISION_CREATE_USERS:-true}"
-export PROVISION_CREATE_DEMO_DATA="${PROVISION_CREATE_DEMO_DATA:-false}"
+export PROVISION_CREATE_DEMO_DATA="${PROVISION_CREATE_DEMO_DATA:-true}"
 
 # All provisionable services.
 # (Leading and trailing space are necessary for if-checks.)

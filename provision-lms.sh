@@ -32,7 +32,7 @@ if [[ "$PROVISION_PULL_IMAGES" == "true" ]]; then
 fi
 
 log "Bring up LMS container."
-make dev.up.lms
+docker-compose up -d lms
 
 if [[ "$PROVISION_RUN_MIGRATIONS" == "true" ]]; then
 	log "Run LMS migrations."
