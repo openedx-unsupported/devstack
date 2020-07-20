@@ -48,6 +48,7 @@ if [[ "$PROVISION_COMPILE_ASSETS" == "true" ]]; then
 	make dev.static.lms
 fi
 
+# ~1 minute
 if [[ "$PROVISION_CREATE_USERS" == "true" ]]; then
 	log "Creating service users and configuring integrations."
 	# Create a superuser for edxapp
@@ -61,8 +62,11 @@ if [[ "$PROVISION_CREATE_USERS" == "true" ]]; then
 	lms_exec python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack_docker configure_commerce
 fi
 
+# ~5 minutes
 if [[ "$PROVISION_CREATE_DEMO_DATA" == "true" ]]; then
 	log "Create demo course and users and adding a demo program."
 	lms_exec /edx/app/edx_ansible/venvs/edx_ansible/bin/ansible-playbook /edx/app/edx_ansible/edx_ansible/playbooks/demo.yml -v -c local -i "127.0.0.1," --extra-vars="COMMON_EDXAPP_SETTINGS=devstack_docker"
 	./programs/provision.sh lms
 fi
+
+log "LMS provisioning is finished."
