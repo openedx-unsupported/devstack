@@ -170,6 +170,12 @@ upgrade: ## Upgrade requirements with pip-tools.
 selfcheck: ## Check that the Makefile is free of Make syntax errors.
 	@echo "The Makefile is well-formed."
 
+shellcheck: ## Check for linting errors in certain Devstack scripts.
+	shellcheck check.sh
+	shellcheck provision.sh
+	shellcheck provision-lms.sh
+	shellcheck provision-studio.sh
+
 
 ########################################################################################
 # Developer interface: Repository management.
@@ -245,10 +251,11 @@ $(foreach db_service,$(DB_SERVICES_LIST),\
 dev.migrate: | $(_db_migration_targets) ## Run migrations for applicable default services.
 
 dev.migrate.studio:
-	docker-compose exec studio bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_db'
+	docker-compose exec studio bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && ./manage.py cms migrate"
 
 dev.migrate.lms:
-	docker-compose exec lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_db'
+	docker-compose exec lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && ./manage.py lms migrate'
+	docker-compose exec lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && ./manage.py lms migrate --database student_module_history'
 
 dev.migrate.%: ## Run migrations on a service.
 	docker-compose exec $* bash -c 'source /edx/app/$*/$*_env && cd /edx/app/$*/$*/ && make migrate'
