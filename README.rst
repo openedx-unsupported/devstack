@@ -137,12 +137,10 @@ Tahoe themes are copied and available in ``edx-codebase-theme`` directory near t
 
 How to Solve a Devstack Problem
 -------------------------------
-If something goes wrong, you can use ``$ make tahoe.reset.light`` to do a lightweight reset for the environment
-files and the theme. This will remove all of the local changes in the theme, so push to GitHub first.
+If something goes wrong try doing ``$ make down`` then ``$ make dev.up``.
 
-If it's not fixed, use ``$ make tahoe.reset.full`` for a full reset
-including removing all of the local changes that are not being pushed to GitHub.
-
+If that doesn't help and it's not clear how to fix it, ``$ make dev.reset`` can be used to reset the devstack.
+**WARNING:** This will REMOVE all local changes that's not pushed to GitHub.
 
 Enterprise Devstack Docs
 ========================
