@@ -20,13 +20,12 @@ A Devstack installation includes the following Open edX components:
 * Open edX Search
 * A demonstration Open edX course
 
-Analytics Devstack also includes the following Open edX components:
+It also includes the following extra components:
 
-* Open edX Analytics Data API
-* Open edX Insights
-* The components needed to run the Open edX Analytics Pipeline. This is the
-  primary extract, transform, and load (ETL) tool that extracts and analyzes
-  data from the other Open edX services.
+* XQueue
+* The components needed to run the Open edX Analytics Pipeline. This is the primary extract, transform, and load (ETL) tool that extracts and analyzes data from the other Open edX services.
+* The Program Console micro-frontend
+* edX Registrar service.
 
 Where to Find Help
 ------------------
@@ -153,7 +152,7 @@ All of the services can be run by following the steps below. For analyticstack, 
 
        make dev.sync.provision
 
-    Provision using `nfs`_:
+     Provision using `nfs`_:
 
    .. code:: sh
 
@@ -254,6 +253,68 @@ is ``edx``.
    * - ``honor@example.com``
      - A student account that you can use to access the LMS for testing honor
        code certificates.
+
+Service List
+------------
+
+These are the edX services that Devstack can provision, pull, run, attach to, etc.
+Each service is accessible at ``localhost`` on a specific port.
+The table below provides links to the homepage, API root, or API docs of each service,
+as well as links to the repository where each service's code lives.
+
+The services marked as ``Default`` are provisioned/pulled/run whenever you run
+``make dev.provision`` / ``make dev.pull`` / ``make dev.up``, respectively.
+
+The extra services are provisioned/pulled/run when specifically requested (e.g.,
+``make dev.provision.xqueue`` / ``make dev.pull.xqueue`` / ``make dev.up.xqueue``).
+
++---------------------------+-------------------------------------+----------------+------------+
+| Service                   | URL                                 | Type           | Role       |
++===========================+=====================================+================+============+
+| `lms`_                    | http://localhost:18000/             | Python/Django  | Default    |
++---------------------------+-------------------------------------+----------------+------------+
+| `studio`_                 | http://localhost:18010/             | Python/Django  | Default    |
++---------------------------+-------------------------------------+----------------+------------+
+| `forum`_                  | http://localhost:44567/api/v1/      | Ruby/Sinatra   | Default    |
++---------------------------+-------------------------------------+----------------+------------+
+| `discovery`_              | http://localhost:18381/api-docs/    | Python/Django  | Default    |
++---------------------------+-------------------------------------+----------------+------------+
+| `ecommerce`_              | http://localhost:18130/dashboard/   | Python/Django  | Default    |
++---------------------------+-------------------------------------+----------------+------------+
+| `credentials`_            | http://localhost:18150/api/v2/      | Python/Django  | Default    |
++---------------------------+-------------------------------------+----------------+------------+
+| `edx_notes_api`_          | http://localhost:18120/api/v1/      | Python/Django  | Default    |
++---------------------------+-------------------------------------+----------------+------------+
+| `frontend-app-publisher`_ | http://localhost:18400/             | MFE (React.js) | Default    |
++---------------------------+-------------------------------------+----------------+------------+
+| `gradebook`_              | http://localhost:1994/              | MFE (React.js) | Default    |
++---------------------------+-------------------------------------+----------------+------------+
+| `registrar`_              | http://localhost:18734/api-docs/    | Python/Django  | Extra      |
++---------------------------+-------------------------------------+----------------+------------+
+| `program-console`_        | http://localhost:1976/              | MFE (React.js) | Extra      |
++---------------------------+-------------------------------------+----------------+------------+
+| `xqueue`_                 | http://localhost:18040/api/v1/      | Python/Django  | Extra      |
++---------------------------+-------------------------------------+----------------+------------+
+| `analyticspipeline`_      | http://localhost:4040/              | Python         | Extra      |
++---------------------------+-------------------------------------+----------------+------------+
+| `marketing`_              | http://localhost:8080/              | PHP/Drupal     | Extra      |
++---------------------------+-------------------------------------+----------------+------------+
+
+.. _credentials: https://github.com/edx/credentials
+.. _discovery: https://github.com/edx/course-discovery
+.. _ecommerce: https://github.com/edx/ecommerce
+.. _edx_notes_api: https://github.com/edx/edx-notes-api
+.. _forum: https://github.com/edx/cs_comments_service
+.. _frontend-app-publisher: https://github.com/edx/frontend-app-publisher
+.. _gradebook: https://github.com/edx/frontend-app-gradebook
+.. _lms: https://github.com/edx/edx-platform
+.. _program-console: https://github.com/edx/frontend-app-program-console
+.. _registrar: https://github.com/edx/registrar
+.. _studio: https://github.com/edx/edx-platform
+.. _lms: https://github.com/edx/edx-platform
+.. _analyticspipeline: https://github.com/edx/edx-analytics-pipeline
+.. _marketing: https://github.com/edx/edx-mktg
+.. _xqueue: https://github.com/edx/xqueue
 
 Getting Started on Analytics
 ----------------------------
