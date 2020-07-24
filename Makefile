@@ -82,6 +82,7 @@ COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-watchers.yml
 COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-xqueue.yml
 COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-analytics-pipeline.yml
 COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-marketing-site.yml
+COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-marketing-site-host.yml
 endif
 
 # Files for use with Network File System -based synchronization.
