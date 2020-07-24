@@ -60,7 +60,7 @@
         dev.up.with-watchers dev.validate e2e-tests e2e-tests.with-shell \
         feature-toggle-state help requirements selfcheck upgrade upgrade \
         up-marketing-sync validate-lms-volume vnc-passwords
-        
+
 # Load up options (configurable through options.local.mk).
 include options.mk
 
@@ -218,7 +218,7 @@ dev.provision: dev.check-memory ## Provision dev environment with default servic
 	# it's just a way to tell ./provision.sh that the fake data for end-to-end
 	# tests should be prepared.
 	$(WINPTY) bash ./provision.sh $(DEFAULT_SERVICES)+e2e
-	make dev.stop	
+	make dev.stop
 
 dev.provision.%: ## Provision specified services.
 	echo $*
@@ -577,11 +577,12 @@ _expects-database.%:
 # These are useful, but don't fit nicely to the greater Devstack interface.
 ########################################################################################
 
-e2e-tests: ## Run the end-to-end tests against the service containers.
-	docker run -t --network=${COMPOSE_PROJECT_NAME:-devstack}_default -v ${DEVSTACK_WORKSPACE}/edx-e2e-tests:/edx-e2e-tests -v ${DEVSTACK_WORKSPACE}/edx-platform:/edx-e2e-tests/lib/edx-platform --env-file ${DEVSTACK_WORKSPACE}/edx-e2e-tests/devstack_env edxops/e2e env TERM=$(TERM)  bash -c 'paver e2e_test --exclude="whitelabel\|enterprise"'
+e2e-tests: dev.up.lms+studio ## Run the end-to-end tests against the service containers.
+	docker run -t --network=$(COMPOSE_PROJECT_NAME)_default -v $(DEVSTACK_WORKSPACE)/edx-e2e-tests:/edx-e2e-tests --env-file $(DEVSTACK_WORKSPACE)/edx-e2e-tests/devstack_env edxops/e2e env TERM=$(TERM) bash -c 'paver e2e_test'
 
-e2e-tests.with-shell: ## Start the end-to-end tests container with a shell.
-	docker run -it --network=${COMPOSE_PROJECT_NAME:-devstack}_default -v ${DEVSTACK_WORKSPACE}/edx-e2e-tests:/edx-e2e-tests -v ${DEVSTACK_WORKSPACE}/edx-platform:/edx-e2e-tests/lib/edx-platform --env-file ${DEVSTACK_WORKSPACE}/edx-e2e-tests/devstack_env edxops/e2e env TERM=$(TERM) bash
+e2e-tests.with-shell: dev.up.lms+studio ## Start the end-to-end tests container with a shell.
+	docker run -it --network=$(COMPOSE_PROJECT_NAME)_default -v $(DEVSTACK_WORKSPACE)/edx-e2e-tests:/edx-e2e-tests --env-file $(DEVSTACK_WORKSPACE)/edx-e2e-tests/devstack_env edxops/e2e env TERM=$(TERM) bash
+	
 
 validate-lms-volume: ## Validate that changes to the local workspace are reflected in the LMS container.
 	touch $(DEVSTACK_WORKSPACE)/edx-platform/testfile

@@ -304,6 +304,7 @@ services:
       default:
         aliases:
           - edx.devstack.lms
+          - lms.devstack.edx
     ports:
       - "18000:18000"
       - "19876:19876" # JS test debugging
@@ -412,6 +413,7 @@ services:
       default:
         aliases:
           - edx.devstack.studio
+          - studio.devstack.edx
     ports:
       - "18010:18010"
       - "19877:19877" # JS test debugging

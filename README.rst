@@ -843,7 +843,7 @@ and run the tests manually via paver:
 .. code:: sh
 
     make e2e-shell
-    paver e2e_test --exclude="whitelabel\|enterprise"
+    paver e2e_test
 
 The browser running the tests can be seen and interacted with via VNC as
 described above (Firefox is used by default).
