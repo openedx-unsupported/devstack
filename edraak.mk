@@ -90,9 +90,6 @@ edraak.marketing.migrate: ## Kill the Marketing Django development server. The w
 	docker-compose exec edraak_marketing bash -c 'python manage.py migrate --settings=marketingsite.envs.dev'
 
 edraak.marketing.langs_push:
-	docker-compose exec edraak_marketing python manage.transifex-clientpy langs_push --settings=marketingsite.envs.dev
-
-edraak.marketing.langs_push:
 	docker-compose exec edraak_marketing python manage.py langs_pull --settings=marketingsite.envs.dev
 
 
