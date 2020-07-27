@@ -9,6 +9,15 @@
 DEVSTACK_WORKSPACE ?= $(shell pwd)/..
 
 # Name of Docker Compose project.
+# See https://docs.docker.com/compose/reference/envvars/#compose_project_name	
+# Defaults to 'devstack' should OPENEDX_RELEASE not be defined.
+ifdef OPENEDX_RELEASE
+	COMPOSE_PROJECT_NAME ?= devstack-${OPENEDX_RELEASE}
+else
+	COMPOSE_PROJECT_NAME ?= devstack
+endif
+
+# Name of Docker Compose project.
 # See https://docs.docker.com/compose/reference/envvars/#compose_project_name
 # Defaults to 'devstack'.
 COMPOSE_PROJECT_NAME ?= devstack
