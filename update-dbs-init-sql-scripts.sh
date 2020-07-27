@@ -24,8 +24,7 @@ make dev.clone.ssh
 make dev.provision.services.lms+ecommerce
 
 # dump schema and data from mysql databases in the mysql docker container and copy them to current directory in docker host
-MYSQL_DOCKER_COMPOSE_SERVICE="mysql"
-MYSQL_DOCKER_CONTAINER="edx.devstack.${MYSQL_DOCKER_COMPOSE_SERVICE}"
+MYSQL_DOCKER_CONTAINER="$(make --silent dev.print-container.mysql)"
 for DB_NAME in "${DBS[@]}"; do
     DB_CREATION_SQL_SCRIPT="${DB_NAME}.sql"
     if [[ " ${EDXAPP_DBS[@]} " =~ " ${DB_NAME} " ]]; then
@@ -33,6 +32,6 @@ for DB_NAME in "${DBS[@]}"; do
     else
         MYSQL_DB_USER=${ECOMMERCE_MYSQL_DB_USER}
     fi
-    docker exec ${MYSQL_DOCKER_CONTAINER} /bin/bash -c "mysqldump -u ${MYSQL_DB_USER} -p${MYSQL_DB_PASSWORD} --add-drop-database --skip-add-drop-table --databases ${DB_NAME} > ${DB_CREATION_SQL_SCRIPT}"
+    docker-compose exec ${MYSQL_DOCKER_CONTAINER} /bin/bash -c "mysqldump -u ${MYSQL_DB_USER} -p${MYSQL_DB_PASSWORD} --add-drop-database --skip-add-drop-table --databases ${DB_NAME} > ${DB_CREATION_SQL_SCRIPT}"
     docker cp ${MYSQL_DOCKER_CONTAINER}:/${DB_CREATION_SQL_SCRIPT} .
 done
