@@ -353,16 +353,16 @@ xqueue_consumer-restart: ## Kill the XQueue development server. The watcher proc
 	docker-compose exec $* bash -c 'source /edx/app/$*/$*_env && cd /edx/app/$*/$*/ && make static'
 
 lms-sass: ## Rebuild sass assets for the LMS container
-	docker-compose exec lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver compile_sass --debug --system=lms --theme-dirs /edx/app/edx-themes/edx-platform/ --themes my-theme'
+	docker-compose exec lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver compile_sass --debug --system=lms --theme-dirs /edx/app/edx-themes/edx-platform/'
 
 lms-static: ## Rebuild static assets for the LMS container
-	docker-compose exec lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_assets --theme-dirs=/edx/app/edx-themes/edx-platform/ --themes my-theme'
+	docker-compose exec lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_assets --theme-dirs=/edx/app/edx-themes/edx-platform/'
 
 studio-sass: ## Rebuild sass assets for the Studio container
-	docker-compose exec studio bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver compile_sass --debug --system=cms --theme-dirs /edx/app/edx-themes/edx-platform/ --themes my-theme'
+	docker-compose exec studio bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver compile_sass --debug --system=cms --theme-dirs /edx/app/edx-themes/edx-platform/'
 
 studio-static: ## Rebuild static assets for the Studio container
-	docker-compose exec studio bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_assets --theme-dirs=/edx/app/edx-themes/edx-platform/ --themes my-theme'
+	docker-compose exec studio bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_assets --theme-dirs=/edx/app/edx-themes/edx-platform/'
 
 static: | credentials-static discovery-static ecommerce-static lms-static studio-static ## Rebuild static assets for all service containers
 

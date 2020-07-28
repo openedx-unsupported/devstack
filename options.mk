@@ -9,8 +9,12 @@
 DEVSTACK_WORKSPACE ?= $(shell pwd)/..
 
 # Name of Docker Compose project.
-# See https://docs.docker.com/compose/reference/envvars/#compose_project_name	
-# Defaults to 'devstack' should OPENEDX_RELEASE not be defined.
+# Volumes and network are namespaced based on this value,
+# so changing it will give you a separate set of databases.
+# See https://docs.docker.com/compose/reference/envvars/#compose_project_name
+# If OPENEDX_RELAESE is defined, defaults to `devstack-${OPENEDX_RELEASE}`;
+# otherwise, it defaults to `devstack`.
+# Be sure to bring down services before changing the value of `COMPOSE_PROJECT_NAME`.
 ifdef OPENEDX_RELEASE
 	COMPOSE_PROJECT_NAME ?= devstack-${OPENEDX_RELEASE}
 else
