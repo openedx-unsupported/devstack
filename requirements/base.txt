@@ -4,23 +4,30 @@
 #
 #    make upgrade
 #
-backports.ssl-match-hostname==3.5.0.1  # via docker, docker-compose
-cached-property==1.4.2    # via docker-compose
-certifi==2018.4.16        # via requests
+attrs==19.3.0             # via jsonschema
+bcrypt==3.1.7             # via paramiko
+cached-property==1.5.1    # via docker-compose
+certifi==2020.6.20        # via requests
+cffi==1.14.1              # via bcrypt, cryptography, pynacl
 chardet==3.0.4            # via requests
-docker-compose==1.21.2
-docker-pycreds==0.2.3     # via docker
-docker==3.3.0             # via docker-compose
+cryptography==3.0         # via paramiko
+distro==1.5.0             # via docker-compose
+docker-compose==1.26.2
+docker[ssh]==4.2.2        # via docker-compose
 dockerpty==0.4.1          # via docker-compose
 docopt==0.6.2             # via docker-compose
-enum34==1.1.6             # via docker-compose
-functools32==3.2.3.post2 ; python_version == "2.7"
-idna==2.6                 # via requests
-ipaddress==1.0.22         # via docker, docker-compose
-jsonschema==2.6.0         # via docker-compose
-pyyaml==3.12              # via docker-compose
-requests==2.18.4          # via docker, docker-compose
-six==1.11.0               # via docker, docker-compose, docker-pycreds, dockerpty, websocket-client
-texttable==0.9.1          # via docker-compose
-urllib3==1.22             # via requests
-websocket-client==0.47.0  # via docker, docker-compose
+idna==2.10                # via requests
+importlib-metadata==1.7.0  # via jsonschema
+jsonschema==3.2.0         # via docker-compose
+paramiko==2.7.1           # via docker
+pycparser==2.20           # via cffi
+pynacl==1.4.0             # via paramiko
+pyrsistent==0.16.0        # via jsonschema
+python-dotenv==0.14.0     # via docker-compose
+pyyaml==5.3.1             # via docker-compose
+requests==2.24.0          # via docker, docker-compose
+six==1.15.0               # via bcrypt, cryptography, docker, docker-compose, dockerpty, jsonschema, pynacl, pyrsistent, websocket-client
+texttable==1.6.2          # via docker-compose
+urllib3==1.25.10          # via requests
+websocket-client==0.57.0  # via docker, docker-compose
+zipp==1.2.0               # via importlib-metadata
