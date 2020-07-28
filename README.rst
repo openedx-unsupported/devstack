@@ -467,20 +467,14 @@ master branches and ``latest`` images, unset ``OPENEDX_RELEASE`` or set it to
 an empty string.
 
 How do I run multiple named Open edX releases on same machine?
------------------------------------------------------
-You can have multiple isolated Devstacks provisioned on a single computer now. Each instance has an isolated set of databases. This could, for example, be used to quickly switch between versions of Open edX without hitting as many issues with migrations, data integrity, etc.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+You can have multiple isolated Devstacks provisioned on a single computer now. Follow these directions to switch between the named releases.
 
-Unfortunately, this **does not** currently support running Devstacks simultaneously, because we hard-code host port numbers all over the place, and as far as I know, two running containers cannot share the same host port.
-
-Original Documentation
-https://discuss.openedx.org/t/multiple-isolated-devstacks-on-the-same-host/2277
-
-#. Setting the environment variables and enabling the `venv` using `direenv` makes switching named releases easier for devstack. Please follow directions `How do I enable environment variables for current directory?`_ to enable that functionality. This is not a necessary step but does make switching releases easier. 
-#. Perform steps in `How do I run the images for a named Open edX release?`_ for specific release.
-#. Bring down any running containers by issuing a `make dev.down`. This only needs to be done one time before provisioning the release as it will remove all service containers and networks.
-#. The ``COMPOSE_PROJECT_NAME`` variable is used to define Docker namespaced volumes and network based on this value, so changing it will give you a      
-   separate set of databases. This is handled for you automatically by setting the ``OPENEDX_RELEASE`` environment variable in ``options.mk`` (e.g. ``COMPOSE_PROJECT_NAME=devstack-juniper.master``. Should you want to manually override this edit the ``options.local.mk`` in the root of this repo and create the file if it does not exist. Change the devstack project name by adding the following line:
+#. Bring down any running containers by issuing a `make dev.stop`. 
+#. The ``COMPOSE_PROJECT_NAME`` variable is used to define Docker namespaced volumes and network based on this value, so changing it will give you a separate set of databases. This is handled for you automatically by setting the ``OPENEDX_RELEASE`` environment variable in ``options.mk`` (e.g. ``COMPOSE_PROJECT_NAME=devstack-juniper.master``. Should you want to manually override this edit the ``options.local.mk`` in the root of this repo and create the file if it does not exist. Change the devstack project name by adding the following line:
    ``COMPOSE_PROJECT_NAME=<your-alternate-devstack-name>`` (e.g. ``COMPOSE_PROJECT_NAME=secondarydevstack``)
+#. Perform steps in `How do I run the images for a named Open edX release?`_ for specific release.
+#. Follow the steps in `Getting Started`_ section to update requirements (e.g. ``make requirements``) and provision (e.g. ``make dev.provision``) the new named release containers.
 
 Using with OPENEDX_RELEASE:
 Many of you may use the ``OPENEDX_RELEASE`` environment variable to specify the version of named release services that are checked out during Devstack provisioning. If you set ``OPENEDX_RELEASE`` and do not specify ``COMPOSE_PROJECT_NAME``, then your Devstack project name will be set as ``devstack-${OPENEDX_RELEASE}``.
@@ -491,49 +485,39 @@ The implication of this is that you can switch between isolated Devstack databas
 
 Switch between your Devstack projects by doing the following:
 
-#. Bring down the containers by issuing a `make stop.all`.
+#. Bring down the containers by issuing a `make dev.stop`.
 #. Edit the project name in ``options.local.mk`` or set ``OPENEDX_RELEASE`` and let the ``COMPOSE_PROJECT_NAME`` be assigned automatically.
 #. Bring up the containers by issuing a ``make dev.up`` or ``make dev.up.all``.
 
 Examples of Docker Service Names After Setting the ``COMPOSE_PROJECT_NAME`` variable. Notice that the **devstack-juniper.master** name represents the ``COMPOSE_PROJECT_NAME``.
-
--  edx.devstack-juniper.master.frontend-app-publisher 
--  edx.devstack-juniper.master.gradebook
--  edx.devstack-juniper.master.registrar    
--  edx.devstack-juniper.master.redis        
--  edx.devstack-juniper.master.edx_notes_api
--  edx.devstack-juniper.master.credentials  
--  edx.devstack-juniper.master.ecommerce    
--  edx.devstack-juniper.master.studio       
+         
 -  edx.devstack-juniper.master.lms          
--  edx.devstack-juniper.master.discovery    
--  edx.devstack-juniper.master.forum        
--  edx.devstack-juniper.master.memcached    
--  edx.devstack-juniper.master.firefox      
--  edx.devstack-juniper.master.elasticsearch
--  edx.devstack-juniper.master.devpi        
--  edx.devstack-juniper.master.chrome       
--  edx.devstack-juniper.master.mongo        
 -  edx.devstack-juniper.master.mysql  
 
-Example of this can be found here https://discuss.openedx.org/t/multiple-isolated-devstacks-on-the-same-host/2277/6
+Each instance has an isolated set of databases. This could, for example, be used to quickly switch between versions of Open edX without hitting as many issues with migrations, data integrity, etc.
 
-Questions & Troubleshooting:
+Unfortunately, this **does not** currently support running Devstacks simultaneously, because we hard-code host port numbers all over the place, and two running containers cannot share the same host port.
 
-    **This broke my existing Devstack!**
-        Try posting on Discourse or Slack to see if you have the same issue as any others. If you think you have found a bug, file a CR ticket.
+Questions & Troubleshooting – Multiple Named Open edX Releases on Same Machine
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This broke my existing Devstack!
+********************************
+Try posting on Discourse or Slack to see if you have the same issue as any others. If you think you have found a bug, file a CR ticket.
         
-    **I’m getting errors related to ports already being used.**
-        Make sure you bring down your devstack before changing the value of COMPOSE_PROJECT_NAME. If you forgot to, change the COMPOSE_PROJECT_NAME back to its original value, run ``make dev.down``, and then try again.
+I’m getting errors related to ports already being used.
+*******************************************************
+Make sure you bring down your devstack before changing the value of COMPOSE_PROJECT_NAME. If you forgot to, change the COMPOSE_PROJECT_NAME back to its original value, run ``make dev.down``, and then try again.
         
-    **I have custom scripts/compose files that integrate with or extend Devstack. Will those still work?**
-        With the default value of COMPOSE_PROJECT_NAME = devstack, they should still work. If you choose a different COMPOSE_PROJECT_NAME, your extensions will likely break, because the names of containers change along with the project name.
-   
-How do I enable environment variables for current directory?
-------------------------------------------------------------
+I have custom scripts/compose files that integrate with or extend Devstack. Will those still work?
+**************************************************************************************************
+With the default value of COMPOSE_PROJECT_NAME = devstack, they should still work. If you choose a different COMPOSE_PROJECT_NAME, your extensions will likely break, because the names of containers change along with the project name.
+      
+How do I enable environment variables for current directory using 'direnv'?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Recommend separating the named releases into different directories since `direenv` unloads/loads different environment variables per directory.
 
-#. Install `direnv`_ using instructions on that site. Below you will find additional setup at the time of this writing so refer to latest of `direnv` site for additional configuration needed.
+#. Install `direnv` using instructions on https://direnv.net/. Below you will find additional setup at the time of this writing so refer to latest of `direnv` site for additional configuration needed.
 
 #. Setup the following configuration to hook `direnv` for local directory environment overrides. There are two examples for BASH or ZSH (Mac OS X) shells.
 
@@ -1344,7 +1328,6 @@ it's good to bring down containers before changing any settings.
 .. _devpi documentation: docs/devpi.rst
 .. _edx-platform testing documentation: https://github.com/edx/edx-platform/blob/master/docs/guides/testing/testing.rst#running-python-unit-tests
 .. _docker-sync: #improve-mac-osx-performance-with-docker-sync
-.. _direnv: https://direnv.net/
 .. |Build Status| image:: https://travis-ci.org/edx/devstack.svg?branch=master
     :target: https://travis-ci.org/edx/devstack
     :alt: Travis
