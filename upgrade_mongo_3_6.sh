@@ -25,8 +25,8 @@ do
 done
 
 echo -e "${GREEN}MongoDB ready.${NC}"
-MONGO_VERSION_LIVE=$(docker-compose exec -it "$mongo_container" mongo --quiet --eval "printjson(db.version())")
-MONGO_VERSION_COMPAT=$(docker-compose exec -it "$mongo_container" mongo --quiet \
+MONGO_VERSION_LIVE=$(docker-compose $DOCKER_COMPOSE_FILES exec -it "$mongo_container" mongo --quiet --eval "printjson(db.version())")
+MONGO_VERSION_COMPAT=$(docker-compose $DOCKER_COMPOSE_FILES exec -it "$mongo_container" mongo --quiet \
     --eval "printjson(db.adminCommand( { getParameter: 1, featureCompatibilityVersion: 1 } )['featureCompatibilityVersion'])")
 echo -e "${GREEN}Mongo Server version: ${MONGO_VERSION_LIVE}${NC}"
 echo -e "${GREEN}Mongo FeatureCompatibilityVersion version: ${MONGO_VERSION_COMPAT}${NC}"
@@ -48,15 +48,15 @@ docker-compose up -d mongo
 mongo_container="$(make -s dev.print-container.mongo)"
 
 echo -e "${GREEN}Waiting for MongoDB...${NC}"
-until docker-compose exec mongo bash -c 'mongo --eval "printjson(db.serverStatus())" &> /dev/null'
+until docker-compose $DOCKER_COMPOSE_FILES exec mongo bash -c 'mongo --eval "printjson(db.serverStatus())" &> /dev/null'
 do
     printf "."
     sleep 1
 done
 
 echo -e "${GREEN}MongoDB ready.${NC}"
-MONGO_VERSION_LIVE=$(docker-compose exec -it "$mongo_container" mongo --quiet --eval "printjson(db.version())")
-MONGO_VERSION_COMPAT=$(docker-compose exec -it "$mongo_container" mongo --quiet \
+MONGO_VERSION_LIVE=$(docker-compose $DOCKER_COMPOSE_FILES exec -it "$mongo_container" mongo --quiet --eval "printjson(db.version())")
+MONGO_VERSION_COMPAT=$(docker-compose $DOCKER_COMPOSE_FILES exec -it "$mongo_container" mongo --quiet \
     --eval "printjson(db.adminCommand( { getParameter: 1, featureCompatibilityVersion: 1 } )['featureCompatibilityVersion'])")
 echo -e "${GREEN}Mongo Server version: ${MONGO_VERSION_LIVE}${NC}"
 echo -e "${GREEN}Mongo FeatureCompatibilityVersion version: ${MONGO_VERSION_COMPAT}${NC}"

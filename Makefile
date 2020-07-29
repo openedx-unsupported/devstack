@@ -179,7 +179,7 @@ dev.up.all: dev.up dev.up.watchers ## Bring up all services with host volumes, i
 
 dev.print-container.%: ## Get the ID of the running container for a given service.
 	@# Can be run as ``make --silent dev.print-container.$service`` for just ID.
-	@echo $$(docker-compose ps --quiet $*)
+	@echo $$(docker-compose $(DOCKER_COMPOSE_FILES) ps --quiet $*)
 
 # TODO: Improve or rip out Docker Sync targets.
 #       They are not well-fleshed-out and it is not clear if anyone uses them.
@@ -206,7 +206,7 @@ provision: | dev.provision ## This command will be deprecated in a future releas
 
 stop: ## Stop all services
 	(test -d .docker-sync && docker-sync stop) || true ## Ignore failure here
-	docker-compose stop
+	docker-compose $(DOCKER_COMPOSE_FILES) stop
 
 stop.watchers: ## Stop asset watchers
 	docker-compose $(DOCKER_COMPOSE_FILES) stop lms_watcher studio_watcher
@@ -282,45 +282,45 @@ restore:  ## Restore all data volumes from the host. WARNING: THIS WILL OVERWRIT
 # TODO: Print out help for this target. Even better if we can iterate over the
 # services in docker-compose.yml, and print the actual service names.
 %-shell: ## Run a shell on the specified service container
-	docker-compose exec $* /bin/bash
+	docker-compose $(DOCKER_COMPOSE_FILES) exec $* /bin/bash
 
 analyticspipeline-shell: ## Run a shell on the analytics pipeline container
-	docker-compose exec analytics_pipeline env TERM=$(TERM) /edx/app/analytics_pipeline/devstack.sh open
+	docker-compose $(DOCKER_COMPOSE_FILES) exec analytics_pipeline env TERM=$(TERM) /edx/app/analytics_pipeline/devstack.sh open
 
 credentials-shell: ## Run a shell on the credentials container
-	docker-compose exec credentials env TERM=$(TERM) bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials && /bin/bash'
+	docker-compose $(DOCKER_COMPOSE_FILES) exec credentials env TERM=$(TERM) bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials && /bin/bash'
 
 discovery-shell: ## Run a shell on the discovery container
-	docker-compose exec discovery env TERM=$(TERM) /edx/app/discovery/devstack.sh open
+	docker-compose $(DOCKER_COMPOSE_FILES) exec discovery env TERM=$(TERM) /edx/app/discovery/devstack.sh open
 
 ecommerce-shell: ## Run a shell on the ecommerce container
-	docker-compose exec ecommerce env TERM=$(TERM) /edx/app/ecommerce/devstack.sh open
+	docker-compose $(DOCKER_COMPOSE_FILES) exec ecommerce env TERM=$(TERM) /edx/app/ecommerce/devstack.sh open
 
 e2e-shell: ## Start the end-to-end tests container with a shell
 	docker-compose run --network=devstack_default -v ${DEVSTACK_WORKSPACE}/edx-e2e-tests:/edx-e2e-tests -v ${DEVSTACK_WORKSPACE}/edx-platform:/edx-e2e-tests/lib/edx-platform --env-file ${DEVSTACK_WORKSPACE}/edx-e2e-tests/devstack_env edxops/e2e env TERM=$(TERM) bash
 
 registrar-shell: ## Run a shell on the registrar site container
-	docker-compose exec registrar env TERM=$(TERM) /edx/app/registrar/devstack.sh open
+	docker-compose $(DOCKER_COMPOSE_FILES) exec registrar env TERM=$(TERM) /edx/app/registrar/devstack.sh open
 
 %-update-db: ## Run migrations for the specified service container
-	docker-compose exec $* bash -c 'source /edx/app/$*/$*_env && cd /edx/app/$*/$*/ && make migrate'
+	docker-compose $(DOCKER_COMPOSE_FILES) exec $* bash -c 'source /edx/app/$*/$*_env && cd /edx/app/$*/$*/ && make migrate'
 
 studio-update-db: ## Run migrations for the Studio container
-	docker-compose exec studio bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_db'
+	docker-compose $(DOCKER_COMPOSE_FILES) exec studio bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_db'
 
 lms-update-db: ## Run migrations LMS container
-	docker-compose exec lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_db'
+	docker-compose $(DOCKER_COMPOSE_FILES) exec lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_db'
 
 update-db: | $(DB_MIGRATION_TARGETS) ## Run the migrations for DEFAULT_SERVICES
 
 forum-restart-devserver: ## Kill the forum's Sinatra development server. The watcher process will restart it.
-	docker-compose forum bash -c 'kill $$(ps aux | grep "ruby app.rb" | egrep -v "while|grep" | awk "{print \$$2}")'
+	docker-compose $(DOCKER_COMPOSE_FILES) forum bash -c 'kill $$(ps aux | grep "ruby app.rb" | egrep -v "while|grep" | awk "{print \$$2}")'
 
 lms-shell: ## Run a shell on the LMS container
-	docker-compose exec lms env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
+	docker-compose $(DOCKER_COMPOSE_FILES) exec lms env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
 
 lms-watcher-shell: ## Run a shell on the LMS watcher container
-	docker-compose exec lms_watcher env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
+	docker-compose $(DOCKER_COMPOSE_FILES) exec lms_watcher env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
 
 %-attach: ## Attach to the specified service container process to use the debugger & see logs.
 	docker attach "$$(make --silent dev.print-container.$*)"
@@ -328,41 +328,41 @@ lms-watcher-shell: ## Run a shell on the LMS watcher container
 lms-restart: lms-restart-devserver
 
 studio-shell: ## Run a shell on the Studio container
-	docker-compose exec studio env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
+	docker-compose $(DOCKER_COMPOSE_FILES) exec studio env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
 
 studio-watcher-shell: ## Run a shell on the studio watcher container
-	docker-compose exec studio_watcher env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
+	docker-compose $(DOCKER_COMPOSE_FILES) exec studio_watcher env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
 
 studio-restart: studio-restart-devserver
 
 xqueue-shell: ## Run a shell on the XQueue container
-	docker-compose exec xqueue env TERM=$(TERM) /edx/app/xqueue/devstack.sh open
+	docker-compose $(DOCKER_COMPOSE_FILES) exec xqueue env TERM=$(TERM) /edx/app/xqueue/devstack.sh open
 
 xqueue-restart: xqueue-restart-devserver
 
 %-restart-devserver: ## Kill a service's Django development server. The watcher process should restart it.
-	docker-compose exec $* bash -c 'kill $$(ps aux | egrep "manage.py ?\w* runserver" | egrep -v "while|grep" | awk "{print \$$2}")'
+	docker-compose $(DOCKER_COMPOSE_FILES) exec $* bash -c 'kill $$(ps aux | egrep "manage.py ?\w* runserver" | egrep -v "while|grep" | awk "{print \$$2}")'
 
 xqueue_consumer-shell: ## Run a shell on the XQueue consumer container
-	docker-compose exec xqueue_consumer env TERM=$(TERM) /edx/app/xqueue/devstack.sh open
+	docker-compose $(DOCKER_COMPOSE_FILES) exec xqueue_consumer env TERM=$(TERM) /edx/app/xqueue/devstack.sh open
 
 xqueue_consumer-restart: ## Kill the XQueue development server. The watcher process will restart it.
-	docker-compose exec xqueue_consumer bash -c 'kill $$(ps aux | grep "manage.py run_consumer" | egrep -v "while|grep" | awk "{print \$$2}")'
+	docker-compose $(DOCKER_COMPOSE_FILES) exec xqueue_consumer bash -c 'kill $$(ps aux | grep "manage.py run_consumer" | egrep -v "while|grep" | awk "{print \$$2}")'
 
 %-static: ## Rebuild static assets for the specified service container
-	docker-compose exec $* bash -c 'source /edx/app/$*/$*_env && cd /edx/app/$*/$*/ && make static'
+	docker-compose $(DOCKER_COMPOSE_FILES) exec $* bash -c 'source /edx/app/$*/$*_env && cd /edx/app/$*/$*/ && make static'
 
 lms-sass: ## Rebuild sass assets for the LMS container
-	docker-compose exec lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver compile_sass --debug --system=lms --theme-dirs /edx/app/edx-themes/edx-platform/'
+	docker-compose $(DOCKER_COMPOSE_FILES) exec lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver compile_sass --debug --system=lms --theme-dirs /edx/app/edx-themes/edx-platform/'
 
 lms-static: ## Rebuild static assets for the LMS container
-	docker-compose exec lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_assets --theme-dirs=/edx/app/edx-themes/edx-platform/'
+	docker-compose $(DOCKER_COMPOSE_FILES) exec lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_assets --theme-dirs=/edx/app/edx-themes/edx-platform/'
 
 studio-sass: ## Rebuild sass assets for the Studio container
-	docker-compose exec studio bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver compile_sass --debug --system=cms --theme-dirs /edx/app/edx-themes/edx-platform/'
+	docker-compose $(DOCKER_COMPOSE_FILES) exec studio bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver compile_sass --debug --system=cms --theme-dirs /edx/app/edx-themes/edx-platform/'
 
 studio-static: ## Rebuild static assets for the Studio container
-	docker-compose exec studio bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_assets --theme-dirs=/edx/app/edx-themes/edx-platform/'
+	docker-compose $(DOCKER_COMPOSE_FILES) exec studio bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_assets --theme-dirs=/edx/app/edx-themes/edx-platform/'
 
 static: | credentials-static discovery-static ecommerce-static lms-static studio-static ## Rebuild static assets for all service containers
 
@@ -375,24 +375,24 @@ e2e-tests: ## Run the end-to-end tests against the service containers
 
 validate-lms-volume: ## Validate that changes to the local workspace are reflected in the LMS container
 	touch $(DEVSTACK_WORKSPACE)/edx-platform/testfile
-	docker-compose exec -T lms ls /edx/app/edxapp/edx-platform/testfile
+	docker-compose $(DOCKER_COMPOSE_FILES) exec -T lms ls /edx/app/edxapp/edx-platform/testfile
 	rm $(DEVSTACK_WORKSPACE)/edx-platform/testfile
 
 vnc-passwords: ## Get the VNC passwords for the Chrome and Firefox Selenium containers
-	@docker-compose logs chrome 2>&1 | grep "VNC password" | tail -1
-	@docker-compose logs firefox 2>&1 | grep "VNC password" | tail -1
+	@docker-compose $(DOCKER_COMPOSE_FILES) logs chrome 2>&1 | grep "VNC password" | tail -1
+	@docker-compose $(DOCKER_COMPOSE_FILES) logs firefox 2>&1 | grep "VNC password" | tail -1
 
 devpi-password: ## Get the root devpi password for the devpi container
-	docker-compose exec devpi bash -c "cat /data/server/.serverpassword"
+	docker-compose $(DOCKER_COMPOSE_FILES) exec devpi bash -c "cat /data/server/.serverpassword"
 
 mysql-shell: ## Run a shell on the mysql container
-	docker-compose exec mysql bash
+	docker-compose $(DOCKER_COMPOSE_FILES) exec mysql bash
 
 mysql-shell-edxapp: ## Run a mysql shell on the edxapp database
-	docker-compose exec mysql bash -c "mysql edxapp"
+	docker-compose $(DOCKER_COMPOSE_FILES) exec mysql bash -c "mysql edxapp"
 
 mongo-shell: ## Run a shell on the mongo container
-	docker-compose exec mongo bash
+	docker-compose $(DOCKER_COMPOSE_FILES) exec mongo bash
 
 dev.provision.analytics_pipeline: dev.provision.services.analyticspipeline
 
@@ -411,7 +411,7 @@ stop.analytics_pipeline: ## Stop all Analytics pipeline services.
 		sparkworker vertica analyticspipeline
 
 hadoop-application-logs-%: ## View hadoop logs by application Id
-	docker-compose exec analytics_pipeline.nodemanager yarn logs -applicationId $*
+	docker-compose $(DOCKER_COMPOSE_FILES) exec analytics_pipeline.nodemanager yarn logs -applicationId $*
 
 # Provisions studio, ecommerce, and marketing with course(s) in test-course.json
 # Modify test-course.json before running this make target to generate a custom course
