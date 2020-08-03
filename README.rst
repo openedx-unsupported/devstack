@@ -395,47 +395,6 @@ analyticstack ( e.g. lms, studio etc ) consider setting higher memory.
 7. For troubleshooting docker analyticstack, follow the instructions in the
    `Troubleshooting docker analyticstack`_ guide.
 
-Service URLs
-------------
-
-Each service is accessible at ``localhost`` on a specific port. The table below
-provides links to the homepage of each service. Since some services are not
-meant to be user-facing, the "homepage" may be the API root.
-
-+---------------------+-------------------------------------+
-| Service             | URL                                 |
-+=====================+=====================================+
-| LMS                 | http://localhost:18000/             |
-+---------------------+-------------------------------------+
-| Studio/CMS          | http://localhost:18010/             |
-+---------------------+-------------------------------------+
-| Credentials         | http://localhost:18150/api/v2/      |
-+---------------------+-------------------------------------+
-| Catalog/Discovery   | http://localhost:18381/api-docs/    |
-+---------------------+-------------------------------------+
-| E-Commerce/Otto     | http://localhost:18130/dashboard/   |
-+---------------------+-------------------------------------+
-| Notes/edx-notes-api | http://localhost:18120/api/v1/      |
-+---------------------+-------------------------------------+
-| Registrar           | http://localhost:18734/api-docs/    |
-+---------------------+-------------------------------------+
-
-Microfrontend URLs
-------------
-
-Each microfrontend is accessible at ``localhost`` on a specific port. The table below
-provides links to each microfrontend.
-
-+-------------------------+---------------------------------+
-| Service                 | URL                             |
-+=========================+=================================+
-| Gradebook               | http://localhost:1994/          |
-+-------------------------+---------------------------------+
-| Program Console         | http://localhost:1976/          |
-+-------------------------+---------------------------------+
-| Publisher App Frontend  | http://localhost:18400/         |
-+-------------------------+---------------------------------+
-
 Useful Commands
 ---------------
 
