@@ -489,6 +489,21 @@ services:
       - lms
       - registrar
 
+  course-authoring:
+    extends:
+      file: microfrontend.yml
+      service: microfrontend
+    working_dir: '/edx/app/frontend-app-course-authoring'
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.course-authoring"
+    networks:
+      default:
+        aliases:
+          - edx.devstack.course-authoring
+    ports:
+      - "2001:2001"
+    depends_on: 
+      - studio
+
 volumes:
   discovery_assets:
   edxapp_lms_assets:

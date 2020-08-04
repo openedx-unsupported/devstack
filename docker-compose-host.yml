@@ -61,6 +61,10 @@ services:
     volumes:
       - ${DEVSTACK_WORKSPACE}/frontend-app-learning:/edx/app/frontend-app-learning:cached
       - frontend_app_learning_node_modules:/edx/app/frontend-app-learning/node_modules
+  course-authoring:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/frontend-app-course-authoring:/edx/app/frontend-app-course-authoring:cached
+      - course_authoring_node_modules:/edx/app/frontend-app-course-authoring/node_modules
 
 volumes:
   credentials_node_modules:
@@ -73,3 +77,4 @@ volumes:
   program_console_node_modules:
   frontend_app_publisher_node_modules:
   frontend_app_learning_node_modules:
+  course_authoring_node_modules:
