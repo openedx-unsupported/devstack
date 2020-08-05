@@ -49,6 +49,11 @@ syncs:
     host_disk_mount_mode: 'cached'
     src: '../frontend-app-learning/'
 
+  course-authoring-sync:
+    host_disk_mount_mode: 'cached'
+    src: '../frontend-app-course-authoring/'
+    sync_excludes: [ '.git', '.idea' ]
+
   source-sync:
     host_disk_mount_mode: 'cached'
     src: '../src/'

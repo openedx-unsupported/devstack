@@ -57,6 +57,10 @@ services:
     volumes:
       - ${DEVSTACK_WORKSPACE}/frontend-app-learning:/edx/app/frontend-app-learning:cached
       - frontend_app_learning_node_modules:/edx/app/frontend-app-learning/node_modules
+  course-authoring:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/frontend-app-course-authoring:/edx/app/frontend-app-course-authoring:cached
+      - course_authoring_node_modules:/edx/app/frontend-app-course-authoring/node_modules
   frontend-app-publisher:
     volumes:
       - ${DEVSTACK_WORKSPACE}/frontend-app-publisher:/edx/app/frontend-app-publisher:cached
@@ -73,6 +77,7 @@ volumes:
   program_console_node_modules:
   frontend_app_learning_node_modules:
   frontend_app_publisher_node_modules:
+  course_authoring_node_modules:
   edx-nfs:
     driver: local
     driver_opts:

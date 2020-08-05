@@ -37,6 +37,10 @@ services:
     volumes:
       - program-console-sync:/edx/app/program-console:nocopy
       - source-sync:/edx/src:nocopy
+  course-authoring:
+    volumes:
+      - course-authoring-sync:/edx/app/frontend-app-course-authoring:nocopy
+      - source-sync:/edx/src:nocopy
 
 volumes:
   credentials-sync:
@@ -54,6 +58,8 @@ volumes:
   gradebook-sync:
     external: true
   program-console-sync:
+    external: true
+  course-authoring-sync:
     external: true
   source-sync:
       external: true
