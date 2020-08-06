@@ -303,41 +303,41 @@ The extra services are provisioned/pulled/run when specifically requested (e.g.,
 ``make dev.provision.xqueue`` / ``make dev.pull.xqueue`` / ``make dev.up.xqueue``).
 Alternatively, you can run these by modifying the ``DEFAULT_SERVICES`` option as described in the `Advanced Configuration Options`_ section.
 
-+-----------------------------------+-------------------------------------+----------------+------------+
-| Service                           | URL                                 | Type           | Role       |
-+===================================+=====================================+================+============+
-| `lms`_                            | http://localhost:18000/             | Python/Django  | Default    |
-+-----------------------------------+-------------------------------------+----------------+------------+
-| `studio`_                         | http://localhost:18010/             | Python/Django  | Default    |
-+-----------------------------------+-------------------------------------+----------------+------------+
-| `forum`_                          | http://localhost:44567/api/v1/      | Ruby/Sinatra   | Default    |
-+-----------------------------------+-------------------------------------+----------------+------------+
-| `discovery`_                      | http://localhost:18381/api-docs/    | Python/Django  | Default    |
-+-----------------------------------+-------------------------------------+----------------+------------+
-| `ecommerce`_                      | http://localhost:18130/dashboard/   | Python/Django  | Default    |
-+-----------------------------------+-------------------------------------+----------------+------------+
-| `credentials`_                    | http://localhost:18150/api/v2/      | Python/Django  | Default    |
-+-----------------------------------+-------------------------------------+----------------+------------+
-| `edx_notes_api`_                  | http://localhost:18120/api/v1/      | Python/Django  | Default    |
-+-----------------------------------+-------------------------------------+----------------+------------+
-| `frontend-app-publisher`_         | http://localhost:18400/             | MFE (React.js) | Default    |
-+-----------------------------------+-------------------------------------+----------------+------------+
-| `gradebook`_                      | http://localhost:1994/              | MFE (React.js) | Default    |
-+-----------------------------------+-------------------------------------+----------------+------------+
-| `registrar`_                      | http://localhost:18734/api-docs/    | Python/Django  | Extra      |
-+-----------------------------------+-------------------------------------+----------------+------------+
-| `program-console`_                | http://localhost:1976/              | MFE (React.js) | Extra      |
-+-----------------------------------+-------------------------------------+----------------+------------+
-| `frontend-app-learning`_          | http://localhost:2000/              | MFE (React.js) | Extra      |
-+-----------------------------------+-------------------------------------+----------------+------------+
-| `course-authoring`_               | http://localhost:2001/              | MFE (React.js) | Extra      |
-+-----------------------------------+-------------------------------------+----------------+------------+
-| `xqueue`_                         | http://localhost:18040/api/v1/      | Python/Django  | Extra      |
-+-----------------------------------+-------------------------------------+----------------+------------+
-| `analyticspipeline`_              | http://localhost:4040/              | Python         | Extra      |
-+-----------------------------------+-------------------------------------+----------------+------------+
-| `marketing`_                      | http://localhost:8080/              | PHP/Drupal     | Extra      |
-+-----------------------------------+-------------------------------------+----------------+------------+
++-----------------------------------+-------------------------------------+----------------+--------------+
+| Service                           | URL                                 | Type           | Role         |
++===================================+=====================================+================+==============+
+| `lms`_                            | http://localhost:18000/             | Python/Django  | Default      |
++-----------------------------------+-------------------------------------+----------------+--------------+
+| `studio`_                         | http://localhost:18010/             | Python/Django  | Default      |
++-----------------------------------+-------------------------------------+----------------+--------------+
+| `forum`_                          | http://localhost:44567/api/v1/      | Ruby/Sinatra   | Default      |
++-----------------------------------+-------------------------------------+----------------+--------------+
+| `discovery`_                      | http://localhost:18381/api-docs/    | Python/Django  | Default      |
++-----------------------------------+-------------------------------------+----------------+--------------+
+| `ecommerce`_                      | http://localhost:18130/dashboard/   | Python/Django  | Default      |
++-----------------------------------+-------------------------------------+----------------+--------------+
+| `credentials`_                    | http://localhost:18150/api/v2/      | Python/Django  | Default      |
++-----------------------------------+-------------------------------------+----------------+--------------+
+| `edx_notes_api`_                  | http://localhost:18120/api/v1/      | Python/Django  | Default      |
++-----------------------------------+-------------------------------------+----------------+--------------+
+| `frontend-app-publisher`_         | http://localhost:18400/             | MFE (React.js) | Default      |
++-----------------------------------+-------------------------------------+----------------+--------------+
+| `gradebook`_                      | http://localhost:1994/              | MFE (React.js) | Default      |
++-----------------------------------+-------------------------------------+----------------+--------------+
+| `registrar`_                      | http://localhost:18734/api-docs/    | Python/Django  | Extra        |
++-----------------------------------+-------------------------------------+----------------+--------------+
+| `program-console`_                | http://localhost:1976/              | MFE (React.js) | Extra        |
++-----------------------------------+-------------------------------------+----------------+--------------+
+| `frontend-app-learning`_          | http://localhost:2000/              | MFE (React.js) | Extra        |
++-----------------------------------+-------------------------------------+----------------+--------------+
+| `course-authoring`_               | http://localhost:2001/              | MFE (React.js) | Extra        |
++-----------------------------------+-------------------------------------+----------------+--------------+
+| `xqueue`_                         | http://localhost:18040/api/v1/      | Python/Django  | Extra        |
++-----------------------------------+-------------------------------------+----------------+--------------+
+| `analyticspipeline`_              | http://localhost:4040/              | Python         | Extra        |
++-----------------------------------+-------------------------------------+----------------+--------------+
+| `marketing`_                      | http://localhost:8080/              | PHP/Drupal     | edX.org-only |
++-----------------------------------+-------------------------------------+----------------+--------------+
 
 .. _credentials: https://github.com/edx/credentials
 .. _discovery: https://github.com/edx/course-discovery
@@ -585,7 +585,8 @@ How do I run the edX.org Drupal Marketing Site?
 
 The edX.org marketing site built on Drupal is being deprecated, but it can still be run via Devstack.
 See the `Marketing Site instructions`_ for details on getting it up and running.
-This will not be useful to those outside of edX, Inc.
+This will not be useful to those outside of edX, Inc, as the marketing site is closed-source
+and is not built with Open edX usage in mind.
 
 
 How do I build the service images myself?
