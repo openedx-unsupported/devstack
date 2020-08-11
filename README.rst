@@ -28,6 +28,7 @@ It also includes the following extra components:
   data from the other Open edX services.
 * The Learning micro-frontend (A.K.A the new Courseware experience)
 * The Program Console micro-frontend
+* The Library Authoring micro-frontend
 * edX Registrar service.
 * The course-authoring micro-frontend
 
@@ -303,41 +304,43 @@ The extra services are provisioned/pulled/run when specifically requested (e.g.,
 ``make dev.provision.xqueue`` / ``make dev.pull.xqueue`` / ``make dev.up.xqueue``).
 Alternatively, you can run these by modifying the ``DEFAULT_SERVICES`` option as described in the `Advanced Configuration Options`_ section.
 
-+-----------------------------------+-------------------------------------+----------------+--------------+
-| Service                           | URL                                 | Type           | Role         |
-+===================================+=====================================+================+==============+
-| `lms`_                            | http://localhost:18000/             | Python/Django  | Default      |
-+-----------------------------------+-------------------------------------+----------------+--------------+
-| `studio`_                         | http://localhost:18010/             | Python/Django  | Default      |
-+-----------------------------------+-------------------------------------+----------------+--------------+
-| `forum`_                          | http://localhost:44567/api/v1/      | Ruby/Sinatra   | Default      |
-+-----------------------------------+-------------------------------------+----------------+--------------+
-| `discovery`_                      | http://localhost:18381/api-docs/    | Python/Django  | Default      |
-+-----------------------------------+-------------------------------------+----------------+--------------+
-| `ecommerce`_                      | http://localhost:18130/dashboard/   | Python/Django  | Default      |
-+-----------------------------------+-------------------------------------+----------------+--------------+
-| `credentials`_                    | http://localhost:18150/api/v2/      | Python/Django  | Default      |
-+-----------------------------------+-------------------------------------+----------------+--------------+
-| `edx_notes_api`_                  | http://localhost:18120/api/v1/      | Python/Django  | Default      |
-+-----------------------------------+-------------------------------------+----------------+--------------+
-| `frontend-app-publisher`_         | http://localhost:18400/             | MFE (React.js) | Default      |
-+-----------------------------------+-------------------------------------+----------------+--------------+
-| `gradebook`_                      | http://localhost:1994/              | MFE (React.js) | Default      |
-+-----------------------------------+-------------------------------------+----------------+--------------+
-| `registrar`_                      | http://localhost:18734/api-docs/    | Python/Django  | Extra        |
-+-----------------------------------+-------------------------------------+----------------+--------------+
-| `program-console`_                | http://localhost:1976/              | MFE (React.js) | Extra        |
-+-----------------------------------+-------------------------------------+----------------+--------------+
-| `frontend-app-learning`_          | http://localhost:2000/              | MFE (React.js) | Extra        |
-+-----------------------------------+-------------------------------------+----------------+--------------+
-| `course-authoring`_               | http://localhost:2001/              | MFE (React.js) | Extra        |
-+-----------------------------------+-------------------------------------+----------------+--------------+
-| `xqueue`_                         | http://localhost:18040/api/v1/      | Python/Django  | Extra        |
-+-----------------------------------+-------------------------------------+----------------+--------------+
-| `analyticspipeline`_              | http://localhost:4040/              | Python         | Extra        |
-+-----------------------------------+-------------------------------------+----------------+--------------+
-| `marketing`_                      | http://localhost:8080/              | PHP/Drupal     | edX.org-only |
-+-----------------------------------+-------------------------------------+----------------+--------------+
++------------------------------------+-------------------------------------+----------------+--------------+
+| Service                            | URL                                 | Type           | Role         |
++====================================+=====================================+================+==============+
+| `lms`_                             | http://localhost:18000/             | Python/Django  | Default      |
++------------------------------------+-------------------------------------+----------------+--------------+
+| `studio`_                          | http://localhost:18010/             | Python/Django  | Default      |
++------------------------------------+-------------------------------------+----------------+--------------+
+| `forum`_                           | http://localhost:44567/api/v1/      | Ruby/Sinatra   | Default      |
++------------------------------------+-------------------------------------+----------------+--------------+
+| `discovery`_                       | http://localhost:18381/api-docs/    | Python/Django  | Default      |
++------------------------------------+-------------------------------------+----------------+--------------+
+| `ecommerce`_                       | http://localhost:18130/dashboard/   | Python/Django  | Default      |
++------------------------------------+-------------------------------------+----------------+--------------+
+| `credentials`_                     | http://localhost:18150/api/v2/      | Python/Django  | Default      |
++------------------------------------+-------------------------------------+----------------+--------------+
+| `edx_notes_api`_                   | http://localhost:18120/api/v1/      | Python/Django  | Default      |
++------------------------------------+-------------------------------------+----------------+--------------+
+| `frontend-app-publisher`_          | http://localhost:18400/             | MFE (React.js) | Default      |
++------------------------------------+-------------------------------------+----------------+--------------+
+| `gradebook`_                       | http://localhost:1994/              | MFE (React.js) | Default      |
++------------------------------------+-------------------------------------+----------------+--------------+
+| `registrar`_                       | http://localhost:18734/api-docs/    | Python/Django  | Extra        |
++------------------------------------+-------------------------------------+----------------+--------------+
+| `program-console`_                 | http://localhost:1976/              | MFE (React.js) | Extra        |
++------------------------------------+-------------------------------------+----------------+--------------+
+| `frontend-app-learning`_           | http://localhost:2000/              | MFE (React.js) | Extra        |
++------------------------------------+-------------------------------------+----------------+--------------+
+| `frontend-app-library-authoring`_  | http://localhost:3001/              | MFE (React.js) | Extra        |
++------------------------------------+-------------------------------------+----------------+--------------+
+| `course-authoring`_                | http://localhost:2001/              | MFE (React.js) | Extra        |
++------------------------------------+-------------------------------------+----------------+--------------+
+| `xqueue`_                          | http://localhost:18040/api/v1/      | Python/Django  | Extra        |
++------------------------------------+-------------------------------------+----------------+--------------+
+| `analyticspipeline`_               | http://localhost:4040/              | Python         | Extra        |
++------------------------------------+-------------------------------------+----------------+--------------+
+| `marketing`_                       | http://localhost:8080/              | PHP/Drupal     | edX.org-only |
++------------------------------------+-------------------------------------+----------------+--------------+
 
 .. _credentials: https://github.com/edx/credentials
 .. _discovery: https://github.com/edx/course-discovery
@@ -354,6 +357,7 @@ Alternatively, you can run these by modifying the ``DEFAULT_SERVICES`` option as
 .. _analyticspipeline: https://github.com/edx/edx-analytics-pipeline
 .. _marketing: https://github.com/edx/edx-mktg
 .. _frontend-app-learning: https://github.com/edx/frontend-app-learning
+.. _frontend-app-library-authoring: https://github.com/edx/frontend-app-library-authoring
 .. _course-authoring: https://github.com/edx/frontend-app-course-authoring
 .. _xqueue: https://github.com/edx/xqueue
 
