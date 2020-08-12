@@ -99,6 +99,8 @@ programs-restart: ## Kill the Edraak Programs Django development server. The wat
 programs_gulp-restart:
 	docker exec -t edraak.devstack.programs-gulp bash -c 'kill $$(ps aux | grep "gulp" | egrep -v "while|grep" | awk "{print \$$2}")'
 
+programs-fix-npm-install-permissions:
+  docker-compose exec edraak_programs bash -c 'chown -R root ~/.npm'
 
 edraak.restart:  ## Restart all of the lms, studio, marketing and progs
 	make marketing-restart

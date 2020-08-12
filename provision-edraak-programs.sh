@@ -12,6 +12,7 @@ docker-compose exec edraak_programs bash -c 'python manage.py migrate --settings
 
 echo "** Progs: Compiling assets **"
 docker-compose exec edraak_programs bash -c 'npm rebuild node-sass'
+docker-compose exec edraak_programs bash -c 'chown -R root ~/.npm'
 docker-compose exec edraak_programs bash -c 'npm install'
 docker-compose exec edraak_programs bash -c 'bower install'
 docker-compose exec edraak_programs bash -c 'gulp'
