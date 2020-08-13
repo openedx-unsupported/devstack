@@ -77,7 +77,7 @@ boot2docker) are *not* supported.
 Since a Docker-based devstack runs many containers,
 you should configure Docker with a sufficient
 amount of resources. We find that `configuring Docker for Mac`_ with
-a minimum of 2 CPUs and 8GB of memory does work.
+a minimum of 2 CPUs, 8GB of memory, and a disk image size of 96GB does work.
 
 `Docker for Windows`_ may work but has not been tested and is *not* supported.
 
