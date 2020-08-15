@@ -480,22 +480,15 @@ As a specific example, if ``OPENEDX_RELEASE`` is set in your environment as ``ju
 
 The implication of this is that you can switch between isolated Devstack databases by changing the value of the ``OPENEDX_RELEASE`` environment variable.
 
-Switch between your Devstack projects by doing the following:
+Switch between your Devstack releases by doing the following:
+*************************************************************
 
 #. Bring down the containers by issuing a ``make dev.stop`` for the running release.
-#. Make sure that you have setup each Open edX release in separate directories using `How do I enable environment variables for current directory using 'direnv'?`_ instructions. Open the next release project in a separate code editor, then activate the ``direnv`` environment variables and virtual environment for the next release by using a terminal shell to traverse to the directory with the corresponding release ``.envrc`` file. 
+#. Follow the instructions from the `How do I run multiple named Open edX releases on same machine?`_ section.
+#. Edit the project name in ``options.local.mk`` or set the ``OPENEDX_RELEASE`` environment variable and let the ``COMPOSE_PROJECT_NAME`` be assigned automatically. 
+#. Bring up the containers with ``make dev.up``.
 
-    .. code:: sh
-
-        # You should see something like the following after successfully enabling 'direnv' for the Juniper release.
-
-        direnv: loading ~/open-edx/devstack.juniper/.envrc   
-        direnv: export +DEVSTACK_WORKSPACE +OPENEDX_RELEASE +VIRTUAL_ENV ~PATH
-        (venv)username@computer-name devstack.juniper %
-
-
-#. Edit the project name in ``options.local.mk`` or set ``OPENEDX_RELEASE`` and let the ``COMPOSE_PROJECT_NAME`` be assigned automatically. Setting of the ``OPENEDX_RELEASE`` should have been handled within the ``.envrc`` file for named releases only and should not be defined for the ``master`` release.
-#. Bring up the containers by issuing a ``make dev.up`` or ``make dev.up.all``.
+**NOTE:** Additional instructions on switching releases using `direnv` can be found in `How do I switch releases using 'direnv'?`_ section.
 
 Examples of Docker Service Names After Setting the ``COMPOSE_PROJECT_NAME`` variable. Notice that the **devstack-juniper.master** name represents the ``COMPOSE_PROJECT_NAME``.
          
@@ -520,7 +513,24 @@ Make sure you bring down your devstack before changing the value of COMPOSE_PROJ
 I have custom scripts/compose files that integrate with or extend Devstack. Will those still work?
 **************************************************************************************************
 With the default value of COMPOSE_PROJECT_NAME = devstack, they should still work. If you choose a different COMPOSE_PROJECT_NAME, your extensions will likely break, because the names of containers change along with the project name.
-      
+
+How do I switch releases using 'direnv'?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Follow directions in `Switch between your Devstack releases by doing the following:`_ then make the following adjustments.
+
+Make sure that you have setup each Open edX release in separate directories using `How do I enable environment variables for current directory using 'direnv'?`_ instructions. Open the next release project in a separate code editor, then activate the ``direnv`` environment variables and virtual environment for the next release by using a terminal shell to traverse to the directory with the corresponding release ``.envrc`` file. You may need to issue a ``direnv allow`` command to enable the ``.envrc`` file.
+
+    .. code:: sh
+
+        # You should see something like the following after successfully enabling 'direnv' for the Juniper release.
+
+        direnv: loading ~/open-edx/devstack.juniper/.envrc   
+        direnv: export +DEVSTACK_WORKSPACE +OPENEDX_RELEASE +VIRTUAL_ENV ~PATH
+        (venv)username@computer-name devstack.juniper %
+
+**NOTE:** Setting of the ``OPENEDX_RELEASE`` should have been handled within the ``.envrc`` file for named releases only and should not be defined for the ``master`` release.
+
 How do I enable environment variables for current directory using 'direnv'?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Recommend separating the named releases into different directories since `direenv` unloads/loads different environment variables per directory.
