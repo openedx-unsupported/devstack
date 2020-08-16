@@ -102,6 +102,10 @@ programs_gulp-restart:
 programs-fix-npm-install-permissions:
   docker-compose exec edraak_programs bash -c 'chown -R root ~/.npm'
 
+marketing_gulp-restart:
+	docker exec -t edraak.devstack.marketing-gulp bash -c 'kill $$(ps aux | grep "gulp" | egrep -v "while|grep" | awk "{print \$$2}")'
+
+
 edraak.restart:  ## Restart all of the lms, studio, marketing and progs
 	make marketing-restart
 	make programs-restart
