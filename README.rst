@@ -504,7 +504,7 @@ Questions & Troubleshooting – Multiple Named Open edX Releases on Same Machine
 
 This broke my existing Devstack!
 ********************************
-Try posting on Discourse or Slack to see if you have the same issue as any others. If you think you have found a bug, file a CR ticket.
+ See if the troubleshooting of this readme can help resolve your broken devstack first, then try posting on the `Open edX forums <https://discuss.openedx.org>`__ to see if you have the same issue as any others. If you think you have found a bug, file a CR ticket.
         
 I’m getting errors related to ports already being used.
 *******************************************************
@@ -533,7 +533,7 @@ Make sure that you have setup each Open edX release in separate directories usin
 
 How do I enable environment variables for current directory using 'direnv'?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Recommend separating the named releases into different directories since `direenv` unloads/loads different environment variables per directory.
+We recommend separating the named releases into different directories, for clarity purposes. You can use `direnv <https://direnv.net/>`__ to define different environment variables per directory::
 
     .. code::
 
