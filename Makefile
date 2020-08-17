@@ -267,7 +267,7 @@ pull: dev.pull
 pull.xqueue: dev.pull.without-deps.xqueue+xqueue_consumer
 
 validate: ## Validate the devstack configuration
-	docker-compose config
+	docker-compose $(DOCKER_COMPOSE_FILES) config
 
 backup: ## Write all data volumes to the host.
 	docker run --rm --volumes-from -T $$(make -s dev.print-container.mysql) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/mysql.tar.gz /var/lib/mysql
