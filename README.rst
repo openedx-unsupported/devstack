@@ -152,7 +152,7 @@ All of the services can be run by following the steps below. For analyticstack, 
 
        make dev.sync.provision
 
-     Provision using `nfs`_:
+     Provision using NFS:
 
    .. code:: sh
 
@@ -177,7 +177,7 @@ All of the services can be run by following the steps below. For analyticstack, 
 
        make dev.sync.up
 
-   Start using `nfs`_:
+   Start using NFS:
 
    .. code:: sh
 
@@ -539,7 +539,7 @@ master branches and ``latest`` images, unset ``OPENEDX_RELEASE`` or set it to
 an empty string.
 
 How do I run multiple named Open edX releases on same machine?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------------------------------------------
 You can have multiple isolated Devstacks provisioned on a single computer now. Follow these directions to switch between the named releases.
 
 #. Bring down any running containers by issuing a `make stop.all`. 
@@ -548,18 +548,19 @@ You can have multiple isolated Devstacks provisioned on a single computer now. F
 #. Perform steps in `How do I run the images for a named Open edX release?`_ for specific release.
 #. Follow the steps in `Getting Started`_ section to update requirements (e.g. ``make requirements``) and provision (e.g. ``make dev.provision``) the new named release containers.
 
-Using with OPENEDX_RELEASE:
-Many of you may use the ``OPENEDX_RELEASE`` environment variable to specify the version of named release services that are checked out during Devstack provisioning. If you set ``OPENEDX_RELEASE`` and do not specify ``COMPOSE_PROJECT_NAME``, then your Devstack project name will be set as ``devstack-${OPENEDX_RELEASE}``.
-
 As a specific example, if ``OPENEDX_RELEASE`` is set in your environment as ``juniper.master``, then ``COMPOSE_PROJECT_NAME`` will default to ``devstack-juniper.master`` instead of ``devstack``.
 
 The implication of this is that you can switch between isolated Devstack databases by changing the value of the ``OPENEDX_RELEASE`` environment variable.
 
-Switch between your Devstack projects by doing the following:
+Switch between your Devstack releases by doing the following:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-#. Bring down the containers by issuing a `make stop.all`.
-#. Edit the project name in ``options.local.mk`` or set ``OPENEDX_RELEASE`` and let the ``COMPOSE_PROJECT_NAME`` be assigned automatically.
-#. Bring up the containers by issuing a ``make dev.up`` or ``make dev.up.all``.
+#. Bring down the containers by issuing a ``make stop.all`` for the running release.
+#. Follow the instructions from the `How do I run multiple named Open edX releases on same machine?`_ section.
+#. Edit the project name in ``options.local.mk`` or set the ``OPENEDX_RELEASE`` environment variable and let the ``COMPOSE_PROJECT_NAME`` be assigned automatically. 
+#. Bring up the containers with ``make dev.up``.
+
+**NOTE:** Additional instructions on switching releases using `direnv` can be found in `How do I switch releases using 'direnv'?`_ section.
 
 Examples of Docker Service Names After Setting the ``COMPOSE_PROJECT_NAME`` variable. Notice that the **devstack-juniper.master** name represents the ``COMPOSE_PROJECT_NAME``.
          
@@ -571,23 +572,48 @@ Each instance has an isolated set of databases. This could, for example, be used
 Unfortunately, this **does not** currently support running Devstacks simultaneously, because we hard-code host port numbers all over the place, and two running containers cannot share the same host port.
 
 Questions & Troubleshooting – Multiple Named Open edX Releases on Same Machine
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------------------------------------------------------------
 
 This broke my existing Devstack!
-********************************
-Try posting on Discourse or Slack to see if you have the same issue as any others. If you think you have found a bug, file a CR ticket.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ See if the troubleshooting of this readme can help resolve your broken devstack first, then try posting on the `Open edX forums <https://discuss.openedx.org>`__ to see if you have the same issue as any others. If you think you have found a bug, file a CR ticket.
         
 I’m getting errors related to ports already being used.
-*******************************************************
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Make sure you bring down your devstack before changing the value of COMPOSE_PROJECT_NAME. If you forgot to, change the COMPOSE_PROJECT_NAME back to its original value, run ``make dev.down``, and then try again.
         
 I have custom scripts/compose files that integrate with or extend Devstack. Will those still work?
-**************************************************************************************************
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 With the default value of COMPOSE_PROJECT_NAME = devstack, they should still work. If you choose a different COMPOSE_PROJECT_NAME, your extensions will likely break, because the names of containers change along with the project name.
-      
+
+How do I switch releases using 'direnv'?
+----------------------------------------
+
+Follow directions in `Switch between your Devstack releases by doing the following:`_ then make the following adjustments.
+
+Make sure that you have setup each Open edX release in separate directories using `How do I enable environment variables for current directory using 'direnv'?`_ instructions. Open the next release project in a separate code editor, then activate the ``direnv`` environment variables and virtual environment for the next release by using a terminal shell to traverse to the directory with the corresponding release ``.envrc`` file. You may need to issue a ``direnv allow`` command to enable the ``.envrc`` file.
+
+    .. code:: sh
+
+        # You should see something like the following after successfully enabling 'direnv' for the Juniper release.
+
+        direnv: loading ~/open-edx/devstack.juniper/.envrc   
+        direnv: export +DEVSTACK_WORKSPACE +OPENEDX_RELEASE +VIRTUAL_ENV ~PATH
+        (venv)username@computer-name devstack.juniper %
+
+**NOTE:** Setting of the ``OPENEDX_RELEASE`` should have been handled within the ``.envrc`` file for named releases only and should not be defined for the ``master`` release.
+
 How do I enable environment variables for current directory using 'direnv'?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Recommend separating the named releases into different directories since `direenv` unloads/loads different environment variables per directory.
+---------------------------------------------------------------------------
+We recommend separating the named releases into different directories, for clarity purposes. You can use `direnv <https://direnv.net/>`__ to define different environment variables per directory::
+
+    .. code::
+
+        # Example showing directory structure for separate Open edX releases.
+
+        /Users/<username>/open-edx – root directory for platform development
+        |_ ./devstack.master  – directory containing all repository information related to the main development release.
+        |_ ./devstack.juniper – directory containing all repository information related to the Juniper release.
 
 #. Install `direnv` using instructions on https://direnv.net/. Below you will find additional setup at the time of this writing so refer to latest of `direnv` site for additional configuration needed.
 
