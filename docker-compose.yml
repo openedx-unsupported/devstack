@@ -275,6 +275,8 @@ services:
       - memcached
       - elasticsearch
     image: edxops/forum:${OPENEDX_RELEASE:-latest}
+    stdin_open: true
+    tty: true
     networks:
       default:
         aliases:
