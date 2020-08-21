@@ -372,12 +372,23 @@ dev.cache-programs: ## Copy programs from Discovery to Memcached for use in LMS.
 
 dev.restart-devserver: _expects-service.dev.restart-devserver
 
-dev.restart-devserver.forum:
-	docker-compose exec forum bash -c 'kill $$(ps aux | grep "ruby app.rb" | egrep -v "while|grep" | awk "{print \$$2}")'
+# One-off constants to make it easier to unpack dev.restart-devserver.%:
+_django_pattern=manage.py ?\w* runserver
+_sinatra_pattern=ruby app.rb
+_node_pattern=\bnode\b
+_find_devservers=egrep \'$(_django_pattern)|$(_sinatra_pattern)|$(_node_pattern)\'
+_exclude_watcher_and_self=egrep -v 'while|grep'
+_print_pid=awk "{print \$$2}"
+_find_devserver_pids=ps aux | $(_find_devservers) | $(_exclude_watcher_and_self) | $(_print_pid)
+#_kill_devserver=kill "($(_find_devservers))"
 
-dev.restart-devserver.%: ## Kill an edX service's development server. Watcher should restart it.
-	# Applicable to Django services only.
-	docker-compose exec $* bash -c 'kill $$(ps aux | egrep "manage.py ?\w* runserver" | egrep -v "while|grep" | awk "{print \$$2}")'
+dev.restart-devserver.%: ## Kill an edX service's development server. Wrapper command should restart it.
+	# Meant to work on LMS/Studio, Django IDAs, Forums (Ruby/Sinatra),
+	# and micro-frontends (Node).
+	@#echo "$(_find_devserver_pids)"
+	docker-compose exec $* kill \$\$($(_find_devserver_pids))
+	@#echo "$* has been interrupted and should be restarting."
+	@#echo "You can check by attaching to the process: make dev.attach.$*"
 
 dev.logs: ## View logs from running containers.
 	docker-compose logs -f
