@@ -68,7 +68,7 @@ services:
   frontend-app-library-authoring:
     volumes:
       - ${DEVSTACK_WORKSPACE}/frontend-app-library-authoring:/edx/app/frontend-app-library-authoring:cached
-      - frontend_app_library_authoring:/edx/app/frontend-app-library-authoring/node_modules
+      - frontend_app_library_authoring_node_modules:/edx/app/frontend-app-library-authoring/node_modules
 
 volumes:
   credentials_node_modules:
