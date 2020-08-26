@@ -7,22 +7,26 @@ services:
     volumes:
       - ${DEVSTACK_WORKSPACE}/credentials:/edx/app/credentials/credentials:cached
       - credentials_node_modules:/edx/app/credentials/credentials/node_modules
+      - credentials_tox:/edx/app/credentials/credentials/.tox
       - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
   discovery:
       volumes:
       - ${DEVSTACK_WORKSPACE}/course-discovery:/edx/app/discovery/discovery:cached
       - discovery_node_modules:/edx/app/discovery/discovery/node_modules
+      - discovery_tox:/edx/app/discovery/discovery/.tox
       - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
   ecommerce:
     volumes:
       - ${DEVSTACK_WORKSPACE}/ecommerce:/edx/app/ecommerce/ecommerce:cached
       - ecommerce_node_modules:/edx/app/ecommerce/ecommerce/node_modules
+      - ecommerce_tox:/edx/app/ecommerce/ecommerce/.tox
       - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
   lms:
     volumes:
       - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform:cached
       - edxapp_media:/edx/var/edxapp/media
       - edxapp_node_modules:/edx/app/edxapp/edx-platform/node_modules
+      - edxapp_tox:/edx/app/edxapp/edx-platform/.tox
       - edxapp_uploads:/edx/var/edxapp/uploads
       - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
   edx_notes_api:
@@ -34,6 +38,7 @@ services:
       - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform:cached
       - edxapp_media:/edx/var/edxapp/media
       - edxapp_node_modules:/edx/app/edxapp/edx-platform/node_modules
+      - edxapp_tox:/edx/app/edxapp/edx-platform/.tox
       - edxapp_uploads:/edx/var/edxapp/uploads
       - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
   forum:
@@ -49,10 +54,12 @@ services:
     volumes:
       - ${DEVSTACK_WORKSPACE}/frontend-app-gradebook:/edx/app/gradebook:cached
       - gradebook_node_modules:/edx/app/gradebook/node_modules
+      - gradebook_tox:/edx/app/gradebook/.tox
   program-console:
     volumes:
       - ${DEVSTACK_WORKSPACE}/frontend-app-program-console:/edx/app/program-console:cached
       - program_console_node_modules:/edx/app/program-console/node_modules
+      - program_console_tox:/edx/app/program-console/.tox
   frontend-app-publisher:
     volumes:
       - ${DEVSTACK_WORKSPACE}/frontend-app-publisher:/edx/app/frontend-app-publisher:cached
@@ -83,3 +90,9 @@ volumes:
   frontend_app_learning_node_modules:
   course_authoring_node_modules:
   frontend_app_library_authoring_node_modules:
+  credentials_tox:
+  discovery_tox:
+  ecommerce_tox:
+  edxapp_tox:
+  gradebook_tox:
+  program_console_tox:
