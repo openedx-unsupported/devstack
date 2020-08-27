@@ -316,7 +316,7 @@ services:
       - edxapp_lms_assets:/edx/var/edxapp/staticfiles/
 
   lms-worker:
-    command: bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && celery --app=lms.celery:APP worker -l debug -c 2'
+    command: bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && NEW_RELIC_CONFIG_FILE="/edx/app/edxapp/newrelic.ini" newrelic-admin run-program celery --app=lms.celery:APP worker -l debug -c 2'
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.lms-worker"
     hostname: lms-worker.devstack.edx
     depends_on:
