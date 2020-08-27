@@ -277,7 +277,7 @@ services:
       - "44567:4567"
 
   lms:
-    command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py lms runserver 0.0.0.0:18000 --settings devstack_docker; sleep 2; done'
+    command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py lms runserver 0.0.0.0:18000 --settings devstack_with_worker; sleep 2; done'
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.lms"
     hostname: lms.devstack.edx
     depends_on:
@@ -293,12 +293,14 @@ services:
     stdin_open: true
     tty: true
     environment:
+      DJANGO_SETTINGS_MODULE: lms.envs.devstack_with_worker
       BOK_CHOY_HOSTNAME: edx.devstack.lms
       BOK_CHOY_LMS_PORT: 18003
       BOK_CHOY_CMS_PORT: 18031
       EDXAPP_TEST_MONGO_HOST: edx.devstack.mongo
       NO_PYTHON_UNINSTALL: 1
       DJANGO_WATCHMAN_TIMEOUT: 30
+      CELERY_ALWAYS_EAGER: "false"
     image: edxops/edxapp:${OPENEDX_RELEASE:-latest}
     networks:
       default:
@@ -312,6 +314,21 @@ services:
       # - "18031:18031"
     volumes:
       - edxapp_lms_assets:/edx/var/edxapp/staticfiles/
+
+  lms-worker:
+    command: bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && celery --app=lms.celery:APP worker -l debug -c 2'
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.lms-worker"
+    hostname: lms-worker.devstack.edx
+    depends_on:
+      - mysql
+      - redis
+    stdin_open: true
+    tty: true
+    image: edxops/edxapp:${OPENEDX_RELEASE:-latest}
+    environment:
+      DJANGO_SETTINGS_MODULE: lms.envs.devstack_with_worker
+      # big no-no here
+      C_FORCE_ROOT: "true"
 
   registrar:
     command: bash -c 'source /edx/app/registrar/registrar_env && while true; do python /edx/app/registrar/registrar/manage.py runserver 0.0.0.0:18734; sleep 2; done'
