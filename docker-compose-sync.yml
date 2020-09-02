@@ -4,12 +4,12 @@ services:
   credentials:
     volumes:
       - credentials-sync:/edx/app/credentials/credentials:nocopy
-  discovery:
-    volumes:
-      - discovery-sync:/edx/app/discovery/discovery:nocopy
-  ecommerce:
-    volumes:
-      - ecommerce-sync:/edx/app/ecommerce/ecommerce:nocopy
+#  discovery:  # Appsembler: Commented out to make a lighter devstack.
+#    volumes:
+#      - discovery-sync:/edx/app/discovery/discovery:nocopy
+#  ecommerce:  # Appsembler: Commented out to make a lighter devstack.
+#    volumes:
+#      - ecommerce-sync:/edx/app/ecommerce/ecommerce:nocopy
   lms:
     volumes:
       - edxapp-sync:/edx/app/edxapp/edx-platform:nocopy
