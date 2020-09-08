@@ -61,14 +61,14 @@ services:
       - elasticsearch_data:/usr/share/elasticsearch/logs
 
   # This is meant to be used to test ES upgrades so that we do not have to upgrade all of our services to ES5 at once.
-  elasticsearch-5:
-    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.elasticsearch-5"
-    hostname: elasticsearch-5.devstack.edx
-    image: elasticsearch:5.6.16
+  elasticsearch-7:
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.elasticsearch-7"
+    hostname: elasticsearch-7.devstack.edx
+    image: elasticsearch:7.9.1
     networks:
       default:
         aliases:
-          - edx.devstack.elasticsearch-5
+          - edx.devstack.elasticsearch-7
 
   firefox:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.firefox"
