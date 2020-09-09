@@ -6,16 +6,16 @@ services:
       - ${DEVSTACK_WORKSPACE}/credentials:/edx/app/credentials/credentials:${DEVSTACK_CACHE:-cached}
       - credentials_node_modules:/edx/app/credentials/credentials/node_modules
       - ${DEVSTACK_WORKSPACE}/src:/edx/src:${DEVSTACK_CACHE:-cached}
-  discovery:
-      volumes:
-      - ${DEVSTACK_WORKSPACE}/course-discovery:/edx/app/discovery/discovery:${DEVSTACK_CACHE:-cached}
-      - discovery_node_modules:/edx/app/discovery/discovery/node_modules
-      - ${DEVSTACK_WORKSPACE}/src:/edx/src:${DEVSTACK_CACHE:-cached}
-  ecommerce:
-    volumes:
-      - ${DEVSTACK_WORKSPACE}/ecommerce:/edx/app/ecommerce/ecommerce:${DEVSTACK_CACHE:-cached}
-      - ecommerce_node_modules:/edx/app/ecommerce/ecommerce/node_modules
-      - ${DEVSTACK_WORKSPACE}/src:/edx/src:${DEVSTACK_CACHE:-cached}
+#  discovery:  # Appsembler: Commented out to make a lighter devstack.
+#      volumes:
+#      - ${DEVSTACK_WORKSPACE}/course-discovery:/edx/app/discovery/discovery:${DEVSTACK_CACHE:-cached}
+#      - discovery_node_modules:/edx/app/discovery/discovery/node_modules
+#      - ${DEVSTACK_WORKSPACE}/src:/edx/src:${DEVSTACK_CACHE:-cached}
+#  ecommerce:  # Appsembler: Commented out to make a lighter devstack.
+#    volumes:
+#      - ${DEVSTACK_WORKSPACE}/ecommerce:/edx/app/ecommerce/ecommerce:${DEVSTACK_CACHE:-cached}
+#      - ecommerce_node_modules:/edx/app/ecommerce/ecommerce/node_modules
+#      - ${DEVSTACK_WORKSPACE}/src:/edx/src:${DEVSTACK_CACHE:-cached}
   lms:
     volumes:
       - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform:${DEVSTACK_CACHE:-cached}

@@ -42,10 +42,10 @@ docker exec -i edx.devstack.mongo mongo < mongo-provision.js
 
 # Nothing special needed for studio
 docker-compose $DOCKER_COMPOSE_FILES up -d studio
-./provision-ecommerce.sh
-./provision-discovery.sh
+#./provision-ecommerce.sh  # Appsembler: Commented out to make a lighter devstack.
+#./provision-discovery.sh  # Appsembler: Commented out to make a lighter devstack.
 ./provision-credentials.sh
-./provision-e2e.sh
+#./provision-e2e.sh  # Appsembler: Commented out to make a lighter devstack.
 ./provision-forum.sh
 ./provision-notes.sh
 
