@@ -37,10 +37,12 @@ services:
     volumes:
       - ${DEVSTACK_WORKSPACE}/edraak-programs:/app:cached
       - ~/.ssh/:/root/.ssh
+      - ${DEVSTACK_WORKSPACE}/src:/src:cached
   edraak_programs_gulp:
     volumes:
       - ${DEVSTACK_WORKSPACE}/edraak-programs:/app:cached
       - ~/.ssh/:/root/.ssh
+      - ${DEVSTACK_WORKSPACE}/src:/src:cached
   edraak_marketing:
     volumes:
       - ${DEVSTACK_WORKSPACE}/marketing-site:/app:cached

@@ -35,10 +35,12 @@ services:
     volumes:
       - progs-nfs:/app
       - ~/.ssh/:/root/.ssh
+      - src-nfs:/edx/src
   edraak_programs_gulp:
     volumes:
       - progs-nfs:/app
       - ~/.ssh/:/root/.ssh
+      - src-nfs:/edx/src
   edraak_marketing:
     volumes:
       - marketing-nfs:/app
