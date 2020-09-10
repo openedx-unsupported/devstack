@@ -127,6 +127,16 @@ To further save time, ``make dev.pull.without-deps.<services>`` pulls the images
 
     make dev.pull.without-deps.ecommerce+credentials
 
+Roadmap
+-------
+
+This repository is in sustained status. The goal is to deprecate this codebase and move the development environment setup into the repos with the application code.
+
+The tools in this repository are complex and inappropriate for developing for individual IDAs. Documentation for future of devstack can be found at:  
+
+
+
+
 Getting Started
 ---------------
 
