@@ -127,6 +127,19 @@ To further save time, ``make dev.pull.without-deps.<services>`` pulls the images
 
     make dev.pull.without-deps.ecommerce+credentials
 
+Roadmap
+-------
+
+This repository is in sustained status. The goal is to deprecate this codebase and move the development environment setup into the repos with the application code.
+
+Documentation for future of devstack can be found at: `decentralized devstack`_
+
+Documentation for first prototype of decentralized devstack can be found at: `decentralized devstack workflows`_
+
+.. _decentrialized devstack: https://github.com/edx/open-edx-proposals/blob/master/oeps/oep-0005/decisions/0002-why-decentralized-devstack.rst
+.. _decentralized devstack workflows: https://github.com/edx/enterprise-catalog/blob/master/docs/decentralized_devstack_workflows.rst
+
+
 Getting Started
 ---------------
 
