@@ -64,7 +64,7 @@ services:
   elasticsearch7:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.elasticsearch7"
     hostname: elasticsearch7.devstack.edx
-    image: elasticsearch:7.9.1
+    image: elasticsearch:7.8.1
     networks:
       default:
         aliases:
