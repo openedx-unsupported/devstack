@@ -132,9 +132,9 @@ Roadmap
 
 This repository is in sustained status. The goal is to deprecate this codebase and move the development environment setup into the repos with the application code.
 
-The tools in this repository are complex and inappropriate for developing for individual IDAs. Documentation for future of devstack can be found at:  
+Documentation for future of devstack can be found at: `Decentralized Devstack`_
 
-
+.. _Decentrialized Devstack: https://github.com/edx/open-edx-proposals/blob/master/oeps/oep-0005/decisions/0002-why-decentralized-devstack.rst 
 
 
 Getting Started
