@@ -891,10 +891,10 @@ Changing LMS/Studio settings
 LMS and Studio (a.k.a. CMS) read many configuration settings from the container filesystem
 in the following locations:
 
-- ``/edx/app/edxapp/lms.env.json``
-- ``/edx/app/edxapp/lms.auth.json``
-- ``/edx/app/edxapp/cms.env.json``
-- ``/edx/app/edxapp/cms.auth.json``
+- ``/edx/etc/lms.yml``
+- ``/edx/etc/lms.yml``
+- ``/edx/etc/studio.yml``
+- ``/edx/etc/studio.yml``
 
 Changes to these files will *not* persist over a container restart, as they
 are part of the layered container filesystem and not a mounted volume. However, you
