@@ -12,7 +12,7 @@ docker-compose exec edraak_marketing bash -c 'python manage.py migrate --setting
 
 echo "** Marketing: Compiling assets **"
 docker-compose exec edraak_marketing bash -c 'yarn'
-docker-compose exec edraak_marketing bash -c 'npx gulp'
+docker-compose exec edraak_marketing bash -c 'npm run dev'
 
 echo "** Marketing: Restarting **"
 docker-compose restart edraak_marketing
