@@ -2,7 +2,7 @@ version: "2.1"
 
 services:
   xqueue:
-    container_name: edx.devstack.xqueue
+    container_name: b2b.devstack.xqueue
     image: edxops/xqueue:${OPENEDX_RELEASE:-latest}
     command: bash -c 'source /edx/app/xqueue/xqueue_env && while true; do python /edx/app/xqueue/xqueue/manage.py runserver 0.0.0.0:18040 ; sleep 2; done'
     volumes:
@@ -12,7 +12,7 @@ services:
       - 18040:18040
 
   xqueue_consumer:
-    container_name: edx.devstack.xqueue_consumer
+    container_name: b2b.devstack.xqueue_consumer
     image: edxops/xqueue:${OPENEDX_RELEASE:-latest}
     command: bash -c 'source /edx/app/xqueue/xqueue_env && while true; do python /edx/app/xqueue/xqueue/manage.py run_consumer ; sleep 2; done'
     volumes:

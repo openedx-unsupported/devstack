@@ -5,4 +5,4 @@
 
 # This will build the elasticsearch index for notes.
 echo -e "${GREEN}Creating indexes for edx_notes_api...${NC}"
-docker exec -t edx.devstack.edx_notes_api bash -c 'source /edx/app/$1/$1_env && cd /edx/app/$1/$1/ && python manage.py rebuild_index --noinput' -- edx_notes_api
+docker exec -t b2b.devstack.edx_notes_api bash -c 'source /edx/app/$1/$1_env && cd /edx/app/$1/$1/ && python manage.py rebuild_index --noinput' -- edx_notes_api

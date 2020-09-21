@@ -60,6 +60,6 @@ Monitoring devpi
 ----------------
 
 You can monitor the devpi logs by running this command on the host:
-``docker logs -f edx.devstack.devpi`` or looking at the output in
+``docker logs -f b2b.devstack.devpi`` or looking at the output in
 Kitematic. You can also check the devpi server status by visiting:
 http://localhost:3141/+status

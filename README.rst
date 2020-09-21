@@ -662,7 +662,7 @@ or a manual Docker command to bring down the container:
 
 .. code:: sh
 
-   docker kill $(docker ps -a -q --filter="name=edx.devstack.<container name>")
+   docker kill $(docker ps -a -q --filter="name=b2b.devstack.<container name>")
 
 Running LMS and Studio Tests
 ----------------------------
@@ -706,7 +706,7 @@ startup, and can be found by running ``make vnc-passwords``.
 
 Most tests are run in Firefox by default.  To use Chrome for tests that normally
 use Firefox instead, prefix the test command with
-``SELENIUM_BROWSER=chrome SELENIUM_HOST=edx.devstack.chrome``.
+``SELENIUM_BROWSER=chrome SELENIUM_HOST=b2b.devstack.chrome``.
 
 Running End-to-End Tests
 ------------------------

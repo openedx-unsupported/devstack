@@ -14,5 +14,5 @@ then
 fi
 
 echo "Dumping the $1 database..."
-docker exec -i edx.devstack.mysql mysqldump --add-drop-database --skip-add-drop-table -B $1 > $1.sql
+docker exec -i b2b.devstack.mysql mysqldump --add-drop-database --skip-add-drop-table -B $1 > $1.sql
 echo "Finished dumping the $1 database!"

@@ -20,21 +20,6 @@ syncs:
 #    src: '../ecommerce/'
 #    sync_excludes: [ '.git', '.idea' ]
 
-  edxapp-sync:
-    host_disk_mount_mode: 'cached'
-    src: '../edx-platform/'
-    sync_excludes: [ '.idea' ]
-
-  forum-sync:
-    host_disk_mount_mode: 'cached'
-    src: '../cs_comments_service/'
-    sync_excludes: [ '.git', '.idea' ]
-
-  edraak-marketing-sync:
-    host_disk_mount_mode: 'cached'
-    src: '../marketing-site/'
-    sync_excludes: [ '.git', '.idea']
-
   edraak-programs-sync:
     host_disk_mount_mode: 'cached'
     src: '../edraak-programs/'

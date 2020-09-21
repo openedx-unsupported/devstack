@@ -1006,7 +1006,7 @@ CREATE TABLE `core_siteconfiguration` (
 
 LOCK TABLES `core_siteconfiguration` WRITE;
 /*!40000 ALTER TABLE `core_siteconfiguration` DISABLE KEYS */;
-INSERT INTO `core_siteconfiguration` VALUES (1,'http://edx.devstack.lms:18000',NULL,'cybersource,paypal',1,1,'{\"SOCIAL_AUTH_EDX_OIDC_ID_TOKEN_DECRYPTION_KEY\":\"ecommerce-secret\",\"SOCIAL_AUTH_EDX_OIDC_URL_ROOT\":\"http://edx.devstack.lms:18000/oauth2\",\"SOCIAL_AUTH_EDX_OIDC_ISSUERS\":[\"http://edx.devstack.lms:18000\"],\"SOCIAL_AUTH_EDX_OIDC_KEY\":\"ecommerce-key\",\"SOCIAL_AUTH_EDX_OIDC_SECRET\":\"ecommerce-secret\"}',NULL,'staff@example.com',0,'support@example.com','','','','cybersource',0,0,'','','',1,'',0,'',0,'http://edx.devstack.discovery:18381/api/v1/',0,0);
+INSERT INTO `core_siteconfiguration` VALUES (1,'http://b2b.devstack.lms:18000',NULL,'cybersource,paypal',1,1,'{\"SOCIAL_AUTH_EDX_OIDC_ID_TOKEN_DECRYPTION_KEY\":\"ecommerce-secret\",\"SOCIAL_AUTH_EDX_OIDC_URL_ROOT\":\"http://b2b.devstack.lms:18000/oauth2\",\"SOCIAL_AUTH_EDX_OIDC_ISSUERS\":[\"http://b2b.devstack.lms:18000\"],\"SOCIAL_AUTH_EDX_OIDC_KEY\":\"ecommerce-key\",\"SOCIAL_AUTH_EDX_OIDC_SECRET\":\"ecommerce-secret\"}',NULL,'staff@example.com',0,'support@example.com','','','','cybersource',0,0,'','','',1,'',0,'',0,'http://b2b.devstack.discovery:18381/api/v1/',0,0);
 /*!40000 ALTER TABLE `core_siteconfiguration` ENABLE KEYS */;
 UNLOCK TABLES;
 

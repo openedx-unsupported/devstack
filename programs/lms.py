@@ -7,7 +7,7 @@ from openedx.core.djangoapps.catalog.models import CatalogIntegration
 from openedx.core.djangoapps.programs.models import ProgramsApiConfig
 from openedx.core.djangoapps.site_configuration.models import SiteConfiguration
 
-DISCOVERY_API_URL = 'http://edx.devstack.discovery:18381/api/v1/'
+DISCOVERY_API_URL = 'http://b2b.devstack.discovery:18381/api/v1/'
 
 
 def set_current_config(cls, args):

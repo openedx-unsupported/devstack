@@ -18,32 +18,18 @@ else
 fi
 
 repos=(
-#    "https://github.com/Edraak/course-discovery.git"
-#    "https://github.com/Edraak/credentials.git"
-    "https://github.com/Edraak/cs_comments_service.git"
-#    "https://github.com/Edraak/ecommerce.git"
-#    "https://github.com/Edraak/edx-e2e-tests.git"
-#    "https://github.com/Edraak/edx-notes-api.git"
-    "https://github.com/Edraak/edraak-platform.git"
-#    "https://github.com/Edraak/xqueue.git"
-#    "https://github.com/Edraak/edx-analytics-pipeline.git"
-    "git@github.com:Edraak/marketing-site.git"
     "git@github.com:Edraak/edraak-programs.git"
-    "git@github.com:Edraak/edraak-2019-theme.git"
     "git@github.com:Edraak/shared-devstack-configs.git"
     "git@github.com:Edraak/programs-theme-white.git"
 )
 
 repo_alternative_directory=(
-	"https://github.com/Edraak/edraak-platform.git,edx-platform"
-	"git@github.com:Edraak/edraak-2019-theme.git,src/edraak-2019-theme"
   "git@github.com:Edraak/shared-devstack-configs.git,src/edxapp-envs"
   "git@github.com:Edraak/programs-theme-white.git,src/progs-theme"
 )
 
 private_repos=(
     # Needed to run whitelabel tests.
-    "https://github.com/edx/edx-themes.git"
 )
 
 name_pattern=".*Edraak/(.*).git"

@@ -8,7 +8,7 @@ from course_discovery.apps.course_metadata.models import (
     Course, CourseRun, Organization, Program, ProgramType, SeatType
 )
 
-DEMO_IMAGE_URL = 'http://edx.devstack.lms:18000/asset-v1:edX+DemoX+Demo_Course+type@asset+block@images_course_image.jpg'
+DEMO_IMAGE_URL = 'http://b2b.devstack.lms:18000/asset-v1:edX+DemoX+Demo_Course+type@asset+block@images_course_image.jpg'
 
 
 # Make sure micromasters type exists

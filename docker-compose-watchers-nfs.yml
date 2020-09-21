@@ -3,9 +3,9 @@ version: "2.1"
 services:
   lms_watcher:
     command: bash -c 'cd /edx/app/edxapp/edx-platform && source ../edxapp_env && while true; do paver watch_assets $$EXTRA --w=$$ASSET_WATCHER_TIMEOUT; sleep 2; done'
-    container_name: edx.devstack.lms_watcher
+    container_name: b2b.devstack.lms_watcher
     environment:
-      BOK_CHOY_HOSTNAME: edx.devstack.lms_watcher
+      BOK_CHOY_HOSTNAME: b2b.devstack.lms_watcher
       ASSET_WATCHER_TIMEOUT: 12
       EXTRA: '--themes edraak-2019-theme --theme-dirs /edx/src'
     image: eu.gcr.io/openedx-231314/edraak/edxapp:hawthorn.edraak.v3
@@ -16,9 +16,9 @@ services:
 
   studio_watcher:
     command: bash -c 'cd /edx/app/edxapp/edx-platform && source ../edxapp_env && while true; do paver watch_assets $$EXTRA --w=$$ASSET_WATCHER_TIMEOUT; sleep 2; done'
-    container_name: edx.devstack.studio_watcher
+    container_name: b2b.devstack.studio_watcher
     environment:
-      BOK_CHOY_HOSTNAME: edx.devstack.studio_watcher
+      BOK_CHOY_HOSTNAME: b2b.devstack.studio_watcher
       ASSET_WATCHER_TIMEOUT: 12
       EXTRA: '--themes edraak-2019-theme --theme-dirs /edx/src'
     image: eu.gcr.io/openedx-231314/edraak/edxapp:hawthorn.edraak.v3

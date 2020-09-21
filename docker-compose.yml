@@ -5,7 +5,7 @@
 # - Group third-party and edX services separately
 # - Alphabetize services in the groups
 # - Alphabetize individual configuration options for each service
-# - Every service's container name should be prefixed with "edx.devstack." to avoid conflicts with other containers
+# - Every service's container name should be prefixed with "b2b.devstack." to avoid conflicts with other containers
 #   that might be running for the same service.
 
 version: "2.1"
@@ -13,7 +13,7 @@ version: "2.1"
 services:
   # Third-party services
 #  chrome:
-#    container_name: edx.devstack.chrome
+#    container_name: b2b.devstack.chrome
 #    image: edxops/chrome:${OPENEDX_RELEASE:-latest}
 #    shm_size: 2g
 #    ports:
@@ -23,7 +23,7 @@ services:
 #      - ../edx-platform/common/test/data:/edx/app/edxapp/edx-platform/common/test/data
 
   elasticsearch:
-    container_name: edx.devstack.elasticsearch
+    container_name: b2b.devstack.elasticsearch
     image: edxops/elasticsearch:devstack
     ports:
        - "9200:9200"
@@ -33,7 +33,7 @@ services:
       - elasticsearch_data:/usr/share/elasticsearch/logs
 
 #  firefox:
-#    container_name: edx.devstack.firefox
+#    container_name: b2b.devstack.firefox
 #    image: edxops/firefox:${OPENEDX_RELEASE:-latest}
 #    shm_size: 2g
 #    ports:
@@ -43,7 +43,7 @@ services:
 #      - ../edx-platform/common/test/data:/edx/app/edxapp/edx-platform/common/test/data
 
   memcached:
-    container_name: edx.devstack.memcached
+    container_name: b2b.devstack.memcached
     image: memcached:1.4.24
     ports:
        - "11211:11211"
@@ -53,7 +53,7 @@ services:
     # to conserve disk space, and disable the journal for a minor performance gain.
     # See https://docs.mongodb.com/v3.0/reference/program/mongod/#options for complete details.
     command: mongod --smallfiles --nojournal --storageEngine wiredTiger
-    container_name: edx.devstack.mongo
+    container_name: b2b.devstack.mongo
     image: mongo:3.6.17
     ports:
       - "27017:27017"
@@ -62,7 +62,7 @@ services:
 
   mysql:
     command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci
-    container_name: edx.devstack.mysql
+    container_name: b2b.devstack.mysql
     environment:
       MYSQL_ROOT_PASSWORD: ""
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
@@ -72,144 +72,8 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
 
-#  # edX services
-#  credentials:
-#    command: bash -c 'source /edx/app/credentials/credentials_env && while true; do python /edx/app/credentials/credentials/manage.py runserver 0.0.0.0:18150; sleep 2; done'
-#    container_name: edx.devstack.credentials
-#    depends_on:
-#      - mysql
-#      - memcached
-#    # Allows attachment to the credentials service using 'docker attach <containerID>'.
-#    stdin_open: true
-#    tty: true
-#    environment:
-#      CACHE_LOCATION: edx.devstack.memcached:12211
-#      DB_HOST: edx.devstack.mysql
-#      SOCIAL_AUTH_EDX_OIDC_URL_ROOT: http://edx.devstack.lms:18000/oauth2
-#      ENABLE_DJANGO_TOOLBAR: 1
-#    image: edxops/credentials:${OPENEDX_RELEASE:-latest}
-#    ports:
-#      - "18150:18150"
-
-#  discovery:
-#    command: bash -c 'source /edx/app/discovery/discovery_env && while true; do python /edx/app/discovery/discovery/manage.py runserver 0.0.0.0:18381; sleep 2; done'
-#    container_name: edx.devstack.discovery
-#    depends_on:
-#      - mysql
-#      - elasticsearch
-#      - memcached
-#    # Allows attachment to the discovery service using 'docker attach <containerID>'.
-#    stdin_open: true
-#    tty: true
-#    environment:
-#      TEST_ELASTICSEARCH_URL: "http://edx.devstack.elasticsearch:9200"
-#      ENABLE_DJANGO_TOOLBAR: 1
-#    image: edxops/discovery:${OPENEDX_RELEASE:-latest}
-#    ports:
-#      - "18381:18381"
-#    volumes:
-#      - discovery_assets:/edx/var/discovery/
-
-#  ecommerce:
-#    command: bash -c 'source /edx/app/ecommerce/ecommerce_env && while true; do python /edx/app/ecommerce/ecommerce/manage.py runserver 0.0.0.0:18130; sleep 2; done'
-#    container_name: edx.devstack.ecommerce
-#    depends_on:
-#      - mysql
-#      - memcached
-#    # Allows attachment to the ecommerce service using 'docker attach <containerID>'.
-#    stdin_open: true
-#    tty: true
-#    environment:
-#      ENABLE_DJANGO_TOOLBAR: 0
-#    image: edxops/ecommerce:${OPENEDX_RELEASE:-latest}
-#    ports:
-#      - "18130:18130"
-
-  lms:
-    command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py lms runserver 0.0.0.0:18000 --settings devstack_docker; sleep 2; done'
-    container_name: edx.devstack.lms
-    depends_on:
-      - devpi
-      - mysql
-      - memcached
-      - mongo
-    # Allows attachment to the LMS service using 'docker attach <containerID>'.
-    stdin_open: true
-    tty: true
-    environment:
-      BOK_CHOY_HOSTNAME: edx.devstack.lms
-      BOK_CHOY_LMS_PORT: 18003
-      BOK_CHOY_CMS_PORT: 18031
-      EDXAPP_TEST_MONGO_HOST: edx.devstack.mongo
-      NO_PYTHON_UNINSTALL: 1
-    image: eu.gcr.io/openedx-231314/edraak/edxapp:hawthorn.edraak.v3
-    ports:
-      - "18000:18000"
-      - "19876:19876" # JS test debugging
-      - "18003:18003"
-      - "18031:18031"
-    volumes:
-      - edxapp_lms_assets:/edx/var/edxapp/staticfiles/
-
-#  edx_notes_api:
-#    command: bash -c 'source /edx/app/edx_notes_api/edx_notes_api_env && while true; do python /edx/app/edx_notes_api/edx_notes_api/manage.py runserver 0.0.0.0:18120 --settings notesserver.settings.devstack; sleep 2; done'
-#    container_name: edx.devstack.edx_notes_api
-#    depends_on:
-#      - devpi
-#      - elasticsearch
-#      - mysql
-#    image: edxops/notes:${OPENEDX_RELEASE:-latest}
-#    ports:
-#      - "18120:18120"
-#    environment:
-#      DB_ENGINE: "django.db.backends.mysql"
-#      DB_HOST: "edx.devstack.mysql"
-#      DB_NAME: "notes"
-#      DB_PASSWORD: "password"
-#      DB_PORT: "3306"
-#      DB_USER: "notes001"
-#      ENABLE_DJANGO_TOOLBAR: 1
-#      ELASTICSEARCH_URL: "http://edx.devstack.elasticsearch:9200"
-
-  studio:
-    command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py cms runserver 0.0.0.0:18010 --settings devstack_docker; sleep 2; done'
-    container_name: edx.devstack.studio
-    depends_on:
-      - devpi
-      - mysql
-      - memcached
-      - mongo
-    # Allows attachment to the Studio service using 'docker attach <containerID>'.
-    stdin_open: true
-    tty: true
-    environment:
-      BOK_CHOY_HOSTNAME: edx.devstack.studio
-      BOK_CHOY_LMS_PORT: 18103
-      BOK_CHOY_CMS_PORT: 18131
-      EDXAPP_TEST_MONGO_HOST: edx.devstack.mongo
-      NO_PYTHON_UNINSTALL: 1
-    image: eu.gcr.io/openedx-231314/edraak/edxapp:hawthorn.edraak.v3
-    ports:
-      - "18010:18010"
-      - "19877:19877" # JS test debugging
-      - "18103:18103"
-      - "18131:18131"
-    volumes:
-      - edxapp_studio_assets:/edx/var/edxapp/staticfiles/
-
-  forum:
-    command: bash -c 'source /edx/app/forum/ruby_env && source /edx/app/forum/devstack_forum_env && cd /edx/app/forum/cs_comments_service && bundle install && while true; do ruby app.rb -o 0.0.0.0 ; sleep 2; done'
-    container_name: edx.devstack.forum
-    depends_on:
-      - mongo
-      - memcached
-      - elasticsearch
-    image: edxops/forum:${OPENEDX_RELEASE:-latest}
-    ports:
-      - "44567:4567"
-
   devpi:
-    container_name: edx.devstack.devpi
+    container_name: b2b.devstack.devpi
     image: edxops/devpi:${OPENEDX_RELEASE:-latest}
     ports:
       - "3141:3141"
@@ -222,7 +86,7 @@ services:
       PROGS_CFG: '/app/docker.json'
       NODE_ENV: development
     command: bash -c 'while true; do python manage.py runserver 0.0.0.0:8800 --settings=edraakprograms.dev; sleep 2; done'
-    container_name: edraak.devstack.programs
+    container_name: b2b.devstack.programs
     working_dir: /app
     ports:
       - "18800:8800"
@@ -236,31 +100,7 @@ services:
     environment:
       NODE_ENV: development
     command: bash -c 'while true; do npx gulp watch; sleep 2; done'
-    container_name: edraak.devstack.programs-gulp
-    working_dir: /app
-    depends_on:
-      - mysql
-      - memcached
-
-  edraak_marketing:
-    image: eu.gcr.io/openedx-231314/edraak/marketing
-    environment:
-      NODE_ENV: development
-    command: bash -c 'while true; do python manage.py runserver 0.0.0.0:8500 --settings=marketingsite.envs.dev; sleep 2; done'
-    container_name: edraak.devstack.marketing
-    working_dir: /app
-    ports:
-      - "18500:8500"
-    depends_on:
-      - mysql
-      - memcached
-
-  edraak_marketing_gulp:
-    image: eu.gcr.io/openedx-231314/edraak/marketing
-    environment:
-      NODE_ENV: development
-    command: bash -c 'while true; do npx gulp watch; sleep 2; done'
-    container_name: edraak.devstack.marketing-gulp
+    container_name: b2b.devstack.programs-gulp
     working_dir: /app
     depends_on:
       - mysql
@@ -278,23 +118,16 @@ services:
       - "80:80"
       - "443:443"
     depends_on:
-      - lms
-      - studio
-      - edraak_marketing
       - edraak_programs
     networks:
       default:
         aliases:
-          - www.edraak.dev
-          - courses.edraak.dev
           - programs.edraak.dev
           - edraak.dev
 
 
 volumes:
 #  discovery_assets:
-  edxapp_lms_assets:
-  edxapp_studio_assets:
   elasticsearch_data:
   mongo_data:
   mysql_data:

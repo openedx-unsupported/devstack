@@ -63,10 +63,10 @@ dev.repo.reset: ## Attempts to reset the local repo checkouts to the master work
 
 dev.editable-envs:  ## Copy env files outside the docker containers so it's editable by the developer
 	mkdir -p $(DEVSTACK_WORKSPACE)/src/edxapp-envs/
-	@docker exec -it edx.devstack.lms bash -c 'test -f /edx/src/edxapp-envs/lms.env.json || mv /edx/app/edxapp/lms.{env,auth}.json /edx/src/edxapp-envs/'
-	@docker exec -it edx.devstack.lms bash -c 'ln -sf /edx/src/edxapp-envs/lms.{env,auth}.json /edx/app/edxapp/'
-	@docker exec -it edx.devstack.studio bash -c 'test -f /edx/src/edxapp-envs/cms.env.json || mv /edx/app/edxapp/cms.{env,auth}.json /edx/src/edxapp-envs/'
-	@docker exec -it edx.devstack.studio bash -c 'ln -sf /edx/src/edxapp-envs/cms.{env,auth}.json /edx/app/edxapp/'
+	@docker exec -it b2b.devstack.lms bash -c 'test -f /edx/src/edxapp-envs/lms.env.json || mv /edx/app/edxapp/lms.{env,auth}.json /edx/src/edxapp-envs/'
+	@docker exec -it b2b.devstack.lms bash -c 'ln -sf /edx/src/edxapp-envs/lms.{env,auth}.json /edx/app/edxapp/'
+	@docker exec -it b2b.devstack.studio bash -c 'test -f /edx/src/edxapp-envs/cms.env.json || mv /edx/app/edxapp/cms.{env,auth}.json /edx/src/edxapp-envs/'
+	@docker exec -it b2b.devstack.studio bash -c 'ln -sf /edx/src/edxapp-envs/cms.{env,auth}.json /edx/app/edxapp/'
 	@sudo chown -R $(USER) $(DEVSTACK_WORKSPACE)/src
 	@make lms-restart
 	@make studio-restart
@@ -116,9 +116,9 @@ edraak.dev.up.hacks:
 	@# TODO: Add this to `base.in` (thus `development.txt`) and rebuild the docker image
 	@make dev.editable-envs
 	@for container in lms studio lms_watcher studio_watcher; do \
-		 docker exec -it edx.devstack.$$container bash -c 'source /edx/app/edxapp/edxapp_env && pip install python-bidi==0.4.0'; \
-		 docker exec -it edx.devstack.$$container bash -c 'source /edx/app/edxapp/edxapp_env && pip install wand==0.5.1'; \
-		 docker exec -it edx.devstack.$$container bash -c 'source /edx/app/edxapp/edxapp_env && pip install -e /edx/app/edxapp/edx-platform'; \
+		 docker exec -it b2b.devstack.$$container bash -c 'source /edx/app/edxapp/edxapp_env && pip install python-bidi==0.4.0'; \
+		 docker exec -it b2b.devstack.$$container bash -c 'source /edx/app/edxapp/edxapp_env && pip install wand==0.5.1'; \
+		 docker exec -it b2b.devstack.$$container bash -c 'source /edx/app/edxapp/edxapp_env && pip install -e /edx/app/edxapp/edx-platform'; \
     done;
 	@make lms-restart
 	@make studio-restart
@@ -168,14 +168,14 @@ validate: ## Validate the devstack configuration
 	docker-compose config
 
 backup: ## Write all data volumes to the host.
-	docker run --rm --volumes-from edx.devstack.mysql -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/mysql.tar.gz /var/lib/mysql
-	docker run --rm --volumes-from edx.devstack.mongo -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/mongo.tar.gz /data/db
-	docker run --rm --volumes-from edx.devstack.elasticsearch -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/elasticsearch.tar.gz /usr/share/elasticsearch/data
+	docker run --rm --volumes-from b2b.devstack.mysql -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/mysql.tar.gz /var/lib/mysql
+	docker run --rm --volumes-from b2b.devstack.mongo -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/mongo.tar.gz /data/db
+	docker run --rm --volumes-from b2b.devstack.elasticsearch -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/elasticsearch.tar.gz /usr/share/elasticsearch/data
 
 restore:  ## Restore all data volumes from the host. WARNING: THIS WILL OVERWRITE ALL EXISTING DATA!
-	docker run --rm --volumes-from edx.devstack.mysql -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/mysql.tar.gz
-	docker run --rm --volumes-from edx.devstack.mongo -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/mongo.tar.gz
-	docker run --rm --volumes-from edx.devstack.elasticsearch -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/elasticsearch.tar.gz
+	docker run --rm --volumes-from b2b.devstack.mysql -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/mysql.tar.gz
+	docker run --rm --volumes-from b2b.devstack.mongo -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/mongo.tar.gz
+	docker run --rm --volumes-from b2b.devstack.elasticsearch -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/elasticsearch.tar.gz
 
 %-edbash: ## Run a shell on the specified service container
 	docker exec -it edraak.devstack.$* /bin/bash
@@ -184,73 +184,73 @@ restore:  ## Restore all data volumes from the host. WARNING: THIS WILL OVERWRIT
 # TODO: Print out help for this target. Even better if we can iterate over the
 # services in docker-compose.yml, and print the actual service names.
 %-shell: ## Run a shell on the specified service container
-	docker exec -it edx.devstack.$* /bin/bash
+	docker exec -it b2b.devstack.$* /bin/bash
 
 
 credentials-shell:
-	docker exec -it edx.devstack.credentials env TERM=$(TERM) bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials && /bin/bash'
+	docker exec -it b2b.devstack.credentials env TERM=$(TERM) bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials && /bin/bash'
 
 discovery-shell: ## Run a shell on the discovery container
-	docker exec -it edx.devstack.discovery env TERM=$(TERM) /edx/app/discovery/devstack.sh open
+	docker exec -it b2b.devstack.discovery env TERM=$(TERM) /edx/app/discovery/devstack.sh open
 
 ecommerce-shell: ## Run a shell on the ecommerce container
-	docker exec -it edx.devstack.ecommerce env TERM=$(TERM) /edx/app/ecommerce/devstack.sh open
+	docker exec -it b2b.devstack.ecommerce env TERM=$(TERM) /edx/app/ecommerce/devstack.sh open
 
 e2e-shell: ## Start the end-to-end tests container with a shell
 	docker run -it --network=devstack_default -v ${DEVSTACK_WORKSPACE}/edx-e2e-tests:/edx-e2e-tests -v ${DEVSTACK_WORKSPACE}/edx-platform:/edx-e2e-tests/lib/edx-platform --env-file ${DEVSTACK_WORKSPACE}/edx-e2e-tests/devstack_env edxops/e2e env TERM=$(TERM) bash
 
 %-update-db: ## Run migrations for the specified service container
-	docker exec -t edx.devstack.$* bash -c 'source /edx/app/$*/$*_env && cd /edx/app/$*/$*/ && make migrate'
+	docker exec -t b2b.devstack.$* bash -c 'source /edx/app/$*/$*_env && cd /edx/app/$*/$*/ && make migrate'
 
 studio-update-db: ## Run migrations for the Studio container
-	docker exec -t edx.devstack.studio bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_db'
+	docker exec -t b2b.devstack.studio bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_db'
 
 lms-update-db: ## Run migrations LMS container
-	docker exec -t edx.devstack.lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_db'
+	docker exec -t b2b.devstack.lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_db'
 
 update-db: | studio-update-db lms-update-db discovery-update-db ecommerce-update-db credentials-update-db ## Run the migrations for all services
 
 lms-shell: ## Run a shell on the LMS container
-	docker exec -it edx.devstack.lms env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
+	docker exec -it b2b.devstack.lms env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
 
 lms-watcher-shell: ## Run a shell on the LMS watcher container
-	docker exec -it edx.devstack.lms_watcher env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
+	docker exec -it b2b.devstack.lms_watcher env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
 
 %-attach: ## Attach to the specified service container process to use the debugger & see logs.
-	docker attach edx.devstack.$*
+	docker attach b2b.devstack.$*
 
 lms-restart: ## Kill the LMS Django development server. The watcher process will restart it.
-	docker exec -t edx.devstack.lms bash -c 'kill $$(ps aux | grep "manage.py lms" | egrep -v "while|grep" | awk "{print \$$2}")'
+	docker exec -t b2b.devstack.lms bash -c 'kill $$(ps aux | grep "manage.py lms" | egrep -v "while|grep" | awk "{print \$$2}")'
 
 studio-shell: ## Run a shell on the Studio container
-	docker exec -it edx.devstack.studio env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
+	docker exec -it b2b.devstack.studio env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
 
 studio-watcher-shell: ## Run a shell on the studio watcher container
-	docker exec -it edx.devstack.studio_watcher env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
+	docker exec -it b2b.devstack.studio_watcher env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
 
 studio-restart: ## Kill the LMS Django development server. The watcher process will restart it.
-	docker exec -t edx.devstack.studio bash -c 'kill $$(ps aux | grep "manage.py cms" | egrep -v "while|grep" | awk "{print \$$2}")'
+	docker exec -t b2b.devstack.studio bash -c 'kill $$(ps aux | grep "manage.py cms" | egrep -v "while|grep" | awk "{print \$$2}")'
 
 xqueue-shell: ## Run a shell on the XQueue container
-	docker exec -it edx.devstack.xqueue env TERM=$(TERM) /edx/app/xqueue/devstack.sh open
+	docker exec -it b2b.devstack.xqueue env TERM=$(TERM) /edx/app/xqueue/devstack.sh open
 
 xqueue-restart: ## Kill the XQueue development server. The watcher process will restart it.
-	docker exec -t edx.devstack.xqueue bash -c 'kill $$(ps aux | grep "manage.py runserver" | egrep -v "while|grep" | awk "{print \$$2}")'
+	docker exec -t b2b.devstack.xqueue bash -c 'kill $$(ps aux | grep "manage.py runserver" | egrep -v "while|grep" | awk "{print \$$2}")'
 
 xqueue_consumer-shell: ## Run a shell on the XQueue consumer container
-	docker exec -it edx.devstack.xqueue_consumer env TERM=$(TERM) /edx/app/xqueue/devstack.sh open
+	docker exec -it b2b.devstack.xqueue_consumer env TERM=$(TERM) /edx/app/xqueue/devstack.sh open
 
 xqueue_consumer-restart: ## Kill the XQueue development server. The watcher process will restart it.
-	docker exec -t edx.devstack.xqueue_consumer bash -c 'kill $$(ps aux | grep "manage.py run_consumer" | egrep -v "while|grep" | awk "{print \$$2}")'
+	docker exec -t b2b.devstack.xqueue_consumer bash -c 'kill $$(ps aux | grep "manage.py run_consumer" | egrep -v "while|grep" | awk "{print \$$2}")'
 
 %-static: ## Rebuild static assets for the specified service container
-	docker exec -t edx.devstack.$* bash -c 'source /edx/app/$*/$*_env && cd /edx/app/$*/$*/ && make static'
+	docker exec -t b2b.devstack.$* bash -c 'source /edx/app/$*/$*_env && cd /edx/app/$*/$*/ && make static'
 
 lms-static: ## Rebuild static assets for the LMS container
-	docker exec -t edx.devstack.lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_assets'
+	docker exec -t b2b.devstack.lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_assets'
 
 studio-static: ## Rebuild static assets for the Studio container
-	docker exec -t edx.devstack.studio bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_assets'
+	docker exec -t b2b.devstack.studio bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_assets'
 
 static: | credentials-static discovery-static ecommerce-static lms-static studio-static ## Rebuild static assets for all service containers
 
@@ -262,12 +262,12 @@ e2e-tests: ## Run the end-to-end tests against the service containers
 
 validate-lms-volume: ## Validate that changes to the local workspace are reflected in the LMS container
 	touch $(DEVSTACK_WORKSPACE)/edx-platform/testfile
-	docker exec edx.devstack.lms ls /edx/app/edxapp/edx-platform/testfile
+	docker exec b2b.devstack.lms ls /edx/app/edxapp/edx-platform/testfile
 	rm $(DEVSTACK_WORKSPACE)/edx-platform/testfile
 
 vnc-passwords: ## Get the VNC passwords for the Chrome and Firefox Selenium containers
-	@docker logs edx.devstack.chrome 2>&1 | grep "VNC password" | tail -1
-	@docker logs edx.devstack.firefox 2>&1 | grep "VNC password" | tail -1
+	@docker logs b2b.devstack.chrome 2>&1 | grep "VNC password" | tail -1
+	@docker logs b2b.devstack.firefox 2>&1 | grep "VNC password" | tail -1
 
 devpi-password: ## Get the root devpi password for the devpi container
 	docker-compose exec devpi bash -c "cat /data/server/.serverpassword"
@@ -289,7 +289,7 @@ dev.provision.analytics_pipeline.run:
 	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml -f docker-compose-analytics-pipeline.yml" ./provision-analytics-pipeline.sh
 
 analytics-pipeline-shell: ## Run a shell on the analytics pipeline container
-	docker exec -it edx.devstack.analytics_pipeline env TERM=$(TERM) /edx/app/analytics_pipeline/devstack.sh open
+	docker exec -it b2b.devstack.analytics_pipeline env TERM=$(TERM) /edx/app/analytics_pipeline/devstack.sh open
 
 dev.up.analytics_pipeline: | check-memory ## Bring up analytics pipeline services
 	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml -f docker-compose-host.yml up -d analyticspipeline
@@ -298,14 +298,14 @@ pull.analytics_pipeline: ## Update analytics pipeline docker images
 	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml pull --parallel
 
 analytics-pipeline-devstack-test: ## Run analytics pipeline tests in travis build
-	docker exec -u hadoop -i edx.devstack.analytics_pipeline bash -c 'sudo chown -R hadoop:hadoop /edx/app/analytics_pipeline && source /edx/app/hadoop/.bashrc && make develop-local && make docker-test-acceptance-local ONLY_TESTS=edx.analytics.tasks.tests.acceptance.test_internal_reporting_database && make docker-test-acceptance-local ONLY_TESTS=edx.analytics.tasks.tests.acceptance.test_user_activity'
+	docker exec -u hadoop -i b2b.devstack.analytics_pipeline bash -c 'sudo chown -R hadoop:hadoop /edx/app/analytics_pipeline && source /edx/app/hadoop/.bashrc && make develop-local && make docker-test-acceptance-local ONLY_TESTS=edx.analytics.tasks.tests.acceptance.test_internal_reporting_database && make docker-test-acceptance-local ONLY_TESTS=edx.analytics.tasks.tests.acceptance.test_user_activity'
 
 stop.analytics_pipeline: ## Stop analytics pipeline services
 	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml stop
 	docker-compose up -d mysql      ## restart mysql as other containers need it
 
 hadoop-application-logs-%: ## View hadoop logs by application Id
-	docker exec -it edx.devstack.analytics_pipeline.nodemanager yarn logs -applicationId $*
+	docker exec -it b2b.devstack.analytics_pipeline.nodemanager yarn logs -applicationId $*
 
 # Provisions studio, ecommerce, and marketing with course(s) in test-course.json
 # Modify test-course.json before running this make target to generate a custom course

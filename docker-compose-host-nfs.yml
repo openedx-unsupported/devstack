@@ -1,36 +1,6 @@
 version: "2.1"
 
 services:
-#  credentials:
-#    volumes:
-#      - ${DEVSTACK_WORKSPACE}/credentials:/edx/app/credentials/credentials:cached
-#      - credentials_node_modules:/edx/app/credentials/credentials/node_modules
-#      - src-nfs:/edx/src:cached
-#  discovery:
-#      volumes:
-#      - ${DEVSTACK_WORKSPACE}/course-discovery:/edx/app/discovery/discovery:cached
-#      - discovery_node_modules:/edx/app/discovery/discovery/node_modules
-#      - src-nfs:/edx/src:cached
-#  ecommerce:
-#    volumes:
-#      - ${DEVSTACK_WORKSPACE}/ecommerce:/edx/app/ecommerce/ecommerce:cached
-#      - ecommerce_node_modules:/edx/app/ecommerce/ecommerce/node_modules
-#      - src-nfs:/edx/src:cached
-  lms:
-    volumes:
-      - edx-nfs:/edx/app/edxapp/edx-platform
-      - src-nfs:/edx/src
-#  edx_notes_api:
-#    volumes:
-#      - ${DEVSTACK_WORKSPACE}/edx-notes-api:/edx/app/edx_notes_api/edx_notes_api:cached
-#      - src-nfs:/edx/src:cached
-  studio:
-    volumes:
-      - edx-nfs:/edx/app/edxapp/edx-platform
-      - src-nfs:/edx/src
-  forum:
-    volumes:
-      - ${DEVSTACK_WORKSPACE}/cs_comments_service:/edx/app/forum/cs_comments_service:cached
   edraak_programs:
     volumes:
       - progs-nfs:/app
@@ -41,35 +11,14 @@ services:
       - progs-nfs:/app
       - ~/.ssh/:/root/.ssh
       - src-nfs:/edx/src
-  edraak_marketing:
-    volumes:
-      - marketing-nfs:/app
-  edraak_marketing_gulp:
-    volumes:
-      - marketing-nfs:/app
 
 volumes:
-#  credentials_node_modules:
-#  discovery_node_modules:
-#  ecommerce_node_modules:
-  edx-nfs:
-    driver: local
-    driver_opts:
-      type: nfs
-      o: addr=host.docker.internal,rw,nolock,hard,nointr,nfsvers=3
-      device: :${DEVSTACK_WORKSPACE}/edx-platform
   src-nfs:
     driver: local
     driver_opts:
       type: nfs
       o: addr=host.docker.internal,rw,nolock,hard,nointr,nfsvers=3
       device: :${DEVSTACK_WORKSPACE}/src
-  marketing-nfs:
-    driver: local
-    driver_opts:
-      type: nfs
-      o: addr=host.docker.internal,rw,nolock,hard,nointr,nfsvers=3
-      device: :${DEVSTACK_WORKSPACE}/marketing-site
   progs-nfs:
     driver: local
     driver_opts:

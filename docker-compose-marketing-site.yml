@@ -7,17 +7,17 @@ services:
       - MARKETING_SITE_ROOT="http://localhost:8080"
 
   marketing:
-    container_name: edx.devstack.marketing
+    container_name: b2b.devstack.marketing
     depends_on:
       - mysql
       - memcached
     environment:
-      - DB_HOST=edx.devstack.mysql
+      - DB_HOST=b2b.devstack.mysql
       - DB_NAME=edxmktg
       - DB_PASSWORD=password
       - DB_USER=edxmktg001
       - LMS_HOST=http://localhost:18000
-      - MEMCACHE_HOST=edx.devstack.memcached
+      - MEMCACHE_HOST=b2b.devstack.memcached
       # Used by PhpStorm to attach the debug connection
       - PHP_IDE_CONFIG=serverName=edx.docker
       # For the settings below, see .env.example to provide values (default is after the ':-')
