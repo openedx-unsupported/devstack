@@ -320,7 +320,7 @@ services:
     depends_on:
       - discovery
       - lms
-      - mysql
+      - mysql57
       - memcached
       - redis
       - registrar-worker
@@ -358,7 +358,7 @@ services:
     hostname: registrar-worker.devstack.edx
     depends_on:
       - lms
-      - mysql
+      - mysql57
       - redis
     stdin_open: true
     tty: true
