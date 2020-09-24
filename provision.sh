@@ -128,6 +128,7 @@ echo -e "${GREEN}Will provision the following:\n  ${to_provision_ordered}${NC}"
 
 # Bring the databases online.
 docker-compose up -d mysql
+docker-compose up -d mysql57
 if needs_mongo "$to_provision_ordered"; then
 	docker-compose up -d mongo
 fi
