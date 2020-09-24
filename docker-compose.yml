@@ -320,7 +320,7 @@ services:
     depends_on:
       - discovery
       - lms
-      - mysql
+      - mysql57
       - memcached
       - redis
       - registrar-worker
@@ -328,7 +328,7 @@ services:
     stdin_open: true
     tty: true
     environment:
-      DB_HOST: edx.devstack.mysql
+      DB_HOST: edx.devstack.mysql57
       DB_NAME: registrar
       DB_PORT: 3306
       DB_USER: registrar001
@@ -358,12 +358,12 @@ services:
     hostname: registrar-worker.devstack.edx
     depends_on:
       - lms
-      - mysql
+      - mysql57
       - redis
     stdin_open: true
     tty: true
     environment:
-      DB_HOST: edx.devstack.mysql
+      DB_HOST: edx.devstack.mysql57
       DB_NAME: registrar
       DB_PORT: 3306
       DB_USER: registrar001
