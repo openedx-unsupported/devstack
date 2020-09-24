@@ -140,6 +140,14 @@ do
   sleep 1
 done
 
+# Ensure the MySQL 5.7 server is online and usable
+echo "${GREEN}Waiting for MySQL 5.7.${NC}"
+until docker-compose exec -T mysql57 bash -c "mysql -uroot -se \"SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = 'root')\"" &> /dev/null
+do
+  printf "."
+  sleep 1
+done
+
 # In the event of a fresh MySQL container, wait a few seconds for the server to restart
 # See https://github.com/docker-library/mysql/issues/245 for why this is necessary.
 sleep 20
@@ -149,6 +157,11 @@ echo -e "${GREEN}MySQL ready.${NC}"
 # (A no-op for databases and users that already exist).
 echo -e "${GREEN}Ensuring MySQL databases and users exist...${NC}"
 docker-compose exec -T mysql bash -c "mysql -uroot mysql" < provision.sql
+
+# Ensure that the MySQL 5.7 databases and users are created for all IDAs.
+# (A no-op for databases and users that already exist).
+echo -e "${GREEN}Ensuring MySQL 5.7 databases and users exist...${NC}"
+docker-compose exec -T mysql57 bash -c "mysql -uroot mysql" < provision.sql
 
 # If necessary, ensure the MongoDB server is online and usable
 # and create its users.
