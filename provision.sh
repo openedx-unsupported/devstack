@@ -128,7 +128,7 @@ echo -e "${GREEN}Will provision the following:\n  ${to_provision_ordered}${NC}"
 
 # Bring the databases online.
 docker-compose up -d mysql
-docker-compose up -d mysql57
+docker-compose up -d mysql57 # (temporary until 5.6 is removed)
 if needs_mongo "$to_provision_ordered"; then
 	docker-compose up -d mongo
 fi
@@ -141,7 +141,7 @@ do
   sleep 1
 done
 
-# Ensure the MySQL 5.7 server is online and usable
+# Temporary fix until MySQL 5.6 is removed)
 echo "${GREEN}Waiting for MySQL 5.7.${NC}"
 until docker-compose exec -T mysql57 bash -c "mysql -uroot -se \"SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = 'root')\"" &> /dev/null
 do
@@ -159,8 +159,7 @@ echo -e "${GREEN}MySQL ready.${NC}"
 echo -e "${GREEN}Ensuring MySQL databases and users exist...${NC}"
 docker-compose exec -T mysql bash -c "mysql -uroot mysql" < provision.sql
 
-# Ensure that the MySQL 5.7 databases and users are created for all IDAs.
-# (A no-op for databases and users that already exist).
+# Temporary fix until MySQL 5.6 is removed
 echo -e "${GREEN}Ensuring MySQL 5.7 databases and users exist...${NC}"
 docker-compose exec -T mysql57 bash -c "mysql -uroot mysql" < provision.sql
 
