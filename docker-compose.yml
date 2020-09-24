@@ -273,7 +273,7 @@ services:
     depends_on:
       - mongo
       - memcached
-      - elasticsearch
+      - elasticsearch7
     image: edxops/forum:${OPENEDX_RELEASE:-latest}
     networks:
       default:
