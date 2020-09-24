@@ -288,6 +288,7 @@ services:
     hostname: lms.devstack.edx
     depends_on:
       - devpi
+      - elasticsearch7
       - mysql
       - memcached
       - mongo
@@ -398,6 +399,7 @@ services:
     hostname: studio.devstack.edx
     depends_on:
       - devpi
+      - elasticsearch7
       - mysql
       - memcached
       - mongo
