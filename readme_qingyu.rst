@@ -1,8 +1,15 @@
-1. Link pip to pip3
-sudo ln -s /usr/bin/pip3 /usr/bin/pip
+QingYu development configurations
+================================
 
-2. npm config set registry https://artifacthub-tip.oraclecorp.com/api/npm/npmjs-remote
+*Link pip to pip3
+     sudo ln -s /usr/bin/pip3 /usr/bin/pip
 
-3. Language setting
-   # /edx/etc/lms.yml
-   # zh-hans
+*npm registry setting
+    npm config set registry https://artifacthub-tip.oraclecorp.com/api/npm/npmjs-remote
+
+*Language setting
+    Config file:/edx/etc/lms.yml 
+    
+    ```
+    LANGUAGE_CODE: zh-hans
+    ```
