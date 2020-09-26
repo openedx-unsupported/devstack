@@ -3,3 +3,6 @@ sudo ln -s /usr/bin/pip3 /usr/bin/pip
 
 2. npm config set registry https://artifacthub-tip.oraclecorp.com/api/npm/npmjs-remote
 
+3. Language setting
+   # /edx/etc/lms.yml
+   # zh-hans
