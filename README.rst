@@ -117,7 +117,7 @@ below, run the following sequence of commands if you want to use the most up-to-
     make dev.pull
     make dev.up
 
-This will stop any running devstack containers, pull the latest images, and then start all of the devstack containers.
+This will stop and remove any running devstack containers, pull the latest images, and then start all of the devstack containers.
 
 If you wish to pull only images relevant to certain services, you can run ``make dev.pull.<services>``.
 For example, the following only only pulls images of E-Commerce and Credentials, as well as their dependencies (like LMS).
@@ -243,6 +243,10 @@ The default devstack services can be run by following the steps below. For analy
 
        make dev.nfs.up
 
+
+To stop a service, use ``make dev.stop.<service>``, and to both stop it
+and remove the container (along with any changes you have made
+to the filesystem in the container) use ``make dev.down.<service>``.
 
 After the services have started, if you need shell access to one of the
 services, run ``make dev.shell.<service>``. For example to access the
@@ -490,7 +494,7 @@ How do I run multiple named Open edX releases on same machine?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 You can have multiple isolated Devstacks provisioned on a single computer now. Follow these directions to switch between the named releases.
 
-#. Bring down any running containers by issuing a `make dev.stop`. 
+#. Stop any running containers by issuing a ``make dev.stop``.
 #. The ``COMPOSE_PROJECT_NAME`` variable is used to define Docker namespaced volumes and network based on this value, so changing it will give you a separate set of databases. This is handled for you automatically by setting the ``OPENEDX_RELEASE`` environment variable in ``options.mk`` (e.g. ``COMPOSE_PROJECT_NAME=devstack-juniper.master``. Should you want to manually override this edit the ``options.local.mk`` in the root of this repo and create the file if it does not exist. Change the devstack project name by adding the following line:
    ``COMPOSE_PROJECT_NAME=<your-alternate-devstack-name>`` (e.g. ``COMPOSE_PROJECT_NAME=secondarydevstack``)
 #. Perform steps in `How do I run the images for a named Open edX release?`_ for specific release.
@@ -503,7 +507,7 @@ The implication of this is that you can switch between isolated Devstack databas
 Switch between your Devstack releases by doing the following:
 *************************************************************
 
-#. Bring down the containers by issuing a ``make dev.stop`` for the running release.
+#. Stop the containers by issuing a ``make dev.stop`` for the running release.
 #. Follow the instructions from the `How do I run multiple named Open edX releases on same machine?`_ section.
 #. Edit the project name in ``options.local.mk`` or set the ``OPENEDX_RELEASE`` environment variable and let the ``COMPOSE_PROJECT_NAME`` be assigned automatically. 
 #. Bring up the containers with ``make dev.up``.
@@ -528,7 +532,7 @@ This broke my existing Devstack!
         
 I’m getting errors related to ports already being used.
 *******************************************************
-Make sure you bring down your devstack before changing the value of COMPOSE_PROJECT_NAME. If you forgot to, change the COMPOSE_PROJECT_NAME back to its original value, run ``make dev.down``, and then try again.
+Make sure you bring down your devstack before changing the value of COMPOSE_PROJECT_NAME. If you forgot to, change the COMPOSE_PROJECT_NAME back to its original value, run ``make dev.stop``, and then try again.
         
 I have custom scripts/compose files that integrate with or extend Devstack. Will those still work?
 **************************************************************************************************
@@ -884,7 +888,7 @@ database migrations and package updates.
 
 When switching to a branch which differs greatly from the one you've been
 working on (especially if the new branch is more recent), you may wish to
-halt the existing containers via ``make down``, pull the latest Docker
+halt and remove the existing containers via ``make down``, pull the latest Docker
 images via ``make dev.pull.<service>``, and then re-run ``make dev.provision`` or
 ``make dev.sync.provision`` in order to recreate up-to-date databases,
 static assets, etc.
@@ -958,11 +962,11 @@ and your attached session will offer an interactive PDB prompt when the breakpoi
 
 You may be able to detach from the container with the ``Ctrl-P, Ctrl-Q`` key sequence.
 If that doesn't work, you will have either close your terminal window or
-bring the service down with:
+stop the service with:
 
 .. code:: sh
 
-    make dev.down.<service>
+    make dev.stop.<service>
 
 You can bring that same service back up with:
 
