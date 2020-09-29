@@ -18,7 +18,7 @@ env:
     - SERVICES=discovery+lms+forum  # provision.sh should ensure LMS provisions first.
     - SERVICES=registrar+lms
     - SERVICES=ecommerce
-    - SERVICES=edx_notes_api
+      # - SERVICES=edx_notes_api
     - SERVICES=credentials
     - SERVICES=analyticspipeline
     - SERVICES=xqueue
