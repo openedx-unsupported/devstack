@@ -34,6 +34,7 @@ It also includes the following extra components:
 
 .. Because GitHub doesn't support `toctree`, the Table of Contents is hand-written.
 .. Please keep it up-to-date with all the top-level headings.
+.. Regenerate: grep '^----' README.rst -B 1 | grep -v -e '--' | sed 's/\(.*\)/* `\1`_/' | tail -n+2
 
 Table of Contents
 -----------------
@@ -41,13 +42,17 @@ Table of Contents
 * `Where to Find Help`_
 * `Prerequisites`_
 * `Using the Latest Images`_
+* `Roadmap`_
 * `Getting Started`_
 * `Usernames and Passwords`_
 * `Service List`_
 * `Useful Commands`_
+* `Frequently Asked Questions`_
+* `Testing and Debugging`_
 * `Troubleshooting: General Tips`_
 * `Troubleshooting: Common Issues`_
 * `Troubleshooting: Performance`_
+* `Known Issues`_
 * `Advanced Configuration Options`_
 
 Where to Find Help
@@ -1130,7 +1135,7 @@ Start over
 If you want to completely start over, run ``make dev.destroy``. This will remove
 all containers, networks, AND data volumes, requiring you to re-provision.
 
-Troubleshooting: Common issues
+Troubleshooting: Common Issues
 ------------------------------
 
 File ownership change
