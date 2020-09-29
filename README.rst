@@ -1338,6 +1338,14 @@ docker-sync, but this feature hasn't been fully implemented yet (as of
 Docker 17.12.0-ce, "delegated" behaves the same as "cached").  There is a
 GitHub issue which explains the `current status of implementing delegated consistency mode`_.
 
+Known Issues
+------------
+
+The Notes service has been disabled and removed from provisioning due to issues with getting it working with ES7.
+It will be added again after these issues have been resolved, but Notes will have to be provisioned separately once
+the fixes have been merged.
+
+
 Advanced Configuration Options
 ------------------------------
 
