@@ -170,7 +170,7 @@ The default devstack services can be run by following the steps below. For analy
        make dev.clone  # or, `make dev.clone.https` if you don't have SSH keys set up.
 
    You may customize where the local repositories are found by setting the
-   DEVSTACK\_WORKSPACE environment variable.
+   ``DEVSTACK_WORKSPACE`` environment variable.
 
    (macOS only) Share the cloned service directories in Docker, using
    **Docker -> Preferences -> File Sharing** in the Docker menu.
@@ -221,7 +221,7 @@ The default devstack services can be run by following the steps below. For analy
    **NOTE:** This command will bring up both MySQL 5.6 and 5.7 databases until all services are upgraded to 5.7.
 
 5. Start the services. This command will mount the repositories under the
-   DEVSTACK\_WORKSPACE directory.
+   ``DEVSTACK_WORKSPACE`` directory.
 
    **NOTE:** it may take up to 60 seconds for the LMS to start, even after the ``make dev.up`` command outputs ``done``.
 
@@ -508,7 +508,7 @@ Switch between your Devstack releases by doing the following:
 #. Edit the project name in ``options.local.mk`` or set the ``OPENEDX_RELEASE`` environment variable and let the ``COMPOSE_PROJECT_NAME`` be assigned automatically. 
 #. Bring up the containers with ``make dev.up``.
 
-**NOTE:** Additional instructions on switching releases using `direnv` can be found in `How do I switch releases using 'direnv'?`_ section.
+**NOTE:** Additional instructions on switching releases using ``direnv`` can be found in `How do I switch releases using 'direnv'?`_ section.
 
 Examples of Docker Service Names After Setting the ``COMPOSE_PROJECT_NAME`` variable. Notice that the **devstack-juniper.master** name represents the ``COMPOSE_PROJECT_NAME``.
          
@@ -704,7 +704,7 @@ starts, you have a few options:
   then download and use the updated image (for example, via ``make dev.pull.<service>``).
   The discovery and edxapp images are built automatically via a Jenkins job. All other
   images are currently built as needed by edX employees, but will soon be built
-  automatically on a regular basis. See `building images for devstack` for more information.
+  automatically on a regular basis. See `building images for devstack`_ for more information.
 * You can update your requirements files as appropriate and then build your
   own updated image for the service as described above, tagging it such that
   ``docker-compose`` will use it instead of the last image you downloaded.
