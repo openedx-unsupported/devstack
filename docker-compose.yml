@@ -241,12 +241,14 @@ services:
       - "18130:18130"
 
   edx_notes_api:
-    command: bash -c 'source /edx/app/edx_notes_api/edx_notes_api_env && while true; do python /edx/app/edx_notes_api/edx_notes_api/manage.py runserver 0.0.0.0:18120 --settings notesserver.settings.devstack; sleep 2; done'
+    # Sleep as a part of start up to give elasticsearch enough time to start up.
+    command: bash -c 'source /edx/app/edx_notes_api/edx_notes_api_env && while true; do python /edx/app/edx_notes_api/edx_notes_api/manage.py runserver 0.0.0.0:18120 --settings notesserver.settings.devstack; sleep 4; done'
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.edxnotesapi"
     hostname: edx_notes_api.devstack.edx
     depends_on:
       - devpi
-      - elasticsearch
+      - elasticsearch7
+      - lms
       - mysql
     image: edxops/notes:${OPENEDX_RELEASE:-latest}
     networks:
@@ -264,7 +266,7 @@ services:
       DB_USER: "notes001"
       DJANGO_WATCHMAN_TIMEOUT: 30
       ENABLE_DJANGO_TOOLBAR: 1
-      ELASTICSEARCH_URL: "http://edx.devstack.elasticsearch:9200"
+      ELASTICSEARCH_URL: "http://edx.devstack.elasticsearch7:9200"
 
   forum:
     command: bash -c 'source /edx/app/forum/ruby_env && source /edx/app/forum/devstack_forum_env && cd /edx/app/forum/cs_comments_service && bundle install && while true; do ruby app.rb -o 0.0.0.0 ; sleep 2; done'
@@ -511,7 +513,7 @@ services:
           - edx.devstack.course-authoring
     ports:
       - "2001:2001"
-    depends_on: 
+    depends_on:
       - studio
 
   frontend-app-library-authoring:
