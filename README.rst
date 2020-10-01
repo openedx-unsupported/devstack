@@ -1350,9 +1350,11 @@ GitHub issue which explains the `current status of implementing delegated consis
 Known Issues
 ------------
 
-The Notes service has been disabled and removed from provisioning due to issues with getting it working with ES7.
-It will be added again after these issues have been resolved, but Notes will have to be provisioned separately once
-the fixes have been merged.
+Currently, some containers rely on Elasticsearch 7 and some rely on Elasticsearch 1.5. This is
+because services are in the process of being upgraded to Elasticsearch 7, but not all of them
+support Elasticsearch 7 yet. As we complete these migrations, we will update the dependencies
+of these containers.
+
 
 
 Advanced Configuration Options

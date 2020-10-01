@@ -67,9 +67,8 @@ FS_SYNC_STRATEGY ?= local-mounts
 # TODO: Re-evaluate this list and consider paring it down to a tighter core.
 #       The current value was chosen such that it would not change the existing
 #       Devstack behavior.
-# TODO: To resolve issues with notes provisioning with ES7, we are removing it from this list until it can be added again between ecommerce and forum.
 DEFAULT_SERVICES ?= \
-credentials+discovery+ecommerce+forum+frontend-app-publisher+frontend-app-learning+gradebook+lms+studio
+credentials+discovery+ecommerce+notes+forum+frontend-app-publisher+frontend-app-learning+gradebook+lms+studio
 
 # All edX services, whether or not they are run by default.
 # Separated by plus signs.
