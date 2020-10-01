@@ -13,3 +13,6 @@ QingYu development configurations
     ```
     LANGUAGE_CODE: zh-hans
     ```
+    
+* Create orgnization 
+insert into organizations_organization (created, modified, name, short_name, active) VALUES (NOW(), NOW(), 'QINGYU', 'qy01', 1);
