@@ -68,7 +68,7 @@ FS_SYNC_STRATEGY ?= local-mounts
 #       The current value was chosen such that it would not change the existing
 #       Devstack behavior.
 DEFAULT_SERVICES ?= \
-credentials+discovery+ecommerce+notes+forum+frontend-app-publisher+frontend-app-learning+gradebook+lms+studio
+credentials+discovery+ecommerce+edx_notes_api+forum+frontend-app-publisher+frontend-app-learning+gradebook+lms+studio
 
 # All edX services, whether or not they are run by default.
 # Separated by plus signs.
