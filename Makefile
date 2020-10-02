@@ -224,13 +224,15 @@ dev.provision.%: ## Provision specified services.
 	echo $*
 	$(WINPTY) bash ./provision.sh $*
 
-dev.backup: dev.up.mysql+mongo+elasticsearch ## Write all data volumes to the host.
+dev.backup: dev.up.mysql+mysql57+mongo+elasticsearch ## Write all data volumes to the host.
 	docker run --rm --volumes-from $$(make -s dev.print-container.mysql) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/mysql.tar.gz /var/lib/mysql
+	docker run --rm --volumes-from $$(make -s dev.print-container.mysql57) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/mysql57.tar.gz /var/lib/mysql
 	docker runsql --rm --volumes-from $$(make -s dev.print-container.mongo) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/mongo.tar.gz /data/db
 	docker run --rm --volumes-from $$(make -s dev.print-container.elasticsearch) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/elasticsearch.tar.gz /usr/share/elasticsearch/data
 
-dev.restore: dev.up.mysql+mongo+elasticsearch ## Restore all data volumes from the host. WILL OVERWRITE ALL EXISTING DATA!
+dev.restore: dev.up.mysql+mysql57+mongo+elasticsearch ## Restore all data volumes from the host. WILL OVERWRITE ALL EXISTING DATA!
 	docker run --rm --volumes-from $$(make -s dev.print-container.mysql) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/mysql.tar.gz
+	docker run --rm --volumes-from $$(make -s dev.print-container.mysql57) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/mysql57.tar.gz
 	docker run --rm --volumes-from $$(make -s dev.print-container.mongo) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/mongo.tar.gz
 	docker run --rm --volumes-from $$(make -s dev.print-container.elasticsearch) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/elasticsearch.tar.gz
 
@@ -255,8 +257,9 @@ dev.migrate.%: ## Run migrations on a service.
 
 dev.drop-db: _expects-database.dev.drop-db
 
-dev.drop-db.%: ## Irreversably drop the contents of a MySQL database.
+dev.drop-db.%: ## Irreversably drop the contents of a MySQL database in each mysql container.
 	docker-compose exec -T mysql bash -c "mysql --execute=\"DROP DATABASE $*;\""
+	docker-compose exec -T mysql57 bash -c "mysql --execute=\"DROP DATABASE $*;\""
 
 
 ########################################################################################
@@ -434,6 +437,11 @@ dev.dbshell:
 dev.dbshell.%: ## Run a SQL shell on the given database.
 	docker-compose exec mysql bash -c "mysql $*"
 
+dev.dbcopy57.%: ## Copy data from old mysql 5.6 container into a new 5.7 db
+	docker-compose exec mysql bash -c "mysqldump $*" > .dev/$*.sql
+	docker-compose exec -T mysql57 bash -c "mysql $*" < .dev/$*.sql
+	rm .dev/$*.sql
+
 # List of Makefile targets to run static asset generation, in the form dev.static.$(service)
 # Services will only have their asset generation added here
 # if the service is present in both $(DEFAULT_SERVICES) and $(ASSET_SERVICES).
@@ -582,7 +590,6 @@ e2e-tests: dev.up.lms+studio ## Run the end-to-end tests against the service con
 
 e2e-tests.with-shell: dev.up.lms+studio ## Start the end-to-end tests container with a shell.
 	docker run -it --network=$(COMPOSE_PROJECT_NAME)_default -v $(DEVSTACK_WORKSPACE)/edx-e2e-tests:/edx-e2e-tests --env-file $(DEVSTACK_WORKSPACE)/edx-e2e-tests/devstack_env edxops/e2e env TERM=$(TERM) bash
-	
 
 validate-lms-volume: ## Validate that changes to the local workspace are reflected in the LMS container.
 	touch $(DEVSTACK_WORKSPACE)/edx-platform/testfile
