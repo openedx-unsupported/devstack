@@ -20,7 +20,7 @@ env:
     - SERVICES=ecommerce
     - SERVICES=edx_notes_api
     - SERVICES=credentials
-    - SERVICES=analyticspipeline
+    - SERVICES=analytics_pipeline
     - SERVICES=xqueue
     - SERVICES=marketing
 
