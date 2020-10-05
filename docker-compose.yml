@@ -200,6 +200,7 @@ services:
       - mysql
       - elasticsearch
       - memcached
+      - lms
     # Allows attachment to the discovery service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
