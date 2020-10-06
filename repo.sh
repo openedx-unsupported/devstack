@@ -168,19 +168,20 @@ clone_private ()
 
 reset ()
 {
-    currDir=$(pwd)
     for repo in ${repos[*]}
     do
         [[ $repo =~ $name_pattern ]]
         name="${BASH_REMATCH[1]}"
 
         if [ -d "$name" ]; then
-            cd "$name";git reset --hard HEAD;git checkout master;git reset --hard origin/master;git pull;cd "$currDir"
+            (cd "$name"; git checkout -q master && git pull -q --ff-only) || {
+                echo "Failed to checkout and pull master in $name repo. Exiting."
+                exit 1
+            }
         else
             printf "The [%s] repo is not cloned. Continuing.\n" "$name"
         fi
     done
-    cd - &> /dev/null
 }
 
 status ()
