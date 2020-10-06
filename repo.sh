@@ -175,7 +175,8 @@ reset ()
 
         if [ -d "$name" ]; then
             (cd "$name"; git checkout -q master && git pull -q --ff-only) || {
-                echo "Failed to checkout and pull master in $name repo. Exiting."
+                echo >&2 "Failed to reset $name repo. Exiting."
+                echo >&2 "Please go to the repo and clean up any issues that are keeping 'git checkout master' and 'git pull' from working."
                 exit 1
             }
         else
