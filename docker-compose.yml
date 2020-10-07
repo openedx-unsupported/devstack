@@ -231,16 +231,16 @@ services:
       - mongo
       - memcached
 
-  edraak_programs_gulp:
-    image: eu.gcr.io/openedx-231314/edraak/progs
-    environment:
-      NODE_ENV: development
-    command: bash -c 'while true; do npx gulp watch; sleep 2; done'
-    container_name: edraak.devstack.programs-gulp
-    working_dir: /app
-    depends_on:
-      - mysql
-      - memcached
+#  edraak_programs_gulp:
+#    image: eu.gcr.io/openedx-231314/edraak/progs
+#    environment:
+#      NODE_ENV: development
+#    command: bash -c 'while true; do npx gulp watch; sleep 2; done'
+#    container_name: edraak.devstack.programs-gulp
+#    working_dir: /app
+#    depends_on:
+#      - mysql
+#      - memcached
 
   edraak_marketing:
     image: eu.gcr.io/openedx-231314/edraak/marketing
@@ -255,16 +255,16 @@ services:
       - mysql
       - memcached
 
-  edraak_marketing_gulp:
-    image: eu.gcr.io/openedx-231314/edraak/marketing
-    environment:
-      NODE_ENV: development
-    command: bash -c 'while true; do npx gulp watch; sleep 2; done'
-    container_name: edraak.devstack.marketing-gulp
-    working_dir: /app
-    depends_on:
-      - mysql
-      - memcached
+#  edraak_marketing_gulp:
+#    image: eu.gcr.io/openedx-231314/edraak/marketing
+#    environment:
+#      NODE_ENV: development
+#    command: bash -c 'while true; do npx gulp watch; sleep 2; done'
+#    container_name: edraak.devstack.marketing-gulp
+#    working_dir: /app
+#    depends_on:
+#      - mysql
+#      - memcached
 
   edraak_dev_router:
     image: nginx

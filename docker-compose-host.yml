@@ -37,16 +37,16 @@ services:
     volumes:
       - ${DEVSTACK_WORKSPACE}/edraak-programs:/app:cached
       - ~/.ssh/:/root/.ssh
-  edraak_programs_gulp:
-    volumes:
-      - ${DEVSTACK_WORKSPACE}/edraak-programs:/app:cached
-      - ~/.ssh/:/root/.ssh
+#  edraak_programs_gulp:
+#    volumes:
+#      - ${DEVSTACK_WORKSPACE}/edraak-programs:/app:cached
+#      - ~/.ssh/:/root/.ssh
   edraak_marketing:
     volumes:
       - ${DEVSTACK_WORKSPACE}/marketing-site:/app:cached
-  edraak_marketing_gulp:
-    volumes:
-      - ${DEVSTACK_WORKSPACE}/marketing-site:/app:cached
+#  edraak_marketing_gulp:
+#    volumes:
+#      - ${DEVSTACK_WORKSPACE}/marketing-site:/app:cached
 
 volumes:
 #  credentials_node_modules:
