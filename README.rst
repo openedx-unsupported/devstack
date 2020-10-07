@@ -1281,6 +1281,50 @@ what your current code branch expects; you may need to rerun ``pip`` on a
 requirements file or pull new container images that already have the required
 package versions installed.
 
+Missing git branches
+~~~~~~~~~~~~~~~~~~~~
+
+When trying to check out a branch, you may see an error like this::
+
+    git checkout jj/REV-666-implement-evil-feature
+    > error: pathspec 'jj/REV-666-implement-evil-feature' did not match any file(s) known to git
+
+If you are sure you have (i) recently run ``git fetch`` and (ii) didn't misspell the
+branch name, then it is possible your repository is set in "single-branch" mode, meaning
+that it is configured to only fetch ``master``. Although devstack currently clones
+repositories with all their branches, devstacks provisioned before September 2020
+will start out with single-branch repositories.
+
+You can manually reconfigure your repository to pull all branches by running::
+
+    git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+    git fetch origin
+    git checkout jj/REV-666-implement-evil-feature
+    > Switched to branch 'jj/REV-666-implement-evil-feature'.
+
+General git troubleshooting
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+``git`` is powerful but complex; you may occasionally find your respository in a
+confusing state. This problem isn't devstack-specific.
+
+If you find yourself stuck, folks in the edX-internal or Open edX Slack workspaces may
+be able to give you a hand.
+
+Alternatively, if you are at a roadblack and
+*don't care about any data that is in your local copy of the repository*
+(i.e., you have pushed or otherwise saved your work elsewhere)
+then you can always delete the repository and start over again::
+
+    rm -r ./<repository>
+    git clone git@github.com:edx/<repository>
+
+Finally, if you regularly find yourself mystified by git, consider reading
+through `Understanding Git Conceptually`_. It explains core Git principles in way
+that makes it easier to use the simpler ``git`` commands more effectively
+and easier to use the more complicated ``git`` commands when you have to.
+
+
 Troubleshooting: Performance
 ----------------------------
 
@@ -1398,3 +1442,4 @@ it's good to bring down containers before changing any settings.
 .. _Marketing site instructions: https://openedx.atlassian.net/wiki/spaces/ENG/pages/159162183/Marketing+Site
 .. _updating relational database dumps: docs/database-dumps.rst
 .. _building images for devstack: docs/building-images.rst
+.. _Understanding Git Conceptually: https://www.sbf5.com/~cduan/technical/git/
