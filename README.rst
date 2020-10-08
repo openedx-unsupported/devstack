@@ -1291,11 +1291,15 @@ When trying to check out a branch, you may see an error like this::
 
 If you are sure you have (i) recently run ``git fetch`` and (ii) didn't misspell the
 branch name, then it is possible your repository is set in "single-branch" mode, meaning
-that it is configured to only fetch ``master``. Although devstack currently clones
+that it is configured to only fetch ``master``. Although devstack currently clones IDAs'
 repositories with all their branches, devstacks provisioned before September 2020
-will start out with single-branch repositories.
+will start out with single-branch repositories. You check if your repository is in this
+state by running ``git branch -r``. If you only see a couple of entries
+(``origin/master`` and ``origin/HEAD``), then your local repository is in single-branch
+mode.
 
-You can manually reconfigure your repository to pull all branches by running::
+You can manually reconfigure your repository to pull all branches by running these
+commands from within the repository::
 
     git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
     git fetch origin
@@ -1311,8 +1315,8 @@ confusing state. This problem isn't devstack-specific.
 If you find yourself stuck, folks in the edX-internal or Open edX Slack workspaces may
 be able to give you a hand.
 
-Alternatively, if you are at a roadblack and
-*don't care about any data that is in your local copy of the repository*
+Alternatively, if you are at a roadblock and
+*don't care about any changes you've made to your local copy of the repository*
 (i.e., you have pushed or otherwise saved your work elsewhere)
 then you can always delete the repository and start over again::
 
