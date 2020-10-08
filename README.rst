@@ -1291,7 +1291,7 @@ When trying to check out a branch, you may see an error like this::
 
 If you are sure you have (i) recently run ``git fetch`` and (ii) didn't misspell the
 branch name, then it is possible your repository is set in "single-branch" mode, meaning
-that it is configured to only fetch ``master``. Although devstack currently clones IDAs'
+that it is configured to only fetch ``master``. Although devstack currently clones services'
 repositories with all their branches, devstacks provisioned before September 2020
 will start out with single-branch repositories. You check if your repository is in this
 state by running ``git branch -r``. If you only see a couple of entries
