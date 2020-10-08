@@ -1320,7 +1320,7 @@ Alternatively, if you are at a roadblock and
 (i.e., you have pushed or otherwise saved your work elsewhere)
 then you can always delete the repository and start over again::
 
-    rm -r ./<repository>
+    rm -rf ./<repository>
     git clone git@github.com:edx/<repository>
 
 Finally, if you regularly find yourself mystified by git, consider reading
