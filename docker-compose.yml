@@ -172,7 +172,7 @@ services:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.credentials"
     hostname: credentials.devstack.edx
     depends_on:
-      - mysql
+      - mysql57
       - memcached
       - lms
     # Allows attachment to the credentials service using 'docker attach <containerID>'.
@@ -180,7 +180,7 @@ services:
     tty: true
     environment:
       CACHE_LOCATION: edx.devstack.memcached:12211
-      DB_HOST: edx.devstack.mysql
+      DB_HOST: edx.devstack.mysql57
       SOCIAL_AUTH_EDX_OIDC_URL_ROOT: http://edx.devstack.lms:18000/oauth2
       ENABLE_DJANGO_TOOLBAR: 1
       DJANGO_WATCHMAN_TIMEOUT: 30
