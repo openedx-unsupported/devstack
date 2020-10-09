@@ -177,6 +177,8 @@ The default devstack services can be run by following the steps below. For analy
 
 3. Pull any changes made to the various images on which the devstack depends.
 
+   **NOTE:** These instructions will install the master release. If you want to install a named release instead (e.g. juniper.master), follow the steps in `How do I run the images for a named Open edX release?`_ before pulling the docker images.
+   
    .. code:: sh
 
        make dev.pull
@@ -475,15 +477,22 @@ Frequently Asked Questions
 
 How do I run the images for a named Open edX release?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+By default, the steps above will install the devstack using the master branch of all repos. If you want to install a named release instead, follow these steps before pulling the docker images in step 3 of the Getting Started guide:
 
 #. Set the ``OPENEDX_RELEASE`` environment variable to the appropriate image
    tag; "hawthorn.master", "zebrawood.rc1", etc.  Note that unlike a server
    install, ``OPENEDX_RELEASE`` should not have the "open-release/" prefix.
+
+   **NOTE:** The ``COMPOSE_PROJECT_NAME`` variable is used to define Docker namespaced volumes and network based on this value, so changing it will give you a separate set of databases. This is handled for you automatically by setting the ``OPENEDX_RELEASE`` environment variable in ``options.mk`` (e.g. ``COMPOSE_PROJECT_NAME=devstack-juniper.master``. Should you want to manually override this edit the ``options.local.mk`` in the root of this repo and create the file if it does not exist. Change the devstack project name by adding the following line:
+   ``COMPOSE_PROJECT_NAME=<your-alternate-devstack-name>`` (e.g. ``COMPOSE_PROJECT_NAME=secondarydevstack``)
+
+   As a specific example, if ``OPENEDX_RELEASE`` is set in your environment as ``juniper.master``, then ``COMPOSE_PROJECT_NAME`` will default to ``devstack-juniper.master`` instead of ``devstack``.
+
 #. Check out the appropriate branch in devstack, e.g. ``git checkout open-release/ironwood.master``
 #. Use ``make dev.checkout`` to check out the correct branch in the local
    checkout of each service repository once you've set the ``OPENEDX_RELEASE``
    environment variable above.
-#. ``make dev.pull`` to get the correct images.
+#. Continue with step 3 in the Getting Started guide to pull the correct docker images.
 
 All ``make`` target and ``docker-compose`` calls should now use the correct
 images until you change or unset ``OPENEDX_RELEASE`` again.  To work on the
@@ -492,25 +501,25 @@ an empty string.
 
 How do I run multiple named Open edX releases on same machine?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-You can have multiple isolated Devstacks provisioned on a single computer now. Follow these directions to switch between the named releases.
+You can have multiple isolated Devstacks provisioned on a single computer now. Follow these directions **after installing the master release devstack** to switch between the named releases.
 
-#. Stop any running containers by issuing a ``make dev.stop``.
-#. The ``COMPOSE_PROJECT_NAME`` variable is used to define Docker namespaced volumes and network based on this value, so changing it will give you a separate set of databases. This is handled for you automatically by setting the ``OPENEDX_RELEASE`` environment variable in ``options.mk`` (e.g. ``COMPOSE_PROJECT_NAME=devstack-juniper.master``. Should you want to manually override this edit the ``options.local.mk`` in the root of this repo and create the file if it does not exist. Change the devstack project name by adding the following line:
-   ``COMPOSE_PROJECT_NAME=<your-alternate-devstack-name>`` (e.g. ``COMPOSE_PROJECT_NAME=secondarydevstack``)
-#. Perform steps in `How do I run the images for a named Open edX release?`_ for specific release.
-#. Follow the steps in `Getting Started`_ section to update requirements (e.g. ``make requirements``) and provision (e.g. ``make dev.provision``) the new named release containers.
-
-As a specific example, if ``OPENEDX_RELEASE`` is set in your environment as ``juniper.master``, then ``COMPOSE_PROJECT_NAME`` will default to ``devstack-juniper.master`` instead of ``devstack``.
+#. If you haven't done so, follow the `Getting Started`_ guide to install the master devstack or any other named release. We recommend that you have at least one devstack on the master branch.
+#. Change directory to your devstack and activate the virtual env.
+#. Stop any running containers by issuing a ``make stop``. Make sure that all containers are stopped from the docker dashboard.
+#. Follow the steps in `Getting Started`_ section, setting the additional OPENEDX_RELEASE you want to install in step 2
 
 The implication of this is that you can switch between isolated Devstack databases by changing the value of the ``OPENEDX_RELEASE`` environment variable.
 
 Switch between your Devstack releases by doing the following:
 *************************************************************
 
-#. Stop the containers by issuing a ``make dev.stop`` for the running release.
-#. Follow the instructions from the `How do I run multiple named Open edX releases on same machine?`_ section.
+#. Stop the containers by issuing a ``make stop`` for the running release.
 #. Edit the project name in ``options.local.mk`` or set the ``OPENEDX_RELEASE`` environment variable and let the ``COMPOSE_PROJECT_NAME`` be assigned automatically. 
-#. Bring up the containers with ``make dev.up``.
+#. Check out the appropriate branch in devstack, e.g. ``git checkout open-release/ironwood.master``
+#. Use ``make dev.checkout`` to check out the correct branch in the local
+   checkout of each service repository once you've set the ``OPENEDX_RELEASE``
+   environment variable above.
+#. Bring up the containers with ``make dev.up``, ``make dev.nfs.up`` or ``make dev.sync.up``.
 
 **NOTE:** Additional instructions on switching releases using ``direnv`` can be found in `How do I switch releases using 'direnv'?`_ section.
 
