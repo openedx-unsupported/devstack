@@ -905,8 +905,6 @@ LMS and Studio (a.k.a. CMS) read many configuration settings from the container 
 in the following locations:
 
 - ``/edx/etc/lms.yml``
-- ``/edx/etc/lms.yml``
-- ``/edx/etc/studio.yml``
 - ``/edx/etc/studio.yml``
 
 Changes to these files will *not* persist over a container restart, as they
