@@ -295,7 +295,7 @@ services:
     hostname: lms.devstack.edx
     depends_on:
       - devpi
-      - mysql
+      - mysql57
       - memcached
       - mongo
       - discovery
@@ -405,7 +405,7 @@ services:
     hostname: studio.devstack.edx
     depends_on:
       - devpi
-      - mysql
+      - mysql57
       - memcached
       - mongo
       - firefox

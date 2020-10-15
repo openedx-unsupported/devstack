@@ -108,6 +108,9 @@ the ones installed globally on your system.
 Using the Latest Images
 -----------------------
 
+**NOTE:** LMS is now using MySql 5.7 by default, you have to run  ``make dev.pull.lms``  and  ``make dev.provision.lms``  (more details in `Getting Started`_)
+to fetch latest images and re provision local copies of databases in order for an existing devstack setup to keep working.
+
 By default, these instructions will install the master branch. If you want to install a named release instead (e.g. juniper.master), follow the steps in `How do I run the images for a named Open edX release?`_ before pulling the docker images. You can learn more about named releases in the `official documentation <https://edx.readthedocs.io/projects/edx-developer-docs/en/latest/named_releases.html>`_.
 
 New images for our services are published frequently.  Assuming that you've followed the steps in `Getting Started`_
@@ -508,7 +511,7 @@ Switch between your Devstack releases by doing the following:
 *************************************************************
 
 #. Stop the containers by issuing a ``make dev.stop`` for the running release.
-#. Edit the project name in ``options.local.mk`` or set the ``OPENEDX_RELEASE`` environment variable and let the ``COMPOSE_PROJECT_NAME`` be assigned automatically. 
+#. Edit the project name in ``options.local.mk`` or set the ``OPENEDX_RELEASE`` environment variable and let the ``COMPOSE_PROJECT_NAME`` be assigned automatically.
 #. Check out the appropriate branch in devstack, e.g. ``git checkout open-release/ironwood.master``
 #. Use ``make dev.checkout`` to check out the correct branch in the local
    copy of each service repository
@@ -517,9 +520,9 @@ Switch between your Devstack releases by doing the following:
 **NOTE:** Additional instructions on switching releases using ``direnv`` can be found in `How do I switch releases using 'direnv'?`_ section.
 
 Examples of Docker Service Names After Setting the ``COMPOSE_PROJECT_NAME`` variable. Notice that the **devstack-juniper.master** name represents the ``COMPOSE_PROJECT_NAME``.
-         
--  edx.devstack-juniper.master.lms          
--  edx.devstack-juniper.master.mysql  
+
+-  edx.devstack-juniper.master.lms
+-  edx.devstack-juniper.master.mysql
 
 Each instance has an isolated set of databases. This could, for example, be used to quickly switch between versions of Open edX without hitting as many issues with migrations, data integrity, etc.
 
@@ -531,11 +534,11 @@ Questions & Troubleshooting – Multiple Named Open edX Releases on Same Machine
 This broke my existing Devstack!
 ********************************
  See if the troubleshooting of this readme can help resolve your broken devstack first, then try posting on the `Open edX forums <https://discuss.openedx.org>`__ to see if you have the same issue as any others. If you think you have found a bug, file a CR ticket.
-        
+
 I’m getting errors related to ports already being used.
 *******************************************************
 Make sure you bring down your devstack before changing the value of COMPOSE_PROJECT_NAME. If you forgot to, change the COMPOSE_PROJECT_NAME back to its original value, run ``make dev.stop``, and then try again.
-        
+
 I have custom scripts/compose files that integrate with or extend Devstack. Will those still work?
 **************************************************************************************************
 With the default value of COMPOSE_PROJECT_NAME = devstack, they should still work. If you choose a different COMPOSE_PROJECT_NAME, your extensions will likely break, because the names of containers change along with the project name.
@@ -551,7 +554,7 @@ Make sure that you have setup each Open edX release in separate directories usin
 
         # You should see something like the following after successfully enabling 'direnv' for the Juniper release.
 
-        direnv: loading ~/open-edx/devstack.juniper/.envrc   
+        direnv: loading ~/open-edx/devstack.juniper/.envrc
         direnv: export +DEVSTACK_WORKSPACE +OPENEDX_RELEASE +VIRTUAL_ENV ~PATH
         (venv)username@computer-name devstack.juniper %
 
@@ -595,7 +598,7 @@ We recommend separating the named releases into different directories, for clari
         ## ~/.zshrc for ZSH shell for Mac OS X.
 
         ## Hook in `direnv` for local directory environment setup.
-        ## https://direnv.net/docs/hook.html 
+        ## https://direnv.net/docs/hook.html
         eval "$(direnv hook zsh)"
 
         # https://github.com/direnv/direnv/wiki/Python#zsh
@@ -644,7 +647,7 @@ We recommend separating the named releases into different directories, for clari
             export PATH
         }
 
-#. Example `.envrc` file used in project directory. Need to make sure that each release root has this unique file. 
+#. Example `.envrc` file used in project directory. Need to make sure that each release root has this unique file.
 
     .. code:: sh
 
@@ -1422,9 +1425,9 @@ it's good to bring down containers before changing any settings.
 Changing the Docker Compose Project Name
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The ``COMPOSE_PROJECT_NAME`` variable is used to define Docker namespaced volumes 
-and network based on this value, so changing it will give you a separate set of databases. 
-This is handled for you automatically by setting the ``OPENEDX_RELEASE`` environment variable in ``options.mk`` 
+The ``COMPOSE_PROJECT_NAME`` variable is used to define Docker namespaced volumes
+and network based on this value, so changing it will give you a separate set of databases.
+This is handled for you automatically by setting the ``OPENEDX_RELEASE`` environment variable in ``options.mk``
 (e.g. ``COMPOSE_PROJECT_NAME=devstack-juniper.master``. Should you want to manually override this, edit the ``options.local.mk`` in the root of this repo and create the file if it does not exist. Change the devstack project name by adding the following line:
    ``COMPOSE_PROJECT_NAME=<your-alternate-devstack-name>`` (e.g. ``COMPOSE_PROJECT_NAME=secondarydevstack``)
 
