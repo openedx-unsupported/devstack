@@ -252,7 +252,7 @@ services:
       - devpi
       - elasticsearch7
       - lms
-      - mysql
+      - mysql57
     image: edxops/notes:${OPENEDX_RELEASE:-latest}
     networks:
       default:
@@ -262,7 +262,7 @@ services:
       - "18120:18120"
     environment:
       DB_ENGINE: "django.db.backends.mysql"
-      DB_HOST: "edx.devstack.mysql"
+      DB_HOST: "edx.devstack.mysql57"
       DB_NAME: "notes"
       DB_PASSWORD: "password"
       DB_PORT: "3306"
