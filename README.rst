@@ -499,7 +499,7 @@ You can have multiple isolated Devstacks provisioned on a single computer now. F
 
 #. If you haven't done so, follow the steps in the `Getting Started`_ section, to install the master devstack or any other named release. We recommend that you have at least one devstack on the master branch.
 #. Change directory to your devstack and activate the virtual env.
-#. Stop any running containers by issuing a ``make dev.stop``. Note that in older named releases ``make dev.stop`` may not be available. Use ``make stop`` instead. Make sure that all containers are stopped from the docker dashboard.
+#. Stop any running containers by issuing a ``make dev.stop``.
 #. Follow the steps in `Getting Started`_ section again, setting the additional OPENEDX_RELEASE you want to install in step 2
 
 The implication of this is that you can switch between isolated Devstack databases by changing the value of the ``OPENEDX_RELEASE`` environment variable.
@@ -507,7 +507,7 @@ The implication of this is that you can switch between isolated Devstack databas
 Switch between your Devstack releases by doing the following:
 *************************************************************
 
-#. Stop the containers by issuing a ``make dev.stop`` for the running release. Note that in older named releases ``make dev.stop`` may not be available. Use ``make stop`` instead.
+#. Stop the containers by issuing a ``make dev.stop`` for the running release.
 #. Edit the project name in ``options.local.mk`` or set the ``OPENEDX_RELEASE`` environment variable and let the ``COMPOSE_PROJECT_NAME`` be assigned automatically. 
 #. Check out the appropriate branch in devstack, e.g. ``git checkout open-release/ironwood.master``
 #. Use ``make dev.checkout`` to check out the correct branch in the local
