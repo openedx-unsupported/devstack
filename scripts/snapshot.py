@@ -11,7 +11,7 @@ import json
 import os
 import re
 from shutil import copyfile
-from subprocess import check_call
+from subprocess import STDOUT, CalledProcessError, check_output
 
 import yaml
 
@@ -20,7 +20,7 @@ DEVSTACK_WORKSPACE = os.path.dirname(REPO_ROOT)
 REPO_SCRIPT = os.path.join(REPO_ROOT, 'repo.sh')
 
 # Use this minimal container image to fetch volume content
-BACKUP_IMAGE = 'alpine:3.7'
+BACKUP_IMAGE = 'alpine:latest'
 
 
 def make_directories(output_dir):
@@ -52,7 +52,7 @@ def archive_repos(output_dir):
     for directory in dirs:
         print('Archiving {}'.format(directory))
         output = os.path.join(repositories_dir, '{}.tar.gz'.format(directory))
-        check_call(['tar', 'czf', output, directory])
+        check_output(['tar', 'czf', output, directory], stderr=STDOUT)
     os.chdir(cwd)
 
 
@@ -73,13 +73,15 @@ def process_compose_file(filename, output_dir):
     for service_name in services:
         service = services[service_name]
         image = service['image']
+        image = re.sub(r'\$.*', 'latest', image)
         container_name = service['container_name']
         # Don't save the same image twice, like edxapp for lms and studio
         if image not in saved_images:
             output = os.path.join(images_dir, '{}.tar'.format(service_name))
             print('Saving image {}'.format(service_name))
-            check_call(['docker', 'save', '--output', output, image])
-            check_call(['gzip', output])
+            check_output(['docker', 'save', '--output', output, image],
+                         stderr=STDOUT)
+            check_output(['gzip', output], stderr=STDOUT)
             saved_images.add(image)
 
         if 'volumes' in service:
@@ -88,20 +90,24 @@ def process_compose_file(filename, output_dir):
                 if volume[0] == '.':
                     # Mount of a host directory, skip it
                     continue
-                parts = volume.split(':')
-                volume_name = parts[0]
-                volume_path = parts[1]
+                if ':' in volume:
+                    parts = volume.split(':')
+                    volume_name = parts[0]
+                    volume_path = parts[1]
+                else:
+                    volume_name = volume[1:].replace('/', '_')
+                    volume_path = volume
                 tarball = '{}.tar.gz'.format(volume_name)
                 volume_list.append({'container': container_name,
                                     'path': volume_path, 'tarball': tarball})
                 print('Saving volume {}'.format(volume_name))
-                check_call(['docker', 'run', '--rm', '--volumes-from', container_name, '-v',
-                            '{}:/backup'.format(volumes_dir), BACKUP_IMAGE, 'tar', 'czf',
-                            '/backup/{}'.format(tarball), volume_path])
+                check_output(['docker', 'run', '--rm', '--volumes-from', container_name, '-v',
+                             '{}:/backup'.format(volumes_dir), BACKUP_IMAGE, 'tar', 'czf',
+                             '/backup/{}'.format(tarball), volume_path], stderr=STDOUT)
     print('Saving image alpine')
     output = os.path.join(images_dir, 'alpine.tar')
-    check_call(['docker', 'save', '--output', output, BACKUP_IMAGE])
-    check_call(['gzip', output])
+    check_output(['docker', 'save', '--output', output, BACKUP_IMAGE], stderr=STDOUT)
+    check_output(['gzip', output], stderr=STDOUT)
     print('Saving volume metadata')
     with open(os.path.join(volumes_dir, 'volumes.json'), 'w') as f:
         f.write(json.dumps(volume_list))
@@ -111,11 +117,17 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('output_dir', help='The directory in which to create the devstack snapshot')
     args = parser.parse_args()
-    output_dir = args.output_dir
+    output_dir = os.path.abspath(args.output_dir)
     make_directories(output_dir)
-    archive_repos(output_dir)
-    process_compose_file('docker-compose.yml', output_dir)
+    try:
+        archive_repos(output_dir)
+        process_compose_file('docker-compose.yml', output_dir)
+    except CalledProcessError as e:
+        print(e.output)
+        raise
     copyfile(os.path.join(REPO_ROOT, 'scripts', 'extract_snapshot_linux.sh'),
              os.path.join(output_dir, 'linux.sh'))
     copyfile(os.path.join(REPO_ROOT, 'scripts', 'extract_snapshot_mac.sh'),
              os.path.join(output_dir, 'mac.sh'))
+    copyfile(os.path.join(REPO_ROOT, 'scripts', 'README.txt'),
+             os.path.join(output_dir, 'README.txt'))

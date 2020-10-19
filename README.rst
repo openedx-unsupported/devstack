@@ -151,22 +151,34 @@ Open edX Docs
 
 Get up and running quickly with Open edX services.
 
-If you are seeking info on the Vagrant-based devstack, please see
-https://openedx.atlassian.net/wiki/display/OpenOPS/Running+Devstack. This
-project is meant to replace the traditional Vagrant-based devstack with a
-multi-container approach driven by `Docker Compose`_. It is still in the
-beta testing phase.
+This project replaces the older Vagrant-based devstack with a
+multi-container approach driven by `Docker Compose`_.
 
-Updated Documentation
----------------------
+A Devstack installation includes the following Open edX components:
 
-These docs might be out of date. Please see the updated docs at https://edx.readthedocs.io/projects/edx-installing-configuring-and-running/en/latest/installation/index.html.
+* The Learning Management System (LMS)
+* Open edX Studio
+* Discussion Forums
+* Open Response Assessments (ORA)
+* E-Commerce
+* Credentials
+* Notes
+* Course Discovery
+* XQueue
+* Open edX Search
+* A demonstration Open edX course
 
-Support
--------
+It also includes the following extra components:
 
-Tickets or issues should be filed in Jira under the platform project:
-https://openedx.atlassian.net/projects/PLAT/issues
+* XQueue
+* The components needed to run the Open edX Analytics Pipeline. This is the primary extract, transform, and load (ETL) tool that extracts and analyzes data from the other Open edX services.
+* The Program Console micro-frontend
+* edX Registrar service.
+
+Where to Find Help
+------------------
+
+There are a number of places to get help, including mailing lists and real-time chat. Please choose an appropriate venue for your question. This helps ensure that you get good prompt advice, and keeps discussion focused. For details of your options, see the `Community`_ pages.
 
 FYI
 ---
@@ -178,6 +190,12 @@ are for standing up a new docker based VM.
 Prerequisites
 -------------
 
+You will need to have the following installed:
+
+- make
+- python 3
+- docker
+
 This project requires **Docker 17.06+ CE**.  We recommend Docker Stable, but
 Docker Edge should work as well.
 
@@ -188,20 +206,20 @@ provision.
 For macOS users, please use `Docker for Mac`_. Previous Mac-based tools (e.g.
 boot2docker) are *not* supported.
 
+Since a Docker-based devstack runs many containers,
+you should configure Docker with a sufficient
+amount of resources. We find that `configuring Docker for Mac`_ with
+a minimum of 2 CPUs and 8GB of memory does work.
+
 `Docker for Windows`_ may work but has not been tested and is *not* supported.
 
-Linux users should *not* be using the ``overlay`` storage driver.  ``overlay2``
-is tested and supported, but requires kernel version 4.0+.  Check which storage
-driver your docker-daemon is configured to use:
+If you are using Linux, use the ``overlay2`` storage driver, kernel version
+4.0+ and *not* ``overlay``. To check which storage driver your
+``docker-daemon`` uses, run the following command.
 
 .. code:: sh
 
    docker info | grep -i 'storage driver'
-
-You will also need the following installed:
-
-- make
-- python pip (optional for MacOS)
 
 Using the Latest Images
 -----------------------
@@ -212,7 +230,7 @@ below, run the following sequence of commands if you want to use the most up-to-
 .. code:: sh
 
     make down
-    make pull
+    make dev.pull
     make dev.up
 
 This will stop any running devstack containers, pull the latest images, and then start all of the devstack containers.
@@ -222,16 +240,13 @@ Getting Started
 
 All of the services can be run by following the steps below. For analyticstack, follow `Getting Started on Analytics`_.
 
-**NOTE:** Since a Docker-based devstack runs many containers,
-you should configure Docker with a sufficient
-amount of resources. We find that `configuring Docker for Mac`_ with
-a minimum of 2 CPUs and 6GB of memory works well.
-
 1. Install the requirements inside of a `Python virtualenv`_.
 
    .. code:: sh
 
        make requirements
+
+   This will install docker-compose and other utilities into your virtualenv.
 
 2. The Docker Compose file mounts a host volume for each service's executing
    code. The host directory defaults to be a sibling of this directory. For
@@ -242,19 +257,25 @@ a minimum of 2 CPUs and 6GB of memory works well.
 
    .. code:: sh
 
-       make dev.clone
+       make dev.clone  # or, `make dev.clone.ssh` if you have SSH keys set up.
 
    You may customize where the local repositories are found by setting the
    DEVSTACK\_WORKSPACE environment variable.
-   
-   Be sure to share the cloned directories in the Docker -> Preferences... ->
-   File Sharing box.
+
+   (macOS only) Share the cloned service directories in Docker, using
+   **Docker -> Preferences -> File Sharing** in the Docker menu.
 
 3. Pull any changes made to the various images on which the devstack depends.
 
    .. code:: sh
 
-       make pull
+       make dev.pull
+
+3. (Optional) You have an option to use nfs on MacOS which will improve the performance significantly, to set it up ONLY ON MAC, do
+    .. code:: sh
+
+        make dev.nfs.setup
+
 
 4. Run the provision command, if you haven't already, to configure the various
    services with superusers (for development without the auth service) and
@@ -279,6 +300,13 @@ a minimum of 2 CPUs and 6GB of memory works well.
 
        make dev.sync.provision
 
+     Provision using NFS:
+
+   .. code:: sh
+
+       make dev.nfs.provision
+
+   This is expected to take a while, produce a lot of output from a bunch of steps, and finally end with ``Provisioning complete!``
 
 5. Start the services. This command will mount the repositories under the
    DEVSTACK\_WORKSPACE directory.
@@ -296,6 +324,12 @@ a minimum of 2 CPUs and 6GB of memory works well.
    .. code:: sh
 
        make dev.sync.up
+
+   Start using NFS:
+
+   .. code:: sh
+
+       make dev.nfs.up
 
 
 After the services have started, if you need shell access to one of the
@@ -347,17 +381,88 @@ The provisioning script creates a Django superuser for every service.
 The LMS also includes demo accounts. The passwords for each of these accounts
 is ``edx``.
 
-+------------+------------------------+
-| Username   | Email                  |
-+============+========================+
-| audit      | audit@example.com      |
-+------------+------------------------+
-| honor      | honor@example.com      |
-+------------+------------------------+
-| staff      | staff@example.com      |
-+------------+------------------------+
-| verified   | verified@example.com   |
-+------------+------------------------+
+  .. list-table::
+   :widths: 20 60
+   :header-rows: 1
+
+   * - Account
+     - Description
+   * - ``staff@example.com``
+     - An LMS and Studio user with course creation and editing permissions.
+       This user is a course team member with the Admin role, which gives
+       rights to work with the demonstration course in Studio, the LMS, and
+       Insights.
+   * - ``verified@example.com``
+     - A student account that you can use to access the LMS for testing
+       verified certificates.
+   * - ``audit@example.com``
+     - A student account that you can use to access the LMS for testing course
+       auditing.
+   * - ``honor@example.com``
+     - A student account that you can use to access the LMS for testing honor
+       code certificates.
+
+Service List
+------------
+
+These are the edX services that Devstack can provision, pull, run, attach to, etc.
+Each service is accessible at ``localhost`` on a specific port.
+The table below provides links to the homepage, API root, or API docs of each service,
+as well as links to the repository where each service's code lives.
+
+The services marked as ``Default`` are provisioned/pulled/run whenever you run
+``make dev.provision`` / ``make dev.pull`` / ``make dev.up``, respectively.
+
+The extra services are provisioned/pulled/run when specifically requested (e.g.,
+``make dev.provision.xqueue`` / ``make dev.pull.xqueue`` / ``make dev.up.xqueue``).
+
++---------------------------+-------------------------------------+----------------+------------+
+| Service                   | URL                                 | Type           | Role       |
++===========================+=====================================+================+============+
+| `lms`_                    | http://localhost:18000/             | Python/Django  | Default    |
++---------------------------+-------------------------------------+----------------+------------+
+| `studio`_                 | http://localhost:18010/             | Python/Django  | Default    |
++---------------------------+-------------------------------------+----------------+------------+
+| `forum`_                  | http://localhost:44567/api/v1/      | Ruby/Sinatra   | Default    |
++---------------------------+-------------------------------------+----------------+------------+
+| `discovery`_              | http://localhost:18381/api-docs/    | Python/Django  | Default    |
++---------------------------+-------------------------------------+----------------+------------+
+| `ecommerce`_              | http://localhost:18130/dashboard/   | Python/Django  | Default    |
++---------------------------+-------------------------------------+----------------+------------+
+| `credentials`_            | http://localhost:18150/api/v2/      | Python/Django  | Default    |
++---------------------------+-------------------------------------+----------------+------------+
+| `edx_notes_api`_          | http://localhost:18120/api/v1/      | Python/Django  | Default    |
++---------------------------+-------------------------------------+----------------+------------+
+| `frontend-app-publisher`_ | http://localhost:18400/             | MFE (React.js) | Default    |
++---------------------------+-------------------------------------+----------------+------------+
+| `gradebook`_              | http://localhost:1994/              | MFE (React.js) | Default    |
++---------------------------+-------------------------------------+----------------+------------+
+| `registrar`_              | http://localhost:18734/api-docs/    | Python/Django  | Extra      |
++---------------------------+-------------------------------------+----------------+------------+
+| `program-console`_        | http://localhost:1976/              | MFE (React.js) | Extra      |
++---------------------------+-------------------------------------+----------------+------------+
+| `xqueue`_                 | http://localhost:18040/api/v1/      | Python/Django  | Extra      |
++---------------------------+-------------------------------------+----------------+------------+
+| `analyticspipeline`_      | http://localhost:4040/              | Python         | Extra      |
++---------------------------+-------------------------------------+----------------+------------+
+| `marketing`_              | http://localhost:8080/              | PHP/Drupal     | Extra      |
++---------------------------+-------------------------------------+----------------+------------+
+
+.. _credentials: https://github.com/edx/credentials
+.. _discovery: https://github.com/edx/course-discovery
+.. _ecommerce: https://github.com/edx/ecommerce
+.. _edx_notes_api: https://github.com/edx/edx-notes-api
+.. _forum: https://github.com/edx/cs_comments_service
+.. _frontend-app-publisher: https://github.com/edx/frontend-app-publisher
+.. _gradebook: https://github.com/edx/frontend-app-gradebook
+.. _lms: https://github.com/edx/edx-platform
+.. _program-console: https://github.com/edx/frontend-app-program-console
+.. _registrar: https://github.com/edx/registrar
+.. _studio: https://github.com/edx/edx-platform
+.. _lms: https://github.com/edx/edx-platform
+.. _analyticspipeline: https://github.com/edx/edx-analytics-pipeline
+.. _marketing: https://github.com/edx/edx-mktg
+.. _xqueue: https://github.com/edx/xqueue
 
 Getting Started on Analytics
 ----------------------------
@@ -377,7 +482,7 @@ analyticstack ( e.g. lms, studio etc ) consider setting higher memory.
 
    .. code:: sh
 
-       make pull
+       make dev.pull
        make pull.analytics_pipeline
 
 3. Run the provision command to configure the analyticstack.
@@ -401,11 +506,11 @@ analyticstack ( e.g. lms, studio etc ) consider setting higher memory.
    .. code:: sh
 
      make analytics-pipeline-shell
-    
+
    - To see logs from containers running in detached mode, you can either use
      "Kitematic" (available from the "Docker for Mac" menu), or by running the
      following command:
-    
+
       .. code:: sh
 
         make logs
@@ -416,9 +521,9 @@ analyticstack ( e.g. lms, studio etc ) consider setting higher memory.
       .. code:: sh
 
         make namenode-logs
-    
+
    - To reset your environment and start provisioning from scratch, you can run:
-    
+
       .. code:: sh
 
         make destroy
@@ -426,9 +531,9 @@ analyticstack ( e.g. lms, studio etc ) consider setting higher memory.
      **NOTE:** Be warned! This will remove all the containers and volumes
      initiated by this repository and all the data ( in these docker containers )
      will be lost.
-    
+
    - For information on all the available ``make`` commands, you can run:
-    
+
       .. code:: sh
 
         make help
@@ -438,31 +543,34 @@ analyticstack ( e.g. lms, studio etc ) consider setting higher memory.
 7. For troubleshooting docker analyticstack, follow the instructions in the
    `Troubleshooting docker analyticstack`_ guide.
 
-Service URLs
-------------
-
-Each service is accessible at ``localhost`` on a specific port. The table below
-provides links to the homepage of each service. Since some services are not
-meant to be user-facing, the "homepage" may be the API root.
-
-+---------------------+-------------------------------------+
-| Service             | URL                                 |
-+=====================+=====================================+
-| Credentials         | http://localhost:18150/api/v2/      |
-+---------------------+-------------------------------------+
-| Catalog/Discovery   | http://localhost:18381/api-docs/    |
-+---------------------+-------------------------------------+
-| E-Commerce/Otto     | http://localhost:18130/dashboard/   |
-+---------------------+-------------------------------------+
-| LMS                 | http://localhost:18000/             |
-+---------------------+-------------------------------------+
-| Notes/edx-notes-api | http://localhost:18120/api/v1/      |
-+---------------------+-------------------------------------+
-| Studio/CMS          | http://localhost:18010/             |
-+---------------------+-------------------------------------+
-
 Useful Commands
 ---------------
+
+``make dev.up`` can take a long time, as it starts all services, whether or not
+you need them. To instead only start a single service and its dependencies, run
+``make dev.up.<service>``. For example, the following will bring up LMS
+(along with Memcached, MySQL, and devpi), but it will not bring up Discovery,
+Credentials, etc:
+
+.. code:: sh
+
+    make dev.up.lms
+
+Similarly, ``make dev.pull`` can take a long time, as it pulls all services' images,
+whether or not you need them.
+To instead only pull images required by your service and its dependencies,
+run ``make dev.pull.<service>``.
+
+Finally, ``make dev.provision.services.<service1>+<service2>+...``
+can be used in place of ``make dev.provision`` in order to run an expedited version of
+provisioning for a specific set of services.
+For example, if you mess up just your
+Course Discovery and Registrar databases,
+running ``make dev.provision.services.discovery+registrar``
+will take much less time than the full provisioning process.
+However, note that some services' provisioning processes depend on other services
+already being correcty provisioned.
+So, when in doubt, it may still be best to run the full ``make dev.provision``.
 
 Sometimes you may need to restart a particular application server. To do so,
 simply use the ``docker-compose restart`` command:
@@ -471,7 +579,7 @@ simply use the ``docker-compose restart`` command:
 
     docker-compose restart <service>
 
-``<service>`` should be replaced with one of the following:
+In all the above commands, ``<service>`` should be replaced with one of the following:
 
 -  credentials
 -  discovery
@@ -479,6 +587,11 @@ simply use the ``docker-compose restart`` command:
 -  lms
 -  edx_notes_api
 -  studio
+-  registrar
+-  gradebook
+-  program-console
+-  frontend-app-learning
+-  frontend-app-publisher
 
 If you'd like to add some convenience make targets, you can add them to a ``local.mk`` file, ignored by git.
 
@@ -559,39 +672,214 @@ E-Commerce Service, you would modify ``ECOMMERCE_VERSION`` in
 How do I run the images for a named Open edX release?
 -----------------------------------------------------
 
-1. Set the ``OPENEDX_RELEASE`` environment variable to the appropriate image
+#. Set the ``OPENEDX_RELEASE`` environment variable to the appropriate image
    tag; "hawthorn.master", "zebrawood.rc1", etc.  Note that unlike a server
    install, ``OPENEDX_RELEASE`` should not have the "open-release/" prefix.
-2. Use ``make dev.checkout`` to check out the correct branch in the local
+#. Check out the appropriate branch in devstack, e.g. ``git checkout open-release/ironwood.master``
+#. Use ``make dev.checkout`` to check out the correct branch in the local
    checkout of each service repository once you've set the ``OPENEDX_RELEASE``
    environment variable above.
-3. ``make pull`` to get the correct images.
+#. ``make dev.pull`` to get the correct images.
 
 All ``make`` target and ``docker-compose`` calls should now use the correct
 images until you change or unset ``OPENEDX_RELEASE`` again.  To work on the
 master branches and ``latest`` images, unset ``OPENEDX_RELEASE`` or set it to
 an empty string.
 
-How do I create database dumps?
--------------------------------
-We use database dumps to speed up provisioning and generally spend less time running migrations. These dumps should be
-updated occasionally - when database migrations take a prolonged amount of time *or* we want to incorporate changes that
-require manual intervention.
+How do I run multiple named Open edX releases on same machine?
+--------------------------------------------------------------
+You can have multiple isolated Devstacks provisioned on a single computer now. Follow these directions to switch between the named releases.
 
-To update the database dumps:
+#. Bring down any running containers by issuing a `make stop.all`. 
+#. The ``COMPOSE_PROJECT_NAME`` variable is used to define Docker namespaced volumes and network based on this value, so changing it will give you a separate set of databases. This is handled for you automatically by setting the ``OPENEDX_RELEASE`` environment variable in ``options.mk`` (e.g. ``COMPOSE_PROJECT_NAME=devstack-juniper.master``. Should you want to manually override this edit the ``options.local.mk`` in the root of this repo and create the file if it does not exist. Change the devstack project name by adding the following line:
+   ``COMPOSE_PROJECT_NAME=<your-alternate-devstack-name>`` (e.g. ``COMPOSE_PROJECT_NAME=secondarydevstack``)
+#. Perform steps in `How do I run the images for a named Open edX release?`_ for specific release.
+#. Follow the steps in `Getting Started`_ section to update requirements (e.g. ``make requirements``) and provision (e.g. ``make dev.provision``) the new named release containers.
 
-1. Destroy and/or backup the data for your existing devstack so that you start with a clean slate.
-2. Disable the loading of the existing database dumps during provisioning by commenting out any calls to ``load-db.sh``
-   in the provisioning scripts. This disabling ensures a start with a completely fresh database and incorporates any changes
-   that may have required some form of manual intervention for existing installations (e.g. drop/move tables).
-3. Provision devstack with ``make provision``.
-4. Dump the databases and open a pull request with your updates:
+As a specific example, if ``OPENEDX_RELEASE`` is set in your environment as ``juniper.master``, then ``COMPOSE_PROJECT_NAME`` will default to ``devstack-juniper.master`` instead of ``devstack``.
+
+The implication of this is that you can switch between isolated Devstack databases by changing the value of the ``OPENEDX_RELEASE`` environment variable.
+
+Switch between your Devstack releases by doing the following:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#. Bring down the containers by issuing a ``make stop.all`` for the running release.
+#. Follow the instructions from the `How do I run multiple named Open edX releases on same machine?`_ section.
+#. Edit the project name in ``options.local.mk`` or set the ``OPENEDX_RELEASE`` environment variable and let the ``COMPOSE_PROJECT_NAME`` be assigned automatically. 
+#. Bring up the containers with ``make dev.up``.
+
+**NOTE:** Additional instructions on switching releases using `direnv` can be found in `How do I switch releases using 'direnv'?`_ section.
+
+Examples of Docker Service Names After Setting the ``COMPOSE_PROJECT_NAME`` variable. Notice that the **devstack-juniper.master** name represents the ``COMPOSE_PROJECT_NAME``.
+         
+-  edx.devstack-juniper.master.lms          
+-  edx.devstack-juniper.master.mysql  
+
+Each instance has an isolated set of databases. This could, for example, be used to quickly switch between versions of Open edX without hitting as many issues with migrations, data integrity, etc.
+
+Unfortunately, this **does not** currently support running Devstacks simultaneously, because we hard-code host port numbers all over the place, and two running containers cannot share the same host port.
+
+Questions & Troubleshooting – Multiple Named Open edX Releases on Same Machine
+------------------------------------------------------------------------------
+
+This broke my existing Devstack!
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ See if the troubleshooting of this readme can help resolve your broken devstack first, then try posting on the `Open edX forums <https://discuss.openedx.org>`__ to see if you have the same issue as any others. If you think you have found a bug, file a CR ticket.
+        
+I’m getting errors related to ports already being used.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Make sure you bring down your devstack before changing the value of COMPOSE_PROJECT_NAME. If you forgot to, change the COMPOSE_PROJECT_NAME back to its original value, run ``make dev.down``, and then try again.
+        
+I have custom scripts/compose files that integrate with or extend Devstack. Will those still work?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+With the default value of COMPOSE_PROJECT_NAME = devstack, they should still work. If you choose a different COMPOSE_PROJECT_NAME, your extensions will likely break, because the names of containers change along with the project name.
+
+How do I switch releases using 'direnv'?
+----------------------------------------
+
+Follow directions in `Switch between your Devstack releases by doing the following:`_ then make the following adjustments.
+
+Make sure that you have setup each Open edX release in separate directories using `How do I enable environment variables for current directory using 'direnv'?`_ instructions. Open the next release project in a separate code editor, then activate the ``direnv`` environment variables and virtual environment for the next release by using a terminal shell to traverse to the directory with the corresponding release ``.envrc`` file. You may need to issue a ``direnv allow`` command to enable the ``.envrc`` file.
+
+    .. code:: sh
+
+        # You should see something like the following after successfully enabling 'direnv' for the Juniper release.
+
+        direnv: loading ~/open-edx/devstack.juniper/.envrc   
+        direnv: export +DEVSTACK_WORKSPACE +OPENEDX_RELEASE +VIRTUAL_ENV ~PATH
+        (venv)username@computer-name devstack.juniper %
+
+**NOTE:** Setting of the ``OPENEDX_RELEASE`` should have been handled within the ``.envrc`` file for named releases only and should not be defined for the ``master`` release.
+
+How do I enable environment variables for current directory using 'direnv'?
+---------------------------------------------------------------------------
+We recommend separating the named releases into different directories, for clarity purposes. You can use `direnv <https://direnv.net/>`__ to define different environment variables per directory::
+
+    .. code::
+
+        # Example showing directory structure for separate Open edX releases.
+
+        /Users/<username>/open-edx – root directory for platform development
+        |_ ./devstack.master  – directory containing all repository information related to the main development release.
+        |_ ./devstack.juniper – directory containing all repository information related to the Juniper release.
+
+#. Install `direnv` using instructions on https://direnv.net/. Below you will find additional setup at the time of this writing so refer to latest of `direnv` site for additional configuration needed.
+
+#. Setup the following configuration to hook `direnv` for local directory environment overrides. There are two examples for BASH or ZSH (Mac OS X) shells.
+
+    .. code:: sh
+
+        ## ~/.bashrc for BASH shell
+
+        ## Hook in `direnv` for local directory environment overrides.
+        ## https://direnv.net/docs/hook.html
+        eval "$(direnv hook bash)"
+
+        # https://github.com/direnv/direnv/wiki/Python#bash
+        show_virtual_env() {
+        if [[ -n "$VIRTUAL_ENV" && -n "$DIRENV_DIR" ]]; then
+            echo "($(basename $VIRTUAL_ENV))"
+        fi
+        }
+        export -f show_virtual_env
+        PS1='$(show_virtual_env)'$PS1
+
+        # ---------------------------------------------------
+
+        ## ~/.zshrc for ZSH shell for Mac OS X.
+
+        ## Hook in `direnv` for local directory environment setup.
+        ## https://direnv.net/docs/hook.html 
+        eval "$(direnv hook zsh)"
+
+        # https://github.com/direnv/direnv/wiki/Python#zsh
+        setopt PROMPT_SUBST
+
+        show_virtual_env() {
+        if [[ -n "$VIRTUAL_ENV" && -n "$DIRENV_DIR" ]]; then
+            echo "($(basename $VIRTUAL_ENV))"
+        fi
+        }
+        PS1='$(show_virtual_env)'$PS1
+
+#. Setup `layout_python-venv` function to be used in local project directory `.envrc` file.
+
+    .. code:: sh
+
+        ## ~/.config/direnv/direnvrc
+
+        # https://github.com/direnv/direnv/wiki/Python#venv-stdlib-module
+
+        realpath() {
+            [[ $1 = /* ]] && echo "$1" || echo "$PWD/${1#./}"
+        }
+        layout_python-venv() {
+            local python=${1:-python3}
+            [[ $# -gt 0 ]] && shift
+            unset PYTHONHOME
+            if [[ -n $VIRTUAL_ENV ]]; then
+                VIRTUAL_ENV=$(realpath "${VIRTUAL_ENV}")
+            else
+                local python_version
+                python_version=$("$python" -c "import platform; print(platform.python_version())")
+                if [[ -z $python_version ]]; then
+                    log_error "Could not detect Python version"
+                    return 1
+                fi
+                VIRTUAL_ENV=$PWD/.direnv/python-venv-$python_version
+            fi
+            export VIRTUAL_ENV
+            if [[ ! -d $VIRTUAL_ENV ]]; then
+                log_status "no venv found; creating $VIRTUAL_ENV"
+                "$python" -m venv "$VIRTUAL_ENV"
+            fi
+
+            PATH="${VIRTUAL_ENV}/bin:${PATH}"
+            export PATH
+        }
+
+#. Example `.envrc` file used in project directory. Need to make sure that each release root has this unique file. 
+
+    .. code:: sh
+
+        # Open edX named release project directory root.
+        ## <project-path>/devstack.juniper/.envrc
+
+        # https://discuss.openedx.org/t/docker-devstack-multiple-releases-one-machine/1902/10
+
+        # This is handled when OPENEDX_RELEASE is set. Leaving this in for manual override.
+        # export COMPOSE_PROJECT_NAME=devstack-juniper
+
+        export DEVSTACK_WORKSPACE="$(pwd)"
+        export OPENEDX_RELEASE=juniper.master
+        export VIRTUAL_ENV="$(pwd)/devstack/venv"
+
+        # https://github.com/direnv/direnv/wiki/Python#virtualenv
+        layout python-venv
+
+How do I create relational database dumps?
+------------------------------------------
+We use relational database dumps to spend less time running relational database
+migrations and to speed up the provisioning of a devstack. These dumps are saved
+as .sql scripts in the root directory of this git repository and they should be
+updated occasionally - when relational database migrations take a prolonged amount
+of time *or* we want to incorporate database schema changes which were done manually.
+
+To update the relational database dumps:
+
+1. Backup the data of your existing devstack if needed
+2. If you are unsure whether the django_migrations tables (which keeps which migrations
+were already applied) in each database are consistent with the existing database dumps,
+disable the loading of these database dumps during provisioning by commenting out
+the calls to ``load-db.sh`` in the provision-*.sh scripts. This ensures a start with a
+completely fresh database and incorporates any changes that may have required some form
+of manual intervention for existing installations (e.g. drop/move tables).
+3. Run the shell script which destroys any existing devstack, creates a new one
+and updates the relational database dumps:
 
 .. code:: sh
 
-   ./dump-db.sh ecommerce
-   ./dump-db.sh edxapp
-   ./dump-db.sh edxapp_csmh
+   ./update-dbs-init-sql-scripts.sh
 
 How do I keep my database up to date?
 -------------------------------------
@@ -611,6 +899,21 @@ if your branch has fallen significantly behind master, it may not include all
 of the migrations included in the database dump used by provisioning.  In these
 cases, it's usually best to first rebase the branch onto master to
 get the missing migrations.
+
+How do I access a database shell?
+---------------------------------
+
+To access a MySQL or Mongo shell, run the following commands, respectively:
+
+.. code:: sh
+
+   make mysql-shell
+   mysql
+
+.. code:: sh
+
+   make mongo-shell
+   mongo
 
 How do I make migrations?
 -------------------------
@@ -655,8 +958,8 @@ starts, you have a few options:
 
 * Merge your updated requirements files and wait for a new `edxops Docker image`_
   for that service to be built and uploaded to `Docker Hub`_.  You can
-  then download and use the updated image (for example, via ``make pull``).
-  The discovery and edxapp images are buit automatically via a Jenkins job. All other
+  then download and use the updated image (for example, via ``make dev.pull.<service>``).
+  The discovery and edxapp images are built automatically via a Jenkins job. All other
   images are currently built as needed by edX employees, but will soon be built
   automatically on a regular basis. See `How do I build images?`_
   for more information.
@@ -697,6 +1000,29 @@ To rebuild static assets for all service containers:
 
    make static
 
+How do I connect to the databases from an outside editor?
+---------------------------------------------------------
+
+To connect to the databases from an outside editor (such as MySQLWorkbench),
+first uncomment these lines from ``docker-compose.yml``'s ``mysql`` section:
+
+.. code-block::
+
+  ports:
+    - "3506:3306"
+
+Then connect using the values below. Note that the username and password will
+vary depending on the database. For all of the options, see ``provision.sql``.
+
+- Host: ``localhost``
+- Port: ``3506``
+- Username: ``edxapp001``
+- Password: ``password``
+
+If you have trouble connecting, ensure the port was mapped successfully by
+running ``docker-compose ps`` and looking for a line like this:
+``edx.devstack.mysql docker-entrypoint.sh mysql ... Up 0.0.0.0:3506→3306/tcp``.
+
 Switching branches
 ------------------
 
@@ -709,7 +1035,7 @@ database migrations and package updates.
 When switching to a branch which differs greatly from the one you've been
 working on (especially if the new branch is more recent), you may wish to
 halt the existing containers via ``make down``, pull the latest Docker
-images via ``make pull``, and then re-run ``make dev.provision`` or
+images via ``make dev.pull.<service>``, and then re-run ``make dev.provision`` or
 ``make dev.sync.provision`` in order to recreate up-to-date databases,
 static assets, etc.
 
@@ -773,12 +1099,11 @@ start up the containers as usual with:
 This command starts each relevant container with the equivalent of the '--it' option,
 allowing a developer to attach to the process once the process is up and running.
 
-To attach to the LMS/Studio containers and their process, use either:
+To attach to a container and its process, use ``make <service>-attach``. For example:
 
 .. code:: sh
 
     make lms-attach
-    make studio-attach
 
 Set a PDB breakpoint anywhere in the code using:
 
@@ -799,6 +1124,9 @@ or a manual Docker command to bring down the container:
 .. code:: sh
 
    docker kill $(docker ps -a -q --filter="name=edx.devstack.<container name>")
+
+Alternatively, some terminals allow detachment from a running container with the
+``Ctrl-P, Ctrl-Q`` key sequence.
 
 Running LMS and Studio Tests
 ----------------------------
@@ -821,6 +1149,13 @@ Tests can also be run individually. Example:
 .. code:: sh
 
     pytest openedx/core/djangoapps/user_api
+
+Tests can also be easily run with a shortcut from the host machine,
+so that you maintain your command history:
+
+.. code:: sh
+
+    ./in lms pytest openedx/core/djangoapps/user_api
 
 Connecting to Browser
 ~~~~~~~~~~~~~~~~~~~~~
@@ -888,7 +1223,7 @@ directory:
 
 .. code:: sh
 
-   make pull
+   make dev.pull
 
 Pull the latest Docker Compose configuration and provisioning scripts by running
 the following command from the devstack directory:
@@ -971,8 +1306,7 @@ Running LMS commands within a container
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Most of the ``paver`` commands require a settings flag. If omitted, the flag defaults to
-``devstack``, which is the settings flag for vagrant-based devstack instances.
-So if you run into issues running ``paver`` commands in a docker container, you should append
+``devstack``. If you run into issues running ``paver`` commands in a docker container, you should append
 the ``devstack_docker`` flag. For example:
 
 .. code:: sh
@@ -997,7 +1331,7 @@ No space left on device
 If you see the error ``no space left on device`` on a Mac, Docker has run
 out of space in its Docker.qcow2 file.
 
-Here is an example error while running ``make pull``:
+Here is an example error while running ``make dev.pull``:
 
 .. code:: sh
 
@@ -1032,7 +1366,7 @@ While provisioning, some have seen the following error:
    ...
    cwd = os.getcwdu()
    OSError: [Errno 2] No such file or directory
-   make: *** [dev.provision.run] Error 1
+   make: *** [dev.provision.services] Error 1
 
 This issue can be worked around, but there's no guaranteed method to do so.
 Rebooting and restarting Docker does *not* seem to correct the issue. It
@@ -1157,7 +1491,7 @@ GitHub issue which explains the `current status of implementing delegated consis
 .. _Docker Hub: https://hub.docker.com/
 .. _Pycharm Integration documentation: docs/pycharm_integration.rst
 .. _devpi documentation: docs/devpi.rst
-.. _edx-platform testing documentation: https://github.com/edx/edx-platform/blob/master/docs/testing.rst#running-python-unit-tests
+.. _edx-platform testing documentation: https://github.com/edx/edx-platform/blob/master/docs/guides/testing/testing.rst#running-python-unit-tests
 .. _docker-sync: #improve-mac-osx-performance-with-docker-sync
 .. |Build Status| image:: https://travis-ci.org/appsembler/devstack.svg?branch=master
     :target: https://travis-ci.org/appsembler/devstack
@@ -1169,3 +1503,4 @@ GitHub issue which explains the `current status of implementing delegated consis
 .. _Python virtualenv: http://docs.python-guide.org/en/latest/dev/virtualenvs/#lower-level-virtualenv
 .. _Running analytics acceptance tests in docker: http://edx-analytics-pipeline-reference.readthedocs.io/en/latest/running_acceptance_tests_in_docker.html
 .. _Troubleshooting docker analyticstack: http://edx-analytics-pipeline-reference.readthedocs.io/en/latest/troubleshooting_docker_analyticstack.html
+.. _Community: https://open.edx.org/community/connect/

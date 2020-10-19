@@ -1,4 +1,6 @@
 #!/bin/sh
+
+set -e
 #
 # To add programs support, we need to tweak/add certain rows in the database.
 # We want to go through Django for this (rather than direct db modification), since we have a lot of Python
@@ -17,10 +19,10 @@ BASEDIR=$(dirname "$0")
 # Main items are green, rest is dull grey since they are noisy, but we still might want to see their output,
 # for error cases and the like.
 notice() {
-    SWITCH="\033["
-    GREY="${SWITCH}0;37m"
+    SWITCH='\033['
+    GREY="${SWITCH}1;90m"
     GREEN="${SWITCH}0;32m"
-    echo "${GREEN}${@}${GREY}"
+    echo -e "${GREEN}${@}${GREY}"
 }
 
 # We reset color once we're done with the script.
@@ -28,7 +30,7 @@ notice() {
 reset_color() {
     SWITCH="\033["
     NORMAL="${SWITCH}0m"
-    echo -n "${NORMAL}"
+    echo -e -n "${NORMAL}"
 }
 
 docker_exec() {
@@ -42,7 +44,7 @@ docker_exec() {
     /edx/app/$app/$repo/manage.py $cmd
     "
 
-    docker-compose exec "$service" bash -c "$CMDS"
+    docker-compose $DOCKER_COMPOSE_FILES exec -T "$service" bash -c "$CMDS"
 }
 
 provision_ida() {
@@ -56,6 +58,8 @@ provision_ida() {
 
     docker_exec "$service" "$cmd" "$3" "$4"
 }
+
+trap reset_color 1 2 3 6 15
 
 if [ "$1" = "lms" -o -z "$1" ]; then
     notice Adding program support to LMS...

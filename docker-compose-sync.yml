@@ -19,6 +19,15 @@ services:
   forum:
     volumes:
       - forum-sync:/edx/app/forum/cs_comments_service:nocopy
+  registrar:
+    volumes:
+      - registrar-sync:/edx/app/registrar/registrar:nocopy
+  gradebook:
+    volumes:
+      - gradebook-sync:/edx/app/gradebook/gradebook:nocopy
+  program-console:
+    volumes:
+      - program-console-sync:/edx/app/program-console:nocopy
 
 volumes:
   credentials-sync:
@@ -30,4 +39,10 @@ volumes:
   edxapp-sync:
     external: true
   forum-sync:
+    external: true
+  registrar-sync:
+    external: true
+  gradebook-sync:
+    external: true
+  program-console-sync:
     external: true

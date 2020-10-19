@@ -11,18 +11,22 @@ if [ -z "$DEVSTACK_WORKSPACE" ]; then
     echo "need to set workspace dir"
     exit 1
 elif [ -d "$DEVSTACK_WORKSPACE" ]; then
-    cd $DEVSTACK_WORKSPACE
+    cd "$DEVSTACK_WORKSPACE"
 else
     echo "Workspace directory $DEVSTACK_WORKSPACE doesn't exist"
     exit 1
 fi
 
-OPENEDX_GIT_BRANCH=open-release/hawthorn.master
+OPENEDX_GIT_BRANCH=open-release/juniper.3
 
 APPSEMBLER_EDX_PLATFORM_BRANCH="appsembler/tahoe/develop"
 AMC_BRANCH="develop"
-THEME_CODEBASE_BRANCH="hawthorn/master"
-THEME_CUSTOMERS_BRANCH="hawthorn/tahoe"
+THEME_CODEBASE_BRANCH="hawthorn/master"  # we don't have a juniper branch yet
+THEME_CUSTOMERS_BRANCH="hawthorn/tahoe"  # we don't have a juniper branch yet
+
+# When you add new services should add them to both repos and ssh_repos
+# (or non_release_repos and non_release_ssh_repos if they are not part
+# of Open edX releases).
 
 repos=(
     "https://github.com/edx/course-discovery.git"
@@ -37,12 +41,48 @@ repos=(
     "git@github.com:appsembler/edx-platform.git"
     "https://github.com/edx/xqueue.git"
     "https://github.com/edx/edx-analytics-pipeline.git"
+    "https://github.com/edx/frontend-app-gradebook.git"
+    "https://github.com/edx/frontend-app-publisher.git"
+)
+
+non_release_repos=(
+    "https://github.com/edx/frontend-app-learning.git"
+    "https://github.com/edx/registrar.git"
+    "https://github.com/edx/frontend-app-program-console.git"
+)
+
+ssh_repos=(
+    "git@github.com:edx/course-discovery.git"
+    "git@github.com:edx/credentials.git"
+    "git@github.com:edx/cs_comments_service.git"
+    "git@github.com:edx/ecommerce.git"
+    "git@github.com:edx/edx-e2e-tests.git"
+    "git@github.com:edx/edx-notes-api.git"
+    "git@github.com:edx/edx-platform.git"
+    "git@github.com:edx/xqueue.git"
+    "git@github.com:edx/edx-analytics-pipeline.git"
+    "git@github.com:edx/frontend-app-gradebook.git"
+    "git@github.com:edx/frontend-app-publisher.git"
+)
+
+non_release_ssh_repos=(
+    "git@github.com:edx/frontend-app-learning.git"
+    "git@github.com:edx/registrar.git"
+    "git@github.com:edx/frontend-app-program-console.git"
 )
 
 private_repos=(
     # Needed to run whitelabel tests.
     "https://github.com/edx/edx-themes.git"
 )
+
+if [ -n "${OPENEDX_RELEASE}" ]; then
+    OPENEDX_GIT_BRANCH=open-release/${OPENEDX_RELEASE}
+else
+    OPENEDX_GIT_BRANCH=master
+    repos+=("${non_release_repos[@]}")
+    ssh_repos+=("${non_release_ssh_repos[@]}")
+fi
 
 name_pattern=".*(edx|appsembler)/(.*).git"
 
@@ -58,11 +98,10 @@ _checkout ()
         name="${BASH_REMATCH[2]}"
 
         # If a directory exists and it is nonempty, assume the repo has been cloned.
-        cd "${DEVSTACK_WORKSPACE}"  # Appsembler: Just in case `customer_specific` had an error.
-        if [ "$name" != "edx-theme-customers" -a -d "$name" -a -n "$(ls -A "$name" 2>/dev/null)" ]; then
+        if [ -d "$name" ] && [ -n "$(ls -A "$name" 2>/dev/null)" ]; then
             echo "Checking out branch ${OPENEDX_GIT_BRANCH} of $name"
-            cd $name
-            _appsembler_checkout_and_update_branch $name
+            cd "$name"
+            _checkout_and_update_branch
             cd ..
         elif [ "$name" == "edx-theme-customers" -a -d "edx-theme-codebase/customer_specific/.git" ]; then
             echo "Checking out branch ${OPENEDX_GIT_BRANCH} of $name"
@@ -80,7 +119,7 @@ checkout ()
 
 _clone ()
 {
-    # for repo in ${repos[*]}
+
     repos_to_clone=("$@")
     for repo in "${repos_to_clone[@]}"
     do
@@ -91,13 +130,14 @@ _clone ()
 
         # If a directory exists and it is nonempty, assume the repo has been checked out
         # and only make sure it's on the required branch
-
-        cd "${DEVSTACK_WORKSPACE}"  # Appsembler: Just in case `customer_specific` had an error.
-
-        if [ "$name" != "edx-theme-customers" -a -d "$name" -a -n "$(ls -A "$name" 2>/dev/null)" ]; then
-            printf "The [%s] repo is already checked out. Checking for updates.\n" $name
-            cd ${DEVSTACK_WORKSPACE}/${name}
-            _appsembler_checkout_and_update_branch $name
+        if [ -d "$name" ] && [ -n "$(ls -A "$name" 2>/dev/null)" ]; then
+            if [ ! -d "$name/.git" ]; then
+                printf "ERROR: [%s] exists but is not a git repo.\n" "$name"
+                exit 1
+            fi
+            printf "The [%s] repo is already checked out. Checking for updates.\n" "$name"
+            cd "${DEVSTACK_WORKSPACE}/${name}"
+            _checkout_and_update_branch
             cd ..
         elif [ "$name" == "edx-theme-customers" -a -d "edx-theme-codebase/customer_specific/.git" ]; then
             cd "${DEVSTACK_WORKSPACE}/edx-theme-codebase/customer_specific"
@@ -136,6 +176,7 @@ _checkout_and_update_branch ()
         git fetch origin ${OPENEDX_GIT_BRANCH}:${OPENEDX_GIT_BRANCH}
         git checkout ${OPENEDX_GIT_BRANCH}
     fi
+    find . -name '*.pyc' -not -path './.git/*' -delete
 }
 
 # our version to handle the fact that both edx-platform and AMC need
@@ -162,6 +203,11 @@ clone ()
     _clone "${repos[@]}"
 }
 
+clone_ssh ()
+{
+    _clone "${ssh_repos[@]}"
+}
+
 clone_private ()
 {
     _clone "${private_repos[@]}"
@@ -185,10 +231,10 @@ reset ()
             elif [ "$name" == "amc" ]; then
                 cd $name;git reset --hard HEAD;git checkout ${AMC_BRANCH};git reset --hard origin/${AMC_BRANCH};git pull;cd "$currDir"
             else
-                cd $name;git reset --hard HEAD;git checkout open-release/hawthorn.master;git reset --hard origin/open-release/hawthorn.master;git pull;cd "$currDir"
+                cd $name;git reset --hard HEAD;git checkout ${OPENEDX_GIT_BRANCH};git reset --hard origin/open-release/juniper.master;git pull;cd "$currDir"
             fi
         else
-            printf "The [%s] repo is not cloned. Continuing.\n" $name
+            printf "The [%s] repo is not cloned. Continuing.\n" "$name"
         fi
     done
     cd - &> /dev/null
@@ -203,10 +249,10 @@ status ()
         name="${BASH_REMATCH[2]}"
 
         if [ -d "$name" ]; then
-            printf "\nGit status for [%s]:\n" $name
-            cd $name;git status;cd "$currDir"
+            printf "\nGit status for [%s]:\n" "$name"
+            cd "$name";git status;cd "$currDir"
         else
-            printf "The [%s] repo is not cloned. Continuing.\n" $name
+            printf "The [%s] repo is not cloned. Continuing.\n" "$name"
         fi
     done
     cd - &> /dev/null
@@ -216,6 +262,8 @@ if [ "$1" == "checkout" ]; then
     checkout
 elif [ "$1" == "clone" ]; then
     clone
+elif [ "$1" == "clone_ssh" ]; then
+    clone_ssh
 elif [ "$1" == "whitelabel" ]; then
     clone_private
 elif [ "$1" == "reset" ]; then

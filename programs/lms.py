@@ -31,6 +31,6 @@ SiteConfiguration.objects.update_or_create(
     site=Site.objects.get(domain='example.com'),
     defaults={
         'enabled': True,
-        'values': {'COURSE_CATALOG_API_URL': DISCOVERY_API_URL},
+        'site_values': {'COURSE_CATALOG_API_URL': DISCOVERY_API_URL},
     },
 )

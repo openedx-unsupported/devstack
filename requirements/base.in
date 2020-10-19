@@ -1,2 +1,4 @@
-docker-compose>=1.9.0,<2.0.0
-functools32 ; python_version == "2.7" # via jsonschema
+-c constraints.txt
+
+docker-compose                      # For launching the devstack Docker containers
+PyYAML                              # For parsing configuration files while generating offline installers

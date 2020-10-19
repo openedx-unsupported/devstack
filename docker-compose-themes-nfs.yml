@@ -1,0 +1,23 @@
+version: "2.1"
+
+services:
+  discovery:
+      volumes:
+      - themes-nfs:/edx/app/edx-themes:cached
+  ecommerce:
+      volumes:
+      - themes-nfs:/edx/app/edx-themes:cached
+  lms:
+      volumes:
+      - themes-nfs:/edx/app/edx-themes:cached
+  studio:
+      volumes:
+      - themes-nfs:/edx/app/edx-themes:cached
+
+volumes:
+  themes-nfs:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=host.docker.internal,rw,nolock,hard,nointr,nfsvers=3
+      device: :${DEVSTACK_WORKSPACE}/edx-themes

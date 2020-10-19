@@ -1,0 +1,87 @@
+# Update docker-compose-host.yml too in case of any change in this file.
+
+version: "2.1"
+
+services:
+  credentials:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/credentials:/edx/app/credentials/credentials:cached
+      - credentials_node_modules:/edx/app/credentials/credentials/node_modules
+      - src-nfs:/edx/src:cached
+  discovery:
+      volumes:
+      - ${DEVSTACK_WORKSPACE}/course-discovery:/edx/app/discovery/discovery:cached
+      - discovery_node_modules:/edx/app/discovery/discovery/node_modules
+      - src-nfs:/edx/src:cached
+  ecommerce:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/ecommerce:/edx/app/ecommerce/ecommerce:cached
+      - ecommerce_node_modules:/edx/app/ecommerce/ecommerce/node_modules
+      - src-nfs:/edx/src:cached
+  lms:
+    volumes:
+      - edx-nfs:/edx/app/edxapp/edx-platform
+      - edxapp_media:/edx/var/edxapp/media
+      - edxapp_node_modules:/edx/app/edxapp/edx-platform/node_modules
+      - edxapp_uploads:/edx/var/edxapp/uploads
+      - src-nfs:/edx/src:cached
+  edx_notes_api:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/edx-notes-api:/edx/app/edx_notes_api/edx_notes_api:cached
+      - src-nfs:/edx/src:cached
+  studio:
+    volumes:
+      - edx-nfs:/edx/app/edxapp/edx-platform
+      - edxapp_media:/edx/var/edxapp/media
+      - edxapp_node_modules:/edx/app/edxapp/edx-platform/node_modules
+      - edxapp_uploads:/edx/var/edxapp/uploads
+      - src-nfs:/edx/src:cached
+  forum:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/cs_comments_service:/edx/app/forum/cs_comments_service:cached
+  registrar:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/registrar:/edx/app/registrar/registrar
+  registrar-worker:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/registrar:/edx/app/registrar/registrar
+  gradebook:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/frontend-app-gradebook:/edx/app/gradebook:cached
+      - gradebook_node_modules:/edx/app/gradebook/node_modules
+  program-console:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/frontend-app-program-console:/edx/app/program-console:cached
+      - program_console_node_modules:/edx/app/program-console/node_modules
+  frontend-app-learning:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/frontend-app-learning:/edx/app/frontend-app-learning:cached
+      - frontend_app_learning_node_modules:/edx/app/frontend-app-learning/node_modules
+  frontend-app-publisher:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/frontend-app-publisher:/edx/app/frontend-app-publisher:cached
+      - frontend_app_publisher_node_modules:/edx/app/frontend-app-publisher/node_modules
+
+volumes:
+  credentials_node_modules:
+  discovery_node_modules:
+  ecommerce_node_modules:
+  edxapp_media:
+  edxapp_node_modules:
+  edxapp_uploads:
+  gradebook_node_modules:
+  program_console_node_modules:
+  frontend_app_learning_node_modules:
+  frontend_app_publisher_node_modules:
+  edx-nfs:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=host.docker.internal,rw,nolock,hard,nointr,nfsvers=3
+      device: :${DEVSTACK_WORKSPACE}/edx-platform
+  src-nfs:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=host.docker.internal,rw,nolock,hard,nointr,nfsvers=3
+      device: :${DEVSTACK_WORKSPACE}/src

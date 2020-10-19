@@ -29,3 +29,23 @@ syncs:
     host_disk_mount_mode: 'cached'
     src: '../cs_comments_service/'
     sync_excludes: [ '.git', '.idea' ]
+
+  regsistrar-sync:
+    host_disk_mount_mode: 'cached'
+    src: '../registrar/'
+    sync_excludes: [ '.git', '.idea' ]
+
+  gradebook-sync:
+    host_disk_mount_mode: 'cached'
+    src: '../gradebook/'
+    sync_excludes: [ '.git', '.idea' ]
+
+  program-console-sync:
+    host_disk_mount_mode: 'cached'
+    src: '../frontend-app-program-console/'
+    sync_excludes: [ '.git', '.idea' ]
+
+  frontend-app-learning-sync:
+    host_disk_mount_mode: 'cached'
+    src: '../frontend-app-learning/'
+    sync_excludes: [ '.git', '.idea' ]

@@ -1,0 +1,33 @@
+pipeline {
+    agent { label "devstack-worker" }
+    environment {
+        COMPOSE_HTTP_TIMEOUT = '120'
+        DOCKER_CLIENT_TIMEOUT = '120'
+        USE_TTY = 'false'
+    }
+    options {
+        timestamps()
+        timeout(120)
+    }
+    stages {
+        stage("Build installer") {
+            steps {
+                withPythonEnv('System-CPython-2.7') {
+                    dir('devstack') {
+                        sh 'make requirements'
+                        sh 'make dev.clone'
+                        sh 'make dev.pull'
+                        sh 'make dev.provision'
+                        sh 'python scripts/snapshot.py ../devstack_snapshot'
+                    }
+                }
+                archiveArtifacts 'devstack_snapshot/**/*'
+            }
+        }
+    }
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}
