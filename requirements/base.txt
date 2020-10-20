@@ -28,7 +28,7 @@ pyyaml==5.3.1             # via -r requirements/base.in, docker-compose
 requests==2.24.0          # via docker, docker-compose
 six==1.15.0               # via bcrypt, cryptography, docker, dockerpty, jsonschema, pynacl, websocket-client
 texttable==1.6.3          # via docker-compose
-urllib3==1.25.10          # via requests
+urllib3==1.25.11          # via requests
 websocket-client==0.57.0  # via docker, docker-compose
 zipp==1.2.0               # via importlib-metadata
 
