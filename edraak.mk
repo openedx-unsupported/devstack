@@ -59,6 +59,12 @@ edraak.programs.copy_cache:
 edraak.programs.gulp:
 	docker-compose exec edraak_programs gulp
 
+edraak.programs.watch:
+	docker exec -t edraak.devstack.programs bash -c 'while true; do npx gulp watch; sleep 2; done'
+
+edraak.marketing.watch:
+	docker exec -t edraak.devstack.marketing bash -c 'while true; do npx gulp watch; sleep 2; done'
+
 edraak.programs.install_all:
 	$(MAKE) edraak.programs.copy_cache
 	$(MAKE) edraak.programs.gulp
