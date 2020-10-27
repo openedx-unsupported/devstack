@@ -100,9 +100,6 @@ ENV/
 # Personal makefile extensions
 local.mk
 
-# Data used in feature toggle reporter
-feature-toggle-data/
-
 # Local option overrides
 options.local.mk
 
