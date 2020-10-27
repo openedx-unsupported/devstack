@@ -58,7 +58,7 @@
         dev.sync.requirements dev.sync.up dev.up dev.up.attach dev.up.shell \
         dev.up.without-deps dev.up.without-deps.shell dev.up.with-programs \
         dev.up.with-watchers dev.validate e2e-tests e2e-tests.with-shell \
-        feature-toggle-state help requirements selfcheck upgrade upgrade \
+        help requirements selfcheck upgrade upgrade \
         up-marketing-sync validate-lms-volume vnc-passwords
 
 # Load up options (configurable through options.local.mk).
@@ -619,9 +619,6 @@ build-courses: ## Build course and provision studio, ecommerce, and marketing wi
 	$(WINPTY) bash ./course-generator/build-course-json.sh course-generator/tmp-config.json
 	$(WINPTY) bash ./course-generator/create-courses.sh --studio --ecommerce --marketing course-generator/tmp-config.json
 	rm course-generator/tmp-config.json
-
-feature-toggle-state: ## Gather the state of feature toggles configured for various IDAs.
-	$(WINPTY) bash ./gather-feature-toggle-state.sh
 
 up-marketing-sync: ## Bring up all services (including the marketing site) with docker-sync.
 	docker-sync-stack start -c docker-sync-marketing-site.yml
