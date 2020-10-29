@@ -14,7 +14,7 @@ make dev.up.mongo
 mongo_container="$(make -s dev.print-container.mongo)"
 
 echo -e "${GREEN}Waiting for MongoDB...${NC}"
-until docker exec "$mongo_container" bash -c 'mongo --eval \"printjson(db.serverStatus())\"' &> /dev/null
+until docker exec "$mongo_container" mongo --eval 'db.serverStatus()' &> /dev/null
 do
     if docker logs "$mongo_container" | grep -q "BadValue: Invalid value for version, found 3.6, expected '3.4' or '3.2'"; then
         echo -e "${YELLOW}Already upgraded to Mongo 3.6, exiting${NC}"
@@ -47,7 +47,7 @@ make dev.up.mongo
 mongo_container="$(make -s dev.print-container.mongo)"
 
 echo -e "${GREEN}Waiting for MongoDB...${NC}"
-until docker exec "$mongo_container" bash -c 'mongo --eval \"printjson(db.serverStatus())\"' &> /dev/null
+until docker exec "$mongo_container" mongo --eval 'db.serverStatus()' &> /dev/null
 do
     printf "."
     sleep 1
