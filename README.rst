@@ -23,9 +23,6 @@ A Devstack installation includes the following Open edX components by default:
 It also includes the following extra components:
 
 * XQueue
-* The components needed to run the Open edX Analytics Pipeline. This is the
-  primary extract, transform, and load (ETL) tool that extracts and analyzes
-  data from the other Open edX services.
 * The Learning micro-frontend (A.K.A the new Courseware experience)
 * The Program Console micro-frontend
 * The Library Authoring micro-frontend
@@ -153,7 +150,7 @@ Documentation for first prototype of decentralized devstack can be found at: `de
 Getting Started
 ---------------
 
-The default devstack services can be run by following the steps below. For analyticstack, follow `Getting Started on Analytics`_.
+The default devstack services can be run by following the steps below.
 
 1. Install the requirements inside of a `Python virtualenv`_.
 
@@ -367,8 +364,6 @@ Alternatively, you can run these by modifying the ``DEFAULT_SERVICES`` option as
 +------------------------------------+-------------------------------------+----------------+--------------+
 | `xqueue`_                          | http://localhost:18040/api/v1/      | Python/Django  | Extra        |
 +------------------------------------+-------------------------------------+----------------+--------------+
-| `analyticspipeline`_               | http://localhost:4040/              | Python         | Extra        |
-+------------------------------------+-------------------------------------+----------------+--------------+
 | `marketing`_                       | http://localhost:8080/              | PHP/Drupal     | edX.org-only |
 +------------------------------------+-------------------------------------+----------------+--------------+
 
@@ -384,7 +379,6 @@ Alternatively, you can run these by modifying the ``DEFAULT_SERVICES`` option as
 .. _registrar: https://github.com/edx/registrar
 .. _studio: https://github.com/edx/edx-platform
 .. _lms: https://github.com/edx/edx-platform
-.. _analyticspipeline: https://github.com/edx/edx-analytics-pipeline
 .. _marketing: https://github.com/edx/edx-mktg
 .. _frontend-app-learning: https://github.com/edx/frontend-app-learning
 .. _frontend-app-library-authoring: https://github.com/edx/frontend-app-library-authoring
@@ -1447,7 +1441,6 @@ As a specific example, if ``OPENEDX_RELEASE`` is set in your environment as ``ju
 .. _edxops Docker image: https://hub.docker.com/r/edxops/
 .. _Docker Hub: https://hub.docker.com/
 .. _Pycharm Integration documentation: docs/pycharm_integration.rst
-.. _Getting Started on Analytics: docs/analytics.rst
 .. _devpi documentation: docs/devpi.rst
 .. _edx-platform testing documentation: https://github.com/edx/edx-platform/blob/master/docs/guides/testing/testing.rst#running-python-unit-tests
 .. _docker-sync: #improve-mac-osx-performance-with-docker-sync

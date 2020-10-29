@@ -11,12 +11,12 @@
 
 # All devstack targets are "PHONY" in that they do not name actual files.
 # Thus, all non-parameterized targets should be added to this declaration.
-.PHONY: analytics-pipeline-shell backup check-memory destroy \
-        dev.provision.analytics_pipeline dev.provision.services dev.repo.reset \
-        dev.up.all dev.up.analytics_pipeline dev.up.watchers down \
+.PHONY: backup check-memory destroy \
+        dev.provision.services dev.repo.reset \
+        dev.up.all dev.up.watchers down \
         down-marketing e2e-shell healthchecks help-marketing lms-restart \
-        lms-watcher-shell logs provision pull pull.analytics_pipeline \
-        pull.xqueue restore static stats stop stop.all stop.analytics_pipeline \
+        lms-watcher-shell logs provision pull  \
+        pull.xqueue restore static stats stop stop.all  \
         stop-marketing stop.watchers stop.xqueue studio-restart \
         studio-watcher-shell up-marketing up-marketing-detached validate \
         xqueue_consumer-restart xqueue-restart
@@ -41,23 +41,17 @@ mysql-shell-%:
 # Simple tagets.
 #####################################################################
 
-analytics-pipeline-shell: dev.shell.analyticspipeline
-
 backup: dev.backup
 
 check-memory: dev.check-memory
 
 destroy: dev.destroy
 
-dev.provision.analytics_pipeline: dev.provision.analyticspipeline
-
 dev.provision.services: dev.provision
 
 dev.repo.reset: dev.reset-repos
 
 dev.up.all: dev.up.with-watchers
-
-dev.up.analytics_pipeline: dev.up.analyticspipeline
 
 dev.up.watchers: dev.up.lms_watcher+studio_watcher
 
@@ -83,8 +77,6 @@ logs: dev.logs
 
 provision: dev.provision
 
-pull.analytics_pipeline: dev.pull.analyticspipeline
-
 pull: dev.pull
 
 pull.xqueue: dev.pull.without-deps.xqueue+xqueue_consumer
@@ -96,8 +88,6 @@ static: dev.static
 stats: dev.stats
 
 stop.all: dev.stop
-
-stop.analytics_pipeline: dev.stop.namenode+datanode+resourcemanager+nodemanager+sparkmaster+sparkworker+vertica+analyticspipeline
 
 stop: dev.stop
 

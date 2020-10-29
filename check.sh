@@ -111,12 +111,6 @@ if should_check xqueue; then
         "curl --fail -L http://localhost:18040/xqueue/status"
 fi
 
-if should_check analyticspipeline; then
-    echo "Running Analytics Devstack tests: "
-    run_check analyticspipeline_tests analyticspipeline \
-        "make analytics-pipeline-devstack-test"
-fi
-
 if should_check marketing; then
     echo "Seeing if we can curl root of Marketing site: "
     run_check marketing_curl marketing \
