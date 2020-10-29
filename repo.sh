@@ -29,7 +29,6 @@ repos=(
     "https://github.com/edx/edx-notes-api.git"
     "https://github.com/edx/edx-platform.git"
     "https://github.com/edx/xqueue.git"
-    "https://github.com/edx/edx-analytics-pipeline.git"
     "https://github.com/edx/frontend-app-gradebook.git"
     "https://github.com/edx/frontend-app-publisher.git"
 )
@@ -51,7 +50,6 @@ ssh_repos=(
     "git@github.com:edx/edx-notes-api.git"
     "git@github.com:edx/edx-platform.git"
     "git@github.com:edx/xqueue.git"
-    "git@github.com:edx/edx-analytics-pipeline.git"
     "git@github.com:edx/frontend-app-gradebook.git"
     "git@github.com:edx/frontend-app-publisher.git"
 )

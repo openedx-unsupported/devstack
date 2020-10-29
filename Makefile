@@ -41,7 +41,7 @@
 
 # All devstack targets are "PHONY" in that they do not name actual files.
 # Thus, all non-parameterized targets should be added to this declaration.
-.PHONY: analytics-pipeline-devstack-test build-courses clean-marketing-sync \
+.PHONY: build-courses clean-marketing-sync \
         create-test-course dev.attach dev.backup dev.cache-programs dev.check \
         dev.check-memory dev.checkout dev.clone dev.clone.https dev.clone.ssh \
         dev.dbshell dev.destroy dev.down dev.drop-db dev.kill dev.logs \
@@ -49,7 +49,7 @@
         devpi-password dev.provision dev.ps dev.pull dev.pull.without-deps \
         dev.reset dev.reset-repos dev.restart-container dev.restart-devserver \
         dev.restart-devserver.forum dev.restore dev.rm-stopped dev.shell \
-        dev.shell.analyticspipeline dev.shell.credentials dev.shell.discovery \
+        dev.shell.credentials dev.shell.discovery \
         dev.shell.ecommerce dev.shell.lms dev.shell.lms_watcher \
         dev.shell.marketing dev.shell.registrar dev.shell.studio \
         dev.shell.studio_watcher dev.shell.xqueue dev.shell.xqueue_consumer \
@@ -72,7 +72,7 @@ include options.mk
 # the containers.
 # Some services are only available for certain values of FS_SYNC_STRATEGY.
 # For example, the LMS/Studio asset watchers are only available for local-mounts and nfs,
-# and XQueue and the Analytics Pipeline are only available for local-mounts.
+# and XQueue is only available for local-mounts.
 
 # Files for use with local volume mounting (default).
 ifeq ($(FS_SYNC_STRATEGY),local-mounts)
@@ -80,7 +80,6 @@ COMPOSE_FILE := docker-compose-host.yml
 COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-themes.yml
 COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-watchers.yml
 COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-xqueue.yml
-COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-analytics-pipeline.yml
 COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-marketing-site.yml
 endif
 
@@ -395,9 +394,6 @@ dev.shell: _expects-service.dev.shell
 dev.shell.%: ## Run a shell on the specified service's container.
 	docker-compose exec $* /bin/bash
 
-dev.shell.analyticspipeline:
-	docker-compose exec analyticspipeline env TERM=$(TERM) /edx/app/analytics_pipeline/devstack.sh open
-
 dev.shell.credentials:
 	docker-compose exec credentials env TERM=$(TERM) bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials && /bin/bash'
 
@@ -602,9 +598,6 @@ vnc-passwords: ## Get the VNC passwords for the Chrome and Firefox Selenium cont
 
 devpi-password: ## Get the root devpi password for the devpi container.
 	docker-compose exec devpi bash -c "cat /data/server/.serverpassword"
-
-analytics-pipeline-devstack-test: ## Run analytics pipeline tests in travis build.
-	docker-compose exec -u hadoop -T analyticspipeline bash -c 'sudo chown -R hadoop:hadoop /edx/app/analytics_pipeline && source /edx/app/hadoop/.bashrc && make develop-local && make docker-test-acceptance-local ONLY_TESTS=edx.analytics.tasks.tests.acceptance.test_internal_reporting_database && make docker-test-acceptance-local ONLY_TESTS=edx.analytics.tasks.tests.acceptance.test_user_activity'
 
 hadoop-application-logs-%: ## View hadoop logs by application Id.
 	docker-compose exec nodemanager yarn logs -applicationId $*
