@@ -74,11 +74,19 @@ dev.editable-envs:  ## Copy env files outside the docker containers so it's edit
 dev.up: | check-memory ## Bring up all services with host volumes
 	docker-compose -f docker-compose.yml -f docker-compose-host.yml up -d
 
+dev.judge.up: | check-memory ## Bring up all services with host volumes
+	docker-compose -f docker-compose.yml -f docker-compose-host.yml -f docker-compose-edraak-judge.yml up -d
+
 dev.nfs.setup:  ## set's up an nfs server on the /Users folder, allowing nfs mounting on docker
 	./setup_native_nfs_docker_osx.sh
 
 dev.nfs.up: | check-memory ## Bring up all services with host volumes
 	docker-compose -f docker-compose.yml -f docker-compose-host-nfs.yml up -d
+	@# Comment out this next line if you want to save some time and don't care about catalog programs
+	#./programs/provision.sh cache >/dev/null
+
+dev.nfs.judge.up: | check-memory ## Bring up all services with host volumes
+	docker-compose -f docker-compose.yml -f docker-compose-host-nfs.yml -f docker-compose-edraak-judge.yml up -d
 	@# Comment out this next line if you want to save some time and don't care about catalog programs
 	#./programs/provision.sh cache >/dev/null
 
@@ -134,7 +142,10 @@ stop: ## Stop all services
 stop.watchers: ## Stop asset watchers
 	docker-compose -f docker-compose-watchers.yml stop
 
-stop.all: | stop.analytics_pipeline stop stop.watchers ## Stop all containers, including asset watchers
+stop.judge: ## Stop edraak judge
+	docker-compose -f docker-compose.yml -f docker-compose-edraak-judge.yml stop
+
+stop.all: | stop.analytics_pipeline stop stop.watchers stop.judge ## Stop all containers, including asset watchers
 
 stop.xqueue:
 	docker-compose -f docker-compose-xqueue.yml stop
@@ -147,7 +158,7 @@ destroy: ## Remove all devstack-related containers, networks, and volumes
 	./destroy.sh
 
 logs: ## View logs from containers running in detached mode
-	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml logs -f --tail 0
+	docker-compose -f docker-compose.yml -f docker-compose-edraak-judge.yml logs -f --tail 0
 
 %-logs: ## View the logs of the specified service container
 	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml -f docker-compose-watchers.yml logs -f --tail=500 $*

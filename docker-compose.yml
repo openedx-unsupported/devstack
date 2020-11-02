@@ -269,8 +269,8 @@ services:
   edraak_dev_router:
     image: nginx
     container_name: edraak_dev_router
-    logging:
-      driver: none
+#    logging:
+#      driver: none
     volumes:
       - ./nginx:/etc/nginx/conf.d
     command: bash -c 'while true; do nginx -g "daemon off;"; sleep 2; done'
