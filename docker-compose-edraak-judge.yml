@@ -9,6 +9,7 @@ services:
     env_file:
       - ${DEVSTACK_WORKSPACE}/edraak-judge/.env
     container_name: edraak.devstack.judge
+    command: gunicorn --worker-class gevent --workers 2 --bind "0.0.0.0":"80" wsgi:app --max-requests 10000 --timeout 5 --reload --keep-alive 5 --log-level info
     depends_on:
       - edraak-judge-redis
     volumes:
