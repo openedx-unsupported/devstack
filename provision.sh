@@ -166,7 +166,8 @@ docker-compose exec -T mysql57 bash -c "mysql -uroot mysql" < provision.sql
 # and create its users.
 if needs_mongo "$to_provision_ordered"; then
 	echo -e "${GREEN}Waiting for MongoDB...${NC}"
-	until docker-compose exec -T mongo bash -c 'mongo --eval "printjson(db.serverStatus())"' &> /dev/null
+	# mongo container and mongo process/shell inside the container
+	until docker-compose exec -T mongo mongo --eval "db.serverStatus()" &> /dev/null
 	do
 	  printf "."
 	  sleep 1
