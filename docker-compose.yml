@@ -172,7 +172,7 @@ services:
 #      ELASTICSEARCH_URL: "http://edx.devstack.elasticsearch:9200"
 
   studio:
-    command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py cms runserver 0.0.0.0:18010 --settings devstack_docker; sleep 2; done'
+    command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py cms runserver 0.0.0.0:18010 --settings devstack_docker; sleep 200000; done'
     container_name: edx.devstack.studio
     depends_on:
       - devpi
@@ -198,7 +198,7 @@ services:
       - edxapp_studio_assets:/edx/var/edxapp/staticfiles/
 
   forum:
-    command: bash -c 'source /edx/app/forum/ruby_env && source /edx/app/forum/devstack_forum_env && cd /edx/app/forum/cs_comments_service && bundle install && while true; do ruby app.rb -o 0.0.0.0 ; sleep 2; done'
+    command: bash -c 'source /edx/app/forum/ruby_env && source /edx/app/forum/devstack_forum_env && cd /edx/app/forum/cs_comments_service && bundle install && while true; do ruby app.rb -o 0.0.0.0 ; sleep 200000; done'
     container_name: edx.devstack.forum
     depends_on:
       - mongo

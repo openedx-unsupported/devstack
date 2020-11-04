@@ -92,6 +92,9 @@ edraak.marketing.provision:
 marketing-restart: ## Kill the Marketing Django development server. The watcher process will restart it.
 	docker exec -t edraak.devstack.marketing bash -c 'kill $$(ps aux | grep "manage.py" | egrep -v "while|grep" | awk "{print \$$2}")'
 
+judge-restart: ## Kill the Marketing Django development server. The watcher process will restart it.
+	docker exec -t edraak.devstack.judge bash -c 'kill $$(ps aux | grep "gunicorn" | egrep -v "while|grep" | awk "{print \$$2}")'
+
 edraak.marketing.migrate: ## Kill the Marketing Django development server. The watcher process will restart it.
 	docker-compose exec edraak_marketing bash -c 'python manage.py migrate --settings=marketingsite.envs.dev'
 
