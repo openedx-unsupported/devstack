@@ -225,7 +225,7 @@ services:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.ecommerce"
     hostname: ecommerce.devstack.edx
     depends_on:
-      - mysql
+      - mysql57
       - memcached
       - lms
       - discovery
