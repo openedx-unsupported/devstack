@@ -755,6 +755,37 @@ To rebuild static assets for all service containers:
 
    make dev.static
 
+How do I enable comprehensive theming?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Following directions `Changing Themes for an Open edX Site`_ to get started. You can create your theme inside the ``${DEVSTACK_WORKSPACE}/edx-themes`` local directory as this maps to the Docker container ``/edx/app/edx-themes`` location.
+
+Devstack Envs Configuration
+********************************
+Make sure that you enable the following code in ./edx-platform/lms/envs/devstack.py as this will make sure that you have the appropriate Mako template overrides applied for your theme. Forgetting to enable this will not allow your theme template files to be overriden by the platform. See `discuss 3557 <https://discuss.openedx.org/t/enable-comprehensive-theming-devstack-mako-template-overrides-not-working/3557>`__ for details concerning issues with not enabling the following code. 
+
+.. code:: python
+
+   ########################## THEMING  #######################
+   # If you want to enable theming in devstack, uncomment this section and add any relevant
+   # theme directories to COMPREHENSIVE_THEME_DIRS
+
+   # We have to import the private method here because production.py calls
+   # derive_settings('lms.envs.production') which runs _make_mako_template_dirs with
+   # the settings from production, which doesn't include these theming settings. Thus,
+   # the templating engine is unable to find the themed templates because they don't exist
+   # in it's path. Re-calling derive_settings doesn't work because the settings was already
+   # changed from a function to a list, and it can't be derived again.
+
+   from .common import _make_mako_template_dirs
+   ENABLE_COMPREHENSIVE_THEMING = True
+   COMPREHENSIVE_THEME_DIRS = [
+       "/edx/app/edxapp/edx-platform/themes/",
+       "/edx/app/edx-themes"
+   ]
+   TEMPLATES[1]["DIRS"] = _make_mako_template_dirs
+   derive_settings(__name__)
+
 How do I connect to the databases from an outside editor?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -1455,3 +1486,4 @@ As a specific example, if ``OPENEDX_RELEASE`` is set in your environment as ``ju
 .. _updating relational database dumps: docs/database-dumps.rst
 .. _building images for devstack: docs/building-images.rst
 .. _Understanding Git Conceptually: https://www.sbf5.com/~cduan/technical/git/
+.. _Changing Themes for an Open edX Site: https://edx.readthedocs.io/projects/edx-installing-configuring-and-running/en/latest/configuration/changing_appearance/theming/index.html
