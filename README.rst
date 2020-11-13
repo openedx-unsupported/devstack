@@ -781,7 +781,7 @@ Make sure that you enable the following code in ./edx-platform/lms/envs/devstack
    ENABLE_COMPREHENSIVE_THEMING = True
    COMPREHENSIVE_THEME_DIRS = [
        "/edx/app/edxapp/edx-platform/themes/",
-       "/edx/app/edx-themes"
+       "/edx/app/edx-themes/edx-platform/"
    ]
    TEMPLATES[1]["DIRS"] = _make_mako_template_dirs
    derive_settings(__name__)
