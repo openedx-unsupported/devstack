@@ -429,10 +429,10 @@ dev.shell.marketing:
 	docker-compose exec marketing env TERM=$(TERM) bash -c 'cd /edx/app/edx-mktg/edx-mktg; exec /bin/bash -sh'
 
 dev.dbshell:
-	docker-compose exec mysql bash -c "mysql"
+	docker-compose exec mysql57 bash -c "mysql"
 
 dev.dbshell.%: ## Run a SQL shell on the given database.
-	docker-compose exec mysql bash -c "mysql $*"
+	docker-compose exec mysql57 bash -c "mysql $*"
 
 dev.dbcopy57.%: ## Copy data from old mysql 5.6 container into a new 5.7 db
 	docker-compose exec mysql bash -c "mysqldump $*" > .dev/$*.sql
