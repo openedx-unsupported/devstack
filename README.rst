@@ -762,7 +762,7 @@ Following directions `Changing Themes for an Open edX Site`_ to get started. You
 
 Devstack Envs Configuration
 ********************************
-Make sure that you enable the following code in ./edx-platform/lms/envs/devstack.py as this will make sure that you have the appropriate Mako template overrides applied for your theme. Forgetting to enable this will not allow your theme template files to be overriden by the platform. See `discuss 3557 <https://discuss.openedx.org/t/enable-comprehensive-theming-devstack-mako-template-overrides-not-working/3557>`__ for details concerning issues with not enabling the following code. 
+Make sure that you enable the following code in ./edx-platform/lms/envs/devstack.py as this will make sure that you have the appropriate Mako template overrides applied for your theme. Forgetting to enable this will not allow your theme template files to be overriden by the platform. See `discuss 3557 <https://discuss.openedx.org/t/enable-comprehensive-theming-devstack-mako-template-overrides-not-working/3557>`__ for details concerning issues with not enabling the following code.
 
 .. code:: python
 
@@ -1475,7 +1475,7 @@ As a specific example, if ``OPENEDX_RELEASE`` is set in your environment as ``ju
 .. _devpi documentation: docs/devpi.rst
 .. _edx-platform testing documentation: https://github.com/edx/edx-platform/blob/master/docs/guides/testing/testing.rst#running-python-unit-tests
 .. _docker-sync: #improve-mac-osx-performance-with-docker-sync
-.. |Build Status| image:: https://travis-ci.org/edx/devstack.svg?branch=master
+.. |Build Status| image:: https://travis-ci.com/edx/devstack.svg?branch=master
     :target: https://travis-ci.org/edx/devstack
     :alt: Travis
 .. _How do I build images?: docs/building-images.rst
