@@ -41,7 +41,7 @@
 
 # All devstack targets are "PHONY" in that they do not name actual files.
 # Thus, all non-parameterized targets should be added to this declaration.
-.PHONY: build-courses clean-marketing-sync \
+.PHONY: build-courses \
         create-test-course dev.attach dev.backup dev.cache-programs dev.check \
         dev.check-memory dev.checkout dev.clone dev.clone.https dev.clone.ssh \
         dev.dbshell dev.destroy dev.down dev.drop-db dev.kill dev.logs \
@@ -51,7 +51,7 @@
         dev.restart-devserver.forum dev.restore dev.rm-stopped dev.shell \
         dev.shell.credentials dev.shell.discovery \
         dev.shell.ecommerce dev.shell.lms dev.shell.lms_watcher \
-        dev.shell.marketing dev.shell.registrar dev.shell.studio \
+        dev.shell.registrar dev.shell.studio \
         dev.shell.studio_watcher dev.shell.xqueue dev.shell.xqueue_consumer \
         dev.static dev.static.lms dev.static.studio dev.stats dev.status \
         dev.stop dev.sync.daemon.start dev.sync.provision \
@@ -59,7 +59,7 @@
         dev.up.without-deps dev.up.without-deps.shell dev.up.with-programs \
         dev.up.with-watchers dev.validate e2e-tests e2e-tests.with-shell \
         help requirements selfcheck upgrade upgrade \
-        up-marketing-sync validate-lms-volume vnc-passwords
+        validate-lms-volume vnc-passwords
 
 # Load up options (configurable through options.local.mk).
 include options.mk
@@ -80,7 +80,6 @@ COMPOSE_FILE := docker-compose-host.yml
 COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-themes.yml
 COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-watchers.yml
 COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-xqueue.yml
-COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-marketing-site.yml
 endif
 
 # Files for use with Network File System -based synchronization.
@@ -94,7 +93,6 @@ endif
 ifeq ($(FS_SYNC_STRATEGY),docker-sync)
 COMPOSE_FILE := docker-compose-host.yml
 COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-sync.yml
-COMPOSE_FILE := $(COMPOSE_FILE):docker-sync-marketing-site.yml
 endif
 
 ifndef COMPOSE_FILE
@@ -425,9 +423,6 @@ dev.shell.studio_watcher:
 dev.shell.xqueue_consumer:
 	docker-compose exec xqueue_consumer env TERM=$(TERM) /edx/app/xqueue/devstack.sh open
 
-dev.shell.marketing:
-	docker-compose exec marketing env TERM=$(TERM) bash -c 'cd /edx/app/edx-mktg/edx-mktg; exec /bin/bash -sh'
-
 dev.dbshell:
 	docker-compose exec mysql57 bash -c "mysql"
 
@@ -603,19 +598,12 @@ devpi-password: ## Get the root devpi password for the devpi container.
 hadoop-application-logs-%: ## View hadoop logs by application Id.
 	docker-compose exec nodemanager yarn logs -applicationId $*
 
-create-test-course: ## Provisions studio, ecommerce, and marketing with course(s) in test-course.json.
-	# NOTE: marketing course creation is not available for those outside edX
-	$(WINPTY) bash ./course-generator/create-courses.sh --studio --ecommerce --marketing course-generator/test-course.json
+create-test-course: ## Provisions studio, and ecommerce with course(s) in test-course.json.
+	$(WINPTY) bash ./course-generator/create-courses.sh --studio --ecommerce course-generator/test-course.json
 
-build-courses: ## Build course and provision studio, ecommerce, and marketing with it.
+build-courses: ## Build course and provision studio, and ecommerce with it.
 	# Modify test-course.json before running this make target to generate a custom course
-	# NOTE: marketing course creation is not available for those outside edX
 	$(WINPTY) bash ./course-generator/build-course-json.sh course-generator/tmp-config.json
-	$(WINPTY) bash ./course-generator/create-courses.sh --studio --ecommerce --marketing course-generator/tmp-config.json
+	$(WINPTY) bash ./course-generator/create-courses.sh --studio --ecommerce course-generator/tmp-config.json
 	rm course-generator/tmp-config.json
 
-up-marketing-sync: ## Bring up all services (including the marketing site) with docker-sync.
-	docker-sync-stack start -c docker-sync-marketing-site.yml
-
-clean-marketing-sync: ## Remove the docker-sync containers for all services (including the marketing site).
-	docker-sync-stack clean -c docker-sync-marketing-site.yml

@@ -21,7 +21,6 @@ env:
     - SERVICES=edx_notes_api
     - SERVICES=credentials
     - SERVICES=xqueue
-    - SERVICES=marketing
 
 services:
   - docker

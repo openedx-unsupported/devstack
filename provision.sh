@@ -51,7 +51,6 @@ e2e \
 forum \
 notes \
 registrar \
-marketing \
 xqueue \
  "
 

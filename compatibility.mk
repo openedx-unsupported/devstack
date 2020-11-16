@@ -14,11 +14,11 @@
 .PHONY: backup check-memory destroy \
         dev.provision.services dev.repo.reset \
         dev.up.all dev.up.watchers down \
-        down-marketing e2e-shell healthchecks help-marketing lms-restart \
+        e2e-shell healthchecks lms-restart \
         lms-watcher-shell logs provision pull  \
         pull.xqueue restore static stats stop stop.all  \
-        stop-marketing stop.watchers stop.xqueue studio-restart \
-        studio-watcher-shell up-marketing up-marketing-detached validate \
+        stop.watchers stop.xqueue studio-restart \
+        studio-watcher-shell validate \
         xqueue_consumer-restart xqueue-restart
 
 #####################################################################
@@ -57,17 +57,9 @@ dev.up.watchers: dev.up.lms_watcher+studio_watcher
 
 down: dev.down
 
-down-marketing: dev.down
-
 e2e-shell: e2e-tests.with-shell
 
 healthchecks: dev.check
-
-help-marketing:
-	@echo "This command is deprecated."
-	@echo "All Marketing Site commands can be expressed using the standard Devstack command format."
-	@echo "For example, 'make dev.up.marketing' brings up the Marketing Site service,"
-	@echo "and 'make dev.shell.marketing' creates a shell into it."
 
 lms-restart: dev.restart-devserver.lms
 
@@ -91,8 +83,6 @@ stop.all: dev.stop
 
 stop: dev.stop
 
-stop-marketing: dev.stop
-
 stop.watchers: dev.stop.lms_watcher+studio_watcher
 
 stop.xqueue: dev.stop.xqueue+xqueue_consumer
@@ -100,10 +90,6 @@ stop.xqueue: dev.stop.xqueue+xqueue_consumer
 studio-restart: dev.restart-devserver.studio
 
 studio-watcher-shell: dev.shell.studio_watcher
-
-up-marketing-detached: dev.up.$(DEFAULT_SERVICES)+marketing
-
-up-marketing: dev.up.attach.marketing
 
 validate: dev.validate
 
