@@ -364,8 +364,6 @@ Alternatively, you can run these by modifying the ``DEFAULT_SERVICES`` option as
 +------------------------------------+-------------------------------------+----------------+--------------+
 | `xqueue`_                          | http://localhost:18040/api/v1/      | Python/Django  | Extra        |
 +------------------------------------+-------------------------------------+----------------+--------------+
-| `marketing`_                       | http://localhost:8080/              | PHP/Drupal     | edX.org-only |
-+------------------------------------+-------------------------------------+----------------+--------------+
 
 .. _credentials: https://github.com/edx/credentials
 .. _discovery: https://github.com/edx/course-discovery
@@ -379,7 +377,6 @@ Alternatively, you can run these by modifying the ``DEFAULT_SERVICES`` option as
 .. _registrar: https://github.com/edx/registrar
 .. _studio: https://github.com/edx/edx-platform
 .. _lms: https://github.com/edx/edx-platform
-.. _marketing: https://github.com/edx/edx-mktg
 .. _frontend-app-learning: https://github.com/edx/frontend-app-learning
 .. _frontend-app-library-authoring: https://github.com/edx/frontend-app-library-authoring
 .. _course-authoring: https://github.com/edx/frontend-app-course-authoring
@@ -762,7 +759,7 @@ Following directions `Changing Themes for an Open edX Site`_ to get started. You
 
 Devstack Envs Configuration
 ********************************
-Make sure that you enable the following code in ./edx-platform/lms/envs/devstack.py as this will make sure that you have the appropriate Mako template overrides applied for your theme. Forgetting to enable this will not allow your theme template files to be overriden by the platform. See `discuss 3557 <https://discuss.openedx.org/t/enable-comprehensive-theming-devstack-mako-template-overrides-not-working/3557>`__ for details concerning issues with not enabling the following code. 
+Make sure that you enable the following code in ./edx-platform/lms/envs/devstack.py as this will make sure that you have the appropriate Mako template overrides applied for your theme. Forgetting to enable this will not allow your theme template files to be overriden by the platform. See `discuss 3557 <https://discuss.openedx.org/t/enable-comprehensive-theming-devstack-mako-template-overrides-not-working/3557>`__ for details concerning issues with not enabling the following code.
 
 .. code:: python
 
@@ -808,15 +805,6 @@ vary depending on the database. For all of the options, see ``provision.sql``.
 If you have trouble connecting, ensure the port was mapped successfully by
 running ``make dev.ps`` and looking for a line like this:
 ``edx.devstack.mysql docker-entrypoint.sh mysql ... Up 0.0.0.0:3506→3306/tcp``.
-
-How do I run the edX.org Drupal Marketing Site?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The edX.org marketing site built on Drupal is being deprecated, but it can still be run via Devstack.
-See the `Marketing Site instructions`_ for details on getting it up and running.
-This will not be useful to those outside of edX, Inc, as the marketing site is closed-source
-and is not built with Open edX usage in mind.
-
 
 How do I build the service images myself?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1482,7 +1470,6 @@ As a specific example, if ``OPENEDX_RELEASE`` is set in your environment as ``ju
 .. _Django Migration Don'ts: https://engineering.edx.org/django-migration-donts-f4588fd11b64
 .. _Python virtualenv: http://docs.python-guide.org/en/latest/dev/virtualenvs/#lower-level-virtualenv
 .. _Community: https://open.edx.org/community/connect/
-.. _Marketing site instructions: https://openedx.atlassian.net/wiki/spaces/ENG/pages/159162183/Marketing+Site
 .. _updating relational database dumps: docs/database-dumps.rst
 .. _building images for devstack: docs/building-images.rst
 .. _Understanding Git Conceptually: https://www.sbf5.com/~cduan/technical/git/

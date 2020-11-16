@@ -111,12 +111,6 @@ if should_check xqueue; then
         "curl --fail -L http://localhost:18040/xqueue/status"
 fi
 
-if should_check marketing; then
-    echo "Seeing if we can curl root of Marketing site: "
-    run_check marketing_curl marketing \
-        "curl --fail -L http://localhost:8080"
-fi
-
 echo "Successful checks:${succeeded:- NONE}"
 echo "Failed checks:${failed:- NONE}"
 if [[ "$succeeded" ]]; then
