@@ -1476,7 +1476,7 @@ As a specific example, if ``OPENEDX_RELEASE`` is set in your environment as ``ju
 .. _edx-platform testing documentation: https://github.com/edx/edx-platform/blob/master/docs/guides/testing/testing.rst#running-python-unit-tests
 .. _docker-sync: #improve-mac-osx-performance-with-docker-sync
 .. |Build Status| image:: https://travis-ci.com/edx/devstack.svg?branch=master
-    :target: https://travis-ci.org/edx/devstack
+    :target: https://travis-ci.com/edx/devstack
     :alt: Travis
 .. _How do I build images?: docs/building-images.rst
 .. _Django Migration Don'ts: https://engineering.edx.org/django-migration-donts-f4588fd11b64
