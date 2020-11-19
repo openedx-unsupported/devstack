@@ -278,7 +278,7 @@ services:
     depends_on:
       - mongo
       - memcached
-      - elasticsearch
+      - elasticsearch7
     image: edxops/forum:${OPENEDX_RELEASE:-latest}
     stdin_open: true
     tty: true
@@ -302,6 +302,7 @@ services:
       - forum
       - firefox
       - chrome
+      - elasticsearch7
     # Allows attachment to the LMS service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
@@ -406,6 +407,7 @@ services:
     depends_on:
       - devpi
       - mysql57
+      - elasticsearch7
       - memcached
       - mongo
       - firefox
