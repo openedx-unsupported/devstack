@@ -13,11 +13,11 @@ chardet==3.0.4            # via requests
 cryptography==3.2.1       # via paramiko
 distro==1.5.0             # via docker-compose
 docker-compose==1.27.4    # via -r requirements/base.in
-docker[ssh]==4.3.1        # via docker-compose
+docker[ssh]==4.4.0        # via docker-compose
 dockerpty==0.4.1          # via docker-compose
 docopt==0.6.2             # via docker-compose
 idna==2.10                # via requests
-importlib-metadata==2.0.0  # via jsonschema
+importlib-metadata==2.1.0  # via jsonschema
 jsonschema==3.2.0         # via docker-compose
 paramiko==2.7.2           # via docker
 pycparser==2.20           # via cffi
