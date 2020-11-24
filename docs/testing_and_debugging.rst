@@ -1,8 +1,10 @@
 Testing and Debugging
----------------------
+=====================
+
+.. contents:: Table of Contents
 
 Debugging using PDB
-~~~~~~~~~~~~~~~~~~~
+-------------------
 
 It's possible to debug any of the containers' Python services using PDB. To do so,
 start up the containers as usual with:
@@ -25,7 +27,7 @@ Set a PDB breakpoint anywhere in the code using one of the following:
 .. code:: sh
 
     breakpoint()                # Works in Python >= 3.7
-    import pdb;pdb.set_trace()  # Workg in any version of Python
+    import pdb;pdb.set_trace()  # Works in any version of Python
 
 and your attached session will offer an interactive PDB prompt when the breakpoint is hit.
 
@@ -44,7 +46,7 @@ You can bring that same service back up with:
     make dev.up.<service>
 
 Running LMS and Studio Tests
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------
 
 After entering a shell for the appropriate service via ``make lms-shell`` or
 ``make studio-shell``, you can run any of the usual paver commands from the
@@ -73,7 +75,7 @@ so that you maintain your command history:
     ./in lms pytest openedx/core/djangoapps/user_api
 
 Connecting to Browser
-*********************
+~~~~~~~~~~~~~~~~~~~~~
 
 If you want to see the browser being automated for JavaScript or bok-choy tests,
 you can connect to the container running it via VNC.
@@ -95,7 +97,7 @@ use Firefox instead, prefix the test command with
 ``SELENIUM_BROWSER=chrome SELENIUM_HOST=edx.devstack.chrome``.
 
 Running End-to-End Tests
-~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------
 
 To run the base set of end-to-end tests for edx-platform, run the following
 make target:
@@ -115,3 +117,6 @@ and run the tests manually via paver:
 
 The browser running the tests can be seen and interacted with via VNC as
 described above (Firefox is used by default).
+
+.. _edx-platform testing documentation: https://github.com/edx/edx-platform/blob/master/docs/guides/testing/testing.rst#running-python-unit-tests
+.. _edx-e2e-tests README: https://github.com/edx/edx-e2e-tests/#how-to-run-lms-and-studio-tests
