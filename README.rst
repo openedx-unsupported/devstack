@@ -38,17 +38,11 @@ Table of Contents
 
 * `Where to Find Help`_
 * `Prerequisites`_
-* `Using the Latest Images`_
 * `Roadmap`_
 * `Getting Started`_
 * `Usernames and Passwords`_
 * `Service List`_
 * `Useful Commands`_
-* `Frequently Asked Questions`_
-* `Testing and Debugging`_
-* `Troubleshooting: General Tips`_
-* `Troubleshooting: Common Issues`_
-* `Troubleshooting: Performance`_
 * `Known Issues`_
 * `Advanced Configuration Options`_
 
@@ -56,6 +50,14 @@ Where to Find Help
 ------------------
 
 There are a number of places to get help, including mailing lists and real-time chat. Please choose an appropriate venue for your question. This helps ensure that you get good prompt advice, and keeps discussion focused. For details of your options, see the `Community`_ pages.
+
+You can find some tips for troubleshooting in `troubleshoot_general_tips.rst`_.
+You can find general answers at `devstack_faq.rst`_.
+To learn about testing and debugging your code in devstack, see: `testing_and_debugging.rst`_.
+
+.. _troubleshoot_general_tips.rst: docs/troubleshoot_general_tips.rst
+.. _devstack_faq.rst: docs/devstack_faq.rst
+.. _testing_and_debugging.rst: docs/testing_and_debugging.rst
 
 Prerequisites
 -------------
@@ -102,37 +104,6 @@ However, you may want to run the ``make`` commands from within a Python 3 virtua
 environment, as described in `Getting Started`_. This will keep the Python packages required for Devstack separate from
 the ones installed globally on your system.
 
-Using the Latest Images
------------------------
-
-**NOTE:** LMS is now using MySql 5.7 by default, you have to run  ``make dev.pull.lms``  and  ``make dev.provision.lms``  (more details in `Getting Started`_)
-to fetch latest images and re provision local copies of databases in order for an existing devstack setup to keep working.
-
-By default, these instructions will install the master branch. If you want to install a named release instead (e.g. juniper.master), follow the steps in `How do I run the images for a named Open edX release?`_ before pulling the docker images. You can learn more about named releases in the `official documentation <https://edx.readthedocs.io/projects/edx-developer-docs/en/latest/named_releases.html>`_.
-
-New images for our services are published frequently.  Assuming that you've followed the steps in `Getting Started`_
-below, run the following sequence of commands if you want to use the most up-to-date versions of *all* default devstack images.
-
-.. code:: sh
-
-    make down
-    make dev.pull
-    make dev.up
-
-This will stop and remove any running devstack containers, pull the latest images, and then start all of the devstack containers.
-
-If you wish to pull only images relevant to certain services, you can run ``make dev.pull.<services>``.
-For example, the following only only pulls images of E-Commerce and Credentials, as well as their dependencies (like LMS).
-
-.. code:: sh
-
-    make dev.pull.ecommerce+credentials
-
-To further save time, ``make dev.pull.without-deps.<services>`` pulls the images for the specified service and *nothing else*.
-
-.. code:: sh
-
-    make dev.pull.without-deps.ecommerce+credentials
 
 Roadmap
 -------
@@ -183,6 +154,9 @@ The default devstack services can be run by following the steps below.
    .. code:: sh
 
        make dev.pull
+
+   Note -
+   If you are setting up devstack to develop on Open edx named releases, see `instructions<docs/developing_on_named_release_branches.rst>`_ before following this step 3
 
 3. Optional: You have an option to use NFS on MacOS which may improve the performance significantly. To set it up ONLY ON MAC, do
     .. code:: sh
@@ -507,27 +481,11 @@ As a specific example, if ``OPENEDX_RELEASE`` is set in your environment as ``ju
 .. _Docker Compose: https://docs.docker.com/compose/
 .. _Docker for Mac: https://docs.docker.com/docker-for-mac/
 .. _Docker for Windows: https://docs.docker.com/docker-for-windows/
-.. _Docker Sync: https://github.com/EugenMayer/docker-sync/wiki
-.. _Docker Sync installation instructions: https://github.com/EugenMayer/docker-sync/wiki/1.-Installation
-.. _cached consistency mode for volume mounts: https://docs.docker.com/docker-for-mac/osxfs-caching/
-.. _current status of implementing delegated consistency mode: https://github.com/docker/for-mac/issues/1592
 .. _configuring Docker for Mac: https://docs.docker.com/docker-for-mac/#/advanced
 .. _feature added in Docker 17.05: https://github.com/edx/configuration/pull/3864
-.. _edx-e2e-tests README: https://github.com/edx/edx-e2e-tests/#how-to-run-lms-and-studio-tests
-.. _edxops Docker image: https://hub.docker.com/r/edxops/
-.. _Docker Hub: https://hub.docker.com/
-.. _Pycharm Integration documentation: docs/pycharm_integration.rst
-.. _devpi documentation: docs/devpi.rst
-.. _edx-platform testing documentation: https://github.com/edx/edx-platform/blob/master/docs/guides/testing/testing.rst#running-python-unit-tests
-.. _docker-sync: #improve-mac-osx-performance-with-docker-sync
+.. _docker-sync: docs/troubleshoot_general_tips.rst#improve-mac-osx-performance-with-docker-sync
 .. |Build Status| image:: https://travis-ci.org/edx/devstack.svg?branch=master
     :target: https://travis-ci.org/edx/devstack
     :alt: Travis
-.. _How do I build images?: docs/building-images.rst
-.. _Django Migration Don'ts: https://engineering.edx.org/django-migration-donts-f4588fd11b64
-.. _Python virtualenv: http://docs.python-guide.org/en/latest/dev/virtualenvs/#lower-level-virtualenv
+.. _Python virtualenv: https://docs.python-guide.org/en/latest/dev/virtualenvs/#lower-level-virtualenv
 .. _Community: https://open.edx.org/community/connect/
-.. _updating relational database dumps: docs/database-dumps.rst
-.. _building images for devstack: docs/building-images.rst
-.. _Understanding Git Conceptually: https://www.sbf5.com/~cduan/technical/git/
-.. _Changing Themes for an Open edX Site: https://edx.readthedocs.io/projects/edx-installing-configuring-and-running/en/latest/configuration/changing_appearance/theming/index.html
