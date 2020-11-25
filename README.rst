@@ -55,9 +55,12 @@ You can find some tips for troubleshooting in `troubleshoot_general_tips.rst`_.
 You can find general answers at `devstack_faq.rst`_.
 To learn about testing and debugging your code in devstack, see: `testing_and_debugging.rst`_.
 
+You can also browse other specific docs in the `docs directory`_.
+
 .. _troubleshoot_general_tips.rst: docs/troubleshoot_general_tips.rst
 .. _devstack_faq.rst: docs/devstack_faq.rst
 .. _testing_and_debugging.rst: docs/testing_and_debugging.rst
+.. _docs directory: docs/
 
 Prerequisites
 -------------
