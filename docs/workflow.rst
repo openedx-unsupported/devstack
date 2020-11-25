@@ -10,7 +10,7 @@ These instructions are written using the LMS as an example. Replace ``lms`` with
    - You'll be developing from a git repo that is checked out to the same parent directory as the one devstack is in. For example, if you have ``~/edx-repos/devstack``, you'll be developing the LMS in ``~/edx-repos/edx-platform``.
 
    - Make sure your IDA's repo is checked out to the commit you want to use for development, and that that commit is based on an up to date branch, so that it matches the disk images devstack will pull.
- 
+
 #. Activate your devstack virtualenv. See the main Getting Started instructions if you don't already have one.
 #. Launch your service in a clean state:
 

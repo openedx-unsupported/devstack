@@ -1,8 +1,8 @@
 Frequently Asked Questions
---------------------------
+==========================
 
 .. contents:: Table of Contents
-
+   :local:
 
 How do I define my own local targets?
 -------------------------------------
