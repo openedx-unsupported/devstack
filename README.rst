@@ -37,6 +37,7 @@ Table of Contents
 -----------------
 
 * `Where to Find Help`_
+* `Notices`_
 * `Prerequisites`_
 * `Roadmap`_
 * `Getting Started`_
@@ -51,16 +52,23 @@ Where to Find Help
 
 There are a number of places to get help, including mailing lists and real-time chat. Please choose an appropriate venue for your question. This helps ensure that you get good prompt advice, and keeps discussion focused. For details of your options, see the `Community`_ pages.
 
-You can find some tips for troubleshooting in `troubleshoot_general_tips.rst`_.
-You can find general answers at `devstack_faq.rst`_.
-To learn about testing and debugging your code in devstack, see: `testing_and_debugging.rst`_.
+- For the most common workflow (after you've finished Getting Started, see `workflow.rst`_ in the docs directory.
+- You can find some tips for troubleshooting in `troubleshoot_general_tips.rst`_.
+- You can find general answers at `devstack_faq.rst`_.
+- To learn about testing and debugging your code in devstack, see: `testing_and_debugging.rst`_.
 
 You can also browse other specific docs in the `docs directory`_.
 
+.. _workflow.rst: docs/workflow.rst
 .. _troubleshoot_general_tips.rst: docs/troubleshoot_general_tips.rst
 .. _devstack_faq.rst: docs/devstack_faq.rst
 .. _testing_and_debugging.rst: docs/testing_and_debugging.rst
 .. _docs directory: docs/
+
+Notices
+-------
+
+**NOTE:** LMS is now using MySql 5.7 by default. You have to run ``make dev.pull.lms`` and ``make dev.provision.lms`` (more details in `Getting Started`_) to fetch latest images and reprovision local copies of databases in order for an existing devstack setup to keep working.
 
 Prerequisites
 -------------
@@ -257,6 +265,7 @@ For information on the supported ``make`` commands, you can run:
 
     make help
 
+Now that you're up and running, see `workflow.rst`_ for the most common development workflow.
 
 Usernames and Passwords
 -----------------------
