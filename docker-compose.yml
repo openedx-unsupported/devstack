@@ -424,6 +424,7 @@ services:
       - mongo
       - mysql80
       - mysql57
+      - localstack
     # Allows attachment to the LMS service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
@@ -537,6 +538,32 @@ services:
     volumes:
       - /edx/var/analyticsapi
       - ${PWD}/configuration_files/analytics_api.yml:/edx/etc/analytics_api.yml
+
+  localstack:
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.localstack"
+    image: localstack/localstack:0.11.6  # problem w/ presigned URLs in v 0.12
+    hostname: localstack.devstack.edx
+    networks:
+      default:
+        aliases:
+          - edx.devstack.localstack
+    environment:
+      - TEST_AWS_ACCOUNT_ID="000000000000"
+      - EXTRA_CORS_ALLOWED_HEADERS=x-csrftoken,content-disposition
+      - LOCALSTACK_HOSTNAME=localhost
+      - HOSTNAME_EXTERNAL=edx.devstack.localstack
+      - SERVICES=s3,apigateway,iam
+      - DEBUG=1
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - DATA_DIR=/tmp/localstack/data
+    privileged: true
+    # volumes:
+    #   - "${PWD}/ls_tmp:/tmp/localstack"
+    #   - "/var/run/docker.sock:/var/run/docker.sock"
+    ports:
+      - "4566:4566"
+      - "4571:4571"
+      - "${PORT_WEB_UI-8080}:${PORT_WEB_UI-8080}"
 
   registrar:
     command: bash -c 'while true; do python /edx/app/registrar/manage.py runserver 0.0.0.0:18734; sleep 2; done'
