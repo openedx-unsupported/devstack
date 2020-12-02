@@ -166,8 +166,10 @@ The default devstack services can be run by following the steps below.
 
        make dev.pull
 
+.. Update rst to point to readthedocs once published.
+
    Note -
-   If you are setting up devstack to develop on Open edx named releases, see `instructions<docs/developing_on_named_release_branches.rst>`_ before following this step 3
+   If you are setting up devstack to develop on Open edx named releases, see ``docs/developing_on_named_release_branches.rst`` before following this step 3
 
 3. Optional: You have an option to use NFS on MacOS which may improve the performance significantly. To set it up ONLY ON MAC, do
     .. code:: sh
@@ -484,8 +486,10 @@ Changing the Docker Compose Project Name
 The ``COMPOSE_PROJECT_NAME`` variable is used to define Docker namespaced volumes
 and network based on this value, so changing it will give you a separate set of databases.
 This is handled for you automatically by setting the ``OPENEDX_RELEASE`` environment variable in ``options.mk``
-(e.g. ``COMPOSE_PROJECT_NAME=devstack-juniper.master``. Should you want to manually override this, edit the ``options.local.mk`` in the root of this repo and create the file if it does not exist. Change the devstack project name by adding the following line:
-   ``COMPOSE_PROJECT_NAME=<your-alternate-devstack-name>`` (e.g. ``COMPOSE_PROJECT_NAME=secondarydevstack``)
+(e.g. ``COMPOSE_PROJECT_NAME=devstack-juniper.master``. Should you want to manually override this, edit the ``options.local.mk`` in the root of this repo and create the file if it does not exist. Change the devstack project name by adding the following line::
+
+   # Example: COMPOSE_PROJECT_NAME=secondarydevstack
+   COMPOSE_PROJECT_NAME=<your-alternate-devstack-name>
 
 As a specific example, if ``OPENEDX_RELEASE`` is set in your environment as ``juniper.master``, then ``COMPOSE_PROJECT_NAME`` will default to ``devstack-juniper.master`` instead of ``devstack``.
 
