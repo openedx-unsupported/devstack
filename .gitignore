@@ -103,5 +103,9 @@ local.mk
 # Local option overrides
 options.local.mk
 
+# Localstack
+.localstack/
+ls_tmp
+
 # emacs
 *~
