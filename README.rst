@@ -3,6 +3,11 @@ Open edX Devstack |Build Status|
 
 Get up and running quickly with Open edX services.
 
+Documentation is on `Read the Docs`_.  Code repository is on `GitHub`_.
+
+.. _Read the Docs: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/
+.. _GitHub: https://github.com/edx/devstack
+
 This project replaces the older Vagrant-based devstack with a
 multi-container approach driven by `Docker Compose`_.
 
@@ -52,18 +57,20 @@ Where to Find Help
 
 There are a number of places to get help, including mailing lists and real-time chat. Please choose an appropriate venue for your question. This helps ensure that you get good prompt advice, and keeps discussion focused. For details of your options, see the `Community`_ pages.
 
-- For the most common workflow (after you've finished Getting Started, see `workflow.rst`_ in the docs directory.
-- You can find some tips for troubleshooting in `troubleshoot_general_tips.rst`_.
-- You can find general answers at `devstack_faq.rst`_.
-- To learn about testing and debugging your code in devstack, see: `testing_and_debugging.rst`_.
+- See the `most common development workflow`_ (after you've finished `Getting Started`_).
+- See some `helpful troubleshooting tips`_.
+- See the `Frequently Asked Questions`_.
+- Or learn about `testing and debugging your code in devstack`_.
 
-You can also browse other specific docs in the `docs directory`_.
+You can also browse all the documentation in `Read the Docs`_.
 
-.. _workflow.rst: docs/workflow.rst
-.. _troubleshoot_general_tips.rst: docs/troubleshoot_general_tips.rst
-.. _devstack_faq.rst: docs/devstack_faq.rst
-.. _testing_and_debugging.rst: docs/testing_and_debugging.rst
-.. _docs directory: docs/
+.. _most common development workflow: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/workflow.html
+.. _helpful troubleshooting tips: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/troubleshoot_general_tips.html
+.. _Frequently Asked Questions: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/devstack_faq.html
+.. _testing and debugging your code in devstack:
+.. _testing_and_debugging.rst: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/testing_and_debugging.html
+
+.. _Read the Docs: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/
 
 Notices
 -------
@@ -169,7 +176,9 @@ The default devstack services can be run by following the steps below.
 .. Update rst to point to readthedocs once published.
 
    Note -
-   If you are setting up devstack to develop on Open edx named releases, see ``docs/developing_on_named_release_branches.rst`` before following this step 3
+   If you are setting up devstack to develop on Open edx named releases, see this `document on developing on named releases`_ before following this step 3.
+
+.. _document on developing on named releases: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/developing_on_named_release_branches.html
 
 3. Optional: You have an option to use NFS on MacOS which may improve the performance significantly. To set it up ONLY ON MAC, do
     .. code:: sh
@@ -267,7 +276,7 @@ For information on the supported ``make`` commands, you can run:
 
     make help
 
-Now that you're up and running, see `workflow.rst`_ for the most common development workflow.
+Now that you're up and running, read about the `most common development workflow`_.
 
 Usernames and Passwords
 -----------------------
@@ -499,7 +508,7 @@ As a specific example, if ``OPENEDX_RELEASE`` is set in your environment as ``ju
 .. _Docker for Windows: https://docs.docker.com/docker-for-windows/
 .. _configuring Docker for Mac: https://docs.docker.com/docker-for-mac/#/advanced
 .. _feature added in Docker 17.05: https://github.com/edx/configuration/pull/3864
-.. _docker-sync: docs/troubleshoot_general_tips.rst#improve-mac-osx-performance-with-docker-sync
+.. _docker-sync: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/troubleshoot_general_tips.html#improve-mac-osx-performance-with-docker-sync
 .. |Build Status| image:: https://travis-ci.org/edx/devstack.svg?branch=master
     :target: https://travis-ci.org/edx/devstack
     :alt: Travis
