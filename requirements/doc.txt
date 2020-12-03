@@ -24,7 +24,7 @@ docutils==0.16            # via doc8, readme-renderer, restructuredtext-lint, sp
 edx-sphinx-theme==1.5.0   # via -r requirements/doc.in
 idna==2.10                # via -r requirements/base.txt, requests
 imagesize==1.2.0          # via sphinx
-importlib-metadata==2.1.0  # via -r requirements/base.txt, jsonschema
+importlib-metadata==2.1.1  # via -r requirements/base.txt, jsonschema
 jinja2==2.11.2            # via sphinx
 jsonschema==3.2.0         # via -r requirements/base.txt, docker-compose
 markupsafe==1.1.1         # via jinja2
