@@ -10,7 +10,7 @@ babel==2.9.0              # via sphinx
 bcrypt==3.1.7             # via -r requirements/base.txt, paramiko
 bleach==3.2.1             # via readme-renderer
 cached-property==1.5.2    # via -r requirements/base.txt, docker-compose
-certifi==2020.11.8        # via -r requirements/base.txt, requests
+certifi==2020.12.5        # via -r requirements/base.txt, requests
 cffi==1.14.4              # via -r requirements/base.txt, bcrypt, cryptography, pynacl
 chardet==3.0.4            # via -r requirements/base.txt, doc8, requests
 cryptography==3.2.1       # via -r requirements/base.txt, paramiko
@@ -32,7 +32,7 @@ packaging==20.7           # via bleach, sphinx
 paramiko==2.7.2           # via -r requirements/base.txt, docker
 pbr==5.5.1                # via stevedore
 pycparser==2.20           # via -r requirements/base.txt, cffi
-pygments==2.7.2           # via doc8, readme-renderer, sphinx
+pygments==2.7.3           # via doc8, readme-renderer, sphinx
 pynacl==1.4.0             # via -r requirements/base.txt, paramiko
 pyparsing==2.4.7          # via packaging
 pyrsistent==0.17.3        # via -r requirements/base.txt, jsonschema
