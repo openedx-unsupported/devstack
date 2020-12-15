@@ -179,7 +179,7 @@ services:
     stdin_open: true
     tty: true
     environment:
-      CACHE_LOCATION: edx.devstack.memcached:12211
+      CACHE_LOCATION: edx.devstack.memcached:11211
       DB_HOST: edx.devstack.mysql57
       SOCIAL_AUTH_EDX_OIDC_URL_ROOT: http://edx.devstack.lms:18000/oauth2
       ENABLE_DJANGO_TOOLBAR: 1
@@ -278,7 +278,7 @@ services:
     depends_on:
       - mongo
       - memcached
-      - elasticsearch
+      - elasticsearch7
     image: edxops/forum:${OPENEDX_RELEASE:-latest}
     stdin_open: true
     tty: true
@@ -302,6 +302,7 @@ services:
       - forum
       - firefox
       - chrome
+      - elasticsearch7
     # Allows attachment to the LMS service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
@@ -406,6 +407,7 @@ services:
     depends_on:
       - devpi
       - mysql57
+      - elasticsearch7
       - memcached
       - mongo
       - firefox

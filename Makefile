@@ -41,7 +41,7 @@
 
 # All devstack targets are "PHONY" in that they do not name actual files.
 # Thus, all non-parameterized targets should be added to this declaration.
-.PHONY: build-courses clean-marketing-sync \
+.PHONY: build-courses \
         create-test-course dev.attach dev.backup dev.cache-programs dev.check \
         dev.check-memory dev.checkout dev.clone dev.clone.https dev.clone.ssh \
         dev.dbshell dev.destroy dev.down dev.drop-db dev.kill dev.logs \
@@ -51,15 +51,15 @@
         dev.restart-devserver.forum dev.restore dev.rm-stopped dev.shell \
         dev.shell.credentials dev.shell.discovery \
         dev.shell.ecommerce dev.shell.lms dev.shell.lms_watcher \
-        dev.shell.marketing dev.shell.registrar dev.shell.studio \
+        dev.shell.registrar dev.shell.studio \
         dev.shell.studio_watcher dev.shell.xqueue dev.shell.xqueue_consumer \
         dev.static dev.static.lms dev.static.studio dev.stats dev.status \
         dev.stop dev.sync.daemon.start dev.sync.provision \
         dev.sync.requirements dev.sync.up dev.up dev.up.attach dev.up.shell \
         dev.up.without-deps dev.up.without-deps.shell dev.up.with-programs \
-        dev.up.with-watchers dev.validate e2e-tests e2e-tests.with-shell \
+        dev.up.with-watchers dev.validate docs e2e-tests e2e-tests.with-shell \
         help requirements selfcheck upgrade upgrade \
-        up-marketing-sync validate-lms-volume vnc-passwords
+        validate-lms-volume vnc-passwords
 
 # Load up options (configurable through options.local.mk).
 include options.mk
@@ -80,7 +80,6 @@ COMPOSE_FILE := docker-compose-host.yml
 COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-themes.yml
 COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-watchers.yml
 COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-xqueue.yml
-COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-marketing-site.yml
 endif
 
 # Files for use with Network File System -based synchronization.
@@ -94,7 +93,6 @@ endif
 ifeq ($(FS_SYNC_STRATEGY),docker-sync)
 COMPOSE_FILE := docker-compose-host.yml
 COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-sync.yml
-COMPOSE_FILE := $(COMPOSE_FILE):docker-sync-marketing-site.yml
 endif
 
 ifndef COMPOSE_FILE
@@ -158,14 +156,16 @@ help: ## Display this help message.
 	@echo "Please use \`make <target>' where <target> is one of"
 	@awk -F ':.*?## ' '/^[a-zA-Z]/ && NF==2 {printf "\033[36m  %-28s\033[0m %s\n", $$1, $$2}' Makefile | sort
 
-requirements: ## Install requirements.
-	pip install -r requirements/base.txt
+requirements: ## install development environment requirements
+	pip install -r requirements/dev.txt
 
 upgrade: export CUSTOM_COMPILE_COMMAND=make upgrade
 upgrade: ## Upgrade requirements with pip-tools.
 	pip install -qr requirements/pip-tools.txt
 	pip-compile --upgrade -o requirements/pip-tools.txt requirements/pip-tools.in
 	pip-compile --upgrade -o requirements/base.txt requirements/base.in
+	pip-compile --upgrade -o requirements/doc.txt requirements/doc.in
+	pip-compile --upgrade -o requirements/dev.txt requirements/dev.in
 
 selfcheck: ## Check that the Makefile is free of Make syntax errors.
 	@echo "The Makefile is well-formed."
@@ -227,7 +227,7 @@ dev.provision.%: ## Provision specified services.
 dev.backup: dev.up.mysql+mysql57+mongo+elasticsearch ## Write all data volumes to the host.
 	docker run --rm --volumes-from $$(make -s dev.print-container.mysql) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/mysql.tar.gz /var/lib/mysql
 	docker run --rm --volumes-from $$(make -s dev.print-container.mysql57) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/mysql57.tar.gz /var/lib/mysql
-	docker runsql --rm --volumes-from $$(make -s dev.print-container.mongo) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/mongo.tar.gz /data/db
+	docker run --rm --volumes-from $$(make -s dev.print-container.mongo) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/mongo.tar.gz /data/db
 	docker run --rm --volumes-from $$(make -s dev.print-container.elasticsearch) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/elasticsearch.tar.gz /usr/share/elasticsearch/data
 
 dev.restore: dev.up.mysql+mysql57+mongo+elasticsearch ## Restore all data volumes from the host. WILL OVERWRITE ALL EXISTING DATA!
@@ -425,9 +425,6 @@ dev.shell.studio_watcher:
 dev.shell.xqueue_consumer:
 	docker-compose exec xqueue_consumer env TERM=$(TERM) /edx/app/xqueue/devstack.sh open
 
-dev.shell.marketing:
-	docker-compose exec marketing env TERM=$(TERM) bash -c 'cd /edx/app/edx-mktg/edx-mktg; exec /bin/bash -sh'
-
 dev.dbshell:
 	docker-compose exec mysql57 bash -c "mysql"
 
@@ -582,6 +579,9 @@ _expects-database.%:
 # These are useful, but don't fit nicely to the greater Devstack interface.
 ########################################################################################
 
+docs: ## generate Sphinx HTML documentation, including API docs
+	tox -e docs
+
 e2e-tests: dev.up.lms+studio ## Run the end-to-end tests against the service containers.
 	docker run -t --network=$(COMPOSE_PROJECT_NAME)_default -v $(DEVSTACK_WORKSPACE)/edx-e2e-tests:/edx-e2e-tests --env-file $(DEVSTACK_WORKSPACE)/edx-e2e-tests/devstack_env edxops/e2e env TERM=$(TERM) bash -c 'paver e2e_test'
 
@@ -603,19 +603,12 @@ devpi-password: ## Get the root devpi password for the devpi container.
 hadoop-application-logs-%: ## View hadoop logs by application Id.
 	docker-compose exec nodemanager yarn logs -applicationId $*
 
-create-test-course: ## Provisions studio, ecommerce, and marketing with course(s) in test-course.json.
-	# NOTE: marketing course creation is not available for those outside edX
-	$(WINPTY) bash ./course-generator/create-courses.sh --studio --ecommerce --marketing course-generator/test-course.json
+create-test-course: ## Provisions studio, and ecommerce with course(s) in test-course.json.
+	$(WINPTY) bash ./course-generator/create-courses.sh --studio --ecommerce course-generator/test-course.json
 
-build-courses: ## Build course and provision studio, ecommerce, and marketing with it.
+build-courses: ## Build course and provision studio, and ecommerce with it.
 	# Modify test-course.json before running this make target to generate a custom course
-	# NOTE: marketing course creation is not available for those outside edX
 	$(WINPTY) bash ./course-generator/build-course-json.sh course-generator/tmp-config.json
-	$(WINPTY) bash ./course-generator/create-courses.sh --studio --ecommerce --marketing course-generator/tmp-config.json
+	$(WINPTY) bash ./course-generator/create-courses.sh --studio --ecommerce course-generator/tmp-config.json
 	rm course-generator/tmp-config.json
 
-up-marketing-sync: ## Bring up all services (including the marketing site) with docker-sync.
-	docker-sync-stack start -c docker-sync-marketing-site.yml
-
-clean-marketing-sync: ## Remove the docker-sync containers for all services (including the marketing site).
-	docker-sync-stack clean -c docker-sync-marketing-site.yml
