@@ -24,11 +24,11 @@ idna==2.10                # via -r requirements/base.txt, requests
 importlib-metadata==2.1.1  # via -r requirements/base.txt, jsonschema, pluggy, tox, virtualenv
 importlib-resources==3.2.1  # via virtualenv
 jsonschema==3.2.0         # via -r requirements/base.txt, docker-compose
-packaging==20.7           # via tox
+packaging==20.8           # via tox
 paramiko==2.7.2           # via -r requirements/base.txt, docker
 pip-tools==5.4.0          # via -r requirements/pip-tools.txt
 pluggy==0.13.1            # via tox
-py==1.9.0                 # via tox
+py==1.10.0                # via tox
 pycparser==2.20           # via -r requirements/base.txt, cffi
 pynacl==1.4.0             # via -r requirements/base.txt, paramiko
 pyparsing==2.4.7          # via packaging
