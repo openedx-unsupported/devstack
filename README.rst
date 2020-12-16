@@ -464,7 +464,6 @@ If you wish to restart the *container itself*, which takes a bit longer but may 
 
     make dev.restart-container.credentials
 
-
 Known Issues
 ------------
 
@@ -508,9 +507,15 @@ As a specific example, if ``OPENEDX_RELEASE`` is set in your environment as ``ju
 .. _Docker for Windows: https://docs.docker.com/docker-for-windows/
 .. _configuring Docker for Mac: https://docs.docker.com/docker-for-mac/#/advanced
 .. _feature added in Docker 17.05: https://github.com/edx/configuration/pull/3864
+.. _edx-e2e-tests README: https://github.com/edx/edx-e2e-tests/#how-to-run-lms-and-studio-tests
+.. _edxops Docker image: https://hub.docker.com/r/edxops/
+.. _Docker Hub: https://hub.docker.com/
+.. _Pycharm Integration documentation: docs/pycharm_integration.rst
+.. _devpi documentation: docs/devpi.rst
+.. _edx-platform testing documentation: https://github.com/edx/edx-platform/blob/master/docs/guides/testing/testing.rst#running-python-unit-tests
 .. _docker-sync: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/troubleshoot_general_tips.html#improve-mac-osx-performance-with-docker-sync
-.. |Build Status| image:: https://travis-ci.org/edx/devstack.svg?branch=master
-    :target: https://travis-ci.org/edx/devstack
+.. |Build Status| image:: https://travis-ci.com/edx/devstack.svg?branch=master
+    :target: https://travis-ci.com/edx/devstack
     :alt: Travis
 .. _Python virtualenv: https://docs.python-guide.org/en/latest/dev/virtualenvs/#lower-level-virtualenv
 .. _Community: https://open.edx.org/community/connect/
