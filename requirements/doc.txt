@@ -12,7 +12,7 @@ bleach==3.2.1             # via readme-renderer
 cached-property==1.5.2    # via -r requirements/base.txt, docker-compose
 certifi==2020.12.5        # via -r requirements/base.txt, requests
 cffi==1.14.4              # via -r requirements/base.txt, bcrypt, cryptography, pynacl
-chardet==3.0.4            # via -r requirements/base.txt, doc8, requests
+chardet==4.0.0            # via -r requirements/base.txt, doc8, requests
 cryptography==3.2.1       # via -r requirements/base.txt, paramiko
 distro==1.5.0             # via -r requirements/base.txt, docker-compose
 doc8==0.8.1               # via -r requirements/doc.in
@@ -21,7 +21,7 @@ docker[ssh]==4.4.0        # via -r requirements/base.txt, docker-compose
 dockerpty==0.4.1          # via -r requirements/base.txt, docker-compose
 docopt==0.6.2             # via -r requirements/base.txt, docker-compose
 docutils==0.16            # via doc8, readme-renderer, restructuredtext-lint, sphinx
-edx-sphinx-theme==1.5.0   # via -r requirements/doc.in
+edx-sphinx-theme==1.6.0   # via -r requirements/doc.in
 idna==2.10                # via -r requirements/base.txt, requests
 imagesize==1.2.0          # via sphinx
 importlib-metadata==2.1.1  # via -r requirements/base.txt, jsonschema
@@ -40,11 +40,11 @@ python-dotenv==0.15.0     # via -r requirements/base.txt, docker-compose
 pytz==2020.4              # via babel
 pyyaml==5.3.1             # via -r requirements/base.txt, docker-compose
 readme-renderer==28.0     # via -r requirements/doc.in
-requests==2.25.0          # via -r requirements/base.txt, docker, docker-compose, sphinx
+requests==2.25.1          # via -r requirements/base.txt, docker, docker-compose, sphinx
 restructuredtext-lint==1.3.2  # via doc8
 six==1.15.0               # via -r requirements/base.txt, bcrypt, bleach, cryptography, doc8, docker, dockerpty, edx-sphinx-theme, jsonschema, pynacl, readme-renderer, stevedore, websocket-client
 snowballstemmer==2.0.0    # via sphinx
-sphinx==3.3.1             # via -r requirements/doc.in, edx-sphinx-theme
+sphinx==3.4.0             # via -r requirements/doc.in, edx-sphinx-theme
 sphinxcontrib-applehelp==1.0.2  # via sphinx
 sphinxcontrib-devhelp==1.0.2  # via sphinx
 sphinxcontrib-htmlhelp==1.0.3  # via sphinx

@@ -10,7 +10,7 @@ bcrypt==3.1.7             # via -r requirements/base.txt, paramiko
 cached-property==1.5.2    # via -r requirements/base.txt, docker-compose
 certifi==2020.12.5        # via -r requirements/base.txt, requests
 cffi==1.14.4              # via -r requirements/base.txt, bcrypt, cryptography, pynacl
-chardet==3.0.4            # via -r requirements/base.txt, requests
+chardet==4.0.0            # via -r requirements/base.txt, requests
 click==7.1.2              # via -r requirements/pip-tools.txt, pip-tools
 cryptography==3.2.1       # via -r requirements/base.txt, paramiko
 distlib==0.3.1            # via virtualenv
@@ -35,7 +35,7 @@ pyparsing==2.4.7          # via packaging
 pyrsistent==0.17.3        # via -r requirements/base.txt, jsonschema
 python-dotenv==0.15.0     # via -r requirements/base.txt, docker-compose
 pyyaml==5.3.1             # via -r requirements/base.txt, docker-compose
-requests==2.25.0          # via -r requirements/base.txt, docker, docker-compose
+requests==2.25.1          # via -r requirements/base.txt, docker, docker-compose
 six==1.15.0               # via -r requirements/base.txt, -r requirements/pip-tools.txt, bcrypt, cryptography, docker, dockerpty, jsonschema, pip-tools, pynacl, tox, virtualenv, websocket-client
 texttable==1.6.3          # via -r requirements/base.txt, docker-compose
 toml==0.10.2              # via tox
