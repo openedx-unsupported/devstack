@@ -16,7 +16,7 @@ cryptography==3.2.1       # via -r requirements/base.txt, paramiko
 distlib==0.3.1            # via virtualenv
 distro==1.5.0             # via -r requirements/base.txt, docker-compose
 docker-compose==1.27.4    # via -r requirements/base.txt
-docker[ssh]==4.4.0        # via -r requirements/base.txt, docker-compose
+docker[ssh]==4.4.1        # via -r requirements/base.txt, docker-compose
 dockerpty==0.4.1          # via -r requirements/base.txt, docker-compose
 docopt==0.6.2             # via -r requirements/base.txt, docker-compose
 filelock==3.0.12          # via tox, virtualenv
