@@ -41,3 +41,4 @@ script:
   - make dev.provision."$SERVICES"
   - make dev.up."$SERVICES"
   - make dev.check."$SERVICES"
+  - make docs

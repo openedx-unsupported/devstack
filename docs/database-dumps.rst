@@ -14,7 +14,7 @@ To update the relational database dumps:
 2. If you are unsure whether the django_migrations tables (which keeps which migrations
 were already applied) in each database are consistent with the existing database dumps,
 disable the loading of these database dumps during provisioning by commenting out
-the calls to ``load-db.sh`` in the provision-*.sh scripts. This ensures a start with a
+the calls to ``load-db.sh`` in the ``provision-*.sh`` scripts. This ensures a start with a
 completely fresh database and incorporates any changes that may have required some form
 of manual intervention for existing installations (e.g. drop/move tables).
 
