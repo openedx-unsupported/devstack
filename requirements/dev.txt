@@ -26,7 +26,7 @@ importlib-resources==3.2.1  # via virtualenv
 jsonschema==3.2.0         # via -r requirements/base.txt, docker-compose
 packaging==20.8           # via tox
 paramiko==2.7.2           # via -r requirements/base.txt, docker
-pip-tools==5.4.0          # via -r requirements/pip-tools.txt
+pip-tools==5.5.0          # via -r requirements/pip-tools.txt
 pluggy==0.13.1            # via tox
 py==1.10.0                # via tox
 pycparser==2.20           # via -r requirements/base.txt, cffi
@@ -36,7 +36,7 @@ pyrsistent==0.17.3        # via -r requirements/base.txt, jsonschema
 python-dotenv==0.15.0     # via -r requirements/base.txt, docker-compose
 pyyaml==5.3.1             # via -r requirements/base.txt, docker-compose
 requests==2.25.1          # via -r requirements/base.txt, docker, docker-compose
-six==1.15.0               # via -r requirements/base.txt, -r requirements/pip-tools.txt, bcrypt, cryptography, docker, dockerpty, jsonschema, pip-tools, pynacl, tox, virtualenv, websocket-client
+six==1.15.0               # via -r requirements/base.txt, bcrypt, cryptography, docker, dockerpty, jsonschema, pynacl, tox, virtualenv, websocket-client
 texttable==1.6.3          # via -r requirements/base.txt, docker-compose
 toml==0.10.2              # via tox
 tox-battery==0.6.1        # via -r requirements/dev.in
