@@ -69,6 +69,9 @@ services:
       default:
         aliases:
           - edx.devstack.elasticsearch7
+    ports:
+      - "9200:9200"
+      - "9300:9300"
     volumes:
       - elasticsearch7_data:/usr/share/elasticsearch/data
     environment:
@@ -198,7 +201,7 @@ services:
     hostname: discovery.devstack.edx
     depends_on:
       - mysql57
-      - elasticsearch
+      - elasticsearch7
       - memcached
     # Allows attachment to the discovery service using 'docker attach <containerID>'.
     stdin_open: true
@@ -207,7 +210,7 @@ services:
       # This next DB_MIGRATION_HOST line can be removed once edx/configuration has been updated with this value for
       # a while and most people have had a chance to do a "make pull" to get the latest images.
       DB_MIGRATION_HOST: edx.devstack.mysql57
-      TEST_ELASTICSEARCH_URL: "http://edx.devstack.elasticsearch:9200"
+      TEST_ELASTICSEARCH_URL: "edx.devstack.elasticsearch7"
       ENABLE_DJANGO_TOOLBAR: 1
       DJANGO_WATCHMAN_TIMEOUT: 30
     image: edxops/discovery:${OPENEDX_RELEASE:-latest}
