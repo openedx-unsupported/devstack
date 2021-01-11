@@ -15,10 +15,10 @@ done
 
 docker-compose $DOCKER_COMPOSE_FILES exec -T lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && NO_PYTHON_UNINSTALL=1 paver install_prereqs'
 
-#Installing Appsembler specific requirements
+# Installing Appsembler specific requirements
 docker-compose exec lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && NO_PYTHON_UNINSTALL=1 pip install --disable-pip-version-check --exists-action w -r requirements/edx/appsembler.txt'
 
-#Installing prereqs crashes the process
+# Installing prereqs crashes the process
 docker-compose restart lms
 
 # Run edxapp migrations first since they are needed for the service users and OAuth clients
