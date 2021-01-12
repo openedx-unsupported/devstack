@@ -203,6 +203,8 @@ services:
       - mysql57
       - elasticsearch7
       - memcached
+      - redis
+      - discovery-worker
     # Allows attachment to the discovery service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
@@ -222,6 +224,30 @@ services:
       - "18381:18381"
     volumes:
       - discovery_assets:/edx/var/discovery/
+
+  discovery-worker:
+    command: bash -c 'source /edx/app/discovery/discovery_env && cd /edx/app/discovery/discovery && celery -A course_discovery.celery_app worker -l debug -c 2'
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.discovery-worker"
+    hostname: discovery-worker.devstack.edx
+    depends_on:
+      - mysql57
+      - elasticsearch7
+      - memcached
+      - redis
+    stdin_open: true
+    tty: true
+    environment:
+      DB_MIGRATION_HOST: edx.devstack.mysql57
+      TEST_ELASTICSEARCH_URL: "edx.devstack.elasticsearch7"
+      DJANGO_WATCHMAN_TIMEOUT: 30
+      CELERY_BROKER_URL: "redis://:password@edx.devstack.redis:6379/10"
+    image: edxops/discovery:${OPENEDX_RELEASE:-latest}
+    networks:
+      default:
+        aliases:
+          - edx.devstack.discovery-worker
+    ports:
+      - "18382:18382"
 
   ecommerce:
     command: bash -c 'source /edx/app/ecommerce/ecommerce_env && while true; do python /edx/app/ecommerce/ecommerce/manage.py runserver 0.0.0.0:18130; sleep 2; done'
