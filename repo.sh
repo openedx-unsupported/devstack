@@ -19,7 +19,7 @@ fi
 
 OPENEDX_GIT_BRANCH=open-release/juniper.3
 
-APPSEMBLER_EDX_PLATFORM_BRANCH="appsembler/tahoe/develop"
+APPSEMBLER_EDX_PLATFORM_BRANCH="main"
 AMC_BRANCH="develop"
 THEME_CODEBASE_BRANCH="hawthorn/master"  # we don't have a juniper branch yet
 THEME_CUSTOMERS_BRANCH="hawthorn/tahoe"  # we don't have a juniper branch yet
@@ -58,7 +58,7 @@ ssh_repos=(
     "git@github.com:edx/ecommerce.git"
     "git@github.com:edx/edx-e2e-tests.git"
     "git@github.com:edx/edx-notes-api.git"
-    "git@github.com:edx/edx-platform.git"
+    "git@github.com:appsembler/edx-platform.git"
     "git@github.com:edx/xqueue.git"
     "git@github.com:edx/edx-analytics-pipeline.git"
     "git@github.com:edx/frontend-app-gradebook.git"
@@ -137,7 +137,7 @@ _clone ()
             fi
             printf "The [%s] repo is already checked out. Checking for updates.\n" "$name"
             cd "${DEVSTACK_WORKSPACE}/${name}"
-            _checkout_and_update_branch
+            _appsembler_checkout_and_update_branch $name
             cd ..
         elif [ "$name" == "edx-theme-customers" -a -d "edx-theme-codebase/customer_specific/.git" ]; then
             cd "${DEVSTACK_WORKSPACE}/edx-theme-codebase/customer_specific"

@@ -285,10 +285,7 @@ services:
       - mysql
       - memcached
       - mongo
-      - discovery
       - forum
-      - firefox
-      - chrome
     # Allows attachment to the LMS service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
@@ -317,7 +314,6 @@ services:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.registrar"
     hostname: registrar.devstack.edx
     depends_on:
-      - discovery
       - lms
       - mysql
       - memcached
@@ -394,8 +390,6 @@ services:
       - mysql
       - memcached
       - mongo
-      - firefox
-      - chrome
       - lms
     # Allows attachment to the Studio service using 'docker attach <containerID>'.
     stdin_open: true
