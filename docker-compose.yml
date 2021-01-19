@@ -112,7 +112,7 @@ services:
     command: mongod --smallfiles --nojournal --storageEngine wiredTiger
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.mongo"
     hostname: mongo.devstack.edx
-    image: mongo:${MONGO_VERSION:-3.6.17}
+    image: mongo:${MONGO_VERSION:-4.0.22}
     networks:
       default:
         aliases:
