@@ -252,7 +252,7 @@ lms-static: ## Rebuild static assets for the LMS container
 studio-static: ## Rebuild static assets for the Studio container
 	docker exec -t edx.devstack.studio bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_assets'
 
-static: | credentials-static discovery-static ecommerce-static lms-static studio-static ## Rebuild static assets for all service containers
+static: | lms-static studio-static ## Rebuild static assets for all service containers
 
 healthchecks: ## Run a curl against all services' healthcheck endpoints to make sure they are up. This will eventually be parameterized
 	./healthchecks.sh
