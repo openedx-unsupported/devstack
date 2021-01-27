@@ -134,12 +134,19 @@ How do I connect to the databases from an outside editor?
 ---------------------------------------------------------
 
 To connect to the databases from an outside editor (such as MySQLWorkbench),
-first uncomment these lines from ``docker-compose.yml``'s ``mysql`` section:
+first uncomment these lines from ``docker-compose.yml``'s ``mysql`` or ``mysql57`` section (depending on what service you're on):
 
 .. code:: yaml
 
   ports:
     - "3506:3306"
+
+Then bring your mysql container down and back up by running:
+
+.. code:: sh
+
+  docker-compose stop mysql57
+  docker-compose up -d mysql57
 
 Then connect using the values below. Note that the username and password will
 vary depending on the database. For all of the options, see ``provision.sql``.
