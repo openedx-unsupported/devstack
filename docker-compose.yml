@@ -291,6 +291,7 @@ services:
           - courses.edraak.dev
           - programs.edraak.dev
           - edraak.dev
+          - judge.edraak.dev
 
 
 volumes:
