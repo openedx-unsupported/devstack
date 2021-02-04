@@ -349,12 +349,13 @@ services:
       - EXTRA_CORS_ALLOWED_HEADERS=x-csrftoken,content-disposition
       - LOCALSTACK_HOSTNAME=localhost
       - HOSTNAME_EXTERNAL=edx.devstack.localstack
-      - SERVICES=s3,apigateway,iam
+      - SERVICES=s3
       - DEBUG=1
       - DOCKER_HOST=unix:///var/run/docker.sock
       - DATA_DIR=/tmp/localstack/data
     privileged: true
-    # volumes:
+    volumes:
+      - ./aws:/docker-entrypoint-initaws.d
     #   - "${PWD}/ls_tmp:/tmp/localstack"
     #   - "/var/run/docker.sock:/var/run/docker.sock"
     ports:
