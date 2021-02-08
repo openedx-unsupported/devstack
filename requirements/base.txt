@@ -4,33 +4,72 @@
 #
 #    make upgrade
 #
-attrs==20.3.0             # via jsonschema
-bcrypt==3.1.7             # via paramiko
-cached-property==1.5.2    # via docker-compose
-certifi==2020.12.5        # via requests
-cffi==1.14.4              # via bcrypt, cryptography, pynacl
-chardet==4.0.0            # via requests
-cryptography==3.2.1       # via paramiko
-distro==1.5.0             # via docker-compose
-docker-compose==1.27.4    # via -r requirements/base.in
-docker[ssh]==4.4.1        # via docker-compose
-dockerpty==0.4.1          # via docker-compose
-docopt==0.6.2             # via docker-compose
-idna==2.10                # via requests
-importlib-metadata==2.1.1  # via jsonschema
-jsonschema==3.2.0         # via docker-compose
-paramiko==2.7.2           # via docker
-pycparser==2.20           # via cffi
-pynacl==1.4.0             # via paramiko
-pyrsistent==0.17.3        # via jsonschema
-python-dotenv==0.15.0     # via docker-compose
-pyyaml==5.3.1             # via -r requirements/base.in, docker-compose
-requests==2.25.1          # via docker, docker-compose
-six==1.15.0               # via bcrypt, cryptography, docker, dockerpty, jsonschema, pynacl, websocket-client
-texttable==1.6.3          # via docker-compose
-urllib3==1.26.2           # via requests
-websocket-client==0.57.0  # via docker, docker-compose
-zipp==1.2.0               # via importlib-metadata
+attrs==20.3.0
+    # via jsonschema
+bcrypt==3.2.0
+    # via paramiko
+cached-property==1.5.2
+    # via docker-compose
+certifi==2020.12.5
+    # via requests
+cffi==1.14.4
+    # via
+    #   bcrypt
+    #   cryptography
+    #   pynacl
+chardet==4.0.0
+    # via requests
+cryptography==3.3.1
+    # via paramiko
+distro==1.5.0
+    # via docker-compose
+docker-compose==1.28.2
+    # via -r requirements/base.in
+docker[ssh]==4.4.1
+    # via docker-compose
+dockerpty==0.4.1
+    # via docker-compose
+docopt==0.6.2
+    # via docker-compose
+idna==2.10
+    # via requests
+jsonschema==3.2.0
+    # via docker-compose
+paramiko==2.7.2
+    # via docker
+pycparser==2.20
+    # via cffi
+pynacl==1.4.0
+    # via paramiko
+pyrsistent==0.17.3
+    # via jsonschema
+python-dotenv==0.15.0
+    # via docker-compose
+pyyaml==5.4.1
+    # via
+    #   -r requirements/base.in
+    #   docker-compose
+requests==2.25.1
+    # via
+    #   docker
+    #   docker-compose
+six==1.15.0
+    # via
+    #   bcrypt
+    #   cryptography
+    #   docker
+    #   dockerpty
+    #   jsonschema
+    #   pynacl
+    #   websocket-client
+texttable==1.6.3
+    # via docker-compose
+urllib3==1.26.3
+    # via requests
+websocket-client==0.57.0
+    # via
+    #   docker
+    #   docker-compose
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
