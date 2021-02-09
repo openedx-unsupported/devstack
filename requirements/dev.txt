@@ -36,7 +36,7 @@ click==7.1.2
     # via
     #   -r requirements/pip-tools.txt
     #   pip-tools
-cryptography==3.3.1
+cryptography==3.4.3
     # via
     #   -r requirements/base.txt
     #   paramiko
@@ -72,7 +72,7 @@ jsonschema==3.2.0
     # via
     #   -r requirements/base.txt
     #   docker-compose
-packaging==20.8
+packaging==20.9
     # via tox
 paramiko==2.7.2
     # via
@@ -115,7 +115,6 @@ six==1.15.0
     # via
     #   -r requirements/base.txt
     #   bcrypt
-    #   cryptography
     #   docker
     #   dockerpty
     #   jsonschema
@@ -131,7 +130,7 @@ toml==0.10.2
     # via tox
 tox-battery==0.6.1
     # via -r requirements/dev.in
-tox==3.21.3
+tox==3.21.4
     # via
     #   -r requirements/dev.in
     #   tox-battery
@@ -139,7 +138,7 @@ urllib3==1.26.3
     # via
     #   -r requirements/base.txt
     #   requests
-virtualenv==20.4.0
+virtualenv==20.4.2
     # via tox
 websocket-client==0.57.0
     # via
