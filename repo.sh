@@ -21,8 +21,8 @@ OPENEDX_GIT_BRANCH=open-release/juniper.3
 
 APPSEMBLER_EDX_PLATFORM_BRANCH="main"
 AMC_BRANCH="develop"
-THEME_CODEBASE_BRANCH="hawthorn/master"  # we don't have a juniper branch yet
-THEME_CUSTOMERS_BRANCH="hawthorn/tahoe"  # we don't have a juniper branch yet
+THEME_CODEBASE_BRANCH="juniper/main"
+THEME_CUSTOMERS_BRANCH="juniper/tahoe"
 
 # When you add new services should add them to both repos and ssh_repos
 # (or non_release_repos and non_release_ssh_repos if they are not part
