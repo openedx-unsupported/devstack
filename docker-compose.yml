@@ -463,6 +463,21 @@ services:
     depends_on:
       - lms
 
+  frontend-app-payment:
+    extends:
+      file: microfrontend.yml
+      service: microfrontend
+    working_dir: '/edx/app/frontend-app-payment'
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-payment"
+    networks:
+      default:
+        aliases:
+          - edx.devstack.frontend-app-payment
+    ports:
+      - "1998:1998"
+    depends_on:
+      - ecommerce
+
   frontend-app-publisher:
     extends:
       file: microfrontend.yml
