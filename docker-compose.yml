@@ -520,7 +520,7 @@ services:
 
   devpi:
     container_name: edx.devstack.devpi
-    image: edxops/devpi:hawthorn.master
+    image: edxops/devpi:juniper.master
 
   program-console:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.program-console"
