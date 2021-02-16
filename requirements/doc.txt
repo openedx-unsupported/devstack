@@ -26,7 +26,7 @@ certifi==2020.12.5
     # via
     #   -r requirements/base.txt
     #   requests
-cffi==1.14.4
+cffi==1.14.5
     # via
     #   -r requirements/base.txt
     #   bcrypt
@@ -37,7 +37,7 @@ chardet==4.0.0
     #   -r requirements/base.txt
     #   doc8
     #   requests
-cryptography==3.4.3
+cryptography==3.4.5
     # via
     #   -r requirements/base.txt
     #   paramiko
@@ -49,7 +49,7 @@ doc8==0.8.1
     # via -r requirements/doc.in
 docker-compose==1.28.2
     # via -r requirements/base.txt
-docker[ssh]==4.4.1
+docker[ssh]==4.4.2
     # via
     #   -r requirements/base.txt
     #   docker-compose
@@ -97,7 +97,7 @@ pycparser==2.20
     # via
     #   -r requirements/base.txt
     #   cffi
-pygments==2.7.4
+pygments==2.8.0
     # via
     #   doc8
     #   readme-renderer
@@ -147,7 +147,7 @@ six==1.15.0
     #   websocket-client
 snowballstemmer==2.1.0
     # via sphinx
-sphinx==3.4.3
+sphinx==3.5.0
     # via
     #   -r requirements/doc.in
     #   edx-sphinx-theme

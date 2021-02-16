@@ -22,7 +22,7 @@ certifi==2020.12.5
     # via
     #   -r requirements/base.txt
     #   requests
-cffi==1.14.4
+cffi==1.14.5
     # via
     #   -r requirements/base.txt
     #   bcrypt
@@ -36,7 +36,7 @@ click==7.1.2
     # via
     #   -r requirements/pip-tools.txt
     #   pip-tools
-cryptography==3.4.3
+cryptography==3.4.5
     # via
     #   -r requirements/base.txt
     #   paramiko
@@ -48,7 +48,7 @@ distro==1.5.0
     #   docker-compose
 docker-compose==1.28.2
     # via -r requirements/base.txt
-docker[ssh]==4.4.1
+docker[ssh]==4.4.2
     # via
     #   -r requirements/base.txt
     #   docker-compose
