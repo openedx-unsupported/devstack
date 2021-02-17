@@ -7,7 +7,7 @@ services:
     environment:
       BOK_CHOY_HOSTNAME: edx.devstack.lms_watcher
       ASSET_WATCHER_TIMEOUT: 12
-    image: edxops/edxapp:${OPENEDX_RELEASE:-latest}
+    image: appsembler/edxapp:${OPENEDX_RELEASE:-latest}
     networks:
       default:
         aliases:
@@ -25,7 +25,7 @@ services:
     environment:
       BOK_CHOY_HOSTNAME: edx.devstack.studio_watcher
       ASSET_WATCHER_TIMEOUT: 12
-    image: edxops/edxapp:${OPENEDX_RELEASE:-latest}
+    image: appsembler/edxapp:${OPENEDX_RELEASE:-latest}
     networks:
       default:
         aliases:
