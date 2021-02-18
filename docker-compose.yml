@@ -296,7 +296,7 @@ services:
       EDXAPP_TEST_MONGO_HOST: edx.devstack.mongo
       NO_PYTHON_UNINSTALL: 1
       DJANGO_WATCHMAN_TIMEOUT: 30
-    image: edxops/edxapp:${OPENEDX_RELEASE:-latest}
+    image: appsembler/edxapp:${OPENEDX_RELEASE:-latest}
     networks:
       default:
         aliases:
@@ -401,7 +401,7 @@ services:
       EDXAPP_TEST_MONGO_HOST: edx.devstack.mongo
       NO_PYTHON_UNINSTALL: 1
       DJANGO_WATCHMAN_TIMEOUT: 30
-    image: edxops/edxapp:${OPENEDX_RELEASE:-latest}
+    image: appsembler/edxapp:${OPENEDX_RELEASE:-latest}
     networks:
       default:
         aliases:
