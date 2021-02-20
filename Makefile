@@ -153,6 +153,7 @@ dev.pull.%: ## Pull latest Docker images for services (separated by plus-signs) 
 	docker-compose $(DOCKER_COMPOSE_FILES) pull --include-deps $$(echo $* | tr + " ")
 
 dev.up: dev.up.$(DEFAULT_SERVICES) check-memory ## Bring up default services.
+	make tahoe.provision
 
 dev.up.%: | check-memory ## Bring up specific services (separated by plus-signs) and their dependencies with host volumes.
 	docker-compose $(DOCKER_COMPOSE_FILES) up -d $$(echo $* | tr + " ")

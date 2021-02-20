@@ -462,14 +462,6 @@ services:
     ports:
       - ${TAHOE_POSTGRES_PORT-5432}:5432
 
-  redis:
-    image: redis:3.0
-    container_name: tahoe.devstack.redis
-    ports:
-      - ${TAHOE_REDIS_PORT:-6379}:6379
-    volumes:
-      - redis_data:/data
-
   amc:
     command: bash -c 'while true; do python manage.py runserver 0.0.0.0:19000; sleep 2; done'
     container_name: tahoe.devstack.amc
@@ -486,7 +478,7 @@ services:
       AMC_SIGNUP_WIZARD_ENABLED: "true"
       SSL_ENABLED: "false"
       DATABASE_URL: "postgres://postgres:postgres@tahoe.devstack.postgres:5432/postgres"
-      BROKER_URL: "redis://tahoe.devstack.redis:6379/1"
+      BROKER_URL: "redis://redis.devstack.edx:6379/1"
       LMS_BASE_URL: "http://edx.devstack.lms:18000"
       CMS_BASE_URL: "http://edx.devstack.studio:18010"
       APPSEMBLER_EDX_OAUTH_CLIENT_ID: 6f2b93d5c02560c3f93f
