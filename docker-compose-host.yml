@@ -65,6 +65,12 @@ services:
     volumes:
       - ${DEVSTACK_WORKSPACE}/frontend-app-learning:/edx/app/frontend-app-learning:cached
       - frontend_app_learning_node_modules:/edx/app/frontend-app-learning/node_modules
+  amc:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/amc:/opt/amc:cached
+  amc-frontend:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/amc:/opt/amc:cached
 
 volumes:
   credentials_node_modules:

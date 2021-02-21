@@ -454,7 +454,8 @@ services:
 
   postgres:
     image: postgres:9.4
-    container_name: tahoe.devstack.postgres
+    container_name: "tahoe.${COMPOSE_PROJECT_NAME:-devstack}.postgres"
+    hostname: tahoe.devstack.postgres
     environment:
       POSTGRES_PASSWORD: 'postgres'
     volumes:
