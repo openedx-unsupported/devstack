@@ -32,11 +32,14 @@ tahoe.restart:  ## Restarts both of LMS and Studio python processes while keepin
 
 amc.provision:  ## Initializes the AMC
 	docker exec -it tahoe.$(COMPOSE_PROJECT_NAME).amc python manage.py migrate
-	make COMMAND='python manage.py lms create_dot_application --grant-type authorization-code --redirect-uris=http://localhost:13000 --skip-authorization --client-id=6f2b93d5c02560c3f93f --client-secret=2c6c9ac52dd19d7255dd569fb7eedbe0ebdab2db AMC edx' SERVICE='lms' tahoe.exec.single
+	make COMMAND='python manage.py lms create_dot_application --grant-type password --redirect-uris=http://localhost:13000 --skip-authorization --client-id=6f2b93d5c02560c3f93f --client-secret=2c6c9ac52dd19d7255dd569fb7eedbe0ebdab2db AMC edx' SERVICE='lms' tahoe.exec.single
 	make COMMAND='python manage.py lms create_devstack_site red' SERVICE='lms' tahoe.exec.single
 	docker exec -it tahoe.$(COMPOSE_PROJECT_NAME).amc python manage.py create_devstack_superuser
 	docker exec -it tahoe.$(COMPOSE_PROJECT_NAME).amc python manage.py create_devstack_site red
 	docker exec -it tahoe.$(COMPOSE_PROJECT_NAME).amc-frontend npm install
+
+amc.activation_links:  ## List activation links from the AMC log
+	docker-compose $(DOCKER_COMPOSE_FILES) logs --tail=1000 amc | grep -o 'http:.*accounts/confirm-email/[^/]*/'
 
 amc-shell:
 	docker exec -it tahoe.$(COMPOSE_PROJECT_NAME).amc bash
