@@ -22,7 +22,7 @@ tahoe.up:  ## Deprecated: Use `make dev.up` instead.
 	make dev.up
 
 tahoe.envs._delete:  ## Remove settings, in prep for resetting it
-	sudo rm -f $(DEVSTACK_WORKSPACE)/src/studio.yml $(DEVSTACK_WORKSPACE)/src/lms.yml
+	sudo rm -rf $(DEVSTACK_WORKSPACE)/src/edxapp-envs
 
 tahoe.restart:  ## Restarts both of LMS and Studio python processes while keeping the same container
 	make lms-restart

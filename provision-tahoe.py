@@ -16,17 +16,21 @@ ENVIRONMENT_FILES = [
 ]
 
 SRC_DIR = Path('/edx/src/')
+ENVS_DIR = SRC_DIR / 'edxapp-envs'
 PIP_DIR = SRC_DIR / 'edxapp-pip'
-EDXAPP_DIR = Path('/edx/app/edxapp')
+EDXAPP_ETC_DIR = Path('/edx/etc')
 
 
 def move_environment_files_to_host():
     """
     Move the json environment files to the host so they're editable.
     """
+    if not ENVS_DIR.exists():
+        makedirs(ENVS_DIR)
+
     for filename in ENVIRONMENT_FILES:
-        container_path = EDXAPP_DIR / filename
-        src_path = SRC_DIR / filename
+        container_path = EDXAPP_ETC_DIR / filename
+        src_path = ENVS_DIR / filename  # The mounted directory in
 
         if not src_path.exists():
             if container_path.islink():
