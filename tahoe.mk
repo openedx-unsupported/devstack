@@ -17,6 +17,7 @@ tahoe.provision:  ## Make the devstack more Tahoe'ish
 	make COMMAND='python /edx/src/provision-tahoe.py' tahoe.exec.edxapp
 	rm $(DEVSTACK_WORKSPACE)/src/provision-tahoe.py
 	make tahoe.restart || true
+	make tahoe.chown
 
 tahoe.up:  ## Deprecated: Use `make dev.up` instead.
 	make dev.up

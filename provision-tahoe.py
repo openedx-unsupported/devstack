@@ -44,8 +44,8 @@ def move_environment_files_to_host():
         if src_path.exists():
             if container_path.exists():
                 container_path.unlink()
-
-            symlink(src_path, container_path)
+            if not container_path.islink():
+                symlink(src_path, container_path)
 
 
 def install_auto_pip_requirements():
