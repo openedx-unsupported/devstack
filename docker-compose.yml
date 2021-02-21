@@ -466,6 +466,7 @@ services:
   amc:
     command: bash -c 'while true; do python manage.py runserver 0.0.0.0:19000; sleep 2; done'
     container_name: "tahoe.${COMPOSE_PROJECT_NAME:-devstack}.amc"
+    hostname: "tahoe.devstack.amc"
     depends_on:
       - redis
       - lms
