@@ -93,6 +93,9 @@ endif
 # Include specialized Make commands.
 include marketing.mk
 
+# Include Tahoe commands
+include tahoe.mk
+
 # Export Makefile variables to recipe shells.
 export
 

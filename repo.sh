@@ -96,14 +96,13 @@ _checkout ()
         # Results of the match are saved to an array called $BASH_REMATCH.
         [[ $repo =~ $name_pattern ]]
         name="${BASH_REMATCH[2]}"
-
         # If a directory exists and it is nonempty, assume the repo has been cloned.
         if [ -d "$name" ] && [ -n "$(ls -A "$name" 2>/dev/null)" ]; then
             echo "Checking out branch of $name"
             cd "$name"
             _appsembler_checkout_and_update_branch "$name"
             cd ..
-        elif [ "$name" == "edx-theme-customers" -a -d "edx-theme-codebase/customer_specific/.git" ]; then
+        elif [ "$name" == "edx-theme-customers" ] && [ -d "edx-theme-codebase/customer_specific/.git" ]; then
             echo "Checking out branch ${OPENEDX_GIT_BRANCH} of $name"
             cd edx-theme-codebase/customer_specific
             _appsembler_checkout_and_update_branch "$name"
@@ -139,7 +138,7 @@ _clone ()
             cd "${DEVSTACK_WORKSPACE}/${name}"
             _appsembler_checkout_and_update_branch $name
             cd ..
-        elif [ "$name" == "edx-theme-customers" -a -d "edx-theme-codebase/customer_specific/.git" ]; then
+        elif [ "$name" == "edx-theme-customers" ] && [ -d "edx-theme-codebase/customer_specific/.git" ]; then
             cd "${DEVSTACK_WORKSPACE}/edx-theme-codebase/customer_specific"
             _appsembler_checkout_and_update_branch $name
             cd ../..

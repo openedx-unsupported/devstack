@@ -1,7 +1,7 @@
 DEVSTACK_WORKSPACE ?= ..
 
 tahoe.exec.single:  ## Execute a command inside a devstack docker container
-	docker exec -t edx.devstack.$(SERVICE)  \
+	docker exec -t edx.$(COMPOSE_PROJECT_NAME).$(SERVICE) \
 		bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && $(COMMAND)'
 
 tahoe.exec.edxapp:   ## Execute a command in both LMS and Studio (edxapp containers)
@@ -30,18 +30,18 @@ tahoe.restart:  ## Restarts both of LMS and Studio python processes while keepin
 	make amc-restart
 
 amc.provision:  ## Initializes the AMC
-	docker exec -it tahoe.devstack.amc python manage.py migrate
+	docker exec -it tahoe.$(COMPOSE_PROJECT_NAME).amc python manage.py migrate
 	make COMMAND='python manage.py lms create_dot_application --grant-type authorization-code --redirect-uris=http://localhost:13000 --skip-authorization --client-id=6f2b93d5c02560c3f93f --client-secret=2c6c9ac52dd19d7255dd569fb7eedbe0ebdab2db AMC edx' SERVICE='lms' tahoe.exec.single
 	make COMMAND='python manage.py lms create_devstack_site red' SERVICE='lms' tahoe.exec.single
-	docker exec -it tahoe.devstack.amc python manage.py create_devstack_superuser
-	docker exec -it tahoe.devstack.amc python manage.py create_devstack_site red
-	docker exec -it tahoe.devstack.amc-frontend npm install
+	docker exec -it tahoe.$(COMPOSE_PROJECT_NAME).amc python manage.py create_devstack_superuser
+	docker exec -it tahoe.$(COMPOSE_PROJECT_NAME).amc python manage.py create_devstack_site red
+	docker exec -it tahoe.$(COMPOSE_PROJECT_NAME).amc-frontend npm install
 
 amc-shell:
-	docker exec -it tahoe.devstack.amc bash
+	docker exec -it tahoe.$(COMPOSE_PROJECT_NAME).amc bash
 
 amc-frontend-shell:
-	docker exec -it tahoe.devstack.amc-frontend bash
+	docker exec -it tahoe.$(COMPOSE_PROJECT_NAME).amc-frontend bash
 
 amc.check-node-version:
 	node --version $(DEVNULL)
@@ -53,5 +53,5 @@ ifneq ($(shell node --version | grep -o '^v10\.'), v10.)
 endif
 
 amc-restart:
-	docker exec -t tahoe.devstack.amc bash -c 'killall5'
-	docker exec -t tahoe.devstack.amc-frontend bash -c 'killall5'
+	docker exec -t tahoe.$(COMPOSE_PROJECT_NAME).amc bash -c 'killall5'
+	docker exec -t tahoe.$(COMPOSE_PROJECT_NAME).amc-frontend bash -c 'killall5'
