@@ -11,16 +11,14 @@ from subprocess import call
 
 
 ENVIRONMENT_FILES = [
-    'lms.env.json',
-    'lms.auth.json',
-    'cms.env.json',
-    'cms.auth.json',
+    'lms.yml',
+    'studio.yml',
 ]
 
 SRC_DIR = Path('/edx/src/')
 ENVS_DIR = SRC_DIR / 'edxapp-envs'
 PIP_DIR = SRC_DIR / 'edxapp-pip'
-EDXAPP_DIR = Path('/edx/app/edxapp')
+EDXAPP_ETC_DIR = Path('/edx/etc')
 
 
 def move_environment_files_to_host():
@@ -31,7 +29,7 @@ def move_environment_files_to_host():
         makedirs(ENVS_DIR)
 
     for filename in ENVIRONMENT_FILES:
-        container_path = EDXAPP_DIR / filename
+        container_path = EDXAPP_ETC_DIR / filename
         src_path = ENVS_DIR / filename  # The mounted directory in
 
         if not src_path.exists():
@@ -46,8 +44,8 @@ def move_environment_files_to_host():
         if src_path.exists():
             if container_path.exists():
                 container_path.unlink()
-
-            symlink(src_path, container_path)
+            if not container_path.islink():
+                symlink(src_path, container_path)
 
 
 def install_auto_pip_requirements():

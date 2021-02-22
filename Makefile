@@ -93,6 +93,9 @@ endif
 # Include specialized Make commands.
 include marketing.mk
 
+# Include Tahoe commands
+include tahoe.mk
+
 # Export Makefile variables to recipe shells.
 export
 
@@ -129,7 +132,11 @@ dev.provision.services: ## Provision default services with local mounted directo
 dev.provision.services.%: ## Provision specified services with local mounted directories, separated by plus signs
 	$(WINPTY) bash ./provision.sh $*
 
-dev.provision: check-memory dev.clone.ssh dev.provision.services stop ## Provision dev environment with default services, and then stop them.
+dev.provision: check-memory dev.clone.ssh dev.provision.services ## Provision dev environment with default services, and then stop them.
+	make dev.up
+	make tahoe.provision
+	make amc.provision
+	make stop
 
 dev.cache-programs: ## Copy programs from Discovery to Memcached for use in LMS.
 	$(WINPTY) bash ./programs/provision.sh cache
@@ -153,6 +160,9 @@ dev.pull.%: ## Pull latest Docker images for services (separated by plus-signs) 
 	docker-compose $(DOCKER_COMPOSE_FILES) pull --include-deps $$(echo $* | tr + " ")
 
 dev.up: dev.up.$(DEFAULT_SERVICES) check-memory ## Bring up default services.
+	@sleep 1
+	make tahoe.provision
+	make tahoe.chown
 
 dev.up.%: | check-memory ## Bring up specific services (separated by plus-signs) and their dependencies with host volumes.
 	docker-compose $(DOCKER_COMPOSE_FILES) up -d $$(echo $* | tr + " ")
