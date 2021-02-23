@@ -8,6 +8,11 @@
 # Defaults to parent.
 DEVSTACK_WORKSPACE ?= $(shell pwd)/..
 
+# Tahoe: Avoid mistakingly checking out `master` branches from upstream and breaking devstack.
+#    Set a default OPENEDX_RELEASE that's overrideable via environment variables.
+#    This will stop working when we upgrade to Koa. Needs to be updated manually.
+OPENEDX_RELEASE ?= juniper.master
+
 # Name of Docker Compose project.
 # Volumes and network are namespaced based on this value,
 # so changing it will give you a separate set of databases.
