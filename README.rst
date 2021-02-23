@@ -1,4 +1,4 @@
-Open edX Devstack |Build Status|
+Open edX Devstack |Build Status|doc-badge|
 ================================
 
 Get up and running quickly with Open edX services.
