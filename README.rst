@@ -1,5 +1,5 @@
-Open edX Devstack |Build Status|
-================================
+Open edX Devstack |Build Status| |docs|
+=======================================
 
 Get up and running quickly with Open edX services.
 
@@ -517,5 +517,9 @@ As a specific example, if ``OPENEDX_RELEASE`` is set in your environment as ``ju
 .. |Build Status| image:: https://travis-ci.com/edx/devstack.svg?branch=master
     :target: https://travis-ci.com/edx/devstack
     :alt: Travis
+.. |docs| image:: https://readthedocs.org/projects/docs/badge/?version=latest
+    :alt: Documentation Status
+    :scale: 100%
+    :target: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/
 .. _Python virtualenv: https://docs.python-guide.org/en/latest/dev/virtualenvs/#lower-level-virtualenv
 .. _Community: https://open.edx.org/community/connect/
