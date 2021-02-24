@@ -27,7 +27,7 @@ Useful Commands and Summary
 
 - ``dev.pull.<service>`` - Pull latest Docker images for the service and its dependencies
 
-  When to use: When you only want to update images for a subset of devstack. Such as when you are only working on lms, use ``make dev.pull.lms`` to pull images for lms and it dependencies
+  When to use: When you want to start working with a service (testing out changes, running unit tests, etc.) and want the latest built image since it has been a few days since you last worked with it. Particularly useful when the Python requirements files have changed recently.
 
   Variations:
 
