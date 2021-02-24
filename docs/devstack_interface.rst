@@ -25,7 +25,7 @@ Useful Commands and Summary
 
 .. Note: this document does not contain all commands in Makefile. To see full range of the make interface, please see Makefile
 
--``dev.pull.<service>`` - Pull latest Docker images for the service and its dependencies
+- ``dev.pull.<service>`` - Pull latest Docker images for the service and its dependencies
 
   This will pull all the images necessary to run <service>. The setting for which images are pulled can be found in the docker-compose.yml.
 
