@@ -1,5 +1,5 @@
 Open edX Devstack |Build Status| |docs|
-================================
+=======================================
 
 Get up and running quickly with Open edX services.
 
