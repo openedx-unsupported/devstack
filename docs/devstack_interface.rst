@@ -28,6 +28,7 @@ Useful Commands and Summary
 - ``dev.pull.<service>`` - Pull latest Docker images for the service and its dependencies
 
   When to use: When you only want to update images for a subset of devstack. Such as when you are only working on lms, use ``make dev.pull.lms`` to pull images for lms and it dependencies
+  Variations:
 
   + Variation: ``make dev.pull`` or ``make pull`` will pull all images in the default devstack.
 
