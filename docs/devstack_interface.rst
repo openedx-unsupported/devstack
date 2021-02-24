@@ -27,15 +27,17 @@ Useful Commands and Summary
 
 - ``dev.pull.<service>`` - Pull latest Docker images for the service and its dependencies
 
-  This will pull all the images necessary to run <service>. The setting for which images are pulled can be found in the docker-compose.yml.
+  When to use: When you only want to update images for a subset of devstack. Such as when you are only working on lms, use ``make dev.pull.lms`` to pull images for lms and it dependencies
 
-  When you are working on a specific service, it is recommended you use this command to pull only images necessary for your service i.e if working in lms, use ``make dev.pull.lms`` to update images for lms and its dependencies
+  + Variation: ``make dev.pull`` or ``make pull`` will pull all images in the default devstack.
 
-  Variation: ``make dev.pull`` or ``make pull`` will pull all images supported in default devstack TODO(jinder): fix this wording
+    When to use: Probably only when you are first setting up devstack. Do not use this often. This will take a lot of time.
 
-  Variation: ``make dev.pull.<service1>+<service2>`` will pull images for <service1>, <service2>, and their dependencies
+  + Variation: ``make dev.pull.<service1>+<service2>`` will pull images for <service1>, <service2>, and their dependencies
 
-  Variation: ``make dev.pull.without-deps.<service>`` will only pull <service> image.
+  + Variation: ``make dev.pull.without-deps.<service>`` will only pull <service> image.
+
+    When to use: If you only want to update one image and do not mind if the other images are behind latest.
 
 - ``dev.up.<service>`` - Create and start containers. i.e. brings up the <service> container and its dependencies
 
