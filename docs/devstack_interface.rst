@@ -63,7 +63,7 @@ Useful Commands and Summary
 
   Variation: ``make dev.down`` will stop all your containers
 
-- ``dev.shell.<container>``: used to enter the shell of the specified conntainer.
+- ``dev.shell.<container>``: used to enter the shell of the specified container.
 
   When to use: To update python packages, to run migrations, or any shell commands you want to run on the running service
 
@@ -71,7 +71,7 @@ Useful Commands and Summary
 
 - ``dev.attach.<container>``: dev.up is setup to bring up the container/service in the background. This attaches the container to your shell.
 
-  When to use: If you put a breakpoint somewher in your code, the pdb shell will show up in here. TODO(reviewer): help with words to explain this use case.
+  When to use: If you put a breakpoint somewhere in your code, the pdb shell will show up in here. TODO(reviewer): help with words to explain this use case.
 
   Variation: ``make <service>-shell``
 
