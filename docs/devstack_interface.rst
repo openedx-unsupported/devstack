@@ -31,25 +31,27 @@ Useful Commands and Summary
 
   Variations:
 
-  + Variation: ``make dev.pull`` or ``make pull`` will pull all images in the default devstack.
+  +  ``make dev.pull`` or ``make pull`` will pull all images in the default devstack.
 
     When to use: Probably only when you are first setting up devstack. Do not use this often. This will take a lot of time.
 
-  + Variation: ``make dev.pull.<service1>+<service2>`` will pull images for <service1>, <service2>, and their dependencies
+  + ``make dev.pull.<service1>+<service2>`` will pull images for <service1>, <service2>, and their dependencies
 
-  + Variation: ``make dev.pull.without-deps.<service>`` will only pull <service> image.
+  + ``make dev.pull.without-deps.<service>`` will only pull <service> image.
 
     When to use: If you only want to update one image and do not mind if the other images are behind latest.
 
 - ``dev.up.<service>`` - Create and start containers. i.e. brings up the <service> container and its dependencies
 
-  When you are working on a specific service, it is recommended you use this command to bring up the necessary containers for your service i.e if working in lms, use ``make dev.up.lms`` to bring up containers for lms and its dependencies
+  When you are working on a specific service, it is recommended you use this command to bring up the necessary containers for your service i.e if working in lms, use ``make dev.up.lms`` to bring up containers for lms and its dependencies.
 
-  Variation: ``make dev.up`` or ``make up`` will bring up containers for everything in default devstack
+  Variations:
 
-  Variation: ``make dev.up.<service1>+<service2>`` will pull images for <service1>, <service2>, and their dependencies
+  + ``make dev.up`` or ``make up`` will bring up containers for everything in default devstack
 
-  Variation: ``make dev.up.without-deps.<service>`` will only bring up the <service> container
+  + ``make dev.up.<service1>+<service2>`` will pull images for <service1>, <service2>, and their dependencies
+
+  + ``make dev.up.without-deps.<service>`` will only bring up the <service> container
 
 - ``dev.stop.<container>``: only stops the container. This does not remove the container or the networks it has created
 
