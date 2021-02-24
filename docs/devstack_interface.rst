@@ -31,7 +31,7 @@ Useful Commands and Summary
 
   Variations:
 
-  +  ``make dev.pull`` or ``make pull`` will pull all images in the default devstack.
+  + ``make dev.pull`` or ``make pull`` will pull all images in the default devstack.
 
     When to use: Probably only when you are first setting up devstack. Do not use this often. This will take a lot of time.
 
