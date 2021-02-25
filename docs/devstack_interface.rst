@@ -73,7 +73,7 @@ Useful Commands and Summary
 
   When to use: If you put a breakpoint somewhere in your code, the pdb shell will show up in here. TODO(reviewer): help with words to explain this use case.
 
-  Variation: ``make <service>-shell``
+  Variation: ``make <service>-attach``
 
 - ``dev.logs.<container>``: View the logs of the specified service <container>
 
