@@ -49,7 +49,7 @@ Useful Commands and Summary
 
   + ``make dev.up`` or ``make up`` will bring up containers for *everything* in default devstack
 
-  + ``make dev.up.<service1>+<service2>`` will pull images for <service1>, <service2>, and their dependencies
+  + ``make dev.up.<service1>+<service2>`` will bring up <service1>, <service2>, and their dependencies
 
   + ``make dev.up.without-deps.<service>`` will only bring up the <service> container
 
