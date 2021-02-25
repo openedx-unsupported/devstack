@@ -61,7 +61,7 @@ Useful Commands and Summary
 
   When to use: When you are pausing your work on this container/devstack and you want to pick back up from where you left off. Next time you use dev.up to bring up containers, you should be able to mostly pick back up from where you started.  TODO(reviewer): Is this true in your experience.
 
-- dev.down.<container>: stops the specified container and also removes the stopped containers as well as any networks that were created. Next time you use dev.up to bring up container, your container have reverted back to the pulled image.  This will not affect content of the databases.
+- ``dev.down.<container>``: stops the specified container and also removes the stopped containers as well as any networks that were created. Next time you use dev.up to bring up container, your container have reverted back to the pulled image.  This will not affect content of the databases.
 
   When to use: use this command only if you are okay with removing any changes you might have made to the container
 
