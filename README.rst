@@ -57,6 +57,7 @@ Where to Find Help
 There are a number of places to get help, including mailing lists and real-time chat. Please choose an appropriate venue for your question. This helps ensure that you get good prompt advice, and keeps discussion focused. For details of your options, see the `Community`_ pages.
 
 - See the `most common development workflow`_ (after you've finished `Getting Started`_).
+- See the `Devstack Interface`_
 - See some `helpful troubleshooting tips`_.
 - See the `Frequently Asked Questions`_.
 - Or learn about `testing and debugging your code in devstack`_.
@@ -64,6 +65,7 @@ There are a number of places to get help, including mailing lists and real-time 
 You can also browse all the documentation in `Read the Docs`_.
 
 .. _most common development workflow: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/workflow.html
+.. _Devstack Interface: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/devstack_interface.html
 .. _helpful troubleshooting tips: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/troubleshoot_general_tips.html
 .. _Frequently Asked Questions: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/devstack_faq.html
 .. _testing and debugging your code in devstack:
