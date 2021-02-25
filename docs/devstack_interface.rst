@@ -45,6 +45,10 @@ Useful Commands and Summary
 
   When you are working on a specific service, it is recommended you use this command to bring up the necessary containers for your service i.e if working in lms, use ``make dev.up.lms`` to bring up containers for lms and its dependencies.
 
+  Especially if you are running devstack after a few days of break, you will likely want to use ``make dev.pull.<service>`` before this using this command.
+
+  Also see below at ``dev.stop`` and ``dev.down`` for opposite counterparts of this command
+
   Variations:
 
   + ``make dev.up`` or ``make up`` will bring up containers for *everything* in default devstack
