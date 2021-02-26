@@ -27,7 +27,11 @@ Useful Commands and Summary
 
 - ``dev.pull.<service>`` - Pull latest Docker images for the service and its dependencies
 
-  When to use: When you want to start working with a service (testing out changes, running unit tests, etc.) and want the latest built image since it has been a few days since you last worked with it. Particularly useful when the Python requirements files have changed recently.
+  When to use: When you want your containers to have the latest requirements(python libraries...) installed.
+
+  Alternative: You could run ``make requirements`` from inside the container shell, but the requirements will go back to outdated requirements when you bring down the container. Pulling is recommended.
+
+  Note: for new service images to be used, you first need to bring down those services and then bring them back after a pull.
 
   Variations:
 
@@ -57,7 +61,7 @@ Useful Commands and Summary
 
   + ``make dev.up.without-deps.<service>`` will only bring up the <service> container
 
-- ``dev.stop.<container>``: only stops the container. This does not remove the container or the networks it has created
+- ``dev.stop.<service>``: only stops the container. This does not remove the container or the networks it has created
 
   When to use: When you are pausing your work on this container/devstack and you want to pick back up from where you left off. Next time you use dev.up to bring up containers, you should be able to mostly pick back up from where you started.  TODO(reviewer): Is this true in your experience.
 
@@ -67,32 +71,35 @@ Useful Commands and Summary
 
   Variation: ``make dev.down`` will stop all your containers
 
-- ``dev.shell.<container>``: used to enter the shell of the specified container.
+- ``dev.shell.<service>``: used to enter the shell of the specified service container.
 
   When to use: To update python packages, to run migrations, or any shell commands you want to run on the running service
 
   Variation: ``make <service>-shell``
 
-- ``dev.attach.<container>``: dev.up is setup to bring up the container/service in the background. This attaches the container to your shell.
+- ``dev.attach.<service>``: dev.up is setup to bring up the service container in the background. This attaches the container to your shell.
 
-  When to use: If you put a breakpoint somewhere in your code, the pdb shell will show up in here. TODO(reviewer): help with words to explain this use case.
+  When to use: If you put a breakpoint somewhere in your code, the pdb shell will show up in here.
+
+  Tip: use ``Ctrl+c`` to restart the devserver
+  Tip: use ``Ctrl+p Ctrl+q`` to detach without closing your terminal
 
   Variation: ``make <service>-attach``
 
-- ``dev.logs.<container>``: View the logs of the specified service <container>
+- ``dev.logs.<service>``: View the logs of the specified service <service>
 
   When to use: during debugging, this would help you see live logs coming out of your container.
 
   Variation: ``make dev.logs`` to view logs for all running containers. Do not use this! This is likely very overwhelming.
 
-  Variation: ``make <container>-logs``
-
-- ``dev.restart-container.<container>`` restarts container. TODO(jinder): change any references to this in documentation
-  Note: this will only restart <container> and not its dependencies
-  When to use: TODO(reviewer): help
-
-  Variation: ``make dev.restart-container.<container1>+<container2>`` will restart both <container1> and <container2>
+  Variation: ``make <service>-logs``
 
 - ``dev.restart-devserver.<service>`` restarts the Django/Sinatra server inside container without restarting the container itself.
 
   When to use: When automatic code reloading is not working and you need to manually restart a particular application server.
+
+- ``dev.restart-container.<service>`` restarts service container. This is essentially a stronger version of ``dev.restrart-devserver``
+
+  Note: this will only restart <container> and not its dependencies
+
+  Variation: ``make dev.restart-container.<service1>+<service2>`` will restart both <service> and <service>
