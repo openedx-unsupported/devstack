@@ -29,8 +29,6 @@ Useful Commands and Summary
 
   When to use: When you want your containers to have the latest requirements(python libraries...) installed.
 
-  Alternative: You could run ``make requirements`` from inside the container shell, but the requirements will go back to outdated requirements when you bring down the container. Pulling is recommended.
-
   Note: for new service images to be used, you first need to bring down those services and then bring them back after a pull.
 
   Variations:
