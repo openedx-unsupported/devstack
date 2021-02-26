@@ -27,7 +27,7 @@ Useful Commands and Summary
 
 - ``dev.pull.<service>`` - Pull latest Docker images for the service and its dependencies
 
-  When to use: When you want your containers to have the latest requirements(python libraries...) installed.
+  When to use: If you have not used Devstack for a while or pulled new images for a while, the installed requirements in your containers might no longer match those used by your code. So it is recommended you pull new images whenever you want your containers to have the latest requirements(python libraries...) installed.
 
   Note: for new service images to be used, you first need to bring down those services and then bring them back after a pull.
 
