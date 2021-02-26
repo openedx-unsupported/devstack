@@ -61,9 +61,9 @@ Useful Commands and Summary
 
 - ``dev.stop.<service>``: only stops the container. This does not remove the container or the networks it has created
 
-  When to use: When you are pausing your work on this container/devstack and you want to pick back up from where you left off. Next time you use dev.up to bring up containers, you should be able to mostly pick back up from where you started.  TODO(reviewer): Is this true in your experience.
+  When to use: When you are pausing your work on this container/devstack and you want to pick back up from where you left off. Next time you use dev.up to bring up containers, you should be able to mostly pick back up from where you started.
 
-- ``dev.down.<container>``: stops the specified container and also removes the stopped containers as well as any networks that were created. Next time you use dev.up to bring up container, your container have reverted back to the pulled image.  This will not affect content of the databases.
+- ``dev.down.<service>``: stops the specified container and also removes the stopped containers as well as any networks that were created. Next time you use dev.up to bring up container, your container have reverted back to the pulled image.  This will not affect content of the databases. This will not bring down <service>'s dependencies.
 
   When to use: use this command only if you are okay with removing any changes you might have made to the container
 
