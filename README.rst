@@ -123,7 +123,7 @@ The default devstack services can be run by following the steps below.
 
 **Note:** This will set up a large number of services, more than you are likely to need to work with, but that's only necessary for first-time provisioning. See `Service List`_ and the `most common development workflow`_ for how to run and update devstack with just the services you need, rather than the ``large-and-slow`` default set.
 
-1. Install the requirements inside of a `Python virtualenv`_.
+#. Install the requirements inside of a `Python virtualenv`_.
 
    .. code:: sh
 
@@ -131,7 +131,7 @@ The default devstack services can be run by following the steps below.
 
    This will install docker-compose and other utilities into your virtualenv.
 
-2. The Docker Compose file mounts a host volume for each service's executing
+#. The Docker Compose file mounts a host volume for each service's executing
    code. The host directory defaults to be a sibling of this directory. For
    example, if this repo is cloned to ``~/workspace/devstack``, host volumes
    will be expected in ``~/workspace/course-discovery``,
@@ -148,32 +148,18 @@ The default devstack services can be run by following the steps below.
    (macOS only) Share the cloned service directories in Docker, using
    **Docker -> Preferences -> File Sharing** in the Docker menu.
 
-   .. _step 3:
-3. Pull any changes made to the various images on which the devstack depends.
+#. Pull any changes made to the various images on which the devstack depends.
 
    .. code:: sh
 
        make dev.pull.large-and-slow
 
-.. Update rst to point to readthedocs once published.
-
    Note -
    If you are setting up devstack to develop on Open edx named releases, see this `document on developing on named releases`_ before following this step 3.
 
-.. _document on developing on named releases: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/developing_on_named_release_branches.html
+   .. _document on developing on named releases: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/developing_on_named_release_branches.html
 
-4. Optional: You have an option to use NFS on MacOS which may improve the performance significantly. To set it up ONLY ON MAC, do:
-
-    **Note**
-    Using NFS leads to increased complexity and might cause errors. Improvements to Docker's default FS have made performance improvements negligible. `Deprecation`_ of NFS is forthcoming.
-
-    .. _Deprecation: https://openedx.atlassian.net/browse/DEPR-161
-
-    .. code:: sh
-
-        make dev.nfs.setup
-
-5. Run the provision command, if you haven't already, to configure the various
+#. Run the provision command, if you haven't already, to configure the various
    services with superusers (for development without the auth service) and
    tenants (for multi-tenancy).
 
@@ -190,23 +176,13 @@ The default devstack services can be run by following the steps below.
 
        make dev.provision
 
-   Provision using `docker-sync`_:
-
-   .. code:: sh
-
-       make dev.sync.provision
-
-   Provision using NFS:
-
-   .. code:: sh
-
-       make dev.nfs.provision
-
    This is expected to take a while, produce a lot of output from a bunch of steps, and finally end with ``Provisioning complete!``
 
    **NOTE:** This command will bring up both MySQL 5.6 and 5.7 databases until all services are upgraded to 5.7.
 
-6. Start the desired services. This command will mount the repositories under the
+   **NOTE:** If you are looking for instructions for NFS or docker-sync, see :ref:`Deprecated MacOS performance improvements`.
+
+#. Start the desired services. This command will mount the repositories under the
    ``DEVSTACK_WORKSPACE`` directory.
 
    **NOTE:** it may take up to 60 seconds for the LMS to start, even after the ``dev.up.*`` command outputs ``done``.
@@ -217,18 +193,7 @@ The default devstack services can be run by following the steps below.
 
        make dev.up.large-and-slow
 
-   Start using `docker-sync`_:
-
-   .. code:: sh
-
-       make dev.sync.up
-
-   Start using NFS:
-
-   .. code:: sh
-
-       make dev.nfs.up
-
+   **NOTE:** If you are looking for instructions for NFS or docker-sync, see :ref:`Deprecated MacOS performance improvements`.
 
 To stop a service, use ``make dev.stop.<service>``, and to both stop it
 and remove the container (along with any changes you have made
@@ -410,6 +375,49 @@ This is handled for you automatically by setting the ``OPENEDX_RELEASE`` environ
 
 As a specific example, if ``OPENEDX_RELEASE`` is set in your environment as ``juniper.master``, then ``COMPOSE_PROJECT_NAME`` will default to ``devstack-juniper.master`` instead of ``devstack``.
 
+.. _Deprecated MacOS performance improvements:
+
+Deprecated MacOS performance improvements
+-----------------------------------------
+
+**Warning:** We recommend that new devstack setups on MacOS **no longer use** NFS or docker-sync for MacOS. At this time, these technologies **lead to increased complexity and might cause errors**. Improvements to Docker's default FS have resolved bugs or performance issues that were previously dependent on these workaround technologies.
+
+For further details, read more about the forthcoming `deprecation of NFS`_ and `deprecation of docker-sync`_.
+
+Until these deprecated technologies go through the deprecation and removal process, the following deprecated instructions are left here for legacy purposes:
+
+Setup NFS before provisioning:
+
+.. code:: sh
+
+    make dev.nfs.setup
+
+Provision using `docker-sync`_:
+
+.. code:: sh
+
+   make dev.sync.provision
+
+Provision using NFS:
+
+.. code:: sh
+
+   make dev.nfs.provision
+
+Start using `docker-sync`_:
+
+.. code:: sh
+
+   make dev.sync.up
+
+Start using NFS:
+
+.. code:: sh
+
+   make dev.nfs.up
+
+.. _deprecation of NFS: https://openedx.atlassian.net/browse/DEPR-161
+.. _deprecation of docker-sync: https://openedx.atlassian.net/browse/DEPR-162
 
 .. _Docker Compose: https://docs.docker.com/compose/
 .. _Docker for Mac: https://docs.docker.com/docker-for-mac/
