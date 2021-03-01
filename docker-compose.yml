@@ -310,6 +310,7 @@ services:
     stdin_open: true
     tty: true
     environment:
+      DJANGO_SETTINGS_MODULE: lms.envs.devstack
       BOK_CHOY_HOSTNAME: edx.devstack.lms
       BOK_CHOY_LMS_PORT: 18003
       BOK_CHOY_CMS_PORT: 18031
@@ -420,6 +421,7 @@ services:
     stdin_open: true
     tty: true
     environment:
+      DJANGO_SETTINGS_MODULE: cms.envs.devstack
       BOK_CHOY_HOSTNAME: edx.devstack.studio
       BOK_CHOY_LMS_PORT: 18103
       BOK_CHOY_CMS_PORT: 18131
