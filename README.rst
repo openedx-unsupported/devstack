@@ -141,7 +141,7 @@ Getting Started
 
 The default devstack services can be run by following the steps below.
 
-1. Install the requirements inside of a `Python virtualenv`_.
+#. Install the requirements inside of a `Python virtualenv`_.
 
    .. code:: sh
 
@@ -149,7 +149,7 @@ The default devstack services can be run by following the steps below.
 
    This will install docker-compose and other utilities into your virtualenv.
 
-2. The Docker Compose file mounts a host volume for each service's executing
+#. The Docker Compose file mounts a host volume for each service's executing
    code. The host directory defaults to be a sibling of this directory. For
    example, if this repo is cloned to ``~/workspace/devstack``, host volumes
    will be expected in ``~/workspace/course-discovery``,
@@ -166,27 +166,24 @@ The default devstack services can be run by following the steps below.
    (macOS only) Share the cloned service directories in Docker, using
    **Docker -> Preferences -> File Sharing** in the Docker menu.
 
-   .. _step 3:
-3. Pull any changes made to the various images on which the devstack depends.
+#. Pull any changes made to the various images on which the devstack depends.
 
    .. code:: sh
 
        make dev.pull
 
-.. Update rst to point to readthedocs once published.
-
    Note -
    If you are setting up devstack to develop on Open edx named releases, see this `document on developing on named releases`_ before following this step 3.
 
-.. _document on developing on named releases: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/developing_on_named_release_branches.html
+   .. _document on developing on named releases: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/developing_on_named_release_branches.html
 
-3. Optional: You have an option to use NFS on MacOS which may improve the performance significantly. To set it up ONLY ON MAC, do
+#. Optional: You have an option to use NFS on MacOS. To set it up ONLY ON MAC, do
     .. code:: sh
 
         make dev.nfs.setup
 
 
-4. Run the provision command, if you haven't already, to configure the various
+#. Run the provision command, if you haven't already, to configure the various
    services with superusers (for development without the auth service) and
    tenants (for multi-tenancy).
 
@@ -219,7 +216,7 @@ The default devstack services can be run by following the steps below.
 
    **NOTE:** This command will bring up both MySQL 5.6 and 5.7 databases until all services are upgraded to 5.7.
 
-5. Start the services. This command will mount the repositories under the
+#. Start the services. This command will mount the repositories under the
    ``DEVSTACK_WORKSPACE`` directory.
 
    **NOTE:** it may take up to 60 seconds for the LMS to start, even after the ``make dev.up`` command outputs ``done``.
