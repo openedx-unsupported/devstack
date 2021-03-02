@@ -48,7 +48,6 @@ Table of Contents
 * `Getting Started`_
 * `Usernames and Passwords`_
 * `Service List`_
-* `Useful Commands`_
 * `Known Issues`_
 * `Advanced Configuration Options`_
 
@@ -58,6 +57,7 @@ Where to Find Help
 There are a number of places to get help, including mailing lists and real-time chat. Please choose an appropriate venue for your question. This helps ensure that you get good prompt advice, and keeps discussion focused. For details of your options, see the `Community`_ pages.
 
 - See the `most common development workflow`_ (after you've finished `Getting Started`_).
+- See the `Devstack Interface`_
 - See some `helpful troubleshooting tips`_.
 - See the `Frequently Asked Questions`_.
 - Or learn about `testing and debugging your code in devstack`_.
@@ -65,6 +65,7 @@ There are a number of places to get help, including mailing lists and real-time 
 You can also browse all the documentation in `Read the Docs`_.
 
 .. _most common development workflow: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/workflow.html
+.. _Devstack Interface: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/devstack_interface.html
 .. _helpful troubleshooting tips: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/troubleshoot_general_tips.html
 .. _Frequently Asked Questions: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/devstack_faq.html
 .. _testing and debugging your code in devstack:
@@ -379,90 +380,6 @@ Alternatively, you can run these by modifying the ``DEFAULT_SERVICES`` option as
 .. _course-authoring: https://github.com/edx/frontend-app-course-authoring
 .. _xqueue: https://github.com/edx/xqueue
 
-Useful Commands
----------------
-
-Abbreviated versions of commands
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-You may notice that many Devstack commands come in the form ``dev.ACTION.SERVICE``.
-As examples:
-
-.. code:: sh
-
-    make dev.up.registrar
-    make dev.shell.lms
-    make dev.attach.studio
-    make dev.down.credentials
-    make dev.migrate.edx_notes_api
-    make dev.static.ecommerce
-    make dev.restart-devserver.forum
-    make dev.logs.gradebook
-
-In general, these commands can also be given in the form ``SERVICE-ACTION``,
-which saves some keystrokes and is often more friendly for automatic command-completion
-by hitting TAB. As examples:
-
-.. code:: sh
-
-    make registrar-up
-    make lms-shell
-    make studio-attach
-    make credentials-down
-    make edx_notes_api-migrate
-    make ecommerce-static
-    make forum-restart-devserver
-    make gradebook-logs
-
-Bringing up fewer services
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-``make dev.up`` can take a long time, as it starts all services, whether or not
-you need them. To instead only start a single service and its dependencies, run
-``make dev.up.<services>``. For example:
-
-.. code:: sh
-
-    make dev.up.lms
-
-That above command will bring up LMS (along with Memcached, MySQL, DevPI, et al), but it will not bring up
-Credentials, Studio, or E-Commerce or any of the other default services.
-
-You can also specify multiple services:
-
-.. code:: sh
-
-    make dev.up.ecommerce+studio
-
-Pulling fewer images
-~~~~~~~~~~~~~~~~~~~~
-
-Similarly, ``make dev.pull`` can take a long time, as it pulls all services' images,
-whether or not you need them.
-To instead only pull images required by your service and its dependencies,
-run ``make dev.pull.<services>``. For example:
-
-.. code:: sh
-
-    make dev.pull.discovery
-
-Restarting servers and containers
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Sometimes you may need to manually restart a particular application server To do so,
-the quickest command to run is ``make dev.restart-devserver.<service>``, which restarts the Django/Sinatra server inside the container without restarting the container itself. For example:
-
-.. code:: sh
-
-    make dev.restart-devserver.credentials
-
-This can be helpful, for example, if automatic code reloading isn't working for some reason.
-
-If you wish to restart the *container itself*, which takes a bit longer but may resolve a larger class of issues, use ``make dev.restart-container.<services>``. For example:
-
-.. code:: sh
-
-    make dev.restart-container.credentials
 
 Known Issues
 ------------

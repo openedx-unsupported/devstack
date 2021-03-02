@@ -9,6 +9,7 @@ Contents:
    :maxdepth: 2
 
    readme
+   devstack_interface
    devstack_faq
    workflow
    building-images
