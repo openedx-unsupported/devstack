@@ -47,15 +47,6 @@ amc-shell:
 amc-frontend-shell:
 	docker exec -it tahoe.$(COMPOSE_PROJECT_NAME).amc-frontend bash
 
-amc.check-node-version:
-	node --version $(DEVNULL)
-ifneq ($(shell node --version | grep -o '^v10\.'), v10.)
-	@echo "AMC needs Node.js v10, no more no less."
-	@echo "You DO NOT have Node.js v10 installed. Please install it."
-	@echo "Try running '$ make tahoe.macosx.install-nodejs-v10' on MacOSX."
-	@exit 1
-endif
-
 amc-restart:
 	docker exec -t tahoe.$(COMPOSE_PROJECT_NAME).amc bash -c 'killall5'
 	docker exec -t tahoe.$(COMPOSE_PROJECT_NAME).amc-frontend bash -c 'killall5'
