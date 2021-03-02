@@ -9,7 +9,7 @@
 #     make dev.pull.registrar+studio
 #     make dev.up.lms
 #     make dev.up.without-deps.lms+forum+discovery+mysql+elasticsearch+memcached
-#     make dev.restart.mysql+lms
+#     make dev.restart-container.mysql+lms
 
 # There are also "prefix-form" targets, which are simply an alternate way to spell
 # the 'dev.' targets.
