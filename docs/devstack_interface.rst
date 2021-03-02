@@ -45,7 +45,7 @@ Useful Commands and Summary
 
 - ``dev.up.<service>`` - Create and start containers. i.e. brings up the <service> container and its dependencies
 
-  When you are working on a specific service, it is recommended you use this command to bring up the necessary containers for your service i.e if working in lms, use ``make dev.up.lms`` to bring up containers for lms and its dependencies.
+  When to use: When you are working on a specific service, use this command to bring up the necessary containers for your service i.e if working in lms, use ``make dev.up.lms`` to bring up containers for lms and its dependencies.
 
   Especially if you are running devstack after a few days of break, you will likely want to use ``make dev.pull.<service>`` before this using this command.
 
@@ -55,6 +55,8 @@ Useful Commands and Summary
 
   + ``make dev.up`` or ``make up`` will bring up containers for *everything* in default devstack
 
+    When to use: Probably never, unless you are doing a full devstack level testing
+
   + ``make dev.up.<service1>+<service2>`` will bring up <service1>, <service2>, and their dependencies
 
   + ``make dev.up.without-deps.<service>`` will only bring up the <service> container
@@ -63,7 +65,11 @@ Useful Commands and Summary
 
   When to use: When you are pausing your work on this container/devstack and you want to pick back up from where you left off. Next time you use dev.up to bring up containers, you should be able to mostly pick back up from where you started.
 
-- ``dev.down.<service>``: stops the specified container and also removes the stopped containers as well as any networks that were created. Next time you use dev.up to bring up container, your container have reverted back to the pulled image.  This will not affect content of the databases. This will not bring down <service>'s dependencies.
+- ``dev.down.<service>``: stops the specified container and also removes the stopped containers as well as any networks that were created. Next time you use dev.up to bring up container, your container have reverted back to the pulled image.
+
+  Note: This will not affect content of the databases.
+
+  Note: This will only bring down <service>'s container and not its dependencies.
 
   When to use: use this command only if you are okay with removing any changes you might have made to the container
 
@@ -80,6 +86,7 @@ Useful Commands and Summary
   When to use: If you put a breakpoint somewhere in your code, the pdb shell will show up in here.
 
   Tip: use ``Ctrl+c`` to restart the devserver
+
   Tip: use ``Ctrl+p Ctrl+q`` to detach without closing your terminal
 
   Variation: ``make <service>-attach``
