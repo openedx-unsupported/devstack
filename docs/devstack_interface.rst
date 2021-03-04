@@ -32,6 +32,7 @@ Useful Commands and Summary
   Note: for new service images to be used, you first need to bring down those services and then bring them back up after a pull.
 
   Note: Pulling new images will not affect your databases state
+
   Variations:
 
   + ``make dev.pull`` or ``make pull`` will pull all images in the default devstack.
@@ -82,7 +83,7 @@ Useful Commands and Summary
 
   Variation: ``make <service>-shell``
  
-  Tip: To enter either mysql or mongo shell, run `make mysql-shell` or `make mongo-shell` to enter container shell and then run either `mysql` or `mongo` to enter the database shell
+  Tip: To enter either ``mysql`` or ``mongo`` shell, run ``make mysql-shell`` or ``make mongo-shell`` to enter container shell and then run either ``mysql`` or ``mongo`` to enter the database shell
 
 - ``dev.attach.<service>``: dev.up is setup to bring up the service container in the background. This attaches the container to your shell.
 
