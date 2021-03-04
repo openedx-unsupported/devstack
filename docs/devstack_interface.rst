@@ -74,6 +74,7 @@ Useful Commands and Summary
   When to use: use this command only if you are okay with removing any changes you might have made to your containers
 
   Variation:
+
   + ``make dev.down.<service>`` will stop and remove only the specified container.
 
     Note: This will only bring down <service>'s container and not its dependencies.
