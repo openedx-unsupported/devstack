@@ -13,16 +13,16 @@ if [[ $(lsof -i tcp:8734 | grep LISTEN | awk '{print $2}') ]]
 then
   echo "INFO: Enterprise Learner Portal already running"
 else
-  echo "INFO: Silently starting Enterprise Learner Portal"
-  cd ../frontend-app-learner-portal-enterprise/ && npm run --quiet start &
+  echo "INFO: Starting Enterprise Learner Portal"
+  cd ../frontend-app-learner-portal-enterprise/ && npm start &
 fi
 
 if [[ $(lsof -i tcp:1991 | grep LISTEN | awk '{print $2}') ]]
 then
   echo "INFO: Enterprise Admin Portal already running"
 else
-  echo "INFO: Silently starting Enterprise Admin Portal"
-  cd ../frontend-app-admin-portal/ && npm run --quiet start &
+  echo "INFO: Starting Enterprise Admin Portal"
+  cd ../frontend-app-admin-portal/ && npm start &
 fi
 
 exit 0
