@@ -67,15 +67,16 @@ Useful Commands and Summary
 
   When to use: When you are pausing your work on this container/devstack and you want to pick back up from where you left off. Next time you use dev.up to bring up containers, you should be able to mostly pick back up from where you started.
 
-- ``dev.down.<service>``: stops the specified container and also removes the stopped containers as well as any networks that were created. Next time you use dev.up to bring up container, your container have reverted back to the pulled image.
+- ``dev.down``: stops and removes all running containers as well as any networks that were created. Next time you use dev.up to bring up container, your containers have reverted back to the pulled image.
 
   Note: This will not affect content of the databases.
 
-  Note: This will only bring down <service>'s container and not its dependencies.
+  When to use: use this command only if you are okay with removing any changes you might have made to your containers
 
-  When to use: use this command only if you are okay with removing any changes you might have made to the container
+  Variation:
+  + ``make dev.down.<service>`` will stop and remove only the specified container.
 
-  Variation: ``make dev.down`` will stop all your containers
+    Note: This will only bring down <service>'s container and not its dependencies.
 
 - ``dev.shell.<service>``: used to enter the shell of the specified service container.
 
