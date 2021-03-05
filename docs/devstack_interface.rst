@@ -63,15 +63,18 @@ Useful Commands and Summary
 
   + ``make dev.up.without-deps.<service>`` will only bring up the <service> container
 
-- ``dev.stop.<service>``: only stops the container. This does not remove the container or the networks it has created
+- ``dev.stop``: Stops all running containers.  This does not remove the containers or the networks they had created
 
-  When to use: When you are pausing your work on this container/devstack and you want to pick back up from where you left off. Next time you use dev.up to bring up containers, you should be able to mostly pick back up from where you started.
+  When to use: When you are pausing your work on devstack and you want to pick back up from where you left off. Next time you use dev.up.<service> to bring up containers, you should be able to mostly pick back up from where you started.
+
+  Variation:
+  + ``make dev.stop.<service>`` will only stop the specified container
 
 - ``dev.down``: stops and removes all running containers as well as any networks that were created. Next time you use dev.up.<service> to bring up containers, your containers have reverted back to the pulled image.
 
   Note: This will not affect content of the databases.
 
-  When to use: use this command only if you are okay with removing any changes you might have made to your containers
+  When to use: use this command only if you are okay with removing any changes you might have made to your containers. You will likely want to use ``make dev.stop`` instead of ``make dev.down``.
 
   Variation:
 
