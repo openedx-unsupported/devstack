@@ -82,7 +82,7 @@ Useful Commands and Summary
   When to use: To update python packages, to run migrations, or any shell commands you want to run on the running service
 
   Variation: ``make <service>-shell``
- 
+
   Tip: To enter either ``mysql`` or ``mongo`` shell, run ``make mysql-shell`` or ``make mongo-shell`` to enter container shell and then run either ``mysql`` or ``mongo`` to enter the database shell
 
 - ``dev.attach.<service>``: dev.up is setup to bring up the service container in the background. This attaches the container to your shell.
