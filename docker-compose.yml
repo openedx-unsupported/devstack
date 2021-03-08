@@ -108,8 +108,8 @@ services:
       default:
         aliases:
           - edx.devstack.mongo
-    # ports:
-    #  - "27017:27017"
+    ports:
+      - "27017:27017"
     volumes:
       - mongo_data:/data/db
 
