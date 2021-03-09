@@ -16,12 +16,21 @@ Disclaimer
 - Apparently Docker behavior is inconsistent between Mac and Linux due to some core differences between both operating systems.
 - This README contains some known bugs and issues, make sure to search your issues here as they might be an issue we ran into before.
 
+Brief guide to instructions on this page
+----------------------------------------
+
+1. Where you see instances of "<named-release>", replace this with the actual named release, such as 'hawthorn', 'juniper', etc
+
+
+Getting started
+---------------
+
 .. code::
 
-    $ mkdir -p ~/work/tahoe-hawthorn  # It needs its own new directory
-    $ cd ~/work/tahoe-hawthorn
-    $ git clone https://github.com/appsembler/devstack.git
-    $ cd devstack  # Now the `devstack` repo should be on the `hawthorn` branch
+    $ mkdir -p ~/work/tahoe-<named-release>  # It needs its own new directory
+    $ cd ~/work/tahoe-<named-release>
+    $ git clone https://github.com/appsembler/devstack.git --branch=<named-release>
+    $ cd devstack  # Now the `devstack` repo should be on the `<named-release>` branch
     $ make dev.provision
     $ make dev.up
 
@@ -640,7 +649,7 @@ NOTES:
 1. edxapp and IDAs use the ``latest`` tag for configuration changes which have been merged to master branch of
    their repository and ``edx/configuration``.
 2. Images for a named Open edX release are built from the corresponding branch
-   of each repository and tagged appropriately, for example ``hawthorn.master``
+   of each repository and tagged appropriately, for example ``hawthorn.master`` or ``juniper.master``
    or ``hawthorn.rc1``.
 3. The elasticsearch used in devstack is built using elasticsearch-devstack/Dockerfile and the ``devstack`` tag.
 
