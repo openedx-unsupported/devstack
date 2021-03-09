@@ -61,6 +61,10 @@ services:
     volumes:
       - ${DEVSTACK_WORKSPACE}/frontend-app-course-authoring:/edx/app/frontend-app-course-authoring:cached
       - course_authoring_node_modules:/edx/app/frontend-app-course-authoring/node_modules
+  frontend-app-payment:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/frontend-app-payment:/edx/app/frontend-app-payment:cached
+      - frontend_app_payment_node_modules:/edx/app/frontend-app-payment/node_modules
   frontend-app-publisher:
     volumes:
       - ${DEVSTACK_WORKSPACE}/frontend-app-publisher:/edx/app/frontend-app-publisher:cached
@@ -80,6 +84,7 @@ volumes:
   gradebook_node_modules:
   program_console_node_modules:
   frontend_app_learning_node_modules:
+  frontend_app_payment_node_modules:
   frontend_app_publisher_node_modules:
   course_authoring_node_modules:
   frontend_app_library_authoring_node_modules:

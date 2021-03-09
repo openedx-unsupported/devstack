@@ -346,6 +346,8 @@ Alternatively, you can run these by modifying the ``DEFAULT_SERVICES`` option as
 +------------------------------------+-------------------------------------+----------------+--------------+
 | `edx_notes_api`_                   | http://localhost:18120/api/v1/      | Python/Django  | Default      |
 +------------------------------------+-------------------------------------+----------------+--------------+
+| `frontend-app-payment`_            | http://localhost:1998/              | MFE (React.js) | Default      |
++------------------------------------+-------------------------------------+----------------+--------------+
 | `frontend-app-publisher`_          | http://localhost:18400/             | MFE (React.js) | Default      |
 +------------------------------------+-------------------------------------+----------------+--------------+
 | `gradebook`_                       | http://localhost:1994/              | MFE (React.js) | Default      |
@@ -368,6 +370,7 @@ Alternatively, you can run these by modifying the ``DEFAULT_SERVICES`` option as
 .. _ecommerce: https://github.com/edx/ecommerce
 .. _edx_notes_api: https://github.com/edx/edx-notes-api
 .. _forum: https://github.com/edx/cs_comments_service
+.. _frontend-app-payment: https://github.com/edx/frontend-app-payment
 .. _frontend-app-publisher: https://github.com/edx/frontend-app-publisher
 .. _gradebook: https://github.com/edx/frontend-app-gradebook
 .. _lms: https://github.com/edx/edx-platform
