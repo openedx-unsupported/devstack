@@ -22,7 +22,7 @@ certifi==2020.12.5
     # via
     #   -r requirements/base.txt
     #   requests
-cffi==1.14.4
+cffi==1.14.5
     # via
     #   -r requirements/base.txt
     #   bcrypt
@@ -36,7 +36,7 @@ click==7.1.2
     # via
     #   -r requirements/pip-tools.txt
     #   pip-tools
-cryptography==3.4.3
+cryptography==3.4.6
     # via
     #   -r requirements/base.txt
     #   paramiko
@@ -46,9 +46,9 @@ distro==1.5.0
     # via
     #   -r requirements/base.txt
     #   docker-compose
-docker-compose==1.28.2
+docker-compose==1.28.5
     # via -r requirements/base.txt
-docker[ssh]==4.4.1
+docker[ssh]==4.4.4
     # via
     #   -r requirements/base.txt
     #   docker-compose
@@ -130,7 +130,7 @@ toml==0.10.2
     # via tox
 tox-battery==0.6.1
     # via -r requirements/dev.in
-tox==3.21.4
+tox==3.23.0
     # via
     #   -r requirements/dev.in
     #   tox-battery
@@ -140,7 +140,7 @@ urllib3==1.26.3
     #   requests
 virtualenv==20.4.2
     # via tox
-websocket-client==0.57.0
+websocket-client==0.58.0
     # via
     #   -r requirements/base.txt
     #   docker
