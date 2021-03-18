@@ -99,7 +99,7 @@ Creating more sites is possible via the commands below:
     $ make lms-shell  # Inside your machine to open the LMS shell
     $ ./manage.py lms create_devstack_site blue localhost
 
-**Note:** Sultan users can replace the base domain ``localhost`` in ``create_devstack_site`` commands with something else like `devstack`.
+**Note:** Sultan users can replace the base domain ``localhost`` in ``create_devstack_site`` commands with any host specified in their Sultan `EDX_HOST_NAMES` configuration.
 
 If something goes wrong, check out the rest of this README for additional details.
 
