@@ -1,6 +1,6 @@
 - ida_name: lms
   data_spec_path: openedx/core/djangoapps/util/management/commands/test_command.yaml
 - ida_name: ecommerce
-  data_spec_path: test_data/ecommerce_data_spec.yaml
+  data_spec_path: ecommerce/core/management/commands/test_data.yaml
 - ida_name: lms
   data_spec_path: openedx/core/djangoapps/util/management/commands/test_command.yaml

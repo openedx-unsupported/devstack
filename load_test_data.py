@@ -11,13 +11,11 @@ def main(input_yaml_path):
         for data_spec_path in top_data_spec_yaml:
             ida_name = data_spec_path['ida_name']
             ida_data_spec_yaml = data_spec_path['data_spec_path']
-            print(f"{ida_name}: {ida_data_spec_yaml} ")
+            print(f"Creating test data in {ida_name} based on {ida_data_spec_yaml}")
             if ida_name == "lms" or ida_name == "cms":
-                print("running suprocess command")
-                # FYI, this does not work. Issues with not finding paths
-                subprocess.run(f"docker-compose exec -T {ida_name} bash -c 'python manage.py' {ida_name} load_test_data --data-file-path {ida_data_spec_yaml}", shell=True)
+                subprocess.run(f"docker-compose exec -T {ida_name} bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && python manage.py {ida_name} load_data --data-file-path {ida_data_spec_yaml}'", shell=True)
             else:
-                subprocess.call(f"docker-compose exec -T {ida_name} bash -c 'python manage.py' load_test_data --data-file-path {ida_data_spec_yaml} ")
+                subprocess.call(f"docker-compose exec -T {ida_name} bash -c 'source /edx/app/{ida_name}/{ida_name}_env && cd /edx/app/{ida_name}/{ida_name}/ && python manage.py load_data --data-file-path {ida_data_spec_yaml}'", shell=True)
 
 
 if __name__ == "__main__":
