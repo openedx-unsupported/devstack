@@ -261,8 +261,8 @@ dev.drop-db.%: ## Irreversably drop the contents of a MySQL database in each mys
 	docker-compose exec -T mysql bash -c "mysql --execute=\"DROP DATABASE $*;\""
 	docker-compose exec -T mysql57 bash -c "mysql --execute=\"DROP DATABASE $*;\""
 
-dev.load_test_data:
-	python load_test_data.py ${data_spec_top_path}
+dev.load_data:
+	python load_data.py ${data_spec_top_path}
 
 ########################################################################################
 # Developer interface: Container management.
