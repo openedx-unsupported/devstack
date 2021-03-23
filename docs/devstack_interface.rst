@@ -120,12 +120,10 @@ Useful Commands and Summary
 
 - ``dev.backup`` creates a backup of all the database containers(mysql, elasticsearch, mongo)
 
-  When to use: Probably a good idea to create a backup just after provisioning or when you are about to do something which might result in badly modifying your database.
+  When to use: Do this routinly, such that if something happens, you can revert back to a backup using ``make dev.restore``
 
   Also see below at ``dev.restore`` for opposite counterpart to this command.
 
 - ``dev.restore`` will restore your database containers to the backups created using ``dev.backup``
-
-  When to use: Use when you've broken your database or when you need to go back to a previous backup.
 
   Warning: This will overwrite your databases. Only use if you want all your database volumes to revert back to the backup.
