@@ -61,6 +61,7 @@ There are a number of places to get help, including mailing lists and real-time 
 - See some `helpful troubleshooting tips`_.
 - See the `Frequently Asked Questions`_.
 - Or learn about `testing and debugging your code in devstack`_.
+- If you get confused about any of the terms used in these docs, see `edX Glossary`_
 
 You can also browse all the documentation in `Read the Docs`_.
 
@@ -70,6 +71,7 @@ You can also browse all the documentation in `Read the Docs`_.
 .. _Frequently Asked Questions: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/devstack_faq.html
 .. _testing and debugging your code in devstack:
 .. _testing_and_debugging.rst: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/testing_and_debugging.html
+.. _edX Glossary: https://openedx.atlassian.net/wiki/spaces/AC/pages/28967341/edX+Glossary
 
 .. _Read the Docs: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/
 
