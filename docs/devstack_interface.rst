@@ -117,3 +117,11 @@ Useful Commands and Summary
   Note: this will only restart <container> and not its dependencies
 
   Variation: ``make dev.restart-container.<service1>+<service2>`` will restart both <service> and <service>
+
+- ``dev.backup`` creates a backup of all the database containers(mysql, elasticsearch, mongo)
+
+  Also see below at ``dev.restore`` for opposite counterpart to this command.
+
+- ``dev.restore`` will restore your database volumes to the backups created using ``dev.backup``
+
+  Warning: This will overwrite your databases. Only use if you want all your database volumes to revert back to the backup.
