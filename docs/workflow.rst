@@ -49,3 +49,8 @@ Time-savers
 ~~~~~~~~~~~
 
 If you want to pull down just the images for one service but not its dependencies, there is a ``without-deps`` variant for both pulling images and for bringing a service up, and for both service-leading and service-trailing Make target variants. For example, ``dev.up.without-deps.lms`` and ``lms-up-without-deps`` may both be used, where the former is more amenable to use with multiple services at the same time.
+
+Database Intensive
+~~~~~~~~~~~~~~~~~~
+
+If you are doing tasks that result in modifications to your database, it would be a good idea for you to backup your databases in case something goes wrong. To create a backup, use ``make dev.backup``. When you want to restore you database to backup, run ``make dev.restore``. You might have to cycle the database container on and off using ``make dev.down.<database container name>`` and ``make dev.up.<database container name>``.
