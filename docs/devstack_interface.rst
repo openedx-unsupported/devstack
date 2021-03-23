@@ -128,4 +128,4 @@ Useful Commands and Summary
 
   When to use: Use when you've broken your database or when you need to go back to a previous backup.
 
-  Warning: This will overwrite your databases. Only use if you want all your database containers to revert back to the backup.
+  Warning: This will overwrite your databases. Only use if you want all your database volumes to revert back to the backup.
