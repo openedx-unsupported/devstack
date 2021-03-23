@@ -12,20 +12,20 @@ cached-property==1.5.2
     # via docker-compose
 certifi==2020.12.5
     # via requests
-cffi==1.14.4
+cffi==1.14.5
     # via
     #   bcrypt
     #   cryptography
     #   pynacl
 chardet==4.0.0
     # via requests
-cryptography==3.4.3
+cryptography==3.4.6
     # via paramiko
 distro==1.5.0
     # via docker-compose
-docker-compose==1.28.2
+docker-compose==1.28.5
     # via -r requirements/base.in
-docker[ssh]==4.4.1
+docker[ssh]==4.4.4
     # via docker-compose
 dockerpty==0.4.1
     # via docker-compose
@@ -63,9 +63,9 @@ six==1.15.0
     #   websocket-client
 texttable==1.6.3
     # via docker-compose
-urllib3==1.26.3
+urllib3==1.26.4
     # via requests
-websocket-client==0.57.0
+websocket-client==0.58.0
     # via
     #   docker
     #   docker-compose
