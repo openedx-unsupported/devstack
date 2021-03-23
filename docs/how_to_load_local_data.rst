@@ -3,7 +3,7 @@ How to load local data
 
 Currently there are many ways to load data into your local devstack:
 - provisioning scripts
-- using load_data management commands in each of the services
+- using Development Fixtures
 - do it manually through either mysql, interactiving with website, or other management commands
 
 
