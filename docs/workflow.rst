@@ -53,4 +53,4 @@ If you want to pull down just the images for one service but not its dependencie
 Database backups
 ~~~~~~~~~~~~~~~~
 
-You can routinely create backups of your local databases. To create a backup, use ``make dev.backup``. When you want to restore you database to the backup, run ``make dev.restore``. Warning, this will retore all your databases. You might have to cycle the database containers on and off using ``make dev.down.<database container name>`` and ``make dev.up.<database container name>``.
+You can routinely create backups of your local databases. To create a backup, use ``make dev.backup``. When you want to restore you database to the backup, run ``make dev.restore``. Warning, this will retore all your databases. You might have to cycle the database containers off and on using ``make dev.down.<database service name>`` and ``make dev.up.<database service name>``.
