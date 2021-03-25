@@ -34,25 +34,6 @@ It also includes the following extra components:
 * edX Registrar service.
 * The course-authoring micro-frontend
 
-.. Because GitHub doesn't support `toctree`, the Table of Contents is hand-written.
-.. Please keep it up-to-date with all the top-level headings.
-.. Regenerate: grep '^----' README.rst -B 1 | grep -v -e '--' | sed 's/\(.*\)/* `\1`_/' | tail -n+2
-
-Table of Contents
------------------
-
-* `Where to Find Help`_
-* `Notices`_
-* `Prerequisites`_
-* `Roadmap`_
-* `Getting Started`_
-* `Usernames and Passwords`_
-* `Service List`_
-* `Known Issues`_
-* `Advanced Configuration Options`_
-
-or
-
 .. contents:: Table of Contents
 
 Where to Find Help
