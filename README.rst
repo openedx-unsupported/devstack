@@ -51,6 +51,11 @@ Table of Contents
 * `Known Issues`_
 * `Advanced Configuration Options`_
 
+or
+
+.. toctree::
+   :maxdepth: 2
+
 Where to Find Help
 ------------------
 
@@ -80,8 +85,12 @@ Notices
 
 **NOTE:** LMS is now using MySql 5.7 by default. You have to run ``make dev.pull.lms`` and ``make dev.provision.lms`` (more details in `Getting Started`_) to fetch latest images and reprovision local copies of databases in order for an existing devstack setup to keep working.
 
+
+Getting Started
+---------------
+
 Prerequisites
--------------
+~~~~~~~~~~~~~
 
 You will need to have the following installed:
 
@@ -125,22 +134,9 @@ However, you may want to run the ``make`` commands from within a Python 3 virtua
 environment, as described in `Getting Started`_. This will keep the Python packages required for Devstack separate from
 the ones installed globally on your system.
 
+Directions to setup devstack
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Roadmap
--------
-
-This repository is in sustained status. The goal is to deprecate this codebase and move the development environment setup into the repos with the application code.
-
-Documentation for future of devstack can be found at: `decentralized devstack`_
-
-Documentation for first prototype of decentralized devstack can be found at: `decentralized devstack workflows`_
-
-.. _decentralized devstack: https://github.com/edx/open-edx-proposals/blob/master/oeps/oep-0005/decisions/0002-why-decentralized-devstack.rst
-.. _decentralized devstack workflows: https://github.com/edx/enterprise-catalog/blob/master/docs/decentralized_devstack_workflows.rst
-
-
-Getting Started
----------------
 
 The default devstack services can be run by following the steps below.
 
