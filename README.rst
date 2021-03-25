@@ -53,8 +53,7 @@ Table of Contents
 
 or
 
-.. toctree::
-   :maxdepth: 2
+.. contents:: Table of Contents
 
 Where to Find Help
 ------------------
