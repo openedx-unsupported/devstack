@@ -34,7 +34,8 @@ It also includes the following extra components:
 * edX Registrar service.
 * The course-authoring micro-frontend
 
-.. contents:: Table of Contents
+
+.. contents:: **Table of Contents:**
 
 Where to Find Help
 ------------------
