@@ -43,16 +43,30 @@ Tahoe is all about subdomains, so please add the following entries to your ``/et
 
     127.0.0.1 edx.devstack.lms  # Needed for devstack nascence
     127.0.0.1 red.localhost  # Your default site
-    127.0.0.1 blue.localhost green.localhost  # Create as many of those as you wish
+    127.0.0.1 blue.devstack.tahoe green.devstack.tahoe  # Create as many of those as you wish
 
 Where's my Site?
 ----------------
+To create a new site, please run the following commands in your devstack host:
 
-Now you have a site of your own:
+.. code::
 
-  - **LMS:** http://red.localhost:18000/
-  - **Studio:** http://localhost:18010/
-  - **AMC:** http://localhost:13000/
+    $ make lms-shell
+    $ python manage.py lms create_devstack_site <org> <hostname>
+    $ make amc-shell
+    $ python manage.py create_devstack_site <org> <hostname>
+
+
+
+**Note**
+``hostname`` should be ``localhost`` if your devstack is hosted locally, or any value from ``EDX_HOST_NAMES`` if you are using `Sultan <https://github.com/appsembler/sultan/blob/master/configs/.configs#L81>`_.
+
+
+Then you'll have a site of your own:
+
+  - **LMS:** http://<org>.<hostname>:18000/
+  - **Studio:** http://<hostname>:18010/
+  - **AMC:** http://<hostname>:13000/
 
 Credentials are:
 
