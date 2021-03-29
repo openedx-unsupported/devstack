@@ -34,22 +34,8 @@ It also includes the following extra components:
 * edX Registrar service.
 * The course-authoring micro-frontend
 
-.. Because GitHub doesn't support `toctree`, the Table of Contents is hand-written.
-.. Please keep it up-to-date with all the top-level headings.
-.. Regenerate: grep '^----' README.rst -B 1 | grep -v -e '--' | sed 's/\(.*\)/* `\1`_/' | tail -n+2
 
-Table of Contents
------------------
-
-* `Where to Find Help`_
-* `Notices`_
-* `Prerequisites`_
-* `Roadmap`_
-* `Getting Started`_
-* `Usernames and Passwords`_
-* `Service List`_
-* `Known Issues`_
-* `Advanced Configuration Options`_
+.. contents:: **Table of Contents:**
 
 Where to Find Help
 ------------------
@@ -80,8 +66,12 @@ Notices
 
 **NOTE:** LMS is now using MySql 5.7 by default. You have to run ``make dev.pull.lms`` and ``make dev.provision.lms`` (more details in `Getting Started`_) to fetch latest images and reprovision local copies of databases in order for an existing devstack setup to keep working.
 
+
+Getting Started
+---------------
+
 Prerequisites
--------------
+~~~~~~~~~~~~~
 
 You will need to have the following installed:
 
@@ -125,22 +115,9 @@ However, you may want to run the ``make`` commands from within a Python 3 virtua
 environment, as described in `Getting Started`_. This will keep the Python packages required for Devstack separate from
 the ones installed globally on your system.
 
+Directions to setup devstack
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Roadmap
--------
-
-This repository is in sustained status. The goal is to deprecate this codebase and move the development environment setup into the repos with the application code.
-
-Documentation for future of devstack can be found at: `decentralized devstack`_
-
-Documentation for first prototype of decentralized devstack can be found at: `decentralized devstack workflows`_
-
-.. _decentralized devstack: https://github.com/edx/open-edx-proposals/blob/master/oeps/oep-0005/decisions/0002-why-decentralized-devstack.rst
-.. _decentralized devstack workflows: https://github.com/edx/enterprise-catalog/blob/master/docs/decentralized_devstack_workflows.rst
-
-
-Getting Started
----------------
 
 The default devstack services can be run by following the steps below.
 
