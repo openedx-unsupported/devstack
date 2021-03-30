@@ -8,8 +8,7 @@ Documentation is on `Read the Docs`_.  Code repository is on `GitHub`_.
 .. _Read the Docs: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/
 .. _GitHub: https://github.com/edx/devstack
 
-This project replaces the older Vagrant-based devstack with a
-multi-container approach driven by `Docker Compose`_.
+This project uses `Docker_Compose`_ to enable developement of Open edX components.
 
 A Devstack installation includes the following Open edX components by default:
 
