@@ -16,7 +16,7 @@ jobs:
       SHALLOW_CLONE: 1
     strategy:
       matrix:
-        os: [ ubuntu-16.04 ]
+        os: [ ubuntu-latest ]
         python-version: [ '3.8' ]
         services: [ discovery+lms+forum ,registrar+lms, ecommerce, edx_notes_api, credentials, xqueue]
 
@@ -33,7 +33,7 @@ jobs:
           sudo apt-get update
           sudo apt install apt-transport-https ca-certificates curl software-properties-common
           curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-          sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic test"
+          sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal test"
           sudo apt update
           sudo apt install docker-ce
           docker version
