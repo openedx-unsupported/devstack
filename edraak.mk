@@ -22,11 +22,10 @@ edraak.programs.help:
 	echo "Commands:"
 	echo ""
 	echo "migrate:              Run django migrations i.e. python manage.py migrate"
-	echo "compile_static:       Run python manage.py compilestatic --settings=edraakprograms.static"
 	echo "install_pip:          Install python dependencies in 'requirements.txt' file"
 	echo "install_npm:          Install npm dependencies in 'package.json' file"
-	echo "gulp:                 Run gulp command"
-	echo "install_all:          Runs install_pip, install_npm, migrate, compilestatic"
+	echo "dev:                  Run npm run dev command"
+	echo "install_all:          Runs install_pip, install_npm, migrate"
 	echo "watch_js:             Run watcher to watch JavaScript changes"
 	echo "watch_css:            Run watcher to watch and compile scss changes"
 	echo "manage:               Run any manage.py command"
@@ -44,9 +43,6 @@ edraak.programs.langs_push:
 edraak.programs.langs_pull:
 	docker-compose exec edraak_programs python manage.py langs_pull --settings=edraakprograms.dev
 
-edraak.programs.compile_static:
-	docker-compose exec edraak_programs python manage.py compilestatic --settings=edraakprograms.static
-
 edraak.programs.install_pip:
 	docker-compose exec edraak_programs pip install -r requirements.txt
 
@@ -56,8 +52,8 @@ edraak.programs.install_npm:
 edraak.programs.copy_cache:
 	docker-compose exec edraak_programs cp -Rnv /cache/node_modules /cache/.compiled /app
 
-edraak.programs.gulp:
-	docker-compose exec edraak_programs gulp
+edraak.programs.dev:
+	docker-compose exec edraak_programs npm run dev
 
 edraak.programs.watch:
 	docker exec -t edraak.devstack.programs bash -c 'while true; do npx gulp watch; sleep 2; done'
@@ -67,12 +63,11 @@ edraak.marketing.watch:
 
 edraak.programs.install_all:
 	$(MAKE) edraak.programs.copy_cache
-	$(MAKE) edraak.programs.gulp
+	$(MAKE) edraak.programs.dev
 	$(MAKE) edraak.programs.migrate
-	$(MAKE) edraak.programs.compilestatic
 
 edraak.programs.watch_js:
-	docker-compose exec edraak_programs gulp watch
+	docker-compose exec edraak_programs npm run dev:watch
 
 edraak.programs.provision:
 	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml" ./provision-edraak-programs.sh
@@ -108,8 +103,6 @@ edraak.marketing.langs_push:
 programs-restart: ## Kill the Edraak Programs Django development server. The watcher process will restart it.
 	docker exec -t edraak.devstack.programs bash -c 'kill $$(ps aux | grep "manage.py" | egrep -v "while|grep" | awk "{print \$$2}")'
 
-programs_gulp-restart:
-	docker exec -t edraak.devstack.programs-gulp bash -c 'kill $$(ps aux | grep "gulp" | egrep -v "while|grep" | awk "{print \$$2}")'
 
 programs-fix-npm-install-permissions:
 	docker-compose exec edraak_programs bash -c 'chown -R root ~/.npm'

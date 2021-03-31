@@ -15,8 +15,7 @@ docker-compose exec edraak_programs bash -c 'npm rebuild node-sass'
 docker-compose exec edraak_programs bash -c 'chown -R root ~/.npm'
 docker-compose exec edraak_programs bash -c 'npm install'
 docker-compose exec edraak_programs bash -c 'bower install'
-docker-compose exec edraak_programs bash -c 'gulp'
-docker-compose exec edraak_programs bash -c 'python manage.py compilestatic --settings=edraakprograms.static'
+docker-compose exec edraak_programs bash -c 'npm run dev'
 docker-compose exec edraak_programs bash -c 'python manage.py collectstatic --ignore="*.less" --ignore="*.scss" --noinput --clear --settings=edraakprograms.dev'
 
 echo "** Progs: Restarting **"
