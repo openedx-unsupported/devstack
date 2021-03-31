@@ -72,18 +72,18 @@ dev.editable-envs:  ## Copy env files outside the docker containers so it's edit
 	@make studio-restart
 
 dev.up: | check-memory ## Bring up all services with host volumes
-	docker-compose -f docker-compose.yml -f docker-compose-host.yml up -d
+	docker-compose -f docker-compose.yml -f docker-compose-host.yml -f docker-compose-state-manager.yml up -d
 
 dev.nfs.setup:  ## set's up an nfs server on the /Users folder, allowing nfs mounting on docker
 	./setup_native_nfs_docker_osx.sh
 
 dev.nfs.up: | check-memory ## Bring up all services with host volumes
-	docker-compose -f docker-compose.yml -f docker-compose-host-nfs.yml up -d
+	docker-compose -f docker-compose.yml -f docker-compose-host-nfs.yml -f docker-compose-state-manager.yml up -d
 	@# Comment out this next line if you want to save some time and don't care about catalog programs
 	#./programs/provision.sh cache >/dev/null
 
 dev.nfs.up.all: ## Bring up all services with host volumes, including watchers
-	docker-compose -f docker-compose.yml -f docker-compose-host-nfs.yml -f docker-compose-watchers-nfs.yml up -d
+	docker-compose -f docker-compose.yml -f docker-compose-host-nfs.yml -f docker-compose-watchers-nfs.yml -f docker-compose-state-manager.yml up -d
 
 dev.nfs.provision: | check-memory dev.clone dev.provision.nfs.run stop ## Provision dev environment with all services stopped
 
@@ -129,7 +129,10 @@ provision: | dev.provision ## This command will be deprecated in a future releas
 
 stop: ## Stop all services
 	(test -d .docker-sync && docker-sync stop) || true ## Ignore failure here
-	docker-compose stop
+	docker-compose -f docker-compose.yml -f docker-compose-state-manager.yml stop
+
+stop.state_manager: ## Stop state-manager
+	docker-compose -f docker-compose-state-manager.yml stop
 
 stop.watchers: ## Stop asset watchers
 	docker-compose -f docker-compose-watchers.yml stop
@@ -147,10 +150,10 @@ destroy: ## Remove all devstack-related containers, networks, and volumes
 	./destroy.sh
 
 logs: ## View logs from containers running in detached mode
-	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml logs -f --tail 0
+	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml -f docker-compose-state-manager.yml logs -f --tail 0
 
 %-logs: ## View the logs of the specified service container
-	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml -f docker-compose-watchers.yml logs -f --tail=500 $*
+	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml -f docker-compose-watchers.yml -f docker-compose-state-manager.yml logs -f --tail=500 $*
 
 xqueue-logs: ## View logs from containers running in detached mode
 	docker-compose -f docker-compose-xqueue.yml logs -f xqueue

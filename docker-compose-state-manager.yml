@@ -1,0 +1,56 @@
+version: "3"
+services:
+  state-manager-api:
+    build:
+      context: ${DEVSTACK_WORKSPACE}/state-manager/.
+      dockerfile: ${DEVSTACK_WORKSPACE}/state-manager/Dockerfile
+    ports:
+      - "6000:80"
+    env_file:
+      - ${DEVSTACK_WORKSPACE}/state-manager/.env
+    container_name: edraak.devstack.state_manager
+    command: bash entrypoint.sh
+    depends_on:
+      - state-manager-mysql
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/state-manager:/app
+    environment:
+      APP_ENV: "devstack"
+
+  state-manager-mysql:
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci --default-authentication-plugin=mysql_native_password
+    container_name: edraak.devstack.state_manager_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ""
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    image: mysql:8.0
+    ports:
+      - "6306:3306"
+    volumes:
+      - state_manager_mysql_data:/var/lib/mysql
+
+  edraak_programs:
+    depends_on:
+      - mysql
+      - mongo
+      - memcached
+      - state-manager-api
+
+  edraak_dev_router:
+    depends_on:
+      - lms
+      - studio
+      - edraak_marketing
+      - edraak_programs
+      - state-manager-api
+    networks:
+      default:
+        aliases:
+          - www.edraak.dev
+          - courses.edraak.dev
+          - programs.edraak.dev
+          - edraak.dev
+          - states.edraak.dev
+volumes:
+  state_manager_mysql_data:
+    driver: local
