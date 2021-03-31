@@ -12,7 +12,6 @@ cat <<"EOCOW" >&2
 /                                                                         \
 | Are you sure you want to run this command for *all* Open edX services?  |
 \_________________________________________________________________________/
-       \
         \   ^__^
          \  (oo)\_______
             (__)\       )\/\
