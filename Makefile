@@ -197,10 +197,7 @@ dev.clone.ssh: ## Clone service repos using SSH method to the parent directory.
 # Developer interface: Docker image management.
 ########################################################################################
 
-dev.pull: ## Deprecated: Use dev.pull.default or a set of service names, e.g. dev.pull.lms+studio
-	@scripts/make_warn_generic.sh "$@"
-
-dev.pull.default: dev.pull.$(DEFAULT_SERVICES) ## Pull latest Docker images required by default services.
+dev.pull: dev.pull.$(DEFAULT_SERVICES) ## Pull latest Docker images required by default services.
 
 dev.pull.%: ## Pull latest Docker images for services and their dependencies.
 	docker-compose pull --include-deps $$(echo $* | tr + " ")
@@ -215,10 +212,7 @@ dev.pull.without-deps.%: ## Pull latest Docker images for specific services.
 # Developer interface: Database management.
 ########################################################################################
 
-dev.provision: ## Deprecated: Use dev.provision.default or a set of service names, e.g. dev.provision.lms+studio
-	@scripts/make_warn_generic.sh "$@"
-
-dev.provision.default: dev.check-memory ## Provision dev environment with default services, and then stop them.
+dev.provision: dev.check-memory ## Provision dev environment with default services, and then stop them.
 	# We provision all default services as well as 'e2e' (end-to-end tests).
 	# e2e is not part of `DEFAULT_SERVICES` because it isn't a service;
 	# it's just a way to tell ./provision.sh that the fake data for end-to-end
@@ -274,10 +268,7 @@ dev.drop-db.%: ## Irreversably drop the contents of a MySQL database in each mys
 # Developer interface: Container management.
 ########################################################################################
 
-dev.up: ## Deprecated: Use dev.up.default or a set of service names, e.g. dev.up.lms+studio
-	@scripts/make_warn_generic.sh "$@"
-
-dev.up.default: dev.up.$(DEFAULT_SERVICES) ## Bring up default services.
+dev.up: dev.up.$(DEFAULT_SERVICES) ## Bring up default services.
 
 dev.up.%: dev.check-memory ## Bring up services and their dependencies.
 	docker-compose up -d $$(echo $* | tr + " ")
@@ -365,10 +356,7 @@ dev.check-memory: ## Check if enough memory has been allocated to Docker.
 dev.stats: ## Get per-container CPU and memory utilization data.
 	docker stats --format "table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}"
 
-dev.check: ## Deprecated: Use dev.check.default or a set of service names, e.g. dev.check.lms+studio
-	@scripts/make_warn_generic.sh "$@"
-
-dev.check.default: dev.check.$(DEFAULT_SERVICES) ## Run checks for the default service set.
+dev.check: dev.check.$(DEFAULT_SERVICES) ## Run checks for the default service set.
 
 dev.check.%:  # Run checks for a given service or set of services.
 	$(WINPTY) bash ./check.sh $*
