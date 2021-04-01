@@ -151,7 +151,7 @@ The default devstack services can be run by following the steps below.
 
    .. code:: sh
 
-       make dev.pull.default
+       make dev.pull
 
 .. Update rst to point to readthedocs once published.
 
@@ -181,7 +181,7 @@ The default devstack services can be run by following the steps below.
 
    .. code:: sh
 
-       make dev.provision.default
+       make dev.provision
 
    Provision using `docker-sync`_:
 
@@ -199,16 +199,16 @@ The default devstack services can be run by following the steps below.
 
    **NOTE:** This command will bring up both MySQL 5.6 and 5.7 databases until all services are upgraded to 5.7.
 
-5. Start the desired services. This command will mount the repositories under the
+5. Start the services. This command will mount the repositories under the
    ``DEVSTACK_WORKSPACE`` directory.
 
-   **NOTE:** it may take up to 60 seconds for the LMS to start, even after the ``dev.up.*`` command outputs ``done``.
+   **NOTE:** it may take up to 60 seconds for the LMS to start, even after the ``make dev.up`` command outputs ``done``.
 
    Default:
 
    .. code:: sh
 
-       make dev.up.default
+       make dev.up
 
    Start using `docker-sync`_:
 
@@ -302,10 +302,10 @@ The table below provides links to the homepage, API root, or API docs of each se
 as well as links to the repository where each service's code lives.
 
 The services marked as ``Default`` are provisioned/pulled/run whenever you run
-``make dev.provision.default`` / ``make dev.pull.default`` / ``make dev.up.default``, respectively.
+``make dev.provision`` / ``make dev.pull`` / ``make dev.up``, respectively.
 
-The other services are provisioned/pulled/run when specifically requested (e.g.,
-``make dev.provision.lms+xqueue`` / ``make dev.pull.lms+xqueue`` / ``make dev.up.lms+xqueue``).
+The extra services are provisioned/pulled/run when specifically requested (e.g.,
+``make dev.provision.xqueue`` / ``make dev.pull.xqueue`` / ``make dev.up.xqueue``).
 Alternatively, you can run these by modifying the ``DEFAULT_SERVICES`` option as described in the `Advanced Configuration Options`_ section.
 
 +------------------------------------+-------------------------------------+----------------+--------------+
