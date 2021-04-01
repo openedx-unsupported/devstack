@@ -11,16 +11,6 @@
 version: "2.1"
 
 services:
-  # Third-party services
-#  chrome:
-#    container_name: edx.devstack.chrome
-#    image: edxops/chrome:${OPENEDX_RELEASE:-latest}
-#    shm_size: 2g
-#    ports:
-#      - "15900:5900"
-#    volumes:  # for file uploads
-#      - ../edx-e2e-tests/upload_files:/edx/app/e2e/edx-e2e-tests/upload_files
-#      - ../edx-platform/common/test/data:/edx/app/edxapp/edx-platform/common/test/data
 
   elasticsearch:
     container_name: edx.devstack.elasticsearch
@@ -31,16 +21,6 @@ services:
     volumes:
       - elasticsearch_data:/usr/share/elasticsearch/data
       - elasticsearch_data:/usr/share/elasticsearch/logs
-
-#  firefox:
-#    container_name: edx.devstack.firefox
-#    image: edxops/firefox:${OPENEDX_RELEASE:-latest}
-#    shm_size: 2g
-#    ports:
-#      - "25900:5900"
-#    volumes:  # for file uploads
-#      - ../edx-e2e-tests/upload_files:/edx/app/e2e/edx-e2e-tests/upload_files
-#      - ../edx-platform/common/test/data:/edx/app/edxapp/edx-platform/common/test/data
 
   memcached:
     container_name: edx.devstack.memcached
@@ -72,59 +52,7 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
 
-#  # edX services
-#  credentials:
-#    command: bash -c 'source /edx/app/credentials/credentials_env && while true; do python /edx/app/credentials/credentials/manage.py runserver 0.0.0.0:18150; sleep 2; done'
-#    container_name: edx.devstack.credentials
-#    depends_on:
-#      - mysql
-#      - memcached
-#    # Allows attachment to the credentials service using 'docker attach <containerID>'.
-#    stdin_open: true
-#    tty: true
-#    environment:
-#      CACHE_LOCATION: edx.devstack.memcached:12211
-#      DB_HOST: edx.devstack.mysql
-#      SOCIAL_AUTH_EDX_OIDC_URL_ROOT: http://edx.devstack.lms:18000/oauth2
-#      ENABLE_DJANGO_TOOLBAR: 1
-#    image: edxops/credentials:${OPENEDX_RELEASE:-latest}
-#    ports:
-#      - "18150:18150"
-
-#  discovery:
-#    command: bash -c 'source /edx/app/discovery/discovery_env && while true; do python /edx/app/discovery/discovery/manage.py runserver 0.0.0.0:18381; sleep 2; done'
-#    container_name: edx.devstack.discovery
-#    depends_on:
-#      - mysql
-#      - elasticsearch
-#      - memcached
-#    # Allows attachment to the discovery service using 'docker attach <containerID>'.
-#    stdin_open: true
-#    tty: true
-#    environment:
-#      TEST_ELASTICSEARCH_URL: "http://edx.devstack.elasticsearch:9200"
-#      ENABLE_DJANGO_TOOLBAR: 1
-#    image: edxops/discovery:${OPENEDX_RELEASE:-latest}
-#    ports:
-#      - "18381:18381"
-#    volumes:
-#      - discovery_assets:/edx/var/discovery/
-
-#  ecommerce:
-#    command: bash -c 'source /edx/app/ecommerce/ecommerce_env && while true; do python /edx/app/ecommerce/ecommerce/manage.py runserver 0.0.0.0:18130; sleep 2; done'
-#    container_name: edx.devstack.ecommerce
-#    depends_on:
-#      - mysql
-#      - memcached
-#    # Allows attachment to the ecommerce service using 'docker attach <containerID>'.
-#    stdin_open: true
-#    tty: true
-#    environment:
-#      ENABLE_DJANGO_TOOLBAR: 0
-#    image: edxops/ecommerce:${OPENEDX_RELEASE:-latest}
-#    ports:
-#      - "18130:18130"
-
+# edX
   lms:
     command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py lms runserver 0.0.0.0:18000 --settings devstack_docker; sleep 2; done'
     container_name: edx.devstack.lms
@@ -151,26 +79,6 @@ services:
       - "18031:18031"
     volumes:
       - edxapp_lms_assets:/edx/var/edxapp/staticfiles/
-
-#  edx_notes_api:
-#    command: bash -c 'source /edx/app/edx_notes_api/edx_notes_api_env && while true; do python /edx/app/edx_notes_api/edx_notes_api/manage.py runserver 0.0.0.0:18120 --settings notesserver.settings.devstack; sleep 2; done'
-#    container_name: edx.devstack.edx_notes_api
-#    depends_on:
-#      - devpi
-#      - elasticsearch
-#      - mysql
-#    image: edxops/notes:${OPENEDX_RELEASE:-latest}
-#    ports:
-#      - "18120:18120"
-#    environment:
-#      DB_ENGINE: "django.db.backends.mysql"
-#      DB_HOST: "edx.devstack.mysql"
-#      DB_NAME: "notes"
-#      DB_PASSWORD: "password"
-#      DB_PORT: "3306"
-#      DB_USER: "notes001"
-#      ENABLE_DJANGO_TOOLBAR: 1
-#      ELASTICSEARCH_URL: "http://edx.devstack.elasticsearch:9200"
 
   studio:
     command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py cms runserver 0.0.0.0:18010 --settings devstack_docker; sleep 200000; done'
@@ -233,17 +141,6 @@ services:
       - mongo
       - memcached
 
-#  edraak_programs_gulp:
-#    image: eu.gcr.io/openedx-231314/edraak/progs
-#    environment:
-#      NODE_ENV: development
-#    command: bash -c 'while true; do npx gulp watch; sleep 2; done'
-#    container_name: edraak.devstack.programs-gulp
-#    working_dir: /app
-#    depends_on:
-#      - mysql
-#      - memcached
-
   edraak_marketing:
     image: eu.gcr.io/openedx-231314/edraak/marketing
     environment:
@@ -257,24 +154,16 @@ services:
       - mysql
       - memcached
 
-#  edraak_marketing_gulp:
-#    image: eu.gcr.io/openedx-231314/edraak/marketing
-#    environment:
-#      NODE_ENV: development
-#    command: bash -c 'while true; do npx gulp watch; sleep 2; done'
-#    container_name: edraak.devstack.marketing-gulp
-#    working_dir: /app
-#    depends_on:
-#      - mysql
-#      - memcached
-
   edraak_dev_router:
     image: nginx
     container_name: edraak_dev_router
 #    logging:
 #      driver: none
     volumes:
-      - ./nginx:/etc/nginx/conf.d
+      - ./nginx/includes:/etc/nginx/conf.d/includes
+      - ./nginx/ssl:/etc/nginx/conf.d/ssl
+      - ./nginx/core.conf:/etc/nginx/conf.d/core.conf
+      - ./nginx/edx.conf:/etc/nginx/conf.d/edx.conf
     command: bash -c 'while true; do nginx -g "daemon off;"; sleep 2; done'
     ports:
       - "80:80"
@@ -292,10 +181,9 @@ services:
           - programs.edraak.dev
           - edraak.dev
           - judge.edraak.dev
-
+          - states.edraak.dev
 
 volumes:
-#  discovery_assets:
   edxapp_lms_assets:
   edxapp_studio_assets:
   elasticsearch_data:
