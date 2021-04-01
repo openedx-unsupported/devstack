@@ -30,7 +30,7 @@ done
 
 # In the event of a fresh MySQL container, wait a few seconds for the server to restart
 # This can be removed once https://github.com/docker-library/mysql/issues/245 is resolved.
-sleep 20
+sleep 10
 
 echo -e "MySQL ready"
 
