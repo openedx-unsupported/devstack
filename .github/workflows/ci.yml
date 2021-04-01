@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+
+  run_ci:
+    runs-on: ${{ matrix.os }}
+    env:
+      DEVSTACK_WORKSPACE: /tmp
+      SHALLOW_CLONE: 1
+    strategy:
+      matrix:
+        os: [ ubuntu-latest ]
+        python-version: [ '3.8' ]
+        services: [ discovery+lms+forum ,registrar+lms, ecommerce, edx_notes_api, credentials, xqueue]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: installations and version upgrades
+        run: |
+          docker version
+          sudo apt-get update
+          sudo apt install apt-transport-https ca-certificates curl software-properties-common
+          curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+          sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal test"
+          sudo apt update
+          sudo apt install docker-ce
+          docker version
+          docker-compose --version
+
+      - name: set up requirements
+        run:  make requirements
+
+      - name: clone
+        run:  make dev.clone.https
+
+      - name: pull
+        run:  make dev.pull.${{matrix.services}}
+
+      - name: set exit option
+        run:  set -e
+
+      - name: provision
+        run:  make dev.provision.${{matrix.services}}
+
+      - name: dev.up
+        run:  make dev.up.${{matrix.services}}
+
+      - name: dev.check
+        run:  make dev.check.${{matrix.services}}
+
+      - name: docs
+        run:  make docs
