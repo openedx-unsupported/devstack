@@ -8,8 +8,6 @@ attrs==20.3.0
     # via jsonschema
 bcrypt==3.2.0
     # via paramiko
-cached-property==1.5.2
-    # via docker-compose
 certifi==2020.12.5
     # via requests
 cffi==1.14.5
@@ -19,11 +17,11 @@ cffi==1.14.5
     #   pynacl
 chardet==4.0.0
     # via requests
-cryptography==3.4.6
+cryptography==3.4.7
     # via paramiko
 distro==1.5.0
     # via docker-compose
-docker-compose==1.28.5
+docker-compose==1.28.6
     # via -r requirements/base.in
 docker[ssh]==4.4.4
     # via docker-compose
@@ -43,7 +41,7 @@ pynacl==1.4.0
     # via paramiko
 pyrsistent==0.17.3
     # via jsonschema
-python-dotenv==0.15.0
+python-dotenv==0.16.0
     # via docker-compose
 pyyaml==5.4.1
     # via

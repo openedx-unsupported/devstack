@@ -14,10 +14,6 @@ bcrypt==3.2.0
     # via
     #   -r requirements/base.txt
     #   paramiko
-cached-property==1.5.2
-    # via
-    #   -r requirements/base.txt
-    #   docker-compose
 certifi==2020.12.5
     # via
     #   -r requirements/base.txt
@@ -36,7 +32,7 @@ click==7.1.2
     # via
     #   -r requirements/pip-tools.txt
     #   pip-tools
-cryptography==3.4.6
+cryptography==3.4.7
     # via
     #   -r requirements/base.txt
     #   paramiko
@@ -46,7 +42,7 @@ distro==1.5.0
     # via
     #   -r requirements/base.txt
     #   docker-compose
-docker-compose==1.28.5
+docker-compose==1.28.6
     # via -r requirements/base.txt
 docker[ssh]==4.4.4
     # via
@@ -102,7 +98,7 @@ pyrsistent==0.17.3
     # via
     #   -r requirements/base.txt
     #   jsonschema
-python-dotenv==0.15.0
+python-dotenv==0.16.0
     # via
     #   -r requirements/base.txt
     #   docker-compose
