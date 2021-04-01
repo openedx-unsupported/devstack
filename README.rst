@@ -413,9 +413,9 @@ As a specific example, if ``OPENEDX_RELEASE`` is set in your environment as ``ju
 .. _devpi documentation: docs/devpi.rst
 .. _edx-platform testing documentation: https://github.com/edx/edx-platform/blob/master/docs/guides/testing/testing.rst#running-python-unit-tests
 .. _docker-sync: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/troubleshoot_general_tips.html#improve-mac-osx-performance-with-docker-sync
-.. |Build Status| image:: https://travis-ci.com/edx/devstack.svg?branch=master
-    :target: https://travis-ci.com/edx/devstack
-    :alt: Travis
+.. |Build Status| image:: https://github.com/edx/devstack/actions/workflows/ci.yml/badge.svg?branch=master
+    :target: https://github.com/edx/devstack/actions/workflows/ci.yml
+    :alt: CI
 .. |docs| image:: https://readthedocs.org/projects/docs/badge/?version=latest
     :alt: Documentation Status
     :scale: 100%
