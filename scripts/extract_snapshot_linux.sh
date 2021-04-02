@@ -26,4 +26,4 @@ cd devstack
 make down
 
 # Start all the containers again with correctly populated volumes.
-make dev.up
+make dev.up.large-and-slow

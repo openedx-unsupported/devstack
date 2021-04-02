@@ -37,7 +37,7 @@ def start_devstack():
     """
     cwd = os.getcwd()
     os.chdir(DEVSTACK_REPO_DIR)
-    check_call(['make', 'dev.up'])
+    check_call(['make', 'dev.up.large-and-slow'])
     os.chdir(cwd)
 
 
