@@ -12,7 +12,7 @@ services:
   forum:
     volumes:
       - ${DEVSTACK_WORKSPACE}/cs_comments_service:/edx/app/forum/cs_comments_service:cached
-  edraak_programs:
+  progs:
     volumes:
       - progs-nfs:/app
       - ~/.ssh/:/root/.ssh

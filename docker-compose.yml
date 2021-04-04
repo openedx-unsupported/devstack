@@ -126,7 +126,7 @@ services:
     volumes:
       - devpi_data:/data
 
-  edraak_programs:
+  progs:
     image: eu.gcr.io/openedx-231314/edraak/progs
     environment:
       PROGS_CFG: '/app/docker.json'
@@ -172,7 +172,7 @@ services:
       - lms
       - studio
       - edraak_marketing
-      - edraak_programs
+      - progs
     networks:
       default:
         aliases:

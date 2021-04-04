@@ -1,30 +1,11 @@
 version: "2.1"
 
 services:
-#  credentials:
-#    volumes:
-#      - ${DEVSTACK_WORKSPACE}/credentials:/edx/app/credentials/credentials:cached
-#      - credentials_node_modules:/edx/app/credentials/credentials/node_modules
-#      - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
-#  discovery:
-#      volumes:
-#      - ${DEVSTACK_WORKSPACE}/course-discovery:/edx/app/discovery/discovery:cached
-#      - discovery_node_modules:/edx/app/discovery/discovery/node_modules
-#      - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
-#  ecommerce:
-#    volumes:
-#      - ${DEVSTACK_WORKSPACE}/ecommerce:/edx/app/ecommerce/ecommerce:cached
-#      - ecommerce_node_modules:/edx/app/ecommerce/ecommerce/node_modules
-#      - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
   lms:
     volumes:
       - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform:cached
       - edxapp_node_modules:/edx/app/edxapp/edx-platform/node_modules
       - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
-#  edx_notes_api:
-#    volumes:
-#      - ${DEVSTACK_WORKSPACE}/edx-notes-api:/edx/app/edx_notes_api/edx_notes_api:cached
-#      - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
   studio:
     volumes:
       - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform:cached
@@ -33,23 +14,14 @@ services:
   forum:
     volumes:
       - ${DEVSTACK_WORKSPACE}/cs_comments_service:/edx/app/forum/cs_comments_service:cached
-  edraak_programs:
+  progs:
     volumes:
       - ${DEVSTACK_WORKSPACE}/edraak-programs:/app:cached
       - ~/.ssh/:/root/.ssh
-#  edraak_programs_gulp:
-#    volumes:
-#      - ${DEVSTACK_WORKSPACE}/edraak-programs:/app:cached
-#      - ~/.ssh/:/root/.ssh
+
   edraak_marketing:
     volumes:
       - ${DEVSTACK_WORKSPACE}/marketing-site:/app:cached
-#  edraak_marketing_gulp:
-#    volumes:
-#      - ${DEVSTACK_WORKSPACE}/marketing-site:/app:cached
 
 volumes:
-#  credentials_node_modules:
-#  discovery_node_modules:
-#  ecommerce_node_modules:
   edxapp_node_modules:

@@ -27,7 +27,7 @@ services:
   edraak_marketing_gulp:
     volumes:
       - edraak-marketing-sync:/app:nocopy
-  edraak_programs:
+  progs:
     volumes:
       - edraak-programs-sync:/app:nocopy
 

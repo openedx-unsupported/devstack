@@ -34,7 +34,7 @@ services:
     expose:
       - "6379"
 
-  edraak_programs:
+  progs:
     depends_on:
       - mysql
       - mongo
@@ -46,7 +46,7 @@ services:
       - lms
       - studio
       - edraak_marketing
-      - edraak_programs
+      - progs
       - edraak-judge-api
     networks:
       default:

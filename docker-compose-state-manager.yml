@@ -27,7 +27,7 @@ services:
     volumes:
       - state_manager_mysql_data:/var/lib/mysql
 
-  edraak_programs:
+  progs:
     depends_on:
       - mysql
       - mongo
@@ -39,7 +39,7 @@ services:
       - lms
       - studio
       - edraak_marketing
-      - edraak_programs
+      - progs
       - state-manager-api
 
 volumes:

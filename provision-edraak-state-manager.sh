@@ -1,7 +1,7 @@
 set -e
 
 echo "** state-manager-api: Restarting **"
-docker-compose restart state-manager-api state-manager-mysql
+docker-compose $DOCKER_COMPOSE_FILES restart state-manager-mysql
 
 echo "Waiting for state-manager-mysql"
 until docker exec -i state-manager-mysql mysql -uroot -se "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = 'root')" &> /dev/null

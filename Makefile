@@ -96,7 +96,7 @@ dev.nfs.up.all: ## Bring up all services with host volumes, including watchers
 dev.nfs.provision: | check-memory dev.clone dev.provision.nfs.run stop ## Provision dev environment with all services stopped
 
 dev.provision.nfs.run: ## Provision all services with local mounted directories
-	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host-nfs.yml" ./provision.sh
+	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-state-manager.yml -f docker-compose-host-nfs.yml" ./provision.sh
 
 dev.up.watchers: | check-memory ## Bring up asset watcher containers
 	docker-compose -f docker-compose-watchers.yml up -d
