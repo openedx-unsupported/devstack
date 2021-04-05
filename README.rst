@@ -121,7 +121,7 @@ Directions to setup devstack
 
 The default devstack services can be run by following the steps below.
 
-**Note:** This will set up a large number of services, more than you are likely to need to work with, but that's only necessary for first-time provisioning. See `Service List`_ and `Workflow`_ for how to run and update devstack with just the services you need, rather than the ``large-and-slow`` default set.
+**Note:** This will set up a large number of services, more than you are likely to need to work with, but that's only necessary for first-time provisioning. See `Service List`_ and the `most common development workflow`_ for how to run and update devstack with just the services you need, rather than the ``large-and-slow`` default set.
 
 1. Install the requirements inside of a `Python virtualenv`_.
 
