@@ -109,10 +109,6 @@ _clone ()
             else
                 git clone $repo $name
             fi
-#            cd $name
-#            branch=master
-#            git checkout "$branch"
-#            cd -
         fi
     done
     cd - &> /dev/null

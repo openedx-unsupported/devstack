@@ -34,13 +34,16 @@ services:
       - memcached
       - state-manager-api
 
-  edraak_dev_router:
+  router:
     depends_on:
       - lms
       - studio
-      - edraak_marketing
+      - mktg
       - progs
       - state-manager-api
+    volumes:
+      - ./nginx/states.conf:/etc/nginx/conf.d/states.conf
+
 
 volumes:
   state_manager_mysql_data:

@@ -1,6 +1,6 @@
 version: "2.1"
 services:
-  edraak-judge-api:
+  judge-api:
     build:
       context: ${DEVSTACK_WORKSPACE}/edraak-judge/.
       dockerfile: ${DEVSTACK_WORKSPACE}/edraak-judge/Dockerfile
@@ -15,7 +15,7 @@ services:
     volumes:
       - ${DEVSTACK_WORKSPACE}/edraak-judge:/app
 
-  edraak-judge-worker:
+  judge-worker:
     build:
       context: ${DEVSTACK_WORKSPACE}/edraak-judge/.
       dockerfile: ${DEVSTACK_WORKSPACE}/edraak-judge/Dockerfile
@@ -36,23 +36,8 @@ services:
 
   progs:
     depends_on:
-      - mysql
-      - mongo
-      - memcached
-      - edraak-judge-api
+      - judge-api
 
-  edraak_dev_router:
-    depends_on:
-      - lms
-      - studio
-      - edraak_marketing
-      - progs
-      - edraak-judge-api
-    networks:
-      default:
-        aliases:
-          - www.edraak.dev
-          - courses.edraak.dev
-          - programs.edraak.dev
-          - edraak.dev
-          - judge.edraak.dev
+  router:
+    volumes:
+      - ./nginx/judge.conf:/etc/nginx/conf.d/judge.conf

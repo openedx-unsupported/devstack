@@ -1,11 +1,11 @@
-# This file contains all of the services for an edX installation. See https://docs.docker.com/compose/compose-file/
+# This file contains all of the services for an edraak installation. See https://docs.docker.com/compose/compose-file/
 # for the appropriate syntax and definitions.
 #
 # Housekeeping Rules:
-# - Group third-party and edX services separately
+# - Group third-party and edraak services separately
 # - Alphabetize services in the groups
 # - Alphabetize individual configuration options for each service
-# - Every service's container name should be prefixed with "edx.devstack." to avoid conflicts with other containers
+# - Every service's container name should be prefixed with "edraak.devstack." to avoid conflicts with other containers
 #   that might be running for the same service.
 
 version: "2.1"
@@ -52,127 +52,19 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
 
-# edX
-  lms:
-    command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py lms runserver 0.0.0.0:18000 --settings devstack_docker; sleep 2; done'
-    container_name: edx.devstack.lms
-    depends_on:
-      - devpi
-      - mysql
-      - memcached
-      - mongo
-    # Allows attachment to the LMS service using 'docker attach <containerID>'.
-    stdin_open: true
-    tty: true
-    environment:
-      BOK_CHOY_HOSTNAME: edx.devstack.lms
-      BOK_CHOY_LMS_PORT: 18003
-      BOK_CHOY_CMS_PORT: 18031
-      EDXAPP_TEST_MONGO_HOST: edx.devstack.mongo
-      NO_PYTHON_UNINSTALL: 1
-      NO_PREREQ_INSTALL: 1
-    image: eu.gcr.io/openedx-231314/edraak/edxapp:hawthorn.edraak.v3
-    ports:
-      - "18000:18000"
-      - "19876:19876" # JS test debugging
-      - "18003:18003"
-      - "18031:18031"
-    volumes:
-      - edxapp_lms_assets:/edx/var/edxapp/staticfiles/
-
-  studio:
-    command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py cms runserver 0.0.0.0:18010 --settings devstack_docker; sleep 200000; done'
-    container_name: edx.devstack.studio
-    depends_on:
-      - devpi
-      - mysql
-      - memcached
-      - mongo
-    # Allows attachment to the Studio service using 'docker attach <containerID>'.
-    stdin_open: true
-    tty: true
-    environment:
-      BOK_CHOY_HOSTNAME: edx.devstack.studio
-      BOK_CHOY_LMS_PORT: 18103
-      BOK_CHOY_CMS_PORT: 18131
-      EDXAPP_TEST_MONGO_HOST: edx.devstack.mongo
-      NO_PYTHON_UNINSTALL: 1
-      NO_PREREQ_INSTALL: 1
-    image: eu.gcr.io/openedx-231314/edraak/edxapp:hawthorn.edraak.v3
-    ports:
-      - "18010:18010"
-      - "19877:19877" # JS test debugging
-      - "18103:18103"
-      - "18131:18131"
-    volumes:
-      - edxapp_studio_assets:/edx/var/edxapp/staticfiles/
-
-  forum:
-    command: bash -c 'source /edx/app/forum/ruby_env && source /edx/app/forum/devstack_forum_env && cd /edx/app/forum/cs_comments_service && bundle install && while true; do ruby app.rb -o 0.0.0.0 ; sleep 200000; done'
-    container_name: edx.devstack.forum
-    depends_on:
-      - mongo
-      - memcached
-      - elasticsearch
-    image: edxops/forum:${OPENEDX_RELEASE:-latest}
-    ports:
-      - "44567:4567"
-
-  devpi:
-    container_name: edx.devstack.devpi
-    image: edxops/devpi:${OPENEDX_RELEASE:-latest}
-    ports:
-      - "3141:3141"
-    volumes:
-      - devpi_data:/data
-
-  progs:
-    image: eu.gcr.io/openedx-231314/edraak/progs
-    environment:
-      PROGS_CFG: '/app/docker.json'
-      NODE_ENV: development
-    command: bash -c 'while true; do python manage.py runserver 0.0.0.0:8800 --settings=edraakprograms.dev; sleep 2; done'
-    container_name: edraak.devstack.programs
-    working_dir: /app
-    ports:
-      - "18800:8800"
-    depends_on:
-      - mysql
-      - mongo
-      - memcached
-
-  edraak_marketing:
-    image: eu.gcr.io/openedx-231314/edraak/marketing
-    environment:
-      NODE_ENV: development
-    command: bash -c 'while true; do python manage.py runserver 0.0.0.0:8500 --settings=marketingsite.envs.dev; sleep 2; done'
-    container_name: edraak.devstack.marketing
-    working_dir: /app
-    ports:
-      - "18500:8500"
-    depends_on:
-      - mysql
-      - memcached
-
-  edraak_dev_router:
+  router:
     image: nginx
     container_name: edraak_dev_router
+#    #Uncomment to disable router logs
 #    logging:
 #      driver: none
     volumes:
       - ./nginx/includes:/etc/nginx/conf.d/includes
       - ./nginx/ssl:/etc/nginx/conf.d/ssl
-      - ./nginx/core.conf:/etc/nginx/conf.d/core.conf
-      - ./nginx/edx.conf:/etc/nginx/conf.d/edx.conf
     command: bash -c 'while true; do nginx -g "daemon off;"; sleep 2; done'
     ports:
       - "80:80"
       - "443:443"
-    depends_on:
-      - lms
-      - studio
-      - edraak_marketing
-      - progs
     networks:
       default:
         aliases:
@@ -182,10 +74,11 @@ services:
           - edraak.dev
           - judge.edraak.dev
           - states.edraak.dev
+          - b2b.edraak.dev
+          - notify.edraak.dev
+          - analytics.edraak.dev
 
 volumes:
-  edxapp_lms_assets:
-  edxapp_studio_assets:
   elasticsearch_data:
   mongo_data:
   mysql_data:

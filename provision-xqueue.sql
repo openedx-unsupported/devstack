@@ -1,4 +1,0 @@
-CREATE DATABASE IF NOT EXISTS xqueue;
-GRANT ALL ON xqueue.* TO 'xqueue001'@'%' IDENTIFIED BY 'password';
-
-FLUSH PRIVILEGES;

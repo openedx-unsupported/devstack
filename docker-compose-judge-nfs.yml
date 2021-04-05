@@ -1,0 +1,17 @@
+version: "2.1"
+services:
+  judge-api:
+    volumes:
+      - judge-nfs:/app
+
+  judge-worker:
+    volumes:
+      - judge-nfs:/app
+
+volumes:
+  judge-nfs:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=host.docker.internal,rw,nolock,hard,nointr,nfsvers=3
+      device: :${DEVSTACK_WORKSPACE}/edraak-judge

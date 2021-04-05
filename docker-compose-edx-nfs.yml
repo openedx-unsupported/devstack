@@ -12,13 +12,6 @@ services:
   forum:
     volumes:
       - ${DEVSTACK_WORKSPACE}/cs_comments_service:/edx/app/forum/cs_comments_service:cached
-  progs:
-    volumes:
-      - progs-nfs:/app
-      - ~/.ssh/:/root/.ssh
-  edraak_marketing:
-    volumes:
-      - marketing-nfs:/app
 
 volumes:
   edx-nfs:
@@ -33,15 +26,3 @@ volumes:
       type: nfs
       o: addr=host.docker.internal,rw,nolock,hard,nointr,nfsvers=3
       device: :${DEVSTACK_WORKSPACE}/src
-  marketing-nfs:
-    driver: local
-    driver_opts:
-      type: nfs
-      o: addr=host.docker.internal,rw,nolock,hard,nointr,nfsvers=3
-      device: :${DEVSTACK_WORKSPACE}/marketing-site
-  progs-nfs:
-    driver: local
-    driver_opts:
-      type: nfs
-      o: addr=host.docker.internal,rw,nolock,hard,nointr,nfsvers=3
-      device: :${DEVSTACK_WORKSPACE}/edraak-programs

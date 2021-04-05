@@ -79,7 +79,7 @@ edraak.programs.shell:
 	docker-compose exec progs bash
 
 edraak.marketing.shell:
-	docker-compose exec edraak_marketing bash
+	docker-compose exec mktg bash
 
 edraak.marketing.provision:
 	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml" ./provision-edraak-marketing.sh
@@ -97,10 +97,10 @@ state_manager-restart: ## Kill the state-manager development server. The watcher
 	docker exec -t edraak.devstack.state_manager bash -c 'kill $$(ps aux | grep "gunicorn" | egrep -v "while|grep" | awk "{print \$$2}")'
 
 edraak.marketing.migrate: ## Kill the Marketing Django development server. The watcher process will restart it.
-	docker-compose exec edraak_marketing bash -c 'python manage.py migrate --settings=marketingsite.envs.dev'
+	docker-compose exec mktg bash -c 'python manage.py migrate --settings=marketingsite.envs.dev'
 
 edraak.marketing.langs_push:
-	docker-compose exec edraak_marketing python manage.py langs_pull --settings=marketingsite.envs.dev
+	docker-compose exec mktg python manage.py langs_pull --settings=marketingsite.envs.dev
 
 
 programs-restart: ## Kill the Edraak Programs Django development server. The watcher process will restart it.
