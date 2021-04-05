@@ -168,19 +168,26 @@ clone_private ()
 
 reset ()
 {
+    read -p "This will switch to master and pull changes in your local git checkouts. Would you like to proceed? [y/n] " -r
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        echo "Cancelling."
+        exit 1
+    fi
+
     for repo in ${repos[*]}
     do
         [[ $repo =~ $name_pattern ]]
         name="${BASH_REMATCH[1]}"
 
         if [ -d "$name" ]; then
+            # Try to switch branch and pull, but fail if there are uncommitted changes.
             (cd "$name"; git checkout -q master && git pull -q --ff-only) || {
                 echo >&2 "Failed to reset $name repo. Exiting."
                 echo >&2 "Please go to the repo and clean up any issues that are keeping 'git checkout master' and 'git pull' from working."
                 exit 1
             }
         else
-            printf "The [%s] repo is not cloned. Continuing.\n" "$name"
+            printf "The [%s] repo is not cloned. Skipping.\n" "$name"
         fi
     done
 }
@@ -197,7 +204,7 @@ status ()
             printf "\nGit status for [%s]:\n" "$name"
             cd "$name";git status;cd "$currDir"
         else
-            printf "The [%s] repo is not cloned. Continuing.\n" "$name"
+            printf "The [%s] repo is not cloned. Skipping.\n" "$name"
         fi
     done
     cd - &> /dev/null
@@ -212,10 +219,7 @@ elif [ "$1" == "clone_ssh" ]; then
 elif [ "$1" == "whitelabel" ]; then
     clone_private
 elif [ "$1" == "reset" ]; then
-    read -p "This will override any uncommited changes in your local git checkouts. Would you like to proceed? [y/n] " -r
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-        reset
-    fi
+    reset
 elif [ "$1" == "status" ]; then
     status
 fi
