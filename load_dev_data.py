@@ -9,8 +9,8 @@ def main(input_yaml_path):
     with open(input_yaml_path, 'r') as f:
         top_data_spec_yaml = yaml.safe_load(f)
         for data_spec_path in top_data_spec_yaml:
-            ida_name = data_spec_path['ida_name']
-            ida_data_spec_yaml = data_spec_path['data_spec_path']
+            ida_name = data_spec_path['ida']
+            ida_data_spec_yaml = data_spec_path['path']
             # See if spec yaml is in devstack repo
             spec_in_devstack = data_spec_path.get('spec_in_devstack', False)
             if spec_in_devstack:
