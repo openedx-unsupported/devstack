@@ -1,5 +1,6 @@
-#!/usr/bin/env python3
-
+"""
+Use to pass along dev data specification to appropriate IDA.
+"""
 import yaml
 import sys
 import subprocess
@@ -17,11 +18,11 @@ def main(input_yaml_path):
                 # if spec yaml is in devstack repo, move it into /tmp directory of container
                 ida_data_spec_yaml = copy_file_to_container(ida_name, ida_data_spec_yaml)
             print(f"Creating test data in {ida_name} based on {ida_data_spec_yaml}")
+            # since edx-platfrom contains code for both lms and cms, their manage.py calls are slightly different
             if ida_name == "lms" or ida_name == "cms":
-
                 subprocess.run(f"docker-compose exec -T {ida_name} bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && python manage.py {ida_name} load_data --data-file-path {ida_data_spec_yaml}'", shell=True)
             else:
-                subprocess.call(f"docker-compose exec -T {ida_name} bash -c 'source /edx/app/{ida_name}/{ida_name}_env && cd /edx/app/{ida_name}/{ida_name}/ && python manage.py load_data --data-file-path {ida_data_spec_yaml}'", shell=True)
+                subprocess.run(f"docker-compose exec -T {ida_name} bash -c 'source /edx/app/{ida_name}/{ida_name}_env && cd /edx/app/{ida_name}/{ida_name}/ && python manage.py load_dev_data --data-file-path {ida_data_spec_yaml}'", shell=True)
 
 def copy_file_to_container(ida_name, file_path):
     """
@@ -32,13 +33,12 @@ def copy_file_to_container(ida_name, file_path):
     if captured_output.returncode == 0:
         container_id = captured_output.stdout.decode().strip()
         container_file_path = "/tmp/data_spec.yaml"
-        move_file_captured_output = subprocess.run(f"docker cp {file_path} {captured_output}:{container_file_path}", shell=True)
+        move_file_captured_output = subprocess.run(f"docker cp {file_path} {captured_output}:{container_file_path}", shell=True, capture_output=True)
         if move_file_captured_output.returncode != 0:
             raise Exception("Stuff broke TODO")
         return container_file_path
     else:
         raise Exception("Stuff broke TODO")
-
 
 if __name__ == "__main__":
     if len(sys.argv) == 2:
