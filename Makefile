@@ -48,7 +48,7 @@ export COMPOSE_PROJECT_NAME
 include *.mk
 
 compose-files:
-	echo ${DOCKER_COMPOSE_FILES};
+	@echo ${DOCKER_COMPOSE_FILES};
 
 # Generates a help message. Borrowed from https://github.com/pydanny/cookiecutter-djangopackage.
 help: ## Display this help message

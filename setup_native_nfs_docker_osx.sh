@@ -25,7 +25,7 @@ read decision
 
 if [ "$decision" != "y" ]; then
   echo "Exiting. No changes made."
-  exit 1
+  exit 0
 fi
 
 echo ""

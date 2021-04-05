@@ -11,44 +11,72 @@
 set -e
 set -o pipefail
 set -x
+source .env
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 NC='\033[0m' # No Color
 
+if [ "$MOUNT_TYPE" = "-nfs" ]; then
+  ./setup_native_nfs_docker_osx.sh
+fi
+
 # Bring the databases online.
 docker-compose up -d mysql mongo
 
 # Ensure the MySQL server is online and usable
-#echo "Waiting for MySQL"
-#until docker exec -i edx.devstack.mysql mysql -uroot -se "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = 'root')" &> /dev/null
-#do
-#  printf "."
-#  sleep 1
-#done
+echo "Waiting for MySQL"
+until docker exec -i edx.devstack.mysql mysql -uroot -se "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = 'root')" &> /dev/null
+do
+  printf "."
+  sleep 1
+done
 
 # In the event of a fresh MySQL container, wait a few seconds for the server to restart
 # This can be removed once https://github.com/docker-library/mysql/issues/245 is resolved.
-#sleep 10
+sleep 10
 
-#echo -e "MySQL ready"
-#
-#echo -e "${GREEN}Creating databases and users...${NC}"
-#docker exec -i edx.devstack.mysql mysql -uroot mysql < provision.sql
-#docker exec -i edx.devstack.mongo mongo < mongo-provision.js
-#
-#./provision-lms.sh
+echo -e "MySQL ready"
 
-# Nothing special needed for studio
-docker-compose $DOCKER_COMPOSE_FILES up -d studio
-#./provision-ecommerce.sh
-#./provision-discovery.sh
-#./provision-credentials.sh
-#./provision-e2e.sh
-#./provision-forum.sh
-#./provision-notes.sh
-./provision-edraak.sh
+if $ENABLE_EDX; then
+  echo "** Edx **"
+  echo -e "${GREEN}Creating databases and users...${NC}"
+  docker exec -i edx.devstack.mysql mysql -uroot mysql < provision.sql
+  docker exec -i edx.devstack.mongo mongo < mongo-provision.js
+
+  ./provision-lms.sh
+
+  # Nothing special needed for studio
+  docker-compose `echo $DOCKER_COMPOSE_FILES` up -d studio
+fi
+
+
+if $ENABLE_PROGS; then
+
+  echo "** Programs **"
+  docker-compose `echo $DOCKER_COMPOSE_FILES` up -d progs
+
+  echo "** Creating databases **"
+  echo "CREATE DATABASE IF NOT EXISTS edraakprograms;" | docker exec -i edx.devstack.mysql mysql -uroot mysql
+  ./provision-edraak-programs.sh
+fi
+
+if $ENABLE_MKTG; then
+  echo "** Marketing **"
+  docker-compose `echo $DOCKER_COMPOSE_FILES` up -d mktg
+
+  echo "** Creating databases **"
+  echo "CREATE DATABASE IF NOT EXISTS marketingsite;" | docker exec -i edx.devstack.mysql mysql -uroot mysql
+
+  ./provision-edraak-marketing.sh
+fi
+
+if $ENABLE_STATE_MANAGER; then
+  echo "** State Manager **"
+  docker-compose `echo $DOCKER_COMPOSE_FILES` up -d state-manager-api
+  ./provision-edraak-state-manager.sh
+fi
 
 docker image prune -f
 
