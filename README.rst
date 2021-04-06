@@ -345,9 +345,9 @@ Instead of a service name or list, you can also run commands like ``make dev.pro
 
 Some common service combinations include:
 
-* ``lms``: Just the LMS, along with dependencies like ``forum``, ``discovery``, and some databases
-* ``ecommerce``: Most services will bring in LMS as a dependency (for auth)
-* ``studio+credentials``: Services can be combined to bring both up at once
+* ``lms``: LMS, along with dependencies ``forum``, ``discovery``, and some databases
+* ``ecommerce``: Ecommerce, but also LMS as a dependency (for auth)
+* ``studio+credentials``: Services can be combined to affect both at once
 
 .. _credentials: https://github.com/edx/credentials
 .. _discovery: https://github.com/edx/course-discovery
