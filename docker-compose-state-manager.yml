@@ -12,6 +12,7 @@ services:
       - state-manager-mysql
     volumes:
       - ${DEVSTACK_WORKSPACE}/state-manager:/app
+      - ~/.ssh/:/root/.ssh
     environment:
       APP_ENV: "devstack"
 

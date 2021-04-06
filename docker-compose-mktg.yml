@@ -25,17 +25,12 @@ services:
       - mysql
       - memcached
     volumes:
-      - mktg-code:/app
+      - ${DEVSTACK_WORKSPACE}/marketing-site:/app
+      - ~/.ssh/:/root/.ssh
 
   router:
     volumes:
       - ./nginx/mktg.conf:/etc/nginx/conf.d/mktg.conf
       - ./nginx/core-redirects.conf:/etc/nginx/conf.d/redirects.conf
-
-volumes:
-  mktg-code:
-    driver: local
-    driver_opts:
-      device: :${DEVSTACK_WORKSPACE}/marketing-site
 
 

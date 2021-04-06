@@ -37,11 +37,3 @@ services:
       - ./nginx/progs.conf:/etc/nginx/conf.d/progs.conf
       - ./nginx/b2b-redirects.conf:/etc/nginx/conf.d/redirects.conf
 
-
-volumes:
-  edxapp_lms_assets:
-  edxapp_studio_assets:
-  elasticsearch_data:
-  mongo_data:
-  mysql_data:
-  devpi_data:

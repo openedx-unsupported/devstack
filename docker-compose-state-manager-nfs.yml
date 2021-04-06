@@ -4,7 +4,6 @@ services:
   state-manager-api:
     volumes:
       - state-manager-nfs:/app
-      - ~/.ssh/:/root/.ssh
 
 volumes:
   state-manager-nfs:

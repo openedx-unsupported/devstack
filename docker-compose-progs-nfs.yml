@@ -4,7 +4,6 @@ services:
   progs:
     volumes:
       - progs-nfs:/app
-      - ~/.ssh/:/root/.ssh
 
 volumes:
   progs-nfs:

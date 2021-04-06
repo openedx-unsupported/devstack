@@ -14,6 +14,7 @@ services:
       - edraak-judge-redis
     volumes:
       - ${DEVSTACK_WORKSPACE}/edraak-judge:/app
+      - ~/.ssh/:/root/.ssh
 
   judge-worker:
     build:
@@ -26,6 +27,7 @@ services:
       - edraak-judge-redis
     volumes:
       - ${DEVSTACK_WORKSPACE}/edraak-judge:/app
+      - ~/.ssh/:/root/.ssh
 
   edraak-judge-redis:
     image: "redis:alpine"

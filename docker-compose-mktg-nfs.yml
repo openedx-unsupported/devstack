@@ -1,7 +1,11 @@
 version: "2.1"
+services:
+  mktg:
+    volumes:
+      - mktg-nfs:/app
 
 volumes:
-  mktg-code:
+  mktg-nfs:
     driver: local
     driver_opts:
       type: nfs

@@ -1,8 +1,3 @@
-edraak.provision:
-	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml" ./provision-edraak.sh
-
-edraak.sync.provision: | dev.sync.daemon.start
-	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-state-manager.yml -f docker-compose-sync.yml" ./provision-edraak.sh
 
 edraak.build.all:
 	$(MAKE) edraak.build.programs
@@ -35,25 +30,25 @@ edraak.programs.help:
 	echo ""
 
 edraak.programs.migrate:
-	docker-compose exec progs python manage.py migrate --settings=edraakprograms.dev
+	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs python manage.py migrate --settings=edraakprograms.dev
 
 edraak.programs.langs_push:
-	docker-compose exec progs python manage.py langs_push --settings=edraakprograms.dev
+	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs python manage.py langs_push --settings=edraakprograms.dev
 
 edraak.programs.langs_pull:
-	docker-compose exec progs python manage.py langs_pull --settings=edraakprograms.dev
+	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs python manage.py langs_pull --settings=edraakprograms.dev
 
 edraak.programs.install_pip:
-	docker-compose exec progs pip install -r requirements.txt
+	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs pip install -r requirements.txt
 
 edraak.programs.install_npm:
-	docker-compose exec progs npm install
+	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs npm install
 
 edraak.programs.copy_cache:
-	docker-compose exec progs cp -Rnv /cache/node_modules /cache/.compiled /app
+	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs cp -Rnv /cache/node_modules /cache/.compiled /app
 
 edraak.programs.dev:
-	docker-compose exec progs npm run dev
+	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs npm run dev
 
 edraak.programs.watch:
 	docker exec -t progs bash -c 'while true; do npx gulp watch; sleep 2; done'
@@ -67,25 +62,25 @@ edraak.programs.install_all:
 	$(MAKE) edraak.programs.migrate
 
 edraak.programs.watch_js:
-	docker-compose exec progs npm run dev:watch
+	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs npm run dev:watch
 
 edraak.programs.provision:
-	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml" ./provision-edraak-programs.sh
+	./provision-edraak-programs.sh
 
 edraak.programs.watch_css:
-	docker-compose exec progs npm run watch-scss
+	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs npm run watch-scss
 
 edraak.programs.shell:
-	docker-compose exec progs bash
+	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs bash
 
 edraak.marketing.shell:
-	docker-compose exec mktg bash
+	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec mktg bash
 
 edraak.marketing.provision:
-	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml" ./provision-edraak-marketing.sh
+	./provision-edraak-marketing.sh
 
 edraak.states.provision:
-	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-state-manager.yml -f docker-compose-host.yml" ./provision-edraak-state-manager.sh
+	DOCKER_COMPOSE_FILES="-f docker-compose `echo ${DOCKER_COMPOSE_FILES}`.yml -f docker-compose `echo ${DOCKER_COMPOSE_FILES}`-state-manager.yml -f docker-compose `echo ${DOCKER_COMPOSE_FILES}`-host.yml" ./provision-edraak-state-manager.sh
 
 marketing-restart: ## Kill the Marketing Django development server. The watcher process will restart it.
 	docker exec -t edraak.devstack.marketing bash -c 'kill $$(ps aux | grep "manage.py" | egrep -v "while|grep" | awk "{print \$$2}")'
@@ -97,10 +92,10 @@ state_manager-restart: ## Kill the state-manager development server. The watcher
 	docker exec -t edraak.devstack.state_manager bash -c 'kill $$(ps aux | grep "gunicorn" | egrep -v "while|grep" | awk "{print \$$2}")'
 
 edraak.marketing.migrate: ## Kill the Marketing Django development server. The watcher process will restart it.
-	docker-compose exec mktg bash -c 'python manage.py migrate --settings=marketingsite.envs.dev'
+	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec mktg bash -c 'python manage.py migrate --settings=marketingsite.envs.dev'
 
 edraak.marketing.langs_push:
-	docker-compose exec mktg python manage.py langs_pull --settings=marketingsite.envs.dev
+	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec mktg python manage.py langs_pull --settings=marketingsite.envs.dev
 
 
 programs-restart: ## Kill the Edraak Programs Django development server. The watcher process will restart it.
@@ -108,7 +103,7 @@ programs-restart: ## Kill the Edraak Programs Django development server. The wat
 
 
 programs-fix-npm-install-permissions:
-	docker-compose exec progs bash -c 'chown -R root ~/.npm'
+	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs bash -c 'chown -R root ~/.npm'
 
 marketing_gulp-restart:
 	docker exec -t edraak.devstack.marketing-gulp bash -c 'kill $$(ps aux | grep "gulp" | egrep -v "while|grep" | awk "{print \$$2}")'
