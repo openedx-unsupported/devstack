@@ -57,7 +57,7 @@ docopt==0.6.2
     # via
     #   -r requirements/base.txt
     #   docker-compose
-docutils==0.16
+docutils==0.17
     # via
     #   doc8
     #   readme-renderer
@@ -108,7 +108,7 @@ pyrsistent==0.17.3
     # via
     #   -r requirements/base.txt
     #   jsonschema
-python-dotenv==0.16.0
+python-dotenv==0.17.0
     # via
     #   -r requirements/base.txt
     #   docker-compose
