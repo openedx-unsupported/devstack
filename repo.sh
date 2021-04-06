@@ -39,6 +39,7 @@ repos=(
     "git@github.com:appsembler/edx-theme-codebase.git"
     "git@github.com:appsembler/edx-theme-customers.git"
     "git@github.com:appsembler/edx-platform.git"
+    "git@github.com:appsembler/edxapp-envs.git"
     "https://github.com/edx/xqueue.git"
     "https://github.com/edx/edx-analytics-pipeline.git"
     "https://github.com/edx/frontend-app-gradebook.git"
@@ -59,6 +60,7 @@ ssh_repos=(
     "git@github.com:edx/edx-e2e-tests.git"
     "git@github.com:edx/edx-notes-api.git"
     "git@github.com:appsembler/edx-platform.git"
+    "git@github.com:appsembler/edxapp-envs.git"
     "git@github.com:edx/xqueue.git"
     "git@github.com:edx/edx-analytics-pipeline.git"
     "git@github.com:edx/frontend-app-gradebook.git"
@@ -102,6 +104,11 @@ _checkout ()
             cd "$name"
             _appsembler_checkout_and_update_branch "$name"
             cd ..
+        elif [ "$name" == "edxapp-envs" ] && [ -d "src/edxapp-envs/.git" ]; then
+            echo "Checking out branch ${OPENEDX_GIT_BRANCH} of $name"
+            cd src/edxapp-envs
+            _appsembler_checkout_and_update_branch "$name"
+            cd ../..
         elif [ "$name" == "edx-theme-customers" ] && [ -d "edx-theme-codebase/customer_specific/.git" ]; then
             echo "Checking out branch ${OPENEDX_GIT_BRANCH} of $name"
             cd edx-theme-codebase/customer_specific
@@ -139,8 +146,14 @@ _clone ()
             _appsembler_checkout_and_update_branch $name
             cd ..
         elif [ "$name" == "edx-theme-customers" ] && [ -d "edx-theme-codebase/customer_specific/.git" ]; then
+            printf "The [%s] repo is already checked out. Checking for updates.\n" "$name"
             cd "${DEVSTACK_WORKSPACE}/edx-theme-codebase/customer_specific"
             _appsembler_checkout_and_update_branch $name
+            cd ../..
+        elif [ "$name" == "edxapp-envs" ] && [ -d "src/edxapp-envs/.git" ]; then
+            printf "The [%s] repo is already checked out. Checking for updates.\n" "$name"
+            cd "${DEVSTACK_WORKSPACE}/src/edxapp-envs"
+            _appsembler_checkout_and_update_branch "$name"
             cd ../..
         else
             if [ "$name" == "edx-platform" ]; then
@@ -153,6 +166,9 @@ _clone ()
                 cd edx-theme-codebase
                 sudo rm -rf customer_specific
                 git clone -b ${THEME_CUSTOMERS_BRANCH} -c core.symlinks=true ${repo} customer_specific
+            elif [ "$name" == "edxapp-envs" ]; then
+                sudo rm -rf "${DEVSTACK_WORKSPACE}/src/edxapp-envs"
+                git clone -b ${OPENEDX_GIT_BRANCH} -c core.symlinks=true ${repo} "${DEVSTACK_WORKSPACE}/src/edxapp-envs"
             else
                 if [ "${SHALLOW_CLONE}" == "1" ]; then
                     git clone --single-branch -b ${OPENEDX_GIT_BRANCH} -c core.symlinks=true --depth=1 ${repo}
@@ -227,6 +243,8 @@ reset ()
                 cd $name;git reset --hard HEAD;git checkout ${THEME_CODEBASE_BRANCH};git reset --hard origin/${THEME_CODEBASE_BRANCH};git pull;cd "$currDir"
             elif [ "$name" == "edx-theme-customers" ]; then
                 cd edx-theme-codebase/customer_specific;git reset --hard HEAD;git checkout ${THEME_CUSTOMERS_BRANCH};git reset --hard origin/${THEME_CUSTOMERS_BRANCH};git pull;cd "$currDir"
+            elif [ "$name" == "edxapp-envs" ]; then
+                cd src/edxapp-envs;git reset --hard HEAD;git checkout ${OPENEDX_GIT_BRANCH};git reset --hard origin/${OPENEDX_GIT_BRANCH};git pull;cd "$currDir"
             elif [ "$name" == "amc" ]; then
                 cd $name;git reset --hard HEAD;git checkout ${AMC_BRANCH};git reset --hard origin/${AMC_BRANCH};git pull;cd "$currDir"
             else
