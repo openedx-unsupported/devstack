@@ -1,5 +1,6 @@
 - ida: lms
   path: openedx/core/djangoapps/util/management/commands/test_command.yaml
+  spec_in_devstack: False
 - ida: ecommerce
   path: ecommerce/core/management/commands/test_data.yaml
 - ida: lms
