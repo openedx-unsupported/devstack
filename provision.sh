@@ -59,7 +59,7 @@ if $ENABLE_PROGS; then
 
   echo "** Creating databases **"
   echo "CREATE DATABASE IF NOT EXISTS edraakprograms;" | docker exec -i edx.devstack.mysql mysql -uroot mysql
-  ./provision-edraak-programs.sh
+  ./provision-progs.sh
 fi
 
 if $ENABLE_MKTG; then
@@ -69,13 +69,13 @@ if $ENABLE_MKTG; then
   echo "** Creating databases **"
   echo "CREATE DATABASE IF NOT EXISTS marketingsite;" | docker exec -i edx.devstack.mysql mysql -uroot mysql
 
-  ./provision-edraak-marketing.sh
+  ./provision-mktg.sh
 fi
 
 if $ENABLE_STATE_MANAGER; then
   echo "** State Manager **"
   docker-compose `echo $DOCKER_COMPOSE_FILES` up -d state-manager-api
-  ./provision-edraak-state-manager.sh
+  ./provision-state-manager-api.sh
 fi
 
 docker image prune -f
