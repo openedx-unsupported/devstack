@@ -41,6 +41,6 @@ the command "make $target.large-and-slow".)
 
 EOF
 
-read -r -p $'(You can cancel the command now or press ENTER to continue.)\n'
+read -r -p $'(You can cancel the command now with Ctrl-C or press ENTER to continue.)\n'
 
 make --no-print-directory "$target.large-and-slow"
