@@ -20,6 +20,11 @@ ifeq (${ENABLE_PROGS}, true)
 	DOCKER_COMPOSE_FILES+=-f docker-compose-progs${MOUNT_TYPE}.yml
 endif
 
+ifeq (${ENABLE_B2B}, true)
+	DOCKER_COMPOSE_FILES+=-f docker-compose-b2b.yml
+	DOCKER_COMPOSE_FILES+=-f docker-compose-b2b${MOUNT_TYPE}.yml
+endif
+
 ifeq (${ENABLE_MKTG}, true)
 	DOCKER_COMPOSE_FILES+=-f docker-compose-mktg.yml
 	DOCKER_COMPOSE_FILES+=-f docker-compose-mktg${MOUNT_TYPE}.yml

@@ -17,11 +17,11 @@ services:
     environment:
       PROGS_CFG: /app/docker-b2b.json
       NODE_ENV: development
-    command: bash -c 'while true; do python manage.py runserver 0.0.0.0:8800 --settings=edraakprograms.dev; sleep 2; done'
+    command: bash -c 'while true; do python manage.py runserver 0.0.0.0:8801 --settings=edraakprograms.dev; sleep 2; done'
     container_name: edraak.devstack.b2b
     working_dir: /app
     ports:
-      - "18800:8800"
+      - "18801:8801"
     depends_on:
       - mysql
       - mongo

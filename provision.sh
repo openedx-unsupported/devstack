@@ -40,51 +40,31 @@ sleep 10
 echo -e "MySQL ready"
 
 if $ENABLE_EDX; then
-  echo "** Edx **"
-  echo -e "${GREEN}Creating databases and users...${NC}"
-  docker exec -i edx.devstack.mysql mysql -uroot mysql < provision.sql
-  docker exec -i edx.devstack.mongo mongo < mongo-provision.js
-
   ./provision-lms.sh
-
   # Nothing special needed for studio
-  docker-compose `echo $DOCKER_COMPOSE_FILES` up -d studio
+  docker-compose `echo ${DOCKER_COMPOSE_FILES}` up -d studio
 fi
 
 
 if $ENABLE_PROGS; then
 
   echo "** Programs **"
-  docker-compose `echo $DOCKER_COMPOSE_FILES` up -d progs
-
-  echo "** Creating databases **"
-  echo "CREATE DATABASE IF NOT EXISTS edraakprograms;" | docker exec -i edx.devstack.mysql mysql -uroot mysql
   ./provision-progs.sh
 fi
 
 if $ENABLE_B2B; then
 
   echo "** B2B **"
-  docker-compose `echo $DOCKER_COMPOSE_FILES` up -d b2b
-
-  echo "** Creating databases **"
-  echo "CREATE DATABASE IF NOT EXISTS b2b;" | docker exec -i edx.devstack.mysql mysql -uroot mysql
   ./provision-b2b.sh
 fi
 
 if $ENABLE_MKTG; then
   echo "** Marketing **"
-  docker-compose `echo $DOCKER_COMPOSE_FILES` up -d mktg
-
-  echo "** Creating databases **"
-  echo "CREATE DATABASE IF NOT EXISTS marketingsite;" | docker exec -i edx.devstack.mysql mysql -uroot mysql
-
   ./provision-mktg.sh
 fi
 
 if $ENABLE_STATE_MANAGER; then
   echo "** State Manager **"
-  docker-compose `echo $DOCKER_COMPOSE_FILES` up -d state-manager-api
   ./provision-state-manager-api.sh
 fi
 
