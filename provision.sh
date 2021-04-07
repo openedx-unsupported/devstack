@@ -62,6 +62,16 @@ if $ENABLE_PROGS; then
   ./provision-progs.sh
 fi
 
+if $ENABLE_B2B; then
+
+  echo "** B2B **"
+  docker-compose `echo $DOCKER_COMPOSE_FILES` up -d b2b
+
+  echo "** Creating databases **"
+  echo "CREATE DATABASE IF NOT EXISTS b2b;" | docker exec -i edx.devstack.mysql mysql -uroot mysql
+  ./provision-b2b.sh
+fi
+
 if $ENABLE_MKTG; then
   echo "** Marketing **"
   docker-compose `echo $DOCKER_COMPOSE_FILES` up -d mktg
