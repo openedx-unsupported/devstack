@@ -8,7 +8,8 @@
 
 target="$1"
 
-cat <<"EOCOW" >&2
+show_warning_and_wait() {
+    cat <<"EOCOW" >&2
  _________________________________________________________________________
 /                                                                         \
 | Are you sure you want to run this command for *all* Open edX services?  |
@@ -21,7 +22,7 @@ cat <<"EOCOW" >&2
 
 EOCOW
 
-cat <<EOF >&2
+    cat <<EOF >&2
 The command "make $target" will operate on a large default set of
 services and their dependencies. This can make your task take longer
 than necessary.
@@ -37,10 +38,19 @@ down Docker images you don't need or take up extra memory and CPU. You
 might even run into bugs in unrelated services.
 
 (If you *really* want the large default set of services, you can use
-the command "make $target.large-and-slow".)
+the command "make $target.large-and-slow". You can also configure
+DEFAULT_SERVICES in your options.local.mk to your preferred smaller
+set of services. Either of these options will prevent this warning.)
 
 EOF
 
-read -r -p $'(You can cancel the command now with Ctrl-C or press ENTER to continue.)\n'
+    read -r -p $'(You can cancel the command now with Ctrl-C or press ENTER to continue.)\n'
+}
+
+if grep --quiet --no-messages '^DEFAULT_SERVICES' options.local.mk; then
+    echo >&2 "Skipping warning because DEFAULT_SERVICES is set in options.local.mk"
+else
+    show_warning_and_wait
+fi
 
 make --no-print-directory "$target.large-and-slow"
