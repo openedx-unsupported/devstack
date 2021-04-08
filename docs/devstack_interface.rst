@@ -18,7 +18,7 @@ Examples:
     make dev.logs.gradebook
     make gradebook-logs
 
-The user interface for devstack often also gives you both big hammers(``make dev.pull``) and small hammers(``make dev.pull.<service>``) to do things. It is recommend you opt for the small hammer commands, because they often tend to be alot faster.
+The user interface for devstack often also gives you both big hammers(``make dev.pull.large-and-slow``) and small hammers(``make dev.pull.<service>``) to do things. It is recommend you opt for the small hammer commands, because they often tend to be alot faster.
 
 Useful Commands and Summary
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -35,7 +35,7 @@ Useful Commands and Summary
 
   Variations:
 
-  + ``make dev.pull`` or ``make pull`` will pull all images in the default devstack.
+  + ``make dev.pull.large-and-slow``, ``make dev.pull``, or ``make pull`` will pull all images in the default devstack.
 
     When to use: Probably only when you are first setting up devstack. Do not use this often. This will take a lot of time.
 
@@ -55,7 +55,7 @@ Useful Commands and Summary
 
   Variations:
 
-  + ``make dev.up`` or ``make up`` will bring up containers for *everything* in default devstack
+  + ``make dev.up.large-and-slow``, ``make dev.up``, or ``make up`` will bring up containers for *everything* in default devstack
 
     When to use: Probably never, unless you are doing a full devstack level testing
 
