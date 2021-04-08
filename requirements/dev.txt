@@ -42,9 +42,9 @@ distro==1.5.0
     # via
     #   -r requirements/base.txt
     #   docker-compose
-docker-compose==1.28.6
+docker-compose==1.29.0
     # via -r requirements/base.txt
-docker[ssh]==4.4.4
+docker[ssh]==5.0.0
     # via
     #   -r requirements/base.txt
     #   docker-compose
@@ -115,7 +115,6 @@ six==1.15.0
     # via
     #   -r requirements/base.txt
     #   bcrypt
-    #   docker
     #   dockerpty
     #   jsonschema
     #   pynacl
