@@ -43,9 +43,9 @@ distro==1.5.0
     #   docker-compose
 doc8==0.8.1
     # via -r requirements/doc.in
-docker-compose==1.28.6
+docker-compose==1.29.0
     # via -r requirements/base.txt
-docker[ssh]==4.4.4
+docker[ssh]==5.0.0
     # via
     #   -r requirements/base.txt
     #   docker-compose
@@ -57,8 +57,9 @@ docopt==0.6.2
     # via
     #   -r requirements/base.txt
     #   docker-compose
-docutils==0.17
+docutils==0.16
     # via
+    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   doc8
     #   readme-renderer
     #   restructuredtext-lint
@@ -134,7 +135,6 @@ six==1.15.0
     #   bcrypt
     #   bleach
     #   doc8
-    #   docker
     #   dockerpty
     #   edx-sphinx-theme
     #   jsonschema
