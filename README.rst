@@ -121,6 +121,8 @@ Directions to setup devstack
 
 The default devstack services can be run by following the steps below.
 
+**Note:** This will set up a large number of services, more than you are likely to need to work with, but that's only necessary for first-time provisioning. See `Service List`_ and the `most common development workflow`_ for how to run and update devstack with just the services you need, rather than the ``large-and-slow`` default set.
+
 1. Install the requirements inside of a `Python virtualenv`_.
 
    .. code:: sh
@@ -151,7 +153,7 @@ The default devstack services can be run by following the steps below.
 
    .. code:: sh
 
-       make dev.pull
+       make dev.pull.large-and-slow
 
 .. Update rst to point to readthedocs once published.
 
@@ -199,16 +201,16 @@ The default devstack services can be run by following the steps below.
 
    **NOTE:** This command will bring up both MySQL 5.6 and 5.7 databases until all services are upgraded to 5.7.
 
-5. Start the services. This command will mount the repositories under the
+5. Start the desired services. This command will mount the repositories under the
    ``DEVSTACK_WORKSPACE`` directory.
 
-   **NOTE:** it may take up to 60 seconds for the LMS to start, even after the ``make dev.up`` command outputs ``done``.
+   **NOTE:** it may take up to 60 seconds for the LMS to start, even after the ``dev.up.*`` command outputs ``done``.
 
    Default:
 
    .. code:: sh
 
-       make dev.up
+       make dev.up.large-and-slow
 
    Start using `docker-sync`_:
 
@@ -301,12 +303,9 @@ Each service is accessible at ``localhost`` on a specific port.
 The table below provides links to the homepage, API root, or API docs of each service,
 as well as links to the repository where each service's code lives.
 
-The services marked as ``Default`` are provisioned/pulled/run whenever you run
-``make dev.provision`` / ``make dev.pull`` / ``make dev.up``, respectively.
+Most developers will be best served by working with specific combinations of these services, for example ``make dev.pull.studio`` or ``make dev.up.ecommerce``. These will pull in dependencies as needed—starting ecommerce will also start lms, and lms will pull in forums, discovery, and others. If you need multiple, they can be listed like ``make dev.up.studio+ecommerce``. After the service table below there is a list of some common combinations.
 
-The extra services are provisioned/pulled/run when specifically requested (e.g.,
-``make dev.provision.xqueue`` / ``make dev.pull.xqueue`` / ``make dev.up.xqueue``).
-Alternatively, you can run these by modifying the ``DEFAULT_SERVICES`` option as described in the `Advanced Configuration Options`_ section.
+Instead of a service name or list, you can also run commands like ``make dev.provision`` / ``make dev.pull.large-and-slow`` / ``make dev.up.large-and-slow``. This is a larger list than most people will need for most of their work, and includes all of the services marked "Default" in the below table. (Some of these targets use ``large-and-slow`` in their name as a warning; others may be changed to use this over time.) However, you can change this list by modifying the ``DEFAULT_SERVICES`` option as described in the `Advanced Configuration Options`_ section.
 
 +------------------------------------+-------------------------------------+----------------+--------------+
 | Service                            | URL                                 | Type           | Role         |
@@ -343,6 +342,12 @@ Alternatively, you can run these by modifying the ``DEFAULT_SERVICES`` option as
 +------------------------------------+-------------------------------------+----------------+--------------+
 | `xqueue`_                          | http://localhost:18040/api/v1/      | Python/Django  | Extra        |
 +------------------------------------+-------------------------------------+----------------+--------------+
+
+Some common service combinations include:
+
+* ``lms``: LMS, along with dependencies ``forum``, ``discovery``, and some databases
+* ``ecommerce``: Ecommerce, but also LMS as a dependency (for auth)
+* ``studio+credentials``: Services can be combined to affect both at once
 
 .. _credentials: https://github.com/edx/credentials
 .. _discovery: https://github.com/edx/course-discovery

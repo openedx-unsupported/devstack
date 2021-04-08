@@ -48,7 +48,7 @@ No space left on device
 If you see the error ``no space left on device``, Docker has run
 out of space in its Docker.qcow2 file.
 
-Here is an example error while running ``make dev.pull``:
+Here is an example error while running ``make dev.pull.<service>``:
 
 .. code:: sh
 
@@ -69,7 +69,7 @@ If you are still seeing issues, you can try cleaning up dangling volumes.
 
 .. code:: sh
 
-   make dev.up
+   make dev.up.large-and-slow
 
 2. Remove all unused volumes. **Warning:** this will remove all Docker data on your system that is *not currently in use by a container*, which is why it's important to run the previous step. Otherwise, this will wipe out your Devstack data.
 
@@ -96,7 +96,7 @@ up the provisioning process on Mac), so you can try the following:
 
    # repeat the following until you get past the error.
    make stop
-   make dev.provision
+   make dev.provision.<service>
 
 Once you get past the issue, you should be able to continue to use sync versions
 of the make targets.

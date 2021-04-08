@@ -197,7 +197,11 @@ dev.clone.ssh: ## Clone service repos using SSH method to the parent directory.
 # Developer interface: Docker image management.
 ########################################################################################
 
-dev.pull: dev.pull.$(DEFAULT_SERVICES) ## Pull latest Docker images required by default services.
+dev.pull:
+	@scripts/make_warn_default_large.sh "$@"
+
+dev.pull.large-and-slow: dev.pull.$(DEFAULT_SERVICES) ## Pull latest Docker images required by default services.
+	@echo # at least one statement so that dev.pull.% doesn't run too
 
 dev.pull.%: ## Pull latest Docker images for services and their dependencies.
 	docker-compose pull --include-deps $$(echo $* | tr + " ")
@@ -268,7 +272,11 @@ dev.drop-db.%: ## Irreversably drop the contents of a MySQL database in each mys
 # Developer interface: Container management.
 ########################################################################################
 
-dev.up: dev.up.$(DEFAULT_SERVICES) ## Bring up default services.
+dev.up:
+	@scripts/make_warn_default_large.sh "$@"
+
+dev.up.large-and-slow: dev.up.$(DEFAULT_SERVICES) ## Bring up default services.
+	@echo # at least one statement so that dev.up.% doesn't run too
 
 dev.up.%: dev.check-memory ## Bring up services and their dependencies.
 	docker-compose up -d $$(echo $* | tr + " ")
@@ -462,7 +470,8 @@ dev.static.%: ## Rebuild static assets for the specified service's container.
 # Developer interface: Commands that do a combination of things.
 ########################################################################################
 
-dev.reset: dev.down dev.reset-repos dev.pull dev.up dev.static dev.migrate ## Attempt to reset the local devstack to the master working state without destroying data.
+
+dev.reset: dev.down dev.reset-repos dev.pull.large-and-slow dev.up.large-and-slow dev.static dev.migrate ## Attempt to reset the local devstack to the master working state without destroying data.
 
 dev.destroy: ## Irreversibly remove all devstack-related containers, networks, and volumes.
 	$(WINPTY) bash ./destroy.sh
