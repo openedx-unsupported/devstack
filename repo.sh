@@ -248,7 +248,7 @@ reset ()
             elif [ "$name" == "amc" ]; then
                 cd $name;git reset --hard HEAD;git checkout ${AMC_BRANCH};git reset --hard origin/${AMC_BRANCH};git pull;cd "$currDir"
             else
-                cd $name;git reset --hard HEAD;git checkout ${OPENEDX_GIT_BRANCH};git reset --hard origin/open-release/juniper.master;git pull;cd "$currDir"
+                cd $name;git reset --hard HEAD;git checkout ${OPENEDX_GIT_BRANCH};git reset --hard origin/${OPENEDX_GIT_BRANCH};git pull;cd "$currDir"
             fi
         else
             printf "The [%s] repo is not cloned. Continuing.\n" "$name"
