@@ -363,16 +363,16 @@ xqueue_consumer-restart: ## Kill the XQueue development server. The watcher proc
 	docker-compose $(DOCKER_COMPOSE_FILES) exec $* bash -c 'source /edx/app/$*/$*_env && cd /edx/app/$*/$*/ && make static'
 
 lms-sass: ## Rebuild sass assets for the LMS container
-	docker-compose $(DOCKER_COMPOSE_FILES) exec lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver compile_sass --debug --system=lms --theme-dirs /edx/app/edx-themes/edx-platform/'
+	docker-compose $(DOCKER_COMPOSE_FILES) exec lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver compile_sass --debug --system=lms --theme-dirs /edx/var/edxapp/themes/'
 
 lms-static: ## Rebuild static assets for the LMS container
-	docker-compose $(DOCKER_COMPOSE_FILES) exec lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_assets --theme-dirs=/edx/app/edx-themes/edx-platform/'
+	docker-compose $(DOCKER_COMPOSE_FILES) exec lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_assets --theme-dirs=/edx/var/edxapp/themes/'
 
 studio-sass: ## Rebuild sass assets for the Studio container
-	docker-compose $(DOCKER_COMPOSE_FILES) exec studio bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver compile_sass --debug --system=cms --theme-dirs /edx/app/edx-themes/edx-platform/'
+	docker-compose $(DOCKER_COMPOSE_FILES) exec studio bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver compile_sass --debug --system=cms --theme-dirs /edx/var/edxapp/themes/'
 
 studio-static: ## Rebuild static assets for the Studio container
-	docker-compose $(DOCKER_COMPOSE_FILES) exec studio bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_assets --theme-dirs=/edx/app/edx-themes/edx-platform/'
+	docker-compose $(DOCKER_COMPOSE_FILES) exec studio bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_assets --theme-dirs=/edx/var/edxapp/themes/'
 
 ## Appsembler: Remove `credentials-static`, `discovery-static` and `ecommerce-static`
 ##             because they're problematic and not needed for us
