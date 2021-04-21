@@ -48,3 +48,6 @@ amc-frontend-shell:
 amc-restart:
 	docker exec -t tahoe.$(COMPOSE_PROJECT_NAME).amc bash -c 'killall5'
 	docker exec -t tahoe.$(COMPOSE_PROJECT_NAME).amc-frontend bash -c 'killall5'
+
+amc-update-db:
+	docker exec -t tahoe.$(COMPOSE_PROJECT_NAME).amc bash -c './manage.py migrate'
