@@ -1,0 +1,20 @@
+#!/usr/bin/expect -f
+# Test that dev.pull (bare) prompts before continuing
+
+set timeout 3
+
+spawn make dev.pull
+
+expect {
+    "Are you sure you want to run this command" {}
+    timeout { exit 1 }
+}
+send "\n"
+
+expect {
+    "Pulling lms" {}
+    timeout { exit 1 }
+}
+
+# Send ^C, don't wait for it to finish
+send \x03

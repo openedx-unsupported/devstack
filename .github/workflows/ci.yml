@@ -35,7 +35,7 @@ jobs:
           curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
           sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal test"
           sudo apt update
-          sudo apt install docker-ce
+          sudo apt install docker-ce expect
           docker version
           docker-compose --version
 
@@ -44,6 +44,12 @@ jobs:
 
       - name: clone
         run:  make dev.clone.https
+
+      # These can be run in your virtualenv as scripts if you install
+      # the TCL `expect` CLI tool in your OS. Non-zero exit code is a
+      # test failure.
+      - name: CLI tests
+        run: ./tests/warn_default.exp
 
       - name: pull
         run:  make dev.pull.${{matrix.services}}
