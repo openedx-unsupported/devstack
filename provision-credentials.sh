@@ -9,7 +9,7 @@ port=18150
 docker-compose up -d $name
 
 echo -e "${GREEN}Installing requirements for ${name}...${NC}"
-docker-compose exec -T ${name}  bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials && make requirements && make production-requirements' -- "$name"
+docker-compose exec -T ${name}  bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials && make requirements' -- "$name"
 
 echo -e "${GREEN}Running migrations for ${name}...${NC}"
 docker-compose exec -T ${name}  bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials && make migrate' -- "$name"
