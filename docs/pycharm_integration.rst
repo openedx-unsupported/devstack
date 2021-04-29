@@ -56,10 +56,13 @@ use the following options:
 
 - Service: lms (or whatever IDA you wish to test)
 
-- Environment variables:
+- Required Environment variables:
 
   - ``DEVSTACK_WORKSPACE=/LOCAL/PARENT/PATH/TO/workspace`` (i.e.: Path to where your local repositories are cloned. This needs to be full path an not relative (e.g. './') path to ensure proper configuration of python packages.)
   - ``VIRTUAL_ENV=/LOCAL/PARENT/PATH/TO/workspace/devstack/venv`` (i.e.: Path to where your local devstack virtual environment exists for release.)
+
+- Optional Environment variables:
+
   - ``OPENEDX_RELEASE=release.version`` (i.e.: appropriate image tag; "juniper.master")
   - ``COMPOSE_PROJECT_NAME=docker-compose.container`` (i.e.: "devstack-juniper.master"; appropriate docker-compose container project for devstack multiple release (same machine); ensures specific Docker containers get used based on release name; Ref: https://github.com/edx/devstack/pull/532)
 
