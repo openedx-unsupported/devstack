@@ -14,6 +14,7 @@ multi-container approach driven by `Docker Compose`_.
 A Devstack installation includes the following Open edX components by default:
 
 * The Learning Management System (LMS)
+* The Learning micro-frontend (A.K.A the new Courseware experience)
 * Open Response Assessments (ORA2), among other LMS plug-ins.
 * Open edX Studio
 * Discussion Forums
@@ -28,7 +29,6 @@ A Devstack installation includes the following Open edX components by default:
 It also includes the following extra components:
 
 * XQueue
-* The Learning micro-frontend (A.K.A the new Courseware experience)
 * The Program Console micro-frontend
 * The Library Authoring micro-frontend
 * edX Registrar service.
@@ -324,6 +324,8 @@ Instead of a service name or list, you can also run commands like ``make dev.pro
 +------------------------------------+-------------------------------------+----------------+--------------+
 | `edx_notes_api`_                   | http://localhost:18120/api/v1/      | Python/Django  | Default      |
 +------------------------------------+-------------------------------------+----------------+--------------+
+| `frontend-app-learning`_           | http://localhost:2000/              | MFE (React.js) | Default      |
++------------------------------------+-------------------------------------+----------------+--------------+
 | `frontend-app-payment`_            | http://localhost:1998/              | MFE (React.js) | Default      |
 +------------------------------------+-------------------------------------+----------------+--------------+
 | `frontend-app-publisher`_          | http://localhost:18400/             | MFE (React.js) | Default      |
@@ -333,8 +335,6 @@ Instead of a service name or list, you can also run commands like ``make dev.pro
 | `registrar`_                       | http://localhost:18734/api-docs/    | Python/Django  | Extra        |
 +------------------------------------+-------------------------------------+----------------+--------------+
 | `program-console`_                 | http://localhost:1976/              | MFE (React.js) | Extra        |
-+------------------------------------+-------------------------------------+----------------+--------------+
-| `frontend-app-learning`_           | http://localhost:2000/              | MFE (React.js) | Extra        |
 +------------------------------------+-------------------------------------+----------------+--------------+
 | `frontend-app-library-authoring`_  | http://localhost:3001/              | MFE (React.js) | Extra        |
 +------------------------------------+-------------------------------------+----------------+--------------+
