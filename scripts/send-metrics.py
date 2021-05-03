@@ -29,7 +29,7 @@ def run_target(make_target):
     return subprocess.run(["make", f"impl-{make_target}"])
 
 def main(make_target):
-    # Collect data only if user has concented to data collection by creating a file named: ~/.config/devstack/metrics.json
+    # Collect data only if user has consented to data collection by creating a file named: ~/.config/devstack/metrics.json
     if path.exists(path.expanduser("~/.config/devstack/metrics.json")):
         send_metrics(make_target)
     else:
