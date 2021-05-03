@@ -58,7 +58,7 @@
         dev.sync.requirements dev.sync.up dev.up dev.up.attach dev.up.shell \
         dev.up.without-deps dev.up.without-deps.shell dev.up.with-programs \
         dev.up.with-watchers dev.validate docs e2e-tests e2e-tests.with-shell \
-        help requirements selfcheck upgrade upgrade \
+        help requirements impl-dev.pull selfcheck upgrade upgrade \
         validate-lms-volume vnc-passwords
 
 # Load up options (configurable through options.local.mk).
@@ -198,7 +198,10 @@ dev.clone.ssh: ## Clone service repos using SSH method to the parent directory.
 ########################################################################################
 
 dev.pull:
-	@scripts/make_warn_default_large.sh "$@"
+	@scripts/send-metrics.py "$@"
+
+impl-dev.pull: ##
+	@scripts/make_warn_default_large.sh "dev.pull"
 
 dev.pull.large-and-slow: dev.pull.$(DEFAULT_SERVICES) ## Pull latest Docker images required by default services.
 	@echo # at least one statement so that dev.pull.% doesn't run too
@@ -278,7 +281,10 @@ dev.up:
 dev.up.large-and-slow: dev.up.$(DEFAULT_SERVICES) ## Bring up default services.
 	@echo # at least one statement so that dev.up.% doesn't run too
 
-dev.up.%: dev.check-memory ## Bring up services and their dependencies.
+dev.up.%:
+	@scripts/send-metrics.py "dev.up.$*"
+
+impl-dev.up.%: dev.check-memory ## Bring up services and their dependencies.
 	docker-compose up -d $$(echo $* | tr + " ")
 ifeq ($(ALWAYS_CACHE_PROGRAMS),true)
 	make dev.cache-programs
