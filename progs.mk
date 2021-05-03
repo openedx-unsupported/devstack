@@ -53,7 +53,7 @@ progs.dev:
 	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs npm run dev
 
 progs.watch:
-	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs npx gulp watch
+	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs npm run dev:watch
 
 progs.install_all: | progs.install_pip progs.install_npm progs.dev progs.migrate
 

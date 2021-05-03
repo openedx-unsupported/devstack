@@ -34,7 +34,7 @@ services:
     # See https://docs.mongodb.com/v3.0/reference/program/mongod/#options for complete details.
     command: mongod --smallfiles --nojournal --storageEngine wiredTiger
     container_name: edx.devstack.mongo
-    image: mongo:3.6.17
+    image: mongo:4.0.24
     ports:
       - "27017:27017"
     volumes:

@@ -45,7 +45,7 @@ b2b.dev:
 	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec b2b npm run dev
 
 b2b.watch:
-	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec b2b npx gulp watch
+	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec b2b npm run dev:watch
 
 b2b.install_all: | b2b.install_pip b2b.install_npm b2b.dev b2b.migrate
 
