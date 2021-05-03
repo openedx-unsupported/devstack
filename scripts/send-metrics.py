@@ -27,7 +27,6 @@ def send_metrics(make_target):
 
 def run_target(make_target):
     return subprocess.run(["make", f"impl-{make_target}"])
-    # return subprocess.run(["ls"])
 
 def main(make_target):
     # Collect data only if user has concented to data collection by creating a file named: ~/.config/devstack/metrics.json
@@ -37,7 +36,7 @@ def main(make_target):
         run_target(make_target)
 
 if __name__ == "__main__":
-    # if no target is specified, print error and exit.
+    # if no make target is specified, print error and exit.
     if len(sys.argv)>1:
         main(sys.argv[1])
     else:

@@ -58,8 +58,7 @@
         dev.sync.requirements dev.sync.up dev.up dev.up.attach dev.up.shell \
         dev.up.without-deps dev.up.without-deps.shell dev.up.with-programs \
         dev.up.with-watchers dev.validate docs e2e-tests e2e-tests.with-shell \
-		impl-dev.pull \
-        help requirements selfcheck upgrade upgrade \
+        help requirements impl-dev.pull selfcheck upgrade upgrade \
         validate-lms-volume vnc-passwords
 
 # Load up options (configurable through options.local.mk).
