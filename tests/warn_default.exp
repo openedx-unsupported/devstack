@@ -8,12 +8,14 @@ spawn make dev.pull
 expect {
     "Are you sure you want to run this command" {}
     timeout { exit 1 }
+    eof { exit 1 }
 }
 send "\n"
 
 expect {
     "Pulling lms" {}
     timeout { exit 1 }
+    eof { exit 1 }
 }
 
 # Send ^C, don't wait for it to finish
