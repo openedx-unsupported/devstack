@@ -165,6 +165,7 @@ upgrade: ## Upgrade requirements with pip-tools.
 	pip-compile --upgrade -o requirements/pip-tools.txt requirements/pip-tools.in
 	pip-compile --upgrade -o requirements/base.txt requirements/base.in
 	pip-compile --upgrade -o requirements/doc.txt requirements/doc.in
+	pip-compile --upgrade -o requirements/test.txt requirements/test.in
 	pip-compile --upgrade -o requirements/dev.txt requirements/dev.in
 
 selfcheck: ## Check that the Makefile is free of Make syntax errors.
