@@ -11,6 +11,7 @@ attrs==21.2.0
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   jsonschema
+    #   pytest
 bcrypt==3.2.0
     # via
     #   -r requirements/base.txt
@@ -77,13 +78,20 @@ idna==2.10
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   requests
+iniconfig==1.1.1
+    # via
+    #   -r requirements/test.txt
+    #   pytest
 jsonschema==3.2.0
     # via
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   docker-compose
 packaging==20.9
-    # via tox
+    # via
+    #   -r requirements/test.txt
+    #   pytest
+    #   tox
 paramiko==2.7.2
     # via
     #   -r requirements/base.txt
@@ -93,12 +101,24 @@ pep517==0.10.0
     # via
     #   -r requirements/pip-tools.txt
     #   pip-tools
+pexpect==4.8.0
+    # via -r requirements/test.txt
 pip-tools==6.1.0
     # via -r requirements/pip-tools.txt
 pluggy==0.13.1
-    # via tox
+    # via
+    #   -r requirements/test.txt
+    #   pytest
+    #   tox
+ptyprocess==0.7.0
+    # via
+    #   -r requirements/test.txt
+    #   pexpect
 py==1.10.0
-    # via tox
+    # via
+    #   -r requirements/test.txt
+    #   pytest
+    #   tox
 pycparser==2.20
     # via
     #   -r requirements/base.txt
@@ -110,12 +130,16 @@ pynacl==1.4.0
     #   -r requirements/test.txt
     #   paramiko
 pyparsing==2.4.7
-    # via packaging
+    # via
+    #   -r requirements/test.txt
+    #   packaging
 pyrsistent==0.17.3
     # via
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   jsonschema
+pytest==6.2.4
+    # via -r requirements/test.txt
 python-dotenv==0.17.1
     # via
     #   -r requirements/base.txt
@@ -151,7 +175,9 @@ texttable==1.6.3
 toml==0.10.2
     # via
     #   -r requirements/pip-tools.txt
+    #   -r requirements/test.txt
     #   pep517
+    #   pytest
     #   tox
 tox-battery==0.6.1
     # via -r requirements/dev.in
