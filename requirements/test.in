@@ -1,0 +1,6 @@
+# Dependencies required for running tests.
+
+-c constraints.txt
+
+-r base.txt               # Core dependencies for this package
+
