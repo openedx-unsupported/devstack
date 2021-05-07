@@ -4,3 +4,5 @@
 
 -r base.txt               # Core dependencies for this package
 
+pytest                    # Test runner
+pexpect                   # Utility for making Expect-like tests for CLI interaction

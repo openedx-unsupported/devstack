@@ -8,6 +8,7 @@ attrs==21.2.0
     # via
     #   -r requirements/base.txt
     #   jsonschema
+    #   pytest
 bcrypt==3.2.0
     # via
     #   -r requirements/base.txt
@@ -52,14 +53,26 @@ idna==2.10
     # via
     #   -r requirements/base.txt
     #   requests
+iniconfig==1.1.1
+    # via pytest
 jsonschema==3.2.0
     # via
     #   -r requirements/base.txt
     #   docker-compose
+packaging==20.9
+    # via pytest
 paramiko==2.7.2
     # via
     #   -r requirements/base.txt
     #   docker
+pexpect==4.8.0
+    # via -r requirements/test.in
+pluggy==0.13.1
+    # via pytest
+ptyprocess==0.7.0
+    # via pexpect
+py==1.10.0
+    # via pytest
 pycparser==2.20
     # via
     #   -r requirements/base.txt
@@ -68,10 +81,14 @@ pynacl==1.4.0
     # via
     #   -r requirements/base.txt
     #   paramiko
+pyparsing==2.4.7
+    # via packaging
 pyrsistent==0.17.3
     # via
     #   -r requirements/base.txt
     #   jsonschema
+pytest==6.2.4
+    # via -r requirements/test.in
 python-dotenv==0.17.1
     # via
     #   -r requirements/base.txt
@@ -97,6 +114,8 @@ texttable==1.6.3
     # via
     #   -r requirements/base.txt
     #   docker-compose
+toml==0.10.2
+    # via pytest
 urllib3==1.26.4
     # via
     #   -r requirements/base.txt
