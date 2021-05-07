@@ -1,0 +1,49 @@
+#!/usr/bin/expect -f
+# Test that dev.up.% is instrumented for metrics collection.
+
+# You'll need a DEVSTACK_METRICS_TESTING=debug if running these locally.
+# This environment variable enables printing of metrics.
+if {![info exists env(DEVSTACK_METRICS_TESTING)] || $env(DEVSTACK_METRICS_TESTING) eq ""} {
+    puts "Environment variable DEVSTACK_METRICS_TESTING must be set"
+    exit 2
+}
+
+set homedir $env(HOME) ;# can't rely on tilde expansion when exec'ing
+set config_dir $homedir/.config/devstack
+set config_path $config_dir/metrics.json
+
+if {[file exist $config_path]} {
+    puts "You already have a config file; failing now to avoid overwriting it."
+    exit 2
+}
+
+# Set up a fake Segment write key so that CI tests are "opted in" and
+# will collect metrics.
+file mkdir $config_dir
+set cnf_id [open $config_path "w"]
+puts $cnf_id "{\"segment_write_key\":\"fake\"}"
+close $cnf_id
+
+# Clean up before exiting
+proc clean_exit {ecode} {
+    # For debugging
+    exec cat $::config_path >&@stdout
+    puts "\n^ Metrics config file in effect"
+
+    file delete $::config_path
+    exit $ecode
+}
+
+# OK, the actual test...
+
+set timeout 60
+
+spawn make dev.up.redis
+
+expect {
+    "Send metrics info:*dev.up.redis" {}
+    timeout { puts timeout; clean_exit 1 }
+    eof { puts EOF; clean_exit 1 }
+}
+
+clean_exit 0
