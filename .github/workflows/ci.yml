@@ -14,6 +14,8 @@ jobs:
     env:
       DEVSTACK_WORKSPACE: /tmp
       SHALLOW_CLONE: 1
+      # Don't report metrics as real usage
+      DEVSTACK_METRICS_TESTING: ci
     strategy:
       matrix:
         os: [ ubuntu-latest ]
@@ -50,7 +52,9 @@ jobs:
       # the TCL `expect` CLI tool in your OS. Non-zero exit code is a
       # test failure.
       - name: CLI tests
-        run: ./tests/warn_default.exp
+        run: |
+          ./tests/warn_default.exp
+          ./tests/metrics.exp
 
       - name: pull
         run:  make dev.pull.${{matrix.services}}
