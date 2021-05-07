@@ -4,7 +4,7 @@
 #
 #    make upgrade
 #
-attrs==20.3.0
+attrs==21.2.0
     # via jsonschema
 bcrypt==3.2.0
     # via paramiko
@@ -51,7 +51,7 @@ requests==2.25.1
     # via
     #   docker
     #   docker-compose
-six==1.15.0
+six==1.16.0
     # via
     #   bcrypt
     #   dockerpty
@@ -62,7 +62,7 @@ texttable==1.6.3
     # via docker-compose
 urllib3==1.26.4
     # via requests
-websocket-client==0.58.0
+websocket-client==0.59.0
     # via
     #   docker
     #   docker-compose
