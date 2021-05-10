@@ -46,7 +46,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.REQUIREMENTS_BOT_GITHUB_TOKEN }}
           GITHUB_USER_EMAIL: ${{ secrets.REQUIREMENTS_BOT_GITHUB_EMAIL }}
-        run: |  # replace user-reviewers and team-reviewers accordingly
+        run: |  
           cd $GITHUB_WORKSPACE/testeng-ci
           python -m jenkins.pull_request_creator --repo-root=$GITHUB_WORKSPACE \
           --target-branch="${{ env.target_branch }}" --base-branch-name="upgrade-python-requirements" \
