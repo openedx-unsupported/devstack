@@ -34,11 +34,45 @@ def environment_as(config_data):
         yield
     finally:
         # Clean up before exiting.
-        with open(config_path, 'r') as f:
-            # For debugging...
-            print("Metrics config file in effect was: " + f.read())
+        if config_data is not None:
+            with open(config_path, 'r') as f:
+                # For debugging...
+                print("Metrics config file in effect was: " + f.read())
 
-        os.remove(config_path)
+        try:
+            os.remove(config_path)
+        except FileNotFoundError:
+            pass
+
+
+def test_feature_flag_missing():
+    """
+    Test that metrics collection does not happen with feature flag missing.
+    """
+    with environment_as(None):
+        p = pexpect.spawn('make dev.up.redis', timeout=60)
+        with pytest.raises(pexpect.EOF):
+            p.expect(r'Send metrics info:')
+
+
+def test_feature_flag_false():
+    """
+    Test that metrics collection does not happen with feature flag set to False.
+    """
+    with environment_as({'collection_enabled': False}):
+        p = pexpect.spawn('make dev.up.redis', timeout=60)
+        with pytest.raises(pexpect.EOF):
+            p.expect(r'Send metrics info:')
+
+
+def test_no_arbitrary_target_instrumented():
+    """
+    Test that arbitrary make targets are not instrumented.
+    """
+    with environment_as({'collection_enabled': True}):
+        p = pexpect.spawn('make xxxxx', timeout=60)
+        with pytest.raises(pexpect.EOF):
+            p.expect(r'Send metrics info:')
 
 
 def test_metrics():
