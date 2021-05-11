@@ -43,7 +43,7 @@ distro==1.5.0
     #   docker-compose
 doc8==0.8.1
     # via -r requirements/doc.in
-docker-compose==1.29.1
+docker-compose==1.29.2
     # via -r requirements/base.txt
 docker[ssh]==5.0.0
     # via
@@ -79,7 +79,9 @@ jsonschema==3.2.0
     #   -r requirements/base.txt
     #   docker-compose
 markupsafe==1.1.1
-    # via jinja2
+    # via
+    #   jinja2
+    #   sphinx
 packaging==20.9
     # via
     #   bleach
@@ -143,7 +145,7 @@ six==1.16.0
     #   websocket-client
 snowballstemmer==2.1.0
     # via sphinx
-sphinx==3.5.4
+sphinx==4.0.1
     # via
     #   -r requirements/doc.in
     #   edx-sphinx-theme
