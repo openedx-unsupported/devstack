@@ -32,6 +32,9 @@ from urllib.error import URLError
 
 test_mode = os.environ.get('DEVSTACK_METRICS_TESTING')
 
+# Provisioned as a separate source particular to devstack
+segment_write_key = "MUymmyrKDLk6JVwtkveX6OHVKMhpApou"
+
 
 def base64str(s):
     """Encode a string in Base64, returning a string."""
@@ -45,8 +48,7 @@ def prep_for_send():
     If successful, indicates that the user has opted in to metrics collection
     and the returned config object will contain:
 
-    - anonymous_user_id
-    - segment_write_key
+    - 'anonymous_user_id', a string
 
     Failure may take the form of an exception or returning None.
     """
@@ -57,7 +59,21 @@ def prep_for_send():
     # Currently serving in place of a consent check -- gate on
     # presence of this manually configured setting so that people
     # developing this script can test it.
-    if 'segment_write_key' not in config:
+    #
+    # .. toggle_name: collection_enabled
+    # .. toggle_implementation: custom
+    # .. toggle_default: False
+    # .. toggle_description: Allow metrics opt-in (and show invitation to do so)
+    #   when running make targets which have been instrumented to call this
+    #   script.
+    # .. toggle_warnings: This must not be removed or defaulted to True without
+    #   approval from a team which has received instructions from Legal on what
+    #   data protections are acceptable.
+    # .. toggle_use_cases: temporary
+    # .. toggle_creation_date: 2021-05-11
+    # .. toggle_target_removal_date: 2021-07-01
+    # .. toggle_tickets: https://openedx.atlassian.net/browse/ARCHBOM-1788 (edX internal)
+    if not config.get('collection_enabled'):
         return None
 
     # Set user ID on first run
@@ -89,7 +105,7 @@ def send_metrics_to_segment(event_properties, config):
 
     # https://segment.com/docs/connections/sources/catalog/libraries/server/http-api/
     headers = {
-        'Authorization': 'Basic ' + base64str(config['segment_write_key'] + ':'),
+        'Authorization': 'Basic ' + base64str(segment_write_key + ':'),
         'Content-Type': 'application/json',
         'User-Agent': 'edx-devstack-send-metrics',
     }
