@@ -22,11 +22,10 @@ def test_metrics():
     assert not os.path.isfile(config_path), \
         "You already have a config file; failing now to avoid overwriting it."
 
-    # Set up a fake Segment write key so that CI tests are "opted in" and
-    # will collect metrics.
+    # Enable feature switch for CI tests
     os.makedirs(config_dir, exist_ok=True)
     with open(config_path, 'w') as f:
-        f.write(json.dumps({"segment_write_key": "fake"}))
+        f.write(json.dumps({'collection_enabled': True}))
 
     # OK, the actual test:
 
