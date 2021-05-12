@@ -594,6 +594,17 @@ _expects-database.%:
 
 
 ########################################################################################
+# Convenient ways to opt in or out of devstack usage metrics reporting
+########################################################################################
+
+metrics-opt-in:
+	@./scripts/send-metrics.py opt-in
+
+metrics-opt-out:
+	@./scripts/send-metrics.py opt-out
+
+
+########################################################################################
 # Miscellaneous targets.
 # These are useful, but don't fit nicely to the greater Devstack interface.
 ########################################################################################

@@ -11,7 +11,7 @@ https://openedx.atlassian.net/wiki/spaces/AC/pages/2720432206/Devstack+Metrics
 
 If environment variable ``DEVSTACK_METRICS_TESTING`` is present and non-empty, then
 metrics will be annotated to indicate that the event occurred in the
-course of running tests so that it does not pollute our main data. (TODO)
+course of running tests so that it does not pollute our main data.
 (Extra debugging information will also be printed, including the sent
 event data.)
 """
@@ -36,6 +36,9 @@ test_mode = os.environ.get('DEVSTACK_METRICS_TESTING')
 # Provisioned as a separate source particular to devstack
 segment_write_key = "MUymmyrKDLk6JVwtkveX6OHVKMhpApou"
 
+config_dir = path.expanduser("~/.config/devstack")
+config_path = path.join(config_dir, "metrics.json")
+
 
 def base64str(s):
     """Encode a string in Base64, returning a string."""
@@ -50,14 +53,19 @@ def prep_for_send():
     and the returned config object will contain:
 
     - 'anonymous_user_id', a string
+    - 'consent', a dict containing:
+
+      - 'decision', a boolean indicating whether the user has consented
+        (always true when this function returns a config object)
+      - 'timestamp', the ISO-8601 date-time when the user consented (or
+        declined)
 
     Failure may take the form of an exception or returning None.
     """
-    config_path = path.expanduser("~/.config/devstack/metrics.json")
     with open(config_path, 'r') as f:
         config = json.loads(f.read())
 
-    # Currently serving in place of a consent check -- gate on
+    # Gate pretty much all functionality on the
     # presence of this manually configured setting so that people
     # developing this script can test it.
     #
@@ -77,16 +85,19 @@ def prep_for_send():
     if not config.get('collection_enabled'):
         return None
 
-    # Set user ID on first run
+    # Actual consent check.
+    if not config.get('consent', {}).get('decision'):
+        return None
+
+    # Opt-in process should have set an anonymous user ID, which is
+    # required for sending events.
     if 'anonymous_user_id' not in config:
-        config['anonymous_user_id'] = str(uuid.uuid4())
-        with open(config_path, 'w') as f:
-            f.write(json.dumps(config))
+        return None
 
     return config
 
 
-def send_metrics_to_segment(event_properties, config):
+def send_metrics_to_segment(event_type, event_properties, config):
     """
     Send collected metrics to Segment.
 
@@ -98,7 +109,7 @@ def send_metrics_to_segment(event_properties, config):
     event_properties['is_test'] = test_mode or 'no'
 
     event = {
-        'event': 'devstack.command.run',
+        'event': event_type,
         'userId': config['anonymous_user_id'],
         'properties': event_properties,
         'sentAt': datetime.now(timezone.utc).isoformat(),
@@ -211,7 +222,7 @@ def run_wrapped(make_target, config):
             'exit_status': exit_code,
             **read_git_state()
         }
-        send_metrics_to_segment(event_properties, config)
+        send_metrics_to_segment('devstack.command.run', event_properties, config)
     except:
         # We don't want to warn about transient Segment outages or
         # similar, but there might be a coding error in the
@@ -246,11 +257,133 @@ def do_wrap(make_target):
         run_target(make_target)
 
 
+def do_opt_in():
+    """
+    Perform the interactive opt-in process.
+    """
+    start_time = datetime.now(timezone.utc)
+    try:
+        with open(config_path, 'r') as f:
+            config = json.loads(f.read())
+    except FileNotFoundError:
+        config = {}
+
+    # Leave gated off until we're ready for internal invitation (ARCHBOM-1788)
+    if not config.get('collection_enabled'):
+        print(
+            "This is not enabled in your environment. "
+            "Reach out to the Arch-BOM team at edX if you want to participate."
+        )
+        return
+
+    if config.get('consent', {}).get('decision') == True:
+        print(
+            "It appears you've previously opted-in to metrics reporting. "
+            f"Recorded consent: {config['consent']!r}"
+        )
+        return
+
+    print(
+        "Allow devstack to report anonymized usage metrics?\n"
+        "\n"
+        "This will report usage information to a team at edX so that "
+        "devstack improvements can be planned and evaluated. The exact metrics "
+        "may change over time, but will include information such as the make "
+        "target, a timestamp, duration of command run, the version of devstack, "
+        "and an anonymous user ID. See "
+        "https://openedx.atlassian.net/wiki/spaces/AC/pages/2720432206/Devstack+Metrics "
+        "for more information. You can opt out again at any time.\n"
+        "\n"
+        "Type 'yes' or 'y' to opt in, or anything else to cancel."
+    )
+    answer = input()
+
+    if answer.lower() in ['yes', 'y']:
+        config['consent'] = {
+            'decision': True,
+            'timestamp': datetime.now(timezone.utc).isoformat()
+        }
+        # Set an anonymous user ID on first opt-in, but preserve it if
+        # they're toggling back and forth.
+        config['anonymous_user_id'] = config.get('anonymous_user_id') or str(uuid.uuid4())
+
+        os.makedirs(config_dir, exist_ok=True)
+        with open(config_path, 'w') as f:
+            f.write(json.dumps(config))
+
+        print(
+            "Thank you for contributing to devstack development! "
+            "You can opt out again at any time with `make metrics-opt-out` "
+            f"or by deleting the file at {config_path}."
+        )
+        # Send record of opt-in so we can tell whether people are
+        # opting in even if they're not running any of the
+        # instrumented commands.
+        event_properties = {
+            'command_type': 'make',
+            'command': 'metrics-opt-in',
+            'choice': 'accept',
+            # Note: Not quite the same as the time they accepted
+            # (could have left prompt open for a while).
+            'start_time': start_time.isoformat(),
+            # This tells us what version of the consent check was
+            # presented to the user.
+            **read_git_state()
+        }
+        send_metrics_to_segment('devstack.command.run', event_properties, config)
+    else:
+        print("Cancelled opt-in.")
+
+
+def do_opt_out():
+    """
+    Opt the user out.
+    """
+    start_time = datetime.now(timezone.utc)
+
+    os.makedirs(config_dir, exist_ok=True)
+    try:
+        with open(config_path, 'r') as f:
+            config = json.loads(f.read())
+    except FileNotFoundError:
+        config = {}
+
+    had_consented = config.get('consent', {}).get('decision') == True
+
+    config['consent'] = {
+        'decision': False,
+        'timestamp': datetime.now(timezone.utc).isoformat()
+    }
+    with open(config_path, 'w') as f:
+        f.write(json.dumps(config))
+
+    print(
+        "You have been opted out of reporting devstack command metrics to edX. "
+        f"This preference is stored in a config file located at {config_path}; "
+        "you can opt back in by running `make metrics-opt-in` at any time."
+    )
+
+    # Only send an event when someone had previously consented -- this
+    # allows us to keep a record of the start and end of their
+    # consent.
+    if had_consented:
+        # Collect as little information as possible for this event
+        event_properties = {
+            'command_type': 'make',
+            'command': 'metrics-opt-out',
+            'previous_consent': 'yes',
+            'start_time': start_time.isoformat()
+        }
+        send_metrics_to_segment('devstack.command.run', event_properties, config)
+
+
 def main(args):
     if len(args) == 0:
         print(
             "Usage:\n"
-            "  send-metrics.py wrap <make-target>",
+            "  send-metrics.py wrap <make-target>\n"
+            "  send-metrics.py opt-in\n"
+            "  send-metrics.py opt-out",
             file=sys.stderr
         )
         exit(1)
@@ -263,6 +396,16 @@ def main(args):
             print("send-metrics wrap takes one argument", file=sys.stderr)
             exit(1)
         do_wrap(action_args[0])
+    elif action == 'opt-in':
+        if len(action_args) != 0:
+            print("send-metrics opt-in takes zero arguments", file=sys.stderr)
+            exit(1)
+        do_opt_in()
+    elif action == 'opt-out':
+        if len(action_args) != 0:
+            print("send-metrics opt-out takes zero arguments", file=sys.stderr)
+            exit(1)
+        do_opt_out()
     else:
         print(f"Unrecognized action: {action}", file=sys.stderr)
         exit(1)
