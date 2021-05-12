@@ -91,7 +91,7 @@ def send_metrics_to_segment(event_properties, config):
 
     May throw.
     """
-    event_properties = dict(**event_properties)
+    event_properties = dict(is_test=test_mode or 'no', **event_properties)
     event = {
         'event': 'devstack.command.run',
         'userId': config['anonymous_user_id'],
@@ -100,7 +100,6 @@ def send_metrics_to_segment(event_properties, config):
     }
 
     if test_mode:
-        event_properties['is_test'] = test_mode
         print(f"Send metrics info: {json.dumps(event)}", file=sys.stderr)
 
     # https://segment.com/docs/connections/sources/catalog/libraries/server/http-api/
@@ -148,7 +147,6 @@ def run_wrapped(make_target, config):
             'start_time': start_time.isoformat(),
             'duration': time_diff_millis,
             'exit_status': exit_code,
-            'is_test': 'no',
         }
         send_metrics_to_segment(event_properties, config)
     except Exception as e:
