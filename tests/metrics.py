@@ -95,8 +95,9 @@ def test_metrics():
         assert sorted(data.keys()) == ['event', 'properties', 'sentAt', 'userId'], \
             "Unrecognized key in envelope -- confirm that this addition is authorized."
         assert sorted(data['properties'].keys()) == [
-            'command', 'command_type', 'duration',
-            'exit_status', 'is_test', 'start_time'
+            'command', 'command_type', 'duration', 'exit_status',
+            'git_checked_out_master', 'git_commit_time',
+            'is_test', 'start_time',
         ], "Unrecognized attribute -- confirm that this addition is authorized."
 
         assert data['event'] == 'devstack.command.run'

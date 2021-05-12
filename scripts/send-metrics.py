@@ -131,6 +131,35 @@ def send_metrics_to_segment(event_properties, config):
             traceback.print_exc()
 
 
+def read_git_state():
+    """
+    Return additional, git-related attributes to be merged into event
+    properties.
+    """
+    # %cI gets the committer timestamp, rather than the author
+    # timestamp; the latter could be older when commits have been
+    # rewritten, and the former is more likely to be of interest when
+    # looking at repo checkout age.
+    p = subprocess.run(
+        ['git', 'show', '--no-patch', '--pretty=format:%cI|%D'],
+        capture_output=True, check=True, timeout=5
+    )
+    timestamp, reflist = p.stdout.decode().split('|', 2)
+    # Returns true if master is currently checked out. Does not return
+    # true in the following similar situations:
+    #
+    # - Detached-head state which happens to be on same commit as master
+    # - Another branch is checked out but points to the same commit as
+    #   master
+    # - On commit which *used to* be the tip of master, but is no longer
+    #   (and is just in master's history)
+    is_at_master = "HEAD -> master" in reflist.split(', ')
+    return {
+        'git_commit_time': timestamp,
+        'git_checked_out_master': is_at_master,
+    }
+
+
 def run_wrapped(make_target, config):
     """
     Runs specified make shell target and collects performance data.
@@ -151,6 +180,7 @@ def run_wrapped(make_target, config):
             'start_time': start_time.isoformat(),
             'duration': time_diff_millis,
             'exit_status': exit_code,
+            **read_git_state()
         }
         send_metrics_to_segment(event_properties, config)
     except Exception as e:
