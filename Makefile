@@ -323,6 +323,9 @@ dev.up.without-deps.shell.%: ## Bring up a service by itself + shell into it.
 	make dev.up.without-deps.$*
 	make dev.shell.$*
 
+dev.up.enterprise: ## Bring up services needed to run enterprise MFEs
+	make dev.up.lms+redis+discovery+ecommerce
+
 dev.ps: ## View list of created services and their statuses.
 	docker-compose ps
 
@@ -629,4 +632,3 @@ build-courses: ## Build course and provision studio, and ecommerce with it.
 	$(WINPTY) bash ./course-generator/build-course-json.sh course-generator/tmp-config.json
 	$(WINPTY) bash ./course-generator/create-courses.sh --studio --ecommerce course-generator/tmp-config.json
 	rm course-generator/tmp-config.json
-
