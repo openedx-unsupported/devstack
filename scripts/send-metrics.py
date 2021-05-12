@@ -148,7 +148,7 @@ def run_wrapped(make_target, config):
             'start_time': start_time.isoformat(),
             'duration': time_diff_millis,
             'exit_status': exit_code,
-            'is_test': 'false',
+            'is_test': 'no',
         }
         send_metrics_to_segment(event_properties, config)
     except Exception as e:
