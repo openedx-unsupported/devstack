@@ -204,7 +204,7 @@ dev.pull.without-deps.%: ## Pull latest Docker images for specific services.
 	docker-compose pull $$(echo $* | tr + " ")
 
 dev.pull:
-	@scripts/send-metrics.py "$@"
+	@scripts/send-metrics.py wrap "$@"
 
 impl-dev.pull: ##
 	@scripts/make_warn_default_large.sh "dev.pull"
@@ -322,7 +322,7 @@ endif
 
 # Wildcards must be below anything they could match
 dev.up.%:
-	@scripts/send-metrics.py "dev.up.$*"
+	@scripts/send-metrics.py wrap "dev.up.$*"
 
 dev.ps: ## View list of created services and their statuses.
 	docker-compose ps
