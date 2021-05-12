@@ -228,13 +228,11 @@ def run_target(make_target):
     return subprocess.run(["make", f"impl-{make_target}"])
 
 
-def main(args):
-    if len(args) != 1:
-        print("Usage: send-metrics.py <make-target>", file=sys.stderr)
-        exit(1)
-    make_target = args[0]
-
-    # Collect and report data only if user has consented to data collection
+def do_wrap(make_target):
+    """
+    Run the given make target, and collect and report data if and only if
+    the user has consented to data collection.
+    """
     try:
         consented_config = prep_for_send()
     except Exception as e:  # don't let errors interrupt dev's work
@@ -246,6 +244,28 @@ def main(args):
         run_wrapped(make_target, consented_config)
     else:
         run_target(make_target)
+
+
+def main(args):
+    if len(args) == 0:
+        print(
+            "Usage:\n"
+            "  send-metrics.py wrap <make-target>",
+            file=sys.stderr
+        )
+        exit(1)
+    action = args[0]
+    action_args = args[1:]
+
+    # Dispatch
+    if action == 'wrap':
+        if len(action_args) != 1:
+            print("send-metrics wrap takes one argument", file=sys.stderr)
+            exit(1)
+        do_wrap(action_args[0])
+    else:
+        print(f"Unrecognized action: {action}", file=sys.stderr)
+        exit(1)
 
 
 if __name__ == "__main__":
