@@ -34,7 +34,7 @@ chardet==4.0.0
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   requests
-click==7.1.2
+click==8.0.0
     # via
     #   -r requirements/pip-tools.txt
     #   pip-tools
