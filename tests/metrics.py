@@ -82,4 +82,24 @@ def test_metrics():
     with environment_as({'collection_enabled': True}):
         p = pexpect.spawn('make dev.up.redis', timeout=60)
         p.expect(r'Send metrics info:')
-        p.expect(r'dev\.up\.redis')
+        p.expect(pexpect.EOF)
+        metrics_json = p.before.decode()
+
+        data = json.loads(metrics_json)
+        # These keys are defined by a central document; do not send
+        # additional metrics without specifying them there first:
+        #
+        # https://openedx.atlassian.net/wiki/spaces/AC/pages/2720432206/Devstack+Metrics
+        #
+        # Additional metrics require approval.
+        assert sorted(data.keys()) == ['event', 'properties', 'sentAt', 'userId'], \
+            "Unrecognized key in envelope -- confirm that this addition is authorized."
+        assert sorted(data['properties'].keys()) == [
+            'command', 'command_type', 'duration',
+            'exit_status', 'is_test', 'start_time'
+        ], "Unrecognized attribute -- confirm that this addition is authorized."
+
+        assert data['event'] == 'devstack.command.run'
+        assert data['properties']['command'] == 'dev.up.redis'
+        # Any string but 'no', really (will match env var in practice)
+        assert data['properties']['is_test'] in ['ci', 'debug']
