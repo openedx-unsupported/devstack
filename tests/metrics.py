@@ -101,6 +101,5 @@ def test_metrics():
 
         assert data['event'] == 'devstack.command.run'
         assert data['properties']['command'] == 'dev.up.redis'
-        is_test = data['properties']['is_test']
-        assert type(is_test) == str
-        assert is_test != 'no'
+        # Any string but 'no', really (will match env var in practice)
+        assert data['properties']['is_test'] in ['ci', 'debug']

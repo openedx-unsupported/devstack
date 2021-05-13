@@ -91,7 +91,11 @@ def send_metrics_to_segment(event_properties, config):
 
     May throw.
     """
-    event_properties = dict(is_test=test_mode or 'no', **event_properties)
+    # Get a shallow copy of the input and annotate it as a non-test
+    # event unless overridden by environment variable.
+    event_properties = event_properties.copy()
+    event_properties['is_test'] = test_mode or 'no'
+
     event = {
         'event': 'devstack.command.run',
         'userId': config['anonymous_user_id'],
