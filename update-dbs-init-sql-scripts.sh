@@ -19,9 +19,9 @@ DBS=("ecommerce" "${EDXAPP_DBS[@]}")
 
 
 # create a docker devstack with LMS and ecommerce
-# make destroy
-# make dev.clone.ssh
-# make dev.provision.services.lms+ecommerce
+make destroy
+make dev.clone.ssh
+make dev.provision.services.lms+ecommerce
 
 # dump schema and data from mysql databases in the mysql docker container and copy them to current directory in docker host
 MYSQL_DOCKER_CONTAINER="$(make --silent dev.print-container.mysql57)"
