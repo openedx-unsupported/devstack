@@ -140,13 +140,14 @@ def read_git_state():
     # timestamp; the latter could be older when commits have been
     # rewritten, and the former is more likely to be of interest when
     # looking at repo checkout age.
-    p = subprocess.run(
+    process = subprocess.run(
         ['git', 'show', '--no-patch', '--pretty=format:%cI|%D'],
         capture_output=True, check=True, timeout=5
     )
-    timestamp, reflist = p.stdout.decode().split('|', 2)
-    # Returns true if master is currently checked out. Does not return
-    # true in the following similar situations:
+    timestamp, reflist = process.stdout.decode().split('|', 2)
+    # Returns true if master is currently checked out. Returns false
+    # otherwise, which includes the following situations that are similar
+    # to, but different from a master checkout:
     #
     # - Detached-head state which happens to be on same commit as master
     # - Another branch is checked out but points to the same commit as
