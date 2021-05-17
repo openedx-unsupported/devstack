@@ -3,6 +3,7 @@ import os
 import pexpect
 import pytest
 from contextlib import contextmanager
+from pexpect import EOF
 
 
 @contextmanager
@@ -104,3 +105,25 @@ def test_metrics():
         assert data['properties']['command'] == 'dev.up.redis'
         # Any string but 'no', really (will match env var in practice)
         assert data['properties']['is_test'] in ['ci', 'debug']
+
+def test_handle_ctrl_c():
+    """
+    Test that wrapper can survive and report on a Ctrl-C.
+    """
+    with environment_as({'collection_enabled': True}):
+        p = pexpect.spawn('make dev.pull', timeout=60)
+        # Make sure wrapped command has started before we interrupt,
+        # otherwise signal handler won't even have been registered
+        # yet.
+        p.expect(b'Are you sure you want to run this command')
+        p.send(b'\x03')  # send Ctrl-C to process group
+        p.expect(r'Send metrics info:')
+        p.expect(r'make: [^\r\n]+ Interrupt')
+        metrics_json = p.before.decode()
+        with pytest.raises(EOF):  # confirm docker has stopped
+            p.expect(r'Pulling ')
+
+        data = json.loads(metrics_json)
+
+        # Exit status is negative of signal's value (SIGINT = 2)
+        assert data['properties']['exit_status'] == -2
