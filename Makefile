@@ -633,17 +633,18 @@ build-courses: ## Build course and provision studio, and ecommerce with it.
 
 XBLOCKS_HOME=$(abspath $(DEVSTACK_WORKSPACE)/edx-platform/src)
 XBLOCKS_NAMES=$(addprefix src/,$(notdir $(wildcard $(XBLOCKS_HOME)/*)))
-dev.xblocks.install: dev.up.lms dev.up.studio  ## Install XBlocks into LMS+Studio
-ifeq ($(XBLOCKS_NAMES),)
+dev.xblocks.install:  ## Install XBlocks into LMS+Studio
 	@printf '\n\n\n\n'
 	@echo "This is setup to automatically install any XBlocks found in $(XBLOCKS_HOME)"
 	@echo "You'll need to check-out any XBlock repositories there, like:"
 	@echo
 	@echo "    git clone git@github.com:edx/xblock-image-modal.git $(XBLOCKS_HOME)/xblock-image-modal"
 	@echo
+ifeq ($(XBLOCKS_NAMES),)
 	@echo "then try this command again."
-	exit 1
+	@exit 1
 else
+	make dev.up.lms dev.up.studio
 	docker-compose exec lms env /edx/app/edxapp/devstack.sh exec \
 		pip install -e $(XBLOCKS_NAMES) \
 	;
