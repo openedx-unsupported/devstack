@@ -27,6 +27,7 @@ import uuid
 from datetime import datetime, timezone
 from http.client import RemoteDisconnected
 from os import path
+from signal import SIG_DFL, SIGINT, signal
 from urllib.error import URLError
 
 
@@ -165,12 +166,33 @@ def run_wrapped(make_target, config):
     """
     Runs specified make shell target and collects performance data.
     """
-    start_time = datetime.now(timezone.utc)
+    # Do as much as possible inside try blocks
+    do_collect = True
+    try:
+        start_time = datetime.now(timezone.utc)
+
+        # Catch SIGINT (but only once) so that we can report an event
+        # when the developer uses Ctrl-C to kill the make command
+        # (which would normally kill this process as well).  This
+        # handler just ignores the signal and then unregisters itself.
+        signal(SIGINT, lambda _signum, _frame: signal(SIGINT, SIG_DFL))
+    except:
+        do_collect = False
+        traceback.print_exc()
+        print("Metrics collection setup failed. "
+              "If this keeps happening, please let the Architecture team know. "
+              "(This should not affect the outcome of your make command.)",
+              file=sys.stderr)
 
     completed_process = run_target(make_target)
 
     # Do as much as possible inside try blocks
     try:
+        # Skip metrics reporting if setup failed
+        if not do_collect:
+            return
+
+        signal(SIGINT, SIG_DFL)  # stop trapping SIGINT (if haven't already)
         end_time = datetime.now(timezone.utc)
         exit_code = completed_process.returncode
         time_diff_millis = (end_time - start_time).microseconds // 1000
@@ -180,11 +202,17 @@ def run_wrapped(make_target, config):
             'command': make_target[:50],  # limit in case of mis-pastes at terminal
             'start_time': start_time.isoformat(),
             'duration': time_diff_millis,
+            # If the subprocess was interrupted by a signal, the exit
+            # code will be negative signal value (e.g. -2 for SIGINT,
+            # rather than the 130 it returns from the shell):
+            # https://docs.python.org/3.8/library/subprocess.html#subprocess.CompletedProcess
+            #
+            # If a make subprocess exits non-zero, make exits with code 2.
             'exit_status': exit_code,
             **read_git_state()
         }
         send_metrics_to_segment(event_properties, config)
-    except Exception as e:
+    except:
         # We don't want to warn about transient Segment outages or
         # similar, but there might be a coding error in the
         # send-metrics script.
