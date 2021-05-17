@@ -633,7 +633,7 @@ build-courses: ## Build course and provision studio, and ecommerce with it.
 
 XBLOCKS_HOME=$(abspath $(DEVSTACK_WORKSPACE)/edx-platform/src)
 XBLOCKS_NAMES=$(addprefix src/,$(notdir $(wildcard $(XBLOCKS_HOME)/*)))
-dev.xblocks.install: dev.up.without-deps.lms dev.up.without-deps.studio  ## Install XBlocks into LMS+Studio
+dev.xblocks.install: dev.up.lms dev.up.studio  ## Install XBlocks into LMS+Studio
 ifeq ($(XBLOCKS_NAMES),)
 	@printf '\n\n\n\n'
 	@echo "This is setup to automatically install any XBlocks found in $(XBLOCKS_HOME)"
