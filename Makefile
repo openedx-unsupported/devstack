@@ -642,6 +642,7 @@ ifneq ($(XBLOCKS_NAMES),)
 	docker-compose exec studio env /edx/app/edxapp/devstack.sh exec \
 	    pip install -e $(XBLOCKS_NAMES) \
 	;
+	$(MAKE) lms-restart studio-restart
 	@printf '\n\n\n\n'
 	@printf "Here are the currently installed XBlocks "
 	@echo "(installed packages with 'xblock' in the name):"
