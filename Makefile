@@ -198,6 +198,11 @@ dev.clone.ssh: ## Clone service repos using SSH method to the parent directory.
 # Developer interface: Docker image management.
 ########################################################################################
 
+dev.pull.without-deps: _expects-service-list.dev.pull.without-deps
+
+dev.pull.without-deps.%: ## Pull latest Docker images for specific services.
+	docker-compose pull $$(echo $* | tr + " ")
+
 dev.pull:
 	@scripts/send-metrics.py "$@"
 
@@ -207,14 +212,9 @@ impl-dev.pull: ##
 dev.pull.large-and-slow: dev.pull.$(DEFAULT_SERVICES) ## Pull latest Docker images required by default services.
 	@echo # at least one statement so that dev.pull.% doesn't run too
 
+# Wildcards must be below anything they could match
 dev.pull.%: ## Pull latest Docker images for services and their dependencies.
 	docker-compose pull --include-deps $$(echo $* | tr + " ")
-
-dev.pull.without-deps: _expects-service-list.dev.pull.without-deps
-
-dev.pull.without-deps.%: ## Pull latest Docker images for specific services.
-	docker-compose pull $$(echo $* | tr + " ")
-
 
 ########################################################################################
 # Developer interface: Database management.
@@ -276,21 +276,6 @@ dev.drop-db.%: ## Irreversably drop the contents of a MySQL database in each mys
 # Developer interface: Container management.
 ########################################################################################
 
-dev.up:
-	@scripts/make_warn_default_large.sh "$@"
-
-dev.up.large-and-slow: dev.up.$(DEFAULT_SERVICES) ## Bring up default services.
-	@echo # at least one statement so that dev.up.% doesn't run too
-
-dev.up.%:
-	@scripts/send-metrics.py "dev.up.$*"
-
-impl-dev.up.%: dev.check-memory ## Bring up services and their dependencies.
-	docker-compose up -d $$(echo $* | tr + " ")
-ifeq ($(ALWAYS_CACHE_PROGRAMS),true)
-	make dev.cache-programs
-endif
-
 dev.up.attach: _expects-service.dev.up.attach
 
 dev.up.attach.%: ## Bring up a service and its dependencies + and attach to it.
@@ -322,6 +307,22 @@ dev.up.without-deps.shell: _expects-service.dev.up.without-deps.shell
 dev.up.without-deps.shell.%: ## Bring up a service by itself + shell into it.
 	make dev.up.without-deps.$*
 	make dev.shell.$*
+
+dev.up:
+	@scripts/make_warn_default_large.sh "$@"
+
+dev.up.large-and-slow: dev.up.$(DEFAULT_SERVICES) ## Bring up default services.
+	@echo # at least one statement so that dev.up.% doesn't run too
+
+impl-dev.up.%: dev.check-memory ## Bring up services and their dependencies.
+	docker-compose up -d $$(echo $* | tr + " ")
+ifeq ($(ALWAYS_CACHE_PROGRAMS),true)
+	make dev.cache-programs
+endif
+
+# Wildcards must be below anything they could match
+dev.up.%:
+	@scripts/send-metrics.py "dev.up.$*"
 
 dev.ps: ## View list of created services and their statuses.
 	docker-compose ps
@@ -409,9 +410,6 @@ dev.attach.%: ## Attach to the specified service container process for debugging
 
 dev.shell: _expects-service.dev.shell
 
-dev.shell.%: ## Run a shell on the specified service's container.
-	docker-compose exec $* /bin/bash
-
 dev.shell.credentials:
 	docker-compose exec credentials env TERM=$(TERM) bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials && /bin/bash'
 
@@ -441,6 +439,9 @@ dev.shell.studio_watcher:
 
 dev.shell.xqueue_consumer:
 	docker-compose exec xqueue_consumer env TERM=$(TERM) /edx/app/xqueue/devstack.sh open
+
+dev.shell.%: ## Run a shell on the specified service's container.
+	docker-compose exec $* /bin/bash
 
 dev.dbshell:
 	docker-compose exec mysql57 bash -c "mysql"
