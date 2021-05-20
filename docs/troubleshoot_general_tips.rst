@@ -113,7 +113,7 @@ While provisioning, some have seen the following error:
 
 This error is an indication that your docker process died during execution.  Most likely,
 this error is due to running out of memory.  Try increasing the memory
-allocated to Docker.
+allocated to Docker (Recommended: 8 CPUs, 10 GB Memory, 2GB Swap).
 
 Docker is using lots of CPU time when it should be idle
 -------------------------------------------------------
