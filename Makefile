@@ -204,7 +204,7 @@ dev.pull.without-deps.%: ## Pull latest Docker images for specific services.
 	docker-compose pull $$(echo $* | tr + " ")
 
 dev.pull:
-	@scripts/send-metrics.py "$@"
+	@scripts/send-metrics.py wrap "$@"
 
 impl-dev.pull: ##
 	@scripts/make_warn_default_large.sh "dev.pull"
@@ -322,7 +322,7 @@ endif
 
 # Wildcards must be below anything they could match
 dev.up.%:
-	@scripts/send-metrics.py "dev.up.$*"
+	@scripts/send-metrics.py wrap "dev.up.$*"
 
 dev.ps: ## View list of created services and their statuses.
 	docker-compose ps
@@ -591,6 +591,17 @@ _expects-database.%:
 	@echo "It expects a database as a suffix."
 	@echo "For example:"
 	@echo "    make $*.edxapp"
+
+
+########################################################################################
+# Convenient ways to opt in or out of devstack usage metrics reporting
+########################################################################################
+
+metrics-opt-in:
+	@./scripts/send-metrics.py opt-in
+
+metrics-opt-out:
+	@./scripts/send-metrics.py opt-out
 
 
 ########################################################################################
