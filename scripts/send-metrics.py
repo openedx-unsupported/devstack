@@ -207,7 +207,9 @@ def run_wrapped(make_target, config):
         end_time = datetime.now(timezone.utc)
         exit_code = completed_process.returncode
         time_diff_millis = (end_time - start_time).microseconds // 1000
-        # Must be compatible with our Segment schema
+        # Must be compatible with our Segment schema, and must not be
+        # expanded to include additional attributes without an
+        # additional consent check.
         event_properties = {
             'command_type': 'make',
             'command': make_target[:50],  # limit in case of mis-pastes at terminal
@@ -294,7 +296,8 @@ def do_opt_in():
         "the make target, a timestamp, duration of command run, the git hash of the version of devstack, "
         "whether or not this command was run on the master branch, the exit status of the command, "
         "and an anonymous user ID."
-        "You can opt out again at any time.\n"
+        "You can opt out again at any time in order to "
+        "stop sending metrics.\n"
         "\n"
         "Type 'yes' or 'y' to opt in, or anything else to cancel."
     )
@@ -362,6 +365,7 @@ def do_opt_out():
 
     print(
         "You have been opted out of reporting devstack command metrics to edX. "
+        "No further usage metrics will be sent. "
         "This preference is stored in a config file located at {config_path}; "
         "you can opt back in by running `make metrics-opt-in` at any time."
         .format(config_path=config_path)
