@@ -86,7 +86,7 @@ def prep_for_send():
         return None
 
     # Actual consent check.
-    if not config.get('consent', {}).get('decision'):
+    if config.get('consent', {}).get('decision') is not True:
         return None
 
     # Opt-in process should have set an anonymous user ID, which is
@@ -138,7 +138,7 @@ def send_metrics_to_segment(event_type, event_properties, config):
                 print("Segment metrics send returned an unexpected status code ${status_code}", file=sys.stderr)
     # Might just be a Segment outage; user probably doesn't care.
     # Other errors can bubble up to a layer that might report them.
-    except (RemoteDisconnected, URLError) as e:
+    except (RemoteDisconnected, URLError):
         if test_mode:
             traceback.print_exc()
 
@@ -236,7 +236,7 @@ def run_wrapped(make_target, config):
 
 def run_target(make_target):
     """Just run make on the given target."""
-    return subprocess.run(["make", "impl-%s" % make_target])
+    return subprocess.run(["make", "impl-%s" % make_target], check=False)
 
 
 def do_wrap(make_target):
@@ -276,7 +276,7 @@ def do_opt_in():
         )
         return
 
-    if config.get('consent', {}).get('decision') == True:
+    if config.get('consent', {}).get('decision'):
         print(
             "It appears you've previously opted-in to metrics reporting. "
             "Recorded consent: {record!r}"
@@ -351,7 +351,7 @@ def do_opt_out():
     except FileNotFoundError:
         config = {}
 
-    had_consented = config.get('consent', {}).get('decision') == True
+    had_consented = config.get('consent', {}).get('decision') is True
 
     config['consent'] = {
         'decision': False,
@@ -390,7 +390,7 @@ def main(args):
             "  send-metrics.py opt-out",
             file=sys.stderr
         )
-        exit(1)
+        sys.exit(1)
     action = args[0]
     action_args = args[1:]
 
@@ -398,21 +398,21 @@ def main(args):
     if action == 'wrap':
         if len(action_args) != 1:
             print("send-metrics wrap takes one argument", file=sys.stderr)
-            exit(1)
+            sys.exit(1)
         do_wrap(action_args[0])
     elif action == 'opt-in':
         if len(action_args) != 0:
             print("send-metrics opt-in takes zero arguments", file=sys.stderr)
-            exit(1)
+            sys.exit(1)
         do_opt_in()
     elif action == 'opt-out':
         if len(action_args) != 0:
             print("send-metrics opt-out takes zero arguments", file=sys.stderr)
-            exit(1)
+            sys.exit(1)
         do_opt_out()
     else:
         print("Unrecognized action: %s" % action, file=sys.stderr)
-        exit(1)
+        sys.exit(1)
 
 
 if __name__ == "__main__":
