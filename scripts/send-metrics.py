@@ -116,7 +116,7 @@ def send_metrics_to_segment(event_type, event_properties, config):
     }
 
     if test_mode:
-        print(f"Send metrics info: {json.dumps(event)}", file=sys.stderr)
+        print("Send metrics info: %s" % json.dumps(event), file=sys.stderr)
 
     # https://segment.com/docs/connections/sources/catalog/libraries/server/http-api/
     headers = {
@@ -236,7 +236,7 @@ def run_wrapped(make_target, config):
 
 def run_target(make_target):
     """Just run make on the given target."""
-    return subprocess.run(["make", f"impl-{make_target}"])
+    return subprocess.run(["make", "impl-%s" % make_target])
 
 
 def do_wrap(make_target):
@@ -248,7 +248,7 @@ def do_wrap(make_target):
         consented_config = prep_for_send()
     except Exception as e:  # don't let errors interrupt dev's work
         if test_mode:
-            print(f"Metrics disabled due to startup error: {e!r}")
+            print("Metrics disabled due to startup error: %r" % e)
         consented_config = None
 
     if consented_config:
@@ -279,7 +279,8 @@ def do_opt_in():
     if config.get('consent', {}).get('decision') == True:
         print(
             "It appears you've previously opted-in to metrics reporting. "
-            f"Recorded consent: {config['consent']!r}"
+            "Recorded consent: {record!r}"
+            .format(record=config['consent'])
         )
         return
 
@@ -314,7 +315,8 @@ def do_opt_in():
         print(
             "Thank you for contributing to devstack development! "
             "You can opt out again at any time with `make metrics-opt-out` "
-            f"or by deleting the file at {config_path}."
+            "or by deleting the file at {config_path}."
+            .format(config_path=config_path)
         )
         # Send record of opt-in so we can tell whether people are
         # opting in even if they're not running any of the
@@ -359,8 +361,9 @@ def do_opt_out():
 
     print(
         "You have been opted out of reporting devstack command metrics to edX. "
-        f"This preference is stored in a config file located at {config_path}; "
+        "This preference is stored in a config file located at {config_path}; "
         "you can opt back in by running `make metrics-opt-in` at any time."
+        .format(config_path=config_path)
     )
 
     # Only send an event when someone had previously consented -- this
@@ -407,7 +410,7 @@ def main(args):
             exit(1)
         do_opt_out()
     else:
-        print(f"Unrecognized action: {action}", file=sys.stderr)
+        print("Unrecognized action: %s" % action, file=sys.stderr)
         exit(1)
 
 

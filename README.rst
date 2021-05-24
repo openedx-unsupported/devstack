@@ -75,7 +75,7 @@ Prerequisites
 You will need to have the following installed:
 
 - make
-- Python 3
+- Python 3.8
 - Docker
 
 This project requires **Docker 17.06+ CE**.  We recommend Docker Stable, but
