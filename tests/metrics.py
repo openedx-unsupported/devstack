@@ -99,7 +99,8 @@ def test_initial_opt_in_accept():
         # https://openedx.atlassian.net/wiki/spaces/AC/pages/2720432206/Devstack+Metrics
         #
         # Additional metrics require approval (as do changes to
-        # existing ones). Update the list of metrics displayed during opt-in in send-metrics.py
+        # existing ones). Changes to metrics also require an update to the
+        # list of metrics displayed during opt-in.
         assert sorted(data.keys()) == ['event', 'properties', 'sentAt', 'userId'], \
             "Unrecognized key in envelope -- confirm that this addition is authorized."
         assert sorted(data['properties'].keys()) == [
