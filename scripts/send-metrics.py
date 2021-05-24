@@ -284,16 +284,17 @@ def do_opt_in():
         )
         return
 
+    # NOTE: This is required for informed consent on the part of the users opting-in.
+    # The types of data collected cannot be expanded or changed without legal review.
     print(
         "Allow devstack to report anonymized usage metrics?\n"
         "\n"
         "This will report usage information to a team at edX so that "
-        "devstack improvements can be planned and evaluated. The exact metrics "
-        "may change over time, but will include information such as the make "
-        "target, a timestamp, duration of command run, the version of devstack, "
-        "and an anonymous user ID. See "
-        "https://openedx.atlassian.net/wiki/spaces/AC/pages/2720432206/Devstack+Metrics "
-        "for more information. You can opt out again at any time.\n"
+        "devstack improvements can be planned and evaluated. The metrics included are: "
+        "the make target, a timestamp, duration of command run, the git hash of the version of devstack, "
+        "whether or not this command was run on the master branch, the exit status of the command, "
+        "and an anonymous user ID."
+        "You can opt out again at any time.\n"
         "\n"
         "Type 'yes' or 'y' to opt in, or anything else to cancel."
     )
