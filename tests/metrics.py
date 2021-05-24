@@ -84,7 +84,6 @@ def test_initial_opt_in_accept():
     with environment_as({'collection_enabled': True}):
         p = pexpect.spawn('make metrics-opt-in', timeout=10)
         p.expect_exact("Allow devstack to report anonymized usage metrics?")
-        p.expect("https://")  # gives a URL for more info
         p.expect("Type 'yes' or 'y'")
         p.sendline("yes")
         p.expect("metrics-opt-out")  # prints instructions for opt-out
@@ -100,7 +99,7 @@ def test_initial_opt_in_accept():
         # https://openedx.atlassian.net/wiki/spaces/AC/pages/2720432206/Devstack+Metrics
         #
         # Additional metrics require approval (as do changes to
-        # existing ones).
+        # existing ones). Update the list of metrics displayed during opt-in in send-metrics.py
         assert sorted(data.keys()) == ['event', 'properties', 'sentAt', 'userId'], \
             "Unrecognized key in envelope -- confirm that this addition is authorized."
         assert sorted(data['properties'].keys()) == [
