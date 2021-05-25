@@ -34,9 +34,8 @@ chardet==4.0.0
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   requests
-click==7.1.2
+click==8.0.1
     # via
-    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/pip-tools.txt
     #   pip-tools
 cryptography==3.4.7
@@ -191,7 +190,7 @@ urllib3==1.26.4
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   requests
-virtualenv==20.4.6
+virtualenv==20.4.7
     # via tox
 websocket-client==0.59.0
     # via
