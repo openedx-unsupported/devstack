@@ -13,6 +13,9 @@ from pexpect import EOF
 
 #### Utilities
 
+# A substring to identify whether an invitation has been made
+invitation = 'Would you like to assist devstack development'
+
 config_dir = os.path.expanduser('~/.config/devstack')
 config_path = os.path.join(config_dir, 'metrics.json')
 
@@ -192,6 +195,7 @@ def test_feature_flag_missing():
         p = pexpect.spawn('make dev.up.redis', timeout=60)
         p.expect(EOF)
         assert 'Send metrics info:' not in p.before.decode()
+        assert invitation not in p.before.decode()
 
 
 def test_feature_flag_false():
@@ -202,17 +206,20 @@ def test_feature_flag_false():
         p = pexpect.spawn('make dev.up.redis', timeout=60)
         p.expect(EOF)
         assert 'Send metrics info:' not in p.before.decode()
+        assert invitation not in p.before.decode()
 
 
 def test_enabled_but_no_consent():
     """
-    Test that consent still required even with feature flag enabled.
+    Test that consent still required even with feature flag enabled,
+    but an invitation is printed.
     """
     with environment_as({'collection_enabled': True}):
         # no opt-in first
         p = pexpect.spawn('make dev.up.redis', timeout=60)
         p.expect(EOF)
         assert 'Send metrics info:' not in p.before.decode()
+        assert invitation in p.before.decode()
 
 
 def test_no_arbitrary_target_instrumented():
@@ -224,6 +231,7 @@ def test_no_arbitrary_target_instrumented():
         p = pexpect.spawn('make xxxxx', timeout=60)
         p.expect(EOF)
         assert 'Send metrics info:' not in p.before.decode()
+        assert invitation not in p.before.decode()
 
 
 def test_metrics():
@@ -234,7 +242,9 @@ def test_metrics():
         do_opt_in()
         p = pexpect.spawn('make dev.up.redis', timeout=60)
         p.expect(r'Send metrics info:')
+        assert invitation not in p.before.decode()
         p.expect(EOF)
+        assert invitation not in p.before.decode()
         metrics_json = p.before.decode()
 
         data = json.loads(metrics_json)

@@ -14,6 +14,16 @@ metrics will be annotated to indicate that the event occurred in the
 course of running tests so that it does not pollute our main data.
 (Extra debugging information will also be printed, including the sent
 event data.)
+
+Config file schema:
+
+- 'collection_enabled' (boolean) feature toggle gating several aspects
+  of metrics collection (see later description)
+- 'anonymous_user_id' (string) high-entropy, non-identifying unique user ID
+- 'consent' (dict) present when user has either consented or declined
+  metrics collection
+    - 'decision' (boolean) indicates whether the user has consented or declined
+    - 'timestamp' (string) ISO-8601 date-time when the user consented or declined
 """
 
 import base64
@@ -45,22 +55,16 @@ def base64str(s):
     return base64.b64encode(s.encode()).decode()
 
 
-def prep_for_send():
+def check_consent():
     """
-    Prepare for sending to Segment, returning config object.
+    Check if it's OK to send metrics, returning dict of:
 
-    If successful, indicates that the user has opted in to metrics collection
-    and the returned config object will contain:
+    - 'ok_to_collect' (boolean) True when metrics may be collected
+    - 'config' (dict) config data, present if `ok_to_collect` is True
+    - 'print_invitation' (boolean) True when an invitation to consent to
+      metrics collection should be printed for the user
 
-    - 'anonymous_user_id', a string
-    - 'consent', a dict containing:
-
-      - 'decision', a boolean indicating whether the user has consented
-        (always true when this function returns a config object)
-      - 'timestamp', the ISO-8601 date-time when the user consented (or
-        declined)
-
-    Failure may take the form of an exception or returning None.
+    May throw an exception if config file cannot be read.
     """
     with open(config_path, 'r') as f:
         config = json.loads(f.read())
@@ -82,19 +86,38 @@ def prep_for_send():
     # .. toggle_creation_date: 2021-05-11
     # .. toggle_target_removal_date: 2021-07-01
     # .. toggle_tickets: https://openedx.atlassian.net/browse/ARCHBOM-1788 (edX internal)
-    if not config.get('collection_enabled'):
-        return None
+    if config.get('collection_enabled') is not True:
+        return {'ok_to_collect': False, 'print_invitation': False}
 
-    # Actual consent check.
-    if config.get('consent', {}).get('decision') is not True:
-        return None
+    decision = config.get('consent', {}).get('decision')
+
+    # Explicit decline.
+    if decision is False:
+        return {'ok_to_collect': False, 'print_invitation': False}
+
+    # Anything other than consent: Just invite. (If they haven't
+    # declined *or* consented, either they've not made a decision
+    # (value is None) or there's some invalid value that will be
+    # cleared out by the opt-in/out process.)
+    if decision is not True:
+        return {'ok_to_collect': False, 'print_invitation': True}
+
+    # At this point, we know they've consented, but one last check...
 
     # Opt-in process should have set an anonymous user ID, which is
     # required for sending events.
-    if 'anonymous_user_id' not in config:
-        return None
+    if not config.get('anonymous_user_id'):
+        # Something's wrong with the config file if they've consented
+        # but not been assigned an ID, so just pretend they've not
+        # consented -- opting in should reset things.
+        return {'ok_to_collect': False, 'print_invitation': True}
 
-    return config
+    # Consented, so no need to invite.
+    return {
+        'ok_to_collect': True,
+        'config': config,
+        'print_invitation': False
+    }
 
 
 def send_metrics_to_segment(event_type, event_properties, config):
@@ -247,16 +270,23 @@ def do_wrap(make_target):
     the user has consented to data collection.
     """
     try:
-        consented_config = prep_for_send()
+        consent_state = check_consent()
     except Exception as e:  # don't let errors interrupt dev's work
         if test_mode:
             print("Metrics disabled due to startup error: %r" % e)
-        consented_config = None
+        consent_state = {}
 
-    if consented_config:
-        run_wrapped(make_target, consented_config)
+    if consent_state.get('ok_to_collect'):
+        run_wrapped(make_target, consent_state.get('config'))
     else:
         run_target(make_target)
+        if consent_state.get('print_invitation'):
+            print(
+                "Would you like to assist devstack development by sending "
+                "anonymous usage metrics to edX? Run `make metrics-opt-in` "
+                "to learn more!",
+                file=sys.stderr
+            )
 
 
 def do_opt_in():
@@ -278,7 +308,8 @@ def do_opt_in():
         )
         return
 
-    if config.get('consent', {}).get('decision'):
+    # Only short-circuit here if consented *and* all necessary info present.
+    if config.get('consent', {}).get('decision') and config.get('anonymous_user_id'):
         print(
             "It appears you've previously opted-in to metrics reporting. "
             "Recorded consent: {record!r}"
