@@ -187,12 +187,17 @@ dev.checkout: ## Check out "openedx-release/$OPENEDX_RELEASE" in each repo if se
 
 dev.clone: dev.clone.ssh ## Clone service repos to the parent directory.
 
-dev.clone.https: ## Clone service repos using HTTPS method to the parent directory.
+impl-dev.clone.https: ## Clone service repos using HTTPS method to the parent directory.
 	./repo.sh clone
 
-dev.clone.ssh: ## Clone service repos using SSH method to the parent directory.
+dev.clone.https: ## Clone service repos using HTTPS method to the parent directory.
+	@scripts/send-metrics.py wrap "$@"
+
+impl-dev.clone.ssh: ## Clone service repos using SSH method to the parent directory.
 	./repo.sh clone_ssh
 
+dev.clone.ssh:
+	@scripts/send-metrics.py wrap "$@"
 
 ########################################################################################
 # Developer interface: Docker image management.
@@ -200,7 +205,10 @@ dev.clone.ssh: ## Clone service repos using SSH method to the parent directory.
 
 dev.pull.without-deps: _expects-service-list.dev.pull.without-deps
 
-dev.pull.without-deps.%: ## Pull latest Docker images for specific services.
+dev.pull.without-deps.%:
+	@scripts/send-metrics.py wrap "dev.pull.without-deps.$*"
+
+impl-dev.pull.without-deps.%: ## Pull latest Docker images for specific services.
 	docker-compose pull $$(echo $* | tr + " ")
 
 dev.pull:
@@ -220,7 +228,7 @@ dev.pull.%: ## Pull latest Docker images for services and their dependencies.
 # Developer interface: Database management.
 ########################################################################################
 
-dev.provision: dev.check-memory ## Provision dev environment with default services, and then stop them.
+impl-dev.provision: dev.check-memory ## Provision dev environment with default services, and then stop them.
 	# We provision all default services as well as 'e2e' (end-to-end tests).
 	# e2e is not part of `DEFAULT_SERVICES` because it isn't a service;
 	# it's just a way to tell ./provision.sh that the fake data for end-to-end
@@ -228,9 +236,15 @@ dev.provision: dev.check-memory ## Provision dev environment with default servic
 	$(WINPTY) bash ./provision.sh $(DEFAULT_SERVICES)+e2e
 	make dev.stop
 
-dev.provision.%: ## Provision specified services.
+dev.provision:
+	@scripts/send-metrics.py wrap "$@"
+
+impl-dev.provision.%: dev.check-memory ## Provision specified services.
 	echo $*
 	$(WINPTY) bash ./provision.sh $*
+
+dev.provision.%: ## Provision specified services.
+	@scripts/send-metrics.py wrap "dev.provision.$*"
 
 dev.backup: dev.up.mysql+mysql57+mongo+elasticsearch+elasticsearch7 ## Write all data volumes to the host.
 	docker run --rm --volumes-from $$(make -s dev.print-container.mysql) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/mysql.tar.gz /var/lib/mysql
