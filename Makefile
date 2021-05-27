@@ -292,8 +292,11 @@ dev.drop-db.%: ## Irreversably drop the contents of a MySQL database in each mys
 
 dev.up.attach: _expects-service.dev.up.attach
 
-dev.up.attach.%: ## Bring up a service and its dependencies + and attach to it.
+impl-dev.up.attach.%: ## Bring up a service and its dependencies + and attach to it.
 	docker-compose up $*
+
+dev.up.attach.%: ## Bring up a service and its dependencies + and attach to it.
+	@scripts/send-metrics.py wrap "dev.up.attach.$*"
 
 dev.up.shell: _expects-service.dev.up.shell
 
@@ -313,8 +316,11 @@ dev.up.with-watchers.%: ## Bring up services and their dependencies + asset watc
 
 dev.up.without-deps: _expects-service-list.dev.up.without-deps
 
-dev.up.without-deps.%: dev.check-memory ## Bring up services by themselves.
+impl-dev.up.without-deps.%: dev.check-memory ## Bring up services by themselves.
 	docker-compose up --d --no-deps $$(echo $* | tr + " ")
+
+dev.up.without-deps.%: ## Bring up services by themselves.
+	@scripts/send-metrics.py wrap "dev.up.without-deps.$*"
 
 dev.up.without-deps.shell: _expects-service.dev.up.without-deps.shell
 
