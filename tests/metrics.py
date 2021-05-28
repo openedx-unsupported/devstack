@@ -279,16 +279,18 @@ def test_handle_ctrl_c():
         # Make sure wrapped command has started before we interrupt,
         # otherwise signal handler won't even have been registered
         # yet.
-        p.expect(b'Are you sure you want to run this command')
+        p.expect(r'Are you sure you want to run this command')
         p.send(b'\x03')  # send Ctrl-C to process group
-        p.expect(r'Send metrics info:')
-        p.expect(r'make: [^\r\n]+ Interrupt')
-        metrics_json = p.before.decode()
         p.expect(EOF)
-        # confirm docker has stopped
-        assert 'Pulling ' not in p.before.decode()
+        output = p.before.decode()
 
-        data = json.loads(metrics_json)
+        assert re.search(r'make\[[0-9]+\]: [^\r\n]+ Interrupt', output)
+        # confirm docker has stopped
+        assert 'Pulling ' not in output
+
+        metrics_match = re.search(r'Send metrics info: ([^\r\n]+)', output)
+        assert metrics_match
+        data = json.loads(metrics_match.group(1))
 
         # Exit status is negative of signal's value (SIGINT = 2)
         assert data['properties']['exit_status'] == -2
