@@ -1,5 +1,8 @@
+"""
+Tests for make_warn_default_large.sh
+"""
+
 import pexpect
-import pytest
 
 
 def test_warn_default():

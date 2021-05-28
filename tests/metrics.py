@@ -1,13 +1,20 @@
+"""
+Tests for send-metrics.py
+"""
+
 import json
 import os
-import pexpect
-import pytest
 import re
 from contextlib import contextmanager
+
+import pexpect
 from pexpect import EOF
 
 
 #### Utilities
+
+# A substring to identify whether an invitation has been made
+invitation = 'Would you like to assist devstack development'
 
 config_dir = os.path.expanduser('~/.config/devstack')
 config_path = os.path.join(config_dir, 'metrics.json')
@@ -25,7 +32,7 @@ def environment_as(config_data):
         "You need a DEVSTACK_METRICS_TESTING=debug if running this test " \
         "locally since this environment variable both enables printing of " \
         "metrics and also marks sent metric events as test data."
-        
+
     assert not os.path.isfile(config_path), \
         "You already have a config file; failing now to avoid overwriting it."
 
@@ -65,10 +72,10 @@ def assert_consent(status=True):
     """
     with open(config_path, 'r') as f:
         config = json.loads(f.read())
-        if status == None:
+        if status is None:
             assert 'consent' not in config
         else:
-            assert type(status) is bool
+            assert isinstance(status, bool)
             consent = config['consent']
             assert consent.get('decision') == status
             # Timestamp should be a date at least (likely also has a time)
@@ -124,9 +131,9 @@ def test_initial_opt_in_decline():
     with environment_as({'collection_enabled': True}):
         p = pexpect.spawn('make metrics-opt-in', timeout=10)
         p.sendline("")  # empty response
-        # No metrics event sent
-        with pytest.raises(EOF):
-            p.expect(r'Send metrics info:')
+        p.expect(EOF)
+
+        assert 'Send metrics info:' not in p.before.decode()
         # No consent info stored on decline
         assert_consent(None)
 
@@ -138,9 +145,9 @@ def test_initial_opt_out():
     with environment_as(None):
         p = pexpect.spawn('make metrics-opt-out', timeout=10)
         p.expect('metrics-opt-in')  # indicates how to undo
-        # No metrics event sent
-        with pytest.raises(EOF):
-            p.expect(r'Send metrics info:')
+        p.expect(EOF)
+
+        assert 'Send metrics info:' not in p.before.decode()
         assert_consent(False)
 
 
@@ -186,8 +193,9 @@ def test_feature_flag_missing():
     """
     with environment_as(None):
         p = pexpect.spawn('make dev.up.redis', timeout=60)
-        with pytest.raises(EOF):
-            p.expect(r'Send metrics info:')
+        p.expect(EOF)
+        assert 'Send metrics info:' not in p.before.decode()
+        assert invitation not in p.before.decode()
 
 
 def test_feature_flag_false():
@@ -196,19 +204,22 @@ def test_feature_flag_false():
     """
     with environment_as({'collection_enabled': False}):
         p = pexpect.spawn('make dev.up.redis', timeout=60)
-        with pytest.raises(EOF):
-            p.expect(r'Send metrics info:')
+        p.expect(EOF)
+        assert 'Send metrics info:' not in p.before.decode()
+        assert invitation not in p.before.decode()
 
 
 def test_enabled_but_no_consent():
     """
-    Test that consent still required even with feature flag enabled.
+    Test that consent still required even with feature flag enabled,
+    but an invitation is printed.
     """
     with environment_as({'collection_enabled': True}):
         # no opt-in first
         p = pexpect.spawn('make dev.up.redis', timeout=60)
-        with pytest.raises(EOF):
-            p.expect(r'Send metrics info:')
+        p.expect(EOF)
+        assert 'Send metrics info:' not in p.before.decode()
+        assert invitation in p.before.decode()
 
 
 def test_no_arbitrary_target_instrumented():
@@ -218,8 +229,9 @@ def test_no_arbitrary_target_instrumented():
     with environment_as({'collection_enabled': True}):
         do_opt_in()
         p = pexpect.spawn('make xxxxx', timeout=60)
-        with pytest.raises(EOF):
-            p.expect(r'Send metrics info:')
+        p.expect(EOF)
+        assert 'Send metrics info:' not in p.before.decode()
+        assert invitation not in p.before.decode()
 
 
 def test_metrics():
@@ -230,7 +242,9 @@ def test_metrics():
         do_opt_in()
         p = pexpect.spawn('make dev.up.redis', timeout=60)
         p.expect(r'Send metrics info:')
+        assert invitation not in p.before.decode()
         p.expect(EOF)
+        assert invitation not in p.before.decode()
         metrics_json = p.before.decode()
 
         data = json.loads(metrics_json)
@@ -270,8 +284,9 @@ def test_handle_ctrl_c():
         p.expect(r'Send metrics info:')
         p.expect(r'make: [^\r\n]+ Interrupt')
         metrics_json = p.before.decode()
-        with pytest.raises(EOF):  # confirm docker has stopped
-            p.expect(r'Pulling ')
+        p.expect(EOF)
+        # confirm docker has stopped
+        assert 'Pulling ' not in p.before.decode()
 
         data = json.loads(metrics_json)
 
