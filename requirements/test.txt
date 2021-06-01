@@ -13,7 +13,7 @@ bcrypt==3.2.0
     # via
     #   -r requirements/base.txt
     #   paramiko
-certifi==2020.12.5
+certifi==2021.5.30
     # via
     #   -r requirements/base.txt
     #   requests
@@ -116,7 +116,7 @@ texttable==1.6.3
     #   docker-compose
 toml==0.10.2
     # via pytest
-urllib3==1.26.4
+urllib3==1.26.5
     # via
     #   -r requirements/base.txt
     #   requests
