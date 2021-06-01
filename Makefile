@@ -196,7 +196,7 @@ dev.clone.https: ## Clone service repos using HTTPS method to the parent directo
 impl-dev.clone.ssh: ## Clone service repos using SSH method to the parent directory.
 	./repo.sh clone_ssh
 
-dev.clone.ssh:
+dev.clone.ssh: ## Clone service repos using SSH method to the parent directory.
 	@scripts/send-metrics.py wrap "$@"
 
 ########################################################################################
@@ -205,7 +205,7 @@ dev.clone.ssh:
 
 dev.pull.without-deps: _expects-service-list.dev.pull.without-deps
 
-dev.pull.without-deps.%:
+dev.pull.without-deps.%: ## Pull latest Docker images for specific services.
 	@scripts/send-metrics.py wrap "dev.pull.without-deps.$*"
 
 impl-dev.pull.without-deps.%: ## Pull latest Docker images for specific services.
@@ -214,7 +214,7 @@ impl-dev.pull.without-deps.%: ## Pull latest Docker images for specific services
 dev.pull:
 	@scripts/send-metrics.py wrap "$@"
 
-impl-dev.pull: ##
+impl-dev.pull:
 	@scripts/make_warn_default_large.sh "dev.pull"
 
 dev.pull.large-and-slow: dev.pull.$(DEFAULT_SERVICES) ## Pull latest Docker images required by default services.
@@ -222,21 +222,25 @@ dev.pull.large-and-slow: dev.pull.$(DEFAULT_SERVICES) ## Pull latest Docker imag
 
 # Wildcards must be below anything they could match
 dev.pull.%: ## Pull latest Docker images for services and their dependencies.
+	@scripts/send-metrics.py wrap "dev.pull.$*"
+
+impl-dev.pull.%: ## Pull latest Docker images for services and their dependencies.
 	docker-compose pull --include-deps $$(echo $* | tr + " ")
 
 ########################################################################################
 # Developer interface: Database management.
 ########################################################################################
 
-impl-dev.provision: dev.check-memory ## Provision dev environment with default services, and then stop them.
+impl-dev.provision: ## Provision dev environment with default services, and then stop them.
 	# We provision all default services as well as 'e2e' (end-to-end tests).
 	# e2e is not part of `DEFAULT_SERVICES` because it isn't a service;
 	# it's just a way to tell ./provision.sh that the fake data for end-to-end
 	# tests should be prepared.
+	make dev.check-memory
 	$(WINPTY) bash ./provision.sh $(DEFAULT_SERVICES)+e2e
 	make dev.stop
 
-dev.provision:
+dev.provision: ## Provision dev environment with default services, and then stop them.
 	@scripts/send-metrics.py wrap "$@"
 
 impl-dev.provision.%: dev.check-memory ## Provision specified services.
