@@ -324,15 +324,16 @@ def do_opt_in():
         "\n"
         "This will report usage information to a team at edX so that "
         "devstack improvements can be planned and evaluated. The metrics included are: "
-        "the make target, a timestamp, duration of command run, the git hash of the version of devstack, "
+        "The make target, a timestamp, duration of command run, the git hash of the version of devstack, "
         "whether or not this command was run on the master branch, the exit status of the command, "
-        "and an anonymous user ID."
+        "and an anonymous user ID. "
         "You can opt out again at any time in order to "
         "stop sending metrics.\n"
         "\n"
         "Type 'yes' or 'y' to opt in, or anything else to cancel."
     )
     answer = input()
+    print()
 
     if answer.lower() in ['yes', 'y']:
         config['consent'] = {
@@ -349,8 +350,8 @@ def do_opt_in():
 
         print(
             "Thank you for contributing to devstack development! "
-            "You can opt out again at any time with `make metrics-opt-out` "
-            "or by deleting the file at {config_path}."
+            "Your opt-in has been stored in {config_path} and "
+            "you can opt out again at any time with `make metrics-opt-out`."
             .format(config_path=config_path)
         )
         # Send record of opt-in so we can tell whether people are
