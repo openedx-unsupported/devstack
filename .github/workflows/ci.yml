@@ -20,9 +20,15 @@ jobs:
       DEVSTACK_METRICS_TESTING: ci
     strategy:
       matrix:
-        os: [ ubuntu-latest ]
+        # Various service combinations, all on standard OS & Python
+        os: [ ubuntu-20.04 ]
         python-version: [ '3.8' ]
         services: [ discovery+lms+forum ,registrar+lms, ecommerce, edx_notes_api, credentials, xqueue]
+        include:
+          # Try one on Mac too
+          - os: macos-10.15
+            python-version: '3.8'
+            services: discovery+lms+forum
       fail-fast: false # some services can be flaky; let others run to completion even if one fails
 
     steps:
@@ -32,7 +38,8 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: installations and version upgrades
+      - name: Docker installation - Linux
+        if: ${{ startsWith(matrix.os, 'ubuntu-') }}
         run: |
           docker version
           sudo apt-get update
@@ -43,6 +50,23 @@ jobs:
           sudo apt install docker-ce
           docker version
           docker-compose --version
+
+      # Cache boot2docker for speedup and to avoid ratelimiting
+      - name: Docker cache - Mac
+        if: ${{ startsWith(matrix.os, 'macos-') }}
+        uses: actions/cache@v2
+        with:
+          path: ~/.docker/machine/cache
+          key: ${{ runner.os }}-docker-machine
+
+      - name: Docker installation - Mac
+        if: ${{ startsWith(matrix.os, 'macos-') }}
+        run: |
+          brew install docker docker-machine
+          docker-machine create --driver virtualbox default
+          # See cli-tests.yml for an explanation of this
+          docker-machine env default | grep '^export' | sed 's/^export //' | sed 's/"//g' >> $GITHUB_ENV
+
 
       - name: set up requirements
         run:  make requirements
