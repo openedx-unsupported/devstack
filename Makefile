@@ -58,9 +58,7 @@
         dev.sync.requirements dev.sync.up dev.up dev.up.attach dev.up.shell \
         dev.up.without-deps dev.up.without-deps.shell dev.up.with-programs \
         dev.up.with-watchers dev.validate docs e2e-tests e2e-tests.with-shell \
-        help requirements impl-dev.clone.https impl-dev.clone.ssh impl-dev.provision \
-        impl-dev.pull impl-dev.pull.without-deps impl-dev.up impl-dev.up.attach \
-        impl-dev.up.without-deps selfcheck upgrade upgrade \
+        help requirements impl-dev.pull selfcheck upgrade upgrade \
         validate-lms-volume vnc-passwords
 
 # Load up options (configurable through options.local.mk).
@@ -189,17 +187,12 @@ dev.checkout: ## Check out "openedx-release/$OPENEDX_RELEASE" in each repo if se
 
 dev.clone: dev.clone.ssh ## Clone service repos to the parent directory.
 
-impl-dev.clone.https: ## Clone service repos using HTTPS method to the parent directory.
+dev.clone.https: ## Clone service repos using HTTPS method to the parent directory.
 	./repo.sh clone
 
-dev.clone.https: ## Clone service repos using HTTPS method to the parent directory.
-	@scripts/send-metrics.py wrap "$@"
-
-impl-dev.clone.ssh: ## Clone service repos using SSH method to the parent directory.
+dev.clone.ssh: ## Clone service repos using SSH method to the parent directory.
 	./repo.sh clone_ssh
 
-dev.clone.ssh: ## Clone service repos using SSH method to the parent directory.
-	@scripts/send-metrics.py wrap "$@"
 
 ########################################################################################
 # Developer interface: Docker image management.
@@ -208,15 +201,12 @@ dev.clone.ssh: ## Clone service repos using SSH method to the parent directory.
 dev.pull.without-deps: _expects-service-list.dev.pull.without-deps
 
 dev.pull.without-deps.%: ## Pull latest Docker images for specific services.
-	@scripts/send-metrics.py wrap "dev.pull.without-deps.$*"
-
-impl-dev.pull.without-deps.%: ## Pull latest Docker images for specific services.
 	docker-compose pull $$(echo $* | tr + " ")
 
 dev.pull:
 	@scripts/send-metrics.py wrap "$@"
 
-impl-dev.pull:
+impl-dev.pull: ##
 	@scripts/make_warn_default_large.sh "dev.pull"
 
 dev.pull.large-and-slow: dev.pull.$(DEFAULT_SERVICES) ## Pull latest Docker images required by default services.
@@ -224,33 +214,23 @@ dev.pull.large-and-slow: dev.pull.$(DEFAULT_SERVICES) ## Pull latest Docker imag
 
 # Wildcards must be below anything they could match
 dev.pull.%: ## Pull latest Docker images for services and their dependencies.
-	@scripts/send-metrics.py wrap "dev.pull.$*"
-
-impl-dev.pull.%: ## Pull latest Docker images for services and their dependencies.
 	docker-compose pull --include-deps $$(echo $* | tr + " ")
 
 ########################################################################################
 # Developer interface: Database management.
 ########################################################################################
 
-impl-dev.provision: ## Provision dev environment with default services, and then stop them.
+dev.provision: dev.check-memory ## Provision dev environment with default services, and then stop them.
 	# We provision all default services as well as 'e2e' (end-to-end tests).
 	# e2e is not part of `DEFAULT_SERVICES` because it isn't a service;
 	# it's just a way to tell ./provision.sh that the fake data for end-to-end
 	# tests should be prepared.
-	make dev.check-memory
 	$(WINPTY) bash ./provision.sh $(DEFAULT_SERVICES)+e2e
 	make dev.stop
 
-dev.provision: ## Provision dev environment with default services, and then stop them.
-	@scripts/send-metrics.py wrap "$@"
-
-impl-dev.provision.%: dev.check-memory ## Provision specified services.
+dev.provision.%: ## Provision specified services.
 	echo $*
 	$(WINPTY) bash ./provision.sh $*
-
-dev.provision.%: ## Provision specified services.
-	@scripts/send-metrics.py wrap "dev.provision.$*"
 
 dev.backup: dev.up.mysql+mysql57+mongo+elasticsearch+elasticsearch7 ## Write all data volumes to the host.
 	docker run --rm --volumes-from $$(make -s dev.print-container.mysql) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/mysql.tar.gz /var/lib/mysql
@@ -298,11 +278,8 @@ dev.drop-db.%: ## Irreversably drop the contents of a MySQL database in each mys
 
 dev.up.attach: _expects-service.dev.up.attach
 
-impl-dev.up.attach.%: ## Bring up a service and its dependencies + and attach to it.
-	docker-compose up $*
-
 dev.up.attach.%: ## Bring up a service and its dependencies + and attach to it.
-	@scripts/send-metrics.py wrap "dev.up.attach.$*"
+	docker-compose up $*
 
 dev.up.shell: _expects-service.dev.up.shell
 
@@ -322,11 +299,8 @@ dev.up.with-watchers.%: ## Bring up services and their dependencies + asset watc
 
 dev.up.without-deps: _expects-service-list.dev.up.without-deps
 
-impl-dev.up.without-deps.%: dev.check-memory ## Bring up services by themselves.
+dev.up.without-deps.%: dev.check-memory ## Bring up services by themselves.
 	docker-compose up --d --no-deps $$(echo $* | tr + " ")
-
-dev.up.without-deps.%: ## Bring up services by themselves.
-	@scripts/send-metrics.py wrap "dev.up.without-deps.$*"
 
 dev.up.without-deps.shell: _expects-service.dev.up.without-deps.shell
 
