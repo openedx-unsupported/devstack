@@ -27,6 +27,7 @@ services:
       - mongo
       - memcached
     volumes:
+      - progs_media:/edx/var/progs/media
       - ${DEVSTACK_WORKSPACE}/edraak-programs:/app:cached
       - ~/.ssh/:/root/.ssh
 
@@ -37,3 +38,5 @@ services:
       - ./nginx/progs.conf:/etc/nginx/conf.d/progs.conf
       - ./nginx/b2b-redirects.conf:/etc/nginx/conf.d/redirects.conf
 
+volumes:
+  progs_media:

@@ -9,9 +9,9 @@ services:
     volumes:
       - edx-nfs:/edx/app/edxapp/edx-platform
       - src-nfs:/edx/src
-  forum:
-    volumes:
-      - ${DEVSTACK_WORKSPACE}/cs_comments_service:/edx/app/forum/cs_comments_service:cached
+#  forum:
+#    volumes:
+#      - ${DEVSTACK_WORKSPACE}/cs_comments_service:/edx/app/forum/cs_comments_service:cached
 
 volumes:
   edx-nfs:

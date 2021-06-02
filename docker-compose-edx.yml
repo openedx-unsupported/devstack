@@ -75,19 +75,19 @@ services:
       - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
       - ~/.ssh/:/root/.ssh
 
-  forum:
-    command: bash -c 'source /edx/app/forum/ruby_env && source /edx/app/forum/devstack_forum_env && cd /edx/app/forum/cs_comments_service && bundle install && while true; do ruby app.rb -o 0.0.0.0 ; sleep 200000; done'
-    container_name: edx.devstack.forum
-    depends_on:
-      - mongo
-      - memcached
-      - elasticsearch
-    image: edxops/forum:${OPENEDX_RELEASE:-latest}
-    ports:
-      - "44567:4567"
-    volumes:
-      - ${DEVSTACK_WORKSPACE}/cs_comments_service:/edx/app/forum/cs_comments_service:cached
-      - ~/.ssh/:/root/.ssh
+#  forum:
+#    command: bash -c 'source /edx/app/forum/ruby_env && source /edx/app/forum/devstack_forum_env && cd /edx/app/forum/cs_comments_service && bundle install && while true; do ruby app.rb -o 0.0.0.0 ; sleep 200000; done'
+#    container_name: edx.devstack.forum
+#    depends_on:
+#      - mongo
+#      - memcached
+#      - elasticsearch
+#    image: edxops/forum:${OPENEDX_RELEASE:-latest}
+#    ports:
+#      - "44567:4567"
+#    volumes:
+#      - ${DEVSTACK_WORKSPACE}/cs_comments_service:/edx/app/forum/cs_comments_service:cached
+#      - ~/.ssh/:/root/.ssh
 
   devpi:
     container_name: edx.devstack.devpi
@@ -102,7 +102,7 @@ services:
     depends_on:
       - lms
       - studio
-      - mktg
+#      - mktg
       - progs
     volumes:
       - ./nginx/edx.conf:/etc/nginx/conf.d/edx.conf
