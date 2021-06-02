@@ -13,7 +13,7 @@ on:
 jobs:
 
   run_ci:
-    runs-on: ${{ matrix.os.image }}
+    runs-on: ${{ matrix.os }}
     env:
       DEVSTACK_WORKSPACE: /tmp
       SHALLOW_CLONE: 1
@@ -22,10 +22,8 @@ jobs:
     strategy:
       matrix:
         os:
-          - name: linux
-            image: ubuntu-20.04 # Focal Fossa
-          - name: mac
-            image: macos-10.15 # Catalina
+          - ubuntu-20.04 # Focal Fossa
+          - macos-10.15 # Catalina
         python-version:
           - '3.8'
       fail-fast: false
@@ -38,7 +36,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Docker installation - Linux
-        if: ${{ matrix.os.name == 'linux' }}
+        if: ${{ startsWith(matrix.os, 'ubuntu-') }}
         run: |
           docker version
           sudo apt-get update
@@ -52,7 +50,7 @@ jobs:
 
       # Cache boot2docker for speedup and to avoid ratelimiting
       - name: Docker cache - Mac
-        if: ${{ matrix.os.name == 'mac' }}
+        if: ${{ startsWith(matrix.os, 'macos-') }}
         uses: actions/cache@v2
         with:
           path: ~/.docker/machine/cache
@@ -62,7 +60,7 @@ jobs:
       # README. (Not sure how to install Docker for Desktop here,
       # though.)
       - name: Docker installation - Mac
-        if: ${{ matrix.os.name == 'mac' }}
+        if: ${{ startsWith(matrix.os, 'macos-') }}
         run: |
           brew install docker docker-machine
           docker-machine create --driver virtualbox default
