@@ -1,0 +1,90 @@
+# CLI tests: Check that various Makefile targets behave as expected
+# (without going deeper into provisioning and such)
+
+name: CLI tests
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+
+  run_ci:
+    runs-on: ${{ matrix.os.image }}
+    env:
+      DEVSTACK_WORKSPACE: /tmp
+      SHALLOW_CLONE: 1
+      # Don't report metrics as real usage
+      DEVSTACK_METRICS_TESTING: ci
+    strategy:
+      matrix:
+        os:
+          - name: linux
+            image: ubuntu-20.04 # Focal Fossa
+          - name: mac
+            image: macos-10.15 # Catalina
+        python-version:
+          - '3.8'
+      fail-fast: false
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Docker installation - Linux
+        if: ${{ matrix.os.name == 'linux' }}
+        run: |
+          docker version
+          sudo apt-get update
+          sudo apt install apt-transport-https ca-certificates curl software-properties-common
+          curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+          sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal test"
+          sudo apt update
+          sudo apt install docker-ce
+          docker version
+          docker-compose --version
+
+      # Cache boot2docker for speedup and to avoid ratelimiting
+      - name: Docker cache - Mac
+        if: ${{ matrix.os.name == 'mac' }}
+        uses: actions/cache@v2
+        with:
+          path: ~/.docker/machine/cache
+          key: ${{ runner.os }}-docker-machine
+
+      # TODO: Stop using boot2docker, which is contradindicated in the
+      # README. (Not sure how to install Docker for Desktop here,
+      # though.)
+      - name: Docker installation - Mac
+        if: ${{ matrix.os.name == 'mac' }}
+        run: |
+          brew install docker docker-machine
+          docker-machine create --driver virtualbox default
+          # Apply Docker environment variables to later steps.
+          #
+          # However, we first have to extract just the lines beginning
+          # with 'export ' (skipping any comments) and then reformat
+          # them so that Github can extract the key/value pairs, that is,
+          # remove the export and any quotes. This is not safe or
+          # correct in the general case, but these Docker environment
+          # variables shouldn't contain newlines or escape sequences.
+          # This turns output like this:
+          #   export DOCKER_HOST="tcp://192.168.99.100:2376"
+          # into this:
+          #   DOCKER_HOST=tcp://192.168.99.100:2376
+          #
+          # Docs on GITHUB_ENV:
+          # https://docs.github.com/en/actions/reference/workflow-commands-for-github-actions#setting-an-environment-variable
+          docker-machine env default | grep '^export' | sed 's/^export //' | sed 's/"//g' >> $GITHUB_ENV
+
+      - name: Install Python dependencies
+        run:  make requirements
+
+      - name: CLI tests
+        run: pytest -s ./tests/*.py
