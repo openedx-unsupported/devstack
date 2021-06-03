@@ -1,3 +1,6 @@
+# CLI tests: Check that various Makefile targets behave as expected
+# (without going deeper into provisioning and such)
+
 name: CLI tests
 
 on:

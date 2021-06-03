@@ -1,3 +1,5 @@
+# Core tests: Provision and bring up various services on devstack
+
 name: CI
 
 on:
