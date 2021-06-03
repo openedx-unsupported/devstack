@@ -1,3 +1,5 @@
+# Core tests: Provision and bring up various services on devstack
+
 name: CI
 
 on:
@@ -44,9 +46,6 @@ jobs:
 
       - name: set up requirements
         run:  make requirements
-
-      - name: CLI tests
-        run: pytest ./tests/*.py
 
       - name: clone
         run:  make dev.clone.https
