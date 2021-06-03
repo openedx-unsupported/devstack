@@ -11,7 +11,7 @@ export MONGO_VERSION=3.4.24
 current_mongo_version="3.4"
 echo -e "${GREEN}Sarting Mongo ${MONGO_VERSION}${NC}"
 make dev.up.mongo
-mongo_container="$(make -s dev.print-container.mongo)"
+mongo_container="$(make --silent --no-print-directory dev.print-container.mongo)"
 
 echo -e "${GREEN}Waiting for MongoDB...${NC}"
 until docker exec "$mongo_container" mongo --eval 'db.serverStatus()' &> /dev/null
@@ -49,7 +49,7 @@ export MONGO_VERSION=3.6.17
 echo
 echo -e "${GREEN}Restarting Mongo on version ${MONGO_VERSION}${NC}"
 make dev.up.mongo
-mongo_container="$(make -s dev.print-container.mongo)"
+mongo_container="$(make --silent --no-print-directory dev.print-container.mongo)"
 
 echo -e "${GREEN}Waiting for MongoDB...${NC}"
 until docker exec "$mongo_container" mongo --eval 'db.serverStatus()' &> /dev/null
@@ -78,7 +78,7 @@ export MONGO_VERSION=4.0.22
 echo
 echo -e "${GREEN}Restarting Mongo on version ${MONGO_VERSION}${NC}"
 make dev.up.mongo
-mongo_container="$(make -s dev.print-container.mongo)"
+mongo_container="$(make --silent --no-print-directory dev.print-container.mongo)"
 
 echo -e "${GREEN}Waiting for MongoDB...${NC}"
 until docker exec "$mongo_container" mongo --eval 'db.serverStatus()' &> /dev/null
