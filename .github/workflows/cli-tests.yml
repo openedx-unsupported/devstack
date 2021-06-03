@@ -58,6 +58,9 @@ jobs:
           path: ~/.docker/machine/cache
           key: ${{ runner.os }}-docker-machine
 
+      # TODO: Stop using boot2docker, which is contradindicated in the
+      # README. (Not sure how to install Docker for Desktop here,
+      # though.)
       - name: Docker installation - Mac
         if: ${{ matrix.os.name == 'mac' }}
         run: |
