@@ -253,18 +253,18 @@ dev.provision.%: ## Provision specified services.
 	@scripts/send-metrics.py wrap "dev.provision.$*"
 
 dev.backup: dev.up.mysql+mysql57+mongo+elasticsearch+elasticsearch7 ## Write all data volumes to the host.
-	docker run --rm --volumes-from $$(make -s dev.print-container.mysql) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/mysql.tar.gz /var/lib/mysql
-	docker run --rm --volumes-from $$(make -s dev.print-container.mysql57) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/mysql57.tar.gz /var/lib/mysql
-	docker run --rm --volumes-from $$(make -s dev.print-container.mongo) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/mongo.tar.gz /data/db
-	docker run --rm --volumes-from $$(make -s dev.print-container.elasticsearch) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/elasticsearch.tar.gz /usr/share/elasticsearch/data
-	docker run --rm --volumes-from $$(make -s dev.print-container.elasticsearch7) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/elasticsearch7.tar.gz /usr/share/elasticsearch/data
+	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.mysql) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/mysql.tar.gz /var/lib/mysql
+	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.mysql57) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/mysql57.tar.gz /var/lib/mysql
+	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.mongo) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/mongo.tar.gz /data/db
+	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.elasticsearch) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/elasticsearch.tar.gz /usr/share/elasticsearch/data
+	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.elasticsearch7) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/elasticsearch7.tar.gz /usr/share/elasticsearch/data
 
 dev.restore: dev.up.mysql+mysql57+mongo+elasticsearch+elasticsearch7 ## Restore all data volumes from the host. WILL OVERWRITE ALL EXISTING DATA!
-	docker run --rm --volumes-from $$(make -s dev.print-container.mysql) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/mysql.tar.gz
-	docker run --rm --volumes-from $$(make -s dev.print-container.mysql57) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/mysql57.tar.gz
-	docker run --rm --volumes-from $$(make -s dev.print-container.mongo) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/mongo.tar.gz
-	docker run --rm --volumes-from $$(make -s dev.print-container.elasticsearch) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/elasticsearch.tar.gz
-	docker run --rm --volumes-from $$(make -s dev.print-container.elasticsearch7) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/elasticsearch7.tar.gz
+	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.mysql) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/mysql.tar.gz
+	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.mysql57) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/mysql57.tar.gz
+	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.mongo) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/mongo.tar.gz
+	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.elasticsearch) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/elasticsearch.tar.gz
+	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.elasticsearch7) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/elasticsearch7.tar.gz
 
 # List of Makefile targets to run database migrations, in the form dev.migrate.$(service)
 # Services will only have their migrations added here
@@ -354,7 +354,7 @@ dev.ps: ## View list of created services and their statuses.
 	docker-compose ps
 
 dev.print-container.%: ## Get the ID of the running container for a given service.
-	@# Can be run as ``make --silent dev.print-container.$service`` for just ID.
+	@# Can be run as ``make --silent --no-print-directory dev.print-container.$service`` for just ID.
 	@echo $$(docker-compose ps --quiet $*)
 
 dev.restart-container: ## Restart all service containers.
@@ -432,7 +432,7 @@ dev.logs.%: ## View the logs of the specified service container.
 dev.attach: _expects-service.dev.attach
 
 dev.attach.%: ## Attach to the specified service container process for debugging & seeing logs.
-	docker attach "$$(make --silent dev.print-container.$*)"
+	docker attach "$$(make --silent --no-print-directory dev.print-container.$*)"
 
 dev.shell: _expects-service.dev.shell
 
