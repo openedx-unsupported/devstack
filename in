@@ -17,10 +17,10 @@ set -u
 service="$1"
 shift
 
-container_id=$(make --silent dev.print-container."$service")
+container_id=$(make --silent --no-print-directory dev.print-container."$service")
 if [[ -z "$container_id" ]]; then
-	make --silent dev.up."$service"
-	container_id=$(make --silent dev.print-container."$service")
+	make --silent --no-print-directory dev.up."$service"
+	container_id=$(make --silent --no-print-directory dev.print-container."$service")
 fi
 
 docker exec -it "$container_id" bash -c "$*"
