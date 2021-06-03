@@ -233,6 +233,11 @@ def test_no_arbitrary_target_instrumented():
         assert 'Send metrics info:' not in p.before.decode()
         assert invitation not in p.before.decode()
 
+        # Also confirm that the exit code is conveyed properly
+        p.close()
+        assert p.exitstatus == 2  # make's generic error code
+        assert p.signalstatus is None
+
 
 def test_metrics():
     """
@@ -294,3 +299,10 @@ def test_handle_ctrl_c():
 
         # Exit status is negative of signal's value (SIGINT = 2)
         assert data['properties']['exit_status'] == -2
+
+        # Exit signal here actually comes from make, so this doesn't
+        # really test the wrapper's own exit code. This assertion
+        # really just serves as documentation of behavior.
+        p.close()
+        assert p.exitstatus == None
+        assert p.signalstatus is 2
