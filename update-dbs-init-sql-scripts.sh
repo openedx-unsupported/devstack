@@ -3,12 +3,8 @@
 # Make sure you have added your user to the docker group before running this script
 # or use sudo to run it
 
-
-set -x # echo on
-set -e # exit when any command fails
-set -u # exit when undefined variables are found
-set -o pipefail # prevents errors in a pipeline from being masked
-
+set -eu -o pipefail
+set -x
 
 # constants
 readonly EDXAPP_MYSQL_DB_USER="edxapp001"

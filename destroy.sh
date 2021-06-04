@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-
-set -e
+set -eu -o pipefail
 
 read -p "This will delete all data in your devstack. Would you like to proceed? [y/n] " -r
 if [[ $REPLY =~ ^[Yy]$ ]]
