@@ -17,4 +17,4 @@ def test_warn_default():
     p.expect(r'Pulling lms')
 
     # Send ^C, don't wait for it to finish
-    p.send(b'\x03')
+    p.sendintr()
