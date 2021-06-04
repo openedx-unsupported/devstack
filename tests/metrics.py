@@ -233,6 +233,11 @@ def test_no_arbitrary_target_instrumented():
         assert 'Send metrics info:' not in p.before.decode()
         assert invitation not in p.before.decode()
 
+        # Also confirm that the exit code is conveyed properly
+        p.close()
+        assert p.exitstatus == 2  # make's generic error code
+        assert p.signalstatus is None
+
 
 def test_metrics():
     """
@@ -294,3 +299,35 @@ def test_handle_ctrl_c():
 
         # Exit status is negative of signal's value (SIGINT = 2)
         assert data['properties']['exit_status'] == -2
+
+        # Exit signal here actually comes from make, so this doesn't
+        # really test the wrapper's own exit code. This assertion
+        # really just serves as documentation of behavior.
+        p.close()
+        assert p.exitstatus == None
+        assert p.signalstatus is 2
+
+
+def test_signal_conversion():
+    """
+    This is like test_handle_ctrl_c, except calling the wrapper
+    directly to avoid Make's conversion of all exit codes to 2.
+    """
+    with environment_as({'collection_enabled': True}):
+        do_opt_in()
+        p = pexpect.spawn('scripts/send-metrics.py wrap dev.pull', timeout=60)
+        # Make sure wrapped command has started before we interrupt,
+        # otherwise signal handler won't even have been registered
+        # yet.
+        p.expect(r'Are you sure you want to run this command')
+        p.send(b'\x03')  # send Ctrl-C to process group
+        # Confirm that the process is actually catching the signal, as
+        # proven by it printing some things before ending.
+        p.expect(r'Send metrics info:.*"exit_status": ?-2')
+        p.expect(EOF)
+
+        # This time we're calling the script directly, so we see the
+        # script exiting with code 130 (128 + SIGINT).
+        p.close()
+        assert p.exitstatus == 130
+        assert p.signalstatus is None
