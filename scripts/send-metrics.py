@@ -199,6 +199,8 @@ def read_git_state():
 def run_wrapped(make_target, config):
     """
     Runs specified make shell target and collects performance data.
+
+    Return exit code of process (negative for signals).
     """
     # Do as much as possible inside try blocks
     do_collect = True
@@ -219,16 +221,16 @@ def run_wrapped(make_target, config):
               file=sys.stderr)
 
     completed_process = run_target(make_target)
+    subprocess_exit_code = completed_process.returncode
 
     # Do as much as possible inside try blocks
     try:
         # Skip metrics reporting if setup failed
         if not do_collect:
-            return
+            return subprocess_exit_code
 
         signal(SIGINT, SIG_DFL)  # stop trapping SIGINT (if haven't already)
         end_time = datetime.now(timezone.utc)
-        exit_code = completed_process.returncode
         time_diff_millis = (end_time - start_time).microseconds // 1000
         # Must be compatible with our Segment schema, and must not be
         # expanded to include additional attributes without an
@@ -244,7 +246,7 @@ def run_wrapped(make_target, config):
             # https://docs.python.org/3.8/library/subprocess.html#subprocess.CompletedProcess
             #
             # If a make subprocess exits non-zero, make exits with code 2.
-            'exit_status': exit_code,
+            'exit_status': subprocess_exit_code,
             **read_git_state()
         }
         send_metrics_to_segment('devstack.command.run', event_properties, config)
@@ -258,9 +260,15 @@ def run_wrapped(make_target, config):
               "(This should not have affected the outcome of your make command.)",
               file=sys.stderr)
 
+    return subprocess_exit_code
+
 
 def run_target(make_target):
-    """Just run make on the given target."""
+    """
+    Just run make on the given target.
+
+    Return exit code of process (negative for signals).
+    """
     return subprocess.run(["make", "impl-%s" % make_target], check=False)
 
 
@@ -268,6 +276,8 @@ def do_wrap(make_target):
     """
     Run the given make target, and collect and report data if and only if
     the user has consented to data collection.
+
+    Return exit code to exit with (signals become 128 + signal value).
     """
     try:
         consent_state = check_consent()
@@ -277,9 +287,9 @@ def do_wrap(make_target):
         consent_state = {}
 
     if consent_state.get('ok_to_collect'):
-        run_wrapped(make_target, consent_state.get('config'))
+        subprocess_exit_code = run_wrapped(make_target, consent_state.get('config'))
     else:
-        run_target(make_target)
+        subprocess_exit_code = run_target(make_target).returncode
         if consent_state.get('print_invitation'):
             print(
                 "Would you like to assist devstack development by sending "
@@ -287,6 +297,12 @@ def do_wrap(make_target):
                 "to learn more!",
                 file=sys.stderr
             )
+
+    if subprocess_exit_code < 0:
+        # Translate to shell convention.
+        return 128 + -subprocess_exit_code
+    else:
+        return subprocess_exit_code
 
 
 def do_opt_in():
@@ -435,7 +451,8 @@ def main(args):
         if len(action_args) != 1:
             print("send-metrics wrap takes one argument", file=sys.stderr)
             sys.exit(1)
-        do_wrap(action_args[0])
+        conveyed_exit_code = do_wrap(action_args[0])
+        sys.exit(conveyed_exit_code)
     elif action == 'opt-in':
         if len(action_args) != 0:
             print("send-metrics opt-in takes zero arguments", file=sys.stderr)
