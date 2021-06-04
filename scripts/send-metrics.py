@@ -211,6 +211,12 @@ def run_wrapped(make_target, config):
         # when the developer uses Ctrl-C to kill the make command
         # (which would normally kill this process as well).  This
         # handler just ignores the signal and then unregisters itself.
+        #
+        # There is no guarantee of whether this signal will be caught
+        # first or the child process will exit first. This could
+        # theoretically result in unregistering the signal handler
+        # before the signal has occurred, resulting in failure to
+        # report the event, but there's no way to prevent this.
         signal(SIGINT, lambda _signum, _frame: signal(SIGINT, SIG_DFL))
     except:
         do_collect = False
