@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
+set -eu -o pipefail
 
 # This script will upgrade a devstack that was previosly running Mongo DB 3.2, 3.4 or 3.6 to MongoDB 4.0
 
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-NC='\033[0m' # No Color
+. scripts/colors.sh
 
 export MONGO_VERSION=3.4.24
 current_mongo_version="3.4"
