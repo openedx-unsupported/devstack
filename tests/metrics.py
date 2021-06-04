@@ -323,11 +323,16 @@ def test_signal_conversion():
         p.sendintr()  # send Ctrl-C to process group
         # Confirm that the process is actually catching the signal, as
         # proven by it printing some things before ending.
-        p.expect(r'Send metrics info:.*"exit_status": ?-2')
+        p.expect(r'Send metrics info:')
         p.expect(EOF)
 
         # This time we're calling the script directly, so we see the
         # script exiting with code 130 (128 + SIGINT).
+        #
+        # ...or, depending on timing and/or operating system, the make
+        # process may die *first* with its generic exit code 2 and the
+        # wrapper would exit before it even receives the signal. So, we
+        # expect either scenario.
         p.close()
-        assert p.exitstatus == 130
+        assert p.exitstatus in [130, 2]
         assert p.signalstatus is None
