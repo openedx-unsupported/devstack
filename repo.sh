@@ -24,6 +24,7 @@ repos=(
     "git@github.com:Edraak/edraak-programs.git"
     "git@github.com:Edraak/edraak-programs"
     "git@github.com:Edraak/edraak-2019-theme.git"
+	  "git@github.com:Edraak/programs-theme-white.git"
     "git@github.com:Edraak/shared-devstack-configs.git"
     "git@github.com:Edraak/state-manager.git"
 )
@@ -31,6 +32,7 @@ repos=(
 repo_alternative_directory=(
 	"https://github.com/Edraak/edraak-platform.git,edx-platform"
 	"git@github.com:Edraak/edraak-2019-theme.git,src/edraak-2019-theme"
+	"git@github.com:Edraak/programs-theme-white.git,src/progs-theme"
   "git@github.com:Edraak/shared-devstack-configs.git,src/edxapp-envs"
   "git@github.com:Edraak/edraak-programs,b2b-programs"
 )

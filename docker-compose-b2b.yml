@@ -28,6 +28,7 @@ services:
       - memcached
     volumes:
       - ${DEVSTACK_WORKSPACE}/b2b-programs:/app:cached
+      - ${DEVSTACK_WORKSPACE}/src:/edx/src
       - ~/.ssh/:/root/.ssh
 
   router:

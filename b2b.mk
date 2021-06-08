@@ -53,7 +53,7 @@ b2b.watch_js:
 	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec b2b npm run dev:watch
 
 b2b.watch_css:
-	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec b2b npm run watch-scss
+	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec b2b npm run scss:watch
 
 b2b.fix-npm:
 	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec b2b bash -c 'chown -R root ~/.npm'
