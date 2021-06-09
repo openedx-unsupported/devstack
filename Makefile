@@ -61,7 +61,8 @@
         help requirements impl-dev.clone.https impl-dev.clone.ssh impl-dev.provision \
         impl-dev.pull impl-dev.pull.without-deps impl-dev.up impl-dev.up.attach \
         impl-dev.up.without-deps selfcheck upgrade upgrade \
-        validate-lms-volume vnc-passwords
+        validate-lms-volume vnc-passwords \
+	testme
 
 # Load up options (configurable through options.local.mk).
 include options.mk
@@ -668,3 +669,16 @@ build-courses: ## Build course and provision studio, and ecommerce with it.
 	$(WINPTY) bash ./course-generator/create-courses.sh --studio --ecommerce course-generator/tmp-config.json
 	rm course-generator/tmp-config.json
 
+# FIXME[fatal] This doesn't allow capturing of total execution time of
+# a block -- unless .ONESHELL is used, which has other problems
+# (notably, interpreting SHELL as a single executable, rather than an
+# executable and a list of optional args.)
+SHELL = ./wrapper.sh $@
+
+testme:
+	ls | head -n1
+	ls | tail -n1
+
+testwild.%:
+	echo "IN WILDCARD TARGET"
+	make testme
