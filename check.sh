@@ -16,9 +16,7 @@
 # Note that passing in a non-existent service will not fail if there are
 # other successful checks.
 
-set -e
-set -o pipefail
-set -u
+set -eu -o pipefail
 
 # Grab all arguments into one string, replacing plus signs with spaces.
 # Pad on either side with spaces so that the regex in `should_check` works correctly.
