@@ -338,21 +338,23 @@ def do_opt_in():
             .format(record=config['consent'])
         )
         return
+    # variables used to bold relevant text in the consent language below
+    MARKUP_BOLD = '\033[1m'
+    MARKUP_END = '\033[0m'
 
     # NOTE: This is required for informed consent on the part of the users opting-in.
     # The types of data collected cannot be expanded or changed without legal review.
     print(
-        "Allow devstack to report anonymized usage metrics?\n"
         "\n"
-        "This will report usage information to a team at edX so that "
-        "devstack improvements can be planned and evaluated. The metrics included are: "
-        "The make target, a timestamp, duration of command run, the git hash of the version of devstack, "
-        "whether or not this command was run on the master branch, the exit status of the command, "
-        "and an anonymous user ID. "
-        "You can opt out again at any time in order to "
-        "stop sending metrics.\n"
+        + MARKUP_BOLD + "Allow devstack to report anonymized usage metrics?\n"  + MARKUP_END +
         "\n"
-        "Type 'yes' or 'y' to opt in, or anything else to cancel."
+        "This will report usage information to edX so that devstack improvements can be planned and evaluated. "
+        "The metrics and attributes to be collected by edX include an anonymous user ID and information about devstack command calls (e.g. make targets, exit codes, and command durations), "
+        "the OS, and git repo state."
+        "\n\n"
+        + MARKUP_BOLD + "Type 'yes' or 'y' to opt in to reporting this information, or anything else to cancel. " + MARKUP_END +
+        "\n\n"
+        "You may withdraw this permission and stop sending such metrics at any time by running ‘make metrics-opt-out’."
     )
     answer = input()
     print()
