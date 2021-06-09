@@ -349,7 +349,7 @@ def do_opt_in():
         + MARKUP_BOLD + "Allow devstack to report anonymized usage metrics?\n"  + MARKUP_END +
         "\n"
         "This will report usage information to edX so that devstack improvements can be planned and evaluated. "
-        "The metrics and attributes to be collected by edX include an anonymous user ID and information about devstack commands calls(e.g make targets, exit code, and command durations), "
+        "The metrics and attributes to be collected by edX include an anonymous user ID and information about devstack command calls (e.g. make targets, exit codes, and command durations), "
         "the OS, and git repo state."
         "\n\n"
         + MARKUP_BOLD + "Type 'yes' or 'y' to opt in to reporting this information, or anything else to cancel. " + MARKUP_END +
