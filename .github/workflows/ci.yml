@@ -22,7 +22,7 @@ jobs:
       matrix:
         os: [ ubuntu-latest ]
         python-version: [ '3.8' ]
-        services: [ discovery+lms+forum ,registrar+lms, ecommerce, edx_notes_api, credentials, xqueue]
+        services: [ discovery+lms+forum ,registrar+lms, ecommerce+lms, edx_notes_api+lms, credentials+lms, xqueue]
       fail-fast: false # some services can be flaky; let others run to completion even if one fails
 
     steps:
