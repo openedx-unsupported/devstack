@@ -53,9 +53,6 @@ jobs:
       - name: pull
         run:  make dev.pull.${{matrix.services}}
 
-      - name: set exit option
-        run:  set -e
-
       - name: provision
         run:  make dev.provision.${{matrix.services}}
 

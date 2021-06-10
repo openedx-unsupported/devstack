@@ -7,8 +7,7 @@
 #
 # This will load the edxapp database from a file named exapp.sql.
 
-set -e
-set -o pipefail
+set -eu -o pipefail
 
 if [ -z "$1" ]
 then
