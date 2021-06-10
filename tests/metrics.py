@@ -13,8 +13,9 @@ from pexpect import EOF
 
 #### Utilities
 
-# A substring to identify whether an invitation has been made
+## Substrings to use as probes:
 invitation = 'Would you like to assist devstack development'
+consent_question = "Allow devstack to report anonymized usage metrics?"
 
 config_dir = os.path.expanduser('~/.config/devstack')
 config_path = os.path.join(config_dir, 'metrics.json')
@@ -70,19 +71,38 @@ def assert_consent(status=True):
     with timestamp, False will check for a decline with timestamp, and None
     will check that the consent dict is missing.
     """
-    with open(config_path, 'r') as f:
-        config = json.loads(f.read())
-        if status is None:
-            assert 'consent' not in config
-        else:
-            assert isinstance(status, bool)
-            consent = config['consent']
-            assert consent.get('decision') == status
-            # Timestamp should be a date at least (likely also has a time)
-            assert re.match(r'^[0-9]{4}-[0-9]{2}-[0-9]{2}', consent.get('timestamp'))
+    try:
+        with open(config_path, 'r') as f:
+            config = json.loads(f.read())
+    except FileNotFoundError:
+        config = FileNotFoundError
+
+    if status is None:
+        assert config is FileNotFoundError or 'consent' not in config
+    else:
+        assert isinstance(status, bool)
+        assert 'consent' in config
+        consent = config['consent']
+        assert consent.get('decision') == status
+        # Timestamp should be a date at least (likely also has a time)
+        assert re.match(r'^[0-9]{4}-[0-9]{2}-[0-9]{2}', consent.get('timestamp'))
 
 
 #### Opting in and out
+
+def test_initial_opt_in_flag_false():
+    """
+    Test that opt-in isn't allowed without feature flag.
+    """
+    with environment_as(None):
+        p = pexpect.spawn('make metrics-opt-in', timeout=10)
+        p.expect_exact("This is not enabled in your environment")
+        p.expect(EOF)
+        assert "Send metrics info:" not in p.before.decode()
+        assert consent_question not in p.before.decode()
+
+        assert_consent(None)
+
 
 def test_initial_opt_in_accept():
     """
@@ -90,7 +110,7 @@ def test_initial_opt_in_accept():
     """
     with environment_as({'collection_enabled': True}):
         p = pexpect.spawn('make metrics-opt-in', timeout=10)
-        p.expect_exact("Allow devstack to report anonymized usage metrics?")
+        p.expect_exact(consent_question)
         p.expect("Type 'yes' or 'y'")
         p.sendline("yes")
         p.expect("metrics-opt-out")  # prints instructions for opt-out
@@ -220,6 +240,36 @@ def test_enabled_but_no_consent():
         p.expect(EOF)
         assert 'Send metrics info:' not in p.before.decode()
         assert invitation in p.before.decode()
+
+
+def test_enabled_but_declined():
+    """
+    Test that no invitation is printed when declined.
+    """
+    with environment_as({
+            'collection_enabled': True,
+            'consent': {'decision': False, 'timestamp': '2021-05-20T21:42:18.365201+00:00'}
+    }):
+        assert_consent(False)
+
+        p = pexpect.spawn('make dev.up.redis', timeout=60)
+        p.expect(EOF)
+        assert 'Send metrics info:' not in p.before.decode()
+        assert invitation not in p.before.decode()
+
+
+def test_consent_but_not_enabled():
+    """
+    Test that feature flag is required for collection even with consent.
+    """
+    with environment_as({
+            'anonymous_user_id': '573fe967-35b0-4fb0-a77e-91249b5e581d',
+            'consent': {'decision': True, 'timestamp': '2021-05-20T21:42:18.365201+00:00'}
+    }):
+        p = pexpect.spawn('make dev.up.redis', timeout=60)
+        p.expect(EOF)
+        assert 'Send metrics info:' not in p.before.decode()
+        assert invitation not in p.before.decode()
 
 
 def test_no_arbitrary_target_instrumented():
