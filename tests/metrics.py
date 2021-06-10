@@ -58,11 +58,13 @@ def environment_as(config_data):
 
 
 def do_opt_in():
-    """Opt in (without assertions)."""
+    """Opt in (and assert it worked)."""
     p = pexpect.spawn('make metrics-opt-in', timeout=10)
     p.expect("Type 'yes' or 'y'")
     p.sendline('yes')
     p.expect(EOF)
+    p.close()
+    assert_consent(True)
 
 
 def assert_consent(status=True):
@@ -90,25 +92,11 @@ def assert_consent(status=True):
 
 #### Opting in and out
 
-def test_initial_opt_in_flag_false():
-    """
-    Test that opt-in isn't allowed without feature flag.
-    """
-    with environment_as(None):
-        p = pexpect.spawn('make metrics-opt-in', timeout=10)
-        p.expect_exact("This is not enabled in your environment")
-        p.expect(EOF)
-        assert "Send metrics info:" not in p.before.decode()
-        assert consent_question not in p.before.decode()
-
-        assert_consent(None)
-
-
 def test_initial_opt_in_accept():
     """
     Test that a consent check is provided, and what happens on accept.
     """
-    with environment_as({'collection_enabled': True}):
+    with environment_as(None):
         p = pexpect.spawn('make metrics-opt-in', timeout=10)
         p.expect_exact(consent_question)
         p.expect("Type 'yes' or 'y'")
@@ -148,7 +136,7 @@ def test_initial_opt_in_decline():
     """
     Test that a consent check is provided, and what happens on decline.
     """
-    with environment_as({'collection_enabled': True}):
+    with environment_as(None):
         p = pexpect.spawn('make metrics-opt-in', timeout=10)
         p.sendline("")  # empty response
         p.expect(EOF)
@@ -160,7 +148,7 @@ def test_initial_opt_in_decline():
 
 def test_initial_opt_out():
     """
-    Test that opt-out always marks consent=False (even without collection=enabled).
+    Test that opt-out always marks consent=False.
     """
     with environment_as(None):
         p = pexpect.spawn('make metrics-opt-out', timeout=10)
@@ -175,7 +163,7 @@ def test_later_opt_out():
     """
     Test that opt-out after previously opting in sends an event.
     """
-    with environment_as({'collection_enabled': True}):
+    with environment_as(None):
         do_opt_in()
         p = pexpect.spawn('make metrics-opt-out', timeout=10)
         p.expect('metrics-opt-in')
@@ -207,9 +195,9 @@ def test_later_opt_out():
 
 #### Collection, or not, for an instrumented make target
 
-def test_feature_flag_missing():
+def test_no_feature_flag_or_consent():
     """
-    Test that metrics collection does not happen with feature flag missing.
+    Test that metrics collection and invitation do not happen by default.
     """
     with environment_as(None):
         p = pexpect.spawn('make dev.up.redis', timeout=60)
@@ -218,24 +206,12 @@ def test_feature_flag_missing():
         assert invitation not in p.before.decode()
 
 
-def test_feature_flag_false():
-    """
-    Test that metrics collection does not happen with feature flag set to False.
-    """
-    with environment_as({'collection_enabled': False}):
-        p = pexpect.spawn('make dev.up.redis', timeout=60)
-        p.expect(EOF)
-        assert 'Send metrics info:' not in p.before.decode()
-        assert invitation not in p.before.decode()
-
-
-def test_enabled_but_no_consent():
+def test_feature_flag_enables_invitation():
     """
     Test that consent still required even with feature flag enabled,
     but an invitation is printed.
     """
     with environment_as({'collection_enabled': True}):
-        # no opt-in first
         p = pexpect.spawn('make dev.up.redis', timeout=60)
         p.expect(EOF)
         assert 'Send metrics info:' not in p.before.decode()
@@ -244,7 +220,8 @@ def test_enabled_but_no_consent():
 
 def test_enabled_but_declined():
     """
-    Test that no invitation is printed when declined.
+    Test that no invitation is printed when declined, even with feature
+    flag enabled.
     """
     with environment_as({
             'collection_enabled': True,
@@ -258,17 +235,15 @@ def test_enabled_but_declined():
         assert invitation not in p.before.decode()
 
 
-def test_consent_but_not_enabled():
+def test_feature_flag_does_not_gate_collection():
     """
-    Test that feature flag is required for collection even with consent.
+    Test that feature flag no longer gates collection.
     """
-    with environment_as({
-            'anonymous_user_id': '573fe967-35b0-4fb0-a77e-91249b5e581d',
-            'consent': {'decision': True, 'timestamp': '2021-05-20T21:42:18.365201+00:00'}
-    }):
+    with environment_as(None):
+        do_opt_in()
         p = pexpect.spawn('make dev.up.redis', timeout=60)
         p.expect(EOF)
-        assert 'Send metrics info:' not in p.before.decode()
+        assert 'Send metrics info:' in p.before.decode()
         assert invitation not in p.before.decode()
 
 
@@ -276,7 +251,7 @@ def test_no_arbitrary_target_instrumented():
     """
     Test that arbitrary make targets are not instrumented.
     """
-    with environment_as({'collection_enabled': True}):
+    with environment_as(None):
         do_opt_in()
         p = pexpect.spawn('make xxxxx', timeout=60)
         p.expect(EOF)
@@ -293,7 +268,7 @@ def test_metrics():
     """
     Test that dev.up.% is instrumented for metrics collection.
     """
-    with environment_as({'collection_enabled': True}):
+    with environment_as(None):
         do_opt_in()
         p = pexpect.spawn('make dev.up.redis', timeout=60)
         p.expect(r'Send metrics info:')
@@ -328,7 +303,7 @@ def test_handle_ctrl_c():
     """
     Test that wrapper can survive and report on a Ctrl-C.
     """
-    with environment_as({'collection_enabled': True}):
+    with environment_as(None):
         do_opt_in()
         p = pexpect.spawn('make dev.pull', timeout=60)
         # Make sure wrapped command has started before we interrupt,
@@ -363,7 +338,7 @@ def test_signal_conversion():
     This is like test_handle_ctrl_c, except calling the wrapper
     directly to avoid Make's conversion of all exit codes to 2.
     """
-    with environment_as({'collection_enabled': True}):
+    with environment_as(None):
         do_opt_in()
         p = pexpect.spawn('scripts/send-metrics.py wrap dev.pull', timeout=60)
         # Make sure wrapped command has started before we interrupt,
