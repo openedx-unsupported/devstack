@@ -17,8 +17,8 @@ event data.)
 
 Config file schema:
 
-- 'collection_enabled' (boolean) feature toggle gating several aspects
-  of metrics collection (see later description)
+- 'collection_enabled' (boolean) feature toggle gating invitation to
+  metrics collection (see later description)
 - 'anonymous_user_id' (string) high-entropy, non-identifying unique user ID
 - 'consent' (dict) present when user has either consented or declined
   metrics collection
@@ -69,25 +69,19 @@ def check_consent():
     with open(config_path, 'r') as f:
         config = json.loads(f.read())
 
-    # Gate pretty much all functionality on the
-    # presence of this manually configured setting so that people
-    # developing this script can test it.
+    # Toggle is in place during roll-out period.
     #
     # .. toggle_name: collection_enabled
     # .. toggle_implementation: custom
     # .. toggle_default: False
-    # .. toggle_description: Allow metrics opt-in (and show invitation to do so)
+    # .. toggle_description: Allow showing invitation to opt-in to metrics
     #   when running make targets which have been instrumented to call this
     #   script.
-    # .. toggle_warnings: This must not be removed or defaulted to True without
-    #   approval from a team which has received instructions from Legal on what
-    #   data protections are acceptable.
     # .. toggle_use_cases: temporary
     # .. toggle_creation_date: 2021-05-11
     # .. toggle_target_removal_date: 2021-07-01
     # .. toggle_tickets: https://openedx.atlassian.net/browse/ARCHBOM-1788 (edX internal)
-    if config.get('collection_enabled') is not True:
-        return {'ok_to_collect': False, 'print_invitation': False}
+    can_invite = config.get('collection_enabled') is True
 
     decision = config.get('consent', {}).get('decision')
 
@@ -100,7 +94,7 @@ def check_consent():
     # (value is None) or there's some invalid value that will be
     # cleared out by the opt-in/out process.)
     if decision is not True:
-        return {'ok_to_collect': False, 'print_invitation': True}
+        return {'ok_to_collect': False, 'print_invitation': can_invite}
 
     # At this point, we know they've consented, but one last check...
 
@@ -110,7 +104,7 @@ def check_consent():
         # Something's wrong with the config file if they've consented
         # but not been assigned an ID, so just pretend they've not
         # consented -- opting in should reset things.
-        return {'ok_to_collect': False, 'print_invitation': True}
+        return {'ok_to_collect': False, 'print_invitation': can_invite}
 
     # Consented, so no need to invite.
     return {
@@ -321,14 +315,6 @@ def do_opt_in():
             config = json.loads(f.read())
     except FileNotFoundError:
         config = {}
-
-    # Leave gated off until we're ready for internal invitation (ARCHBOM-1788)
-    if not config.get('collection_enabled'):
-        print(
-            "This is not enabled in your environment. "
-            "Reach out to the Arch-BOM team at edX if you want to participate."
-        )
-        return
 
     # Only short-circuit here if consented *and* all necessary info present.
     if config.get('consent', {}).get('decision') and config.get('anonymous_user_id'):
