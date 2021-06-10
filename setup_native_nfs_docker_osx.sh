@@ -2,6 +2,7 @@
 #
 # Coppied from https://github.com/ajeetraina/docker101/tree/master/os/macOS/nfs
 #
+set -eu -o pipefail
 
 OS=`uname -s`
 MAC_VERSION=`sw_vers -productVersion | awk -F. '{ printf "%s.%s", $1, $2; }'`;
