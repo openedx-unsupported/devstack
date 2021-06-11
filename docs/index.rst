@@ -1,7 +1,7 @@
-devstack
-========
+Open edX Devstack
+=================
 
-For developing on Open edX.
+Devstack is the local Docker-based environment for developing in the Open edX platform.
 
 Contents:
 

@@ -76,7 +76,7 @@ source_suffix = '.rst'
 top_level_doc = 'index'
 
 # General information about the project.
-project = 'devstack'
+project = 'Open edX Devstack'
 copyright = edx_theme.COPYRIGHT  # pylint: disable=redefined-builtin
 author = edx_theme.AUTHOR
 project_title = 'devstack'
