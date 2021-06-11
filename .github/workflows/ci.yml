@@ -44,6 +44,9 @@ jobs:
           docker version
           docker-compose --version
 
+      - name: free up disk space
+        run:  sudo apt remove --purge -y ghc-* azure-cli google-cloud-sdk hhvm llvm-* dotnet-* powershell mono-* php* ruby*
+
       - name: set up requirements
         run:  make requirements
 
