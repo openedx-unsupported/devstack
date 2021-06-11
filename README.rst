@@ -1,7 +1,8 @@
 Open edX Devstack |Build Status| |docs|
 =======================================
 
-Get up and running quickly with Open edX services.
+Devstack is the local Docker-based environment for developing in the Open edX
+platform.  Use it to get up and running quickly with Open edX services.
 
 Documentation is on `Read the Docs`_.  Code repository is on `GitHub`_.
 
