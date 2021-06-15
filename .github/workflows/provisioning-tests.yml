@@ -1,6 +1,6 @@
 # Core tests: Provision and bring up various services on devstack
 
-name: CI
+name: Provisioning tests
 
 on:
   push:
