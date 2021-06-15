@@ -1,5 +1,5 @@
-Open edX Devstack |Build Status| |docs|
-=======================================
+Open edX Devstack |Build Status provisioning| |Build Status CLI| |docs|
+=======================================================================
 
 Devstack is the local Docker-based environment for developing in the Open edX
 platform.  Use it to get up and running quickly with Open edX services.
@@ -418,9 +418,12 @@ As a specific example, if ``OPENEDX_RELEASE`` is set in your environment as ``ju
 .. _devpi documentation: docs/devpi.rst
 .. _edx-platform testing documentation: https://github.com/edx/edx-platform/blob/master/docs/guides/testing/testing.rst#running-python-unit-tests
 .. _docker-sync: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/troubleshoot_general_tips.html#improve-mac-osx-performance-with-docker-sync
-.. |Build Status| image:: https://github.com/edx/devstack/actions/workflows/ci.yml/badge.svg?branch=master
-    :target: https://github.com/edx/devstack/actions/workflows/ci.yml
-    :alt: CI
+.. |Build Status provisioning| image:: https://github.com/edx/devstack/actions/workflows/provisioning-tests.yml/badge.svg?branch=master
+    :target: https://github.com/edx/devstack/actions/workflows/provisioning-tests.yml
+    :alt: Provisioning tests
+.. |Build Status CLI| image:: https://github.com/edx/devstack/actions/workflows/cli-tests.yml/badge.svg?branch=master
+    :target: https://github.com/edx/devstack/actions/workflows/cli-tests.yml
+    :alt: CLI tests
 .. |docs| image:: https://readthedocs.org/projects/docs/badge/?version=latest
     :alt: Documentation Status
     :scale: 100%
