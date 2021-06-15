@@ -181,11 +181,20 @@ reset ()
 
         if [ -d "$name" ]; then
             # Try to switch branch and pull, but fail if there are uncommitted changes.
-            (cd "$name"; git checkout -q master && git pull -q --ff-only) || {
+            if (cd "$name"; git checkout -q master && git pull -q --ff-only);
+            then
+                # Echo untracked files to simplify debugging and make it easier to see that resetting does not remove everything
+                untracked_files="$(cd ${name} && git ls-files --others --exclude-standard)"
+                if [[ $untracked_files ]];
+                then
+                    echo "The following untracked files are in ${name} repository:"
+                    echo "$untracked_files"
+                fi
+            else
                 echo >&2 "Failed to reset $name repo. Exiting."
                 echo >&2 "Please go to the repo and clean up any issues that are keeping 'git checkout master' and 'git pull' from working."
                 exit 1
-            }
+            fi
         else
             printf "The [%s] repo is not cloned. Skipping.\n" "$name"
         fi
