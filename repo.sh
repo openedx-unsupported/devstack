@@ -183,7 +183,7 @@ reset ()
             # Try to switch branch and pull, but fail if there are uncommitted changes.
             if (cd "$name"; git checkout -q master && git pull -q --ff-only);
             then
-                # Echo untracked files to simplify debugging and make it easier to see tha reseting does not remove everything
+                # Echo untracked files to simplify debugging and make it easier to see that resetting does not remove everything
                 untracked_files="$(cd ${name} && git ls-files --others --exclude-standard)"
                 if [[ $untracked_files ]];
                 then
