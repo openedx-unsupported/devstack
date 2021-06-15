@@ -20,7 +20,8 @@ jobs:
       DEVSTACK_METRICS_TESTING: ci
     strategy:
       matrix:
-        os: [ ubuntu-latest ]
+        os:
+          - ubuntu-20.04 # Ubuntu 20.04 "Focal Fossa"
         python-version: [ '3.8' ]
         services: [ discovery+lms+forum ,registrar+lms, ecommerce+lms, edx_notes_api+lms, credentials+lms, xqueue]
       fail-fast: false # some services can be flaky; let others run to completion even if one fails
