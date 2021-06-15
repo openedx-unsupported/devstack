@@ -431,9 +431,9 @@ def main(args):
     if len(args) == 0:
         print(
             "Usage:\n"
-            "  send-metrics.py wrap <make-target>\n"
-            "  send-metrics.py opt-in\n"
-            "  send-metrics.py opt-out",
+            "  send_metrics.py wrap <make-target>\n"
+            "  send_metrics.py opt-in\n"
+            "  send_metrics.py opt-out",
             file=sys.stderr
         )
         sys.exit(1)

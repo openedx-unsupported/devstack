@@ -1,5 +1,5 @@
 """
-Tests for send-metrics.py
+Tests for send_metrics.py
 """
 
 import json
@@ -340,7 +340,7 @@ def test_signal_conversion():
     """
     with environment_as(None):
         do_opt_in()
-        p = pexpect.spawn('scripts/send-metrics.py wrap dev.pull', timeout=60)
+        p = pexpect.spawn('scripts/send_metrics.py wrap dev.pull', timeout=60)
         # Make sure wrapped command has started before we interrupt,
         # otherwise signal handler won't even have been registered
         # yet.
