@@ -193,13 +193,13 @@ impl-dev.clone.https: ## Clone service repos using HTTPS method to the parent di
 	./repo.sh clone
 
 dev.clone.https: ## Clone service repos using HTTPS method to the parent directory.
-	@scripts/send-metrics.py wrap "$@"
+	@scripts/send_metrics.py wrap "$@"
 
 impl-dev.clone.ssh: ## Clone service repos using SSH method to the parent directory.
 	./repo.sh clone_ssh
 
 dev.clone.ssh: ## Clone service repos using SSH method to the parent directory.
-	@scripts/send-metrics.py wrap "$@"
+	@scripts/send_metrics.py wrap "$@"
 
 ########################################################################################
 # Developer interface: Docker image management.
@@ -208,13 +208,13 @@ dev.clone.ssh: ## Clone service repos using SSH method to the parent directory.
 dev.pull.without-deps: _expects-service-list.dev.pull.without-deps
 
 dev.pull.without-deps.%: ## Pull latest Docker images for specific services.
-	@scripts/send-metrics.py wrap "dev.pull.without-deps.$*"
+	@scripts/send_metrics.py wrap "dev.pull.without-deps.$*"
 
 impl-dev.pull.without-deps.%: ## Pull latest Docker images for specific services.
 	docker-compose pull $$(echo $* | tr + " ")
 
 dev.pull:
-	@scripts/send-metrics.py wrap "$@"
+	@scripts/send_metrics.py wrap "$@"
 
 impl-dev.pull:
 	@scripts/make_warn_default_large.sh "dev.pull"
@@ -224,7 +224,7 @@ dev.pull.large-and-slow: dev.pull.$(DEFAULT_SERVICES) ## Pull latest Docker imag
 
 # Wildcards must be below anything they could match
 dev.pull.%: ## Pull latest Docker images for services and their dependencies.
-	@scripts/send-metrics.py wrap "dev.pull.$*"
+	@scripts/send_metrics.py wrap "dev.pull.$*"
 
 impl-dev.pull.%: ## Pull latest Docker images for services and their dependencies.
 	docker-compose pull --include-deps $$(echo $* | tr + " ")
@@ -243,14 +243,14 @@ impl-dev.provision: ## Provision dev environment with default services, and then
 	make dev.stop
 
 dev.provision: ## Provision dev environment with default services, and then stop them.
-	@scripts/send-metrics.py wrap "$@"
+	@scripts/send_metrics.py wrap "$@"
 
 impl-dev.provision.%: dev.check-memory ## Provision specified services.
 	echo $*
 	$(WINPTY) bash ./provision.sh $*
 
 dev.provision.%: ## Provision specified services.
-	@scripts/send-metrics.py wrap "dev.provision.$*"
+	@scripts/send_metrics.py wrap "dev.provision.$*"
 
 dev.backup: dev.up.mysql+mysql57+mongo+elasticsearch+elasticsearch7 ## Write all data volumes to the host.
 	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.mysql) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/mysql.tar.gz /var/lib/mysql
@@ -302,7 +302,7 @@ impl-dev.up.attach.%: ## Bring up a service and its dependencies + and attach to
 	docker-compose up $*
 
 dev.up.attach.%: ## Bring up a service and its dependencies + and attach to it.
-	@scripts/send-metrics.py wrap "dev.up.attach.$*"
+	@scripts/send_metrics.py wrap "dev.up.attach.$*"
 
 dev.up.shell: _expects-service.dev.up.shell
 
@@ -326,7 +326,7 @@ impl-dev.up.without-deps.%: dev.check-memory ## Bring up services by themselves.
 	docker-compose up --d --no-deps $$(echo $* | tr + " ")
 
 dev.up.without-deps.%: ## Bring up services by themselves.
-	@scripts/send-metrics.py wrap "dev.up.without-deps.$*"
+	@scripts/send_metrics.py wrap "dev.up.without-deps.$*"
 
 dev.up.without-deps.shell: _expects-service.dev.up.without-deps.shell
 
@@ -348,7 +348,7 @@ endif
 
 # Wildcards must be below anything they could match
 dev.up.%:
-	@scripts/send-metrics.py wrap "dev.up.$*"
+	@scripts/send_metrics.py wrap "dev.up.$*"
 
 dev.ps: ## View list of created services and their statuses.
 	docker-compose ps
@@ -624,10 +624,10 @@ _expects-database.%:
 ########################################################################################
 
 metrics-opt-in:
-	@./scripts/send-metrics.py opt-in
+	@./scripts/send_metrics.py opt-in
 
 metrics-opt-out:
-	@./scripts/send-metrics.py opt-out
+	@./scripts/send_metrics.py opt-out
 
 
 ########################################################################################
