@@ -18,19 +18,11 @@ docker-compose exec -T ${name}  bash -e -c 'source /edx/app/credentials/credenti
 echo -e "${GREEN}Running migrations for ${name}...${NC}"
 docker-compose exec -T ${name}  bash -e -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials && make migrate' -- "$name"
 
-set +e
-# FIXME[bash-e]: Bash scripts should use -e -- but this script fails
-# with missing manage.py (need another "credentials" in that cd path?)
 echo -e "${GREEN}Creating super-user for ${name}...${NC}"
 docker-compose exec -T ${name}  bash -e -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials && echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser(\"edx\", \"edx@example.com\", \"edx\") if not User.objects.filter(username=\"edx\").exists() else None" | python /edx/app/$1/$1/manage.py shell' -- "$name"
-set -e
 
-set +e
-# FIXME[bash-e]: Bash scripts should use -e -- but this script fails
-# with missing manage.py (need another "credentials" in that cd path?)
 echo -e "${GREEN}Configuring site for ${name}...${NC}"
-docker-compose exec -T ${name} bash -e -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/ && ./manage.py create_or_update_site --site-id=1 --site-domain=localhost:18150 --site-name="Open edX" --platform-name="Open edX" --company-name="Open edX" --lms-url-root=http://localhost:18000 --catalog-api-url=http://edx.devstack.discovery:18381/api/v1/ --tos-url=http://localhost:18000/tos --privacy-policy-url=http://localhost:18000/privacy --homepage-url=http://localhost:18000 --certificate-help-url=http://localhost:18000/faq --records-help-url=http://localhost:18000/faq --theme-name=openedx'
-set -e
+docker-compose exec -T ${name} bash -e -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials && ./manage.py create_or_update_site --site-id=1 --site-domain=localhost:18150 --site-name="Open edX" --platform-name="Open edX" --company-name="Open edX" --lms-url-root=http://localhost:18000 --catalog-api-url=http://edx.devstack.discovery:18381/api/v1/ --tos-url=http://localhost:18000/tos --privacy-policy-url=http://localhost:18000/privacy --homepage-url=http://localhost:18000 --certificate-help-url=http://localhost:18000/faq --records-help-url=http://localhost:18000/faq --theme-name=openedx'
 
 ./provision-ida-user.sh ${name} ${name} ${port}
 
