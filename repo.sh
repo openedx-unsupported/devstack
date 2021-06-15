@@ -194,7 +194,6 @@ reset ()
                 echo >&2 "Failed to reset $name repo. Exiting."
                 echo >&2 "Please go to the repo and clean up any issues that are keeping 'git checkout master' and 'git pull' from working."
                 exit 1
-
             fi
         else
             printf "The [%s] repo is not cloned. Skipping.\n" "$name"
