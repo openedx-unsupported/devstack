@@ -61,6 +61,9 @@ jobs:
       # TODO: Stop using boot2docker, which is contradindicated in the
       # README. (Not sure how to install Docker for Desktop here,
       # though.)
+      #
+      # This also only seems to work for the CLI tests, not the
+      # provisioning tests, even with apparently identical scripts.
       - name: Docker installation - Mac
         if: ${{ matrix.os.name == 'mac' }}
         run: |
