@@ -54,3 +54,18 @@ Database backups
 ~~~~~~~~~~~~~~~~
 
 You can routinely create backups of your local databases. To create a backup, use ``make dev.backup``. When you want to restore you database to the backup, run ``make dev.restore``. Warning, this will retore all your databases. You might have to cycle the database containers off and on using ``make dev.down.<database service name>`` and ``make dev.up.<database service name>``.
+
+Running micro-frontends outside of devstack
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Although several micro-frontends (MFEs) are built into devstack (the full list is in the `service table`_), some users prefer to run those MFEs directly on their host machine. You can achieve this by first removing the devstack MFE container, and then starting the host version. For example::
+
+  make dev.down.frontend-app-learning  # Bring down the devstack version of the Learning MFE.
+  cd <path-to-frontend-app-learning>   # Navigate to the Learning MFE's repository.
+  npm install && npm start             # Install JS packages, and start the NPM devserver on your local host.
+
+Of course ``learning`` can be replaced with ``gradebook``, ``payment``, or another frontend-app name.
+
+If you forget to bring down the devstack version of the MFE, you will notice a port conflict when trying to start the host version.
+
+.. _service table: ../README.rst#service-list

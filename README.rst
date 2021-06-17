@@ -13,27 +13,22 @@ The Devstack runs as multiple containers with `Docker Compose`_ at its core.
 
 A Devstack installation includes the following Open edX components by default:
 
-* The Learning Management System (LMS)
-* The Learning micro-frontend (A.K.A the new Courseware experience)
+* The Learning Management System (LMS).
+* LMS micro-frontends, including Gradebook and Learning (a.k.a. the "new courseware experience").
 * Open Response Assessments (ORA2), among other LMS plug-ins.
-* Open edX Studio
-* Discussion Forums
-* E-Commerce
-* Credentials
-* Notes
-* Course Discovery
-* Open edX Search
-* A demonstration Open edX course
-* The Publisher and Gradebook micro-frontends
+* Discussion Forums.
+* Open edX Studio, including the Library- and Course-Authoring micro-frontends.
+* E-Commerce, including the Payment micro-frontend.
+* Course Discovery, including the Publisher micro-frontend.
+* Credentials.
+* Notes.
+* Open edX Search.
+* A demonstration Open edX course.
 
 It also includes the following extra components:
 
-* XQueue
-* The Program Console micro-frontend
-* The Library Authoring micro-frontend
-* edX Registrar service.
-* The course-authoring micro-frontend
-
+* XQueue and an example XQueue consumer.
+* Registrar, including the Program Console micro-frontend.
 
 .. contents:: **Table of Contents:**
 
@@ -302,13 +297,13 @@ Instead of a service name or list, you can also run commands like ``make dev.pro
 +------------------------------------+-------------------------------------+----------------+--------------+
 | `frontend-app-gradebook`_          | http://localhost:1994/              | MFE (React.js) | Default      |
 +------------------------------------+-------------------------------------+----------------+--------------+
-| `registrar`_                       | http://localhost:18734/api-docs/    | Python/Django  | Extra        |
+| `frontend-app-library-authoring`_  | http://localhost:3001/              | MFE (React.js) | Default      |
++------------------------------------+-------------------------------------+----------------+--------------+
+| `frontend-app-course-authoring`_   | http://localhost:2001/              | MFE (React.js) | Default      |
 +------------------------------------+-------------------------------------+----------------+--------------+
 | `frontend-app-program-console`_    | http://localhost:1976/              | MFE (React.js) | Extra        |
 +------------------------------------+-------------------------------------+----------------+--------------+
-| `frontend-app-library-authoring`_  | http://localhost:3001/              | MFE (React.js) | Extra        |
-+------------------------------------+-------------------------------------+----------------+--------------+
-| `frontend-app-course-authoring`_   | http://localhost:2001/              | MFE (React.js) | Extra        |
+| `registrar`_                       | http://localhost:18734/api-docs/    | Python/Django  | Extra        |
 +------------------------------------+-------------------------------------+----------------+--------------+
 | `xqueue`_                          | http://localhost:18040/api/v1/      | Python/Django  | Extra        |
 +------------------------------------+-------------------------------------+----------------+--------------+
