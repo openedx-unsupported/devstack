@@ -302,13 +302,13 @@ Instead of a service name or list, you can also run commands like ``make dev.pro
 +------------------------------------+-------------------------------------+----------------+--------------+
 | `frontend-app-gradebook`_          | http://localhost:1994/              | MFE (React.js) | Default      |
 +------------------------------------+-------------------------------------+----------------+--------------+
-| `registrar`_                       | http://localhost:18734/api-docs/    | Python/Django  | Extra        |
+| `frontend-app-library-authoring`_  | http://localhost:3001/              | MFE (React.js) | Default      |
++------------------------------------+-------------------------------------+----------------+--------------+
+| `frontend-app-course-authoring`_   | http://localhost:2001/              | MFE (React.js) | Default      |
 +------------------------------------+-------------------------------------+----------------+--------------+
 | `frontend-app-program-console`_    | http://localhost:1976/              | MFE (React.js) | Extra        |
 +------------------------------------+-------------------------------------+----------------+--------------+
-| `frontend-app-library-authoring`_  | http://localhost:3001/              | MFE (React.js) | Extra        |
-+------------------------------------+-------------------------------------+----------------+--------------+
-| `frontend-app-course-authoring`_   | http://localhost:2001/              | MFE (React.js) | Extra        |
+| `registrar`_                       | http://localhost:18734/api-docs/    | Python/Django  | Extra        |
 +------------------------------------+-------------------------------------+----------------+--------------+
 | `xqueue`_                          | http://localhost:18040/api/v1/      | Python/Django  | Extra        |
 +------------------------------------+-------------------------------------+----------------+--------------+
