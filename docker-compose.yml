@@ -84,6 +84,25 @@ services:
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
 
+  # This is meant to be used to test ES upgrades.
+  elasticsearch710:
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.elasticsearch710"
+    hostname: elasticsearch710.devstack.edx
+    image: elasticsearch:7.10.1
+    networks:
+      default:
+        aliases:
+          - edx.devstack.elasticsearch710
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - elasticsearch710_data:/usr/share/elasticsearch/data
+    environment:
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+
   firefox:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.firefox"
     hostname: firefox.devstack.edx
@@ -594,6 +613,7 @@ volumes:
   edxapp_studio_assets:
   elasticsearch_data:
   elasticsearch7_data:
+  elasticsearch710_data:
   mongo_data:
   mysql_data:
   mysql57_data:
