@@ -81,7 +81,6 @@ ifeq ($(FS_SYNC_STRATEGY),local-mounts)
 COMPOSE_FILE := docker-compose-host.yml
 COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-themes.yml
 COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-watchers.yml
-COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-xqueue.yml
 endif
 
 # Files for use with Network File System -based synchronization.
