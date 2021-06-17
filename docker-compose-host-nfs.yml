@@ -45,34 +45,34 @@ services:
   registrar-worker:
     volumes:
       - ${DEVSTACK_WORKSPACE}/registrar:/edx/app/registrar/registrar
-  frontend-app-gradebook:
-    volumes:
-      - ${DEVSTACK_WORKSPACE}/frontend-app-gradebook:/edx/app/frontend-app-gradebook:cached
-      - frontend_app_gradebook_node_modules:/edx/app/frontend-app-gradebook/node_modules
-  frontend-app-program-console:
-    volumes:
-      - ${DEVSTACK_WORKSPACE}/frontend-app-program-console:/edx/app/frontend-app-program-console:cached
-      - frontend_app_program_console_node_modules:/edx/app/frontend-app-program-console/node_modules
-  frontend-app-learning:
-    volumes:
-      - ${DEVSTACK_WORKSPACE}/frontend-app-learning:/edx/app/frontend-app-learning:cached
-      - frontend_app_learning_node_modules:/edx/app/frontend-app-learning/node_modules
   frontend-app-course-authoring:
     volumes:
       - ${DEVSTACK_WORKSPACE}/frontend-app-course-authoring:/edx/app/frontend-app-course-authoring:cached
       - frontend_app_course_authoring_node_modules:/edx/app/frontend-app-course-authoring/node_modules
-  frontend-app-payment:
+  frontend-app-gradebook:
     volumes:
-      - ${DEVSTACK_WORKSPACE}/frontend-app-payment:/edx/app/frontend-app-payment:cached
-      - frontend_app_payment_node_modules:/edx/app/frontend-app-payment/node_modules
-  frontend-app-publisher:
+      - ${DEVSTACK_WORKSPACE}/frontend-app-gradebook:/edx/app/frontend-app-gradebook:cached
+      - frontend_app_gradebook_node_modules:/edx/app/frontend-app-gradebook/node_modules
+  frontend-app-learning:
     volumes:
-      - ${DEVSTACK_WORKSPACE}/frontend-app-publisher:/edx/app/frontend-app-publisher:cached
-      - frontend_app_publisher_node_modules:/edx/app/frontend-app-publisher/node_modules
+      - ${DEVSTACK_WORKSPACE}/frontend-app-learning:/edx/app/frontend-app-learning:cached
+      - frontend_app_learning_node_modules:/edx/app/frontend-app-learning/node_modules
   frontend-app-library-authoring:
     volumes:
       - ${DEVSTACK_WORKSPACE}/frontend-app-library-authoring:/edx/app/frontend-app-library-authoring:cached
       - frontend_app_library_authoring_node_modules:/edx/app/frontend-app-library-authoring/node_modules
+  frontend-app-payment:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/frontend-app-payment:/edx/app/frontend-app-payment:cached
+      - frontend_app_payment_node_modules:/edx/app/frontend-app-payment/node_modules
+  frontend-app-program-console:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/frontend-app-program-console:/edx/app/frontend-app-program-console:cached
+      - frontend_app_program_console_node_modules:/edx/app/frontend-app-program-console/node_modules
+  frontend-app-publisher:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/frontend-app-publisher:/edx/app/frontend-app-publisher:cached
+      - frontend_app_publisher_node_modules:/edx/app/frontend-app-publisher/node_modules
 
 volumes:
   credentials_node_modules:
@@ -81,13 +81,13 @@ volumes:
   edxapp_media:
   edxapp_node_modules:
   edxapp_uploads:
-  frontend_app_gradebook_node_modules:
-  frontend_app_program_console_node_modules:
-  frontend_app_learning_node_modules:
-  frontend_app_payment_node_modules:
-  frontend_app_publisher_node_modules:
   frontend_app_course_authoring_node_modules:
+  frontend_app_gradebook_node_modules:
+  frontend_app_learning_node_modules:
   frontend_app_library_authoring_node_modules:
+  frontend_app_payment_node_modules:
+  frontend_app_program_console_node_modules:
+  frontend_app_publisher_node_modules:
   edx-nfs:
     driver: local
     driver_opts:
