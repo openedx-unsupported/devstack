@@ -194,9 +194,9 @@ services:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.credentials"
     hostname: credentials.devstack.edx
     depends_on:
-      - mysql57
-      - memcached
       - lms
+      - memcached
+      - mysql57
     # Allows attachment to the credentials service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
@@ -219,9 +219,9 @@ services:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.discovery"
     hostname: discovery.devstack.edx
     depends_on:
-      - mysql57
       - elasticsearch7
       - memcached
+      - mysql57
     # Allows attachment to the discovery service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
@@ -247,10 +247,10 @@ services:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.ecommerce"
     hostname: ecommerce.devstack.edx
     depends_on:
-      - mysql57
-      - memcached
-      - lms
       - discovery
+      - lms
+      - memcached
+      - mysql57
     # Allows attachment to the ecommerce service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
@@ -298,9 +298,9 @@ services:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.forum"
     hostname: forum.devstack.edx
     depends_on:
-      - mongo
-      - memcached
       - elasticsearch7
+      - memcached
+      - mongo
     image: edxops/forum:${OPENEDX_RELEASE:-latest}
     stdin_open: true
     tty: true
@@ -316,15 +316,15 @@ services:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.lms"
     hostname: lms.devstack.edx
     depends_on:
+      - chrome
       - devpi
-      - mysql57
+      - discovery
+      - elasticsearch7
+      - firefox
+      - forum
       - memcached
       - mongo
-      - discovery
-      - forum
-      - firefox
-      - chrome
-      - elasticsearch7
+      - mysql57
     # Allows attachment to the LMS service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
@@ -427,14 +427,14 @@ services:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.studio"
     hostname: studio.devstack.edx
     depends_on:
+      - chrome
       - devpi
-      - mysql57
       - elasticsearch7
+      - firefox
+      - lms
       - memcached
       - mongo
-      - firefox
-      - chrome
-      - lms
+      - mysql57
     # Allows attachment to the Studio service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
@@ -467,50 +467,20 @@ services:
   # for micro-frontends in devtack.
   # ==========================================================================
 
-  frontend-app-learning:
+  frontend-app-course-authoring:
     extends:
       file: microfrontend.yml
       service: microfrontend
-    working_dir: '/edx/app/frontend-app-learning'
-    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-learning"
+    working_dir: '/edx/app/frontend-app-course-authoring'
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-course-authoring"
     networks:
       default:
         aliases:
-          - edx.devstack.frontend-app-learning
+          - edx.devstack.frontend-app-course-authoring
     ports:
-      - "2000:2000"
+      - "2001:2001"
     depends_on:
-      - lms
-
-  frontend-app-payment:
-    extends:
-      file: microfrontend.yml
-      service: microfrontend
-    working_dir: '/edx/app/frontend-app-payment'
-    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-payment"
-    networks:
-      default:
-        aliases:
-          - edx.devstack.frontend-app-payment
-    ports:
-      - "1998:1998"
-    depends_on:
-      - ecommerce
-
-  frontend-app-publisher:
-    extends:
-      file: microfrontend.yml
-      service: microfrontend
-    working_dir: '/edx/app/frontend-app-publisher'
-    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-publisher"
-    networks:
-      default:
-        aliases:
-          - edx.devstack.frontend-app-publisher
-    ports:
-      - "18400:18400"
-    depends_on:
-      - lms
+      - studio
 
   frontend-app-gradebook:
     extends:
@@ -527,36 +497,20 @@ services:
     depends_on:
       - lms
 
-  frontend-app-program-console:
+  frontend-app-learning:
     extends:
       file: microfrontend.yml
       service: microfrontend
-    working_dir: '/edx/app/frontend-app-program-console'
-    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-program-console"
+    working_dir: '/edx/app/frontend-app-learning'
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-learning"
     networks:
       default:
         aliases:
-          - edx.devstack.frontend-app-program-console
+          - edx.devstack.frontend-app-learning
     ports:
-      - "1976:1976"
+      - "2000:2000"
     depends_on:
       - lms
-      - registrar
-
-  frontend-app-course-authoring:
-    extends:
-      file: microfrontend.yml
-      service: microfrontend
-    working_dir: '/edx/app/frontend-app-course-authoring'
-    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-course-authoring"
-    networks:
-      default:
-        aliases:
-          - edx.devstack.frontend-app-course-authoring
-    ports:
-      - "2001:2001"
-    depends_on:
-      - studio
 
   frontend-app-library-authoring:
     extends:
@@ -574,8 +528,55 @@ services:
       - lms
       - studio
 
+  frontend-app-payment:
+    extends:
+      file: microfrontend.yml
+      service: microfrontend
+    working_dir: '/edx/app/frontend-app-payment'
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-payment"
+    networks:
+      default:
+        aliases:
+          - edx.devstack.frontend-app-payment
+    ports:
+      - "1998:1998"
+    depends_on:
+      - ecommerce
+
+  frontend-app-program-console:
+    extends:
+      file: microfrontend.yml
+      service: microfrontend
+    working_dir: '/edx/app/frontend-app-program-console'
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-program-console"
+    networks:
+      default:
+        aliases:
+          - edx.devstack.frontend-app-program-console
+    ports:
+      - "1976:1976"
+    depends_on:
+      - lms
+      - registrar
+
+  frontend-app-publisher:
+    extends:
+      file: microfrontend.yml
+      service: microfrontend
+    working_dir: '/edx/app/frontend-app-publisher'
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-publisher"
+    networks:
+      default:
+        aliases:
+          - edx.devstack.frontend-app-publisher
+    ports:
+      - "18400:18400"
+    depends_on:
+      - lms
+
 volumes:
   discovery_assets:
+  devpi_data:
   edxapp_lms_assets:
   edxapp_studio_assets:
   elasticsearch_data:
@@ -584,4 +585,3 @@ volumes:
   mongo_data:
   mysql_data:
   mysql57_data:
-  devpi_data:

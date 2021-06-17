@@ -68,13 +68,13 @@ FS_SYNC_STRATEGY ?= local-mounts
 #       The current value was chosen such that it would not change the existing
 #       Devstack behavior.
 DEFAULT_SERVICES ?= \
-credentials+discovery+ecommerce+edx_notes_api+forum+frontend-app-payment+frontend-app-publisher+frontend-app-learning+frontend-app-gradebook+lms+studio
+credentials+discovery+ecommerce+edx_notes_api+forum+frontend-app-gradebook+frontend-app-payment+frontend-app-publisher+frontend-app-learning+lms+studio
 
 # All edX services, whether or not they are run by default.
 # Separated by plus signs.
 # Separated by plus signs. Listed in alphabetical order for clarity.
 EDX_SERVICES ?= \
-frontend-app-course-authoring+credentials+discovery+ecommerce+edx_notes_api+forum+frontend-app-learning+frontend-app-library-authoring+frontend-app-payment+frontend-app-publisher+frontend-app-gradebook+lms+lms_watcher+frontend-app-program-console+registrar+registrar-worker+studio+studio_watcher+xqueue+xqueue_consumer
+credentials+discovery+ecommerce+edx_notes_api+forum+frontend-app-course-authoring+frontend-app-gradebook+frontend-app-learning+frontend-app-library-authoring+frontend-app-payment+frontend-app-program-console+frontend-app-publisher+lms+lms_watcher+registrar+registrar-worker+studio+studio_watcher+xqueue+xqueue_consumer
 
 # Services with database migrations.
 # Should be a subset of $(EDX_SERVICES).
