@@ -509,47 +509,47 @@ services:
     depends_on:
       - lms
 
-  gradebook:
+  frontend-app-gradebook:
     extends:
       file: microfrontend.yml
       service: microfrontend
-    working_dir: '/edx/app/gradebook'
-    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.gradebook"
+    working_dir: '/edx/app/frontend-app-gradebook'
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-gradebook"
     networks:
       default:
         aliases:
-          - edx.devstack.gradebook
+          - edx.devstack.frontend-app-gradebook
     ports:
       - "1994:1994"
     depends_on:
       - lms
 
-  program-console:
+  frontend-app-program-console:
     extends:
       file: microfrontend.yml
       service: microfrontend
-    working_dir: '/edx/app/program-console'
-    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.program-console"
+    working_dir: '/edx/app/frontend-app-program-console'
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-program-console"
     networks:
       default:
         aliases:
-          - edx.devstack.program-console
+          - edx.devstack.frontend-app-program-console
     ports:
       - "1976:1976"
     depends_on:
       - lms
       - registrar
 
-  course-authoring:
+  frontend-app-course-authoring:
     extends:
       file: microfrontend.yml
       service: microfrontend
     working_dir: '/edx/app/frontend-app-course-authoring'
-    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.course-authoring"
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-course-authoring"
     networks:
       default:
         aliases:
-          - edx.devstack.course-authoring
+          - edx.devstack.frontend-app-course-authoring
     ports:
       - "2001:2001"
     depends_on:

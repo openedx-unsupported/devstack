@@ -29,17 +29,17 @@ services:
     volumes:
       - registrar-sync:/edx/app/registrar/registrar:nocopy
       - source-sync:/edx/src:nocopy
-  gradebook:
+  frontend-app-gradebook:
     volumes:
-      - gradebook-sync:/edx/app/gradebook/gradebook:nocopy
+      - frontend-app-gradebook-sync:/edx/app/frontend-app-gradebook:nocopy
       - source-sync:/edx/src:nocopy
-  program-console:
+  frontend-app-program-console:
     volumes:
-      - program-console-sync:/edx/app/program-console:nocopy
+      - frontend-app-program-console-sync:/edx/app/frontend-app-program-console:nocopy
       - source-sync:/edx/src:nocopy
-  course-authoring:
+  frontend-app-course-authoring:
     volumes:
-      - course-authoring-sync:/edx/app/frontend-app-course-authoring:nocopy
+      - frontend-app-course-authoring-sync:/edx/app/frontend-app-course-authoring:nocopy
       - source-sync:/edx/src:nocopy
   frontend-app-library-authoring:
     volumes:
@@ -59,11 +59,11 @@ volumes:
     external: true
   registrar-sync:
     external: true
-  gradebook-sync:
+  frontend-app-gradebook-sync:
     external: true
-  program-console-sync:
+  frontend-app-program-console-sync:
     external: true
-  course-authoring-sync:
+  frontend-app-course-authoring-sync:
     external: true
   frontend-app-library-authoring-sync:
     external: true
