@@ -329,15 +329,15 @@ Instead of a service name or list, you can also run commands like ``make dev.pro
 +------------------------------------+-------------------------------------+----------------+--------------+
 | `frontend-app-publisher`_          | http://localhost:18400/             | MFE (React.js) | Default      |
 +------------------------------------+-------------------------------------+----------------+--------------+
-| `gradebook`_                       | http://localhost:1994/              | MFE (React.js) | Default      |
+| `frontend-app-gradebook`_          | http://localhost:1994/              | MFE (React.js) | Default      |
 +------------------------------------+-------------------------------------+----------------+--------------+
 | `registrar`_                       | http://localhost:18734/api-docs/    | Python/Django  | Extra        |
 +------------------------------------+-------------------------------------+----------------+--------------+
-| `program-console`_                 | http://localhost:1976/              | MFE (React.js) | Extra        |
+| `frontend-app-program-console`_    | http://localhost:1976/              | MFE (React.js) | Extra        |
 +------------------------------------+-------------------------------------+----------------+--------------+
 | `frontend-app-library-authoring`_  | http://localhost:3001/              | MFE (React.js) | Extra        |
 +------------------------------------+-------------------------------------+----------------+--------------+
-| `course-authoring`_                | http://localhost:2001/              | MFE (React.js) | Extra        |
+| `frontend-app-course-authoring`_   | http://localhost:2001/              | MFE (React.js) | Extra        |
 +------------------------------------+-------------------------------------+----------------+--------------+
 | `xqueue`_                          | http://localhost:18040/api/v1/      | Python/Django  | Extra        |
 +------------------------------------+-------------------------------------+----------------+--------------+
@@ -355,15 +355,15 @@ Some common service combinations include:
 .. _forum: https://github.com/edx/cs_comments_service
 .. _frontend-app-payment: https://github.com/edx/frontend-app-payment
 .. _frontend-app-publisher: https://github.com/edx/frontend-app-publisher
-.. _gradebook: https://github.com/edx/frontend-app-gradebook
+.. _frontend-app-gradebook: https://github.com/edx/frontend-app-gradebook
 .. _lms: https://github.com/edx/edx-platform
-.. _program-console: https://github.com/edx/frontend-app-program-console
+.. _frontend-app-program-console: https://github.com/edx/frontend-app-program-console
 .. _registrar: https://github.com/edx/registrar
 .. _studio: https://github.com/edx/edx-platform
 .. _lms: https://github.com/edx/edx-platform
 .. _frontend-app-learning: https://github.com/edx/frontend-app-learning
 .. _frontend-app-library-authoring: https://github.com/edx/frontend-app-library-authoring
-.. _course-authoring: https://github.com/edx/frontend-app-course-authoring
+.. _frontend-app-course-authoring: https://github.com/edx/frontend-app-course-authoring
 .. _xqueue: https://github.com/edx/xqueue
 
 

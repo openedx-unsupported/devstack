@@ -35,12 +35,12 @@ syncs:
     src: '../registrar/'
     sync_excludes: [ '.git', '.idea' ]
 
-  gradebook-sync:
+  frontend-app-gradebook-sync:
     host_disk_mount_mode: 'cached'
-    src: '../gradebook/'
+    src: '../frontend-app-gradebook/'
     sync_excludes: [ '.git', '.idea' ]
 
-  program-console-sync:
+  frontend-app-program-console-sync:
     host_disk_mount_mode: 'cached'
     src: '../frontend-app-program-console/'
     sync_excludes: [ '.git', '.idea' ]
@@ -49,7 +49,7 @@ syncs:
     host_disk_mount_mode: 'cached'
     src: '../frontend-app-learning/'
 
-  course-authoring-sync:
+  frontend-app-course-authoring-sync:
     host_disk_mount_mode: 'cached'
     src: '../frontend-app-course-authoring/'
     sync_excludes: [ '.git', '.idea' ]

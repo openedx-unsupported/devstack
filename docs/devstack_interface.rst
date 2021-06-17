@@ -15,8 +15,8 @@ Examples:
     make dev.shell.lms
     make lms-shell
 
-    make dev.logs.gradebook
-    make gradebook-logs
+    make dev.logs.frontend-app-gradebook
+    make frontend-app-gradebook-logs
 
 The user interface for devstack often also gives you both big hammers(``make dev.pull.large-and-slow``) and small hammers(``make dev.pull.<service>``) to do things. It is recommend you opt for the small hammer commands, because they often tend to be alot faster.
 
