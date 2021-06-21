@@ -34,7 +34,7 @@ import sys
 import traceback
 import urllib.request as req
 import uuid
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from http.client import RemoteDisconnected
 from os import path
 from signal import SIG_DFL, SIGINT, signal
@@ -231,7 +231,7 @@ def run_wrapped(make_target, config):
 
         signal(SIGINT, SIG_DFL)  # stop trapping SIGINT (if haven't already)
         end_time = datetime.now(timezone.utc)
-        time_diff_millis = (end_time - start_time).microseconds // 1000
+        time_diff_millis = (end_time - start_time) // timedelta(milliseconds=1)
         # Must be compatible with our Segment schema, and must not be
         # expanded to include additional attributes without an
         # additional consent check.
@@ -239,7 +239,7 @@ def run_wrapped(make_target, config):
             'command_type': 'make',
             'command': make_target[:50],  # limit in case of mis-pastes at terminal
             'start_time': start_time.isoformat(),
-            'duration': time_diff_millis,
+            'duration_ms': time_diff_millis,
             # If the subprocess was interrupted by a signal, the exit
             # code will be negative signal value (e.g. -2 for SIGINT,
             # rather than the 130 it returns from the shell):
