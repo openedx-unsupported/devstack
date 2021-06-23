@@ -1,19 +1,8 @@
-Open edX Devstack |Build Status|
+Edraak Devstack
 ================================
 
 Get up and running quickly with Open edX services.
 
-If you are seeking info on the Vagrant-based devstack, please see
-https://openedx.atlassian.net/wiki/display/OpenOPS/Running+Devstack. This
-project is meant to replace the traditional Vagrant-based devstack with a
-multi-container approach driven by `Docker Compose`_. It is still in the
-beta testing phase.
-
-Support
--------
-
-Tickets or issues should be filed in Jira under the platform project:
-https://openedx.atlassian.net/projects/PLAT/issues
 
 FYI
 ---
@@ -73,17 +62,37 @@ you should configure Docker with a sufficient
 amount of resources. We find that `configuring Docker for Mac`_ with
 a minimum of 2 CPUs and 6GB of memory works well.
 
-1. (Optional) Install the requirements inside of a `Python virtualenv`_.
+1. This repo requires .env file to be present and have few import flags set, copy
+one of the following and adjust .env file based on your needs before you start.
+
+Run all services might be longer to provision
+    .. code:: sh
+
+        cp .env.all .env
+
+Run only services needed by the b2b stack
+    .. code:: sh
+
+        cp .env.b2b .env
+
+Run only services needed by the core stack
+    .. code:: sh
+
+        cp .env.core .env
+
+You can provision the servies and then turn them on and off as you like
+
+2. (Optional) Install the requirements inside of a `Python virtualenv`_.
 
    .. code:: sh
 
        make requirements
 
-2. The Docker Compose file mounts a host volume for each service's executing
+3. The Docker Compose file mounts a host volume for each service's executing
    code. The host directory defaults to be a sibling of this directory. For
    example, if this repo is cloned to ``~/workspace/devstack``, host volumes
-   will be expected in ``~/workspace/course-discovery``,
-   ``~/workspace/ecommerce``, etc. These repos can be cloned with the command
+   will be expected in ``~/workspace/edraak-programs``,
+   ``~/workspace/marketing-site``, etc. These repos can be cloned with the command
    below.
 
    .. code:: sh
@@ -96,25 +105,24 @@ a minimum of 2 CPUs and 6GB of memory works well.
    Be sure to share the cloned directories in the Docker -> Preferences... ->
    File Sharing box.
 
-2. 2 options here you can either build the images your self (check the build section below) or use gcloud to configure docker access to GCR
+4. 2 options here you can either build the images your self (check the build
+section below) or use gcloud to configure docker access to GCR, make sure to login
+with an account that have access to GCR repos needed, consult your sysadmin to make
+sure you have the needed permission.
 
    .. code:: sh
 
-       gcloud auth configure-docker
+        gcloud auth login
+        gcloud auth configure-docker
 
-3. You have an option to use nfs on MacOS which will improve the performance significantly, to set it up ONLY ON MAC, do
-    .. code:: sh
-
-        make dev.nfs.setup
-
-3. Run the provision command, if you haven't already, to configure the various
+5. Run the provision command, if you haven't already, to configure the various
    services with superusers (for development without the auth service) and
    tenants (for multi-tenancy).
 
    **NOTE:** When running the provision command, databases for ecommerce and edxapp
    will be dropped and recreated.
 
-   The username and password for the superusers are both ``edx``. You can access
+   The username ``edx@example.com`` and password ``edx`` for the superusers . You can access
    the services directly via Django admin at the ``/admin/`` path, or login via
    single sign-on at ``/login/``.
 
@@ -124,19 +132,7 @@ a minimum of 2 CPUs and 6GB of memory works well.
 
        make dev.provision
 
-   Provision using `docker-sync`_:
-
-   .. code:: sh
-
-       make dev.sync.provision
-
-   Provision using `nfs`_:
-
-   .. code:: sh
-
-       make dev.nfs.provision
-
-4. Start the services. This command will mount the repositories under the
+6. Start the services. This command will mount the repositories under the
    DEVSTACK\_WORKSPACE directory.
 
    **NOTE:** it may take up to 60 seconds for the LMS to start, even after the ``make dev.up`` command outputs ``done``.
@@ -147,27 +143,29 @@ a minimum of 2 CPUs and 6GB of memory works well.
 
        make dev.up
 
-   Start using `docker-sync`_:
 
-   .. code:: sh
+# .env file content
 
-       make dev.sync.up
+MOUNT_TYPE:
+    set to -nfs to enable NFS support or leave empty to use default docker engine
 
-   Start using `nfs`_:
-
-   .. code:: sh
-
-       make dev.nfs.up
-
-
-After the services have started, if you need shell access to one of the
-services, run ``make <service>-shell``. For example to access the
-Catalog/Course Discovery Service, you can run:
+ENABLE_<SERVICE>:
+    Set to true or false wiether you want this serivce enabled/provisoined or not
 
 .. code:: sh
+    Services supported
+    PROGS
+    B2B
+    MKTG
+    EDX
+    STATE_MANAGER
+    JUDGE
+    ANALYTICS
+    AUTH
+    NOTIFIER
 
-    make discovery-shell
 
+# Make commands
 To see logs from containers running in detached mode, you can either use
 "Kitematic" (available from the "Docker for Mac" menu), or by running the
 following:
@@ -175,13 +173,6 @@ following:
 .. code:: sh
 
     make logs
-
-To view the logs of a specific service container run ``make <service>-logs``.
-For example, to access the logs for Ecommerce, you can run:
-
-.. code:: sh
-
-    make ecommerce-logs
 
 To reset your environment and start provisioning from scratch, you can run:
 
