@@ -103,7 +103,7 @@ pep517==0.10.0
     #   pip-tools
 pexpect==4.8.0
     # via -r requirements/test.txt
-pip-tools==6.1.0
+pip-tools==6.2.0
     # via -r requirements/pip-tools.txt
 pluggy==0.13.1
     # via
@@ -140,7 +140,7 @@ pyrsistent==0.17.3
     #   jsonschema
 pytest==6.2.4
     # via -r requirements/test.txt
-python-dotenv==0.17.1
+python-dotenv==0.18.0
     # via
     #   -r requirements/base.txt
     #   -r requirements/test.txt
@@ -198,6 +198,10 @@ websocket-client==0.59.0
     #   -r requirements/test.txt
     #   docker
     #   docker-compose
+wheel==0.36.2
+    # via
+    #   -r requirements/pip-tools.txt
+    #   pip-tools
 
 # The following packages are considered to be unsafe in a requirements file:
 # pip
