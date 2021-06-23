@@ -41,7 +41,7 @@ pynacl==1.4.0
     # via paramiko
 pyrsistent==0.17.3
     # via jsonschema
-python-dotenv==0.17.1
+python-dotenv==0.18.0
     # via docker-compose
 pyyaml==5.4.1
     # via
