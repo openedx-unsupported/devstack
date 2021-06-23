@@ -195,23 +195,11 @@ def test_later_opt_out():
 
 #### Collection, or not, for an instrumented make target
 
-def test_no_feature_flag_or_consent():
+def test_invitation():
     """
-    Test that metrics collection and invitation do not happen by default.
+    Test that an invitation is printed when consent record isn't present.
     """
     with environment_as(None):
-        p = pexpect.spawn('make dev.up.redis', timeout=60)
-        p.expect(EOF)
-        assert 'Send metrics info:' not in p.before.decode()
-        assert invitation not in p.before.decode()
-
-
-def test_feature_flag_enables_invitation():
-    """
-    Test that consent still required even with feature flag enabled,
-    but an invitation is printed.
-    """
-    with environment_as({'collection_enabled': True}):
         p = pexpect.spawn('make dev.up.redis', timeout=60)
         p.expect(EOF)
         assert 'Send metrics info:' not in p.before.decode()
@@ -224,7 +212,6 @@ def test_enabled_but_declined():
     flag enabled.
     """
     with environment_as({
-            'collection_enabled': True,
             'consent': {'decision': False, 'timestamp': '2021-05-20T21:42:18.365201+00:00'}
     }):
         assert_consent(False)
