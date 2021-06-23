@@ -21,10 +21,7 @@ done
 
 
 echo ${DOCKER_COMPOSE_FILES}
-docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && NO_PYTHON_UNINSTALL=1 paver install_prereqs'
-
-#Installing prereqs crashes the process
-docker-compose `echo ${DOCKER_COMPOSE_FILES}` restart lms
+docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && NO_PYTHON_UNINSTALL=1 NO_PREREQ_INSTALL=0 paver install_prereqs'
 
 # Run edxapp migrations first since they are needed for the service users and OAuth clients
 docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && paver update_db --settings devstack_docker'

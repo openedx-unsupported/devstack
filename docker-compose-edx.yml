@@ -29,8 +29,8 @@ services:
       BOK_CHOY_LMS_PORT: 18003
       BOK_CHOY_CMS_PORT: 18031
       EDXAPP_TEST_MONGO_HOST: edx.devstack.mongo
-      NO_PYTHON_UNINSTALL: 1
-      NO_PREREQ_INSTALL: 1
+      NO_PYTHON_UNINSTALL: 0
+      NO_PREREQ_INSTALL: 0
     image: eu.gcr.io/openedx-231314/edraak/edxapp:hawthorn.edraak.v3
     ports:
       - "18000:18000"
@@ -60,8 +60,8 @@ services:
       BOK_CHOY_LMS_PORT: 18103
       BOK_CHOY_CMS_PORT: 18131
       EDXAPP_TEST_MONGO_HOST: edx.devstack.mongo
-      NO_PYTHON_UNINSTALL: 1
-      NO_PREREQ_INSTALL: 1
+      NO_PYTHON_UNINSTALL: 0
+      NO_PREREQ_INSTALL: 0
     image: eu.gcr.io/openedx-231314/edraak/edxapp:hawthorn.edraak.v3
     ports:
       - "18010:18010"
