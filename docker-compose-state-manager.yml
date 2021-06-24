@@ -1,4 +1,4 @@
-version: "3"
+version: "2.1"
 services:
   state-manager-api:
     build:
@@ -6,14 +6,13 @@ services:
       dockerfile: ${DEVSTACK_WORKSPACE}/state-manager/Dockerfile
     ports:
       - "6000:80"
-    env_file:
-      - ${DEVSTACK_WORKSPACE}/state-manager/.env
     container_name: edraak.devstack.state_manager
     command: bash entrypoint.sh
     depends_on:
       - state-manager-mysql
     volumes:
       - ${DEVSTACK_WORKSPACE}/state-manager:/app
+      - ~/.ssh/:/root/.ssh
     environment:
       APP_ENV: "devstack"
 
@@ -29,28 +28,24 @@ services:
     volumes:
       - state_manager_mysql_data:/var/lib/mysql
 
-  edraak_programs:
+  progs:
     depends_on:
       - mysql
       - mongo
       - memcached
       - state-manager-api
 
-  edraak_dev_router:
+  router:
     depends_on:
       - lms
       - studio
-      - edraak_marketing
-      - edraak_programs
+      - mktg
+      - progs
       - state-manager-api
-    networks:
-      default:
-        aliases:
-          - www.edraak.dev
-          - courses.edraak.dev
-          - programs.edraak.dev
-          - edraak.dev
-          - states.edraak.dev
+    volumes:
+      - ./nginx/states.conf:/etc/nginx/conf.d/states.conf
+
+
 volumes:
   state_manager_mysql_data:
     driver: local

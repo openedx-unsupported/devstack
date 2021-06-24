@@ -1,0 +1,42 @@
+# This file contains all of the services for an edraak installation. See https://docs.docker.com/compose/compose-file/
+# for the appropriate syntax and definitions.
+#
+# Housekeeping Rules:
+# - Group third-party and edraak services separately
+# - Alphabetize services in the groups
+# - Alphabetize individual configuration options for each service
+# - Every service's container name should be prefixed with "edraak.devstack." to avoid conflicts with other containers
+#   that might be running for the same service.
+
+version: "2.1"
+
+services:
+
+  progs:
+    image: eu.gcr.io/openedx-231314/edraak/progs
+    environment:
+      PROGS_CFG: /app/docker.json
+      NODE_ENV: development
+    command: bash -c 'while true; do python manage.py runserver 0.0.0.0:8800 --settings=edraakprograms.dev; sleep 2; done'
+    container_name: edraak.devstack.programs
+    working_dir: /app
+    ports:
+      - "18800:8800"
+    depends_on:
+      - mysql
+      - mongo
+      - memcached
+    volumes:
+      - progs_media:/edx/var/progs/media
+      - ${DEVSTACK_WORKSPACE}/edraak-programs:/app:cached
+      - ~/.ssh/:/root/.ssh
+
+  router:
+    depends_on:
+      - progs
+    volumes:
+      - ./nginx/progs.conf:/etc/nginx/conf.d/progs.conf
+      - ./nginx/b2b-redirects.conf:/etc/nginx/conf.d/redirects.conf
+
+volumes:
+  progs_media:

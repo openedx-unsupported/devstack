@@ -1,0 +1,14 @@
+version: "2.1"
+
+services:
+  progs:
+    volumes:
+      - progs-nfs:/app
+
+volumes:
+  progs-nfs:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=host.docker.internal,rw,nolock,hard,nointr,nfsvers=3
+      device: :${DEVSTACK_WORKSPACE}/edraak-programs

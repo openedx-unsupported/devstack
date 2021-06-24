@@ -1,0 +1,114 @@
+# This file contains all of the services for an edX installation. See https://docs.docker.com/compose/compose-file/
+# for the appropriate syntax and definitions.
+#
+# Housekeeping Rules:
+# - Group third-party and edX services separately
+# - Alphabetize services in the groups
+# - Alphabetize individual configuration options for each service
+# - Every service's container name should be prefixed with "edx.devstack." to avoid conflicts with other containers
+#   that might be running for the same service.
+
+version: "2.1"
+
+services:
+
+# edX
+  lms:
+    command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py lms runserver 0.0.0.0:18000 --settings devstack_docker; sleep 2; done'
+    container_name: edx.devstack.lms
+    depends_on:
+      - devpi
+      - mysql
+      - memcached
+      - mongo
+    # Allows attachment to the LMS service using 'docker attach <containerID>'.
+    stdin_open: true
+    tty: true
+    environment:
+      BOK_CHOY_HOSTNAME: edx.devstack.lms
+      BOK_CHOY_LMS_PORT: 18003
+      BOK_CHOY_CMS_PORT: 18031
+      EDXAPP_TEST_MONGO_HOST: edx.devstack.mongo
+      NO_PYTHON_UNINSTALL: 0
+      NO_PREREQ_INSTALL: 0
+    image: eu.gcr.io/openedx-231314/edraak/edxapp:hawthorn.edraak.v3
+    ports:
+      - "18000:18000"
+      - "19876:19876" # JS test debugging
+      - "18003:18003"
+      - "18031:18031"
+    volumes:
+      - edxapp_lms_assets:/edx/var/edxapp/staticfiles/
+      - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform:cached
+      - edxapp_node_modules:/edx/app/edxapp/edx-platform/node_modules
+      - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
+      - ~/.ssh/:/root/.ssh
+
+  studio:
+    command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py cms runserver 0.0.0.0:18010 --settings devstack_docker; sleep 200000; done'
+    container_name: edx.devstack.studio
+    depends_on:
+      - devpi
+      - mysql
+      - memcached
+      - mongo
+    # Allows attachment to the Studio service using 'docker attach <containerID>'.
+    stdin_open: true
+    tty: true
+    environment:
+      BOK_CHOY_HOSTNAME: edx.devstack.studio
+      BOK_CHOY_LMS_PORT: 18103
+      BOK_CHOY_CMS_PORT: 18131
+      EDXAPP_TEST_MONGO_HOST: edx.devstack.mongo
+      NO_PYTHON_UNINSTALL: 0
+      NO_PREREQ_INSTALL: 0
+    image: eu.gcr.io/openedx-231314/edraak/edxapp:hawthorn.edraak.v3
+    ports:
+      - "18010:18010"
+      - "19877:19877" # JS test debugging
+      - "18103:18103"
+      - "18131:18131"
+    volumes:
+      - edxapp_studio_assets:/edx/var/edxapp/staticfiles/
+      - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform:cached
+      - edxapp_node_modules:/edx/app/edxapp/edx-platform/node_modules
+      - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
+      - ~/.ssh/:/root/.ssh
+
+#  forum:
+#    command: bash -c 'source /edx/app/forum/ruby_env && source /edx/app/forum/devstack_forum_env && cd /edx/app/forum/cs_comments_service && bundle install && while true; do ruby app.rb -o 0.0.0.0 ; sleep 200000; done'
+#    container_name: edx.devstack.forum
+#    depends_on:
+#      - mongo
+#      - memcached
+#      - elasticsearch
+#    image: edxops/forum:${OPENEDX_RELEASE:-latest}
+#    ports:
+#      - "44567:4567"
+#    volumes:
+#      - ${DEVSTACK_WORKSPACE}/cs_comments_service:/edx/app/forum/cs_comments_service:cached
+#      - ~/.ssh/:/root/.ssh
+
+  devpi:
+    container_name: edx.devstack.devpi
+    image: edxops/devpi:${OPENEDX_RELEASE:-latest}
+    ports:
+      - "3141:3141"
+    volumes:
+      - devpi_data:/data
+
+
+  router:
+    depends_on:
+      - lms
+      - studio
+#      - mktg
+      - progs
+    volumes:
+      - ./nginx/edx.conf:/etc/nginx/conf.d/edx.conf
+
+
+volumes:
+  edxapp_lms_assets:
+  edxapp_studio_assets:
+  edxapp_node_modules:

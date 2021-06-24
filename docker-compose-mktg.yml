@@ -1,0 +1,36 @@
+# This file contains all of the services for an edraak installation. See https://docs.docker.com/compose/compose-file/
+# for the appropriate syntax and definitions.
+#
+# Housekeeping Rules:
+# - Group third-party and edraak services separately
+# - Alphabetize services in the groups
+# - Alphabetize individual configuration options for each service
+# - Every service's container name should be prefixed with "edraak.devstack." to avoid conflicts with other containers
+#   that might be running for the same service.
+
+version: "2.1"
+
+services:
+
+  mktg:
+    image: eu.gcr.io/openedx-231314/edraak/marketing
+    environment:
+      NODE_ENV: development
+    command: bash -c 'while true; do python manage.py runserver 0.0.0.0:8500 --settings=marketingsite.envs.dev; sleep 2; done'
+    container_name: edraak.devstack.marketing
+    working_dir: /app
+    ports:
+      - "18500:8500"
+    depends_on:
+      - mysql
+      - memcached
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/marketing-site:/app
+      - ~/.ssh/:/root/.ssh
+
+  router:
+    volumes:
+      - ./nginx/mktg.conf:/etc/nginx/conf.d/mktg.conf
+      - ./nginx/core-redirects.conf:/etc/nginx/conf.d/redirects.conf
+
+

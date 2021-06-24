@@ -18,25 +18,23 @@ else
 fi
 
 repos=(
-#    "https://github.com/Edraak/course-discovery.git"
-#    "https://github.com/Edraak/credentials.git"
     "https://github.com/Edraak/cs_comments_service.git"
-#    "https://github.com/Edraak/ecommerce.git"
-#    "https://github.com/Edraak/edx-e2e-tests.git"
-#    "https://github.com/Edraak/edx-notes-api.git"
     "https://github.com/Edraak/edraak-platform.git"
-#    "https://github.com/Edraak/xqueue.git"
-#    "https://github.com/Edraak/edx-analytics-pipeline.git"
     "git@github.com:Edraak/marketing-site.git"
     "git@github.com:Edraak/edraak-programs.git"
+    "git@github.com:Edraak/edraak-programs"
     "git@github.com:Edraak/edraak-2019-theme.git"
+	  "git@github.com:Edraak/programs-theme-white.git"
     "git@github.com:Edraak/shared-devstack-configs.git"
+    "git@github.com:Edraak/state-manager.git"
 )
 
 repo_alternative_directory=(
 	"https://github.com/Edraak/edraak-platform.git,edx-platform"
 	"git@github.com:Edraak/edraak-2019-theme.git,src/edraak-2019-theme"
-      "git@github.com:Edraak/shared-devstack-configs.git,src/edxapp-envs"
+	"git@github.com:Edraak/programs-theme-white.git,src/progs-theme"
+  "git@github.com:Edraak/shared-devstack-configs.git,src/edxapp-envs"
+  "git@github.com:Edraak/edraak-programs,b2b-programs"
 )
 
 private_repos=(
@@ -115,10 +113,6 @@ _clone ()
             else
                 git clone $repo $name
             fi
-            cd $name
-            branch=master
-            git checkout "$branch"
-            cd -
         fi
     done
     cd - &> /dev/null

@@ -1,0 +1,45 @@
+version: "2.1"
+services:
+  judge-api:
+    build:
+      context: ${DEVSTACK_WORKSPACE}/edraak-judge/.
+      dockerfile: ${DEVSTACK_WORKSPACE}/edraak-judge/Dockerfile
+    ports:
+      - "5000:80"
+    env_file:
+      - ${DEVSTACK_WORKSPACE}/edraak-judge/.env
+    container_name: edraak.devstack.judge
+    command: bash -c 'while true; do gunicorn --worker-class gevent --workers 2 --bind "0.0.0.0":"80" wsgi:app --max-requests 10000 --timeout 5 --reload --keep-alive 5 --log-level info; sleep 2; done'
+    depends_on:
+      - edraak-judge-redis
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/edraak-judge:/app
+      - ~/.ssh/:/root/.ssh
+
+  judge-worker:
+    build:
+      context: ${DEVSTACK_WORKSPACE}/edraak-judge/.
+      dockerfile: ${DEVSTACK_WORKSPACE}/edraak-judge/Dockerfile
+    env_file:
+      - ${DEVSTACK_WORKSPACE}/edraak-judge/.env
+    command: rq worker --url redis://edraak-judge-redis:6379/0
+    depends_on:
+      - edraak-judge-redis
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/edraak-judge:/app
+      - ~/.ssh/:/root/.ssh
+
+  edraak-judge-redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+    expose:
+      - "6379"
+
+  progs:
+    depends_on:
+      - judge-api
+
+  router:
+    volumes:
+      - ./nginx/judge.conf:/etc/nginx/conf.d/judge.conf

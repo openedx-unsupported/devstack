@@ -11,11 +11,16 @@
 set -e
 set -o pipefail
 set -x
+source .env
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 NC='\033[0m' # No Color
+
+if [ "$MOUNT_TYPE" = "-nfs" ]; then
+  ./setup_native_nfs_docker_osx.sh
+fi
 
 # Bring the databases online.
 docker-compose up -d mysql mongo
@@ -30,25 +35,41 @@ done
 
 # In the event of a fresh MySQL container, wait a few seconds for the server to restart
 # This can be removed once https://github.com/docker-library/mysql/issues/245 is resolved.
-sleep 20
+sleep 10
+
+printf "Creating mongo usres"
+docker exec -i edx.devstack.mongo mongo < mongo-provision.js
 
 echo -e "MySQL ready"
 
-echo -e "${GREEN}Creating databases and users...${NC}"
-docker exec -i edx.devstack.mysql mysql -uroot mysql < provision.sql
-docker exec -i edx.devstack.mongo mongo < mongo-provision.js
+if $ENABLE_EDX; then
+  ./provision-lms.sh
+  # Nothing special needed for studio
+  docker-compose `echo ${DOCKER_COMPOSE_FILES}` up -d studio
+fi
 
-./provision-lms.sh
 
-# Nothing special needed for studio
-docker-compose $DOCKER_COMPOSE_FILES up -d studio
-#./provision-ecommerce.sh
-#./provision-discovery.sh
-#./provision-credentials.sh
-#./provision-e2e.sh
-#./provision-forum.sh
-#./provision-notes.sh
-./provision-edraak.sh
+if $ENABLE_PROGS; then
+
+  echo "** Programs **"
+  ./provision-progs.sh
+fi
+
+if $ENABLE_B2B; then
+
+  echo "** B2B **"
+  ./provision-b2b.sh
+fi
+
+if $ENABLE_MKTG; then
+  echo "** Marketing **"
+  ./provision-mktg.sh
+fi
+
+if $ENABLE_STATE_MANAGER; then
+  echo "** State Manager **"
+  ./provision-state-manager-api.sh
+fi
 
 docker image prune -f
 

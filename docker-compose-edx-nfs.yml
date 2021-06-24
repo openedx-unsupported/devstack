@@ -1,0 +1,28 @@
+version: "2.1"
+
+services:
+  lms:
+    volumes:
+      - edx-nfs:/edx/app/edxapp/edx-platform
+      - src-nfs:/edx/src
+  studio:
+    volumes:
+      - edx-nfs:/edx/app/edxapp/edx-platform
+      - src-nfs:/edx/src
+#  forum:
+#    volumes:
+#      - ${DEVSTACK_WORKSPACE}/cs_comments_service:/edx/app/forum/cs_comments_service:cached
+
+volumes:
+  edx-nfs:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=host.docker.internal,rw,nolock,hard,nointr,nfsvers=3
+      device: :${DEVSTACK_WORKSPACE}/edx-platform
+  src-nfs:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=host.docker.internal,rw,nolock,hard,nointr,nfsvers=3
+      device: :${DEVSTACK_WORKSPACE}/src

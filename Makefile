@@ -8,15 +8,52 @@
 .PHONY: requirements
 
 DEVSTACK_WORKSPACE ?= $(shell pwd)/..
+include .env
 
 OS := $(shell uname)
 
 COMPOSE_PROJECT_NAME=${EDRAAK_COMPOSE_PROJECT_NAME:-devstack}
+DOCKER_COMPOSE_FILES=-f docker-compose.yml
+
+ifeq (${ENABLE_PROGS}, true)
+	DOCKER_COMPOSE_FILES+=-f docker-compose-progs.yml
+	DOCKER_COMPOSE_FILES+=-f docker-compose-progs${MOUNT_TYPE}.yml
+endif
+
+ifeq (${ENABLE_B2B}, true)
+	DOCKER_COMPOSE_FILES+=-f docker-compose-b2b.yml
+	DOCKER_COMPOSE_FILES+=-f docker-compose-b2b${MOUNT_TYPE}.yml
+endif
+
+ifeq (${ENABLE_MKTG}, true)
+	DOCKER_COMPOSE_FILES+=-f docker-compose-mktg.yml
+	DOCKER_COMPOSE_FILES+=-f docker-compose-mktg${MOUNT_TYPE}.yml
+endif
+
+ifeq (${ENABLE_EDX}, true)
+	DOCKER_COMPOSE_FILES+=-f docker-compose-edx.yml
+	DOCKER_COMPOSE_FILES+=-f docker-compose-edx${MOUNT_TYPE}.yml
+endif
+
+ifeq (${ENABLE_STATE_MANAGER}, true)
+	DOCKER_COMPOSE_FILES+=-f docker-compose-state-manager.yml
+	DOCKER_COMPOSE_FILES+=-f docker-compose-state-manager${MOUNT_TYPE}.yml
+endif
+
+ifeq (${ENABLE_JUDGE}, true)
+	DOCKER_COMPOSE_FILES+=-f docker-compose-judge.yml
+	DOCKER_COMPOSE_FILES+=-f docker-compose-judge${MOUNT_TYPE}.yml
+endif
+
+export DOCKER_COMPOSE_FILES
 
 export DEVSTACK_WORKSPACE
 export COMPOSE_PROJECT_NAME
 
 include *.mk
+
+compose-files:
+	@echo ${DOCKER_COMPOSE_FILES};
 
 # Generates a help message. Borrowed from https://github.com/pydanny/cookiecutter-djangopackage.
 help: ## Display this help message
@@ -34,24 +71,17 @@ upgrade: ## Upgrade requirements with pip-tools
 		requirements/pip-tools.txt \
 		requirements/base.txt \
 
-dev.checkout: ## Check out "openedx-release/$OPENEDX_RELEASE" in each repo if set, "master" otherwise
+dev.checkout: ## Check out "masters" otherwise
 	./repo.sh checkout
 
 dev.clone: ## Clone service repos to the parent directory
 	./repo.sh clone
 
 dev.provision.run: ## Provision all services with local mounted directories
-	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml" ./provision.sh
-
-dev.provision.sync.run: ## Provision all services with local mounted directories
-	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-sync.yml" ./provision.sh
+	./provision.sh
 
 dev.provision: | check-memory dev.clone dev.provision.run stop ## Provision dev environment with all services stopped
 
-dev.provision.xqueue: | check-memory dev.provision.xqueue.run stop stop.xqueue
-
-dev.provision.xqueue.run:
-	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-xqueue.yml" ./provision-xqueue.sh
 
 dev.reset: | down dev.repo.reset pull dev.up static update-db ## Attempts to reset the local devstack to a the master working state
 
@@ -72,52 +102,7 @@ dev.editable-envs:  ## Copy env files outside the docker containers so it's edit
 	@make studio-restart
 
 dev.up: | check-memory ## Bring up all services with host volumes
-	docker-compose -f docker-compose.yml -f docker-compose-host.yml -f docker-compose-state-manager.yml up -d
-
-dev.judge.up: | check-memory ## Bring up all services with host volumes
-	docker-compose -f docker-compose.yml -f docker-compose-host.yml -f docker-compose-edraak-judge.yml up -d
-
-dev.nfs.setup:  ## set's up an nfs server on the /Users folder, allowing nfs mounting on docker
-	./setup_native_nfs_docker_osx.sh
-
-dev.nfs.up: | check-memory ## Bring up all services with host volumes
-	docker-compose -f docker-compose.yml -f docker-compose-host-nfs.yml -f docker-compose-state-manager.yml up -d
-	@# Comment out this next line if you want to save some time and don't care about catalog programs
-	#./programs/provision.sh cache >/dev/null
-
-dev.nfs.judge.up: | check-memory ## Bring up all services with host volumes
-	docker-compose -f docker-compose.yml -f docker-compose-host-nfs.yml -f docker-compose-edraak-judge.yml up -d
-	@# Comment out this next line if you want to save some time and don't care about catalog programs
-	#./programs/provision.sh cache >/dev/null
-
-dev.nfs.up.all: ## Bring up all services with host volumes, including watchers
-	docker-compose -f docker-compose.yml -f docker-compose-host-nfs.yml -f docker-compose-watchers-nfs.yml -f docker-compose-state-manager.yml up -d
-
-dev.nfs.provision: | check-memory dev.clone dev.provision.nfs.run stop ## Provision dev environment with all services stopped
-
-dev.provision.nfs.run: ## Provision all services with local mounted directories
-	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host-nfs.yml" ./provision.sh
-
-dev.up.watchers: | check-memory ## Bring up asset watcher containers
-	docker-compose -f docker-compose-watchers.yml up -d
-
-dev.up.xqueue: | check-memory ## Bring up xqueue, assumes you already have lms running
-	docker-compose -f docker-compose.yml -f  docker-compose-xqueue.yml -f docker-compose-host.yml up -d
-
-dev.up.all: | dev.up dev.up.watchers ## Bring up all services with host volumes, including watchers
-
-dev.sync.daemon.start: ## Start the docker-sycn daemon
-	docker-sync start
-
-dev.sync.provision: | dev.sync.daemon.start dev.provision ## Provision with docker-sync enabled
-
-dev.sync.requirements: ## Install requirements
-	gem install docker-sync
-
-dev.sync.up: dev.sync.daemon.start ## Bring up all services with docker-sync enabled
-	docker-compose -f docker-compose.yml -f docker-compose-sync.yml up -d
-	@# Comment out this next line if you want to save some time and don't care about catalog programs
-	#./programs/provision.sh cache >/dev/null
+	docker-compose ${DOCKER_COMPOSE_FILES} up -d
 
 edraak.dev.up.hacks:
 	@# Start: Edraak hacks
@@ -132,54 +117,29 @@ edraak.dev.up.hacks:
 	@make studio-restart
 	@# End: Edraak hacks
 
-provision: | dev.provision ## This command will be deprecated in a future release, use dev.provision
-	echo "\033[0;31mThis command will be deprecated in a future release, use dev.provision\033[0m"
+provision: | dev.provision
 
 stop: ## Stop all services
 	(test -d .docker-sync && docker-sync stop) || true ## Ignore failure here
-	docker-compose -f docker-compose.yml -f docker-compose-state-manager.yml stop
-
-stop.state_manager: ## Stop state-manager
-	docker-compose -f docker-compose-state-manager.yml stop
-
-stop.watchers: ## Stop asset watchers
-	docker-compose -f docker-compose-watchers.yml stop
-
-stop.judge: ## Stop edraak judge
-	docker-compose -f docker-compose.yml -f docker-compose-edraak-judge.yml stop
-
-stop.all: | stop.analytics_pipeline stop stop.watchers stop.judge ## Stop all containers, including asset watchers
-
-stop.xqueue:
-	docker-compose -f docker-compose-xqueue.yml stop
+	docker-compose ${DOCKER_COMPOSE_FILES} stop
 
 down: ## Remove all service containers and networks
-	(test -d .docker-sync && docker-sync clean) || true ## Ignore failure here
-	docker-compose -f docker-compose.yml -f docker-compose-watchers.yml -f docker-compose-xqueue.yml -f docker-compose-analytics-pipeline.yml down
+	docker-compose ${DOCKER_COMPOSE_FILES} down
 
 destroy: ## Remove all devstack-related containers, networks, and volumes
 	./destroy.sh
 
 logs: ## View logs from containers running in detached mode
-	docker-compose -f docker-compose.yml -f docker-compose-edraak-judge.yml -f docker-compose-analytics-pipeline.yml -f docker-compose-state-manager.yml logs -f --tail 0
+	docker-compose ${DOCKER_COMPOSE_FILES} logs -f --tail 10
 
 %-logs: ## View the logs of the specified service container
-	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml -f docker-compose-watchers.yml -f docker-compose-state-manager.yml logs -f --tail=500 $*
-
-xqueue-logs: ## View logs from containers running in detached mode
-	docker-compose -f docker-compose-xqueue.yml logs -f xqueue
-
-xqueue_consumer-logs: ## View logs from containers running in detached mode
-	docker-compose -f docker-compose-xqueue.yml logs -f xqueue_consumer
+	docker-compose ${DOCKER_COMPOSE_FILES} logs -f --tail=500 $*
 
 pull:
-	docker-compose pull --parallel
-
-pull.xqueue: ## Update XQueue Docker images
-	docker-compose -f docker-compose-xqueue.yml pull --parallel
+	docker-compose ${DOCKER_COMPOSE_FILES} pull --parallel
 
 validate: ## Validate the devstack configuration
-	docker-compose config
+	docker-compose ${DOCKER_COMPOSE_FILES} config
 
 backup: ## Write all data volumes to the host.
 	docker run --rm --volumes-from edx.devstack.mysql -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/mysql.tar.gz /var/lib/mysql
