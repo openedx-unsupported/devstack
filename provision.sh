@@ -37,6 +37,9 @@ done
 # This can be removed once https://github.com/docker-library/mysql/issues/245 is resolved.
 sleep 10
 
+printf "Creating mongo usres"
+docker exec -i edx.devstack.mongo mongo < mongo-provision.js
+
 echo -e "MySQL ready"
 
 if $ENABLE_EDX; then
