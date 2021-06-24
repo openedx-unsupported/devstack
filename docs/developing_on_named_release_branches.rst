@@ -3,7 +3,7 @@ Developing on Open edX named release branches
 
 .. contents:: Table of Contents
 
-By default, the startup steps in `README.rst`_ will install the devstack using the master branch of all repos. If you want to install a named release instead, follow these steps before pulling the docker images in step 3 of the Getting Started guide:
+By default, the startup steps in `README.rst`_ will install the devstack using the master branch of all repos. If you want to install a named release instead, follow these steps before pulling the docker images in step 3 of the `Getting Started`_ guide:
 
 #. Set the ``OPENEDX_RELEASE`` environment variable to the appropriate image
    tag; "hawthorn.master", "zebrawood.rc1", etc.  Note that unlike a server
@@ -11,7 +11,7 @@ By default, the startup steps in `README.rst`_ will install the devstack using t
 #. Check out the appropriate branch in devstack, e.g. ``git checkout open-release/ironwood.master``
 #. Use ``make dev.checkout`` to check out the correct branch in the local
    checkout of each service repository
-#. Continue with step 3 in the `getting started` guide to pull the correct docker images.
+#. Continue with step 3 in the `getting started`_ guide to pull the correct docker images.
 
 All ``make`` target and ``docker-compose`` calls should now use the correct
 images until you change or unset ``OPENEDX_RELEASE`` again.  To work on the
