@@ -118,7 +118,6 @@ the ones installed globally on your system.
 Directions to setup devstack
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
 The default devstack services can be run by following the steps below.
 
 **Note:** This will set up a large number of services, more than you are likely to need to work with, but that's only necessary for first-time provisioning. See `Service List`_ and the `most common development workflow`_ for how to run and update devstack with just the services you need, rather than the ``large-and-slow`` default set.
@@ -162,13 +161,13 @@ The default devstack services can be run by following the steps below.
 
 .. _document on developing on named releases: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/developing_on_named_release_branches.html
 
-3. Optional: You have an option to use NFS on MacOS which may improve the performance significantly. To set it up ONLY ON MAC, do
+4. Optional: You have an option to use NFS on MacOS which may improve the performance significantly. To set it up ONLY ON MAC, do:
+
     .. code:: sh
 
         make dev.nfs.setup
 
-
-4. Run the provision command, if you haven't already, to configure the various
+5. Run the provision command, if you haven't already, to configure the various
    services with superusers (for development without the auth service) and
    tenants (for multi-tenancy).
 
@@ -201,7 +200,7 @@ The default devstack services can be run by following the steps below.
 
    **NOTE:** This command will bring up both MySQL 5.6 and 5.7 databases until all services are upgraded to 5.7.
 
-5. Start the desired services. This command will mount the repositories under the
+6. Start the desired services. This command will mount the repositories under the
    ``DEVSTACK_WORKSPACE`` directory.
 
    **NOTE:** it may take up to 60 seconds for the LMS to start, even after the ``dev.up.*`` command outputs ``done``.
