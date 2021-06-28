@@ -94,8 +94,8 @@ services:
         aliases:
           - edx.devstack.elasticsearch710
     ports:
-      - "9200:9200"
-      - "9300:9300"
+      - "9201:9200"
+      - "9301:9300"
     volumes:
       - elasticsearch710_data:/usr/share/elasticsearch/data
     environment:
@@ -277,7 +277,7 @@ services:
     hostname: edx_notes_api.devstack.edx
     depends_on:
       - devpi
-      - elasticsearch7
+      - elasticsearch710
       - lms
       - mysql57
     image: edxops/notes:${OPENEDX_RELEASE:-latest}
@@ -296,7 +296,8 @@ services:
       DB_USER: "notes001"
       DJANGO_WATCHMAN_TIMEOUT: 30
       ENABLE_DJANGO_TOOLBAR: 1
-      ELASTICSEARCH_URL: "http://edx.devstack.elasticsearch7:9200"
+      ELASTICSEARCH_URL: "http://edx.devstack.elasticsearch710:9200"
+      ELASTICSEARCH_DSL: "http://edx.devstack.elasticsearch710:9200"
 
   forum:
     command: bash -c 'source /edx/app/forum/ruby_env && source /edx/app/forum/devstack_forum_env && cd /edx/app/forum/cs_comments_service && bundle install && while true; do ruby app.rb -o 0.0.0.0 ; sleep 2; done'
