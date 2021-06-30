@@ -202,11 +202,9 @@ The option to use docker with nfs on mac was added recently. This can potentiall
 Improve Mac OSX Performance with docker-sync
 --------------------------------------------
 
-
-**NOTE:**
-
-docker-sync is no longer actively supported. See section for nfs above for
-possible alternative.
+.. note::
+    docker-sync is no longer actively supported. See section for nfs above for
+    possible alternative.
 
 Docker for Mac has known filesystem issues that significantly decrease
 performance for certain use cases, for example running tests in edx-platform. To
@@ -226,6 +224,7 @@ instructions`_ before provisioning.
 
 Docker Sync Troubleshooting tips
 --------------------------------
+
 Check your version and make sure you are running 0.4.6 or above:
 
 .. code:: sh
@@ -255,6 +254,16 @@ possible that the "delegated" consistency mode will be enough to no longer need
 docker-sync, but this feature hasn't been fully implemented yet (as of
 Docker 17.12.0-ce, "delegated" behaves the same as "cached").  There is a
 GitHub issue which explains the `current status of implementing delegated consistency mode`_.
+
+Problems with shared directories
+--------------------------------
+
+If you have problems like shared directories not appearing as shared, or very
+slow sync times (up to an hour), it might be due to symlinks.  Be sure that
+your actual devstack working directory matches the directory listed in the
+Resources - File Sharing section of the Docker preferences.  Using a symlink as
+the current directory and sharing the real directory (or vice-versa) may work
+erratically.
 
 .. _Understanding Git Conceptually: https://www.sbf5.com/~cduan/technical/git/
 .. _Docker Sync: https://github.com/EugenMayer/docker-sync/wiki
