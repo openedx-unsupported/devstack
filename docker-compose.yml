@@ -328,8 +328,6 @@ services:
       - mongo
       - discovery
       - forum
-      - firefox
-      - chrome
       - elasticsearch7
       - localstack
     # Allows attachment to the LMS service using 'docker attach <containerID>'.
@@ -466,8 +464,6 @@ services:
       - elasticsearch7
       - memcached
       - mongo
-      - firefox
-      - chrome
       - lms
     # Allows attachment to the Studio service using 'docker attach <containerID>'.
     stdin_open: true
