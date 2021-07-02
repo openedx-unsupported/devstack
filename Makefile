@@ -638,10 +638,10 @@ metrics-opt-out:
 docs: ## generate Sphinx HTML documentation, including API docs
 	tox -e docs
 
-e2e-tests: dev.up.lms+studio ## Run the end-to-end tests against the service containers.
+e2e-tests: dev.up.lms+studio+firefox+chrome ## Run the end-to-end tests against the service containers.
 	docker run -t --network=$(COMPOSE_PROJECT_NAME)_default -v $(DEVSTACK_WORKSPACE)/edx-e2e-tests:/edx-e2e-tests --env-file $(DEVSTACK_WORKSPACE)/edx-e2e-tests/devstack_env edxops/e2e env TERM=$(TERM) bash -c 'paver e2e_test'
 
-e2e-tests.with-shell: dev.up.lms+studio ## Start the end-to-end tests container with a shell.
+e2e-tests.with-shell: dev.up.lms+studio+firefox+chrome ## Start the end-to-end tests container with a shell.
 	docker run -it --network=$(COMPOSE_PROJECT_NAME)_default -v $(DEVSTACK_WORKSPACE)/edx-e2e-tests:/edx-e2e-tests --env-file $(DEVSTACK_WORKSPACE)/edx-e2e-tests/devstack_env edxops/e2e env TERM=$(TERM) bash
 
 validate-lms-volume: ## Validate that changes to the local workspace are reflected in the LMS container.
