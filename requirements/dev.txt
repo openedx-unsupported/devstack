@@ -87,7 +87,7 @@ jsonschema==3.2.0
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   docker-compose
-packaging==20.9
+packaging==21.0
     # via
     #   -r requirements/test.txt
     #   pytest

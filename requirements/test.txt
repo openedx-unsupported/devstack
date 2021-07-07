@@ -59,7 +59,7 @@ jsonschema==3.2.0
     # via
     #   -r requirements/base.txt
     #   docker-compose
-packaging==20.9
+packaging==21.0
     # via pytest
 paramiko==2.7.2
     # via

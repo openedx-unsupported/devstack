@@ -57,14 +57,13 @@ docopt==0.6.2
     # via
     #   -r requirements/base.txt
     #   docker-compose
-docutils==0.16
+docutils==0.17.1
     # via
-    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   doc8
     #   readme-renderer
     #   restructuredtext-lint
     #   sphinx
-edx-sphinx-theme==2.1.0
+edx-sphinx-theme==3.0.0
     # via -r requirements/doc.in
 idna==2.10
     # via
@@ -80,7 +79,7 @@ jsonschema==3.2.0
     #   docker-compose
 markupsafe==2.0.1
     # via jinja2
-packaging==20.9
+packaging==21.0
     # via
     #   bleach
     #   sphinx
@@ -143,7 +142,7 @@ six==1.16.0
     #   websocket-client
 snowballstemmer==2.1.0
     # via sphinx
-sphinx==4.0.2
+sphinx==4.0.3
     # via
     #   -r requirements/doc.in
     #   edx-sphinx-theme
