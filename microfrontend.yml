@@ -1,8 +1,39 @@
-# This file contains configuration common too all microfrontends
+# This file contains configuration common to all microfrontends.
 
 version: "2.1"
 
 services:
+
+  # Micro-frontend service template that mounts a list of frontend libraries
+  # from the host, if they exist.
+  microfrontend-with-host-mounted-libs:
+    extends:
+      file: microfrontend.yml
+      service: microfrontend
+    # This list should be kept synced with `microfrontend-with-nfs-libs`.
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/brand-edx.org:/edx/app/brand-edx.org:cached
+      - ${DEVSTACK_WORKSPACE}/brand-openedx:/edx/app/brand-openedx:cached
+      - ${DEVSTACK_WORKSPACE}/frontend-platform:/edx/app/frontend-platform:cached
+      - ${DEVSTACK_WORKSPACE}/paragon:/edx/app/paragon:cached
+
+  # Micro-frontend service template that uses NFS to mount frontend libraries,
+  # if they exist.
+  microfrontend-with-nfs-libs:
+    extends:
+      file: microfrontend.yml
+      service: microfrontend
+    # This list should be kept synced with `microfrontend-with-host-mounted-libs`.
+    # The NFS volumes here need to be defined in the `volumes` section of the file.
+    volumes:
+      - brand-edxorg-nfs:/edx/app/brand-edx.org:cached
+      - brand-openedx-nfs:/edx/app/brand-openedx:cached
+      - frontend-platform-nfs:/edx/app/frontend-platform:cached
+      - paragon-nfs:/edx/app/paragon:cached
+
+  # Base micro-frontend service template.
+  # Defines the underlying image and command to install+run frontend.
+  # Does not mount any host folders.
   microfrontend:
     command: bash -c 'npm install; while true; do npm start; sleep 2; done'
     stdin_open: true
@@ -10,3 +41,31 @@ services:
     image: node:12
     environment:
       - NODE_ENV=development
+
+# NFS volumes to mount micro-frontend libraries.
+# These have no effect for devstack users not using NFS.
+volumes:
+  brand-edxorg-nfs:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=host.docker.internal,rw,nolock,hard,nointr,nfsvers=3
+      device: :${DEVSTACK_WORKSPACE}/brand-edx.org
+  brand-openedx-nfs:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=host.docker.internal,rw,nolock,hard,nointr,nfsvers=3
+      device: :${DEVSTACK_WORKSPACE}/brand-openedx
+  frontend-platform-nfs:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=host.docker.internal,rw,nolock,hard,nointr,nfsvers=3
+      device: :${DEVSTACK_WORKSPACE}/frontend-platform
+  paragon-nfs:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=host.docker.internal,rw,nolock,hard,nointr,nfsvers=3
+      device: :${DEVSTACK_WORKSPACE}/paragon
