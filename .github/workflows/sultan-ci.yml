@@ -1,0 +1,22 @@
+on: push
+
+name: 'Sultan Tests'
+
+jobs:
+  sultan:
+    name: Trigger Sultan Action
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract branch name
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+
+      - name: Sultan Dispatch
+        uses: ahmedaljazzar/dispatch-workflow@v0.1.2
+        with:
+          owner: appsembler
+          repo: sultan
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          event_type: devstack
+          client_payload: '{"branch": "${{ steps.extract_branch.outputs.branch }}", "sha": "${{ github.sha }}"}'
+          max_time: 1500
