@@ -17,13 +17,13 @@ certifi==2021.5.30
     # via
     #   -r requirements/base.txt
     #   requests
-cffi==1.14.5
+cffi==1.14.6
     # via
     #   -r requirements/base.txt
     #   bcrypt
     #   cryptography
     #   pynacl
-chardet==4.0.0
+charset-normalizer==2.0.1
     # via
     #   -r requirements/base.txt
     #   requests
@@ -49,7 +49,7 @@ docopt==0.6.2
     # via
     #   -r requirements/base.txt
     #   docker-compose
-idna==2.10
+idna==3.2
     # via
     #   -r requirements/base.txt
     #   requests
@@ -97,7 +97,7 @@ pyyaml==5.4.1
     # via
     #   -r requirements/base.txt
     #   docker-compose
-requests==2.25.1
+requests==2.26.0
     # via
     #   -r requirements/base.txt
     #   docker
@@ -110,7 +110,7 @@ six==1.16.0
     #   jsonschema
     #   pynacl
     #   websocket-client
-texttable==1.6.3
+texttable==1.6.4
     # via
     #   -r requirements/base.txt
     #   docker-compose
