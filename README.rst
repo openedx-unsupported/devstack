@@ -163,8 +163,11 @@ The default devstack services can be run by following the steps below.
 
 4. Optional: You have an option to use NFS on MacOS which may improve the performance significantly. To set it up ONLY ON MAC, do:
 
-    Note -
-    Using NFS leads to increased complexity and might cause errors. Improvements to Docker's default FS have made performance improvements negligible.
+    **Note**
+    Using NFS leads to increased complexity and might cause errors. Improvements to Docker's default FS have made performance improvements negligible.  `Deprecation`_ of NFS is forthcoming. 
+
+    .. _Deprecation: https://openedx.atlassian.net/browse/DEPR-161
+
     .. code:: sh
 
         make dev.nfs.setup
