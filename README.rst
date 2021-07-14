@@ -165,7 +165,6 @@ The default devstack services can be run by following the steps below.
 
     Note -
     Using NFS leads to increased complexity and might cause errors. Improvements to Docker's default FS have made performance improvements negligible.
-    
     .. code:: sh
 
         make dev.nfs.setup
