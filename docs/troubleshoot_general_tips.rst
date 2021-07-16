@@ -189,43 +189,11 @@ through `Understanding Git Conceptually`_. It explains core Git principles in wa
 that makes it easier to use the simpler ``git`` commands more effectively
 and easier to use the more complicated ``git`` commands when you have to.
 
-
-Troubleshooting: Performance
-----------------------------
-
-Improve Mac OSX Performance using nfs
--------------------------------------
-
-.. note::
-    Using NFS leads to increased complexity and might cause errors. Improvements to Docker's default FS have made performance improvements negligible. `Deprecation`_ of NFS is forthcoming.
-
-    .. _Deprecation: https://openedx.atlassian.net/browse/DEPR-161
-
-
-Improve Mac OSX Performance with docker-sync
---------------------------------------------
+Docker Sync Troubleshooting tips
+--------------------------------
 
 .. note::
     docker-sync is no longer actively supported
-
-Docker for Mac has known filesystem issues that significantly decrease
-performance for certain use cases, for example running tests in edx-platform. To
-improve performance, `Docker Sync`_  can be used to synchronize file data from
-the host machine to the containers.
-
-Many developers have opted not to use `Docker Sync`_ because it adds complexity
-and can sometimes lead to issues with the filesystem getting out of sync.
-
-You can swap between using Docker Sync and native volumes at any time, by using
-the make targets with or without 'sync'. However, this is harder to do quickly
-if you want to switch inside the PyCharm IDE due to its need to rebuild its
-cache of the containers' virtual environments.
-
-If you are using macOS, please follow the `Docker Sync installation
-instructions`_ before provisioning.
-
-Docker Sync Troubleshooting tips
---------------------------------
 
 Check your version and make sure you are running 0.4.6 or above:
 
