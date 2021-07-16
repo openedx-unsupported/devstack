@@ -196,15 +196,17 @@ Troubleshooting: Performance
 Improve Mac OSX Performance using nfs
 -------------------------------------
 
-The option to use docker with nfs on mac was added recently. This can potentially increase performance in mac osx. However, this option is still in testing phase. If you find any corrections that should be made, please start a PR with corrections.
+.. note::
+    Using NFS leads to increased complexity and might cause errors. Improvements to Docker's default FS have made performance improvements negligible. `Deprecation`_ of NFS is forthcoming.
+
+    .. _Deprecation: https://openedx.atlassian.net/browse/DEPR-161
 
 
 Improve Mac OSX Performance with docker-sync
 --------------------------------------------
 
 .. note::
-    docker-sync is no longer actively supported. See section for nfs above for
-    possible alternative.
+    docker-sync is no longer actively supported
 
 Docker for Mac has known filesystem issues that significantly decrease
 performance for certain use cases, for example running tests in edx-platform. To
