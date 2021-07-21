@@ -29,7 +29,7 @@ cffi==1.14.6
     #   bcrypt
     #   cryptography
     #   pynacl
-charset-normalizer==2.0.1
+charset-normalizer==2.0.3
     # via
     #   -r requirements/base.txt
     #   -r requirements/test.txt
@@ -97,7 +97,7 @@ paramiko==2.7.2
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   docker
-pep517==0.10.0
+pep517==0.11.0
     # via
     #   -r requirements/pip-tools.txt
     #   pip-tools
@@ -176,12 +176,14 @@ texttable==1.6.4
     #   docker-compose
 toml==0.10.2
     # via
-    #   -r requirements/pip-tools.txt
     #   -r requirements/test.txt
-    #   pep517
     #   pytest
     #   tox
-tox==3.23.1
+tomli==1.0.4
+    # via
+    #   -r requirements/pip-tools.txt
+    #   pep517
+tox==3.24.0
     # via
     #   -r requirements/dev.in
     #   tox-battery
@@ -192,7 +194,7 @@ urllib3==1.26.6
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   requests
-virtualenv==20.5.0
+virtualenv==20.6.0
     # via tox
 websocket-client==0.59.0
     # via
