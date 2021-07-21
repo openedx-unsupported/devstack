@@ -1,7 +1,7 @@
 PyCharm Integration
 ===================
 
-The Professional edition of JetBrains `PyCharm`_ IDE, version 2017.1.2 or later,
+The Professional edition of JetBrains `PyCharm`_ IDE
 can be used to develop and debug with Docker and Docker Compose.
 
 Additional PyCharm tips are kept in this `PyCharm IDE setup`_ documentation.
@@ -12,8 +12,7 @@ Prerequisites
 1. You must complete all steps for provisioning your Docker Devstack environment
    in the `README`_ before proceeding with the PyCharm setup.
 
-2. If you are on a Mac, make sure you are on a newer version than macOS
-   Yosemite. A this time, this should work with either El Capitan or Sierra.
+2. If you are on a Mac, make sure you are on a reasonably modern version of MacOS.
 
 Before running Run or Debug in PyCharm
 --------------------------------------
@@ -23,8 +22,7 @@ following:
 
 1. Ensure that all Docker images are stopped outside of PyCharm before starting
    a server or tests from inside PyCharm. PyCharm will potentially disable the
-   start button with no further error when this problem occurs. See `Jetbrains
-   ticket PY-22893`_.
+   start button with no further error when this problem occurs. See `Jetbrains ticket PY-22893`_.
 
 2. If you are running with Docker Sync on a mac you will want to first run
    ``docker-sync start`` to run sync in the background before running any
@@ -33,13 +31,14 @@ following:
 Setup a Remote Interpreter
 --------------------------
 
-Follow the `vendor documentation`_ for the necessary steps to add a Docker
-Compose remote interpreter. In the Remote Python Interpreter dialog,
-use the following options:
+Go to the Python Interpreter dialog Settings>Project: <projectname> > Python Interpreter,
+and use the following options:
 
-- If you need to add a server (e.g. Docker for Mac), you should be able to Add and choose defaults.
+- Server
+  - Servers can be created with the New... button, and create one using the defaults, or select an appropriate one from the popup.
 
-  - On a Mac, you'll need to use "API URL: unix:///var/run/docker.sock" (with 3 slashes).
+    - On Mac, if you use an API URL, use "unix:///var/run/docker.sock" (with 3 slashes).
+    - For Mac you can just select or create a server that uses Docker for Mac.
 
 - Configuration files(s)
 
@@ -59,7 +58,6 @@ use the following options:
 - Required Environment variables:
 
   - ``DEVSTACK_WORKSPACE=/LOCAL/PARENT/PATH/TO/workspace`` (i.e.: Path to where your local repositories are cloned. This needs to be full path an not relative (e.g. './') path to ensure proper configuration of python packages.)
-  - ``VIRTUAL_ENV=/LOCAL/PARENT/PATH/TO/workspace/devstack/venv`` (i.e.: Path to where your local devstack virtual environment exists for release.)
 
 - Optional Environment variables:
 
@@ -293,8 +291,8 @@ General Tips
 
 1. Ensure that you have fulfilled all of the `Prerequisites`_.
 
-2. Ensure you have completed all steps in `Before running Run or Debug in
-   PyCharm`_ each time you run the server or tests.
+2. Ensure you have completed all steps in `Before running Run or Debug in PyCharm`_
+   each time you run the server or tests.
 
 3. PyCharm is often fixing bugs around the relatively new docker-compose
    integration.  If PyCharm has an update, install it.
