@@ -108,4 +108,4 @@ A more radical alternative would be to explicitly mount certain local frontend p
 
 This approach would have been the most compatible with the existing local frontend package strategy, but it would sharply differ from devstack's backend package strategy.
 
-For refrence, here is a draft implementation of this rejected approach: https://github.com/edx/devstack/pull/795.
+For reference, here is a draft implementation of this rejected approach: https://github.com/edx/devstack/pull/795.
