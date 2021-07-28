@@ -623,10 +623,10 @@ _expects-database.%:
 # Convenient ways to opt in or out of devstack usage metrics reporting
 ########################################################################################
 
-metrics-opt-in:
+metrics-opt-in: ## To opt into basic data collection to help improve devstack
 	@./scripts/send_metrics.py opt-in
 
-metrics-opt-out:
+metrics-opt-out: ## To opt out of metrics data collection
 	@./scripts/send_metrics.py opt-out
 
 
