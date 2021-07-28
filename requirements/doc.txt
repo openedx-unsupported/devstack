@@ -107,7 +107,7 @@ pyrsistent==0.18.0
     # via
     #   -r requirements/base.txt
     #   jsonschema
-python-dotenv==0.18.0
+python-dotenv==0.19.0
     # via
     #   -r requirements/base.txt
     #   docker-compose
@@ -140,7 +140,7 @@ six==1.16.0
     #   websocket-client
 snowballstemmer==2.1.0
     # via sphinx
-sphinx==4.1.1
+sphinx==4.1.2
     # via
     #   -r requirements/doc.in
     #   edx-sphinx-theme
