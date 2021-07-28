@@ -34,7 +34,7 @@ Current SOA: Local packages for frontends
 
 Unfortunately, this flow is currently *not* an option for frontend services (i.e., micro-frontends) when they're run via devstack. This was probably not an intentional omission; frontend services were added to devstack in a somewhat ad-hoc way, and the local-package workflow was probably overlooked.
 
-There is, however, have an established strategy for using local packages when running frontends *outside* of devstack. This stategy is described in the `frontend-build documentation <https://github.com/edx/frontend-build#local-module-configuration-for-webpack>`_. Essentially, frontend package respositories can be placed anywhere in the host system, and each frontend's ``module.config.js`` can be pointed at those local respositories using a path relative to the frontend itself. For example:
+There is, however, an established strategy for using local packages when running frontends *outside* of devstack. This stategy is described in the `frontend-build documentation <https://github.com/edx/frontend-build#local-module-configuration-for-webpack>`_. Essentially, frontend package respositories can be placed anywhere in the host system, and each frontend's ``module.config.js`` can be pointed at those local respositories using a path relative to the frontend itself. For example:
 
 * A frontend dev has ``frontend-app-profile`` within their home folder (``~``).
 * They would like to run a modified version of Paragon, located at ``~/paragon``.
