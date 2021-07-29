@@ -304,9 +304,9 @@ services:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.forum"
     hostname: forum.devstack.edx
     depends_on:
-      - elasticsearch7
       - memcached
       - mongo
+      - elasticsearch710
     image: edxops/forum:${OPENEDX_RELEASE:-latest}
     stdin_open: true
     tty: true
