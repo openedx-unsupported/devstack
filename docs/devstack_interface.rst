@@ -112,6 +112,10 @@ Useful Commands and Summary
 
   When to use: When automatic code reloading is not working and you need to manually restart a particular application server.
 
+  Tip: This only works for backend services. To restart frontends, use ``dev.attach.frontend-app-<name>`` and ``Ctrl+C``.
+
+  Variation: ``make <service>-restart-devserver``.
+
 - ``dev.restart-container.<service>`` restarts service container. This is essentially a stronger version of ``dev.restrart-devserver``
 
   Note: this will only restart <container> and not its dependencies
