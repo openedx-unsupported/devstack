@@ -27,11 +27,11 @@ These instructions are written using the LMS as an example. Replace ``lms`` with
 
       - If the logs show warning messages about missing tables or needed migrations, run ``make lms-migrate`` and then continue
 
-      - If there are complaints about import failures, Python package requirements may have changed since the last disk image. Run ``make lms-shell`` and then ``make requirements`` from inside the shell, then restart the service with ``make lms-restart``.
+      - If there are complaints about import failures, Python package requirements may have changed since the last disk image. Run ``make lms-shell`` and then ``make requirements`` from inside the shell, then restart the service with ``make lms-restart-devserver``.
 
 #. Your service should now be up and accessible, and you can develop in your IDA's repo. When you make changes on disk, a file watcher will restart the service in devstack. It may take a moment for the service to come back up with your changes.
 
-   - For some changes, this auto-restarting is insufficient, and you'll need to make a change from inside ``make lms-shell`` (such as ``make requirements`` or a migrations or other management command) and then run ``make lms-restart`` from the outside.
+   - For some changes, this auto-restarting is insufficient, and you'll need to make a change from inside ``make lms-shell`` (such as ``make requirements`` or a migrations or other management command) and then run ``make lms-restart-devserver`` from the outside.
 
 #. When you're done, you can either run ``make lms-stop`` to shut down the service but leave the container intact (with requirements installations and other file changes preserved) or ``make lms-down`` to destroy the containers as well.
 
