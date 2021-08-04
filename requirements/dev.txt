@@ -29,7 +29,7 @@ cffi==1.14.6
     #   bcrypt
     #   cryptography
     #   pynacl
-charset-normalizer==2.0.3
+charset-normalizer==2.0.4
     # via
     #   -r requirements/base.txt
     #   -r requirements/test.txt
@@ -45,7 +45,7 @@ cryptography==3.4.7
     #   paramiko
 distlib==0.3.2
     # via virtualenv
-distro==1.5.0
+distro==1.6.0
     # via
     #   -r requirements/base.txt
     #   -r requirements/test.txt
@@ -105,7 +105,7 @@ pexpect==4.8.0
     # via -r requirements/test.txt
 pip-tools==6.2.0
     # via -r requirements/pip-tools.txt
-platformdirs==2.1.0
+platformdirs==2.2.0
     # via virtualenv
 pluggy==0.13.1
     # via
@@ -179,11 +179,11 @@ toml==0.10.2
     #   -r requirements/test.txt
     #   pytest
     #   tox
-tomli==1.1.0
+tomli==1.2.0
     # via
     #   -r requirements/pip-tools.txt
     #   pep517
-tox==3.24.0
+tox==3.24.1
     # via
     #   -r requirements/dev.in
     #   tox-battery
@@ -194,7 +194,7 @@ urllib3==1.26.6
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   requests
-virtualenv==20.6.0
+virtualenv==20.7.0
     # via tox
 websocket-client==0.59.0
     # via
