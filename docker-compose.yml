@@ -321,7 +321,7 @@ services:
     depends_on:
       - devpi
       - discovery
-      - elasticsearch7
+      - elasticsearch710
       - forum
       - frontend-app-gradebook
       - frontend-app-learning
@@ -432,7 +432,7 @@ services:
     hostname: studio.devstack.edx
     depends_on:
       - devpi
-      - elasticsearch7
+      - elasticsearch710
       - frontend-app-course-authoring
       - frontend-app-library-authoring
       - frontend-app-publisher
