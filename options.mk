@@ -99,4 +99,4 @@ credentials+discovery+ecommerce+lms+registrar+studio
 # All third-party services.
 # Separated by plus signs. Listed in alphabetical order for clarity.
 THIRD_PARTY_SERVICES ?= \
-chrome+devpi+elasticsearch+elasticsearch7+firefox+memcached+mongo+mysql+mysql57+redis+namenode+datanode+resourcemanager+nodemanager+sparkmaster+sparkworker+vertica
+chrome+devpi+elasticsearch+elasticsearch7+elasticsearch710+firefox+memcached+mongo+mysql+mysql57+redis+namenode+datanode+resourcemanager+nodemanager+sparkmaster+sparkworker+vertica
