@@ -17,7 +17,7 @@ Prerequisites
 Before running Run or Debug in PyCharm
 --------------------------------------
 
-**NOTE:** If you are looking for instructions for NFS or docker-sync, see :ref:`Deprecated MacOS performance improvements`.
+**NOTE:** If you are looking for instructions for NFS or docker-sync, see `Deprecated MacOS performance improvements`_.
 
 Every time you run/debug a server or test in PyCharm, you must first ensure the
 following:
@@ -356,7 +356,7 @@ One way to do this is to follow these instructions:
 
 3. Click the Edit button (pencil icon) at the bottom for the broken interpreter,
    and then click OK on all dialogs, without making any edits.
-   
+
 
 .. _Deprecated MacOS performance improvements:
 
