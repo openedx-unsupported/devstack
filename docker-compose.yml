@@ -225,7 +225,6 @@ services:
     hostname: discovery.devstack.edx
     depends_on:
       - elasticsearch710
-      - frontend-app-publisher
       - memcached
       - mysql57
     # Allows attachment to the discovery service using 'docker attach <containerID>'.
@@ -254,7 +253,6 @@ services:
     hostname: ecommerce.devstack.edx
     depends_on:
       - discovery
-      - frontend-app-payment
       - lms
       - memcached
       - mysql57
@@ -328,8 +326,6 @@ services:
       - discovery
       - elasticsearch710
       - forum
-      - frontend-app-gradebook
-      - frontend-app-learning
       - localstack
       - memcached
       - mongo
@@ -391,7 +387,6 @@ services:
     hostname: registrar.devstack.edx
     depends_on:
       - discovery
-      - frontend-app-program-console
       - lms
       - mysql57
       - memcached
@@ -466,9 +461,6 @@ services:
     depends_on:
       - devpi
       - elasticsearch710
-      - frontend-app-course-authoring
-      - frontend-app-library-authoring
-      - frontend-app-publisher
       - lms
       - memcached
       - mongo
@@ -545,6 +537,8 @@ services:
           - edx.devstack.frontend-app-course-authoring
     ports:
       - "2001:2001"
+    depends_on:
+      - studio
 
   frontend-app-gradebook:
     extends:
@@ -558,6 +552,8 @@ services:
           - edx.devstack.frontend-app-gradebook
     ports:
       - "1994:1994"
+    depends_on:
+      - lms
 
   frontend-app-learning:
     extends:
@@ -571,6 +567,8 @@ services:
           - edx.devstack.frontend-app-learning
     ports:
       - "2000:2000"
+    depends_on:
+      - lms
 
   frontend-app-library-authoring:
     extends:
@@ -584,6 +582,9 @@ services:
           - edx.devstack.frontend-app-library-authoring
     ports:
       - "3001:3001"
+    depends_on:
+      - lms
+      - studio
 
   frontend-app-payment:
     extends:
@@ -597,6 +598,8 @@ services:
           - edx.devstack.frontend-app-payment
     ports:
       - "1998:1998"
+    depends_on:
+      - ecommerce
 
   frontend-app-program-console:
     extends:
@@ -610,6 +613,9 @@ services:
           - edx.devstack.frontend-app-program-console
     ports:
       - "1976:1976"
+    depends_on:
+      - lms
+      - registrar
 
   frontend-app-publisher:
     extends:
@@ -623,6 +629,8 @@ services:
           - edx.devstack.frontend-app-publisher
     ports:
       - "18400:18400"
+    depends_on:
+      - lms
 
 volumes:
   discovery_assets:
