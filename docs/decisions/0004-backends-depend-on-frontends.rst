@@ -4,8 +4,15 @@
 Status
 ======
 
-Approved
+**Reverted** due to resource depletion concerns.
 
+A consequence of implementing this decision was that an increased number of containers (specifically, frontend containers) were started by common commands like ``make dev.provision`` and ``make dev.up.lms``. Unfortunately, the increased system resource consumption was leading to blocking workflow disruptions such as Docker network timeouts.
+
+In absence of an immediately obvious way of reducing the additional resource burden that this decision's implementation requires, we have decided to revert it. Future work could include:
+
+* Revisit the *Rejected Alternatives* listed at the bottom of this decision record. Both of those alternatives allow smaller groups of containers to be started for different situtations.
+* Investigate how the memory and CPU footprints of the micro-frontend Docker containers could be reduced.
+* Investigate running all micro-frontends from a singular Docker container.
 
 Context
 =======
