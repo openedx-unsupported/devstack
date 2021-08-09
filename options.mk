@@ -58,8 +58,6 @@ FS_SYNC_STRATEGY ?= local-mounts
 # Services that are to be pulled, provisioned, run, and checked by default
 # when no services are specified manually.
 # Should be a subset of $(EDX_SERVICES).
-# frontend-apps are not included here, but several of them are dependencies of default
-# services.
 # Separated by plus signs. Listed in alphabetical order for clarity.
 # WARNING: You may remove services from this list in order to make Devstack lighter,
 #          but beware that some services have implicit, undocumented dependencies on
@@ -70,7 +68,7 @@ FS_SYNC_STRATEGY ?= local-mounts
 #       The current value was chosen such that it would not change the existing
 #       Devstack behavior.
 DEFAULT_SERVICES ?= \
-credentials+discovery+ecommerce+edx_notes_api+forum+lms+studio
+credentials+discovery+ecommerce+edx_notes_api+forum+frontend-app-gradebook+frontend-app-payment+frontend-app-publisher+frontend-app-learning+lms+studio
 
 # All edX services, whether or not they are run by default.
 # Separated by plus signs.
