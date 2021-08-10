@@ -420,6 +420,9 @@ dev.restart-devserver: _expects-service.dev.restart-devserver
 dev.restart-devserver.forum:
 	docker-compose exec forum bash -c 'kill $$(ps aux | grep "ruby app.rb" | egrep -v "while|grep" | awk "{print \$$2}")'
 
+dev.forum.build-indices: ## Build indices for forum service
+	docker-compose exec forum bash -c "cd forum && source ruby_env && source devstack_forum_env && cd cs_comments_service/ && bin/rake search:rebuild_indices"
+
 dev.restart-devserver.%: ## Kill an edX service's development server. Watcher should restart it.
 	# Applicable to Django services only.
 	docker-compose exec $* bash -c 'kill $$(ps aux | egrep "manage.py ?\w* runserver" | egrep -v "while|grep" | awk "{print \$$2}")'
