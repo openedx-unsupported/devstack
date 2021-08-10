@@ -204,6 +204,10 @@ dev.clone.ssh: ## Clone service repos using SSH method to the parent directory.
 # Developer interface: Docker image management.
 ########################################################################################
 
+dev.prune: ## Prune dangling docker images, useful when you get the 'no space left on device' error
+	docker system prune -f
+	# See also: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/troubleshoot_general_tips.html#no-space-left-on-device
+
 dev.pull.without-deps: _expects-service-list.dev.pull.without-deps
 
 dev.pull.without-deps.%: ## Pull latest Docker images for specific services.
@@ -509,7 +513,7 @@ dev.static.%: ## Rebuild static assets for the specified service's container.
 ########################################################################################
 
 
-dev.reset: dev.down dev.reset-repos dev.pull.large-and-slow dev.up.large-and-slow dev.static dev.migrate ## Attempt to reset the local devstack to the master working state without destroying data.
+dev.reset: dev.down dev.reset-repos dev.prune dev.pull.large-and-slow dev.up.large-and-slow dev.static dev.migrate ## Attempt to reset the local devstack to the master working state without destroying data.
 
 dev.destroy: ## Irreversibly remove all devstack-related containers, networks, and volumes.
 	$(WINPTY) bash ./destroy.sh
