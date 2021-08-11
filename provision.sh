@@ -48,6 +48,7 @@ notes \
 registrar \
 xqueue \
 coursegraph \
+insights \
  "
 
 # What should we provision?

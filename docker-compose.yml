@@ -368,6 +368,35 @@ services:
     volumes:
       - edxapp_lms_assets:/edx/var/edxapp/staticfiles/
 
+  insights:
+    command: bash -c 'source /edx/app/insights/insights_env && while true; do python /edx/app/insights/insights/manage.py runserver 0.0.0.0:18110 --settings analytics_dashboard.settings.devstack; sleep 2; done'
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.insights"
+    hostname: insights.devstack.edx
+    depends_on:
+      - mysql57
+      - lms
+      - memcached
+    # Allows attachment to the insights service using 'docker attach <containerID>'.
+    stdin_open: true
+    tty: true
+    environment:
+      DB_HOST: edx.devstack.mysql57
+      DB_NAME: dashboard
+      DB_PORT: 3306
+      DB_USER: rozencrantz
+      DB_PASSWORD: secret
+      LMS_HOST: http://localhost:18000
+      DJANGO_SETTINGS_MODULE: analytics_dashboard.settings.devstack
+    image: edxops/insights:${OPENEDX_RELEASE:-latest}
+    networks:
+      default:
+        aliases:
+          - edx.devstack.insights
+    ports:
+      - "18110:18110"
+    volumes:
+      - /edx/var/insights/
+ 
   registrar:
     command: bash -c 'source /edx/app/registrar/registrar_env && while true; do python /edx/app/registrar/registrar/manage.py runserver 0.0.0.0:18734; sleep 2; done'
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.registrar"

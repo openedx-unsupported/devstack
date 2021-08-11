@@ -50,6 +50,10 @@ services:
       - edxapp_tox:/edx/app/edxapp/edx-platform/.tox
       - edxapp_uploads:/edx/var/edxapp/uploads
       - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
+  insights:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/edx-analytics-dashboard:/edx/app/insights/insights
+      - insights_node_modules:/edx/app/insights/insights/node_modules
 
   # Note that frontends mount `src` to /edx/app/src instead of /edx/src.
   # See ADR #5 for rationale.
@@ -99,6 +103,7 @@ volumes:
   credentials_node_modules:
   discovery_node_modules:
   ecommerce_node_modules:
+  insights_node_modules:
   edxapp_media:
   edxapp_node_modules:
   edxapp_uploads:
