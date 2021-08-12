@@ -438,7 +438,7 @@ dev.attach.%: ## Attach to the specified service container process for debugging
 dev.shell: _expects-service.dev.shell
 
 dev.shell.credentials:
-	docker-compose exec credentials env TERM=$(TERM) bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials && /bin/bash'
+	docker-compose exec credentials env TERM=$(TERM) bash -c 'cd /edx/app/credentials/credentials && /bin/bash'
 
 dev.shell.discovery:
 	docker-compose exec discovery env TERM=$(TERM) /edx/app/discovery/devstack.sh open

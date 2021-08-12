@@ -9,11 +9,11 @@ docker-compose exec -T discovery bash -c 'rm -rf /edx/app/discovery/discovery/pr
 
 echo 'Updating credentials...'
 echo 'setting catalog and lms base urls'
-docker-compose exec -T credentials bash -c 'source /edx/app/credentials/credentials_env && python /edx/app/credentials/credentials/manage.py create_or_update_site --site-domain example.com --site-name example.com --platform-name edX --tos-url https://www.edx.org/edx-terms-service --privacy-policy-url https://www.edx.org/edx-privacy-policy --homepage-url https://www.edx.org --company-name "edX Inc." --certificate-help-url https://edx.readthedocs.org/projects/edx-guide-for-students/en/latest/SFD_certificates.html#web-certificates --lms-url-root http://edx.devstack.lms:18000/ --catalog-api-url http://edx.devstack.discovery:18381/api/v1/ --theme-name edx.org'
+docker-compose exec -T credentials bash -c 'python /edx/app/credentials/credentials/manage.py create_or_update_site --site-domain example.com --site-name example.com --platform-name edX --tos-url https://www.edx.org/edx-terms-service --privacy-policy-url https://www.edx.org/edx-privacy-policy --homepage-url https://www.edx.org --company-name "edX Inc." --certificate-help-url https://edx.readthedocs.org/projects/edx-guide-for-students/en/latest/SFD_certificates.html#web-certificates --lms-url-root http://edx.devstack.lms:18000/ --catalog-api-url http://edx.devstack.discovery:18381/api/v1/ --theme-name edx.org'
 echo 'copying discovery catalog'
-docker-compose exec -T credentials bash -c 'source /edx/app/credentials/credentials_env && python /edx/app/credentials/credentials/manage.py copy_catalog'
+docker-compose exec -T credentials bash -c 'python /edx/app/credentials/credentials/manage.py copy_catalog'
 echo 'creating a program certificate configuration'
-docker-compose exec -T credentials bash -c 'source /edx/app/credentials/credentials_env && python /edx/app/credentials/credentials/manage.py create_program_certificate_configuration'
+docker-compose exec -T credentials bash -c 'python /edx/app/credentials/credentials/manage.py create_program_certificate_configuration'
 
 echo 'Updating LMS...'
 echo 'creating a credentials API connection'
