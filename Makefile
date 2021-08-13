@@ -204,7 +204,7 @@ dev.clone.ssh: ## Clone service repos using SSH method to the parent directory.
 # Developer interface: Docker image management.
 ########################################################################################
 
-dev.prune: ## Prune dangling docker images, useful when you get the 'no space left on device' error
+dev.prune: ## Prune dangling docker images, containers, and networks. Useful when you get the 'no space left on device' error
 	docker system prune -f
 	# See also: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/troubleshoot_general_tips.html#no-space-left-on-device
 
