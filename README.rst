@@ -312,6 +312,8 @@ Instead of a service name or list, you can also run commands like ``make dev.pro
 +------------------------------------+-------------------------------------+----------------+--------------+
 | `xqueue`_                          | http://localhost:18040/api/v1/      | Python/Django  | Extra        |
 +------------------------------------+-------------------------------------+----------------+--------------+
+| `coursegraph`                      | http://localhost:7474/browser       | Tooling (Java) | Extra        |
++------------------------------------+-------------------------------------+----------------+--------------+
 
 Some common service combinations include:
 
