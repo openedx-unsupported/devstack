@@ -310,6 +310,8 @@ Instead of a service name or list, you can also run commands like ``make dev.pro
 +------------------------------------+-------------------------------------+----------------+--------------+
 | `frontend-app-course-authoring`_   | http://localhost:2001/              | MFE (React.js) | Extra        |
 +------------------------------------+-------------------------------------+----------------+--------------+
+| `frontend-app-account`_            | http://localhost:1997/              | MFE (React.js) | Extra        |
++------------------------------------+-------------------------------------+----------------+--------------+
 | `xqueue`_                          | http://localhost:18040/api/v1/      | Python/Django  | Extra        |
 +------------------------------------+-------------------------------------+----------------+--------------+
 | `coursegraph`                      | http://localhost:7474/browser       | Tooling (Java) | Extra        |
@@ -337,6 +339,7 @@ Some common service combinations include:
 .. _frontend-app-learning: https://github.com/edx/frontend-app-learning
 .. _frontend-app-library-authoring: https://github.com/edx/frontend-app-library-authoring
 .. _frontend-app-course-authoring: https://github.com/edx/frontend-app-course-authoring
+.. _frontend-app-account: https://github.com/edx/frontend-app-account
 .. _xqueue: https://github.com/edx/xqueue
 .. _coursegraph: https://github.com/edx/edx-platform/tree/master/openedx/core/djangoapps/coursegraph
 
