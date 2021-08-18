@@ -18,6 +18,6 @@ sleep 10  # Give Neo4j some time to boot up.
 
 echo -e "${GREEN}   Updating LMS courses in Coursegraph...${NC}"
 
-docker-compose exec lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && ./manage.py lms dump_to_neo4j --host coursegraph.devstack.edx --user neo4j --password edx'
+docker-compose run lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && ./manage.py lms dump_to_neo4j --host coursegraph.devstack.edx --user neo4j --password edx'
 
 echo -e "${GREEN}   Coursegraph is now up-to-date with LMS!${NC}"
