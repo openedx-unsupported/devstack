@@ -338,6 +338,7 @@ Some common service combinations include:
 .. _frontend-app-library-authoring: https://github.com/edx/frontend-app-library-authoring
 .. _frontend-app-course-authoring: https://github.com/edx/frontend-app-course-authoring
 .. _xqueue: https://github.com/edx/xqueue
+.. _coursegraph: https://github.com/edx/edx-platform/tree/master/openedx/core/djangoapps/coursegraph
 
 
 Known Issues
