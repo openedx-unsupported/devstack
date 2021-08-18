@@ -47,6 +47,7 @@ forum \
 notes \
 registrar \
 xqueue \
+coursegraph \
  "
 
 # What should we provision?

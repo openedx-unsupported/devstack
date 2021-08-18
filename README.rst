@@ -312,6 +312,8 @@ Instead of a service name or list, you can also run commands like ``make dev.pro
 +------------------------------------+-------------------------------------+----------------+--------------+
 | `xqueue`_                          | http://localhost:18040/api/v1/      | Python/Django  | Extra        |
 +------------------------------------+-------------------------------------+----------------+--------------+
+| `coursegraph`                      | http://localhost:7474/browser       | Tooling (Java) | Extra        |
++------------------------------------+-------------------------------------+----------------+--------------+
 
 Some common service combinations include:
 
@@ -336,6 +338,7 @@ Some common service combinations include:
 .. _frontend-app-library-authoring: https://github.com/edx/frontend-app-library-authoring
 .. _frontend-app-course-authoring: https://github.com/edx/frontend-app-course-authoring
 .. _xqueue: https://github.com/edx/xqueue
+.. _coursegraph: https://github.com/edx/edx-platform/tree/master/openedx/core/djangoapps/coursegraph
 
 
 Known Issues
