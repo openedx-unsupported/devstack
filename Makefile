@@ -255,21 +255,23 @@ impl-dev.provision.%: dev.check-memory ## Provision specified services.
 dev.provision.%: ## Provision specified services.
 	@scripts/send_metrics.py wrap "dev.provision.$*"
 
-dev.backup: dev.up.mysql+mysql57+mongo+elasticsearch+elasticsearch7+elasticsearch710 ## Write all data volumes to the host.
+dev.backup: dev.up.mysql+mysql57+mongo+elasticsearch+elasticsearch7+elasticsearch710+coursegraph ## Write all data volumes to the host.
 	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.mysql) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/mysql.tar.gz /var/lib/mysql
 	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.mysql57) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/mysql57.tar.gz /var/lib/mysql
 	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.mongo) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/mongo.tar.gz /data/db
 	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.elasticsearch) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/elasticsearch.tar.gz /usr/share/elasticsearch/data
 	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.elasticsearch7) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/elasticsearch7.tar.gz /usr/share/elasticsearch/data
 	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.elasticsearch710) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/elasticsearch710.tar.gz /usr/share/elasticsearch/data
+	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.coursegraph) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/coursegraph.tar.gz /data
 
-dev.restore: dev.up.mysql+mysql57+mongo+elasticsearch+elasticsearch7+elasticsearch710 ## Restore all data volumes from the host. WILL OVERWRITE ALL EXISTING DATA!
+dev.restore: dev.up.mysql+mysql57+mongo+elasticsearch+elasticsearch7+elasticsearch710+coursegraph ## Restore all data volumes from the host. WILL OVERWRITE ALL EXISTING DATA!
 	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.mysql) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/mysql.tar.gz
 	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.mysql57) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/mysql57.tar.gz
 	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.mongo) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/mongo.tar.gz
 	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.elasticsearch) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/elasticsearch.tar.gz
 	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.elasticsearch7) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/elasticsearch7.tar.gz
 	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.elasticsearch710) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/elasticsearch710.tar.gz
+	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.coursegraph) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/coursegraph.tar.gz
 
 # List of Makefile targets to run database migrations, in the form dev.migrate.$(service)
 # Services will only have their migrations added here
@@ -514,6 +516,9 @@ dev.static.%: ## Rebuild static assets for the specified service's container.
 
 
 dev.reset: dev.down dev.reset-repos dev.prune dev.pull.large-and-slow dev.up.large-and-slow dev.static dev.migrate ## Attempt to reset the local devstack to the master working state without destroying data.
+
+dev.destroy.coursegraph: dev.down.coursegraph ## Remove all coursegraph data.
+	docker volume rm ${COMPOSE_PROJECT_NAME}_coursegraph_data
 
 dev.destroy: ## Irreversibly remove all devstack-related containers, networks, and volumes.
 	$(WINPTY) bash ./destroy.sh
