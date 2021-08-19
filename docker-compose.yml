@@ -545,6 +545,21 @@ services:
   # for micro-frontends in devtack.
   # ==========================================================================
 
+  frontend-app-account:
+    extends:
+      file: microfrontend.yml
+      service: microfrontend
+    working_dir: '/edx/app/frontend-app-account'
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-account"
+    networks:
+      default:
+        aliases:
+          - edx.devstack.frontend-app-account
+    ports:
+      - "1997:1997"
+    depends_on:
+      - lms
+  
   frontend-app-course-authoring:
     extends:
       file: microfrontend.yml

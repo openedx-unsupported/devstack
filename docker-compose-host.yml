@@ -53,6 +53,12 @@ services:
 
   # Note that frontends mount `src` to /edx/app/src instead of /edx/src.
   # See ADR #5 for rationale.
+  frontend-app-account:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/frontend-app-account:/edx/app/frontend-app-account:cached
+      - frontend_app_account_node_modules:/edx/app/frontend-app-account/node_modules
+      - ${DEVSTACK_WORKSPACE}/src:/edx/app/src:cached
+
   frontend-app-course-authoring:
     volumes:
       - ${DEVSTACK_WORKSPACE}/frontend-app-course-authoring:/edx/app/frontend-app-course-authoring:cached
@@ -96,6 +102,7 @@ volumes:
   edxapp_media:
   edxapp_node_modules:
   edxapp_uploads:
+  frontend_app_account_node_modules:
   frontend_app_course_authoring_node_modules:
   frontend_app_gradebook_node_modules:
   frontend_app_learning_node_modules:
