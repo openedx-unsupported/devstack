@@ -36,7 +36,7 @@ services:
     hostname: coursegraph.devstack.edx
     # Try to keep this in sync with the NEO4J_VERSION declared within
     # https://github.com/edx/configuration/blob/master/playbooks/roles/neo4j
-    image: neo4j:3.2
+    image: neo4j:3.5.28
     networks:
       default:
         aliases:
