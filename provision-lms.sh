@@ -4,6 +4,8 @@ set -x
 
 apps=( lms studio )
 
+studio_port=18010
+
 # Load database dumps for the largest databases to save time
 ./load-db.sh edxapp
 ./load-db.sh edxapp_csmh
@@ -41,6 +43,9 @@ docker-compose exec -T lms bash -e -c 'rm /edx/app/edxapp/edx-platform/.prereqs_
 for app in "${apps[@]}"; do
     docker-compose exec -T $app bash -e -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && paver update_assets --settings devstack_docker'
 done
+
+# Allow LMS SSO for Studio
+./provision-ida-user.sh studio studio "$studio_port"
 
 # Provision a retirement service account user
 ./provision-retirement-user.sh retirement retirement_service_worker
