@@ -26,9 +26,9 @@ following:
    start button with no further error when this problem occurs. See `Jetbrains
    ticket PY-22893`_.
 
-2. If you are running with Docker Sync on a mac you will want to first run
-   ``docker-sync start`` to run sync in the background before running any
-   servers or tests.
+2. Ensure you are not using docker-sync (i.e. not using any make commands with ``sync`` in their name). Read more about the `deprecation of docker-sync`_.
+
+.. _deprecation of docker-sync: https://openedx.atlassian.net/browse/DEPR-162
 
 Setup a Remote Interpreter
 --------------------------
@@ -43,16 +43,9 @@ use the following options:
 
 - Configuration files(s)
 
-  - Docker Sync (Mac)
-
-    - ``/LOCAL/PATH/TO/devstack/docker-compose.yml`` (e.g.~/edx/devstack/docker-compose.yml)
-    - ``/LOCAL/PATH/TO/devstack/docker-compose-sync.yml``
-
-  - Without Docker Sync
-
-    - ``/LOCAL/PATH/TO/devstack/docker-compose.yml`` (e.g.~/edx/devstack/docker-compose.yml)
-    - ``/LOCAL/PATH/TO/devstack/docker-compose-host.yml``
-    - ``/LOCAL/PATH/TO/devstack/docker-compose-themes.yml``
+  - ``/LOCAL/PATH/TO/devstack/docker-compose.yml`` (e.g.~/edx/devstack/docker-compose.yml)
+  - ``/LOCAL/PATH/TO/devstack/docker-compose-host.yml``
+  - ``/LOCAL/PATH/TO/devstack/docker-compose-themes.yml``
 
 - Service: lms (or whatever IDA you wish to test)
 
