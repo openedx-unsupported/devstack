@@ -32,7 +32,7 @@ charset-normalizer==2.0.4
     # via
     #   -r requirements/base.txt
     #   requests
-cryptography==3.4.7
+cryptography==3.4.8
     # via
     #   -r requirements/base.txt
     #   paramiko
@@ -156,7 +156,7 @@ sphinxcontrib-qthelp==1.0.3
     # via sphinx
 sphinxcontrib-serializinghtml==1.1.5
     # via sphinx
-stevedore==3.3.0
+stevedore==3.4.0
     # via doc8
 texttable==1.6.4
     # via
