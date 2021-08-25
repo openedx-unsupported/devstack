@@ -17,7 +17,7 @@ cffi==1.14.6
     #   pynacl
 charset-normalizer==2.0.4
     # via requests
-cryptography==3.4.7
+cryptography==3.4.8
     # via paramiko
 distro==1.6.0
     # via docker-compose
