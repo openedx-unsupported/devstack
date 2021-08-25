@@ -1,7 +1,7 @@
 PyCharm Integration
 ===================
 
-The Professional edition of JetBrains `PyCharm`_ IDE, version 2017.1.2 or later,
+The Professional edition of JetBrains `PyCharm`_ IDE
 can be used to develop and debug with Docker and Docker Compose.
 
 Additional PyCharm tips are kept in this `PyCharm IDE setup`_ documentation.
@@ -12,43 +12,45 @@ Prerequisites
 1. You must complete all steps for provisioning your Docker Devstack environment
    in the `README`_ before proceeding with the PyCharm setup.
 
-2. If you are on a Mac, make sure you are on a newer version than macOS
-   Yosemite. A this time, this should work with either El Capitan or Sierra.
+2. If you are on a Mac, make sure you are on a reasonably modern version of MacOS.
 
 Before running Run or Debug in PyCharm
 --------------------------------------
+
+**NOTE:** If you are looking for instructions for NFS or docker-sync, see `Deprecated MacOS performance improvements`_.
 
 Every time you run/debug a server or test in PyCharm, you must first ensure the
 following:
 
 1. Ensure that all Docker images are stopped outside of PyCharm before starting
    a server or tests from inside PyCharm. PyCharm will potentially disable the
-   start button with no further error when this problem occurs. See `Jetbrains
-   ticket PY-22893`_.
+   start button with no further error when this problem occurs. See `Jetbrains ticket PY-22893`_.
 
-2. If you are running with Docker Sync on a mac you will want to first run
-   ``docker-sync start`` to run sync in the background before running any
-   servers or tests.
+Set up Docker Tools
+~~~~~~~~~~~~~~~~~~~
+In Settings > Build, Execution, Deployment > Docker
+Create a new Docker configuration by clicking on the "+" button and selecting the Docker runtime for your machine.
+On Mac, select a server that uses Docker for Mac.
+
+.. image:: ./_static/docker_server.png
 
 Setup a Remote Interpreter
 --------------------------
 
-Follow the `vendor documentation`_ for the necessary steps to add a Docker
-Compose remote interpreter. In the Remote Python Interpreter dialog,
-use the following options:
+Go to the project-specific Python Interpreter dialog Settings>Project: <projectname> > Python Interpreter.
+Click on the gear icon, and select "Add..."
 
-- If you need to add a server (e.g. Docker for Mac), you should be able to Add and choose defaults.
+.. image:: ./_static/docker_compose_interpreter.png
 
-  - On a Mac, you'll need to use "API URL: unix:///var/run/docker.sock" (with 3 slashes).
+and use the following options in the Add Python Interpreter dialog:
 
-- Configuration files(s)
+- Interpreter
+  - On the left hand side, select "Docker Compose"
 
-  - Docker Sync (Mac)
+- Server
+  - Select the Docker Server that was set up in the previous step, "Set up Docker Tools".
 
-    - ``/LOCAL/PATH/TO/devstack/docker-compose.yml`` (e.g.~/edx/devstack/docker-compose.yml)
-    - ``/LOCAL/PATH/TO/devstack/docker-compose-sync.yml``
-
-  - Without Docker Sync
+- Configuration files
 
     - ``/LOCAL/PATH/TO/devstack/docker-compose.yml`` (e.g.~/edx/devstack/docker-compose.yml)
     - ``/LOCAL/PATH/TO/devstack/docker-compose-host.yml``
@@ -59,7 +61,6 @@ use the following options:
 - Required Environment variables:
 
   - ``DEVSTACK_WORKSPACE=/LOCAL/PARENT/PATH/TO/workspace`` (i.e.: Path to where your local repositories are cloned. This needs to be full path an not relative (e.g. './') path to ensure proper configuration of python packages.)
-  - ``VIRTUAL_ENV=/LOCAL/PARENT/PATH/TO/workspace/devstack/venv`` (i.e.: Path to where your local devstack virtual environment exists for release.)
 
 - Optional Environment variables:
 
@@ -91,7 +92,10 @@ so you can easily switch back to old without this delay.
 **Warning**: When you change configuration files, the service drop-down gets
 reset. Remember to restore to the IDA you wish to test.
 
-**Some Tips**: If your remote isn't loading you may need to set your DEVSTACK_WORKSPACE variable globally in your ./bash_profile. Additionally try reseting docker as a last resort and things should sync successfully after that.
+**Some Tips**: If your remote isn't loading
+- You may need to quit and restart Pycharm for the changes to show.
+- You may need to set your DEVSTACK_WORKSPACE variable globally in your ./bash_profile.
+- Additionally try resetting docker as a last resort and things should sync successfully after that.
 
 Setup Django Support
 --------------------
@@ -203,7 +207,7 @@ Configuration`_, with the following specific values.
        - Tool Settings:
 
          - Program: make
-         - Arugments: OPENEDX_RELEASE=juniper.master stop.all
+         - Arguments: OPENEDX_RELEASE=juniper.master stop.all
          - Working directory: $ProjectFileDir$/devstack
 
      - Advanced Options
@@ -249,7 +253,7 @@ configuration with the following options:
 Setup a Run/Debug Configuration for python tests for LMS or Studio
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To run and debug unit tests, edit the **"Defaults -> Python tests -> py.test"** type Run/Dubug
+To run and debug unit tests, edit the **"Defaults -> Python tests -> py.test"** type Run/Debug
 configuration with the following options:
 
 1. Python Interpreter: Choose the Docker Compose interpreter for this
@@ -266,7 +270,7 @@ configuration with the following options:
 
 Then make two changes in PyCharm's preferences:
 
-1. Set "Tools -> Python Integrated Tools -> Default test runner" to "py.test".
+1. Set "Tools -> Python Integrated Tools -> Default test runner" to "pytest".
 
 2. In "Languages & Frameworks -> Django", uncheck "Enable Django Support".
    Starting in PyCharm 2017.3 (the EAP of which is already available), this
@@ -293,8 +297,8 @@ General Tips
 
 1. Ensure that you have fulfilled all of the `Prerequisites`_.
 
-2. Ensure you have completed all steps in `Before running Run or Debug in
-   PyCharm`_ each time you run the server or tests.
+2. Ensure you have completed all steps in `Before running Run or Debug in PyCharm`_
+   each time you run the server or tests.
 
 3. PyCharm is often fixing bugs around the relatively new docker-compose
    integration.  If PyCharm has an update, install it.
@@ -352,6 +356,33 @@ One way to do this is to follow these instructions:
 
 3. Click the Edit button (pencil icon) at the bottom for the broken interpreter,
    and then click OK on all dialogs, without making any edits.
+
+
+.. _Deprecated MacOS performance improvements:
+
+Deprecated MacOS performance improvements
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**Warning:** We recommend that new devstack setups on MacOS **no longer use** NFS or docker-sync for MacOS. At this time, these technologies **lead to increased complexity and might cause errors**. Improvements to Docker's default FS have resolved bugs or performance issues that were previously dependent on these workaround technologies.
+
+For further details, read more about the forthcoming `deprecation of NFS`_ and `deprecation of docker-sync`_.
+
+Until these deprecated technologies go through the deprecation and removal process, the following deprecated instructions are left here for legacy purposes:
+
+- Before running Run or Debug in PyCharm
+
+   If you are running with Docker Sync on a mac you will want to first run
+   ``docker-sync start`` to run sync in the background before running any
+   servers or tests.
+
+   - Configuration files(s)
+
+   - Docker Sync (Mac)
+
+      - ``/LOCAL/PATH/TO/devstack/docker-compose.yml`` (e.g.~/edx/devstack/docker-compose.yml)
+      - ``/LOCAL/PATH/TO/devstack/docker-compose-sync.yml``
+
+.. _deprecation of NFS: https://openedx.atlassian.net/browse/DEPR-161
+.. _deprecation of docker-sync: https://openedx.atlassian.net/browse/DEPR-162
 
 .. _Django Server Run/Debug Configuration: https://www.jetbrains.com/help/pycharm/2017.1/run-debug-configuration-django-server.html
 .. _Jetbrains ticket PY-22893: https://youtrack.jetbrains.com/issue/PY-22893
