@@ -10,7 +10,7 @@ port=8011
 docker-compose up -d insights
 
 echo -e "${GREEN}Installing requirements for ${name}...${NC}"
-docker-compose exec -T ${name}  bash -e -c 'source /edx/app/insights/insights_env && cd /edx/app/insights/insights && make requirements' -- ${name}
+docker-compose exec -T ${name}  bash -e -c 'source /edx/app/insights/insights_env && cd /edx/app/insights/insights && make develop' -- ${name}
 
 # # Install Insights npm dependencies
 docker-compose exec -T ${name} bash -e -c 'source /edx/app/insights/insights_env && cd /edx/app/insights/insights/ && npm install && ./npm-post-install.sh'
