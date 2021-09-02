@@ -228,6 +228,14 @@ For information on the supported ``make`` commands, you can run:
 
     make help
 
+Devstack collects some basic usage metrics to help gain a better understanding of how devstack is used and to surface any potential issues on local devstack environments. To learn more, read 0003-usuage-metrics.rst ADR.
+
+This data collection is behind a consent flag, so please help devstack's maintainers by enabling metrics collection by running the following:
+
+.. code:: sh
+
+   make metrics-opt-in
+
 Now that you're up and running, read about the `most common development workflow`_.
 
 Usernames and Passwords
