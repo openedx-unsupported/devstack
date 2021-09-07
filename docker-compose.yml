@@ -148,10 +148,10 @@ services:
     # We use WiredTiger in all environments. In development environments we use small files
     # to conserve disk space, and disable the journal for a minor performance gain.
     # See https://docs.mongodb.com/v3.0/reference/program/mongod/#options for complete details.
-    command: mongod --smallfiles --nojournal --storageEngine wiredTiger
+    command: mongod --nojournal --storageEngine wiredTiger
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.mongo"
     hostname: mongo.devstack.edx
-    image: mongo:${MONGO_VERSION:-4.0.22}
+    image: mongo:${MONGO_VERSION:-4.2.14}
     networks:
       default:
         aliases:
