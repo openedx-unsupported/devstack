@@ -50,7 +50,7 @@ distro==1.6.0
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   docker-compose
-docker[ssh]==5.0.1
+docker[ssh]==5.0.2
     # via
     #   -r requirements/base.txt
     #   -r requirements/test.txt
@@ -107,9 +107,8 @@ pip-tools==6.2.0
     # via -r requirements/pip-tools.txt
 platformdirs==2.3.0
     # via virtualenv
-pluggy==0.13.1
+pluggy==1.0.0
     # via
-    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/test.txt
     #   pytest
     #   tox

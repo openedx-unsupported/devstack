@@ -21,7 +21,7 @@ cryptography==3.4.8
     # via paramiko
 distro==1.6.0
     # via docker-compose
-docker[ssh]==5.0.1
+docker[ssh]==5.0.2
     # via docker-compose
 docker-compose==1.29.2
     # via -r requirements/base.in
