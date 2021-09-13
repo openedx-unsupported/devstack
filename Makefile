@@ -477,7 +477,7 @@ dev.shell.xqueue_consumer:
 	docker-compose exec xqueue_consumer env TERM=$(TERM) /edx/app/xqueue/devstack.sh open
 
 dev.shell.insights:
-	docker-compose exec insights env TERM=$(TERM) bash -c 'eval $$(source /edx/app/insights/insights_env; echo PATH="$$PATH";) && cd /edx/app/insights/insights && /bin/bash'
+	docker-compose exec insights env TERM=$(TERM) bash -c 'eval $$(source /edx/app/insights/insights_env; echo PATH="$$PATH";) && /edx/app/insights/devstack.sh open'
 
 dev.shell.%: ## Run a shell on the specified service's container.
 	docker-compose exec $* /bin/bash
