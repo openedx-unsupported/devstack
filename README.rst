@@ -228,7 +228,7 @@ For information on the supported ``make`` commands, you can run:
 
     make help
 
-Devstack collects some basic usage metrics to help gain a better understanding of how devstack is used and to surface any potential issues on local devstack environments. To learn more, read `0003-usuage-metrics.rst ADR <./docs/decisions/0003-usuage-metrics.rst>`_.
+Devstack collects some basic usage metrics to help gain a better understanding of how devstack is used and to surface any potential issues on local devstack environments. To learn more, read `0003-usage-metrics.rst ADR <./docs/decisions/0003-usage-metrics.rst>`_.
 
 This data collection is behind a consent flag, so please help devstack's maintainers by enabling metrics collection by running the following:
 
