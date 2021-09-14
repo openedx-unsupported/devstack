@@ -15,7 +15,18 @@ services:
   # ================================================
   # Third-party services
   # ================================================
-
+  pulsar:
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.pulsar"
+    image: apachepulsar/pulsar:latest
+    command: bin/pulsar standalone
+    hostname: pulsar
+    ports:
+      - "8080:8080"
+      - "6650:6650"
+    restart: unless-stopped
+    volumes:
+      - pulsar_data:/pulsar/data
+      - pulsar_conf:/pulsar/conf
   chrome:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.chrome"
     hostname: chrome.devstack.edx
@@ -555,7 +566,7 @@ services:
       - "1997:1997"
     depends_on:
       - lms
-  
+
   frontend-app-course-authoring:
     extends:
       file: microfrontend.yml
@@ -675,3 +686,5 @@ volumes:
   mongo_data:
   mysql_data:
   mysql57_data:
+  pulsar_data:
+  pulsar_conf:
