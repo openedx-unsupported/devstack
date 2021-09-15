@@ -74,7 +74,7 @@ credentials+discovery+ecommerce+edx_notes_api+forum+frontend-app-gradebook+front
 # Separated by plus signs.
 # Separated by plus signs. Listed in alphabetical order for clarity.
 EDX_SERVICES ?= \
-credentials+discovery+ecommerce+edx_notes_api+forum+frontend-app-account+frontend-app-course-authoring+frontend-app-gradebook+frontend-app-learning+frontend-app-library-authoring+frontend-app-payment+frontend-app-program-console+frontend-app-publisher+lms+lms_watcher+registrar+registrar-worker+studio+studio_watcher+xqueue+xqueue_consumer
+credentials+discovery+ecommerce+edx_notes_api+forum+frontend-app-account+frontend-app-course-authoring+frontend-app-gradebook+frontend-app-learning+frontend-app-library-authoring+frontend-app-payment+frontend-app-program-console+frontend-app-publisher+insights+lms+lms_watcher+registrar+registrar-worker+studio+studio_watcher+xqueue+xqueue_consumer
 
 # Services with database migrations.
 # Should be a subset of $(EDX_SERVICES).
@@ -92,7 +92,7 @@ credentials+discovery+ecommerce+lms+registrar+studio
 # Note: This list should contain _all_ services with static asse to compile ts, even if not
 # configured to run; the list will be filtered later against $(DEFAULT_SERVICES).
 ASSET_SERVICES ?= \
-credentials+discovery+ecommerce+lms+registrar+studio
+credentials+discovery+ecommerce+insights+lms+registrar+studio
 
 # All third-party services.
 # Separated by plus signs. Listed in alphabetical order for clarity.
