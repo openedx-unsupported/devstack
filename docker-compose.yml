@@ -161,23 +161,6 @@ services:
     volumes:
       - mongo_data:/data/db
 
-  mysql:
-    command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci
-    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.mysql"
-    hostname: mysql.devstack.edx
-    environment:
-      MYSQL_ROOT_PASSWORD: ""
-      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-    image: mysql:5.6
-    networks:
-      default:
-        aliases:
-          - edx.devstack.mysql
-    # ports:
-    #   - "3506:3306"
-    volumes:
-      - mysql_data:/var/lib/mysql
-
   mysql57:
     command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.mysql57"
@@ -396,7 +379,7 @@ services:
       - "18110:18110"
     volumes:
       - /edx/var/insights/
- 
+
   registrar:
     command: bash -c 'source /edx/app/registrar/registrar_env && while true; do python /edx/app/registrar/registrar/manage.py runserver 0.0.0.0:18734; sleep 2; done'
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.registrar"
@@ -555,7 +538,7 @@ services:
       - "1997:1997"
     depends_on:
       - lms
-  
+
   frontend-app-course-authoring:
     extends:
       file: microfrontend.yml
@@ -673,5 +656,4 @@ volumes:
   elasticsearch7_data:
   elasticsearch710_data:
   mongo_data:
-  mysql_data:
   mysql57_data:

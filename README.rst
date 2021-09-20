@@ -178,7 +178,6 @@ The default devstack services can be run by following the steps below.
 
    This is expected to take a while, produce a lot of output from a bunch of steps, and finally end with ``Provisioning complete!``
 
-   **NOTE:** This command will bring up both MySQL 5.6 and 5.7 databases until all services are upgraded to 5.7.
 
 #. Start the desired services. This command will mount the repositories under the
    ``DEVSTACK_WORKSPACE`` directory.
