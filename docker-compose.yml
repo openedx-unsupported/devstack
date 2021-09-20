@@ -46,7 +46,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ""
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-    image: mysql:5.6
+    image: mysql:5.7
     ports:
        - "3306:3306"
     volumes:
