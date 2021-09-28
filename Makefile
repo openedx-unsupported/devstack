@@ -442,6 +442,9 @@ dev.shell.studio_watcher:
 dev.shell.xqueue_consumer:
 	docker-compose exec xqueue_consumer env TERM=$(TERM) /edx/app/xqueue/devstack.sh open
 
+dev.shell.analyticsapi:
+	docker exec -it edx.devstack.analyticsapi env TERM=$(TERM) /edx/app/analytics_api/devstack.sh open
+
 dev.shell.insights:
 	docker-compose exec insights env TERM=$(TERM) bash -c 'eval $$(source /edx/app/insights/insights_env; echo PATH="$$PATH";) && /edx/app/insights/devstack.sh open'
 

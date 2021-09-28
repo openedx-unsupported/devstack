@@ -5,7 +5,7 @@ set -eu -o pipefail
 set -x
 
 name=insights
-port=8011
+port=18011
 
 docker-compose up -d insights
 
