@@ -54,8 +54,7 @@
         dev.shell.registrar dev.shell.studio \
         dev.shell.studio_watcher dev.shell.xqueue dev.shell.xqueue_consumer \
         dev.static dev.static.lms dev.static.studio dev.stats dev.status \
-        dev.stop dev.sync.daemon.start dev.sync.provision \
-        dev.sync.requirements dev.sync.up dev.up dev.up.attach dev.up.shell \
+        dev.stop dev.up dev.up.attach dev.up.shell \
         dev.up.without-deps dev.up.without-deps.shell dev.up.with-programs \
         dev.up.with-watchers dev.validate docs e2e-tests e2e-tests.with-shell \
         help requirements impl-dev.clone.https impl-dev.clone.ssh impl-dev.provision \
@@ -90,17 +89,11 @@ COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-themes-nfs.yml
 COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-watchers-nfs.yml
 endif
 
-# Files for use with Docker Sync.
-ifeq ($(FS_SYNC_STRATEGY),docker-sync)
-COMPOSE_FILE := docker-compose-host.yml
-COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-sync.yml
-endif
-
 ifndef COMPOSE_FILE
-$(error FS_SYNC_STRATEGY is set to $(FS_SYNC_STRATEGY). Must be one of: local-mounts, nfs, docker-sync)
+$(error FS_SYNC_STRATEGY is set to $(FS_SYNC_STRATEGY). Must be one of: local-mounts, nfs)
 endif
 
-# All three filesystem synchronization strategies require the main docker-compose.yml file.
+# Both filesystem synchronization strategies require the main docker-compose.yml file.
 COMPOSE_FILE := docker-compose.yml:$(COMPOSE_FILE)
 
 # Tell Docker Compose that the Compose file list uses a colon as the separator.
@@ -371,14 +364,12 @@ dev.restart-container.%: ## Restart specific services' containers.
 	docker-compose restart $$(echo $* | tr + " ")
 
 dev.stop: ## Stop all running services.
-	(test -d .docker-sync && docker-sync stop) || true ## Ignore failure here
 	docker-compose stop
 
 dev.stop.%: ## Stop specific services.
 	docker-compose stop $$(echo $* | tr + " ")
 
 dev.kill: ## Kill all running services.
-	(test -d .docker-sync && docker-sync stop) || true ## Ignore failure here
 	docker-compose stop
 
 dev.kill.%: ## Kill specific services.
@@ -388,7 +379,6 @@ dev.rm-stopped: ## Remove stopped containers. Does not affect running containers
 	docker-compose rm --force
 
 dev.down: ## Stop and remove containers and networks for all services.
-	(test -d .docker-sync && docker-sync clean) || true ## Ignore failure here
 	docker-compose down
 
 dev.down.%: ## Stop and remove containers for specific services.
@@ -536,21 +526,6 @@ dev.nfs.setup: ## Sets up an NFS server on the /Users folder, allowing NFS mount
 
 dev.nfs.%: ## Run any 'dev.'-prefixed command, but using NFS configuration.
 	FS_SYNC_STRATEGY=nfs make dev.$*
-
-# TODO: Improve or rip out Docker Sync targets.
-#       They are not well-fleshed-out and it is not clear if anyone uses them.
-
-dev.sync.daemon.start: ## Start the docker-sycn daemon.
-	docker-sync start
-
-dev.sync.provision: dev.sync.daemon.start ## Provision with docker-sync enabled.
-	FS_SYNC_STRATEGY=docker-sync make dev.provision
-
-dev.sync.requirements: ## Install requirements for docker-sync usage.
-	gem install docker-sync
-
-dev.sync.up: dev.sync.daemon.start ## Bring up all services with docker-sync enabled.
-	FS_SYNC_STRATEGY=docker-sync make dev.up
 
 
 ########################################################################################

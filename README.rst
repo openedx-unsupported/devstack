@@ -180,7 +180,7 @@ The default devstack services can be run by following the steps below.
 
    **NOTE:** This command will bring up both MySQL 5.6 and 5.7 databases until all services are upgraded to 5.7.
 
-   **NOTE:** If you are looking for instructions for NFS or docker-sync, see :ref:`Deprecated MacOS performance improvements`.
+   **NOTE:** If you are looking for instructions for NFS, see :ref:`Deprecated MacOS performance improvements`.
 
 #. Start the desired services. This command will mount the repositories under the
    ``DEVSTACK_WORKSPACE`` directory.
@@ -193,7 +193,7 @@ The default devstack services can be run by following the steps below.
 
        make dev.up.large-and-slow
 
-   **NOTE:** If you are looking for instructions for NFS or docker-sync, see :ref:`Deprecated MacOS performance improvements`.
+   **NOTE:** If you are looking for instructions for NFS, see :ref:`Deprecated MacOS performance improvements`.
 
 To stop a service, use ``make dev.stop.<service>``, and to both stop it
 and remove the container (along with any changes you have made
@@ -396,11 +396,11 @@ As a specific example, if ``OPENEDX_RELEASE`` is set in your environment as ``ju
 Deprecated MacOS performance improvements
 -----------------------------------------
 
-**Warning:** We recommend that new devstack setups on MacOS **no longer use** NFS or docker-sync for MacOS. At this time, these technologies **lead to increased complexity and might cause errors**. Improvements to Docker's default FS have resolved bugs or performance issues that were previously dependent on these workaround technologies.
+**Warning:** We recommend that new devstack setups on MacOS **no longer use** NFS for MacOS. At this time, this technology **leads to increased complexity and might cause errors**. Improvements to Docker's default FS have resolved bugs or performance issues that were previously dependent on this workaround technology.
 
-For further details, read more about the forthcoming `deprecation of NFS`_ and `deprecation of docker-sync`_.
+For further details, read more about the forthcoming `deprecation of NFS`_.
 
-Until these deprecated technologies go through the deprecation and removal process, the following deprecated instructions are left here for legacy purposes:
+Until this deprecated technology goes through the deprecation and removal process, the following deprecated instructions are left here for legacy purposes:
 
 Setup NFS before provisioning:
 
@@ -408,23 +408,11 @@ Setup NFS before provisioning:
 
     make dev.nfs.setup
 
-Provision using `docker-sync`_:
-
-.. code:: sh
-
-   make dev.sync.provision
-
 Provision using NFS:
 
 .. code:: sh
 
    make dev.nfs.provision
-
-Start using `docker-sync`_:
-
-.. code:: sh
-
-   make dev.sync.up
 
 Start using NFS:
 
@@ -433,7 +421,6 @@ Start using NFS:
    make dev.nfs.up
 
 .. _deprecation of NFS: https://openedx.atlassian.net/browse/DEPR-161
-.. _deprecation of docker-sync: https://openedx.atlassian.net/browse/DEPR-162
 
 .. _Docker Compose: https://docs.docker.com/compose/
 .. _Docker for Mac: https://docs.docker.com/docker-for-mac/
@@ -446,7 +433,6 @@ Start using NFS:
 .. _Pycharm Integration documentation: docs/pycharm_integration.rst
 .. _devpi documentation: docs/devpi.rst
 .. _edx-platform testing documentation: https://github.com/edx/edx-platform/blob/master/docs/guides/testing/testing.rst#running-python-unit-tests
-.. _docker-sync: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/troubleshoot_general_tips.html#improve-mac-osx-performance-with-docker-sync
 .. |Build Status provisioning| image:: https://github.com/edx/devstack/actions/workflows/provisioning-tests.yml/badge.svg?branch=master
     :target: https://github.com/edx/devstack/actions/workflows/provisioning-tests.yml
     :alt: Provisioning tests

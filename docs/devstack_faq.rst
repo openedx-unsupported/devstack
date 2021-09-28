@@ -189,8 +189,7 @@ To run migrations for all services at once, run:
    make dev.migrate
 
 Alternatively, you can discard and rebuild the entire database for all
-devstack services by re-running ``make dev.provision.<service>`` or
-``make dev.sync.provision`` as appropriate for your configuration.  Note that
+devstack services by re-running ``make dev.provision.<service>``.  Note that
 if your branch has fallen significantly behind master, it may not include all
 of the migrations included in the database dump used by provisioning.  In these
 cases, it's usually best to first rebase the branch onto master to
@@ -261,9 +260,8 @@ database migrations and package updates.
 When switching to a branch which differs greatly from the one you've been
 working on (especially if the new branch is more recent), you may wish to
 halt and remove the existing containers via ``make down``, pull the latest Docker
-images via ``make dev.pull.<service>``, and then re-run ``make dev.provision.<service>`` or
-``make dev.sync.provision`` in order to recreate up-to-date databases,
-static assets, etc.
+images via ``make dev.pull.<service>``, and then re-run ``make dev.provision.<service>``
+in order to recreate up-to-date databases, static assets, etc.
 
 If making a patch to a named release, you should pull and use Docker images
 which were tagged for that release.
