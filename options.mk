@@ -50,9 +50,8 @@ ALWAYS_CACHE_PROGRAMS ?= false
 
 # FileSystem Synchronization Strategy.
 # How should we synchronize files between the host machine and the Docker containers?
-# Options are 'local-mount', 'nfs', and 'docker-sync'.
-# Note that 'local-mount' is the most tested and supported with edX's Devstack
-# and 'docker-sync' the least.
+# Options are 'local-mount' and 'nfs'.
+# Note that 'local-mount' is the most tested and supported with edX's Devstack.
 FS_SYNC_STRATEGY ?= local-mounts
 
 # Services that are to be pulled, provisioned, run, and checked by default
