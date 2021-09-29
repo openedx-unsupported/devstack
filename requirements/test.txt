@@ -116,7 +116,7 @@ texttable==1.6.4
     #   docker-compose
 toml==0.10.2
     # via pytest
-urllib3==1.26.6
+urllib3==1.26.7
     # via
     #   -r requirements/base.txt
     #   requests
