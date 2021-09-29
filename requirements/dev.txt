@@ -43,7 +43,7 @@ cryptography==3.4.8
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   paramiko
-distlib==0.3.2
+distlib==0.3.3
     # via virtualenv
 distro==1.6.0
     # via
@@ -69,7 +69,7 @@ docopt==0.6.2
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   docker-compose
-filelock==3.0.12
+filelock==3.1.0
     # via
     #   tox
     #   virtualenv
@@ -105,7 +105,7 @@ pexpect==4.8.0
     # via -r requirements/test.txt
 pip-tools==6.3.0
     # via -r requirements/pip-tools.txt
-platformdirs==2.3.0
+platformdirs==2.4.0
     # via virtualenv
 pluggy==1.0.0
     # via
@@ -189,12 +189,12 @@ tox==3.24.4
     #   tox-battery
 tox-battery==0.6.1
     # via -r requirements/dev.in
-urllib3==1.26.6
+urllib3==1.26.7
     # via
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   requests
-virtualenv==20.8.0
+virtualenv==20.8.1
     # via tox
 websocket-client==0.59.0
     # via

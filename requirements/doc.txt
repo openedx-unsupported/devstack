@@ -40,7 +40,7 @@ distro==1.6.0
     # via
     #   -r requirements/base.txt
     #   docker-compose
-doc8==0.9.0
+doc8==0.9.1
     # via -r requirements/doc.in
 docker[ssh]==5.0.2
     # via
@@ -162,7 +162,7 @@ texttable==1.6.4
     # via
     #   -r requirements/base.txt
     #   docker-compose
-urllib3==1.26.6
+urllib3==1.26.7
     # via
     #   -r requirements/base.txt
     #   requests
