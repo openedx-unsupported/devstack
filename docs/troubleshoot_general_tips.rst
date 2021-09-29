@@ -88,18 +88,14 @@ While provisioning, some have seen the following error:
    make: *** [dev.provision.services] Error 1
 
 This issue can be worked around, but there's no guaranteed method to do so.
-Rebooting and restarting Docker does *not* seem to correct the issue. It
-may be an issue that is exacerbated by our use of sync (which typically speeds
-up the provisioning process on Mac), so you can try the following:
+Rebooting and restarting Docker does *not* seem to correct the issue. You can
+try the following:
 
 .. code:: sh
 
    # repeat the following until you get past the error.
    make stop
    make dev.provision.<service>
-
-Once you get past the issue, you should be able to continue to use sync versions
-of the make targets.
 
 Memory Limit
 ------------
@@ -189,42 +185,6 @@ through `Understanding Git Conceptually`_. It explains core Git principles in wa
 that makes it easier to use the simpler ``git`` commands more effectively
 and easier to use the more complicated ``git`` commands when you have to.
 
-Docker Sync Troubleshooting tips
---------------------------------
-
-.. note::
-    docker-sync is no longer actively supported
-
-Check your version and make sure you are running 0.4.6 or above:
-
-.. code:: sh
-
-    docker-sync --version
-
-If not, upgrade to the latest version:
-
-.. code:: sh
-
-    gem update docker-sync
-
-If you are having issues with docker sync, try the following:
-
-.. code:: sh
-
-    make stop
-    docker-sync stop
-    docker-sync clean
-
-Cached Consistency Mode
------------------------
-
-The performance improvements provided by `cached consistency mode for volume
-mounts`_ introduced in Docker CE Edge 17.04 are still not good enough. It's
-possible that the "delegated" consistency mode will be enough to no longer need
-docker-sync, but this feature hasn't been fully implemented yet (as of
-Docker 17.12.0-ce, "delegated" behaves the same as "cached").  There is a
-GitHub issue which explains the `current status of implementing delegated consistency mode`_.
-
 Problems with shared directories
 --------------------------------
 
@@ -236,7 +196,3 @@ the current directory and sharing the real directory (or vice-versa) may work
 erratically.
 
 .. _Understanding Git Conceptually: https://www.sbf5.com/~cduan/technical/git/
-.. _Docker Sync: https://github.com/EugenMayer/docker-sync/wiki
-.. _Docker Sync installation instructions: https://github.com/EugenMayer/docker-sync/wiki/1.-Installation
-.. _cached consistency mode for volume mounts: https://docs.docker.com/docker-for-mac/osxfs-caching/
-.. _current status of implementing delegated consistency mode: https://github.com/docker/for-mac/issues/1592

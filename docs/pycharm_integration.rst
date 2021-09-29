@@ -18,17 +18,10 @@ Prerequisites
 Before running Run or Debug in PyCharm
 --------------------------------------
 
-Every time you run/debug a server or test in PyCharm, you must first ensure the
-following:
-
-1. Ensure that all Docker images are stopped outside of PyCharm before starting
-   a server or tests from inside PyCharm. PyCharm will potentially disable the
-   start button with no further error when this problem occurs. See `Jetbrains
-   ticket PY-22893`_.
-
-2. Ensure you are not using docker-sync (i.e. not using any make commands with ``sync`` in their name). Read more about the `deprecation of docker-sync`_.
-
-.. _deprecation of docker-sync: https://openedx.atlassian.net/browse/DEPR-162
+Every time you run/debug a server or test in PyCharm, you must first ensure
+that all Docker images are stopped outside of PyCharm. PyCharm will
+potentially disable the start button with no further error when this problem
+occurs. See `Jetbrains ticket PY-22893`_.
 
 Setup a Remote Interpreter
 --------------------------
