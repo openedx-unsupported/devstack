@@ -45,7 +45,7 @@
         create-test-course dev.attach dev.backup dev.cache-programs dev.check \
         dev.check-memory dev.checkout dev.clone dev.clone.https dev.clone.ssh \
         dev.dbshell dev.destroy dev.down dev.drop-db dev.kill dev.logs \
-        dev.migrate dev.migrate.lms dev.migrate.studio dev.nfs.setup \
+        dev.migrate dev.migrate.lms dev.migrate.studio \
         devpi-password dev.provision dev.ps dev.pull dev.pull.without-deps \
         dev.reset dev.reset-repos dev.restart-container dev.restart-devserver \
         dev.restart-devserver.forum dev.restore dev.rm-stopped dev.shell \
@@ -68,32 +68,11 @@ include options.mk
 # The `COMPOSE_FILE` environment variable tells Docker Compose which YAML
 # files to use when `docker-compose` is called without specifying any YAML files.
 # These files include definitions of services and volumes.
-# Depending on the value of FS_SYNC_STRATEGY, we use a slightly different set of
-# files, enabling use of different strategies to synchronize files between the host and
-# the containers.
-# Some services are only available for certain values of FS_SYNC_STRATEGY.
-# For example, the LMS/Studio asset watchers are only available for local-mounts and nfs,
-# and XQueue is only available for local-mounts.
 
 # Files for use with local volume mounting (default).
-ifeq ($(FS_SYNC_STRATEGY),local-mounts)
 COMPOSE_FILE := docker-compose-host.yml
 COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-themes.yml
 COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-watchers.yml
-endif
-
-# Files for use with Network File System -based synchronization.
-ifeq ($(FS_SYNC_STRATEGY),nfs)
-COMPOSE_FILE := docker-compose-host-nfs.yml
-COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-themes-nfs.yml
-COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-watchers-nfs.yml
-endif
-
-ifndef COMPOSE_FILE
-$(error FS_SYNC_STRATEGY is set to $(FS_SYNC_STRATEGY). Must be one of: local-mounts, nfs)
-endif
-
-# Both filesystem synchronization strategies require the main docker-compose.yml file.
 COMPOSE_FILE := docker-compose.yml:$(COMPOSE_FILE)
 
 # Tell Docker Compose that the Compose file list uses a colon as the separator.
@@ -515,18 +494,6 @@ dev.destroy.coursegraph: dev.down.coursegraph ## Remove all coursegraph data.
 
 dev.destroy: ## Irreversibly remove all devstack-related containers, networks, and volumes.
 	$(WINPTY) bash ./destroy.sh
-
-
-########################################################################################
-# Developer interface: Support for alternative file synchronization strategies.
-########################################################################################
-
-dev.nfs.setup: ## Sets up an NFS server on the /Users folder, allowing NFS mounting on docker.
-	./setup_native_nfs_docker_osx.sh
-
-dev.nfs.%: ## Run any 'dev.'-prefixed command, but using NFS configuration.
-	FS_SYNC_STRATEGY=nfs make dev.$*
-
 
 ########################################################################################
 # Support for "prefix-form" commands:

@@ -40,7 +40,7 @@ Switch between your Devstack releases by doing the following:
 #. Check out the appropriate branch in devstack, e.g. ``git checkout open-release/ironwood.master``
 #. Use ``make dev.checkout`` to check out the correct branch in the local
    copy of each service repository
-#. Bring up the containers with ``make dev.up`` or ``make dev.nfs.up``.
+#. Bring up the containers with ``make dev.up``.
 
 **NOTE:** Additional instructions on switching releases using ``direnv`` can be found in `How do I switch releases using 'direnv'?`_ section.
 

@@ -9,11 +9,11 @@ services:
       ASSET_WATCHER_TIMEOUT: 12
     image: edxops/edxapp:${OPENEDX_RELEASE:-latest}
     volumes:
-      - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform:cached
+      - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform
       - edxapp_lms_assets:/edx/var/edxapp/staticfiles/
       - edxapp_node_modules:/edx/app/edxapp/edx-platform/node_modules
-      - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
-      - ${DEVSTACK_WORKSPACE}/edx-themes:/edx/app/edx-themes:cached
+      - ${DEVSTACK_WORKSPACE}/src:/edx/src
+      - ${DEVSTACK_WORKSPACE}/edx-themes:/edx/app/edx-themes
     networks:
       default:
         aliases:
@@ -28,10 +28,10 @@ services:
     image: edxops/edxapp:${OPENEDX_RELEASE:-latest}
     volumes:
       - edxapp_studio_assets:/edx/var/edxapp/staticfiles/
-      - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform:cached
+      - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform
       - edxapp_node_modules:/edx/app/edxapp/edx-platform/node_modules
-      - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
-      - ${DEVSTACK_WORKSPACE}/edx-themes:/edx/app/edx-themes:cached
+      - ${DEVSTACK_WORKSPACE}/src:/edx/src
+      - ${DEVSTACK_WORKSPACE}/edx-themes:/edx/app/edx-themes
     networks:
       default:
         aliases:

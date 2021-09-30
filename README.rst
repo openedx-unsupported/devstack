@@ -180,8 +180,6 @@ The default devstack services can be run by following the steps below.
 
    **NOTE:** This command will bring up both MySQL 5.6 and 5.7 databases until all services are upgraded to 5.7.
 
-   **NOTE:** If you are looking for instructions for NFS, see :ref:`Deprecated MacOS performance improvements`.
-
 #. Start the desired services. This command will mount the repositories under the
    ``DEVSTACK_WORKSPACE`` directory.
 
@@ -192,8 +190,6 @@ The default devstack services can be run by following the steps below.
    .. code:: sh
 
        make dev.up.large-and-slow
-
-   **NOTE:** If you are looking for instructions for NFS, see :ref:`Deprecated MacOS performance improvements`.
 
 To stop a service, use ``make dev.stop.<service>``, and to both stop it
 and remove the container (along with any changes you have made
@@ -390,37 +386,6 @@ This is handled for you automatically by setting the ``OPENEDX_RELEASE`` environ
    COMPOSE_PROJECT_NAME=<your-alternate-devstack-name>
 
 As a specific example, if ``OPENEDX_RELEASE`` is set in your environment as ``juniper.master``, then ``COMPOSE_PROJECT_NAME`` will default to ``devstack-juniper.master`` instead of ``devstack``.
-
-.. _Deprecated MacOS performance improvements:
-
-Deprecated MacOS performance improvements
------------------------------------------
-
-**Warning:** We recommend that new devstack setups on MacOS **no longer use** NFS for MacOS. At this time, this technology **leads to increased complexity and might cause errors**. Improvements to Docker's default FS have resolved bugs or performance issues that were previously dependent on this workaround technology.
-
-For further details, read more about the forthcoming `deprecation of NFS`_.
-
-Until this deprecated technology goes through the deprecation and removal process, the following deprecated instructions are left here for legacy purposes:
-
-Setup NFS before provisioning:
-
-.. code:: sh
-
-    make dev.nfs.setup
-
-Provision using NFS:
-
-.. code:: sh
-
-   make dev.nfs.provision
-
-Start using NFS:
-
-.. code:: sh
-
-   make dev.nfs.up
-
-.. _deprecation of NFS: https://openedx.atlassian.net/browse/DEPR-161
 
 .. _Docker Compose: https://docs.docker.com/compose/
 .. _Docker for Mac: https://docs.docker.com/docker-for-mac/
