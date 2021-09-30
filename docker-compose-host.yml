@@ -1,41 +1,40 @@
-# Update docker-compose-host-nfs.yml too in case of any change in this file.
 
 version: "2.1"
 
 services:
   credentials:
     volumes:
-      - ${DEVSTACK_WORKSPACE}/credentials:/edx/app/credentials/credentials:cached
+      - ${DEVSTACK_WORKSPACE}/credentials:/edx/app/credentials/credentials
       - credentials_node_modules:/edx/app/credentials/credentials/node_modules
       - credentials_tox:/edx/app/credentials/credentials/.tox
-      - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
+      - ${DEVSTACK_WORKSPACE}/src:/edx/src
   discovery:
       volumes:
-      - ${DEVSTACK_WORKSPACE}/course-discovery:/edx/app/discovery/discovery:cached
+      - ${DEVSTACK_WORKSPACE}/course-discovery:/edx/app/discovery/discovery
       - discovery_node_modules:/edx/app/discovery/discovery/node_modules
       - discovery_tox:/edx/app/discovery/discovery/.tox
-      - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
+      - ${DEVSTACK_WORKSPACE}/src:/edx/src
   ecommerce:
     volumes:
-      - ${DEVSTACK_WORKSPACE}/ecommerce:/edx/app/ecommerce/ecommerce:cached
+      - ${DEVSTACK_WORKSPACE}/ecommerce:/edx/app/ecommerce/ecommerce
       - ecommerce_node_modules:/edx/app/ecommerce/ecommerce/node_modules
       - ecommerce_tox:/edx/app/ecommerce/ecommerce/.tox
-      - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
+      - ${DEVSTACK_WORKSPACE}/src:/edx/src
   forum:
     volumes:
-      - ${DEVSTACK_WORKSPACE}/cs_comments_service:/edx/app/forum/cs_comments_service:cached
+      - ${DEVSTACK_WORKSPACE}/cs_comments_service:/edx/app/forum/cs_comments_service
   lms:
     volumes:
-      - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform:cached
+      - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform
       - edxapp_media:/edx/var/edxapp/media
       - edxapp_node_modules:/edx/app/edxapp/edx-platform/node_modules
       - edxapp_tox:/edx/app/edxapp/edx-platform/.tox
       - edxapp_uploads:/edx/var/edxapp/uploads
-      - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
+      - ${DEVSTACK_WORKSPACE}/src:/edx/src
   edx_notes_api:
     volumes:
-      - ${DEVSTACK_WORKSPACE}/edx-notes-api:/edx/app/edx_notes_api/edx_notes_api:cached
-      - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
+      - ${DEVSTACK_WORKSPACE}/edx-notes-api:/edx/app/edx_notes_api/edx_notes_api
+      - ${DEVSTACK_WORKSPACE}/src:/edx/src
   registrar:
     volumes:
       - ${DEVSTACK_WORKSPACE}/registrar:/edx/app/registrar/registrar
@@ -44,12 +43,12 @@ services:
       - ${DEVSTACK_WORKSPACE}/registrar:/edx/app/registrar/registrar
   studio:
     volumes:
-      - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform:cached
+      - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform
       - edxapp_media:/edx/var/edxapp/media
       - edxapp_node_modules:/edx/app/edxapp/edx-platform/node_modules
       - edxapp_tox:/edx/app/edxapp/edx-platform/.tox
       - edxapp_uploads:/edx/var/edxapp/uploads
-      - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
+      - ${DEVSTACK_WORKSPACE}/src:/edx/src
   insights:
     volumes:
       - ${DEVSTACK_WORKSPACE}/edx-analytics-dashboard:/edx/app/insights/insights
@@ -59,45 +58,45 @@ services:
   # See ADR #5 for rationale.
   frontend-app-account:
     volumes:
-      - ${DEVSTACK_WORKSPACE}/frontend-app-account:/edx/app/frontend-app-account:cached
+      - ${DEVSTACK_WORKSPACE}/frontend-app-account:/edx/app/frontend-app-account
       - frontend_app_account_node_modules:/edx/app/frontend-app-account/node_modules
-      - ${DEVSTACK_WORKSPACE}/src:/edx/app/src:cached
+      - ${DEVSTACK_WORKSPACE}/src:/edx/app/src
 
   frontend-app-course-authoring:
     volumes:
-      - ${DEVSTACK_WORKSPACE}/frontend-app-course-authoring:/edx/app/frontend-app-course-authoring:cached
+      - ${DEVSTACK_WORKSPACE}/frontend-app-course-authoring:/edx/app/frontend-app-course-authoring
       - frontend_app_course_authoring_node_modules:/edx/app/frontend-app-course-authoring/node_modules
-      - ${DEVSTACK_WORKSPACE}/src:/edx/app/src:cached
+      - ${DEVSTACK_WORKSPACE}/src:/edx/app/src
   frontend-app-gradebook:
     volumes:
-      - ${DEVSTACK_WORKSPACE}/frontend-app-gradebook:/edx/app/frontend-app-gradebook:cached
+      - ${DEVSTACK_WORKSPACE}/frontend-app-gradebook:/edx/app/frontend-app-gradebook
       - frontend_app_gradebook_node_modules:/edx/app/frontend-app-gradebook/node_modules
-      - ${DEVSTACK_WORKSPACE}/src:/edx/app/src:cached
+      - ${DEVSTACK_WORKSPACE}/src:/edx/app/src
   frontend-app-learning:
     volumes:
-      - ${DEVSTACK_WORKSPACE}/frontend-app-learning:/edx/app/frontend-app-learning:cached
+      - ${DEVSTACK_WORKSPACE}/frontend-app-learning:/edx/app/frontend-app-learning
       - frontend_app_learning_node_modules:/edx/app/frontend-app-learning/node_modules
-      - ${DEVSTACK_WORKSPACE}/src:/edx/app/src:cached
+      - ${DEVSTACK_WORKSPACE}/src:/edx/app/src
   frontend-app-library-authoring:
     volumes:
-      - ${DEVSTACK_WORKSPACE}/frontend-app-library-authoring:/edx/app/frontend-app-library-authoring:cached
+      - ${DEVSTACK_WORKSPACE}/frontend-app-library-authoring:/edx/app/frontend-app-library-authoring
       - frontend_app_library_authoring_node_modules:/edx/app/frontend-app-library-authoring/node_modules
-      - ${DEVSTACK_WORKSPACE}/src:/edx/app/src:cached
+      - ${DEVSTACK_WORKSPACE}/src:/edx/app/src
   frontend-app-payment:
     volumes:
-      - ${DEVSTACK_WORKSPACE}/frontend-app-payment:/edx/app/frontend-app-payment:cached
+      - ${DEVSTACK_WORKSPACE}/frontend-app-payment:/edx/app/frontend-app-payment
       - frontend_app_payment_node_modules:/edx/app/frontend-app-payment/node_modules
-      - ${DEVSTACK_WORKSPACE}/src:/edx/app/src:cached
+      - ${DEVSTACK_WORKSPACE}/src:/edx/app/src
   frontend-app-program-console:
     volumes:
-      - ${DEVSTACK_WORKSPACE}/frontend-app-program-console:/edx/app/frontend-app-program-console:cached
+      - ${DEVSTACK_WORKSPACE}/frontend-app-program-console:/edx/app/frontend-app-program-console
       - frontend_app_program_console_node_modules:/edx/app/frontend-app-program-console/node_modules
-      - ${DEVSTACK_WORKSPACE}/src:/edx/app/src:cached
+      - ${DEVSTACK_WORKSPACE}/src:/edx/app/src
   frontend-app-publisher:
     volumes:
-      - ${DEVSTACK_WORKSPACE}/frontend-app-publisher:/edx/app/frontend-app-publisher:cached
+      - ${DEVSTACK_WORKSPACE}/frontend-app-publisher:/edx/app/frontend-app-publisher
       - frontend_app_publisher_node_modules:/edx/app/frontend-app-publisher/node_modules
-      - ${DEVSTACK_WORKSPACE}/src:/edx/app/src:cached
+      - ${DEVSTACK_WORKSPACE}/src:/edx/app/src
 
 volumes:
   credentials_node_modules:
