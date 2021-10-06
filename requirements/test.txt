@@ -27,7 +27,7 @@ charset-normalizer==2.0.6
     # via
     #   -r requirements/base.txt
     #   requests
-cryptography==3.4.8
+cryptography==35.0.0
     # via
     #   -r requirements/base.txt
     #   paramiko
