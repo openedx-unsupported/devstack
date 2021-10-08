@@ -72,6 +72,11 @@ services:
       - ${DEVSTACK_WORKSPACE}/frontend-app-gradebook:/edx/app/frontend-app-gradebook
       - frontend_app_gradebook_node_modules:/edx/app/frontend-app-gradebook/node_modules
       - ${DEVSTACK_WORKSPACE}/src:/edx/app/src
+  frontend-app-ora-grading:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/frontend-app-ora-grading:/edx/app/frontend-app-ora-grading
+      - frontend_app_ora_grading_node_modules:/edx/app/frontend-app-ora-grading/node_modules
+      - ${DEVSTACK_WORKSPACE}/src:/edx/app/src
   frontend-app-learning:
     volumes:
       - ${DEVSTACK_WORKSPACE}/frontend-app-learning:/edx/app/frontend-app-learning
@@ -109,6 +114,7 @@ volumes:
   frontend_app_account_node_modules:
   frontend_app_course_authoring_node_modules:
   frontend_app_gradebook_node_modules:
+  frontend_app_ora_grading_node_modules:
   frontend_app_learning_node_modules:
   frontend_app_library_authoring_node_modules:
   frontend_app_payment_node_modules:

@@ -67,7 +67,7 @@ credentials+discovery+ecommerce+edx_notes_api+forum+frontend-app-gradebook+front
 # Separated by plus signs.
 # Separated by plus signs. Listed in alphabetical order for clarity.
 EDX_SERVICES ?= \
-credentials+discovery+ecommerce+edx_notes_api+forum+frontend-app-account+frontend-app-course-authoring+frontend-app-gradebook+frontend-app-learning+frontend-app-library-authoring+frontend-app-payment+frontend-app-program-console+frontend-app-publisher+insights+lms+lms_watcher+registrar+registrar-worker+studio+studio_watcher+xqueue+xqueue_consumer
+credentials+discovery+ecommerce+edx_notes_api+forum+frontend-app-account+frontend-app-course-authoring+frontend-app-gradebook+frontend-app-ora-grading+frontend-app-learning+frontend-app-library-authoring+frontend-app-payment+frontend-app-program-console+frontend-app-publisher+insights+lms+lms_watcher+registrar+registrar-worker+studio+studio_watcher+xqueue+xqueue_consumer
 
 # Services with database migrations.
 # Should be a subset of $(EDX_SERVICES).
