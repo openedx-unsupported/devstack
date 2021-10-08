@@ -568,6 +568,21 @@ services:
       - "1994:1994"
     depends_on:
       - lms
+  
+  frontend-app-ora-grading:
+    extends:
+      file: microfrontend.yml
+      service: microfrontend
+    working_dir: '/edx/app/frontend-app-ora-grading'
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-ora-grading"
+    networks:
+      default:
+        aliases:
+          - edx.devstack.frontend-app-ora-grading
+    ports:
+      - "1993:1993"
+    depends_on:
+      - lms
 
   frontend-app-learning:
     extends:
