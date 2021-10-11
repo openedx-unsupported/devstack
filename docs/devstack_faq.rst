@@ -134,7 +134,7 @@ How do I connect to the databases from an outside editor?
 ---------------------------------------------------------
 
 To connect to the databases from an outside editor (such as MySQLWorkbench),
-first uncomment these lines from ``docker-compose.yml``'s ``mysql`` or ``mysql57`` section (depending on what service you're on):
+first uncomment these lines from ``docker-compose.yml``'s ``mysql57`` section
 
 .. code:: yaml
 
@@ -158,7 +158,7 @@ vary depending on the database. For all of the options, see ``provision.sql``.
 
 If you have trouble connecting, ensure the port was mapped successfully by
 running ``make dev.ps`` and looking for a line like this:
-``edx.devstack.mysql docker-entrypoint.sh mysql ... Up 0.0.0.0:3506→3306/tcp``.
+``edx.devstack.mysql57 docker-entrypoint.sh mysql ... Up 0.0.0.0:3506→3306/tcp``.
 
 How do I build the service images myself?
 -----------------------------------------
@@ -209,7 +209,7 @@ To access the MySQL shell for a particular database, run:
 
 .. code:: sh
 
-   make dev.shell.mysql
+   make dev.shell.mysql57
    mysql
    use <database>;
 

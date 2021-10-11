@@ -47,7 +47,7 @@ Switch between your Devstack releases by doing the following:
 Examples of Docker Service Names After Setting the ``COMPOSE_PROJECT_NAME`` variable. Notice that the **devstack-juniper.master** name represents the ``COMPOSE_PROJECT_NAME``.
 
 -  edx.devstack-juniper.master.lms
--  edx.devstack-juniper.master.mysql
+-  edx.devstack-juniper.master.mysql57
 
 Each instance has an isolated set of databases. This could, for example, be used to quickly switch between versions of Open edX without hitting as many issues with migrations, data integrity, etc.
 
