@@ -8,6 +8,12 @@ on:
   pull_request:
     branches:
       - '**'
+  workflow_dispatch:
+      inputs:
+          calling_repo:
+              description: 'Name of the repository triggering this action'
+              required: false
+              default: '@edx/devstack'
 
 jobs:
 
@@ -32,6 +38,15 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
+
+      - name: set calling repository variable
+        run: |
+          if [ -z ${{ github.events.inputs.calling_repo }} ]
+          then
+            echo "CALLING_REPOSITORY=@edx/devstack" >> $GITHUB_ENV
+          else
+            echo "CALLING_REPOSITORY=${{ github.events.inputs.calling_repo }}" >> $GITHUB_ENV
+          fi
 
       - name: installations and version upgrades
         run: |
@@ -65,6 +80,32 @@ jobs:
 
       - name: dev.check
         run:  make dev.check.${{matrix.services}}
+
+      - name: notify on failure
+        if: ${{ failure() && github.ref == 'refs/heads/master' }}
+        uses: dawidd6/action-send-mail@v3
+        with:
+           server_address: email-smtp.us-east-1.amazonaws.com
+           server_port: 465
+           username: ${{secrets.EDX_SMTP_USERNAME}}
+           password: ${{secrets.EDX_SMTP_PASSWORD}}
+           subject: 'Failure: Devstack provisioning tests for ${{matrix.services}} #${{github.run_id}}'
+           to: devstack-provisioning-tests@edx.opsgenie.net
+           from: github-actions <github-actions@edx.org>
+           body: 'Devstack provisioning tests in ${{github.repository}} for ${{matrix.services}} failed! For details see "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}". Run triggered by ${{ env.CALLING_REPOSITORY }}. \n Runbook url: https://openedx.atlassian.net/l/c/zoEcLk2z .'
+
+      - name: close alerts on success
+        if: ${{ !failure() && github.ref == 'refs/heads/master' }}
+        uses: dawidd6/action-send-mail@v3
+        with:
+           server_address: email-smtp.us-east-1.amazonaws.com
+           server_port: 465
+           username: ${{secrets.EDX_SMTP_USERNAME}}
+           password: ${{secrets.EDX_SMTP_PASSWORD}}
+           subject: 'Back to normal: Devstack provisioning tests for ${{matrix.services}} #${{github.run_id}}'
+           to: devstack-provisioning-tests@edx.opsgenie.net
+           from: github-actions <github-actions@edx.org>
+           body: Devstack provisioning tests in ${{github.repository}} are back to normal for ${{matrix.services}}
 
       - name: docs
         run:  make docs
