@@ -13,7 +13,7 @@ bcrypt==3.2.0
     # via
     #   -r requirements/base.txt
     #   paramiko
-certifi==2021.5.30
+certifi==2021.10.8
     # via
     #   -r requirements/base.txt
     #   requests
@@ -23,7 +23,7 @@ cffi==1.14.6
     #   bcrypt
     #   cryptography
     #   pynacl
-charset-normalizer==2.0.6
+charset-normalizer==2.0.7
     # via
     #   -r requirements/base.txt
     #   requests
@@ -35,7 +35,7 @@ distro==1.6.0
     # via
     #   -r requirements/base.txt
     #   docker-compose
-docker[ssh]==5.0.2
+docker[ssh]==5.0.3
     # via
     #   -r requirements/base.txt
     #   docker-compose
@@ -49,7 +49,7 @@ docopt==0.6.2
     # via
     #   -r requirements/base.txt
     #   docker-compose
-idna==3.2
+idna==3.3
     # via
     #   -r requirements/base.txt
     #   requests
@@ -61,7 +61,7 @@ jsonschema==3.2.0
     #   docker-compose
 packaging==21.0
     # via pytest
-paramiko==2.7.2
+paramiko==2.8.0
     # via
     #   -r requirements/base.txt
     #   docker
@@ -89,7 +89,7 @@ pyrsistent==0.18.0
     #   jsonschema
 pytest==6.2.5
     # via -r requirements/test.in
-python-dotenv==0.19.0
+python-dotenv==0.19.1
     # via
     #   -r requirements/base.txt
     #   docker-compose
