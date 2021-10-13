@@ -17,7 +17,7 @@ bcrypt==3.2.0
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   paramiko
-certifi==2021.5.30
+certifi==2021.10.8
     # via
     #   -r requirements/base.txt
     #   -r requirements/test.txt
@@ -29,12 +29,12 @@ cffi==1.14.6
     #   bcrypt
     #   cryptography
     #   pynacl
-charset-normalizer==2.0.6
+charset-normalizer==2.0.7
     # via
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   requests
-click==8.0.1
+click==8.0.3
     # via
     #   -r requirements/pip-tools.txt
     #   pip-tools
@@ -50,7 +50,7 @@ distro==1.6.0
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   docker-compose
-docker[ssh]==5.0.2
+docker[ssh]==5.0.3
     # via
     #   -r requirements/base.txt
     #   -r requirements/test.txt
@@ -73,7 +73,7 @@ filelock==3.3.0
     # via
     #   tox
     #   virtualenv
-idna==3.2
+idna==3.3
     # via
     #   -r requirements/base.txt
     #   -r requirements/test.txt
@@ -92,7 +92,7 @@ packaging==21.0
     #   -r requirements/test.txt
     #   pytest
     #   tox
-paramiko==2.7.2
+paramiko==2.8.0
     # via
     #   -r requirements/base.txt
     #   -r requirements/test.txt
@@ -103,7 +103,7 @@ pep517==0.11.0
     #   pip-tools
 pexpect==4.8.0
     # via -r requirements/test.txt
-pip-tools==6.3.0
+pip-tools==6.4.0
     # via -r requirements/pip-tools.txt
 platformdirs==2.4.0
     # via virtualenv
@@ -142,7 +142,7 @@ pyrsistent==0.18.0
     #   jsonschema
 pytest==6.2.5
     # via -r requirements/test.txt
-python-dotenv==0.19.0
+python-dotenv==0.19.1
     # via
     #   -r requirements/base.txt
     #   -r requirements/test.txt
