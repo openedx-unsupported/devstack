@@ -82,7 +82,6 @@ private_repos=(
 if [ -n "${OPENEDX_RELEASE}" ]; then
     OPENEDX_GIT_BRANCH=open-release/${OPENEDX_RELEASE}
 else
-    OPENEDX_GIT_BRANCH=master
     repos+=("${non_release_repos[@]}")
     ssh_repos+=("${non_release_ssh_repos[@]}")
 fi
@@ -102,7 +101,6 @@ _checkout ()
 
         # If a directory exists and it is nonempty, assume the repo has been cloned.
         if [ -d "$name" ] && [ -n "$(ls -A "$name" 2>/dev/null)" ]; then
-            echo "Checking out branch ${OPENEDX_GIT_BRANCH} of $name"
             cd "$name"
             _checkout_and_update_branch
             cd ..
@@ -138,10 +136,15 @@ _clone ()
             _checkout_and_update_branch
             cd ..
         else
-            if [ "${SHALLOW_CLONE}" == "1" ]; then
-                git clone -b ${OPENEDX_GIT_BRANCH} -c core.symlinks=true --depth=1 "${repo}"
+            if [ -n "${OPENEDX_GIT_BRANCH:-}" ]; then
+                CLONE_BRANCH="-b ${OPENEDX_GIT_BRANCH}"
             else
-                git clone -b ${OPENEDX_GIT_BRANCH} -c core.symlinks=true "${repo}"
+                CLONE_BRANCH=""
+            fi
+            if [ "${SHALLOW_CLONE}" == "1" ]; then
+                git clone ${CLONE_BRANCH} -c core.symlinks=true --depth=1 "${repo}"
+            else
+                git clone ${CLONE_BRANCH} -c core.symlinks=true "${repo}"
             fi
         fi
     done
@@ -152,11 +155,17 @@ _checkout_and_update_branch ()
 {
     GIT_SYMBOLIC_REF="$(git symbolic-ref HEAD 2>/dev/null)"
     BRANCH_NAME=${GIT_SYMBOLIC_REF##refs/heads/}
-    if [ "${BRANCH_NAME}" == "${OPENEDX_GIT_BRANCH}" ]; then
-        git pull origin ${OPENEDX_GIT_BRANCH}
+    if [ -n "${OPENEDX_GIT_BRANCH}" ]; then
+        CHECKOUT_BRANCH=${OPENEDX_GIT_BRANCH}
     else
-        git fetch origin ${OPENEDX_GIT_BRANCH}:${OPENEDX_GIT_BRANCH}
-        git checkout ${OPENEDX_GIT_BRANCH}
+        CHECKOUT_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')
+    fi
+    echo "Checking out branch ${CHECKOUT_BRANCH}"
+    if [ "${BRANCH_NAME}" == "${CHECKOUT_BRANCH}" ]; then
+        git pull origin ${CHECKOUT_BRANCH}
+    else
+        git fetch origin ${CHECKOUT_BRANCH}:${CHECKOUT_BRANCH}
+        git checkout ${CHECKOUT_BRANCH}
     fi
     find . -name '*.pyc' -not -path './.git/*' -delete
 }
@@ -178,7 +187,7 @@ clone_private ()
 
 reset ()
 {
-    read -p "This will switch to master and pull changes in your local git checkouts. Would you like to proceed? [y/n] " -r
+    read -p "This will switch to the default branch and pull changes in your local git checkouts. Would you like to proceed? [y/n] " -r
     if [[ ! $REPLY =~ ^[Yy]$ ]]; then
         echo "Cancelling."
         exit 1
@@ -190,8 +199,9 @@ reset ()
         name="${BASH_REMATCH[1]}"
 
         if [ -d "$name" ]; then
+            DEFAULT_BRANCH=$(cd ${name}; git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')
             # Try to switch branch and pull, but fail if there are uncommitted changes.
-            if (cd "$name"; git checkout -q master && git pull -q --ff-only);
+            if (cd "$name"; git checkout -q ${DEFAULT_BRANCH} && git pull -q --ff-only);
             then
                 # Echo untracked files to simplify debugging and make it easier to see that resetting does not remove everything
                 untracked_files="$(cd ${name} && git ls-files --others --exclude-standard)"
@@ -202,7 +212,7 @@ reset ()
                 fi
             else
                 echo >&2 "Failed to reset $name repo. Exiting."
-                echo >&2 "Please go to the repo and clean up any issues that are keeping 'git checkout master' and 'git pull' from working."
+                echo >&2 "Please go to the repo and clean up any issues that are keeping 'git checkout $DEFAULT_BRANCH' and 'git pull' from working."
                 exit 1
             fi
         else

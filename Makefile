@@ -149,13 +149,13 @@ selfcheck: ## Check that the Makefile is free of Make syntax errors.
 # Developer interface: Repository management.
 ########################################################################################
 
-dev.reset-repos: ## Attempt to reset the local repo checkouts to the master working state.
+dev.reset-repos: ## Attempt to reset the local repo checkouts to the default branch working state.
 	$(WINPTY) bash ./repo.sh reset
 
 dev.status: ## Prints the status of all git repositories.
 	$(WINPTY) bash ./repo.sh status
 
-dev.checkout: ## Check out "openedx-release/$OPENEDX_RELEASE" in each repo if set, "master" otherwise.
+dev.checkout: ## Check out "openedx-release/$OPENEDX_RELEASE" in each repo if set, use default branch otherwise.
 	./repo.sh checkout
 
 dev.clone: dev.clone.ssh ## Clone service repos to the parent directory.
@@ -482,7 +482,7 @@ dev.static.%: ## Rebuild static assets for the specified service's container.
 ########################################################################################
 
 
-dev.reset: dev.down dev.reset-repos dev.prune dev.pull.large-and-slow dev.up.large-and-slow dev.static dev.migrate ## Attempt to reset the local devstack to the master working state without destroying data.
+dev.reset: dev.down dev.reset-repos dev.prune dev.pull.large-and-slow dev.up.large-and-slow dev.static dev.migrate ## Attempt to reset the local devstack to the default branch working state without destroying data.
 
 dev.destroy.coursegraph: dev.down.coursegraph ## Remove all coursegraph data.
 	docker volume rm ${COMPOSE_PROJECT_NAME}_coursegraph_data
