@@ -22,7 +22,7 @@ certifi==2021.10.8
     # via
     #   -r requirements/base.txt
     #   requests
-cffi==1.14.6
+cffi==1.15.0
     # via
     #   -r requirements/base.txt
     #   bcrypt
@@ -155,7 +155,7 @@ sphinxcontrib-qthelp==1.0.3
     # via sphinx
 sphinxcontrib-serializinghtml==1.1.5
     # via sphinx
-stevedore==3.4.0
+stevedore==3.5.0
     # via doc8
 texttable==1.6.4
     # via
