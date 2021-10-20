@@ -173,8 +173,8 @@ services:
       default:
         aliases:
           - edx.devstack.mysql57
-    # ports:
-    #   - "3506:3306"
+    ports:
+      - "3506:3306"
     volumes:
       - mysql57_data:/var/lib/mysql
 
@@ -367,8 +367,8 @@ services:
       DB_HOST: edx.devstack.mysql57
       DB_NAME: dashboard
       DB_PORT: 3306
-      DB_USER: rozencrantz
-      DB_PASSWORD: secret
+      DB_USER: analytics001
+      DB_PASSWORD: password
       LMS_HOST: http://localhost:18000
       DJANGO_SETTINGS_MODULE: analytics_dashboard.settings.devstack
     image: edxops/insights:${OPENEDX_RELEASE:-latest}
@@ -394,6 +394,8 @@ services:
     environment:
       DB_HOST: edx.devstack.mysql57
       DB_PORT: 3306
+      DB_USER: analytics001
+      DB_PASSWORD: password
       ELASTICSEARCH_LEARNERS_HOST: edx.devstack.elasticsearch710
     volumes:
       - ${DEVSTACK_WORKSPACE}/edx-analytics-data-api:/edx/app/analytics_api/analytics_api
