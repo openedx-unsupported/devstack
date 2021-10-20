@@ -9,8 +9,8 @@ on:
     branches:
       - '**'
   schedule:
-    # run at 9:30 am M-F
-    - cron: '30 13 * * 1-5'
+    # run at 7:30 am M-F
+    - cron: '30 11 * * 1-5'
 
 jobs:
 
