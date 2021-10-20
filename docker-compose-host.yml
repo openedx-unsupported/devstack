@@ -53,6 +53,9 @@ services:
     volumes:
       - ${DEVSTACK_WORKSPACE}/edx-analytics-dashboard:/edx/app/insights/insights
       - insights_node_modules:/edx/app/insights/insights/node_modules
+  analyticsapi:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/edx-analytics-data-api:/edx/app/analytics_api/analytics_api
 
   # Note that frontends mount `src` to /edx/app/src instead of /edx/src.
   # See ADR #5 for rationale.
