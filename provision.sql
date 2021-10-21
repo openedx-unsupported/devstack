@@ -23,15 +23,12 @@ GRANT ALL ON edxapp_csmh.* TO 'edxapp001'@'%';
 
 CREATE DATABASE IF NOT EXISTS `dashboard`;
 GRANT ALL ON `dashboard`.* TO 'analytics001'@'%' IDENTIFIED BY 'password';
-GRANT ALL ON `dashboard`.* TO 'rozencrantz'@'%' IDENTIFIED BY 'secret';
 
 CREATE DATABASE IF NOT EXISTS `analytics-api`;
 GRANT ALL ON `analytics-api`.* TO 'analytics001'@'%' IDENTIFIED BY 'password';
-GRANT ALL ON `analytics-api`.* TO 'api001'@'%' IDENTIFIED BY 'password';
 
 CREATE DATABASE IF NOT EXISTS `reports`;
 GRANT ALL ON `reports`.* TO 'analytics001'@'%' IDENTIFIED BY 'password';
-GRANT ALL ON `reports`.* TO 'reports001'@'%' IDENTIFIED BY 'password';
 
 
 FLUSH PRIVILEGES;
