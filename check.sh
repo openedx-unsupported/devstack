@@ -115,6 +115,12 @@ if should_check insights; then
         "curl --fail -L http://localhost:18110/health/"
 fi
 
+if should_check analyticsapi; then
+    echo "Running Analytics Data API Devstack tests: "
+    run_check analyticsapi_heartbeat analyticsapi \
+        "curl --fail -L http://localhost:19001/health/"
+fi
+
 echo "Successful checks:${succeeded:- NONE}"
 echo "Failed checks:${failed:- NONE}"
 if [[ "$succeeded" ]]; then

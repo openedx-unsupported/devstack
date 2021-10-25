@@ -49,6 +49,7 @@ registrar \
 xqueue \
 coursegraph \
 insights \
+analyticsapi \
  "
 
 # What should we provision?
