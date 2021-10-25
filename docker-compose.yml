@@ -356,6 +356,7 @@ services:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.insights"
     hostname: insights.devstack.edx
     depends_on:
+      - analyticsapi
       - mysql57
       - lms
       - memcached
@@ -366,8 +367,8 @@ services:
       DB_HOST: edx.devstack.mysql57
       DB_NAME: dashboard
       DB_PORT: 3306
-      DB_USER: rozencrantz
-      DB_PASSWORD: secret
+      DB_USER: analytics001
+      DB_PASSWORD: password
       LMS_HOST: http://localhost:18000
       DJANGO_SETTINGS_MODULE: analytics_dashboard.settings.devstack
     image: edxops/insights:${OPENEDX_RELEASE:-latest}
@@ -380,6 +381,27 @@ services:
     volumes:
       - /edx/var/insights/
 
+  analyticsapi:
+    image: edxops/analytics_api:${OPENEDX_RELEASE:-latest}
+    container_name: edx.devstack.analyticsapi
+    hostname: analyticsapi
+    depends_on:
+      - mysql57
+      - elasticsearch710
+    command: bash -c 'source /edx/app/analytics_api/analytics_api_env && while true;  do python /edx/app/analytics_api/analytics_api/manage.py runserver 0.0.0.0:19001 --settings analyticsdataserver.settings.devstack; sleep 2; done'
+    stdin_open: true
+    tty: true
+    environment:
+      DB_HOST: edx.devstack.mysql57
+      DB_PORT: 3306
+      DB_USER: analytics001
+      DB_PASSWORD: password
+      ELASTICSEARCH_LEARNERS_HOST: edx.devstack.elasticsearch710
+    ports:
+      - "19001:19001"
+    volumes:
+      - /edx/var/analyticsapi
+ 
   registrar:
     command: bash -c 'source /edx/app/registrar/registrar_env && while true; do python /edx/app/registrar/registrar/manage.py runserver 0.0.0.0:18734; sleep 2; done'
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.registrar"

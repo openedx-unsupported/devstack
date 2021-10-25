@@ -33,6 +33,8 @@ repos=(
     "https://github.com/edx/frontend-app-gradebook.git"
     "https://github.com/edx/frontend-app-payment.git"
     "https://github.com/edx/frontend-app-publisher.git"
+    "https://github.com/edx/edx-analytics-dashboard.git"
+    "https://github.com/edx/edx-analytics-data-api.git"
 )
 
 non_release_repos=(
@@ -58,6 +60,8 @@ ssh_repos=(
     "git@github.com:edx/frontend-app-gradebook.git"
     "git@github.com:edx/frontend-app-payment.git"
     "git@github.com:edx/frontend-app-publisher.git"
+    "git@github.com:edx/edx-analytics-dashboard.git"
+    "git@github.com:edx/edx-analytics-data-api.git"
 )
 
 non_release_ssh_repos=(

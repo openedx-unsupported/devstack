@@ -322,6 +322,8 @@ Instead of a service name or list, you can also run commands like ``make dev.pro
 +------------------------------------+-------------------------------------+----------------+--------------+
 | `insights`                         | http://localhost:18110              | Python/Django  | Extra        |
 +------------------------------------+-------------------------------------+----------------+--------------+
+| `analyticsapi`                     | http://localhost:19001              | Python/Django  | Extra        |
++------------------------------------+-------------------------------------+----------------+--------------+
 | `frontend-app-ora-grading`         | http://localhost:1993               | MFE (React.js) | Extra        |
 +------------------------------------+-------------------------------------+----------------+--------------+
 
@@ -351,6 +353,8 @@ Some common service combinations include:
 .. _xqueue: https://github.com/edx/xqueue
 .. _coursegraph: https://github.com/edx/edx-platform/tree/master/openedx/core/djangoapps/coursegraph
 .. _frontend-app-ora-grading: https://github.com/edx/frontend-app-ora-grading
+.. _insights: https://github.com/edx/edx-analytics-dashboard
+.. _analyticsapi: https://github.com/edx/edx-analytics-data-api
 
 
 Known Issues
