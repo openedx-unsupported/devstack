@@ -16,7 +16,9 @@ docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs bash -c 'python manage.
 echo "** Progs: Compiling assets **"
 docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs bash -c 'npm rebuild node-sass'
 docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs bash -c 'chown -R root ~/.npm'
+docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs bash -c 'rm -rf node_modules/'
 docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs bash -c 'npm install'
+
 docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs bash -c 'npm run dev'
 docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs bash -c 'python manage.py collectstatic --ignore="*.less" --ignore="*.scss" --noinput --clear --settings=edraakprograms.dev'
 

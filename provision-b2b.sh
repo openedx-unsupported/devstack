@@ -17,6 +17,7 @@ docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec b2b bash -c 'python manage.py
 echo "** b2b: Compiling assets **"
 docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec b2b bash -c 'npm rebuild node-sass'
 docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec b2b bash -c 'chown -R root ~/.npm'
+docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs bash -c 'rm -rf node_modules/'
 docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec b2b bash -c 'npm install'
 docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec b2b bash -c 'npm run dev'
 docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec b2b bash -c 'python manage.py collectstatic --ignore="*.less" --ignore="*.scss" --noinput --clear --settings=edraakprograms.dev'
