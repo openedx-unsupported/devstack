@@ -14,6 +14,7 @@ echo "** Marketing: Migrating databases **"
 docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec mktg bash -c 'python manage.py migrate --settings=marketingsite.envs.dev'
 
 echo "** Marketing: Compiling assets **"
+docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec mktg bash -c 'rm -rf node_modules/'
 docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec mktg bash -c 'yarn'
 docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec mktg bash -c 'npm run dev'
 
