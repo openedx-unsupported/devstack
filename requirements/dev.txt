@@ -131,7 +131,7 @@ pynacl==1.4.0
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   paramiko
-pyparsing==2.4.7
+pyparsing==3.0.1
     # via
     #   -r requirements/test.txt
     #   packaging
@@ -179,7 +179,7 @@ toml==0.10.2
     #   -r requirements/test.txt
     #   pytest
     #   tox
-tomli==1.2.1
+tomli==1.2.2
     # via
     #   -r requirements/pip-tools.txt
     #   pep517
@@ -194,7 +194,7 @@ urllib3==1.26.7
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   requests
-virtualenv==20.8.1
+virtualenv==20.9.0
     # via tox
 websocket-client==0.59.0
     # via
