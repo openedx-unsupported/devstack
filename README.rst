@@ -109,7 +109,7 @@ If you are using Linux, use the ``overlay2`` storage driver, kernel version
 Please note
 ~~~~~~~~~~~
 
-You should run all ``make`` commands described below on your local machinge, *not*
+You should run all ``make`` commands described below on your local machine, *not*
 from within a Virtual Machine, as these commands are meant to stand up a VM-like environment using
 Docker containers.
 
