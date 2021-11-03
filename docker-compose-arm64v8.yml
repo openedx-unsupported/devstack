@@ -1,0 +1,86 @@
+# These overrides allow Open edX devstack to run on ARM64 systems like the M1 Macs (Apple Silicon)
+# However, these amd64 images are likely to be very slow. We should replace them with ARM64 versions
+# as much as possible.
+version: "2.1"
+
+services:
+
+  chrome:
+    platform: linux/amd64
+
+  coursegraph:
+    platform: linux/amd64
+
+  devpi:
+    platform: linux/amd64
+
+  elasticsearch:
+    platform: linux/amd64
+
+  # elasticsearch7:
+  # image: elasticsearch:7.8.1 is available in linux/arm64/v8
+
+  # elasticsearch710:
+  # image: elasticsearch:7.10.1 is available in linux/arm64/v8
+
+  firefox:
+    platform: linux/amd64
+
+  # memcached:
+  # image: memcached:1.5.10-alpine is available in linux/arm64/v8
+
+  # mongo:
+  # image: mongo:4.2.14 is available in linux/arm64/v8
+
+  mysql57:
+    #image: mysql:5.7 doesn't support linux/arm64/v8
+    image: mariadb:10.4
+
+  redis:
+    # image: redis:2.8 is ancient and doesn't support linux/arm64/v8
+    image: redis:5
+
+  # ================================================
+  # edX services
+  # ================================================
+
+  credentials:
+    platform: linux/amd64
+
+  discovery:
+    platform: linux/amd64
+
+  ecommerce:
+    platform: linux/amd64
+
+  edx_notes_api:
+    platform: linux/amd64
+
+  forum:
+    platform: linux/amd64
+
+  lms:
+    platform: linux/amd64
+
+  insights:
+    platform: linux/amd64
+
+  analyticsapi:
+    platform: linux/amd64
+ 
+  registrar:
+    platform: linux/amd64
+
+  registrar-worker:
+    platform: linux/amd64
+
+  studio:
+    platform: linux/amd64
+
+  xqueue:
+    platform: linux/amd64
+
+  xqueue_consumer:
+    platform: linux/amd64
+
+  # edX Microfrontends all use node:12 which has linux/arm64/v8 builds.

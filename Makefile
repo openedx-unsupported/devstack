@@ -74,6 +74,15 @@ COMPOSE_FILE := docker-compose-host.yml
 COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-themes.yml
 COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-watchers.yml
 COMPOSE_FILE := docker-compose.yml:$(COMPOSE_FILE)
+ifdef COMPOSE_OVERRIDES_FILE
+	COMPOSE_FILE := $(COMPOSE_FILE):$(COMPOSE_OVERRIDES_FILE)
+endif
+
+# Check system architecture, e.g. use arm64v8 on Apple Silicon / M1
+OS_ARCH := $(shell uname -p)
+ifeq ($(OS_ARCH),arm)
+    COMPOSE_FILE := $(COMPOSE_FILE):docker-compose-arm64v8.yml
+endif
 
 # Tell Docker Compose that the Compose file list uses a colon as the separator.
 COMPOSE_PATH_SEPARATOR := :
