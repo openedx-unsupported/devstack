@@ -69,7 +69,7 @@ docopt==0.6.2
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   docker-compose
-filelock==3.3.1
+filelock==3.3.2
     # via
     #   tox
     #   virtualenv
@@ -87,7 +87,7 @@ jsonschema==3.2.0
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   docker-compose
-packaging==21.0
+packaging==21.2
     # via
     #   -r requirements/test.txt
     #   pytest
@@ -131,7 +131,7 @@ pynacl==1.4.0
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   paramiko
-pyparsing==3.0.1
+pyparsing==2.4.7
     # via
     #   -r requirements/test.txt
     #   packaging
@@ -194,7 +194,7 @@ urllib3==1.26.7
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   requests
-virtualenv==20.9.0
+virtualenv==20.10.0
     # via tox
 websocket-client==0.59.0
     # via

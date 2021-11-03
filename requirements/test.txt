@@ -59,7 +59,7 @@ jsonschema==3.2.0
     # via
     #   -r requirements/base.txt
     #   docker-compose
-packaging==21.0
+packaging==21.2
     # via pytest
 paramiko==2.8.0
     # via
@@ -81,7 +81,7 @@ pynacl==1.4.0
     # via
     #   -r requirements/base.txt
     #   paramiko
-pyparsing==3.0.1
+pyparsing==2.4.7
     # via packaging
 pyrsistent==0.18.0
     # via
