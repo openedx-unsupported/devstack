@@ -24,11 +24,8 @@ jobs:
         os:
           - name: linux
             image: ubuntu-20.04 # Focal Fossa
-          # The virtual environment for mac10.15 is currently using a version of VirtualBox
-          # that is incompatible. Commenting out the mac tests until this is addressed.
-          # See https://github.com/actions/virtual-environments/issues/4466 for details
-          # - name: mac
-            # image: macos-10.15 # Catalina
+          - name: mac
+            image: macos-10.15 # Catalina
         python-version:
           - '3.8'
       fail-fast: false
@@ -69,7 +66,13 @@ jobs:
       - name: Docker installation - Mac
         if: ${{ matrix.os.name == 'mac' }}
         run: |
+          # download an old version of virtualbox (latest is incompatible with github actions)
+          brew uninstall virtualbox
+          cd $(brew --repo homebrew/cask)
+          git checkout 8670a72380c57c606d6582b645421e31dad2eee2
+          brew install --cask virtualbox
           brew install docker docker-machine
+
           docker-machine create --driver virtualbox default
           # Apply Docker environment variables to later steps.
           #
