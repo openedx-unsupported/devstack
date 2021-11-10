@@ -1,0 +1,22 @@
+name: CLI tests
+
+on:
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  run_ci:
+    runs-on: macos-10.15
+    steps:
+      - uses: actions/checkout@v2
+      - name: setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: Docker installation - Mac
+        if: ${{ matrix.os.name == 'mac' }}
+        run: |
+          brew install docker docker-machine
+          docker-machine --debug create --driver virtualbox default
