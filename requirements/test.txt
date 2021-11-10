@@ -71,9 +71,9 @@ pluggy==1.0.0
     # via pytest
 ptyprocess==0.7.0
     # via pexpect
-py==1.10.0
+py==1.11.0
     # via pytest
-pycparser==2.20
+pycparser==2.21
     # via
     #   -r requirements/base.txt
     #   cffi

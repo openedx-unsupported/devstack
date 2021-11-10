@@ -10,7 +10,7 @@ attrs==21.2.0
     #   -r requirements/test.txt
     #   jsonschema
     #   pytest
-backports.entry-points-selectable==1.1.0
+backports.entry-points-selectable==1.1.1
     # via virtualenv
 bcrypt==3.2.0
     # via
@@ -116,12 +116,12 @@ ptyprocess==0.7.0
     # via
     #   -r requirements/test.txt
     #   pexpect
-py==1.10.0
+py==1.11.0
     # via
     #   -r requirements/test.txt
     #   pytest
     #   tox
-pycparser==2.20
+pycparser==2.21
     # via
     #   -r requirements/base.txt
     #   -r requirements/test.txt
