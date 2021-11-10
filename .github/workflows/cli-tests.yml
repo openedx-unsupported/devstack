@@ -63,14 +63,14 @@ jobs:
 
       # Note: we have to use boot2docker because Docker Desktop has not been licensed
       # for use in GithubActions
-      # 
+      #
       # This also only seems to work for the CLI tests, not the
       # provisioning tests, even with apparently identical scripts.
       - name: Docker installation - Mac
         if: ${{ matrix.os.name == 'mac' }}
         run: |
           brew install docker docker-machine
-          docker-machine --debug create --driver virtualbox default
+          docker-machine create --driver virtualbox default
           # Apply Docker environment variables to later steps.
           #
           # However, we first have to extract just the lines beginning
