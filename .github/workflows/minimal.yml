@@ -1,4 +1,4 @@
-name: CLI tests
+name: Minimal
 
 on:
   pull_request:
@@ -16,7 +16,6 @@ jobs:
           python-version: 3.8
 
       - name: Docker installation - Mac
-        if: ${{ matrix.os.name == 'mac' }}
         run: |
           brew install docker docker-machine
           docker-machine --debug create --driver virtualbox default
