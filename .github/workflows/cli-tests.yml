@@ -68,7 +68,7 @@ jobs:
         if: ${{ matrix.os.name == 'mac' }}
         run: |
           brew install docker docker-machine
-          docker-machine create --driver virtualbox default
+          docker-machine --debug create --driver virtualbox default
           # Apply Docker environment variables to later steps.
           #
           # However, we first have to extract just the lines beginning
