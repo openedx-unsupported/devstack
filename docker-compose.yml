@@ -138,6 +138,60 @@ services:
       - ../edx-e2e-tests/upload_files:/edx/app/e2e/edx-e2e-tests/upload_files
       - ../edx-platform/common/test/data:/edx/app/edxapp/edx-platform/common/test/data
 
+  # Events broker
+  kafka:
+    image: confluentinc/cp-server:6.2.1
+    hostname: kafka.devstack.edx
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.kafka"
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+      - "9101:9101"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: 'edx.devstack.zookeeper:2181'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://edx.devstack.kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_METRIC_REPORTERS: io.confluent.metrics.reporter.ConfluentMetricsReporter
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_CONFLUENT_LICENSE_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_CONFLUENT_BALANCER_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_JMX_PORT: 9101
+      KAFKA_JMX_HOSTNAME: localhost
+      KAFKA_CONFLUENT_SCHEMA_REGISTRY_URL: http://edx.devstack.schema-registry:8081
+      CONFLUENT_METRICS_REPORTER_BOOTSTRAP_SERVERS: edx.devstack.kafka:29092
+      CONFLUENT_METRICS_REPORTER_TOPIC_REPLICAS: 1
+      CONFLUENT_METRICS_ENABLE: 'true'
+      CONFLUENT_SUPPORT_CUSTOMER_ID: 'anonymous'
+    networks:
+      default:
+        aliases:
+          - edx.devstack.kafka
+
+  # RESTful interface to the Kafka cluster
+  kafka-rest-proxy:
+    image: confluentinc/cp-kafka-rest:6.2.1
+    depends_on:
+      - kafka
+      - schema-registry
+    ports:
+      - 8082:8082
+    hostname: kafka-rest-proxy.devstack.edx
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.kafka-rest-proxy"
+    environment:
+      KAFKA_REST_HOST_NAME: edx.devstack.kafka-rest-proxy
+      KAFKA_REST_BOOTSTRAP_SERVERS: 'edx.devstack.kafka:29092'
+      KAFKA_REST_LISTENERS: "http://0.0.0.0:8082"
+      KAFKA_REST_SCHEMA_REGISTRY_URL: 'http://edx.devstack.schema-registry:8081'
+    networks:
+      default:
+        aliases:
+          - edx.devstack.kafka-rest-proxy
+
   memcached:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.memcached"
     hostname: memcached.devstack.edx
@@ -192,6 +246,40 @@ services:
       default:
         aliases:
           - edx.devstack.redis
+
+  # storage layer for data schemas in Kafka
+  schema-registry:
+    image: confluentinc/cp-schema-registry:6.2.1
+    hostname: schema-registry.devstack.edx
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.schema-registry"
+    depends_on:
+      - kafka
+    ports:
+      - "8081:8081"
+    environment:
+      SCHEMA_REGISTRY_HOST_NAME: schema-registry.devstack.edx
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'edx.devstack.kafka:29092'
+      SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
+    networks:
+      default:
+        aliases:
+          - edx.devstack.schema-registry
+
+  # needed by Kafka to keep track of nodes, topics, and messages.
+  zookeeper:
+    image: confluentinc/cp-zookeeper:6.2.1
+    hostname: zookeeper.devstack.edx
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.zookeeper"
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      default:
+        aliases:
+          - edx.devstack.zookeeper
+
 
   # ================================================
   # edX services
