@@ -24,6 +24,9 @@ jobs:
         os:
           - name: linux
             image: ubuntu-20.04 # Focal Fossa
+          # The virtual environment for mac10.15 is currently using a version of VirtualBox
+          # that is incompatible. Commenting out the mac tests until this is addressed.
+          # See https://github.com/actions/virtual-environments/issues/4466 for details
           # - name: mac
             # image: macos-10.15 # Catalina
         python-version:
@@ -58,10 +61,9 @@ jobs:
           path: ~/.docker/machine/cache
           key: ${{ runner.os }}-docker-machine
 
-      # TODO: Stop using boot2docker, which is contradindicated in the
-      # README. (Not sure how to install Docker for Desktop here,
-      # though.)
-      #
+      # Note: we have to use boot2docker because Docker Desktop has not been licensed
+      # for use in GithubActions
+      # 
       # This also only seems to work for the CLI tests, not the
       # provisioning tests, even with apparently identical scripts.
       - name: Docker installation - Mac
