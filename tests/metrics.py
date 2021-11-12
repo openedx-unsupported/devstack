@@ -263,8 +263,6 @@ def test_metrics():
         p.expect(EOF)
         assert invitation not in p.before.decode()
         metrics_json = p.before.decode()
-        print(f'metrics json {metrics_json}')
-        print('\n\n\n')
 
         data = json.loads(metrics_json)
         # These keys are defined by a central document; do not send
