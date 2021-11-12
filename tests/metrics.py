@@ -106,7 +106,6 @@ def test_initial_opt_in_accept():
         p.expect("Send metrics info:")
         p.expect(EOF)
         metrics_json = p.before.decode()
-        print(metrics_json)
 
         data = json.loads(metrics_json)
         # These keys are defined by a central document; do not send
