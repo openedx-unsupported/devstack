@@ -71,9 +71,9 @@ pluggy==1.0.0
     # via pytest
 ptyprocess==0.7.0
     # via pexpect
-py==1.10.0
+py==1.11.0
     # via pytest
-pycparser==2.20
+pycparser==2.21
     # via
     #   -r requirements/base.txt
     #   cffi
@@ -89,7 +89,7 @@ pyrsistent==0.18.0
     #   jsonschema
 pytest==6.2.5
     # via -r requirements/test.in
-python-dotenv==0.19.1
+python-dotenv==0.19.2
     # via
     #   -r requirements/base.txt
     #   docker-compose

@@ -40,7 +40,7 @@ distro==1.6.0
     # via
     #   -r requirements/base.txt
     #   docker-compose
-doc8==0.9.1
+doc8==0.10.1
     # via -r requirements/doc.in
 docker[ssh]==5.0.3
     # via
@@ -68,9 +68,9 @@ idna==3.3
     # via
     #   -r requirements/base.txt
     #   requests
-imagesize==1.2.0
+imagesize==1.3.0
     # via sphinx
-jinja2==3.0.2
+jinja2==3.0.3
     # via sphinx
 jsonschema==3.2.0
     # via
@@ -86,9 +86,9 @@ paramiko==2.8.0
     # via
     #   -r requirements/base.txt
     #   docker
-pbr==5.6.0
+pbr==5.7.0
     # via stevedore
-pycparser==2.20
+pycparser==2.21
     # via
     #   -r requirements/base.txt
     #   cffi
@@ -107,7 +107,7 @@ pyrsistent==0.18.0
     # via
     #   -r requirements/base.txt
     #   jsonschema
-python-dotenv==0.19.1
+python-dotenv==0.19.2
     # via
     #   -r requirements/base.txt
     #   docker-compose
@@ -137,9 +137,9 @@ six==1.16.0
     #   jsonschema
     #   pynacl
     #   websocket-client
-snowballstemmer==2.1.0
+snowballstemmer==2.2.0
     # via sphinx
-sphinx==4.2.0
+sphinx==4.3.0
     # via
     #   -r requirements/doc.in
     #   edx-sphinx-theme

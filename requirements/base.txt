@@ -35,13 +35,13 @@ jsonschema==3.2.0
     # via docker-compose
 paramiko==2.8.0
     # via docker
-pycparser==2.20
+pycparser==2.21
     # via cffi
 pynacl==1.4.0
     # via paramiko
 pyrsistent==0.18.0
     # via jsonschema
-python-dotenv==0.19.1
+python-dotenv==0.19.2
     # via docker-compose
 pyyaml==5.4.1
     # via
