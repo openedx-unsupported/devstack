@@ -32,7 +32,7 @@ charset-normalizer==2.0.7
     # via
     #   -r requirements/base.txt
     #   requests
-cryptography==35.0.0
+cryptography==36.0.0
     # via
     #   -r requirements/base.txt
     #   paramiko
@@ -78,7 +78,7 @@ jsonschema==3.2.0
     #   docker-compose
 markupsafe==2.0.1
     # via jinja2
-packaging==21.2
+packaging==21.3
     # via
     #   bleach
     #   sphinx
@@ -86,7 +86,7 @@ paramiko==2.8.0
     # via
     #   -r requirements/base.txt
     #   docker
-pbr==5.7.0
+pbr==5.8.0
     # via stevedore
 pycparser==2.21
     # via
@@ -101,7 +101,7 @@ pynacl==1.4.0
     # via
     #   -r requirements/base.txt
     #   paramiko
-pyparsing==2.4.7
+pyparsing==3.0.6
     # via packaging
 pyrsistent==0.18.0
     # via
