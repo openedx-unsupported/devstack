@@ -15,7 +15,7 @@ cffi==1.15.0
     #   bcrypt
     #   cryptography
     #   pynacl
-charset-normalizer==2.0.7
+charset-normalizer==2.0.8
     # via requests
 cryptography==36.0.0
     # via paramiko
@@ -33,7 +33,7 @@ idna==3.3
     # via requests
 jsonschema==3.2.0
     # via docker-compose
-paramiko==2.8.0
+paramiko==2.8.1
     # via docker
 pycparser==2.21
     # via cffi
