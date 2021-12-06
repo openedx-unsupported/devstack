@@ -4,6 +4,12 @@ set -eu -o pipefail
 . scripts/colors.sh
 set -x
 
+if [[ -n "${USE_EXPERIMENTAL_CREDENTIALS_IMAGE:-}" ]] ; then
+    echo -e "${YELLOW} Using experimental credentials provisioning script...${NC}"
+    provision-experimental/credentials.sh
+    exit 0
+fi
+
 # NOTE (CCB): We do NOT call provision-ida because it expects a virtualenv.
 # The new images for Credentials do not use virtualenv.
 

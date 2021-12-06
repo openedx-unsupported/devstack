@@ -91,3 +91,53 @@ credentials+discovery+ecommerce+insights+lms+registrar+studio
 # Separated by plus signs. Listed in alphabetical order for clarity.
 THIRD_PARTY_SERVICES ?= \
 chrome+coursegraph+devpi+elasticsearch+elasticsearch7+elasticsearch710+firefox+memcached+mongo+mysql57+redis+namenode+datanode+resourcemanager+nodemanager+sparkmaster+sparkworker+vertica
+
+# The `USE_EXPERIMENTAL_*_IMAGE` toggles can be enabled to
+# use the experimental optimized images as they becomes available
+# for devstack usage.
+#
+# To enable one of these toggles, just set it to any non-whitespace string, e.g.:
+#    USE_EXPERIMENTAL_EDX_PLATFORM_IMAGES = 1
+# or:
+#    USE_EXPERIMENTAL_EDX_PLATFORM_IMAGES = false
+# or:
+#    USE_EXPERIMENTAL_EDX_PLATFORM_IMAGES = turtle
+#
+# Named release tags aren't available on experimental images, yet.
+# When we start tagging them, we will update these blocks to use the named
+# tags if OPENEDX_RELEASE is set.
+ifdef USE_EXPERIMENTAL_EDX_PLATFORM_IMAGES
+	# LMS and Studio may be defined as different images,
+	# but we put their experimental versions behind a single toggle,
+	# because it seems less risky to roll them out together.
+	_LMS_IMAGE = openedx/lms-dev:latest
+	_CMS_IMAGE = openedx/cms-dev:latest
+endif
+ifdef USE_EXPERIMENTAL_CREDENTIALS_IMAGE
+	_CREDENTIALS_IMAGE  = openedx/credentials-dev:latest
+endif
+
+# Default image values.
+# The leading underscores indicate that this is not a stable configuration
+# interface. Instead of modifying these setting directly, you are encouraged
+# to use the `USE_EXPERIMENTAL_*_PLATFORM_IMAGE(S)` or `OPENEDX_RELEASE` settings.
+#
+# These default images are from `edxops/...`, are built using Ansible from the
+# `configuration` repository.
+#
+# Note that '?=' assigns a variable iff it hasn't already been defined.
+_ANALYTICSAPI_IMAGE ?= edxops/analytics_api:$(or $(OPENEDX_RELEASE),latest)
+_CHROME_IMAGE       ?= edxops/chrome:$(or $(OPENEDX_RELEASE),latest)
+_CMS_IMAGE          ?= edxops/edxapp:$(or $(OPENEDX_RELEASE),latest)
+_CREDENTIALS_IMAGE  ?= edxops/credentials:$(or $(OPENEDX_RELEASE),latest)
+_DEVPI_IMAGE        ?= edxops/devpi:$(or $(OPENEDX_RELEASE),latest)
+_DISCOVERY_IMAGE    ?= edxops/discovery:$(or $(OPENEDX_RELEASE),latest)
+_ECOMMERCE_IMAGE    ?= edxops/ecommerce:$(or $(OPENEDX_RELEASE),latest)
+_FIREFOX_IMAGE      ?= edxops/firefox:$(or $(OPENEDX_RELEASE),latest)
+_FORUM_IMAGE        ?= edxops/forum:$(or $(OPENEDX_RELEASE),latest)
+_INSIGHTS_IMAGE     ?= edxops/insights:$(or $(OPENEDX_RELEASE),latest)
+_NOTES_IMAGE        ?= edxops/notes:$(or $(OPENEDX_RELEASE),latest)
+_LMS_IMAGE          ?= edxops/edxapp:$(or $(OPENEDX_RELEASE),latest)
+_REGISTRAR_IMAGE    ?= edxops/registrar:$(or $(OPENEDX_RELEASE),latest)
+_STUDIO_IMAGE       ?= edxops/edxapp:$(or $(OPENEDX_RELEASE),latest)
+_XQUEUE_IMAGE       ?= edxops/xqueue:$(or $(OPENEDX_RELEASE),latest)

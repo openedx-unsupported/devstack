@@ -49,10 +49,10 @@
         devpi-password dev.provision dev.ps dev.pull dev.pull.without-deps \
         dev.reset dev.reset-repos dev.restart-container dev.restart-devserver \
         dev.restart-devserver.forum dev.restore dev.rm-stopped dev.shell \
-        dev.shell.credentials dev.shell.discovery \
-        dev.shell.ecommerce dev.shell.lms dev.shell.lms_watcher \
-        dev.shell.registrar dev.shell.studio \
-        dev.shell.studio_watcher dev.shell.xqueue dev.shell.xqueue_consumer \
+        dev.shell.discovery \
+        dev.shell.ecommerce \
+        dev.shell.registrar \
+        dev.shell.xqueue dev.shell.xqueue_consumer \
         dev.static dev.static.lms dev.static.studio dev.stats dev.status \
         dev.stop dev.up dev.up.attach dev.up.shell \
         dev.up.without-deps dev.up.without-deps.shell dev.up.with-programs \
@@ -412,8 +412,12 @@ dev.attach.%: ## Attach to the specified service container process for debugging
 
 dev.shell: _expects-service.dev.shell
 
+ifndef USE_EXPERIMENTAL_CREDENTIALS_IMAGES
+.PHONY: dev.shell.credentials
+
 dev.shell.credentials:
 	docker-compose exec credentials env TERM=$(TERM) bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials && /bin/bash'
+endif
 
 dev.shell.discovery:
 	docker-compose exec discovery env TERM=$(TERM) /edx/app/discovery/devstack.sh open
@@ -427,6 +431,9 @@ dev.shell.registrar:
 dev.shell.xqueue:
 	docker-compose exec xqueue env TERM=$(TERM) /edx/app/xqueue/devstack.sh open
 
+ifndef USE_EXPERIMENTAL_EDX_PLATFORM_IMAGES
+.PHONY: dev.shell.lms dev.shell.lms_watcher dev.shell.studio dev.shell.studio_watcher
+
 dev.shell.lms:
 	docker-compose exec lms env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
 
@@ -438,6 +445,7 @@ dev.shell.studio:
 
 dev.shell.studio_watcher:
 	docker-compose exec studio_watcher env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
+endif
 
 dev.shell.xqueue_consumer:
 	docker-compose exec xqueue_consumer env TERM=$(TERM) /edx/app/xqueue/devstack.sh open
@@ -449,7 +457,7 @@ dev.shell.insights:
 	docker-compose exec insights env TERM=$(TERM) bash -c 'eval $$(source /edx/app/insights/insights_env; echo PATH="$$PATH";) && /edx/app/insights/devstack.sh open'
 
 dev.shell.%: ## Run a shell on the specified service's container.
-	docker-compose exec $* /bin/bash
+	docker-compose exec $* env TERM=$(TERM) /bin/bash
 
 dev.dbshell:
 	docker-compose exec mysql57 bash -c "mysql"

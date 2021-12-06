@@ -23,10 +23,15 @@ jobs:
       DEVSTACK_METRICS_TESTING: ci
     strategy:
       matrix:
-        os:
-          - ubuntu-20.04 # Ubuntu 20.04 "Focal Fossa"
         python-version: [ '3.8' ]
         services: [ discovery+lms+forum ,registrar+lms, ecommerce+lms, edx_notes_api+lms, credentials+lms, xqueue]
+        which-images: [ stable ]
+        os: [ ubuntu-20.04 ]
+        include:
+          - python-version: '3.8'
+            services: credentials+lms
+            which-images: experimental
+            os: ubuntu-20.04
       fail-fast: false # some services can be flaky; let others run to completion even if one fails
 
     steps:
@@ -56,6 +61,12 @@ jobs:
 
       - name: clone repositories
         run:  make dev.clone.https
+
+      - name: enable experimental images
+        run: |
+          echo 'USE_EXPERIMENTAL_EDX_PLATFORM_IMAGES = 1' >> options.local.mk
+          echo 'USE_EXPERIMENTAL_CREDENTIALS_IMAGE = 1' >> options.local.mk
+        if: ${{ matrix.which-images == 'experimental' }}
 
       - name: pull images and print
         run: |

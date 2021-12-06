@@ -2,6 +2,12 @@
 set -eu -o pipefail
 set -x
 
+if [[ -n "${USE_EXPERIMENTAL_EDX_PLATFORM_IMAGES:-}" ]] ; then
+    echo -e "Using experimental lms provisioning script..."
+    provision-experimental/lms.sh
+    exit 0
+fi
+
 apps=( lms studio )
 
 studio_port=18010
