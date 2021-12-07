@@ -167,25 +167,28 @@ services:
         aliases:
           - edx.devstack.kafka
 
-  # RESTful interface to the Kafka cluster
-  kafka-rest-proxy:
-    image: confluentinc/cp-kafka-rest:6.2.1
+  # browser app for monitoring local Kafka cluster. This is quite memory- and CPU-intensive, so it should only be used for local Kafka debugging
+  kafka-control-center:
+    image: confluentinc/cp-enterprise-control-center:6.2.1
+    hostname: kafka-control-center.devstack.edx
+    container_name: edx.${COMPOSE_PROJECT_NAME:-devstack}.kafka-control-center
     depends_on:
       - kafka
       - schema-registry
     ports:
-      - 8082:8082
-    hostname: kafka-rest-proxy.devstack.edx
-    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.kafka-rest-proxy"
+      - "9021:9021"
     environment:
-      KAFKA_REST_HOST_NAME: edx.devstack.kafka-rest-proxy
-      KAFKA_REST_BOOTSTRAP_SERVERS: 'edx.devstack.kafka:29092'
-      KAFKA_REST_LISTENERS: "http://0.0.0.0:8082"
-      KAFKA_REST_SCHEMA_REGISTRY_URL: 'http://edx.devstack.schema-registry:8081'
+      CONTROL_CENTER_BOOTSTRAP_SERVERS: edx.devstack.kafka:29092
+      CONTROL_CENTER_SCHEMA_REGISTRY_URL: http://edx.devstack.schema-registry:8081
+      CONTROL_CENTER_REPLICATION_FACTOR: 1
+      CONTROL_CENTER_INTERNAL_TOPICS_PARTITIONS: 1
+      CONTROL_CENTER_MONITORING_INTERCEPTOR_TOPIC_PARTITIONS: 1
+      CONFLUENT_METRICS_TOPIC_REPLICATION: 1
+      PORT: 9021
     networks:
       default:
         aliases:
-          - edx.devstack.kafka-rest-proxy
+          - edx.devstack.kafka-control-center
 
   memcached:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.memcached"
