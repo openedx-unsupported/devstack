@@ -167,7 +167,7 @@ services:
         aliases:
           - edx.devstack.kafka
 
-  # browser app for monitoring local Kafka cluster
+  # browser app for monitoring local Kafka cluster. This is quite memory- and CPU-intensive, so it should only be used for local Kafka debugging
   kafka-control-center:
     image: confluentinc/cp-enterprise-control-center:6.2.1
     hostname: kafka-control-center.devstack.edx
