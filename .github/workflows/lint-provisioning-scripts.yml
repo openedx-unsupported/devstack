@@ -1,0 +1,35 @@
+
+name: Lint experimental provisioning shell scripts
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+
+
+  lint_shell_scripts:
+
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: install shellcheck
+        run: sudo apt-get install shellcheck
+
+      # Since we are on track to rewrite each provisioning script as we cut
+      # over to its experimental Docker image, we're only shellchecking
+      # the new scripts, instead of worrying about going back and cleaning
+      # up old provisioning scripts.
+      # That being said, there are other shell scripts in this repo
+      # (such as the ones in scripts/) that would be ideal to bring into
+      # shellchecking if somebody has time to do so.
+      - name: run shellcheck
+        run: shellcheck scripts/colors.sh provision-experimental/*
+
+      - name: inform success
+        run: |
+          echo 'shellcheck found no problems with shell scripts in provision-experimental/!'
+          echo 'Please note that other shell scripts in this repo are not checked.'
