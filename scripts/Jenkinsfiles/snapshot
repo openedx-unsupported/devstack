@@ -12,17 +12,12 @@ pipeline {
     stages {
         stage("Build installer") {
             steps {
-                withPythonEnv('System-CPython-2.7') {
-                    dir('devstack') {
                         sh 'make requirements'
                         sh 'make dev.clone.https'
                         sh 'make dev.pull'
                         sh 'make dev.provision'
-                        sh 'python scripts/snapshot.py ../devstack_snapshot'
-                    }
-                }
-                archiveArtifacts 'devstack_snapshot/**/*'
-            }
+                        sh 'bash  devstack_snapshot.sh'
+		}
         }
     }
     post {
