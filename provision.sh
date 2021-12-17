@@ -138,7 +138,7 @@ done
 
 # In the event of a fresh MySQL container, wait a few seconds for the server to restart
 # See https://github.com/docker-library/mysql/issues/245 for why this is necessary.
-sleep 20
+sleep 5
 echo -e "${GREEN}MySQL ready.${NC}"
 
 
