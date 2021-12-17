@@ -54,11 +54,13 @@ jobs:
       - name: set up requirements
         run:  make requirements
 
-      - name: clone
+      - name: clone repositories
         run:  make dev.clone.https
 
-      - name: pull
-        run:  make dev.pull.${{matrix.services}}
+      - name: pull images and print
+        run: |
+          make dev.pull.${{matrix.services}}
+          docker images --digests | grep latest | sort
 
       - name: provision
         run:  make dev.provision.${{matrix.services}}
