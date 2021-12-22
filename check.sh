@@ -123,7 +123,10 @@ fi
 
 echo "Successful checks:${succeeded:- NONE}"
 echo "Failed checks:${failed:- NONE}"
-if [[ "$succeeded" ]]; then
+if [[ -z "$succeeded" ]] && [[ -z "$failed" ]]; then
+    echo "No checks ran. Exiting as failure."
+    exit 1
+elif [[ -z "$failed" ]]; then
     echo "Check result: SUCCESS"
     exit 0
 else
