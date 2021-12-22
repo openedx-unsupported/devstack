@@ -56,7 +56,7 @@ run_check() {
 if should_check registrar; then
     echo "Checking Registrar heartbeat:"
     run_check registrar_heartbeat registrar \
-        "curl --fail -L http://localhost:18734/heartbeat"
+        "curl --fail -L http://localhost:18734/health"
 fi
 
 if should_check lms; then
