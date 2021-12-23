@@ -390,14 +390,14 @@ dev.cache-programs: ## Copy programs from Discovery to Memcached for use in LMS.
 dev.restart-devserver: _expects-service.dev.restart-devserver
 
 dev.restart-devserver.forum:
-	docker-compose exec forum bash -c 'kill $$(ps aux | grep "ruby app.rb" | egrep -v "while|grep" | awk "{print \$$2}")'
+	docker-compose exec -T forum bash -c 'kill $$(ps aux | grep "ruby app.rb" | egrep -v "while|grep" | awk "{print \$$2}")'
 
 dev.forum.build-indices: ## Build indices for forum service
-	docker-compose exec forum bash -c "cd forum && source ruby_env && source devstack_forum_env && cd cs_comments_service/ && bin/rake search:rebuild_indices"
+	docker-compose exec -T forum bash -c "cd forum && source ruby_env && source devstack_forum_env && cd cs_comments_service/ && bin/rake search:rebuild_indices"
 
 dev.restart-devserver.%: ## Kill an edX service's development server. Watcher should restart it.
 	# Applicable to Django services only.
-	docker-compose exec $* bash -c 'kill $$(ps aux | egrep "manage.py ?\w* runserver" | egrep -v "while|grep" | awk "{print \$$2}")'
+	docker-compose exec -T $* bash -c 'kill $$(ps aux | egrep "manage.py ?\w* runserver" | egrep -v "while|grep" | awk "{print \$$2}")'
 
 dev.logs: ## View logs from running containers.
 	docker-compose logs -f
@@ -468,13 +468,13 @@ $(foreach asset_service,$(ASSET_SERVICES_LIST),\
 dev.static: | $(_asset_compilation_targets)
 
 dev.static.lms:
-	docker-compose exec lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_assets lms'
+	docker-compose exec -T lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_assets lms'
 
 dev.static.studio:
-	docker-compose exec studio bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_assets studio'
+	docker-compose exec -T studio bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_assets studio'
 
 dev.static.%: ## Rebuild static assets for the specified service's container.
-	docker-compose exec $* bash -c 'source /edx/app/$*/$*_env && cd /edx/app/$*/$*/ && make static'
+	docker-compose exec -T $* bash -c 'source /edx/app/$*/$*_env && cd /edx/app/$*/$*/ && make static'
 
 
 ########################################################################################
