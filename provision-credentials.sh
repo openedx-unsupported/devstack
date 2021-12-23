@@ -30,3 +30,6 @@ docker-compose exec -T ${name} bash -e -c 'source /edx/app/credentials/credentia
 # started if they do not care about static assets
 echo -e "${GREEN}Compiling static assets for ${name}...${NC}"
 docker-compose exec -T ${name}  bash -e -c ' if ! source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials && make static 2>creds_make_static.err; then echo "------- Last 100 lines of stderr"; tail creds_make_static.err -n 100; echo "-------"; fi;' -- "$name"
+
+# Restart credentials devserver.
+make dev.restart-devserver.credentials
