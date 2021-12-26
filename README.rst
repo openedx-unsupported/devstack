@@ -380,9 +380,9 @@ BUILD COMMANDS:
 
 .. code:: sh
 
-    git checkout master
+    git checkout edraak.keep.branch/before_python_upgrade
     git pull
-    docker build -f docker/build/edxapp/Dockerfile . -t eu.gcr.io/openedx-231314/edraak/edxapp:hawthorn.edraak.v3
+    docker build -f docker/build/edxapp/Dockerfile . -t eu.gcr.io/openedx-231314/edraak/edxapp:hawthorn.edraak.v3.2 --build-arg BASE_IMAGE_TAG=hawthorn.master --no=cache
 
 .. code:: sh
 
