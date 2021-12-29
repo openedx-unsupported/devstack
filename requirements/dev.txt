@@ -4,14 +4,12 @@
 #
 #    make upgrade
 #
-attrs==21.2.0
+attrs==21.3.0
     # via
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   jsonschema
     #   pytest
-backports.entry-points-selectable==1.1.1
-    # via virtualenv
 bcrypt==3.2.0
     # via
     #   -r requirements/base.txt
@@ -69,7 +67,7 @@ docopt==0.6.2
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   docker-compose
-filelock==3.4.0
+filelock==3.4.2
     # via
     #   tox
     #   virtualenv
@@ -92,7 +90,7 @@ packaging==21.3
     #   -r requirements/test.txt
     #   pytest
     #   tox
-paramiko==2.8.1
+paramiko==2.9.1
     # via
     #   -r requirements/base.txt
     #   -r requirements/test.txt
@@ -105,7 +103,7 @@ pexpect==4.8.0
     # via -r requirements/test.txt
 pip-tools==6.4.0
     # via -r requirements/pip-tools.txt
-platformdirs==2.4.0
+platformdirs==2.4.1
     # via virtualenv
 pluggy==1.0.0
     # via
@@ -183,7 +181,7 @@ tomli==2.0.0
     # via
     #   -r requirements/pip-tools.txt
     #   pep517
-tox==3.24.4
+tox==3.24.5
     # via
     #   -r requirements/dev.in
     #   tox-battery
@@ -194,7 +192,7 @@ urllib3==1.26.7
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   requests
-virtualenv==20.10.0
+virtualenv==20.11.1
     # via tox
 websocket-client==0.59.0
     # via
@@ -202,7 +200,7 @@ websocket-client==0.59.0
     #   -r requirements/test.txt
     #   docker
     #   docker-compose
-wheel==0.37.0
+wheel==0.37.1
     # via
     #   -r requirements/pip-tools.txt
     #   pip-tools
