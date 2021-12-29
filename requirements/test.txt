@@ -4,7 +4,7 @@
 #
 #    make upgrade
 #
-attrs==21.2.0
+attrs==21.3.0
     # via
     #   -r requirements/base.txt
     #   jsonschema
@@ -61,7 +61,7 @@ jsonschema==3.2.0
     #   docker-compose
 packaging==21.3
     # via pytest
-paramiko==2.8.1
+paramiko==2.9.1
     # via
     #   -r requirements/base.txt
     #   docker
