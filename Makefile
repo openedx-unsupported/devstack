@@ -45,6 +45,11 @@ ifeq (${ENABLE_JUDGE}, true)
 	DOCKER_COMPOSE_FILES+=-f docker-compose-judge${MOUNT_TYPE}.yml
 endif
 
+ifeq (${ENABLE_AUTH}, true)
+	DOCKER_COMPOSE_FILES+=-f docker-compose-auth-provider.yml
+	DOCKER_COMPOSE_FILES+=-f docker-compose-auth-provider${MOUNT_TYPE}.yml
+endif
+
 export DOCKER_COMPOSE_FILES
 
 export DEVSTACK_WORKSPACE

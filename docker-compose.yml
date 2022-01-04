@@ -75,6 +75,7 @@ services:
           - b2b.edraak.dev
           - notify.edraak.dev
           - analytics.edraak.dev
+          - auth.edraak.dev
 
 volumes:
   elasticsearch_data:
