@@ -4,7 +4,7 @@
 #
 #    make upgrade
 #
-attrs==21.3.0
+attrs==21.4.0
     # via
     #   -r requirements/base.txt
     #   -r requirements/test.txt
@@ -27,7 +27,7 @@ cffi==1.15.0
     #   bcrypt
     #   cryptography
     #   pynacl
-charset-normalizer==2.0.9
+charset-normalizer==2.0.10
     # via
     #   -r requirements/base.txt
     #   -r requirements/test.txt
@@ -150,7 +150,7 @@ pyyaml==5.4.1
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   docker-compose
-requests==2.26.0
+requests==2.27.0
     # via
     #   -r requirements/base.txt
     #   -r requirements/test.txt
@@ -192,7 +192,7 @@ urllib3==1.26.7
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   requests
-virtualenv==20.11.1
+virtualenv==20.13.0
     # via tox
 websocket-client==0.59.0
     # via
