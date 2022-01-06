@@ -1,0 +1,46 @@
+# This file contains all of the services for an edraak installation. See https://docs.docker.com/compose/compose-file/
+# for the appropriate syntax and definitions.
+#
+# Housekeeping Rules:
+# - Group third-party and edraak services separately
+# - Alphabetize services in the groups
+# - Alphabetize individual configuration options for each service
+# - Every service's container name should be prefixed with "edraak.devstack." to avoid conflicts with other containers
+#   that might be running for the same service.
+
+version: "2.1"
+
+services:
+  auth-provider:
+    image: edraak.auth.provider:0.2
+    container_name: edraak.devstack.auth.provider
+    environment:
+      NO_PYTHON_UNINSTALL: 1
+      DJANGO_WATCHMAN_TIMEOUT: 30
+    stdin_open: true
+    tty: true
+    depends_on:
+      - mysql
+    ports:
+      - "18900:18900"
+    command: bash -c 'while true; do python /auth_provider/app/manage.py lms runserver 0.0.0.0:18900 --settings devstack_docker; sleep 2; done'
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/auth_provider:/auth_provider/app:cached
+      - ${DEVSTACK_WORKSPACE}/auth_provider/lms/devstack.yml:/auth_provider/lms.yml
+      - auth_provider_media:/auth_provider/var/edxapp/media
+      - auth_provider_node_modules:/auth_provider/app/node_modules
+      - auth_provider_uploads:/auth_provider/uploads
+      - auth_provider_staticfiles:/auth_provider/staticfiles
+
+  router:
+    depends_on:
+      - auth-provider
+    volumes:
+      - ./nginx/auth-provider.conf:/etc/nginx/conf.d/auth-provider.conf
+      - ./nginx/b2b-redirects.conf:/etc/nginx/conf.d/redirects.conf
+
+volumes:
+  auth_provider_media:
+  auth_provider_node_modules:
+  auth_provider_uploads:
+  auth_provider_staticfiles:
