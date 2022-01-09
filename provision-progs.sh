@@ -20,7 +20,7 @@ docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs bash -c 'rm -rf node_mo
 docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs bash -c 'npm install'
 
 docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs bash -c 'npm run dev'
-docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs bash -c 'python manage.py collectstatic --ignore="*.less" --ignore="*.scss" --noinput --clear --settings=edraakprograms.dev'
+docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs bash -c 'python manage.py collectstatic --ignore="*.less" --ignore="*.scss" --noinput --clear --settings=edraakprograms.static'
 
 echo "** Progs: Restarting **"
 docker-compose `echo ${DOCKER_COMPOSE_FILES}` restart progs
