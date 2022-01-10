@@ -6,7 +6,7 @@ services:
       - auth-provider-nfs:/app
 
 volumes:
-  progs-nfs:
+  auth-provider-nfs:
     driver: local
     driver_opts:
       type: nfs
