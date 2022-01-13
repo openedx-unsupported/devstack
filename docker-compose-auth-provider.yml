@@ -12,7 +12,7 @@ version: "2.1"
 
 services:
   auth-provider:
-    image: edraak.auth.provider:0.2
+    image: eu.gcr.io/openedx-231314/edraak/auth.provider:v1.0
     container_name: edraak.devstack.auth.provider
     environment:
       NO_PYTHON_UNINSTALL: 1
