@@ -49,6 +49,12 @@ U=`id -u`
 G=`id -g`
 sudo chown -R "$U":"$G" .
 
+echo "== Removing any existing nfs volumes"
+VOLUMES=$(docker volume list | grep devstack | grep nfs | sed 's/local     //g')
+if [ ! -z "$VOLUMES" ]; then
+  docker volume rm $VOLUMES
+fi
+
 echo "== Setting up nfs..."
 LINE="/Users -alldirs -mapall=$U:$G localhost"
 FILE=/etc/exports
