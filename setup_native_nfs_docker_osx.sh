@@ -50,7 +50,7 @@ G=`id -g`
 sudo chown -R "$U":"$G" .
 
 echo "== Removing any existing nfs volumes"
-VOLUMES=$(docker volume list | grep devstack | grep nfs | sed 's/local     //g')
+VOLUMES=$(docker volume list | sed 's/local//' | sed 's/ //g' | grep '^devstack.*nfs$')
 if [ ! -z "$VOLUMES" ]; then
   docker volume rm $VOLUMES
 fi
