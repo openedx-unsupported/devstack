@@ -40,7 +40,7 @@ endif
 
 # Docker Compse HTTP timeout, in seconds.
 # By default, increased so that devstack provisioning does not fail in unstable networks.
-COMPOSE_HTTP_TIMEOUT ?= 180
+COMPOSE_HTTP_TIMEOUT ?= 360
 
 # Whether we should always copy programs to LMS cache upon LMS startup.
 # If 'true', then run `make dev.cache-programs` whenever we bring up
