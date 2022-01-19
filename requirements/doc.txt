@@ -70,6 +70,8 @@ idna==3.3
     #   requests
 imagesize==1.3.0
     # via sphinx
+importlib-metadata==4.10.1
+    # via sphinx
 jinja2==3.0.3
     # via sphinx
 jsonschema==3.2.0
@@ -82,7 +84,7 @@ packaging==21.3
     # via
     #   bleach
     #   sphinx
-paramiko==2.9.1
+paramiko==2.9.2
     # via
     #   -r requirements/base.txt
     #   docker
@@ -92,18 +94,18 @@ pycparser==2.21
     # via
     #   -r requirements/base.txt
     #   cffi
-pygments==2.11.1
+pygments==2.11.2
     # via
     #   doc8
     #   readme-renderer
     #   sphinx
-pynacl==1.4.0
+pynacl==1.5.0
     # via
     #   -r requirements/base.txt
     #   paramiko
 pyparsing==3.0.6
     # via packaging
-pyrsistent==0.18.0
+pyrsistent==0.18.1
     # via
     #   -r requirements/base.txt
     #   jsonschema
@@ -119,7 +121,7 @@ pyyaml==5.4.1
     #   docker-compose
 readme-renderer==32.0
     # via -r requirements/doc.in
-requests==2.27.0
+requests==2.27.1
     # via
     #   -r requirements/base.txt
     #   docker
@@ -135,11 +137,10 @@ six==1.16.0
     #   dockerpty
     #   edx-sphinx-theme
     #   jsonschema
-    #   pynacl
     #   websocket-client
 snowballstemmer==2.2.0
     # via sphinx
-sphinx==4.3.2
+sphinx==4.4.0
     # via
     #   -r requirements/doc.in
     #   edx-sphinx-theme
@@ -161,7 +162,7 @@ texttable==1.6.4
     # via
     #   -r requirements/base.txt
     #   docker-compose
-urllib3==1.26.7
+urllib3==1.26.8
     # via
     #   -r requirements/base.txt
     #   requests
@@ -172,6 +173,8 @@ websocket-client==0.59.0
     #   -r requirements/base.txt
     #   docker
     #   docker-compose
+zipp==3.7.0
+    # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools

@@ -33,13 +33,13 @@ idna==3.3
     # via requests
 jsonschema==3.2.0
     # via docker-compose
-paramiko==2.9.1
+paramiko==2.9.2
     # via docker
 pycparser==2.21
     # via cffi
-pynacl==1.4.0
+pynacl==1.5.0
     # via paramiko
-pyrsistent==0.18.0
+pyrsistent==0.18.1
     # via jsonschema
 python-dotenv==0.19.2
     # via docker-compose
@@ -47,7 +47,7 @@ pyyaml==5.4.1
     # via
     #   -r requirements/base.in
     #   docker-compose
-requests==2.27.0
+requests==2.27.1
     # via
     #   docker
     #   docker-compose
@@ -56,11 +56,10 @@ six==1.16.0
     #   bcrypt
     #   dockerpty
     #   jsonschema
-    #   pynacl
     #   websocket-client
 texttable==1.6.4
     # via docker-compose
-urllib3==1.26.7
+urllib3==1.26.8
     # via requests
 websocket-client==0.59.0
     # via
