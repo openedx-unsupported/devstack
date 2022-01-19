@@ -61,7 +61,7 @@ jsonschema==3.2.0
     #   docker-compose
 packaging==21.3
     # via pytest
-paramiko==2.9.1
+paramiko==2.9.2
     # via
     #   -r requirements/base.txt
     #   docker
@@ -77,13 +77,13 @@ pycparser==2.21
     # via
     #   -r requirements/base.txt
     #   cffi
-pynacl==1.4.0
+pynacl==1.5.0
     # via
     #   -r requirements/base.txt
     #   paramiko
 pyparsing==3.0.6
     # via packaging
-pyrsistent==0.18.0
+pyrsistent==0.18.1
     # via
     #   -r requirements/base.txt
     #   jsonschema
@@ -97,7 +97,7 @@ pyyaml==5.4.1
     # via
     #   -r requirements/base.txt
     #   docker-compose
-requests==2.27.0
+requests==2.27.1
     # via
     #   -r requirements/base.txt
     #   docker
@@ -108,7 +108,6 @@ six==1.16.0
     #   bcrypt
     #   dockerpty
     #   jsonschema
-    #   pynacl
     #   websocket-client
 texttable==1.6.4
     # via
@@ -116,7 +115,7 @@ texttable==1.6.4
     #   docker-compose
 toml==0.10.2
     # via pytest
-urllib3==1.26.7
+urllib3==1.26.8
     # via
     #   -r requirements/base.txt
     #   requests
