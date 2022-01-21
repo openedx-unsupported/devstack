@@ -1,13 +1,6 @@
-# For non-draft changes to Named Release branches:
-# - Check if the user belongs to a maintainers team.
-# - If so, approve the pull request.
-#   - Tag community-engineering (for now) and the maintainers team.
-#   - Merge the PR when the author comments `@edx-community-bot merge`.
-# Required organization secrets
-# - CC_GITHUB_TOKEN=...
-# - CC_TEAM_CHAMPIONS=org/team-name
-# - CC_TEAM_CONTRIBUTORS_ORG=org
-# - CC_TEAM_CONTRIBUTORS_TEAM=team-name
+# Enable automerging for named release branches.
+# See the reusable workflow for details:
+# https://github.com/openedx/.github/.github/workflows/pr-automerge-open-release.yml
 
 name: Automerge BTR open-release PRs
 
