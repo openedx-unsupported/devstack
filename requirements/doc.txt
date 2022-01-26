@@ -103,7 +103,7 @@ pynacl==1.5.0
     # via
     #   -r requirements/base.txt
     #   paramiko
-pyparsing==3.0.6
+pyparsing==3.0.7
     # via packaging
 pyrsistent==0.18.1
     # via
