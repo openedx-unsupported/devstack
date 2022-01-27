@@ -308,6 +308,8 @@ Instead of a service name or list, you can also run commands like ``make dev.pro
 +------------------------------------+-------------------------------------+----------------+--------------+
 | `frontend-app-gradebook`_          | http://localhost:1994/              | MFE (React.js) | Default      |
 +------------------------------------+-------------------------------------+----------------+--------------+
+| `frontend-app-authn`_              | http://localhost:1999/              | MFE (React.js) | Default      |
++------------------------------------+-------------------------------------+----------------+--------------+
 | `registrar`_                       | http://localhost:18734/api-docs/    | Python/Django  | Extra        |
 +------------------------------------+-------------------------------------+----------------+--------------+
 | `frontend-app-program-console`_    | http://localhost:1976/              | MFE (React.js) | Extra        |
@@ -331,7 +333,7 @@ Instead of a service name or list, you can also run commands like ``make dev.pro
 
 Some common service combinations include:
 
-* ``lms``: LMS, along with dependencies ``forum``, ``discovery``, and some databases
+* ``lms``: LMS, along with dependencies ``forum``, ``discovery``, ``Authn`` and some databases
 * ``ecommerce``: Ecommerce, but also LMS as a dependency (for auth)
 * ``studio+credentials``: Services can be combined to affect both at once
 
@@ -352,6 +354,7 @@ Some common service combinations include:
 .. _frontend-app-library-authoring: https://github.com/edx/frontend-app-library-authoring
 .. _frontend-app-course-authoring: https://github.com/edx/frontend-app-course-authoring
 .. _frontend-app-account: https://github.com/edx/frontend-app-account
+.. _frontend-app-authn: https://github.com/openedx/frontend-app-authn
 .. _xqueue: https://github.com/edx/xqueue
 .. _coursegraph: https://github.com/edx/edx-platform/tree/master/openedx/core/djangoapps/coursegraph
 .. _frontend-app-ora-grading: https://github.com/edx/frontend-app-ora-grading
