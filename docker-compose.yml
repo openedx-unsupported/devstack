@@ -418,6 +418,7 @@ services:
       - memcached
       - mongo
       - mysql57
+      - frontend-app-authn
     # Allows attachment to the LMS service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
@@ -428,6 +429,7 @@ services:
       EDXAPP_TEST_MONGO_HOST: edx.devstack.mongo
       NO_PYTHON_UNINSTALL: 1
       DJANGO_WATCHMAN_TIMEOUT: 30
+      EDXAPP_ENABLE_AUTHN_MFE: 1
     image: edxops/edxapp:${OPENEDX_RELEASE:-latest}
     networks:
       default:
@@ -492,7 +494,7 @@ services:
       - "19001:19001"
     volumes:
       - /edx/var/analyticsapi
- 
+
   registrar:
     command: bash -c 'source /edx/app/registrar/registrar_env && while true; do python /edx/app/registrar/registrar/manage.py runserver 0.0.0.0:18734; sleep 2; done'
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.registrar"
@@ -652,6 +654,19 @@ services:
     depends_on:
       - lms
 
+  frontend-app-authn:
+    extends:
+      file: microfrontend.yml
+      service: microfrontend
+    working_dir: '/edx/app/frontend-app-authn'
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-authn"
+    networks:
+      default:
+        aliases:
+          - edx.devstack.frontend-app-authn
+    ports:
+      - "1999:1999"
+
   frontend-app-course-authoring:
     extends:
       file: microfrontend.yml
@@ -681,7 +696,7 @@ services:
       - "1994:1994"
     depends_on:
       - lms
-  
+
   frontend-app-ora-grading:
     extends:
       file: microfrontend.yml
