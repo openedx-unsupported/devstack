@@ -88,7 +88,9 @@ settings.  Don't forget to restore your memory setting and be prepared to
 provision.
 
 For macOS users, please use `Docker for Mac`_. Previous Mac-based tools (e.g.
-boot2docker) are *not* supported.
+boot2docker) are *not* supported. Please be aware that the `licensing terms`_ for
+Docker for Mac (aka Docker Desktop) may mean that it is no longer
+free for your organization's use.
 
 Since a Docker-based devstack runs many containers,
 you should configure Docker with a sufficient
@@ -396,6 +398,7 @@ As a specific example, if ``OPENEDX_RELEASE`` is set in your environment as ``ju
 
 .. _Docker Compose: https://docs.docker.com/compose/
 .. _Docker for Mac: https://docs.docker.com/docker-for-mac/
+.. _licensing terms: https://www.docker.com/pricing/faq
 .. _Docker for Windows: https://docs.docker.com/docker-for-windows/
 .. _configuring Docker for Mac: https://docs.docker.com/docker-for-mac/#/advanced
 .. _feature added in Docker 17.05: https://github.com/edx/configuration/pull/3864
