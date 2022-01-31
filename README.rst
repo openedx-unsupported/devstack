@@ -370,7 +370,7 @@ because services are in the process of being upgraded to Elasticsearch 7, but no
 support Elasticsearch 7 yet. As we complete these migrations, we will update the dependencies
 of these containers.
 
-
+Currently, Devstack and MYSQL interact poorly with newer Apple Machines which use "M1" Chips. An error causes provisioning to fail. A workaround is to specify ``platform: linux/amd64`` under the heading ``mysql57`` in ``docker-compose.yml`` and attempting to provision again.
 
 Advanced Configuration Options
 ------------------------------
