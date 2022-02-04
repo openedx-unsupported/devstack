@@ -654,6 +654,21 @@ services:
     depends_on:
       - lms
 
+  frontend-app-profile:
+    extends:
+      file: microfrontend.yml
+      service: microfrontend
+    working_dir: '/edx/app/frontend-app-profile'
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-profile"
+    networks:
+      default:
+        aliases:
+          - edx.devstack.frontend-app-profile
+    ports:
+      - "1995:1995"
+    depends_on:
+      - lms
+
   frontend-app-authn:
     extends:
       file: microfrontend.yml
