@@ -88,7 +88,7 @@ paramiko==2.9.2
     # via
     #   -r requirements/base.txt
     #   docker
-pbr==5.8.0
+pbr==5.8.1
     # via stevedore
 pycparser==2.21
     # via

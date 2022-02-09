@@ -101,7 +101,7 @@ pep517==0.12.0
     #   pip-tools
 pexpect==4.8.0
     # via -r requirements/test.txt
-pip-tools==6.4.0
+pip-tools==6.5.1
     # via -r requirements/pip-tools.txt
 platformdirs==2.4.1
     # via virtualenv
@@ -138,7 +138,7 @@ pyrsistent==0.18.1
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   jsonschema
-pytest==6.2.5
+pytest==7.0.0
     # via -r requirements/test.txt
 python-dotenv==0.19.2
     # via
@@ -172,14 +172,13 @@ texttable==1.6.4
     #   -r requirements/test.txt
     #   docker-compose
 toml==0.10.2
-    # via
-    #   -r requirements/test.txt
-    #   pytest
-    #   tox
-tomli==2.0.0
+    # via tox
+tomli==2.0.1
     # via
     #   -r requirements/pip-tools.txt
+    #   -r requirements/test.txt
     #   pep517
+    #   pytest
 tox==3.24.5
     # via
     #   -r requirements/dev.in
@@ -191,7 +190,7 @@ urllib3==1.26.8
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   requests
-virtualenv==20.13.0
+virtualenv==20.13.1
     # via tox
 websocket-client==0.59.0
     # via
