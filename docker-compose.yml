@@ -424,7 +424,6 @@ services:
       - memcached
       - mongo
       - mysql57
-      - frontend-app-authn
     # Allows attachment to the LMS service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
@@ -435,7 +434,6 @@ services:
       EDXAPP_TEST_MONGO_HOST: edx.devstack.mongo
       NO_PYTHON_UNINSTALL: 1
       DJANGO_WATCHMAN_TIMEOUT: 30
-      EDXAPP_ENABLE_AUTHN_MFE: 1
     image: edxops/edxapp:${OPENEDX_RELEASE:-latest}
     networks:
       default:
@@ -699,6 +697,8 @@ services:
           - edx.devstack.frontend-app-authn
     ports:
       - "1999:1999"
+    depends_on:
+      - lms
 
   frontend-app-course-authoring:
     extends:
