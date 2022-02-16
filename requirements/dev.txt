@@ -27,7 +27,7 @@ cffi==1.15.0
     #   bcrypt
     #   cryptography
     #   pynacl
-charset-normalizer==2.0.11
+charset-normalizer==2.0.12
     # via
     #   -r requirements/base.txt
     #   -r requirements/test.txt
@@ -43,7 +43,7 @@ cryptography==36.0.1
     #   paramiko
 distlib==0.3.4
     # via virtualenv
-distro==1.6.0
+distro==1.7.0
     # via
     #   -r requirements/base.txt
     #   -r requirements/test.txt
@@ -67,7 +67,7 @@ docopt==0.6.2
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   docker-compose
-filelock==3.4.2
+filelock==3.5.0
     # via
     #   tox
     #   virtualenv
@@ -103,7 +103,7 @@ pexpect==4.8.0
     # via -r requirements/test.txt
 pip-tools==6.5.1
     # via -r requirements/pip-tools.txt
-platformdirs==2.4.1
+platformdirs==2.5.0
     # via virtualenv
 pluggy==1.0.0
     # via
@@ -138,7 +138,7 @@ pyrsistent==0.18.1
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   jsonschema
-pytest==7.0.0
+pytest==7.0.1
     # via -r requirements/test.txt
 python-dotenv==0.19.2
     # via

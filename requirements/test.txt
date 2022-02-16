@@ -23,7 +23,7 @@ cffi==1.15.0
     #   bcrypt
     #   cryptography
     #   pynacl
-charset-normalizer==2.0.11
+charset-normalizer==2.0.12
     # via
     #   -r requirements/base.txt
     #   requests
@@ -31,7 +31,7 @@ cryptography==36.0.1
     # via
     #   -r requirements/base.txt
     #   paramiko
-distro==1.6.0
+distro==1.7.0
     # via
     #   -r requirements/base.txt
     #   docker-compose
@@ -87,7 +87,7 @@ pyrsistent==0.18.1
     # via
     #   -r requirements/base.txt
     #   jsonschema
-pytest==7.0.0
+pytest==7.0.1
     # via -r requirements/test.in
 python-dotenv==0.19.2
     # via

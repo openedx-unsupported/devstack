@@ -28,7 +28,7 @@ cffi==1.15.0
     #   bcrypt
     #   cryptography
     #   pynacl
-charset-normalizer==2.0.11
+charset-normalizer==2.0.12
     # via
     #   -r requirements/base.txt
     #   requests
@@ -36,7 +36,7 @@ cryptography==36.0.1
     # via
     #   -r requirements/base.txt
     #   paramiko
-distro==1.6.0
+distro==1.7.0
     # via
     #   -r requirements/base.txt
     #   docker-compose
@@ -70,7 +70,7 @@ idna==3.3
     #   requests
 imagesize==1.3.0
     # via sphinx
-importlib-metadata==4.10.1
+importlib-metadata==4.11.1
     # via sphinx
 jinja2==3.0.3
     # via sphinx
