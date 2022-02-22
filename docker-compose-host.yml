@@ -65,6 +65,12 @@ services:
       - frontend_app_account_node_modules:/edx/app/frontend-app-account/node_modules
       - ${DEVSTACK_WORKSPACE}/src:/edx/app/src
 
+  frontend-app-profile:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/frontend-app-profile:/edx/app/frontend-app-profile
+      - frontend_app_profile_node_modules:/edx/app/frontend-app-profile/node_modules
+      - ${DEVSTACK_WORKSPACE}/src:/edx/app/src
+
   frontend-app-authn:
     volumes:
       - ${DEVSTACK_WORKSPACE}/frontend-app-authn:/edx/app/frontend-app-authn
@@ -121,6 +127,7 @@ volumes:
   edxapp_node_modules:
   edxapp_uploads:
   frontend_app_account_node_modules:
+  frontend_app_profile_node_modules:
   frontend_app_authn_node_modules:
   frontend_app_course_authoring_node_modules:
   frontend_app_gradebook_node_modules:
