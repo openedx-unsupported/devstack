@@ -58,3 +58,15 @@ b2b.watch_css:
 b2b.fix-npm:
 	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec b2b bash -c 'chown -R root ~/.npm'
 
+b2b.createsuperuser:
+	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec b2b python manage.py createsuperuser --settings=edraakprograms.dev
+
+b2b.css:
+	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec b2b npm run scss
+
+b2b.makemessages:
+	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec b2b python manage.py makemessages --settings=edraakprograms.dev
+
+b2b.compilemessages:
+	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec b2b python manage.py compilemessages --settings=edraakprograms.dev
+
