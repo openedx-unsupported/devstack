@@ -32,7 +32,7 @@ charset-normalizer==2.0.12
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   requests
-click==8.0.3
+click==8.0.4
     # via
     #   -r requirements/pip-tools.txt
     #   pip-tools
@@ -67,7 +67,7 @@ docopt==0.6.2
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   docker-compose
-filelock==3.5.0
+filelock==3.6.0
     # via
     #   tox
     #   virtualenv
@@ -103,7 +103,7 @@ pexpect==4.8.0
     # via -r requirements/test.txt
 pip-tools==6.5.1
     # via -r requirements/pip-tools.txt
-platformdirs==2.5.0
+platformdirs==2.5.1
     # via virtualenv
 pluggy==1.0.0
     # via
