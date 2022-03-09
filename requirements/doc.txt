@@ -119,7 +119,7 @@ pyyaml==5.4.1
     # via
     #   -r requirements/base.txt
     #   docker-compose
-readme-renderer==32.0
+readme-renderer==33.0
     # via -r requirements/doc.in
 requests==2.27.1
     # via
