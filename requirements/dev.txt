@@ -190,7 +190,7 @@ urllib3==1.26.8
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   requests
-virtualenv==20.13.2
+virtualenv==20.13.3
     # via tox
 websocket-client==0.59.0
     # via
