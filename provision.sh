@@ -138,7 +138,15 @@ done
 
 # In the event of a fresh MySQL container, wait a few seconds for the server to restart
 # See https://github.com/docker-library/mysql/issues/245 for why this is necessary.
-sleep 10
+sleep 2
+
+echo "${GREEN}Waiting for MySQL 5.7.${NC}"
+until docker-compose exec -T mysql57 bash -e -c "mysql -uroot -se \"SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = 'root')\"" &> /dev/null
+do
+  printf "."
+  sleep 1
+done
+
 echo -e "${GREEN}MySQL ready.${NC}"
 
 
