@@ -140,7 +140,7 @@ done
 # See https://github.com/docker-library/mysql/issues/245 for why this is necessary.
 sleep 10
 
-echo "${GREEN}Waiting for MySQL 5.7.${NC} to restart"
+echo "${GREEN}Waiting for MySQL 5.7 to restart.${NC}"
 until docker-compose exec -T mysql57 bash -e -c "mysql -uroot -se \"SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = 'root')\"" &> /dev/null
 do
   printf "."
