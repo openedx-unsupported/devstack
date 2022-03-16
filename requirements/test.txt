@@ -27,7 +27,7 @@ charset-normalizer==2.0.12
     # via
     #   -r requirements/base.txt
     #   requests
-cryptography==36.0.1
+cryptography==36.0.2
     # via
     #   -r requirements/base.txt
     #   paramiko
@@ -61,7 +61,7 @@ jsonschema==3.2.0
     #   docker-compose
 packaging==21.3
     # via pytest
-paramiko==2.9.2
+paramiko==2.10.2
     # via
     #   -r requirements/base.txt
     #   docker
@@ -87,7 +87,7 @@ pyrsistent==0.18.1
     # via
     #   -r requirements/base.txt
     #   jsonschema
-pytest==7.0.1
+pytest==7.1.0
     # via -r requirements/test.in
 python-dotenv==0.19.2
     # via
@@ -108,6 +108,7 @@ six==1.16.0
     #   bcrypt
     #   dockerpty
     #   jsonschema
+    #   paramiko
     #   websocket-client
 texttable==1.6.4
     # via
