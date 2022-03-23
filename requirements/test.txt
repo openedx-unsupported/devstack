@@ -61,7 +61,7 @@ jsonschema==3.2.0
     #   docker-compose
 packaging==21.3
     # via pytest
-paramiko==2.10.2
+paramiko==2.10.3
     # via
     #   -r requirements/base.txt
     #   docker
@@ -87,7 +87,7 @@ pyrsistent==0.18.1
     # via
     #   -r requirements/base.txt
     #   jsonschema
-pytest==7.1.0
+pytest==7.1.1
     # via -r requirements/test.in
 python-dotenv==0.19.2
     # via
@@ -116,7 +116,7 @@ texttable==1.6.4
     #   docker-compose
 tomli==2.0.1
     # via pytest
-urllib3==1.26.8
+urllib3==1.26.9
     # via
     #   -r requirements/base.txt
     #   requests
