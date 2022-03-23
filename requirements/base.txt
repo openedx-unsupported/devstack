@@ -33,7 +33,7 @@ idna==3.3
     # via requests
 jsonschema==3.2.0
     # via docker-compose
-paramiko==2.10.2
+paramiko==2.10.3
     # via docker
 pycparser==2.21
     # via cffi
@@ -60,7 +60,7 @@ six==1.16.0
     #   websocket-client
 texttable==1.6.4
     # via docker-compose
-urllib3==1.26.8
+urllib3==1.26.9
     # via requests
 websocket-client==0.59.0
     # via
