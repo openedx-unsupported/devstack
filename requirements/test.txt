@@ -89,7 +89,7 @@ pyrsistent==0.18.1
     #   jsonschema
 pytest==7.1.1
     # via -r requirements/test.in
-python-dotenv==0.19.2
+python-dotenv==0.20.0
     # via
     #   -r requirements/base.txt
     #   docker-compose
