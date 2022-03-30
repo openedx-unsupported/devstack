@@ -32,7 +32,7 @@ charset-normalizer==2.0.12
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   requests
-click==8.0.4
+click==8.1.0
     # via
     #   -r requirements/pip-tools.txt
     #   pip-tools
@@ -140,7 +140,7 @@ pyrsistent==0.18.1
     #   jsonschema
 pytest==7.1.1
     # via -r requirements/test.txt
-python-dotenv==0.19.2
+python-dotenv==0.20.0
     # via
     #   -r requirements/base.txt
     #   -r requirements/test.txt
@@ -191,7 +191,7 @@ urllib3==1.26.9
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   requests
-virtualenv==20.13.4
+virtualenv==20.14.0
     # via tox
 websocket-client==0.59.0
     # via
