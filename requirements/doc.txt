@@ -40,7 +40,7 @@ distro==1.7.0
     # via
     #   -r requirements/base.txt
     #   docker-compose
-doc8==0.10.1
+doc8==0.11.1
     # via -r requirements/doc.in
 docker[ssh]==5.0.3
     # via
@@ -174,7 +174,7 @@ websocket-client==0.59.0
     #   -r requirements/base.txt
     #   docker
     #   docker-compose
-zipp==3.7.0
+zipp==3.8.0
     # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
