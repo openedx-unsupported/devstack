@@ -32,7 +32,7 @@ charset-normalizer==2.0.12
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   requests
-click==8.1.0
+click==8.1.2
     # via
     #   -r requirements/pip-tools.txt
     #   pip-tools
