@@ -239,7 +239,7 @@ services:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.redis"
     hostname: redis.devstack.edx
     image: redis:2.8
-    command: redis-server --requirepass password
+    command: env -i /usr/local/bin/redis-server --requirepass password
     networks:
       default:
         aliases:
