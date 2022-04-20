@@ -20,6 +20,11 @@ services:
       - ecommerce_node_modules:/edx/app/ecommerce/ecommerce/node_modules
       - ecommerce_tox:/edx/app/ecommerce/ecommerce/.tox
       - ${DEVSTACK_WORKSPACE}/src:/edx/src
+  commerce-coordinator:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/commerce-coordinator:/edx/app/commerce-coordinator/commerce-coordinator
+      - commerce-coordinator_tox:/edx/app/commerce-coordinator/commerce-coordinator/.tox
+      - ${DEVSTACK_WORKSPACE}/src:/edx/src
   forum:
     volumes:
       - ${DEVSTACK_WORKSPACE}/cs_comments_service:/edx/app/forum/cs_comments_service
@@ -140,4 +145,5 @@ volumes:
   credentials_tox:
   discovery_tox:
   ecommerce_tox:
+  commerce-coordinator_tox:
   edxapp_tox:

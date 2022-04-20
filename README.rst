@@ -296,6 +296,8 @@ Instead of a service name or list, you can also run commands like ``make dev.pro
 +------------------------------------+-------------------------------------+----------------+--------------+
 | `ecommerce`_                       | http://localhost:18130/dashboard/   | Python/Django  | Default      |
 +------------------------------------+-------------------------------------+----------------+--------------+
+| `commerce-coordinator`             | http://localhost:18140/             | Python/Django  | Default      |
++------------------------------------+-------------------------------------+----------------+--------------+
 | `credentials`_                     | http://localhost:18150/api/v2/      | Python/Django  | Default      |
 +------------------------------------+-------------------------------------+----------------+--------------+
 | `edx_notes_api`_                   | http://localhost:18120/api/v1/      | Python/Django  | Default      |
@@ -363,6 +365,7 @@ Some common service combinations include:
 .. _frontend-app-ora-grading: https://github.com/edx/frontend-app-ora-grading
 .. _insights: https://github.com/edx/edx-analytics-dashboard
 .. _analyticsapi: https://github.com/edx/edx-analytics-data-api
+.. _commerce-coordinator: https://github.com/edx/commerce-coordinator
 
 
 Known Issues

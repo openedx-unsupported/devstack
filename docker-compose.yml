@@ -244,6 +244,8 @@ services:
       default:
         aliases:
           - edx.devstack.redis
+    ports:
+      - "6379:6379"
 
   # storage layer for data schemas in Kafka
   schema-registry:
@@ -358,6 +360,31 @@ services:
           - edx.devstack.ecommerce
     ports:
       - "18130:18130"
+
+  commerce-coordinator:
+    command: bash -c 'source /edx/app/commerce-coordinator/commerce-coordinator_env && while true; do python /edx/app/commerce-coordinator/commerce-coordinator/manage.py runserver 0.0.0.0:18140; sleep 2; done'
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.commerce-coordinator"
+    hostname: commerce-coordinator.devstack.edx
+    depends_on:
+      - discovery
+      - ecommerce
+      - lms
+      - memcached
+      - mysql57
+      - redis
+    # Allows attachment to the commerce-coordinator service using 'docker attach <containerID>'.
+    stdin_open: true
+    tty: true
+    environment:
+      DJANGO_WATCHMAN_TIMEOUT: 30
+      ENABLE_DJANGO_TOOLBAR: 1
+    image: openedx/commerce-coordinator:${OPENEDX_RELEASE:-latest}
+    networks:
+      default:
+        aliases:
+          - edx.devstack.commerce-coordinator
+    ports:
+      - "18140:18140"
 
   edx_notes_api:
     # Sleep as a part of start up to give elasticsearch enough time to start up.

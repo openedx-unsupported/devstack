@@ -79,6 +79,12 @@ if should_check ecommerce; then
         "curl --fail -L http://localhost:18130/health/"
 fi
 
+if should_check commerce-coordinator; then
+    echo "Checking commerce-coordinator health:"
+    run_check commerce-coordinator_heartbeat commerce-coordinator \
+        "curl --fail -L http://localhost:18130/health/"
+fi
+
 if should_check discovery; then
     echo "Checking discovery health:"
     run_check discovery_heartbeat discovery \

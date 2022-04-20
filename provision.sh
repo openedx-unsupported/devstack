@@ -40,6 +40,7 @@ set -x
 ALL_SERVICES_IN_ORDER=" \
 lms \
 ecommerce \
+commerce-coordinator \
 discovery \
 credentials \
 e2e \

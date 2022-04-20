@@ -49,7 +49,7 @@
         devpi-password dev.provision dev.ps dev.pull dev.pull.without-deps \
         dev.reset dev.reset-repos dev.restart-container dev.restart-devserver \
         dev.restart-devserver.forum dev.restore dev.rm-stopped dev.shell \
-        dev.shell.credentials dev.shell.discovery \
+        dev.shell.credentials dev.shell.discovery dev.shell.commerce-coordinator \
         dev.shell.ecommerce dev.shell.lms dev.shell.lms_watcher \
         dev.shell.registrar dev.shell.studio \
         dev.shell.studio_watcher dev.shell.xqueue dev.shell.xqueue_consumer \
@@ -420,6 +420,9 @@ dev.shell.discovery:
 
 dev.shell.ecommerce:
 	docker-compose exec ecommerce env TERM=$(TERM) /edx/app/ecommerce/devstack.sh open
+
+dev.shell.commerce-coordinator:
+	docker-compose exec commerce-coordinator env TERM=$(TERM) /edx/app/commerce-coordinator/devstack.sh open
 
 dev.shell.registrar:
 	docker-compose exec registrar env TERM=$(TERM) /edx/app/registrar/devstack.sh open
