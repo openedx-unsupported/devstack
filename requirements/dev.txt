@@ -103,7 +103,7 @@ pexpect==4.8.0
     # via -r requirements/test.txt
 pip-tools==6.6.0
     # via -r requirements/pip-tools.txt
-platformdirs==2.5.1
+platformdirs==2.5.2
     # via virtualenv
 pluggy==1.0.0
     # via
