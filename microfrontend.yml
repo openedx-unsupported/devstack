@@ -7,6 +7,6 @@ services:
     command: bash -c 'npm install; while true; do npm start; sleep 2; done'
     stdin_open: true
     tty: true
-    image: node:12-bullseye
+    image: node:16
     environment:
       - NODE_ENV=development
