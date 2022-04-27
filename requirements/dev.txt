@@ -36,7 +36,7 @@ click==8.1.2
     # via
     #   -r requirements/pip-tools.txt
     #   pip-tools
-cryptography==36.0.2
+cryptography==37.0.0
     # via
     #   -r requirements/base.txt
     #   -r requirements/test.txt
@@ -90,7 +90,7 @@ packaging==21.3
     #   -r requirements/test.txt
     #   pytest
     #   tox
-paramiko==2.10.3
+paramiko==2.10.4
     # via
     #   -r requirements/base.txt
     #   -r requirements/test.txt
@@ -138,7 +138,7 @@ pyrsistent==0.18.1
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   jsonschema
-pytest==7.1.1
+pytest==7.1.2
     # via -r requirements/test.txt
 python-dotenv==0.20.0
     # via
