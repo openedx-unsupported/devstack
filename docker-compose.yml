@@ -237,10 +237,10 @@ services:
     volumes:
       - mongo_data:/data/db
 
-  mysql57:
+  mysql80:
     command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci
-    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.mysql57"
-    hostname: mysql57.devstack.edx
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.mysql80"
+    hostname: mysql80.devstack.edx
     environment:
       MYSQL_ROOT_PASSWORD: ""
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
@@ -248,11 +248,11 @@ services:
     networks:
       default:
         aliases:
-          - edx.devstack.mysql57
+          - edx.devstack.mysql80
     ports:
       - "3506:3306"
     volumes:
-      - mysql57_data:/var/lib/mysql
+      - mysql80_data:/var/lib/mysql
 
   redis:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.redis"
@@ -309,13 +309,13 @@ services:
     depends_on:
       - lms
       - memcached
-      - mysql57
+      - mysql80
     # Allows attachment to the credentials service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
     environment:
       CACHE_LOCATION: edx.devstack.memcached:11211
-      DB_HOST: edx.devstack.mysql57
+      DB_HOST: edx.devstack.mysql80
       SOCIAL_AUTH_EDX_OIDC_URL_ROOT: http://edx.devstack.lms:18000/oauth2
       ENABLE_DJANGO_TOOLBAR: 1
       DJANGO_WATCHMAN_TIMEOUT: 30
@@ -334,14 +334,14 @@ services:
     depends_on:
       - elasticsearch710
       - memcached
-      - mysql57
+      - mysql80
     # Allows attachment to the discovery service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
     environment:
       # This next DB_MIGRATION_HOST line can be removed once edx/configuration has been updated with this value for
       # a while and most people have had a chance to do a "make pull" to get the latest images.
-      DB_MIGRATION_HOST: edx.devstack.mysql57
+      DB_MIGRATION_HOST: edx.devstack.mysql80
       TEST_ELASTICSEARCH_URL: "edx.devstack.elasticsearch710"
       ENABLE_DJANGO_TOOLBAR: 1
       DJANGO_WATCHMAN_TIMEOUT: 30
@@ -363,7 +363,7 @@ services:
       - discovery
       - lms
       - memcached
-      - mysql57
+      - mysql80
     # Allows attachment to the ecommerce service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
@@ -387,7 +387,7 @@ services:
       - devpi
       - elasticsearch710
       - lms
-      - mysql57
+      - mysql80
     image: edxops/notes:${OPENEDX_RELEASE:-latest}
     networks:
       default:
@@ -397,7 +397,7 @@ services:
       - "18120:18120"
     environment:
       DB_ENGINE: "django.db.backends.mysql"
-      DB_HOST: "edx.devstack.mysql57"
+      DB_HOST: "edx.devstack.mysql80"
       DB_NAME: "notes"
       DB_PASSWORD: "password"
       DB_PORT: "3306"
@@ -437,7 +437,7 @@ services:
       - forum
       - memcached
       - mongo
-      - mysql57
+      - mysql80
       - opensearch12
     # Allows attachment to the LMS service using 'docker attach <containerID>'.
     stdin_open: true
@@ -469,14 +469,14 @@ services:
     hostname: insights.devstack.edx
     depends_on:
       - analyticsapi
-      - mysql57
+      - mysql80
       - lms
       - memcached
     # Allows attachment to the insights service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
     environment:
-      DB_HOST: edx.devstack.mysql57
+      DB_HOST: edx.devstack.mysql80
       DB_NAME: dashboard
       DB_PORT: 3306
       DB_USER: analytics001
@@ -498,13 +498,13 @@ services:
     container_name: edx.devstack.analyticsapi
     hostname: analyticsapi
     depends_on:
-      - mysql57
+      - mysql80
       - elasticsearch710
     command: bash -c 'source /edx/app/analytics_api/analytics_api_env && while true;  do python /edx/app/analytics_api/analytics_api/manage.py runserver 0.0.0.0:19001 --settings analyticsdataserver.settings.devstack; sleep 2; done'
     stdin_open: true
     tty: true
     environment:
-      DB_HOST: edx.devstack.mysql57
+      DB_HOST: edx.devstack.mysql80
       DB_PORT: 3306
       DB_USER: analytics001
       DB_PASSWORD: password
@@ -521,7 +521,7 @@ services:
     depends_on:
       - discovery
       - lms
-      - mysql57
+      - mysql80
       - memcached
       - redis
       - registrar-worker
@@ -529,7 +529,7 @@ services:
     stdin_open: true
     tty: true
     environment:
-      DB_HOST: edx.devstack.mysql57
+      DB_HOST: edx.devstack.mysql80
       DB_NAME: registrar
       DB_PORT: 3306
       DB_USER: registrar001
@@ -559,12 +559,12 @@ services:
     hostname: registrar-worker.devstack.edx
     depends_on:
       - lms
-      - mysql57
+      - mysql80
       - redis
     stdin_open: true
     tty: true
     environment:
-      DB_HOST: edx.devstack.mysql57
+      DB_HOST: edx.devstack.mysql80
       DB_NAME: registrar
       DB_PORT: 3306
       DB_USER: registrar001
@@ -597,7 +597,7 @@ services:
       - lms
       - memcached
       - mongo
-      - mysql57
+      - mysql80
       - opensearch12
     # Allows attachment to the Studio service using 'docker attach <containerID>'.
     stdin_open: true
@@ -630,7 +630,7 @@ services:
     volumes:
       - ${DEVSTACK_WORKSPACE}/xqueue:/edx/app/xqueue/xqueue
     depends_on:
-      - mysql57
+      - mysql80
     networks:
       default:
         aliases:
@@ -645,7 +645,7 @@ services:
     volumes:
       - ${DEVSTACK_WORKSPACE}/xqueue:/edx/app/xqueue/xqueue
     depends_on:
-      - mysql57
+      - mysql80
     networks:
       default:
         aliases:
@@ -837,4 +837,4 @@ volumes:
   elasticsearch710_data:
   mongo_data:
   opensearch12_data:
-  mysql57_data:
+  mysql80_data:

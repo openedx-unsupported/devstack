@@ -65,7 +65,7 @@ You can also browse all the documentation in `Read the Docs`_.
 Notices
 -------
 
-**NOTE:** LMS is now using MySql 5.7 by default. You have to run ``make dev.pull.lms`` and ``make dev.provision.lms`` (more details in `Getting Started`_) to fetch latest images and reprovision local copies of databases in order for an existing devstack setup to keep working.
+**NOTE:** LMS is now using MySql 8.0 by default. You have to run ``make dev.pull.lms`` and ``make dev.provision.lms`` (more details in `Getting Started`_) to fetch latest images and reprovision local copies of databases in order for an existing devstack setup to keep working.
 
 
 Getting Started

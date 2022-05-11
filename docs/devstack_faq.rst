@@ -134,7 +134,7 @@ How do I connect to the databases from an outside editor?
 ---------------------------------------------------------
 
 To connect to the databases from an outside editor (such as MySQLWorkbench),
-first uncomment these lines from ``docker-compose.yml``'s ``mysql57`` section
+first uncomment these lines from ``docker-compose.yml``'s ``mysql80`` section
 
 .. code:: yaml
 
@@ -145,8 +145,8 @@ Then bring your mysql container down and back up by running:
 
 .. code:: sh
 
-  docker-compose stop mysql57
-  docker-compose up -d mysql57
+  docker-compose stop mysql80
+  docker-compose up -d mysql80
 
 Then connect using the values below. Note that the username and password will
 vary depending on the database. For all of the options, see ``provision.sql``.
@@ -158,7 +158,7 @@ vary depending on the database. For all of the options, see ``provision.sql``.
 
 If you have trouble connecting, ensure the port was mapped successfully by
 running ``make dev.ps`` and looking for a line like this:
-``edx.devstack.mysql57 docker-entrypoint.sh mysql ... Up 0.0.0.0:3506→3306/tcp``.
+``edx.devstack.mysql80 docker-entrypoint.sh mysql ... Up 0.0.0.0:3506→3306/tcp``.
 
 How do I build the service images myself?
 -----------------------------------------
@@ -209,7 +209,7 @@ To access the MySQL shell for a particular database, run:
 
 .. code:: sh
 
-   make dev.shell.mysql57
+   make dev.shell.mysql80
    mysql
    use <database>;
 
