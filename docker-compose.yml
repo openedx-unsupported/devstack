@@ -249,6 +249,7 @@ services:
       default:
         aliases:
           - edx.devstack.mysql80
+          - edx.devstack.mysql57
     ports:
       - "3506:3306"
     volumes:
