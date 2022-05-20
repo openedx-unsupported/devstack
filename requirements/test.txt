@@ -9,7 +9,7 @@ attrs==21.4.0
     #   -r requirements/base.txt
     #   jsonschema
     #   pytest
-bcrypt==3.2.0
+bcrypt==3.2.2
     # via
     #   -r requirements/base.txt
     #   paramiko
@@ -27,7 +27,7 @@ charset-normalizer==2.0.12
     # via
     #   -r requirements/base.txt
     #   requests
-cryptography==36.0.2
+cryptography==37.0.2
     # via
     #   -r requirements/base.txt
     #   paramiko
@@ -61,7 +61,7 @@ jsonschema==3.2.0
     #   docker-compose
 packaging==21.3
     # via pytest
-paramiko==2.10.3
+paramiko==2.10.4
     # via
     #   -r requirements/base.txt
     #   docker
@@ -81,13 +81,13 @@ pynacl==1.5.0
     # via
     #   -r requirements/base.txt
     #   paramiko
-pyparsing==3.0.7
+pyparsing==3.0.9
     # via packaging
 pyrsistent==0.18.1
     # via
     #   -r requirements/base.txt
     #   jsonschema
-pytest==7.1.1
+pytest==7.1.2
     # via -r requirements/test.in
 python-dotenv==0.20.0
     # via
@@ -105,7 +105,6 @@ requests==2.27.1
 six==1.16.0
     # via
     #   -r requirements/base.txt
-    #   bcrypt
     #   dockerpty
     #   jsonschema
     #   paramiko

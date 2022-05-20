@@ -80,9 +80,11 @@ jobs:
            username: ${{secrets.EDX_SMTP_USERNAME}}
            password: ${{secrets.EDX_SMTP_PASSWORD}}
            subject: 'Failure: Devstack provisioning tests for ${{matrix.services}} #${{github.run_id}}'
-           to: devstack-provisioning-tests@edx.opsgenie.net
+           to: devstack-provisioning-tests@2u-internal.opsgenie.net
            from: github-actions <github-actions@edx.org>
-           body: 'Devstack provisioning tests in ${{github.repository}} for ${{matrix.services}} failed! For details see "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}". \n Runbook url: https://openedx.atlassian.net/l/c/zoEcLk2z .'
+           body: |
+             Devstack provisioning tests in ${{github.repository}} for ${{matrix.services}} failed! For details see <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}>.
+             Runbook url: https://2u-internal.atlassian.net/wiki/spaces/AT/pages/16384920/Failure+Devstack+provisioning+tests+-+Runbook
 
       - name: close alerts on success
         if: ${{ !failure() && github.ref == 'refs/heads/master' }}
@@ -93,7 +95,7 @@ jobs:
            username: ${{secrets.EDX_SMTP_USERNAME}}
            password: ${{secrets.EDX_SMTP_PASSWORD}}
            subject: 'Back to normal: Devstack provisioning tests for ${{matrix.services}} #${{github.run_id}}'
-           to: devstack-provisioning-tests@edx.opsgenie.net
+           to: devstack-provisioning-tests@2u-internal.opsgenie.net
            from: github-actions <github-actions@edx.org>
            body: Devstack provisioning tests in ${{github.repository}} are back to normal for ${{matrix.services}}
 
