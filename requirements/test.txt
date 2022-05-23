@@ -61,7 +61,7 @@ jsonschema==3.2.0
     #   docker-compose
 packaging==21.3
     # via pytest
-paramiko==2.10.4
+paramiko==2.11.0
     # via
     #   -r requirements/base.txt
     #   docker
