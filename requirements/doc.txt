@@ -18,7 +18,7 @@ bcrypt==3.2.2
     #   paramiko
 bleach==5.0.0
     # via readme-renderer
-certifi==2021.10.8
+certifi==2022.5.18.1
     # via
     #   -r requirements/base.txt
     #   requests
@@ -40,7 +40,7 @@ distro==1.7.0
     # via
     #   -r requirements/base.txt
     #   docker-compose
-doc8==0.11.1
+doc8==0.11.2
     # via -r requirements/doc.in
 docker[ssh]==5.0.3
     # via
@@ -70,7 +70,7 @@ idna==3.3
     #   requests
 imagesize==1.3.0
     # via sphinx
-importlib-metadata==4.11.3
+importlib-metadata==4.11.4
     # via sphinx
 jinja2==3.1.2
     # via sphinx
@@ -82,7 +82,7 @@ markupsafe==2.1.1
     # via jinja2
 packaging==21.3
     # via sphinx
-paramiko==2.10.4
+paramiko==2.11.0
     # via
     #   -r requirements/base.txt
     #   docker

@@ -8,7 +8,7 @@ attrs==21.4.0
     # via jsonschema
 bcrypt==3.2.2
     # via paramiko
-certifi==2021.10.8
+certifi==2022.5.18.1
     # via requests
 cffi==1.15.0
     # via
@@ -33,7 +33,7 @@ idna==3.3
     # via requests
 jsonschema==3.2.0
     # via docker-compose
-paramiko==2.10.4
+paramiko==2.11.0
     # via docker
 pycparser==2.21
     # via cffi
