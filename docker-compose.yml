@@ -32,7 +32,7 @@ services:
     # We disable the journal for a minor performance gain.
     command: mongod --nojournal
     container_name: edx.devstack.mongo
-    image: mongo:4.2.17
+    image: mongo:4.4.14
     ports:
       - "27017:27017"
     volumes:
