@@ -12,7 +12,7 @@ If you have an existing older devstack installation and want to add the demo pro
 
     ./programs/provision.sh
 
-And it will set it up for you. This can be run mutiple times safely.
+And it will set it up for you. This can be run multiple times safely.
 
 ## Recaching
 
