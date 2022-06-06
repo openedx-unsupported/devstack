@@ -6,6 +6,10 @@ docker-compose `echo ${DOCKER_COMPOSE_FILES}` up -d progs
 echo "** Creating databases **"
 echo "CREATE DATABASE IF NOT EXISTS edraakprograms;" | docker exec -i edx.devstack.mysql mysql -uroot mysql
 
+
+echo "** Progs: Setting correct python version **"
+docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs bash -c 'update-alternatives --install /usr/bin/python python /usr/bin/python3.8 1'
+
 echo "** Progs: Copy cacheed files to code dir **"
 #docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs bash -c 'cp -Rn /cache/* /app/.'
 docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs bash -c 'pip install -r requirements.txt'
