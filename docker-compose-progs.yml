@@ -17,7 +17,7 @@ services:
     environment:
       PROGS_CFG: /app/docker.json
       NODE_ENV: development
-    command: bash -c 'while true; do python manage.py runserver 0.0.0.0:8800 --settings=edraakprograms.dev; sleep 2; done'
+    command: bash -c 'while true; do python3.8 manage.py runserver 0.0.0.0:8800 --settings=edraakprograms.dev; sleep 2; done'
     container_name: edraak.devstack.programs
     working_dir: /app
     ports:
