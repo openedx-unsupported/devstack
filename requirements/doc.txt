@@ -138,7 +138,7 @@ six==1.16.0
     #   websocket-client
 snowballstemmer==2.2.0
     # via sphinx
-sphinx==5.0.0
+sphinx==5.0.1
     # via
     #   -r requirements/doc.in
     #   edx-sphinx-theme
