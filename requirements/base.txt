@@ -47,7 +47,7 @@ pyyaml==5.4.1
     # via
     #   -r requirements/base.in
     #   docker-compose
-requests==2.27.1
+requests==2.28.0
     # via
     #   docker
     #   docker-compose
