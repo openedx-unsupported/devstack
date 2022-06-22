@@ -10,7 +10,7 @@ attrs==21.4.0
     # via
     #   -r requirements/base.txt
     #   jsonschema
-babel==2.10.2
+babel==2.10.3
     # via sphinx
 bcrypt==3.2.2
     # via
@@ -18,7 +18,7 @@ bcrypt==3.2.2
     #   paramiko
 bleach==5.0.0
     # via readme-renderer
-certifi==2022.5.18.1
+certifi==2022.6.15
     # via
     #   -r requirements/base.txt
     #   requests
@@ -32,7 +32,7 @@ charset-normalizer==2.0.12
     # via
     #   -r requirements/base.txt
     #   requests
-cryptography==37.0.2
+cryptography==37.0.3
     # via
     #   -r requirements/base.txt
     #   paramiko
@@ -138,7 +138,7 @@ six==1.16.0
     #   websocket-client
 snowballstemmer==2.2.0
     # via sphinx
-sphinx==5.0.1
+sphinx==5.0.2
     # via
     #   -r requirements/doc.in
     #   edx-sphinx-theme
