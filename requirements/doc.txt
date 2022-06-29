@@ -16,7 +16,7 @@ bcrypt==3.2.2
     # via
     #   -r requirements/base.txt
     #   paramiko
-bleach==5.0.0
+bleach==5.0.1
     # via readme-renderer
 certifi==2022.6.15
     # via
@@ -32,7 +32,7 @@ charset-normalizer==2.0.12
     # via
     #   -r requirements/base.txt
     #   requests
-cryptography==37.0.3
+cryptography==37.0.2
     # via
     #   -r requirements/base.txt
     #   paramiko
@@ -70,7 +70,7 @@ idna==3.3
     #   requests
 imagesize==1.3.0
     # via sphinx
-importlib-metadata==4.11.4
+importlib-metadata==4.12.0
     # via sphinx
 jinja2==3.1.2
     # via sphinx
