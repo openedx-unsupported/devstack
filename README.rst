@@ -155,7 +155,7 @@ The default devstack services can be run by following the steps below.
 
    .. code:: sh
 
-       make dev.pull.large-and-slow
+       make pull
 
    Note -
    If you are setting up devstack to develop on Open edx named releases, see this `document on developing on named releases`_ before following this step 3.
