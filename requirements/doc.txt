@@ -154,13 +154,13 @@ sphinxcontrib-qthelp==1.0.3
     # via sphinx
 sphinxcontrib-serializinghtml==1.1.5
     # via sphinx
-stevedore==3.5.0
+stevedore==4.0.0
     # via doc8
 texttable==1.6.4
     # via
     #   -r requirements/base.txt
     #   docker-compose
-urllib3==1.26.9
+urllib3==1.26.10
     # via
     #   -r requirements/base.txt
     #   requests
@@ -171,7 +171,7 @@ websocket-client==0.59.0
     #   -r requirements/base.txt
     #   docker
     #   docker-compose
-zipp==3.8.0
+zipp==3.8.1
     # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
