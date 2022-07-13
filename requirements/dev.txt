@@ -193,7 +193,7 @@ tox==3.25.1
     #   tox-battery
 tox-battery==0.6.1
     # via -r requirements/dev.in
-urllib3==1.26.9
+urllib3==1.26.10
     # via
     #   -r requirements/base.txt
     #   -r requirements/test.txt
