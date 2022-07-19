@@ -63,13 +63,13 @@ use the following options:
     - ``/edx/app/ecommerce/venvs/ecommerce/bin/python``
     - Note: The Credentials Service might not have a virtualenv set up in the container.
 
-  - For either lms or studio, you need to use edxapp:
+  - For either lms or cms, you need to use edxapp:
 
     - ``/edx/app/edxapp/venvs/edxapp/bin/python``
 
 - PyCharm helpers path: Keep the default.
 
-**Note**: For lms and studio (edx-platform), it will take a long time to
+**Note**: For lms and cms (edx-platform), it will take a long time to
 update skeletons (10 or more minutes). If you want to try a different
 set of configuration (compose) files, we recommend you create a new one
 so you can easily switch back to old without this delay.
@@ -83,7 +83,7 @@ Setup Django Support
 --------------------
 
 Before setting up a Server/Debug configuration you will need to setup Django
-Support for the specific Project (e.g. LMS and Studio, or ecommerce)
+Support for the specific Project (e.g. LMS and CMS, or ecommerce)
 
 PyCharm -> Preferences -> Languages & Frameworks -> Django
 
@@ -113,7 +113,7 @@ Setup a Server Run/Debug Configuration
 
 The setup for Server Run/Debug Configurations depends on the service.
 
-Server Run/Debug Configuration for an IDA (not LMS or Studio)
+Server Run/Debug Configuration for an IDA (not LMS or CMS)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 After configuring the interpreter, add a new `Django Server Run/Debug
@@ -124,7 +124,7 @@ requests from external clients (e.g. your Docker host). The port should
 be set to the service-specific port from the table above.
 
 *Note*: See next section for additional changes needed for LMS and
-Studio.
+CMS.
 
 Setup a Server Run/Debug Configuration for ecommerce
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -139,10 +139,10 @@ defined on the ecommerce server in /edx/app/ecommerce/ecommerce_env
   export DJANGO_SETTINGS_MODULE="ecommerce.settings.devstack"
 
 
-Setup a Server Run/Debug Configuration for LMS or Studio
+Setup a Server Run/Debug Configuration for LMS or CMS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-For LMS and Studio, the setup is a hack because we (unfortunately)
+For LMS and CMS, the setup is a hack because we (unfortunately)
 modified ``manage.py``.
 
 After configuring the interpreter, add a new `Django Server Run/Debug
@@ -155,7 +155,7 @@ Configuration`_, with the following specific values.
 
 3. Custom run command: lms (or cms)
 
-4. Environment variables, add the following for lms/studio:
+4. Environment variables, add the following for lms/cms:
 
    - ``DJANGO_SETTINGS_MODULE=lms.envs.devstack_docker`` (or
      cms.envs.devstack_docker)
@@ -209,7 +209,7 @@ service.
 **Tip**: You can adjust the default configuration with settings you are most
 likely to replicate.
 
-Setup a Run/Debug Configuration for python tests for an IDA (not LMS or Studio)
+Setup a Run/Debug Configuration for python tests for an IDA (not LMS or CMS)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To run and debug unit tests, create a **"Django tests"** type Run/Dubug
@@ -232,7 +232,7 @@ configuration with the following options:
 
 5. Deselect "Add content..." and "Add source..."
 
-Setup a Run/Debug Configuration for python tests for LMS or Studio
+Setup a Run/Debug Configuration for python tests for LMS or CMS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To run and debug unit tests, edit the **"Defaults -> Python tests -> py.test"** type Run/Dubug
@@ -300,7 +300,7 @@ This issue has been fixed in PyCharm 2017.1.2.
 Cannot open the manage.py file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The error happens when you try to run a stack (lms or studio for example)::
+The error happens when you try to run a stack (lms or cms for example)::
 
     Attaching to edx.devstack.lms
     edx.devstack.lms | /edx/app/edxapp/venvs/edxapp/bin/python: can't open file '/edx/app/edxapp/edx-platform/manage.py': [Errno 2] No such file or directory

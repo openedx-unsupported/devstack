@@ -75,7 +75,7 @@ def process_compose_file(filename, output_dir):
         image = service['image']
         image = re.sub(r'\$.*', 'latest', image)
         container_name = service['container_name']
-        # Don't save the same image twice, like edxapp for lms and studio
+        # Don't save the same image twice, like edxapp for lms and cms
         if image not in saved_images:
             output = os.path.join(images_dir, '{}.tar'.format(service_name))
             print('Saving image {}'.format(service_name))

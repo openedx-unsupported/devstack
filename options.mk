@@ -61,13 +61,13 @@ ALWAYS_CACHE_PROGRAMS ?= false
 #       The current value was chosen such that it would not change the existing
 #       Devstack behavior.
 DEFAULT_SERVICES ?= \
-credentials+discovery+ecommerce+edx_notes_api+forum+frontend-app-authn+frontend-app-gradebook+frontend-app-payment+frontend-app-publisher+frontend-app-learning+lms+studio
+credentials+discovery+ecommerce+edx_notes_api+forum+frontend-app-authn+frontend-app-gradebook+frontend-app-payment+frontend-app-publisher+frontend-app-learning+lms+cms
 
 # All edX services, whether or not they are run by default.
 # Separated by plus signs.
 # Separated by plus signs. Listed in alphabetical order for clarity.
 EDX_SERVICES ?= \
-analyticsapi+credentials+discovery+ecommerce+edx_notes_api+forum+frontend-app-account+frontend-app-profile+frontend-app-authn+frontend-app-course-authoring+frontend-app-gradebook+frontend-app-ora-grading+frontend-app-learning+frontend-app-library-authoring+frontend-app-payment+frontend-app-program-console+frontend-app-publisher+insights+lms+lms_watcher+registrar+registrar-worker+studio+studio_watcher+xqueue+xqueue_consumer
+analyticsapi+credentials+discovery+ecommerce+edx_notes_api+forum+frontend-app-account+frontend-app-profile+frontend-app-authn+frontend-app-course-authoring+frontend-app-gradebook+frontend-app-ora-grading+frontend-app-learning+frontend-app-library-authoring+frontend-app-payment+frontend-app-program-console+frontend-app-publisher+insights+lms+lms_watcher+registrar+registrar-worker+cms+cms_watcher+xqueue+xqueue_consumer
 
 # Services with database migrations.
 # Should be a subset of $(EDX_SERVICES).
@@ -76,7 +76,7 @@ analyticsapi+credentials+discovery+ecommerce+edx_notes_api+forum+frontend-app-ac
 # Note: This list should contain _all_ db-backed services, even if not
 # configured to run; the list will be filtered later against $(DEFAULT_SERVICES).
 DB_SERVICES ?= \
-credentials+discovery+ecommerce+lms+registrar+studio
+credentials+discovery+ecommerce+lms+registrar+cms
 
 # Services with static assets to be built.
 # Should be a subset of $(EDX_SERVICES).
@@ -85,7 +85,7 @@ credentials+discovery+ecommerce+lms+registrar+studio
 # Note: This list should contain _all_ services with static asse to compile ts, even if not
 # configured to run; the list will be filtered later against $(DEFAULT_SERVICES).
 ASSET_SERVICES ?= \
-credentials+discovery+ecommerce+insights+lms+registrar+studio
+credentials+discovery+ecommerce+insights+lms+registrar+cms
 
 # All third-party services.
 # Separated by plus signs. Listed in alphabetical order for clarity.

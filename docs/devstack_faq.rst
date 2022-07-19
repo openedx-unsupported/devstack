@@ -62,7 +62,7 @@ starts, you have a few options:
   for more information.
 * You can temporarily modify the main service command in
   ``docker-compose.yml`` to first install your new package(s) each time the
-  container is started.  For example, the part of the studio command which
+  container is started.  For example, the part of the cms command which
   reads ``...&& while true; do...`` could be changed to
   ``...&& pip install my-new-package && while true; do...``.
 * In order to work on locally pip-installed repos like edx-ora2, first clone
@@ -178,8 +178,8 @@ To run Django migrations for a particular service, bring up the service and use
 
 .. code:: sh
 
-   make dev.up.studio
-   make dev.migrate.studio
+   make dev.up.cms
+   make dev.migrate.cms
 
 To run migrations for all services at once, run:
 
@@ -231,11 +231,11 @@ For LMS, log into the LMS shell and run the
    make dev.shell.lms
    ./manage.py lms makemigrations <appname> --settings=devstack_docker
 
-For Studio, it is similar:
+For CMS, it is similar:
 
 .. code:: sh
 
-   make dev.shell.studio
+   make dev.shell.cms
    ./manage.py cms makemigrations <appname> --settings=devstack_docker
 
 Finally, for any other service, run:
@@ -266,31 +266,31 @@ in order to recreate up-to-date databases, static assets, etc.
 If making a patch to a named release, you should pull and use Docker images
 which were tagged for that release.
 
-Changing LMS/Studio settings
+Changing LMS/CMS settings
 ----------------------------
 
-LMS and Studio (a.k.a. CMS) read many configuration settings from the container filesystem
+LMS and CMS read many configuration settings from the container filesystem
 in the following locations:
 
 - ``/edx/etc/lms.yml``
-- ``/edx/etc/studio.yml``
+- ``/edx/etc/cms.yml``
 
 Changes to these files will *not* persist over a container restart, as they
 are part of the layered container filesystem and not a mounted volume. However, you
-may need to change these settings and then have the LMS or Studio pick up the changes.
+may need to change these settings and then have the LMS or CMS pick up the changes.
 
-After changing settings, you can restart the LMS/Studio process without restarting the container by running the following on your host machine:
+After changing settings, you can restart the LMS/CMS process without restarting the container by running the following on your host machine:
 
 .. code:: sh
 
    make dev.restart-devserver.lms     # For LMS
-   make dev.restart-devserver.studio  # For Studio/CMS
+   make dev.restart-devserver.cms  # For CMS
 
 
 What is DevPI and how does it affect Devstack?
 ----------------------------------------------
 
-LMS and Studio use a devpi container to cache PyPI dependencies, which speeds up several Devstack operations.
+LMS and CMS use a devpi container to cache PyPI dependencies, which speeds up several Devstack operations.
 See the `devpi documentation`_.
 
 .. _edxops Docker image: https://hub.docker.com/r/edxops/

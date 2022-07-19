@@ -201,7 +201,7 @@ erratically.
 Missing module
 --------------
 
-Occasionally, you'll get errors like 'Cannot import name Name from module xyz'. This usually happens because the code and the image are out of sync. To fix this, first make sure you have the latest images and the latest code. These instructions are written using the LMS as an example. Replace lms with studio, credentials, discovery, etc. as appropriate.
+Occasionally, you'll get errors like 'Cannot import name Name from module xyz'. This usually happens because the code and the image are out of sync. To fix this, first make sure you have the latest images and the latest code. These instructions are written using the LMS as an example. Replace lms with cms, credentials, discovery, etc. as appropriate.
 
 #. Run ``make dev.stop.lms`` from devstack
 #. To update your image, you can run ``make dev.pull.lms`` from devstack.
