@@ -45,7 +45,7 @@ cryptography==37.0.4
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   paramiko
-distlib==0.3.4
+distlib==0.3.5
     # via virtualenv
 distro==1.7.0
     # via
