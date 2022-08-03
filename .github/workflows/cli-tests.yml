@@ -70,7 +70,7 @@ jobs:
           cd $(brew --repo homebrew/cask)
           git checkout 8670a72380c57c606d6582b645421e31dad2eee2
           brew install --cask virtualbox
-          /Library/StartupItems/VirtualBox/VirtualBox restart
+          brew services start virtualbox
           brew install docker docker-machine
 
           docker-machine create --driver virtualbox default
