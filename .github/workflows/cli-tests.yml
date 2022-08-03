@@ -66,6 +66,7 @@ jobs:
       - name: Docker installation - Mac
         if: ${{ matrix.os.name == 'mac' }}
         run: |
+          brew uninstall virtualbox
           # download an old version of virtualbox (latest is incompatible with github actions)
           cd $(brew --repo homebrew/cask)
           git checkout 8670a72380c57c606d6582b645421e31dad2eee2
