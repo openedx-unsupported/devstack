@@ -66,6 +66,7 @@ jobs:
       - name: Docker installation - Mac
         if: ${{ matrix.os.name == 'mac' }}
         run: |
+          brew install virtualbox
           brew install docker docker-machine
 
           docker-machine create --driver virtualbox default
