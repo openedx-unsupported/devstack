@@ -68,9 +68,9 @@ jobs:
         run: |
           brew install docker docker-machine
           
-          sudo mkdir /etc/vbox/
-          sudo touch /etc/vbox/networks.conf
-          sudo echo * 0.0.0.0/0 ::/0 > /etc/vbox/networks.conf
+          mkdir /etc/vbox/
+          touch /etc/vbox/networks.conf
+          echo * 0.0.0.0/0 ::/0 > /etc/vbox/networks.conf
           
           docker-machine create --driver virtualbox default
           # Apply Docker environment variables to later steps.
