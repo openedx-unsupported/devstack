@@ -67,7 +67,7 @@ jobs:
         if: ${{ matrix.os.name == 'mac' }}
         run: |
           # download an old version of virtualbox (latest is incompatible with github actions)
-          sudo spctl --master-disable
+          sudo spctl kext-consent add VB5E2TV963
           brew uninstall virtualbox
           cd $(brew --repo homebrew/cask)
           git checkout 8670a72380c57c606d6582b645421e31dad2eee2
