@@ -25,7 +25,7 @@ jobs:
           - name: linux
             image: ubuntu-20.04 # Focal Fossa
           - name: mac
-            image: macos-11 # Big Sur
+            image: macos-12
         python-version:
           - '3.8'
       fail-fast: false
@@ -66,12 +66,12 @@ jobs:
       - name: Docker installation - Mac
         if: ${{ matrix.os.name == 'mac' }}
         run: |
-          brew install virtualbox
+          # brew install virtualbox
           brew install docker docker-machine
           
-          sudo "/Library/Application Support/VirtualBox/LaunchDaemons/VirtualBoxStartup.sh" restart
+          # sudo "/Library/Application Support/VirtualBox/LaunchDaemons/VirtualBoxStartup.sh" restart
           
-          docker-machine --github-api-token=${{ secrets.REQUIREMENTS_BOT_GITHUB_TOKEN }} create --driver virtualbox default
+          # docker-machine --github-api-token=${{ secrets.REQUIREMENTS_BOT_GITHUB_TOKEN }} create --driver virtualbox default
           # Apply Docker environment variables to later steps.
           #
           # However, we first have to extract just the lines beginning
