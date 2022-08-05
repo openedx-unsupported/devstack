@@ -66,11 +66,9 @@ jobs:
       - name: Docker installation - Mac
         if: ${{ matrix.os.name == 'mac' }}
         run: |
-          # download an old version of virtualbox (latest is incompatible with github actions)
-          brew uninstall virtualbox
-          cd $(brew --repo homebrew/cask)
-          git checkout 8670a72380c57c606d6582b645421e31dad2eee2
-          brew install --cask virtualbox
+          brew install docker docker-machine
+          
+          echo * 0.0.0.0/0 ::/0 > /etc/vbox/networks.conf
           
           docker-machine create --driver virtualbox default
           # Apply Docker environment variables to later steps.
