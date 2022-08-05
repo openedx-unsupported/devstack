@@ -25,7 +25,7 @@ jobs:
           - name: linux
             image: ubuntu-20.04 # Focal Fossa
           - name: mac
-            image: macos-11
+            image: macos-12
         python-version:
           - '3.8'
       fail-fast: false
