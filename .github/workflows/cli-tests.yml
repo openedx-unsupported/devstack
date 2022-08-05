@@ -25,7 +25,7 @@ jobs:
           - name: linux
             image: ubuntu-20.04 # Focal Fossa
           - name: mac
-            image: macos-12
+            image: macos-11
         python-version:
           - '3.8'
       fail-fast: false
@@ -66,11 +66,12 @@ jobs:
       - name: Docker installation - Mac
         if: ${{ matrix.os.name == 'mac' }}
         run: |
+          # download an old version of virtualbox (latest is incompatible with github actions)
+          brew uninstall virtualbox
+          cd $(brew --repo homebrew/cask)
+          git checkout 8670a72380c57c606d6582b645421e31dad2eee2
+          brew install --cask virtualbox
           brew install docker docker-machine
-          
-          mkdir /etc/vbox/
-          touch /etc/vbox/networks.conf
-          echo * 0.0.0.0/0 ::/0 > /etc/vbox/networks.conf
           
           docker-machine create --driver virtualbox default
           # Apply Docker environment variables to later steps.
