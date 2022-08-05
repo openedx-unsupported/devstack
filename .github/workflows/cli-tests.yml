@@ -68,7 +68,9 @@ jobs:
         run: |
           brew install virtualbox
           brew install docker docker-machine
-
+          
+          "/Library/Application Support/VirtualBox/LaunchDaemons/VirtualBoxStartup.sh" restart
+          
           docker-machine --github-api-token=${{ secrets.REQUIREMENTS_BOT_GITHUB_TOKEN }} create --driver virtualbox default
           # Apply Docker environment variables to later steps.
           #
