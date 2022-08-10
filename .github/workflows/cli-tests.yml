@@ -61,7 +61,8 @@ jobs:
       - name: Install Python dependencies
         run:  make requirements
 
-      # proactively download and extract the image to avoid test timeouts later
+      # proactively download and extract the image to avoid test timeouts in tests/metrics.py
+      # this should be moved into a test setup
       - name: Pull redis docker image
         run: make dev.pull.redis
 
