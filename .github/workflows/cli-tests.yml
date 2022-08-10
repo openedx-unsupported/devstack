@@ -25,7 +25,7 @@ jobs:
           - name: linux
             image: ubuntu-20.04 # Focal Fossa
           - name: mac
-            image: macos-10.15 # Catalina
+            image: macos-12
         python-version:
           - '3.8'
       fail-fast: false
@@ -50,49 +50,21 @@ jobs:
           docker version
           docker-compose --version
 
-      # Cache boot2docker for speedup and to avoid ratelimiting
-      - name: Docker cache - Mac
-        if: ${{ matrix.os.name == 'mac' }}
-        uses: actions/cache@v2
-        with:
-          path: ~/.docker/machine/cache
-          key: ${{ runner.os }}-docker-machine
-
-      # Note: we have to use boot2docker because Docker Desktop has not been licensed
-      # for use in GithubActions
-      #
-      # This also only seems to work for the CLI tests, not the
-      # provisioning tests, even with apparently identical scripts.
+      # Note: we cannot use Docker Desktop because it has not been licensed for use in GithubActions
       - name: Docker installation - Mac
         if: ${{ matrix.os.name == 'mac' }}
         run: |
-          # download an old version of virtualbox (latest is incompatible with github actions)
-          brew uninstall virtualbox
-          cd $(brew --repo homebrew/cask)
-          git checkout 8670a72380c57c606d6582b645421e31dad2eee2
-          brew install --cask virtualbox
-          brew install docker docker-machine
-
-          docker-machine create --driver virtualbox default
-          # Apply Docker environment variables to later steps.
-          #
-          # However, we first have to extract just the lines beginning
-          # with 'export ' (skipping any comments) and then reformat
-          # them so that Github can extract the key/value pairs, that is,
-          # remove the export and any quotes. This is not safe or
-          # correct in the general case, but these Docker environment
-          # variables shouldn't contain newlines or escape sequences.
-          # This turns output like this:
-          #   export DOCKER_HOST="tcp://192.168.99.100:2376"
-          # into this:
-          #   DOCKER_HOST=tcp://192.168.99.100:2376
-          #
-          # Docs on GITHUB_ENV:
-          # https://docs.github.com/en/actions/reference/workflow-commands-for-github-actions#setting-an-environment-variable
-          docker-machine env default | grep '^export' | sed 's/^export //' | sed 's/"//g' >> $GITHUB_ENV
+          brew install lima docker
+          limactl start --name=default template://docker
+          echo "DOCKER_HOST=unix:///Users/runner/.lima/default/sock/docker.sock" >> $GITHUB_ENV
 
       - name: Install Python dependencies
         run:  make requirements
+
+      # proactively download and extract the image to avoid test timeouts in tests/metrics.py
+      # this should be moved into a test setup
+      - name: Pull redis docker image
+        run: make dev.pull.redis
 
       - name: CLI tests
         run: pytest -s ./tests/*.py
