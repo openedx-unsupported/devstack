@@ -6,7 +6,7 @@
 #
 alabaster==0.7.12
     # via sphinx
-attrs==21.4.0
+attrs==22.1.0
     # via
     #   -r requirements/base.txt
     #   jsonschema
@@ -40,7 +40,7 @@ distro==1.7.0
     # via
     #   -r requirements/base.txt
     #   docker-compose
-doc8==0.11.2
+doc8==1.0.0
     # via -r requirements/doc.in
 docker[ssh]==5.0.3
     # via
@@ -56,7 +56,7 @@ docopt==0.6.2
     # via
     #   -r requirements/base.txt
     #   docker-compose
-docutils==0.18.1
+docutils==0.19
     # via
     #   doc8
     #   readme-renderer
@@ -117,7 +117,7 @@ pyyaml==5.4.1
     # via
     #   -r requirements/base.txt
     #   docker-compose
-readme-renderer==35.0
+readme-renderer==36.0
     # via -r requirements/doc.in
 requests==2.28.1
     # via
@@ -138,7 +138,7 @@ six==1.16.0
     #   websocket-client
 snowballstemmer==2.2.0
     # via sphinx
-sphinx==5.0.2
+sphinx==5.1.1
     # via
     #   -r requirements/doc.in
     #   edx-sphinx-theme
@@ -160,7 +160,9 @@ texttable==1.6.4
     # via
     #   -r requirements/base.txt
     #   docker-compose
-urllib3==1.26.10
+tomli==2.0.1
+    # via doc8
+urllib3==1.26.11
     # via
     #   -r requirements/base.txt
     #   requests
