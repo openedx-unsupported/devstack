@@ -56,14 +56,14 @@ jobs:
         run: |
           brew install lima docker
           limactl start --name=default template://docker
-          docker -H unix:///Users/runner/.lima/default/sock/docker.sock run hello-world
           echo "DOCKER_HOST=unix:///Users/runner/.lima/default/sock/docker.sock" >> $GITHUB_ENV
 
       - name: Install Python dependencies
         run:  make requirements
 
+      # proactively download and extract the image to avoid test timeouts later
+      - name: Pull redis docker image
+        run: make dev.pull.redis
+
       - name: CLI tests
-        run: |
-          # download and extract the image to avoid test timeouts
-          make dev.pull.redis
-          pytest -s ./tests/*.py
+        run: pytest -s ./tests/*.py
