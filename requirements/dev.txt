@@ -71,7 +71,7 @@ docopt==0.6.2
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   docker-compose
-filelock==3.7.1
+filelock==3.8.0
     # via
     #   tox
     #   virtualenv
