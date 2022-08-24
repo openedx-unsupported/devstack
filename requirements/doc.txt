@@ -28,7 +28,7 @@ cffi==1.15.1
     #   bcrypt
     #   cryptography
     #   pynacl
-charset-normalizer==2.1.0
+charset-normalizer==2.1.1
     # via
     #   -r requirements/base.txt
     #   requests
@@ -42,7 +42,7 @@ distro==1.7.0
     #   docker-compose
 doc8==1.0.0
     # via -r requirements/doc.in
-docker[ssh]==5.0.3
+docker[ssh]==6.0.0
     # via
     #   -r requirements/base.txt
     #   docker-compose
@@ -81,7 +81,10 @@ jsonschema==3.2.0
 markupsafe==2.1.1
     # via jinja2
 packaging==21.3
-    # via sphinx
+    # via
+    #   -r requirements/base.txt
+    #   docker
+    #   sphinx
 paramiko==2.11.0
     # via
     #   -r requirements/base.txt
@@ -102,7 +105,9 @@ pynacl==1.5.0
     #   -r requirements/base.txt
     #   paramiko
 pyparsing==3.0.9
-    # via packaging
+    # via
+    #   -r requirements/base.txt
+    #   packaging
 pyrsistent==0.18.1
     # via
     #   -r requirements/base.txt
@@ -117,7 +122,7 @@ pyyaml==5.4.1
     # via
     #   -r requirements/base.txt
     #   docker-compose
-readme-renderer==36.0
+readme-renderer==37.0
     # via -r requirements/doc.in
 requests==2.28.1
     # via
@@ -162,9 +167,10 @@ texttable==1.6.4
     #   docker-compose
 tomli==2.0.1
     # via doc8
-urllib3==1.26.11
+urllib3==1.26.12
     # via
     #   -r requirements/base.txt
+    #   docker
     #   requests
 webencodings==0.5.1
     # via bleach

@@ -31,7 +31,7 @@ cffi==1.15.1
     #   bcrypt
     #   cryptography
     #   pynacl
-charset-normalizer==2.1.0
+charset-normalizer==2.1.1
     # via
     #   -r requirements/base.txt
     #   -r requirements/test.txt
@@ -52,7 +52,7 @@ distro==1.7.0
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   docker-compose
-docker[ssh]==5.0.3
+docker[ssh]==6.0.0
     # via
     #   -r requirements/base.txt
     #   -r requirements/test.txt
@@ -91,9 +91,11 @@ jsonschema==3.2.0
     #   docker-compose
 packaging==21.3
     # via
+    #   -r requirements/base.txt
     #   -r requirements/pip-tools.txt
     #   -r requirements/test.txt
     #   build
+    #   docker
     #   pytest
     #   tox
 paramiko==2.11.0
@@ -137,6 +139,7 @@ pynacl==1.5.0
     #   paramiko
 pyparsing==3.0.9
     # via
+    #   -r requirements/base.txt
     #   -r requirements/pip-tools.txt
     #   -r requirements/test.txt
     #   packaging
@@ -192,10 +195,11 @@ tox==3.25.1
     #   tox-battery
 tox-battery==0.6.1
     # via -r requirements/dev.in
-urllib3==1.26.11
+urllib3==1.26.12
     # via
     #   -r requirements/base.txt
     #   -r requirements/test.txt
+    #   docker
     #   requests
 virtualenv==20.16.3
     # via tox
