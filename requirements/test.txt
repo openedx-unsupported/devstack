@@ -9,7 +9,7 @@ attrs==22.1.0
     #   -r requirements/base.txt
     #   jsonschema
     #   pytest
-bcrypt==3.2.2
+bcrypt==4.0.0
     # via
     #   -r requirements/base.txt
     #   paramiko
@@ -20,7 +20,6 @@ certifi==2022.6.15
 cffi==1.15.1
     # via
     #   -r requirements/base.txt
-    #   bcrypt
     #   cryptography
     #   pynacl
 charset-normalizer==2.1.1
