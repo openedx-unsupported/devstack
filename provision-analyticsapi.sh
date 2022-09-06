@@ -20,6 +20,3 @@ docker-compose exec -T ${name}  bash -e -c 'source /edx/app/analytics_api/analyt
 
 echo -e "${GREEN}Loading test data for ${name}...${NC}"
 docker-compose exec -T ${name}  bash -e -c 'source /edx/app/analytics_api/analytics_api_env && cd /edx/app/analytics_api/analytics_api && make loaddata' -- ${name}
-
-echo -e "${GREEN}Populating elasticsearch for ${name}...${NC}"
-docker-compose exec -T ${name}  bash -e -c 'source /edx/app/analytics_api/analytics_api_env && cd /edx/app/analytics_api/analytics_api && make create_indices' -- ${name}
