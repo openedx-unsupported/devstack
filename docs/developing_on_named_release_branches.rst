@@ -18,8 +18,8 @@ images until you change or unset ``OPENEDX_RELEASE`` again.  To work on the
 master branches and ``latest`` images, unset ``OPENEDX_RELEASE`` or set it to
 an empty string.
 
-.. _README.rst: https://github.com/edx/devstack
-.. _getting started: https://github.com/edx/devstack#getting-started
+.. _README.rst: https://github.com/openedx/devstack
+.. _getting started: https://github.com/openedx/devstack#getting-started
 
 How do I run multiple named Open edX releases on same machine?
 --------------------------------------------------------------

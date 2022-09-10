@@ -7,7 +7,7 @@ platform.  Use it to get up and running quickly with Open edX services.
 Documentation is on `Read the Docs`_.  Code repository is on `GitHub`_.
 
 .. _Read the Docs: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/
-.. _GitHub: https://github.com/edx/devstack
+.. _GitHub: https://github.com/openedx/devstack
 
 The Devstack runs as multiple containers with `Docker Compose`_ at its core.
 
@@ -339,30 +339,30 @@ Some common service combinations include:
 * ``ecommerce``: Ecommerce, but also LMS as a dependency (for auth)
 * ``studio+credentials``: Services can be combined to affect both at once
 
-.. _credentials: https://github.com/edx/credentials
-.. _discovery: https://github.com/edx/course-discovery
-.. _ecommerce: https://github.com/edx/ecommerce
-.. _edx_notes_api: https://github.com/edx/edx-notes-api
-.. _forum: https://github.com/edx/cs_comments_service
-.. _frontend-app-payment: https://github.com/edx/frontend-app-payment
-.. _frontend-app-publisher: https://github.com/edx/frontend-app-publisher
-.. _frontend-app-gradebook: https://github.com/edx/frontend-app-gradebook
-.. _lms: https://github.com/edx/edx-platform
-.. _frontend-app-program-console: https://github.com/edx/frontend-app-program-console
-.. _registrar: https://github.com/edx/registrar
-.. _studio: https://github.com/edx/edx-platform
-.. _lms: https://github.com/edx/edx-platform
-.. _frontend-app-learning: https://github.com/edx/frontend-app-learning
-.. _frontend-app-library-authoring: https://github.com/edx/frontend-app-library-authoring
-.. _frontend-app-course-authoring: https://github.com/edx/frontend-app-course-authoring
-.. _frontend-app-account: https://github.com/edx/frontend-app-account
+.. _credentials: https://github.com/openedx/credentials
+.. _discovery: https://github.com/openedx/course-discovery
+.. _ecommerce: https://github.com/openedx/ecommerce
+.. _edx_notes_api: https://github.com/openedx/edx-notes-api
+.. _forum: https://github.com/openedx/cs_comments_service
+.. _frontend-app-payment: https://github.com/openedx/frontend-app-payment
+.. _frontend-app-publisher: https://github.com/openedx/frontend-app-publisher
+.. _frontend-app-gradebook: https://github.com/openedx/frontend-app-gradebook
+.. _lms: https://github.com/openedx/edx-platform
+.. _frontend-app-program-console: https://github.com/openedx/frontend-app-program-console
+.. _registrar: https://github.com/openedx/registrar
+.. _studio: https://github.com/openedx/edx-platform
+.. _lms: https://github.com/openedx/edx-platform
+.. _frontend-app-learning: https://github.com/openedx/frontend-app-learning
+.. _frontend-app-library-authoring: https://github.com/openedx/frontend-app-library-authoring
+.. _frontend-app-course-authoring: https://github.com/openedx/frontend-app-course-authoring
+.. _frontend-app-account: https://github.com/openedx/frontend-app-account
 .. _frontend-app-profile: https://github.com/openedx/frontend-app-profile
 .. _frontend-app-authn: https://github.com/openedx/frontend-app-authn
-.. _xqueue: https://github.com/edx/xqueue
-.. _coursegraph: https://github.com/edx/edx-platform/tree/master/openedx/core/djangoapps/coursegraph
+.. _xqueue: https://github.com/openedx/xqueue
+.. _coursegraph: https://github.com/openedx/edx-platform/tree/master/cms/djangoapps/coursegraph#coursegraph-support
 .. _frontend-app-ora-grading: https://github.com/edx/frontend-app-ora-grading
-.. _insights: https://github.com/edx/edx-analytics-dashboard
-.. _analyticsapi: https://github.com/edx/edx-analytics-data-api
+.. _insights: https://github.com/openedx/edx-analytics-dashboard
+.. _analyticsapi: https://github.com/openedx/edx-analytics-data-api
 
 
 Known Issues
@@ -407,18 +407,18 @@ As a specific example, if ``OPENEDX_RELEASE`` is set in your environment as ``ju
 .. _licensing terms: https://www.docker.com/pricing/faq
 .. _Docker for Windows: https://docs.docker.com/docker-for-windows/
 .. _configuring Docker for Mac: https://docs.docker.com/docker-for-mac/#/advanced
-.. _feature added in Docker 17.05: https://github.com/edx/configuration/pull/3864
+.. _feature added in Docker 17.05: https://github.com/openedx/configuration/pull/3864
 .. _edx-e2e-tests README: https://github.com/edx/edx-e2e-tests/#how-to-run-lms-and-studio-tests
 .. _edxops Docker image: https://hub.docker.com/r/edxops/
 .. _Docker Hub: https://hub.docker.com/
 .. _Pycharm Integration documentation: docs/pycharm_integration.rst
 .. _devpi documentation: docs/devpi.rst
-.. _edx-platform testing documentation: https://github.com/edx/edx-platform/blob/master/docs/guides/testing/testing.rst#running-python-unit-tests
-.. |Build Status provisioning| image:: https://github.com/edx/devstack/actions/workflows/provisioning-tests.yml/badge.svg?branch=master
-    :target: https://github.com/edx/devstack/actions/workflows/provisioning-tests.yml
+.. _edx-platform testing documentation: https://github.com/openedx/edx-platform/blob/master/docs/guides/testing/testing.rst#running-python-unit-tests
+.. |Build Status provisioning| image:: https://github.com/openedx/devstack/actions/workflows/provisioning-tests.yml/badge.svg?branch=master
+    :target: https://github.com/openedx/devstack/actions/workflows/provisioning-tests.yml
     :alt: Provisioning tests
-.. |Build Status CLI| image:: https://github.com/edx/devstack/actions/workflows/cli-tests.yml/badge.svg?branch=master
-    :target: https://github.com/edx/devstack/actions/workflows/cli-tests.yml
+.. |Build Status CLI| image:: https://github.com/openedx/devstack/actions/workflows/cli-tests.yml/badge.svg?branch=master
+    :target: https://github.com/openedx/devstack/actions/workflows/cli-tests.yml
     :alt: CLI tests
 .. |docs| image:: https://readthedocs.org/projects/docs/badge/?version=latest
     :alt: Documentation Status

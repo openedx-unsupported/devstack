@@ -50,7 +50,7 @@ use the following options:
 - Optional Environment variables:
 
   - ``OPENEDX_RELEASE=release.version`` (i.e.: appropriate image tag; "juniper.master")
-  - ``COMPOSE_PROJECT_NAME=docker-compose.container`` (i.e.: "devstack-juniper.master"; appropriate docker-compose container project for devstack multiple release (same machine); ensures specific Docker containers get used based on release name; Ref: https://github.com/edx/devstack/pull/532)
+  - ``COMPOSE_PROJECT_NAME=docker-compose.container`` (i.e.: "devstack-juniper.master"; appropriate docker-compose container project for devstack multiple release (same machine); ensures specific Docker containers get used based on release name; Ref: https://github.com/openedx/devstack/pull/532)
 
 - Python interpreter path:
 

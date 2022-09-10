@@ -39,7 +39,7 @@ Windows
    it from "devstack_snapshot/Docker for Windows Installer.exe".
 
 4. Follow the instructions at
-   https://github.com/edx/devstack/blob/master/README-windows.rst
+   https://github.com/openedx/devstack/blob/master/README-windows.rst
    (Unlike the macOS and Linux installations above, this will require
    a network connection).
 

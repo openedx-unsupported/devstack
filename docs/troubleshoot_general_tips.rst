@@ -178,7 +178,7 @@ Alternatively, if you are at a roadblock and
 then you can always delete the repository and start over again::
 
     rm -rf ./<repository>
-    git clone git@github.com:edx/<repository>
+    git clone git@github.com:openedx/<repository>
 
 Finally, if you regularly find yourself mystified by git, consider reading
 through `Understanding Git Conceptually`_. It explains core Git principles in way
