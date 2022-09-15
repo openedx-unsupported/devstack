@@ -244,7 +244,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ""
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-    image: mysql:5.7
+    image: edxops/mysql:5.7
     networks:
       default:
         aliases:
