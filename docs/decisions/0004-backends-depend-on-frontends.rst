@@ -60,7 +60,7 @@ Consequences
 * An email and Slack message will be sent out to explain these changes and how we anticipate that they will impact developer workflows. The email will explain that if a micro-frontend is required to simulate common user story in the default configuration, then that frontend should be devstack, and should be automatically started by the relevant backend using ``depends_on``.
 
 
-.. _documentation in frontend-build: https://github.com/edx/frontend-build#local-module-configuration-for-webpack
+.. _documentation in frontend-build: https://github.com/openedx/frontend-build#local-module-configuration-for-webpack
 .. _ADR 5: ./0005-frontend-package-mounts.rst
 
 Rejected Alternatives

@@ -118,5 +118,5 @@ and run the tests manually via paver:
 The browser running the tests can be seen and interacted with via VNC as
 described above (Firefox is used by default).
 
-.. _edx-platform testing documentation: https://github.com/edx/edx-platform/blob/master/docs/guides/testing/testing.rst#running-python-unit-tests
+.. _edx-platform testing documentation: https://github.com/openedx/edx-platform/blob/master/docs/guides/testing/testing.rst#running-python-unit-tests
 .. _edx-e2e-tests README: https://github.com/edx/edx-e2e-tests/#how-to-run-lms-and-studio-tests
