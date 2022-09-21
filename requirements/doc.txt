@@ -18,7 +18,7 @@ bcrypt==4.0.0
     #   paramiko
 bleach==5.0.1
     # via readme-renderer
-certifi==2022.6.15
+certifi==2022.9.14
     # via
     #   -r requirements/base.txt
     #   requests
@@ -31,7 +31,7 @@ charset-normalizer==2.1.1
     # via
     #   -r requirements/base.txt
     #   requests
-cryptography==38.0.0
+cryptography==38.0.1
     # via
     #   -r requirements/base.txt
     #   paramiko
@@ -63,7 +63,7 @@ docutils==0.19
     #   sphinx
 edx-sphinx-theme==3.0.0
     # via -r requirements/doc.in
-idna==3.3
+idna==3.4
     # via
     #   -r requirements/base.txt
     #   requests

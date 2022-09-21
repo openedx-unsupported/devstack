@@ -13,7 +13,7 @@ bcrypt==4.0.0
     # via
     #   -r requirements/base.txt
     #   paramiko
-certifi==2022.6.15
+certifi==2022.9.14
     # via
     #   -r requirements/base.txt
     #   requests
@@ -26,7 +26,7 @@ charset-normalizer==2.1.1
     # via
     #   -r requirements/base.txt
     #   requests
-cryptography==38.0.0
+cryptography==38.0.1
     # via
     #   -r requirements/base.txt
     #   paramiko
@@ -48,7 +48,7 @@ docopt==0.6.2
     # via
     #   -r requirements/base.txt
     #   docker-compose
-idna==3.3
+idna==3.4
     # via
     #   -r requirements/base.txt
     #   requests
