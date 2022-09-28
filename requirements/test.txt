@@ -13,7 +13,7 @@ bcrypt==4.0.0
     # via
     #   -r requirements/base.txt
     #   paramiko
-certifi==2022.9.14
+certifi==2022.9.24
     # via
     #   -r requirements/base.txt
     #   requests
