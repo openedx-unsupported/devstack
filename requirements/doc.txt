@@ -18,7 +18,7 @@ bcrypt==4.0.0
     #   paramiko
 bleach==5.0.1
     # via readme-renderer
-certifi==2022.9.14
+certifi==2022.9.24
     # via
     #   -r requirements/base.txt
     #   requests
@@ -121,7 +121,7 @@ pyyaml==5.4.1
     # via
     #   -r requirements/base.txt
     #   docker-compose
-readme-renderer==37.1
+readme-renderer==37.2
     # via -r requirements/doc.in
 requests==2.28.1
     # via
@@ -142,7 +142,7 @@ six==1.16.0
     #   websocket-client
 snowballstemmer==2.2.0
     # via sphinx
-sphinx==5.1.1
+sphinx==5.2.2
     # via
     #   -r requirements/doc.in
     #   edx-sphinx-theme
