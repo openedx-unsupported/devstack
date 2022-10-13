@@ -6,7 +6,7 @@
 #
 attrs==22.1.0
     # via jsonschema
-bcrypt==4.0.0
+bcrypt==4.0.1
     # via paramiko
 certifi==2022.9.24
     # via requests
@@ -16,9 +16,9 @@ cffi==1.15.1
     #   pynacl
 charset-normalizer==2.1.1
     # via requests
-cryptography==38.0.1
+cryptography==38.0.2
     # via paramiko
-distro==1.7.0
+distro==1.8.0
     # via docker-compose
 docker[ssh]==6.0.0
     # via docker-compose

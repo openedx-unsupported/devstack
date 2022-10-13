@@ -9,7 +9,7 @@ attrs==22.1.0
     #   -r requirements/base.txt
     #   jsonschema
     #   pytest
-bcrypt==4.0.0
+bcrypt==4.0.1
     # via
     #   -r requirements/base.txt
     #   paramiko
@@ -26,11 +26,11 @@ charset-normalizer==2.1.1
     # via
     #   -r requirements/base.txt
     #   requests
-cryptography==38.0.1
+cryptography==38.0.2
     # via
     #   -r requirements/base.txt
     #   paramiko
-distro==1.7.0
+distro==1.8.0
     # via
     #   -r requirements/base.txt
     #   docker-compose
