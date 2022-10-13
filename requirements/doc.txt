@@ -12,7 +12,7 @@ attrs==22.1.0
     #   jsonschema
 babel==2.10.3
     # via sphinx
-bcrypt==4.0.0
+bcrypt==4.0.1
     # via
     #   -r requirements/base.txt
     #   paramiko
@@ -31,11 +31,11 @@ charset-normalizer==2.1.1
     # via
     #   -r requirements/base.txt
     #   requests
-cryptography==38.0.1
+cryptography==38.0.2
     # via
     #   -r requirements/base.txt
     #   paramiko
-distro==1.7.0
+distro==1.8.0
     # via
     #   -r requirements/base.txt
     #   docker-compose
@@ -178,7 +178,7 @@ websocket-client==0.59.0
     #   -r requirements/base.txt
     #   docker
     #   docker-compose
-zipp==3.8.1
+zipp==3.9.0
     # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
