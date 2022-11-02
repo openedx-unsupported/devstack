@@ -11,7 +11,7 @@ elif [ ! -d "$DEVSTACK_WORKSPACE" ]; then
 fi
 
 # Copy the test course tarball into the studio container
-docker cp ${DEVSTACK_WORKSPACE}/edx-e2e-tests/upload_files/course.tar.gz "$(make --silent --no-print-directory dev.print-container.studio)":/tmp/
+docker cp "${DEVSTACK_WORKSPACE}/edx-e2e-tests/upload_files/course.tar.gz" "$(make --silent --no-print-directory dev.print-container.studio)":/tmp/
 
 # Extract the test course tarball
 docker-compose exec -T studio bash -e -c 'cd /tmp && tar xzf course.tar.gz'
