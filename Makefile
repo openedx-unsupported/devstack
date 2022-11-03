@@ -451,7 +451,7 @@ dev.shell.analyticsapi:
 	docker exec -it edx.devstack.analyticsapi env TERM=$(TERM) /edx/app/analytics_api/devstack.sh open
 
 dev.shell.insights:
-	docker-compose exec insights env TERM=$(TERM) bash -c 'eval $$(source /edx/app/insights/insights_env; echo PATH="$$PATH";) && /edx/app/insights/devstack.sh open'
+	docker-compose exec insights env TERM=$(TERM) bash -c 'eval $$(source /edx/app/insights/insights_env; echo PATH="$$PATH";) && /bin/bash'
 
 dev.shell.%: ## Run a shell on the specified service's container.
 	docker-compose exec $* /bin/bash

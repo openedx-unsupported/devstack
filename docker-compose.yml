@@ -483,7 +483,9 @@ services:
       DB_PASSWORD: password
       LMS_HOST: http://localhost:18000
       DJANGO_SETTINGS_MODULE: analytics_dashboard.settings.devstack
-    image: edxops/insights:${OPENEDX_RELEASE:-latest}
+      ANALYTICS_DASHBOARD_CFG: /edx/etc/insights.yml
+    image: edxops/insights-dev:${OPENEDX_RELEASE:-latest}
+    working_dir: /edx/app/insights/insights
     networks:
       default:
         aliases:
@@ -492,6 +494,7 @@ services:
       - "18110:18110"
     volumes:
       - /edx/var/insights/
+      - ${PWD}/configuration_files/insights.yml:/edx/etc/insights.yml
 
   analyticsapi:
     image: edxops/analytics_api:${OPENEDX_RELEASE:-latest}
