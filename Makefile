@@ -435,7 +435,7 @@ dev.shell.ecommerce:
 	docker-compose exec ecommerce env TERM=$(TERM) /edx/app/ecommerce/devstack.sh open
 
 dev.shell.registrar:
-	docker-compose exec registrar env TERM=$(TERM) /edx/app/registrar/devstack.sh open
+	docker-compose exec registrar env TERM=$(TERM) /bin/bash
 
 dev.shell.xqueue:
 	docker-compose exec xqueue env TERM=$(TERM) /edx/app/xqueue/devstack.sh open
