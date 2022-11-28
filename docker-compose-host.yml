@@ -37,10 +37,10 @@ services:
       - ${DEVSTACK_WORKSPACE}/src:/edx/src
   registrar:
     volumes:
-      - ${DEVSTACK_WORKSPACE}/registrar:/edx/app/registrar/registrar
+      - ${DEVSTACK_WORKSPACE}/registrar:/edx/app/registrar
   registrar-worker:
     volumes:
-      - ${DEVSTACK_WORKSPACE}/registrar:/edx/app/registrar/registrar
+      - ${DEVSTACK_WORKSPACE}/registrar:/edx/app/registrar
   studio:
     volumes:
       - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform
