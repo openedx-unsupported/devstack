@@ -15,20 +15,28 @@ for app in "${apps[@]}"; do
     docker-compose up -d $app
 done
 
-docker-compose exec -T -u root lms bash -e -c 'apt-get update && apt-get -y install --no-install-recommends git'
+# install git for both LMS and Studio
+for app in "${apps[@]}"; do
+    docker-compose exec -T -u root $app bash -e -c 'apt-get update && apt-get -y install --no-install-recommends git'
 
-docker-compose exec -T -u root lms bash -e -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && NO_PYTHON_UNINSTALL=1 paver install_prereqs'
+    docker-compose exec -T -u root $app bash -e -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && NO_PYTHON_UNINSTALL=1 paver install_prereqs'
 
-#Installing prereqs crashes the process
-docker-compose restart lms
+    #Installing prereqs crashes the process
+    docker-compose restart $app
+done
 
 # Run edxapp migrations first since they are needed for the service users and OAuth clients
 # docker-compose exec -T -u root lms bash -e -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && paver update_db --settings devstack_docker'
 
-docker-compose exec -T lms bash -e -c '/edx/app/edxapp/venvs/edxapp/bin/python manage.py lms showmigrations --database default --traceback --pythonpath=. --settings devstack_docker'
-docker-compose exec -T lms bash -e -c '/edx/app/edxapp/venvs/edxapp/bin/python manage.py lms migrate --database default --noinput --traceback --pythonpath=. --settings devstack_docker'
-docker-compose exec -T lms bash -e -c '/edx/app/edxapp/venvs/edxapp/bin/python manage.py lms showmigrations --database student_module_history --traceback --pythonpath=. --settings devstack_docker'
-docker-compose exec -T lms bash -e -c '/edx/app/edxapp/venvs/edxapp/bin/python manage.py lms migrate --database student_module_history --noinput --traceback --pythonpath=. --settings devstack_docker'
+docker-compose exec -T lms bash -e -c '/edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-platform/manage.py lms showmigrations --database default --traceback --pythonpath=. --settings devstack_docker'
+docker-compose exec -T lms bash -e -c '/edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-platform/manage.py lms migrate --database default --noinput --traceback --pythonpath=. --settings devstack_docker'
+docker-compose exec -T lms bash -e -c '/edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-platform/manage.py lms showmigrations --database student_module_history --traceback --pythonpath=. --settings devstack_docker'
+docker-compose exec -T lms bash -e -c '/edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-platform/manage.py lms migrate --database student_module_history --noinput --traceback --pythonpath=. --settings devstack_docker'
+
+docker-compose exec -T studio bash -e -c '/edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-platform/manage.py cms showmigrations --database default --traceback --pythonpath=. --settings devstack_docker'
+docker-compose exec -T studio bash -e -c '/edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-platform/manage.py cms migrate --database default --noinput --traceback --pythonpath=. --settings devstack_docker'
+docker-compose exec -T studio bash -e -c '/edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-platform/manage.py cms showmigrations --database student_module_history --traceback --pythonpath=. --settings devstack_docker'
+docker-compose exec -T studio bash -e -c '/edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-platform/manage.py cms migrate --database student_module_history --noinput --traceback --pythonpath=. --settings devstack_docker'
 
 # Create a superuser for edxapp
 docker-compose exec -T lms bash -e -c 'source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack_docker manage_user edx edx@example.com --superuser --staff'
@@ -64,7 +72,7 @@ docker-compose exec -T -u root lms bash -e -c 'rm /edx/app/edxapp/edx-platform/.
 
 # Create static assets for both LMS and Studio
 for app in "${apps[@]}"; do
-    docker-compose exec -T $app bash -e -c 'export EDX_PLATFORM_SETTINGS=assets && export STATIC_ROOT_BASE=/edx/var/edxapp/staticfiles && export WEBPACK_CONFIG_PATH=webpack.dev.config.js && export JS_ENV_EXTRA_CONFIG={} && paver update_assets'
+    docker-compose exec -T -u root $app bash -e -c 'export NO_PREREQ_INSTALL=1 && cd /edx/app/edxapp/edx-platform && paver update_assets --settings devstack_docker'
 done
 
 # Allow LMS SSO for Studio
