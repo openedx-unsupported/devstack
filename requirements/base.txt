@@ -16,7 +16,7 @@ cffi==1.15.1
     #   pynacl
 charset-normalizer==2.1.1
     # via requests
-cryptography==38.0.3
+cryptography==38.0.4
     # via paramiko
 distro==1.8.0
     # via docker-compose
@@ -60,9 +60,9 @@ six==1.16.0
     #   jsonschema
     #   paramiko
     #   websocket-client
-texttable==1.6.4
+texttable==1.6.7
     # via docker-compose
-urllib3==1.26.12
+urllib3==1.26.13
     # via
     #   docker
     #   requests
