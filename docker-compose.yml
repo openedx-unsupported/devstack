@@ -530,7 +530,7 @@ services:
       - "${PORT_WEB_UI-8080}:${PORT_WEB_UI-8080}"
 
   analyticsapi:
-    image: edxops/analytics_api:${OPENEDX_RELEASE:-latest}
+    image: edxops/analytics-api-dev:${OPENEDX_RELEASE:-latest}
     container_name: edx.devstack.analyticsapi
     hostname: analyticsapi
     depends_on:
@@ -545,10 +545,12 @@ services:
       DB_USER: analytics001
       DB_PASSWORD: password
       ELASTICSEARCH_LEARNERS_HOST: edx.devstack.elasticsearch710
+    working_dir: /edx/app/analytics_api/analytics_api
     ports:
       - "19001:19001"
     volumes:
       - /edx/var/analyticsapi
+      - ${PWD}/configuration_files/analytics_api.yml:/edx/etc/analytics_api.yml
 
   registrar:
     command: bash -c 'source /edx/app/registrar/registrar_env && while true; do python /edx/app/registrar/registrar/manage.py runserver 0.0.0.0:18734; sleep 2; done'
