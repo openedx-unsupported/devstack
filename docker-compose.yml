@@ -483,7 +483,9 @@ services:
       DB_PASSWORD: password
       LMS_HOST: http://localhost:18000
       DJANGO_SETTINGS_MODULE: analytics_dashboard.settings.devstack
-    image: edxops/insights:${OPENEDX_RELEASE:-latest}
+      ANALYTICS_DASHBOARD_CFG: /edx/etc/insights.yml
+    image: edxops/insights-dev:${OPENEDX_RELEASE:-latest}
+    working_dir: /edx/app/insights/insights
     networks:
       default:
         aliases:
@@ -492,9 +494,10 @@ services:
       - "18110:18110"
     volumes:
       - /edx/var/insights/
+      - ${PWD}/configuration_files/insights.yml:/edx/etc/insights.yml
 
   analyticsapi:
-    image: edxops/analytics_api:${OPENEDX_RELEASE:-latest}
+    image: edxops/analytics-api-dev:${OPENEDX_RELEASE:-latest}
     container_name: edx.devstack.analyticsapi
     hostname: analyticsapi
     depends_on:
@@ -509,10 +512,12 @@ services:
       DB_USER: analytics001
       DB_PASSWORD: password
       ELASTICSEARCH_LEARNERS_HOST: edx.devstack.elasticsearch710
+    working_dir: /edx/app/analytics_api/analytics_api
     ports:
       - "19001:19001"
     volumes:
       - /edx/var/analyticsapi
+      - ${PWD}/configuration_files/analytics_api.yml:/edx/etc/analytics_api.yml
 
   registrar:
     command: bash -c 'source /edx/app/registrar/registrar_env && while true; do python /edx/app/registrar/registrar/manage.py runserver 0.0.0.0:18734; sleep 2; done'
