@@ -452,8 +452,6 @@ services:
       VIRTUAL_ENV: "/edx/app/edxapp/venvs/edxapp"
       LMS_CFG: "/edx/etc/lms.yml"
       CMS_CFG: "/edx/etc/studio.yml"
-      NODE_ENV: "/edx/app/edxapp/nodeenv"
-      NODE_MODULES: "/edx/app/edxapp/edx-platform/node_modules"
       PATH: "/edx/app/edxapp/venvs/edxapp/bin:/edx/app/edxapp/nodeenv/bin:/edx/app/edxapp/edx-platform/node_modules/.bin:/edx/app/edxapp/edx-platform/bin:${PATH}"
     image: edxops/edxapp:${OPENEDX_RELEASE:-latest}
     networks:
@@ -623,8 +621,6 @@ services:
       DJANGO_WATCHMAN_TIMEOUT: 30
       LMS_CFG: "/edx/etc/lms.yml"
       CMS_CFG: "/edx/etc/studio.yml"
-      NODE_ENV: "/edx/app/edxapp/nodeenv"
-      NODE_MODULES: "/edx/app/edxapp/edx-platform/node_modules"
     image: edxops/edxapp:${OPENEDX_RELEASE:-latest}
     networks:
       default:
