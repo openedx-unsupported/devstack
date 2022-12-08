@@ -390,6 +390,7 @@ services:
       - lms
       - mysql57
     image: edxops/notes:${OPENEDX_RELEASE:-latest}
+    working_dir: /edx/app/edx_notes_api/edx_notes_api
     networks:
       default:
         aliases:
@@ -407,6 +408,9 @@ services:
       ENABLE_DJANGO_TOOLBAR: 1
       ELASTICSEARCH_URL: "http://edx.devstack.elasticsearch710:9200"
       ELASTICSEARCH_DSL: "http://edx.devstack.elasticsearch710:9200"
+    volumes:
+      - /edx/var/edx_notes_api/
+      - ${PWD}/configuration_files/edx_notes_api.yml:/edx/etc/edx_notes_api.yml
 
   forum:
     command: bash -c 'source /edx/app/forum/ruby_env && source /edx/app/forum/devstack_forum_env && cd /edx/app/forum/cs_comments_service && bundle install && while true; do ruby app.rb -o 0.0.0.0 ; sleep 2; done'
