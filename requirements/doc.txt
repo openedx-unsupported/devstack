@@ -18,7 +18,7 @@ bcrypt==4.0.1
     #   paramiko
 bleach==5.0.1
     # via readme-renderer
-certifi==2022.9.24
+certifi==2022.12.7
     # via
     #   -r requirements/base.txt
     #   requests
@@ -79,7 +79,7 @@ jsonschema==3.2.0
     #   docker-compose
 markupsafe==2.1.1
     # via jinja2
-packaging==21.3
+packaging==22.0
     # via
     #   -r requirements/base.txt
     #   docker
@@ -103,10 +103,6 @@ pynacl==1.5.0
     # via
     #   -r requirements/base.txt
     #   paramiko
-pyparsing==3.0.9
-    # via
-    #   -r requirements/base.txt
-    #   packaging
 pyrsistent==0.19.2
     # via
     #   -r requirements/base.txt
