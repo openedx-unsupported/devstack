@@ -721,7 +721,7 @@ CREATE TABLE `catalogue_historicalproduct` (
   KEY `catalogue_historicalproduct_date_created_236cc17e` (`date_created`),
   KEY `catalogue_historicalproduct_is_public_e19f5cd3` (`is_public`),
   CONSTRAINT `catalogue_historical_history_user_id_4ea2c15a_fk_ecommerce` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -730,7 +730,7 @@ CREATE TABLE `catalogue_historicalproduct` (
 
 LOCK TABLES `catalogue_historicalproduct` WRITE;
 /*!40000 ALTER TABLE `catalogue_historicalproduct` DISABLE KEYS */;
-INSERT INTO `catalogue_historicalproduct` VALUES (1,'parent',NULL,'','','',NULL,'2021-07-30 20:19:59.104604','2021-07-30 20:19:59.104650',1,NULL,1,'2021-07-30 20:19:59.105366',NULL,'+','course-v1:edX+DemoX+Demo_Course',NULL,NULL,1,1),(1,'parent',NULL,'Seat in edX Demonstration Course','seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.104604','2021-07-30 20:19:59.112912',1,NULL,2,'2021-07-30 20:19:59.113899',NULL,'~','course-v1:edX+DemoX+Demo_Course',NULL,NULL,1,1),(2,'child',NULL,'Seat in edX Demonstration Course','seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.137887','2021-07-30 20:19:59.137934',1,NULL,3,'2021-07-30 20:19:59.138571',NULL,'+','course-v1:edX+DemoX+Demo_Course',NULL,1,NULL,1),(3,'child',NULL,'Seat in edX Demonstration Course with verified certificate (and ID verification)','seat-in-edx-demonstration-course-with-verified-certificate-and-id-verification','',NULL,'2021-07-30 20:19:59.183843','2021-07-30 20:19:59.183896',1,'2022-07-30 20:19:59.064405',4,'2021-07-30 20:19:59.185592',NULL,'+','course-v1:edX+DemoX+Demo_Course',NULL,1,NULL,1),(4,'standalone',NULL,'Enrollment code for verified seat in edX Demonstration Course','enrollment-code-for-verified-seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.198338','2021-07-30 20:19:59.198403',1,'2022-07-30 20:19:59.064405',5,'2021-07-30 20:19:59.199249',NULL,'+','course-v1:edX+DemoX+Demo_Course',NULL,NULL,3,1),(1,'parent',NULL,'Seat in edX Demonstration Course','seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.104604','2022-12-16 00:14:44.732446',1,NULL,6,'2022-12-16 00:14:44.733352',NULL,'~','course-v1:edX+DemoX+Demo_Course',NULL,NULL,1,1),(2,'child',NULL,'Seat in edX Demonstration Course','seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.137887','2022-12-16 00:14:44.775744',1,NULL,7,'2022-12-16 00:14:44.776663',NULL,'~','course-v1:edX+DemoX+Demo_Course',NULL,1,NULL,1),(3,'child',NULL,'Seat in edX Demonstration Course with verified certificate','seat-in-edx-demonstration-course-with-verified-certificate-and-id-verification','',NULL,'2021-07-30 20:19:59.183843','2022-12-16 00:14:44.819591',1,'2023-12-16 00:14:44.713026',8,'2022-12-16 00:14:44.820846',NULL,'~','course-v1:edX+DemoX+Demo_Course',NULL,1,NULL,1),(4,'standalone',NULL,'Enrollment code for verified seat in edX Demonstration Course','enrollment-code-for-verified-seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.198338','2022-12-16 00:14:44.839662',1,'2022-07-30 20:19:59.064405',9,'2022-12-16 00:14:44.840599',NULL,'~','course-v1:edX+DemoX+Demo_Course',NULL,NULL,3,1);
+INSERT INTO `catalogue_historicalproduct` VALUES (1,'parent',NULL,'','','',NULL,'2021-07-30 20:19:59.104604','2021-07-30 20:19:59.104650',1,NULL,1,'2021-07-30 20:19:59.105366',NULL,'+','course-v1:edX+DemoX+Demo_Course',NULL,NULL,1,1),(1,'parent',NULL,'Seat in edX Demonstration Course','seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.104604','2021-07-30 20:19:59.112912',1,NULL,2,'2021-07-30 20:19:59.113899',NULL,'~','course-v1:edX+DemoX+Demo_Course',NULL,NULL,1,1),(2,'child',NULL,'Seat in edX Demonstration Course','seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.137887','2021-07-30 20:19:59.137934',1,NULL,3,'2021-07-30 20:19:59.138571',NULL,'+','course-v1:edX+DemoX+Demo_Course',NULL,1,NULL,1),(3,'child',NULL,'Seat in edX Demonstration Course with verified certificate (and ID verification)','seat-in-edx-demonstration-course-with-verified-certificate-and-id-verification','',NULL,'2021-07-30 20:19:59.183843','2021-07-30 20:19:59.183896',1,'2022-07-30 20:19:59.064405',4,'2021-07-30 20:19:59.185592',NULL,'+','course-v1:edX+DemoX+Demo_Course',NULL,1,NULL,1),(4,'standalone',NULL,'Enrollment code for verified seat in edX Demonstration Course','enrollment-code-for-verified-seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.198338','2021-07-30 20:19:59.198403',1,'2022-07-30 20:19:59.064405',5,'2021-07-30 20:19:59.199249',NULL,'+','course-v1:edX+DemoX+Demo_Course',NULL,NULL,3,1),(1,'parent',NULL,'Seat in edX Demonstration Course','seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.104604','2022-12-16 00:14:44.732446',1,NULL,6,'2022-12-16 00:14:44.733352',NULL,'~','course-v1:edX+DemoX+Demo_Course',NULL,NULL,1,1),(2,'child',NULL,'Seat in edX Demonstration Course','seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.137887','2022-12-16 00:14:44.775744',1,NULL,7,'2022-12-16 00:14:44.776663',NULL,'~','course-v1:edX+DemoX+Demo_Course',NULL,1,NULL,1),(3,'child',NULL,'Seat in edX Demonstration Course with verified certificate','seat-in-edx-demonstration-course-with-verified-certificate-and-id-verification','',NULL,'2021-07-30 20:19:59.183843','2022-12-16 00:14:44.819591',1,'2023-12-16 00:14:44.713026',8,'2022-12-16 00:14:44.820846',NULL,'~','course-v1:edX+DemoX+Demo_Course',NULL,1,NULL,1),(4,'standalone',NULL,'Enrollment code for verified seat in edX Demonstration Course','enrollment-code-for-verified-seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.198338','2022-12-16 00:14:44.839662',1,'2022-07-30 20:19:59.064405',9,'2022-12-16 00:14:44.840599',NULL,'~','course-v1:edX+DemoX+Demo_Course',NULL,NULL,3,1),(1,'parent',NULL,'Seat in edX Demonstration Course','seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.104604','2022-12-16 01:52:15.296669',1,NULL,10,'2022-12-16 01:52:15.297428',NULL,'~','course-v1:edX+DemoX+Demo_Course',NULL,NULL,1,1),(2,'child',NULL,'Seat in edX Demonstration Course','seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.137887','2022-12-16 01:52:15.331627',1,NULL,11,'2022-12-16 01:52:15.332507',NULL,'~','course-v1:edX+DemoX+Demo_Course',NULL,1,NULL,1),(3,'child',NULL,'Seat in edX Demonstration Course with verified certificate','seat-in-edx-demonstration-course-with-verified-certificate-and-id-verification','',NULL,'2021-07-30 20:19:59.183843','2022-12-16 01:52:15.372379',1,'2023-12-16 01:52:15.250886',12,'2022-12-16 01:52:15.373413',NULL,'~','course-v1:edX+DemoX+Demo_Course',NULL,1,NULL,1),(4,'standalone',NULL,'Enrollment code for verified seat in edX Demonstration Course','enrollment-code-for-verified-seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.198338','2022-12-16 01:52:15.391438',1,'2022-07-30 20:19:59.064405',13,'2022-12-16 01:52:15.392360',NULL,'~','course-v1:edX+DemoX+Demo_Course',NULL,NULL,3,1);
 /*!40000 ALTER TABLE `catalogue_historicalproduct` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -960,7 +960,7 @@ CREATE TABLE `catalogue_product` (
 
 LOCK TABLES `catalogue_product` WRITE;
 /*!40000 ALTER TABLE `catalogue_product` DISABLE KEYS */;
-INSERT INTO `catalogue_product` VALUES (1,'parent',NULL,'Seat in edX Demonstration Course','seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.104604','2022-12-16 00:14:44.732446',1,NULL,1,'course-v1:edX+DemoX+Demo_Course',NULL,1),(2,'child',NULL,'Seat in edX Demonstration Course','seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.137887','2022-12-16 00:14:44.775744',1,1,NULL,'course-v1:edX+DemoX+Demo_Course',NULL,1),(3,'child',NULL,'Seat in edX Demonstration Course with verified certificate','seat-in-edx-demonstration-course-with-verified-certificate-and-id-verification','',NULL,'2021-07-30 20:19:59.183843','2022-12-16 00:14:44.819591',1,1,NULL,'course-v1:edX+DemoX+Demo_Course','2023-12-16 00:14:44.713026',1),(4,'standalone',NULL,'Enrollment code for verified seat in edX Demonstration Course','enrollment-code-for-verified-seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.198338','2022-12-16 00:14:44.839662',1,NULL,3,'course-v1:edX+DemoX+Demo_Course','2022-07-30 20:19:59.064405',1);
+INSERT INTO `catalogue_product` VALUES (1,'parent',NULL,'Seat in edX Demonstration Course','seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.104604','2022-12-16 01:52:15.296669',1,NULL,1,'course-v1:edX+DemoX+Demo_Course',NULL,1),(2,'child',NULL,'Seat in edX Demonstration Course','seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.137887','2022-12-16 01:52:15.331627',1,1,NULL,'course-v1:edX+DemoX+Demo_Course',NULL,1),(3,'child',NULL,'Seat in edX Demonstration Course with verified certificate','seat-in-edx-demonstration-course-with-verified-certificate-and-id-verification','',NULL,'2021-07-30 20:19:59.183843','2022-12-16 01:52:15.372379',1,1,NULL,'course-v1:edX+DemoX+Demo_Course','2023-12-16 01:52:15.250886',1),(4,'standalone',NULL,'Enrollment code for verified seat in edX Demonstration Course','enrollment-code-for-verified-seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.198338','2022-12-16 01:52:15.391438',1,NULL,3,'course-v1:edX+DemoX+Demo_Course','2022-07-30 20:19:59.064405',1);
 /*!40000 ALTER TABLE `catalogue_product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1552,7 +1552,7 @@ CREATE TABLE `courses_course` (
 
 LOCK TABLES `courses_course` WRITE;
 /*!40000 ALTER TABLE `courses_course` DISABLE KEYS */;
-INSERT INTO `courses_course` VALUES ('course-v1:edX+DemoX+Demo_Course','edX Demonstration Course',NULL,'2024-12-15 00:14:44.713026',NULL,'2021-07-30 20:19:59.095039','2022-12-16 00:14:44.722556',1);
+INSERT INTO `courses_course` VALUES ('course-v1:edX+DemoX+Demo_Course','edX Demonstration Course',NULL,'2024-12-15 01:52:15.250886',NULL,'2021-07-30 20:19:59.095039','2022-12-16 01:52:15.287085',1);
 /*!40000 ALTER TABLE `courses_course` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1582,7 +1582,7 @@ CREATE TABLE `courses_historicalcourse` (
   KEY `courses_historicalcourse_partner_id_c09fe2b8` (`partner_id`),
   KEY `courses_historicalcourse_site_id_dfff3795` (`site_id`),
   CONSTRAINT `courses_historicalco_history_user_id_5aca3c34_fk_ecommerce` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1591,7 +1591,7 @@ CREATE TABLE `courses_historicalcourse` (
 
 LOCK TABLES `courses_historicalcourse` WRITE;
 /*!40000 ALTER TABLE `courses_historicalcourse` DISABLE KEYS */;
-INSERT INTO `courses_historicalcourse` VALUES ('course-v1:edX+DemoX+Demo_Course','edX Demonstration Course','2023-07-30 20:19:59.064405','2021-07-30 20:19:59.095039','2021-07-30 20:19:59.095058',NULL,1,'2021-07-30 20:19:59.095505',NULL,'+',NULL,1,NULL),('course-v1:edX+DemoX+Demo_Course','edX Demonstration Course','2024-12-15 00:14:44.713026','2021-07-30 20:19:59.095039','2022-12-16 00:14:44.722556',NULL,2,'2022-12-16 00:14:44.723381',NULL,'~',NULL,1,NULL);
+INSERT INTO `courses_historicalcourse` VALUES ('course-v1:edX+DemoX+Demo_Course','edX Demonstration Course','2023-07-30 20:19:59.064405','2021-07-30 20:19:59.095039','2021-07-30 20:19:59.095058',NULL,1,'2021-07-30 20:19:59.095505',NULL,'+',NULL,1,NULL),('course-v1:edX+DemoX+Demo_Course','edX Demonstration Course','2024-12-15 00:14:44.713026','2021-07-30 20:19:59.095039','2022-12-16 00:14:44.722556',NULL,2,'2022-12-16 00:14:44.723381',NULL,'~',NULL,1,NULL),('course-v1:edX+DemoX+Demo_Course','edX Demonstration Course','2024-12-15 01:52:15.250886','2021-07-30 20:19:59.095039','2022-12-16 01:52:15.287085',NULL,3,'2022-12-16 01:52:15.287952',NULL,'~',NULL,1,NULL);
 /*!40000 ALTER TABLE `courses_historicalcourse` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -3572,7 +3572,7 @@ CREATE TABLE `partner_historicalpartner` (
   KEY `partner_historicalpartner_default_site_id_8f53b529` (`default_site_id`),
   KEY `partner_historicalpartner_name_63933fe9` (`name`),
   CONSTRAINT `partner_historicalpa_history_user_id_971ab75b_fk_ecommerce` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3581,7 +3581,7 @@ CREATE TABLE `partner_historicalpartner` (
 
 LOCK TABLES `partner_historicalpartner` WRITE;
 /*!40000 ALTER TABLE `partner_historicalpartner` DISABLE KEYS */;
-INSERT INTO `partner_historicalpartner` VALUES (1,'','',1,'2021-07-30 20:19:43.421833',NULL,'+',NULL,NULL),(1,'Open edX','edX',2,'2021-07-30 20:19:43.428853',NULL,'~',1,NULL),(1,'Open edX','edX',3,'2022-12-16 00:14:35.137150',NULL,'~',1,NULL);
+INSERT INTO `partner_historicalpartner` VALUES (1,'','',1,'2021-07-30 20:19:43.421833',NULL,'+',NULL,NULL),(1,'Open edX','edX',2,'2021-07-30 20:19:43.428853',NULL,'~',1,NULL),(1,'Open edX','edX',3,'2022-12-16 00:14:35.137150',NULL,'~',1,NULL),(1,'Open edX','edX',4,'2022-12-16 01:52:06.165892',NULL,'~',1,NULL);
 /*!40000 ALTER TABLE `partner_historicalpartner` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -3617,7 +3617,7 @@ CREATE TABLE `partner_historicalstockrecord` (
   KEY `partner_historicalstockrecord_partner_id_5369caa8` (`partner_id`),
   KEY `partner_historicalstockrecord_product_id_e2905583` (`product_id`),
   CONSTRAINT `partner_historicalst_history_user_id_eda90769_fk_ecommerce` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3626,7 +3626,7 @@ CREATE TABLE `partner_historicalstockrecord` (
 
 LOCK TABLES `partner_historicalstockrecord` WRITE;
 /*!40000 ALTER TABLE `partner_historicalstockrecord` DISABLE KEYS */;
-INSERT INTO `partner_historicalstockrecord` VALUES (1,'68EFFFF','USD',0.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.167603','2021-07-30 20:19:59.167645',1,'2021-07-30 20:19:59.168481',NULL,'+',NULL,1,2),(2,'A5B6DBE','USD',149.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.223283','2021-07-30 20:19:59.223319',2,'2021-07-30 20:19:59.223904',NULL,'+',NULL,1,4),(3,'8CF08E5','USD',149.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.256723','2021-07-30 20:19:59.256765',3,'2021-07-30 20:19:59.257616',NULL,'+',NULL,1,3),(1,'68EFFFF','USD',0.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.167603','2022-12-16 00:14:44.795880',4,'2022-12-16 00:14:44.797137',NULL,'~',NULL,1,2),(2,'A5B6DBE','USD',149.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.223283','2022-12-16 00:14:44.850211',5,'2022-12-16 00:14:44.851524',NULL,'~',NULL,1,4),(3,'8CF08E5','USD',149.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.256723','2022-12-16 00:14:44.870469',6,'2022-12-16 00:14:44.871769',NULL,'~',NULL,1,3);
+INSERT INTO `partner_historicalstockrecord` VALUES (1,'68EFFFF','USD',0.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.167603','2021-07-30 20:19:59.167645',1,'2021-07-30 20:19:59.168481',NULL,'+',NULL,1,2),(2,'A5B6DBE','USD',149.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.223283','2021-07-30 20:19:59.223319',2,'2021-07-30 20:19:59.223904',NULL,'+',NULL,1,4),(3,'8CF08E5','USD',149.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.256723','2021-07-30 20:19:59.256765',3,'2021-07-30 20:19:59.257616',NULL,'+',NULL,1,3),(1,'68EFFFF','USD',0.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.167603','2022-12-16 00:14:44.795880',4,'2022-12-16 00:14:44.797137',NULL,'~',NULL,1,2),(2,'A5B6DBE','USD',149.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.223283','2022-12-16 00:14:44.850211',5,'2022-12-16 00:14:44.851524',NULL,'~',NULL,1,4),(3,'8CF08E5','USD',149.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.256723','2022-12-16 00:14:44.870469',6,'2022-12-16 00:14:44.871769',NULL,'~',NULL,1,3),(1,'68EFFFF','USD',0.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.167603','2022-12-16 01:52:15.350063',7,'2022-12-16 01:52:15.351285',NULL,'~',NULL,1,2),(2,'A5B6DBE','USD',149.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.223283','2022-12-16 01:52:15.401151',8,'2022-12-16 01:52:15.401923',NULL,'~',NULL,1,4),(3,'8CF08E5','USD',149.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.256723','2022-12-16 01:52:15.421280',9,'2022-12-16 01:52:15.422664',NULL,'~',NULL,1,3);
 /*!40000 ALTER TABLE `partner_historicalstockrecord` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -3789,7 +3789,7 @@ CREATE TABLE `partner_stockrecord` (
 
 LOCK TABLES `partner_stockrecord` WRITE;
 /*!40000 ALTER TABLE `partner_stockrecord` DISABLE KEYS */;
-INSERT INTO `partner_stockrecord` VALUES (1,'68EFFFF','USD',0.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.167603','2022-12-16 00:14:44.795880',1,2),(2,'A5B6DBE','USD',149.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.223283','2022-12-16 00:14:44.850211',1,4),(3,'8CF08E5','USD',149.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.256723','2022-12-16 00:14:44.870469',1,3);
+INSERT INTO `partner_stockrecord` VALUES (1,'68EFFFF','USD',0.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.167603','2022-12-16 01:52:15.350063',1,2),(2,'A5B6DBE','USD',149.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.223283','2022-12-16 01:52:15.401151',1,4),(3,'8CF08E5','USD',149.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.256723','2022-12-16 01:52:15.421280',1,3);
 /*!40000 ALTER TABLE `partner_stockrecord` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -4994,7 +4994,7 @@ CREATE TABLE `waffle_flag` (
 
 LOCK TABLES `waffle_flag` WRITE;
 /*!40000 ALTER TABLE `waffle_flag` DISABLE KEYS */;
-INSERT INTO `waffle_flag` VALUES (2,'enable_client_side_checkout',1,NULL,0,1,0,0,'',0,'This flag determines if the integrated/client-side checkout flow should be enabled.','2021-07-30 20:17:26.458439','2022-12-16 00:14:44.714588'),(3,'disable_microfrontend_for_basket_page',NULL,NULL,0,0,0,0,'',0,'','2021-07-30 20:17:27.246844','2021-07-30 20:17:27.246866');
+INSERT INTO `waffle_flag` VALUES (2,'enable_client_side_checkout',1,NULL,0,1,0,0,'',0,'This flag determines if the integrated/client-side checkout flow should be enabled.','2021-07-30 20:17:26.458439','2022-12-16 01:52:15.252546'),(3,'disable_microfrontend_for_basket_page',NULL,NULL,0,0,0,0,'',0,'','2021-07-30 20:17:27.246844','2021-07-30 20:17:27.246866');
 /*!40000 ALTER TABLE `waffle_flag` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -5178,4 +5178,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-12-16  0:14:48
+-- Dump completed on 2022-12-16  1:52:19
