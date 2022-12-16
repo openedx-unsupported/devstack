@@ -49,7 +49,7 @@ docker-compose exec -T lms bash -e -c 'source /edx/app/edxapp/edxapp_env && echo
 docker-compose exec -T lms bash -e -c 'source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack_docker configure_commerce'
 
 # Create demo course and users
-docker-compose exec -T lms bash -e -c '/edx/app/edx_ansible/venvs/edx_ansible/bin/ansible-playbook /edx/app/edx_ansible/edx_ansible/playbooks/demo.yml -v -c local -i "127.0.0.1," --extra-vars="COMMON_EDXAPP_SETTINGS=devstack_docker"'
+# docker-compose exec -T lms bash -e -c '/edx/app/edx_ansible/venvs/edx_ansible/bin/ansible-playbook /edx/app/edx_ansible/edx_ansible/playbooks/demo.yml -v -c local -i "127.0.0.1," --extra-vars="COMMON_EDXAPP_SETTINGS=devstack_docker"'
 docker-compose exec -T lms bash -e -c 'git clone https://github.com/openedx/edx-demo-course.git /tmp/edx-demo-course'
 docker-compose exec -T lms bash -e -c 'source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py cms --settings=devstack_docker import /edx/var/edxapp/data /tmp/edx-demo-course && rm -rf /tmp/edx-demo-course'
 demo_hashed_password='pbkdf2_sha256$20000$TjE34FJjc3vv$0B7GUmH8RwrOc/BvMoxjb5j8EgnWTt3sxorDANeF7Qw='
