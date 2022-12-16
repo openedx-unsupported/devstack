@@ -7,8 +7,8 @@ apps=( lms studio )
 studio_port=18010
 
 # Load database dumps for the largest databases to save time
-# ./load-db.sh edxapp
-# ./load-db.sh edxapp_csmh
+./load-db.sh edxapp
+./load-db.sh edxapp_csmh
 
 # Bring edxapp containers online
 for app in "${apps[@]}"; do
