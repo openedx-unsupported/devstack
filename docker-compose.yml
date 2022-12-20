@@ -319,13 +319,17 @@ services:
       SOCIAL_AUTH_EDX_OIDC_URL_ROOT: http://edx.devstack.lms:18000/oauth2
       ENABLE_DJANGO_TOOLBAR: 1
       DJANGO_WATCHMAN_TIMEOUT: 30
-    image: edxops/credentials:${OPENEDX_RELEASE:-latest}
+      CREDENTIALS_CFG:  /edx/etc/credentials.yml
+    image: edxops/credentials-dev:${OPENEDX_RELEASE:-latest}
+    working_dir: /edx/app/credentials/credentials
     networks:
       default:
         aliases:
           - edx.devstack.credentials
     ports:
       - "18150:18150"
+    volumes:
+      - ${PWD}/configuration_files/credentials.yml:/edx/etc/credentials.yml
 
   discovery:
     command: bash -c 'source /edx/app/discovery/discovery_env && while true; do python /edx/app/discovery/discovery/manage.py runserver 0.0.0.0:18381; sleep 2; done'
