@@ -19,7 +19,7 @@ build==0.9.0
     # via
     #   -r requirements/pip-tools.txt
     #   pip-tools
-certifi==2022.9.24
+certifi==2022.12.7
     # via
     #   -r requirements/base.txt
     #   -r requirements/test.txt
@@ -92,7 +92,7 @@ jsonschema==3.2.0
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   docker-compose
-packaging==21.3
+packaging==22.0
     # via
     #   -r requirements/base.txt
     #   -r requirements/pip-tools.txt
@@ -112,9 +112,9 @@ pep517==0.13.0
     #   build
 pexpect==4.8.0
     # via -r requirements/test.txt
-pip-tools==6.11.0
+pip-tools==6.12.1
     # via -r requirements/pip-tools.txt
-platformdirs==2.5.4
+platformdirs==2.6.0
     # via virtualenv
 pluggy==1.0.0
     # via
@@ -137,12 +137,6 @@ pynacl==1.5.0
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   paramiko
-pyparsing==3.0.9
-    # via
-    #   -r requirements/base.txt
-    #   -r requirements/pip-tools.txt
-    #   -r requirements/test.txt
-    #   packaging
 pyrsistent==0.19.2
     # via
     #   -r requirements/base.txt
@@ -188,8 +182,9 @@ tomli==2.0.1
     #   pep517
     #   pytest
     #   tox
-tox==3.27.1
+tox==3.28.0
     # via
+    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/dev.in
     #   tox-battery
 tox-battery==0.6.1
