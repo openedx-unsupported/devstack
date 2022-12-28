@@ -4,7 +4,7 @@
 #
 #    make upgrade
 #
-attrs==22.1.0
+attrs==22.2.0
     # via
     #   -r requirements/base.txt
     #   jsonschema
@@ -13,7 +13,7 @@ bcrypt==4.0.1
     # via
     #   -r requirements/base.txt
     #   paramiko
-certifi==2022.9.24
+certifi==2022.12.7
     # via
     #   -r requirements/base.txt
     #   requests
@@ -48,7 +48,7 @@ docopt==0.6.2
     # via
     #   -r requirements/base.txt
     #   docker-compose
-exceptiongroup==1.0.4
+exceptiongroup==1.1.0
     # via pytest
 idna==3.4
     # via
@@ -60,7 +60,7 @@ jsonschema==3.2.0
     # via
     #   -r requirements/base.txt
     #   docker-compose
-packaging==21.3
+packaging==22.0
     # via
     #   -r requirements/base.txt
     #   docker
@@ -83,10 +83,6 @@ pynacl==1.5.0
     # via
     #   -r requirements/base.txt
     #   paramiko
-pyparsing==3.0.9
-    # via
-    #   -r requirements/base.txt
-    #   packaging
 pyrsistent==0.19.2
     # via
     #   -r requirements/base.txt
