@@ -83,7 +83,7 @@ idna==3.4
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   requests
-iniconfig==1.1.1
+iniconfig==2.0.0
     # via
     #   -r requirements/test.txt
     #   pytest
@@ -92,7 +92,7 @@ jsonschema==3.2.0
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   docker-compose
-packaging==22.0
+packaging==23.0
     # via
     #   -r requirements/base.txt
     #   -r requirements/pip-tools.txt

@@ -79,7 +79,7 @@ jsonschema==3.2.0
     #   docker-compose
 markupsafe==2.1.1
     # via jinja2
-packaging==22.0
+packaging==23.0
     # via
     #   -r requirements/base.txt
     #   docker
@@ -138,11 +138,12 @@ six==1.16.0
     #   websocket-client
 snowballstemmer==2.2.0
     # via sphinx
-sphinx==6.0.0
+sphinx==5.3.0
     # via
+    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/doc.in
     #   edx-sphinx-theme
-sphinxcontrib-applehelp==1.0.2
+sphinxcontrib-applehelp==1.0.3
     # via sphinx
 sphinxcontrib-devhelp==1.0.2
     # via sphinx
