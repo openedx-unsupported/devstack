@@ -421,7 +421,7 @@ dev.shell.credentials:
 	docker-compose exec credentials env TERM=$(TERM) bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials && /bin/bash'
 
 dev.shell.discovery:
-	docker-compose exec discovery env TERM=$(TERM) /edx/app/discovery/devstack.sh open
+	docker-compose exec discovery env TERM=$(TERM) bash -c '/bin/bash'
 
 dev.shell.ecommerce:
 	docker-compose exec ecommerce env TERM=$(TERM) /edx/app/ecommerce/devstack.sh open

@@ -351,7 +351,7 @@ services:
       TEST_ELASTICSEARCH_URL: "edx.devstack.elasticsearch710"
       ENABLE_DJANGO_TOOLBAR: 1
       DJANGO_WATCHMAN_TIMEOUT: 30
-    image: edxops/discovery:${OPENEDX_RELEASE:-latest}
+    image: edxops/discovery-dev:${OPENEDX_RELEASE:-latest}
     networks:
       default:
         aliases:
@@ -360,6 +360,7 @@ services:
       - "18381:18381"
     volumes:
       - discovery_assets:/edx/var/discovery/
+      - ${PWD}/configuration_files/discovery.yml:/edx/etc/discovery.yml
 
   ecommerce:
     command: bash -c 'source /edx/app/ecommerce/ecommerce_env && while true; do python /edx/app/ecommerce/ecommerce/manage.py runserver 0.0.0.0:18130; sleep 2; done'
