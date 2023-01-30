@@ -14,7 +14,7 @@ cffi==1.15.1
     # via
     #   cryptography
     #   pynacl
-charset-normalizer==2.1.1
+charset-normalizer==3.0.1
     # via requests
 cryptography==39.0.0
     # via paramiko
@@ -34,7 +34,7 @@ jsonschema==3.2.0
     # via docker-compose
 packaging==23.0
     # via docker
-paramiko==2.12.0
+paramiko==3.0.0
     # via docker
 pycparser==2.21
     # via cffi
@@ -42,13 +42,13 @@ pynacl==1.5.0
     # via paramiko
 pyrsistent==0.19.3
     # via jsonschema
-python-dotenv==0.21.0
+python-dotenv==0.21.1
     # via docker-compose
 pyyaml==5.4.1
     # via
     #   -r requirements/base.in
     #   docker-compose
-requests==2.28.1
+requests==2.28.2
     # via
     #   docker
     #   docker-compose
@@ -56,11 +56,10 @@ six==1.16.0
     # via
     #   dockerpty
     #   jsonschema
-    #   paramiko
     #   websocket-client
 texttable==1.6.7
     # via docker-compose
-urllib3==1.26.13
+urllib3==1.26.14
     # via
     #   docker
     #   requests
