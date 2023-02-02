@@ -4,9 +4,9 @@
 #
 #    make upgrade
 #
-pip==22.3.1
+pip==23.0
     # via -r requirements/pip.in
-setuptools==66.1.1
+setuptools==67.0.0
     # via -r requirements/pip.in
 wheel==0.38.4
     # via -r requirements/pip.in
