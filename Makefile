@@ -439,7 +439,7 @@ dev.shell.lms_watcher:
 	docker-compose exec lms_watcher env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
 
 dev.shell.studio:
-	docker-compose exec studio env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
+	docker-compose exec studio env TERM=$(TERM) bash -c '/bin/bash'
 
 dev.shell.studio_watcher:
 	docker-compose exec studio_watcher env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
