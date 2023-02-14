@@ -439,16 +439,16 @@ dev.shell.xqueue:
 	docker-compose exec xqueue env TERM=$(TERM) /edx/app/xqueue/devstack.sh open
 
 dev.shell.lms:
-	docker-compose exec lms env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
+	docker-compose exec lms env TERM=$(TERM) bash -c '/bin/bash'
 
 dev.shell.lms_watcher:
-	docker-compose exec lms_watcher env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
+	docker-compose exec lms_watcher env TERM=$(TERM) bash -c '/bin/bash'
 
 dev.shell.studio:
-	docker-compose exec studio env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
+	docker-compose exec studio env TERM=$(TERM) bash -c '/bin/bash'
 
 dev.shell.studio_watcher:
-	docker-compose exec studio_watcher env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
+	docker-compose exec studio_watcher env TERM=$(TERM) bash -c '/bin/bash'
 
 dev.shell.xqueue_consumer:
 	docker-compose exec xqueue_consumer env TERM=$(TERM) /edx/app/xqueue/devstack.sh open
