@@ -359,10 +359,16 @@ dev.kill.%: ## Kill specific services.
 dev.rm-stopped: ## Remove stopped containers. Does not affect running containers.
 	docker-compose rm --force
 
-dev.down: ## Stop and remove containers and networks for all services.
+dev.down: ## Documentation for a change to naming
+	@echo "dev.down has been renamed to dev.remove-containers. If this doesn't seem like what you were looking for, you probably want to be using dev.stop instead. See docs for more details."
+
+dev.down.%:
+	@echo "dev.down has been renamed to dev.remove-containers. If this doesn't seem like what you were looking for, you probably want to be using dev.stop instead. See docs for more details."
+
+dev.remove-containers: ## Stop and remove containers and networks for all services.
 	docker-compose down
 
-dev.down.%: ## Stop and remove containers for specific services.
+dev.remove-containers.%: ## Stop and remove containers for specific services.
 	docker-compose rm --force --stop $$(echo $* | tr + " ")
 
 
