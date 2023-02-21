@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.35, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.39, for Linux (x86_64)
 --
 -- Host: localhost    Database: edxapp
 -- ------------------------------------------------------
--- Server version	5.7.35
+-- Server version	5.7.39
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -153,10 +153,10 @@ CREATE TABLE `assessment_assessment` (
   `feedback` longtext NOT NULL,
   `rubric_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
+  KEY `assessment_assessment_rubric_id_2ed0d5db_fk_assessment_rubric_id` (`rubric_id`),
   KEY `assessment_assessment_submission_uuid_cf5817c5` (`submission_uuid`),
   KEY `assessment_assessment_scored_at_a1a213d6` (`scored_at`),
   KEY `assessment_assessment_scorer_id_ad1a38cb` (`scorer_id`),
-  KEY `assessment_assessment_rubric_id_2ed0d5db_fk_assessment_rubric_id` (`rubric_id`),
   CONSTRAINT `assessment_assessment_rubric_id_2ed0d5db_fk_assessment_rubric_id` FOREIGN KEY (`rubric_id`) REFERENCES `assessment_rubric` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -284,9 +284,9 @@ CREATE TABLE `assessment_assessmentpart` (
   `criterion_id` int(11) NOT NULL,
   `option_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `assessment_assessmen_assessment_id_de1999cd_fk_assessmen` (`assessment_id`),
   KEY `assessment_assessmen_criterion_id_5bc40925_fk_assessmen` (`criterion_id`),
   KEY `assessment_assessmen_option_id_dd35c2c5_fk_assessmen` (`option_id`),
+  KEY `assessment_assessmen_assessment_id_de1999cd_fk_assessmen` (`assessment_id`),
   CONSTRAINT `assessment_assessmen_assessment_id_de1999cd_fk_assessmen` FOREIGN KEY (`assessment_id`) REFERENCES `assessment_assessment` (`id`),
   CONSTRAINT `assessment_assessmen_criterion_id_5bc40925_fk_assessmen` FOREIGN KEY (`criterion_id`) REFERENCES `assessment_criterion` (`id`),
   CONSTRAINT `assessment_assessmen_option_id_dd35c2c5_fk_assessmen` FOREIGN KEY (`option_id`) REFERENCES `assessment_criterionoption` (`id`)
@@ -318,7 +318,7 @@ CREATE TABLE `assessment_criterion` (
   PRIMARY KEY (`id`),
   KEY `assessment_criterion_rubric_id_fe236962_fk_assessment_rubric_id` (`rubric_id`),
   CONSTRAINT `assessment_criterion_rubric_id_fe236962_fk_assessment_rubric_id` FOREIGN KEY (`rubric_id`) REFERENCES `assessment_rubric` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -327,7 +327,6 @@ CREATE TABLE `assessment_criterion` (
 
 LOCK TABLES `assessment_criterion` WRITE;
 /*!40000 ALTER TABLE `assessment_criterion` DISABLE KEYS */;
-INSERT INTO `assessment_criterion` VALUES (1,'Content','Content',0,'Did the response describe a meal and did it describe why someone should chose to eat it?',1),(2,'Organization & Clarity','Organization & Clarity',1,'How well did the response use language?',1),(3,'Persuasiveness','Persuasiveness',2,'How well did the response convince you to try the meal that it describes?',1);
 /*!40000 ALTER TABLE `assessment_criterion` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -348,7 +347,7 @@ CREATE TABLE `assessment_criterionoption` (
   PRIMARY KEY (`id`),
   KEY `assessment_criterion_criterion_id_53928be7_fk_assessmen` (`criterion_id`),
   CONSTRAINT `assessment_criterion_criterion_id_53928be7_fk_assessmen` FOREIGN KEY (`criterion_id`) REFERENCES `assessment_criterion` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -357,7 +356,6 @@ CREATE TABLE `assessment_criterionoption` (
 
 LOCK TABLES `assessment_criterionoption` WRITE;
 /*!40000 ALTER TABLE `assessment_criterionoption` DISABLE KEYS */;
-INSERT INTO `assessment_criterionoption` VALUES (1,0,0,'Off Topic','Off Topic','The essay is off-topic or does not answer all or part of the question.',1),(2,1,5,'No Explanation','No Explanation','A meal is described, but no argument is made to persuade the reader to try it.',1),(3,2,5,'Unclear recommendation','Unclear recommendation','A meal is not described, but an argument is made to persuade the reader to try it.',1),(4,3,10,'Persuasive recommendation','Persuasive recommendation','The essay give a good description of the meal and provides supporting reasons for trying the meal.',1),(5,0,0,'Confusing','Confusing','It is difficult to identify the argument and main idea.',2),(6,1,1,'Basic Structure','Basic Structure','The essay provides a main idea. Additional details are provided, and some support the main idea.',2),(7,2,2,'Clear Structure','Clear Structure','The essay provides a clear main idea supported by specific details.',2),(8,3,3,'Complete Structure','Complete Structure','The essay has a complete structure: an introduction, statement of main idea, supporting details and summary.',2),(9,0,0,'Unconvincing','Unconvincing','The author did not present a persuasive argument, and I have no interest in trying this meal.',3),(10,1,2,'Interesting','Interesting','The author’s argument was somewhat persuarsive. I need more information to consider trying this meal.',3),(11,2,4,'Persuasive','Persuasive','The author’s argument was persuasive, and I will consider trying the meal.',3),(12,3,6,'Inspiring','Inspiring','The author presented an exceptionally strong case and has convinced me to try the meal.',3);
 /*!40000 ALTER TABLE `assessment_criterionoption` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -490,7 +488,7 @@ CREATE TABLE `assessment_rubric` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `content_hash` (`content_hash`),
   KEY `assessment_rubric_structure_hash_fb456373` (`structure_hash`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -499,7 +497,6 @@ CREATE TABLE `assessment_rubric` (
 
 LOCK TABLES `assessment_rubric` WRITE;
 /*!40000 ALTER TABLE `assessment_rubric` DISABLE KEYS */;
-INSERT INTO `assessment_rubric` VALUES (1,'b2783932b715f500b0af5f2e0d80757e54301353','ab95e8c199881793b6999c5efb1a5754fd7417d5');
 /*!40000 ALTER TABLE `assessment_rubric` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -807,7 +804,7 @@ CREATE TABLE `auth_permission` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `auth_permission_content_type_id_codename_01ab375a_uniq` (`content_type_id`,`codename`),
   CONSTRAINT `auth_permission_content_type_id_2f476e4b_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1697 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1921 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -816,7 +813,7 @@ CREATE TABLE `auth_permission` (
 
 LOCK TABLES `auth_permission` WRITE;
 /*!40000 ALTER TABLE `auth_permission` DISABLE KEYS */;
-INSERT INTO `auth_permission` VALUES (1,'Can add permission',2,'add_permission'),(2,'Can change permission',2,'change_permission'),(3,'Can delete permission',2,'delete_permission'),(4,'Can view permission',2,'view_permission'),(5,'Can add group',3,'add_group'),(6,'Can change group',3,'change_group'),(7,'Can delete group',3,'delete_group'),(8,'Can view group',3,'view_group'),(9,'Can add user',4,'add_user'),(10,'Can change user',4,'change_user'),(11,'Can delete user',4,'delete_user'),(12,'Can view user',4,'view_user'),(13,'Can add content type',5,'add_contenttype'),(14,'Can change content type',5,'change_contenttype'),(15,'Can delete content type',5,'delete_contenttype'),(16,'Can view content type',5,'view_contenttype'),(17,'Can add redirect',6,'add_redirect'),(18,'Can change redirect',6,'change_redirect'),(19,'Can delete redirect',6,'delete_redirect'),(20,'Can view redirect',6,'view_redirect'),(21,'Can add session',7,'add_session'),(22,'Can change session',7,'change_session'),(23,'Can delete session',7,'delete_session'),(24,'Can view session',7,'view_session'),(25,'Can add site',8,'add_site'),(26,'Can change site',8,'change_site'),(27,'Can delete site',8,'delete_site'),(28,'Can view site',8,'view_site'),(29,'Can add task result',9,'add_taskresult'),(30,'Can change task result',9,'change_taskresult'),(31,'Can delete task result',9,'delete_taskresult'),(32,'Can view task result',9,'view_taskresult'),(33,'Can add chord counter',10,'add_chordcounter'),(34,'Can change chord counter',10,'change_chordcounter'),(35,'Can delete chord counter',10,'delete_chordcounter'),(36,'Can view chord counter',10,'view_chordcounter'),(37,'Can add Flag',11,'add_flag'),(38,'Can change Flag',11,'change_flag'),(39,'Can delete Flag',11,'delete_flag'),(40,'Can view Flag',11,'view_flag'),(41,'Can add Sample',12,'add_sample'),(42,'Can change Sample',12,'change_sample'),(43,'Can delete Sample',12,'delete_sample'),(44,'Can view Sample',12,'view_sample'),(45,'Can add Switch',13,'add_switch'),(46,'Can change Switch',13,'change_switch'),(47,'Can delete Switch',13,'delete_switch'),(48,'Can view Switch',13,'view_switch'),(49,'Can add course message',14,'add_coursemessage'),(50,'Can change course message',14,'change_coursemessage'),(51,'Can delete course message',14,'delete_coursemessage'),(52,'Can view course message',14,'view_coursemessage'),(53,'Can add global status message',15,'add_globalstatusmessage'),(54,'Can change global status message',15,'change_globalstatusmessage'),(55,'Can delete global status message',15,'delete_globalstatusmessage'),(56,'Can view global status message',15,'view_globalstatusmessage'),(57,'Can add asset base url config',16,'add_assetbaseurlconfig'),(58,'Can change asset base url config',16,'change_assetbaseurlconfig'),(59,'Can delete asset base url config',16,'delete_assetbaseurlconfig'),(60,'Can view asset base url config',16,'view_assetbaseurlconfig'),(61,'Can add asset excluded extensions config',17,'add_assetexcludedextensionsconfig'),(62,'Can change asset excluded extensions config',17,'change_assetexcludedextensionsconfig'),(63,'Can delete asset excluded extensions config',17,'delete_assetexcludedextensionsconfig'),(64,'Can view asset excluded extensions config',17,'view_assetexcludedextensionsconfig'),(65,'Can add course asset cache ttl config',18,'add_courseassetcachettlconfig'),(66,'Can change course asset cache ttl config',18,'change_courseassetcachettlconfig'),(67,'Can delete course asset cache ttl config',18,'delete_courseassetcachettlconfig'),(68,'Can view course asset cache ttl config',18,'view_courseassetcachettlconfig'),(69,'Can add cdn user agents config',19,'add_cdnuseragentsconfig'),(70,'Can change cdn user agents config',19,'change_cdnuseragentsconfig'),(71,'Can delete cdn user agents config',19,'delete_cdnuseragentsconfig'),(72,'Can view cdn user agents config',19,'view_cdnuseragentsconfig'),(73,'Can add site configuration',20,'add_siteconfiguration'),(74,'Can change site configuration',20,'change_siteconfiguration'),(75,'Can delete site configuration',20,'delete_siteconfiguration'),(76,'Can view site configuration',20,'view_siteconfiguration'),(77,'Can add site configuration history',21,'add_siteconfigurationhistory'),(78,'Can change site configuration history',21,'change_siteconfigurationhistory'),(79,'Can delete site configuration history',21,'delete_siteconfigurationhistory'),(80,'Can view site configuration history',21,'view_siteconfigurationhistory'),(81,'Can add course hls playback enabled flag',22,'add_coursehlsplaybackenabledflag'),(82,'Can change course hls playback enabled flag',22,'change_coursehlsplaybackenabledflag'),(83,'Can delete course hls playback enabled flag',22,'delete_coursehlsplaybackenabledflag'),(84,'Can view course hls playback enabled flag',22,'view_coursehlsplaybackenabledflag'),(85,'Can add hls playback enabled flag',23,'add_hlsplaybackenabledflag'),(86,'Can change hls playback enabled flag',23,'change_hlsplaybackenabledflag'),(87,'Can delete hls playback enabled flag',23,'delete_hlsplaybackenabledflag'),(88,'Can view hls playback enabled flag',23,'view_hlsplaybackenabledflag'),(89,'Can add course video transcript enabled flag',24,'add_coursevideotranscriptenabledflag'),(90,'Can change course video transcript enabled flag',24,'change_coursevideotranscriptenabledflag'),(91,'Can delete course video transcript enabled flag',24,'delete_coursevideotranscriptenabledflag'),(92,'Can view course video transcript enabled flag',24,'view_coursevideotranscriptenabledflag'),(93,'Can add video transcript enabled flag',25,'add_videotranscriptenabledflag'),(94,'Can change video transcript enabled flag',25,'change_videotranscriptenabledflag'),(95,'Can delete video transcript enabled flag',25,'delete_videotranscriptenabledflag'),(96,'Can view video transcript enabled flag',25,'view_videotranscriptenabledflag'),(97,'Can add transcript migration setting',26,'add_transcriptmigrationsetting'),(98,'Can change transcript migration setting',26,'change_transcriptmigrationsetting'),(99,'Can delete transcript migration setting',26,'delete_transcriptmigrationsetting'),(100,'Can view transcript migration setting',26,'view_transcriptmigrationsetting'),(101,'Can add migration enqueued course',27,'add_migrationenqueuedcourse'),(102,'Can change migration enqueued course',27,'change_migrationenqueuedcourse'),(103,'Can delete migration enqueued course',27,'delete_migrationenqueuedcourse'),(104,'Can view migration enqueued course',27,'view_migrationenqueuedcourse'),(105,'Can add updated course videos',28,'add_updatedcoursevideos'),(106,'Can change updated course videos',28,'change_updatedcoursevideos'),(107,'Can delete updated course videos',28,'delete_updatedcoursevideos'),(108,'Can view updated course videos',28,'view_updatedcoursevideos'),(109,'Can add video thumbnail setting',29,'add_videothumbnailsetting'),(110,'Can change video thumbnail setting',29,'change_videothumbnailsetting'),(111,'Can delete video thumbnail setting',29,'delete_videothumbnailsetting'),(112,'Can view video thumbnail setting',29,'view_videothumbnailsetting'),(113,'Can add course youtube blocked flag',30,'add_courseyoutubeblockedflag'),(114,'Can change course youtube blocked flag',30,'change_courseyoutubeblockedflag'),(115,'Can delete course youtube blocked flag',30,'delete_courseyoutubeblockedflag'),(116,'Can view course youtube blocked flag',30,'view_courseyoutubeblockedflag'),(117,'Can add course video uploads enabled by default',31,'add_coursevideouploadsenabledbydefault'),(118,'Can change course video uploads enabled by default',31,'change_coursevideouploadsenabledbydefault'),(119,'Can delete course video uploads enabled by default',31,'delete_coursevideouploadsenabledbydefault'),(120,'Can view course video uploads enabled by default',31,'view_coursevideouploadsenabledbydefault'),(121,'Can add video uploads enabled by default',32,'add_videouploadsenabledbydefault'),(122,'Can change video uploads enabled by default',32,'change_videouploadsenabledbydefault'),(123,'Can delete video uploads enabled by default',32,'delete_videouploadsenabledbydefault'),(124,'Can view video uploads enabled by default',32,'view_videouploadsenabledbydefault'),(125,'Can add vem pipeline integration',33,'add_vempipelineintegration'),(126,'Can change vem pipeline integration',33,'change_vempipelineintegration'),(127,'Can delete vem pipeline integration',33,'delete_vempipelineintegration'),(128,'Can view vem pipeline integration',33,'view_vempipelineintegration'),(129,'Can add offline computed grade',34,'add_offlinecomputedgrade'),(130,'Can change offline computed grade',34,'change_offlinecomputedgrade'),(131,'Can delete offline computed grade',34,'delete_offlinecomputedgrade'),(132,'Can view offline computed grade',34,'view_offlinecomputedgrade'),(133,'Can add offline computed grade log',35,'add_offlinecomputedgradelog'),(134,'Can change offline computed grade log',35,'change_offlinecomputedgradelog'),(135,'Can delete offline computed grade log',35,'delete_offlinecomputedgradelog'),(136,'Can view offline computed grade log',35,'view_offlinecomputedgradelog'),(137,'Can add student field override',36,'add_studentfieldoverride'),(138,'Can change student field override',36,'change_studentfieldoverride'),(139,'Can delete student field override',36,'delete_studentfieldoverride'),(140,'Can view student field override',36,'view_studentfieldoverride'),(141,'Can add student module',37,'add_studentmodule'),(142,'Can change student module',37,'change_studentmodule'),(143,'Can delete student module',37,'delete_studentmodule'),(144,'Can view student module',37,'view_studentmodule'),(145,'Can add student module history',38,'add_studentmodulehistory'),(146,'Can change student module history',38,'change_studentmodulehistory'),(147,'Can delete student module history',38,'delete_studentmodulehistory'),(148,'Can view student module history',38,'view_studentmodulehistory'),(149,'Can add x module student info field',39,'add_xmodulestudentinfofield'),(150,'Can change x module student info field',39,'change_xmodulestudentinfofield'),(151,'Can delete x module student info field',39,'delete_xmodulestudentinfofield'),(152,'Can view x module student info field',39,'view_xmodulestudentinfofield'),(153,'Can add x module student prefs field',40,'add_xmodulestudentprefsfield'),(154,'Can change x module student prefs field',40,'change_xmodulestudentprefsfield'),(155,'Can delete x module student prefs field',40,'delete_xmodulestudentprefsfield'),(156,'Can view x module student prefs field',40,'view_xmodulestudentprefsfield'),(157,'Can add x module user state summary field',41,'add_xmoduleuserstatesummaryfield'),(158,'Can change x module user state summary field',41,'change_xmoduleuserstatesummaryfield'),(159,'Can delete x module user state summary field',41,'delete_xmoduleuserstatesummaryfield'),(160,'Can view x module user state summary field',41,'view_xmoduleuserstatesummaryfield'),(161,'Can add course dynamic upgrade deadline configuration',42,'add_coursedynamicupgradedeadlineconfiguration'),(162,'Can change course dynamic upgrade deadline configuration',42,'change_coursedynamicupgradedeadlineconfiguration'),(163,'Can delete course dynamic upgrade deadline configuration',42,'delete_coursedynamicupgradedeadlineconfiguration'),(164,'Can view course dynamic upgrade deadline configuration',42,'view_coursedynamicupgradedeadlineconfiguration'),(165,'Can add dynamic upgrade deadline configuration',43,'add_dynamicupgradedeadlineconfiguration'),(166,'Can change dynamic upgrade deadline configuration',43,'change_dynamicupgradedeadlineconfiguration'),(167,'Can delete dynamic upgrade deadline configuration',43,'delete_dynamicupgradedeadlineconfiguration'),(168,'Can view dynamic upgrade deadline configuration',43,'view_dynamicupgradedeadlineconfiguration'),(169,'Can add org dynamic upgrade deadline configuration',44,'add_orgdynamicupgradedeadlineconfiguration'),(170,'Can change org dynamic upgrade deadline configuration',44,'change_orgdynamicupgradedeadlineconfiguration'),(171,'Can delete org dynamic upgrade deadline configuration',44,'delete_orgdynamicupgradedeadlineconfiguration'),(172,'Can view org dynamic upgrade deadline configuration',44,'view_orgdynamicupgradedeadlineconfiguration'),(173,'Can add student module history extended',45,'add_studentmodulehistoryextended'),(174,'Can change student module history extended',45,'change_studentmodulehistoryextended'),(175,'Can delete student module history extended',45,'delete_studentmodulehistoryextended'),(176,'Can view student module history extended',45,'view_studentmodulehistoryextended'),(177,'Can add anonymous user id',46,'add_anonymoususerid'),(178,'Can change anonymous user id',46,'change_anonymoususerid'),(179,'Can delete anonymous user id',46,'delete_anonymoususerid'),(180,'Can view anonymous user id',46,'view_anonymoususerid'),(181,'Can add course access role',47,'add_courseaccessrole'),(182,'Can change course access role',47,'change_courseaccessrole'),(183,'Can delete course access role',47,'delete_courseaccessrole'),(184,'Can view course access role',47,'view_courseaccessrole'),(185,'Can add course enrollment',48,'add_courseenrollment'),(186,'Can change course enrollment',48,'change_courseenrollment'),(187,'Can delete course enrollment',48,'delete_courseenrollment'),(188,'Can view course enrollment',48,'view_courseenrollment'),(189,'Can add course enrollment allowed',49,'add_courseenrollmentallowed'),(190,'Can change course enrollment allowed',49,'change_courseenrollmentallowed'),(191,'Can delete course enrollment allowed',49,'delete_courseenrollmentallowed'),(192,'Can view course enrollment allowed',49,'view_courseenrollmentallowed'),(193,'Can add course enrollment attribute',50,'add_courseenrollmentattribute'),(194,'Can change course enrollment attribute',50,'change_courseenrollmentattribute'),(195,'Can delete course enrollment attribute',50,'delete_courseenrollmentattribute'),(196,'Can view course enrollment attribute',50,'view_courseenrollmentattribute'),(197,'Can add dashboard configuration',51,'add_dashboardconfiguration'),(198,'Can change dashboard configuration',51,'change_dashboardconfiguration'),(199,'Can delete dashboard configuration',51,'delete_dashboardconfiguration'),(200,'Can view dashboard configuration',51,'view_dashboardconfiguration'),(201,'Can add enrollment refund configuration',52,'add_enrollmentrefundconfiguration'),(202,'Can change enrollment refund configuration',52,'change_enrollmentrefundconfiguration'),(203,'Can delete enrollment refund configuration',52,'delete_enrollmentrefundconfiguration'),(204,'Can view enrollment refund configuration',52,'view_enrollmentrefundconfiguration'),(205,'Can add entrance exam configuration',53,'add_entranceexamconfiguration'),(206,'Can change entrance exam configuration',53,'change_entranceexamconfiguration'),(207,'Can delete entrance exam configuration',53,'delete_entranceexamconfiguration'),(208,'Can view entrance exam configuration',53,'view_entranceexamconfiguration'),(209,'Can add language proficiency',54,'add_languageproficiency'),(210,'Can change language proficiency',54,'change_languageproficiency'),(211,'Can delete language proficiency',54,'delete_languageproficiency'),(212,'Can view language proficiency',54,'view_languageproficiency'),(213,'Can add linked in add to profile configuration',55,'add_linkedinaddtoprofileconfiguration'),(214,'Can change linked in add to profile configuration',55,'change_linkedinaddtoprofileconfiguration'),(215,'Can delete linked in add to profile configuration',55,'delete_linkedinaddtoprofileconfiguration'),(216,'Can view linked in add to profile configuration',55,'view_linkedinaddtoprofileconfiguration'),(217,'Can add Login Failure',56,'add_loginfailures'),(218,'Can change Login Failure',56,'change_loginfailures'),(219,'Can delete Login Failure',56,'delete_loginfailures'),(220,'Can view Login Failure',56,'view_loginfailures'),(221,'Can add manual enrollment audit',57,'add_manualenrollmentaudit'),(222,'Can change manual enrollment audit',57,'change_manualenrollmentaudit'),(223,'Can delete manual enrollment audit',57,'delete_manualenrollmentaudit'),(224,'Can view manual enrollment audit',57,'view_manualenrollmentaudit'),(225,'Can add pending email change',58,'add_pendingemailchange'),(226,'Can change pending email change',58,'change_pendingemailchange'),(227,'Can delete pending email change',58,'delete_pendingemailchange'),(228,'Can view pending email change',58,'view_pendingemailchange'),(229,'Can add pending name change',59,'add_pendingnamechange'),(230,'Can change pending name change',59,'change_pendingnamechange'),(231,'Can delete pending name change',59,'delete_pendingnamechange'),(232,'Can view pending name change',59,'view_pendingnamechange'),(233,'Can add registration',60,'add_registration'),(234,'Can change registration',60,'change_registration'),(235,'Can delete registration',60,'delete_registration'),(236,'Can view registration',60,'view_registration'),(237,'Can add user profile',61,'add_userprofile'),(238,'Can change user profile',61,'change_userprofile'),(239,'Can delete user profile',61,'delete_userprofile'),(240,'Can view user profile',61,'view_userprofile'),(241,'Can deactivate, but NOT delete users',61,'can_deactivate_users'),(242,'Can add user signup source',62,'add_usersignupsource'),(243,'Can change user signup source',62,'change_usersignupsource'),(244,'Can delete user signup source',62,'delete_usersignupsource'),(245,'Can view user signup source',62,'view_usersignupsource'),(246,'Can add user standing',63,'add_userstanding'),(247,'Can change user standing',63,'change_userstanding'),(248,'Can delete user standing',63,'delete_userstanding'),(249,'Can view user standing',63,'view_userstanding'),(250,'Can add user test group',64,'add_usertestgroup'),(251,'Can change user test group',64,'change_usertestgroup'),(252,'Can delete user test group',64,'delete_usertestgroup'),(253,'Can view user test group',64,'view_usertestgroup'),(254,'Can add user attribute',65,'add_userattribute'),(255,'Can change user attribute',65,'change_userattribute'),(256,'Can delete user attribute',65,'delete_userattribute'),(257,'Can view user attribute',65,'view_userattribute'),(258,'Can add registration cookie configuration',66,'add_registrationcookieconfiguration'),(259,'Can change registration cookie configuration',66,'change_registrationcookieconfiguration'),(260,'Can delete registration cookie configuration',66,'delete_registrationcookieconfiguration'),(261,'Can view registration cookie configuration',66,'view_registrationcookieconfiguration'),(262,'Can add social link',67,'add_sociallink'),(263,'Can change social link',67,'change_sociallink'),(264,'Can delete social link',67,'delete_sociallink'),(265,'Can view social link',67,'view_sociallink'),(266,'Can add account recovery',68,'add_accountrecovery'),(267,'Can change account recovery',68,'change_accountrecovery'),(268,'Can delete account recovery',68,'delete_accountrecovery'),(269,'Can view account recovery',68,'view_accountrecovery'),(270,'Can add pending secondary email change',69,'add_pendingsecondaryemailchange'),(271,'Can change pending secondary email change',69,'change_pendingsecondaryemailchange'),(272,'Can delete pending secondary email change',69,'delete_pendingsecondaryemailchange'),(273,'Can view pending secondary email change',69,'view_pendingsecondaryemailchange'),(274,'Can add historical course enrollment',70,'add_historicalcourseenrollment'),(275,'Can change historical course enrollment',70,'change_historicalcourseenrollment'),(276,'Can delete historical course enrollment',70,'delete_historicalcourseenrollment'),(277,'Can view historical course enrollment',70,'view_historicalcourseenrollment'),(278,'Can add bulk unenroll configuration',71,'add_bulkunenrollconfiguration'),(279,'Can change bulk unenroll configuration',71,'change_bulkunenrollconfiguration'),(280,'Can delete bulk unenroll configuration',71,'delete_bulkunenrollconfiguration'),(281,'Can view bulk unenroll configuration',71,'view_bulkunenrollconfiguration'),(282,'Can add fbe enrollment exclusion',72,'add_fbeenrollmentexclusion'),(283,'Can change fbe enrollment exclusion',72,'change_fbeenrollmentexclusion'),(284,'Can delete fbe enrollment exclusion',72,'delete_fbeenrollmentexclusion'),(285,'Can view fbe enrollment exclusion',72,'view_fbeenrollmentexclusion'),(286,'Can add allowed auth user',73,'add_allowedauthuser'),(287,'Can change allowed auth user',73,'change_allowedauthuser'),(288,'Can delete allowed auth user',73,'delete_allowedauthuser'),(289,'Can view allowed auth user',73,'view_allowedauthuser'),(290,'Can add historical manual enrollment audit',74,'add_historicalmanualenrollmentaudit'),(291,'Can change historical manual enrollment audit',74,'change_historicalmanualenrollmentaudit'),(292,'Can delete historical manual enrollment audit',74,'delete_historicalmanualenrollmentaudit'),(293,'Can view historical manual enrollment audit',74,'view_historicalmanualenrollmentaudit'),(294,'Can add account recovery configuration',75,'add_accountrecoveryconfiguration'),(295,'Can change account recovery configuration',75,'change_accountrecoveryconfiguration'),(296,'Can delete account recovery configuration',75,'delete_accountrecoveryconfiguration'),(297,'Can view account recovery configuration',75,'view_accountrecoveryconfiguration'),(298,'Can add course enrollment celebration',76,'add_courseenrollmentcelebration'),(299,'Can change course enrollment celebration',76,'change_courseenrollmentcelebration'),(300,'Can delete course enrollment celebration',76,'delete_courseenrollmentcelebration'),(301,'Can view course enrollment celebration',76,'view_courseenrollmentcelebration'),(302,'Can add bulk change enrollment configuration',77,'add_bulkchangeenrollmentconfiguration'),(303,'Can change bulk change enrollment configuration',77,'change_bulkchangeenrollmentconfiguration'),(304,'Can delete bulk change enrollment configuration',77,'delete_bulkchangeenrollmentconfiguration'),(305,'Can view bulk change enrollment configuration',77,'view_bulkchangeenrollmentconfiguration'),(306,'Can add user password toggle history',78,'add_userpasswordtogglehistory'),(307,'Can change user password toggle history',78,'change_userpasswordtogglehistory'),(308,'Can delete user password toggle history',78,'delete_userpasswordtogglehistory'),(309,'Can view user password toggle history',78,'view_userpasswordtogglehistory'),(310,'Can add user celebration',79,'add_usercelebration'),(311,'Can change user celebration',79,'change_usercelebration'),(312,'Can delete user celebration',79,'delete_usercelebration'),(313,'Can view user celebration',79,'view_usercelebration'),(314,'Can add rate limit configuration',80,'add_ratelimitconfiguration'),(315,'Can change rate limit configuration',80,'change_ratelimitconfiguration'),(316,'Can delete rate limit configuration',80,'delete_ratelimitconfiguration'),(317,'Can view rate limit configuration',80,'view_ratelimitconfiguration'),(318,'Can add certificate generation configuration',81,'add_certificategenerationconfiguration'),(319,'Can change certificate generation configuration',81,'change_certificategenerationconfiguration'),(320,'Can delete certificate generation configuration',81,'delete_certificategenerationconfiguration'),(321,'Can view certificate generation configuration',81,'view_certificategenerationconfiguration'),(322,'Can add certificate generation course setting',82,'add_certificategenerationcoursesetting'),(323,'Can change certificate generation course setting',82,'change_certificategenerationcoursesetting'),(324,'Can delete certificate generation course setting',82,'delete_certificategenerationcoursesetting'),(325,'Can view certificate generation course setting',82,'view_certificategenerationcoursesetting'),(326,'Can add certificate html view configuration',83,'add_certificatehtmlviewconfiguration'),(327,'Can change certificate html view configuration',83,'change_certificatehtmlviewconfiguration'),(328,'Can delete certificate html view configuration',83,'delete_certificatehtmlviewconfiguration'),(329,'Can view certificate html view configuration',83,'view_certificatehtmlviewconfiguration'),(330,'Can add certificate template',84,'add_certificatetemplate'),(331,'Can change certificate template',84,'change_certificatetemplate'),(332,'Can delete certificate template',84,'delete_certificatetemplate'),(333,'Can view certificate template',84,'view_certificatetemplate'),(334,'Can add certificate template asset',85,'add_certificatetemplateasset'),(335,'Can change certificate template asset',85,'change_certificatetemplateasset'),(336,'Can delete certificate template asset',85,'delete_certificatetemplateasset'),(337,'Can view certificate template asset',85,'view_certificatetemplateasset'),(338,'Can add example certificate',86,'add_examplecertificate'),(339,'Can change example certificate',86,'change_examplecertificate'),(340,'Can delete example certificate',86,'delete_examplecertificate'),(341,'Can view example certificate',86,'view_examplecertificate'),(342,'Can add example certificate set',87,'add_examplecertificateset'),(343,'Can change example certificate set',87,'change_examplecertificateset'),(344,'Can delete example certificate set',87,'delete_examplecertificateset'),(345,'Can view example certificate set',87,'view_examplecertificateset'),(346,'Can add generated certificate',88,'add_generatedcertificate'),(347,'Can change generated certificate',88,'change_generatedcertificate'),(348,'Can delete generated certificate',88,'delete_generatedcertificate'),(349,'Can view generated certificate',88,'view_generatedcertificate'),(350,'Can add certificate generation history',89,'add_certificategenerationhistory'),(351,'Can change certificate generation history',89,'change_certificategenerationhistory'),(352,'Can delete certificate generation history',89,'delete_certificategenerationhistory'),(353,'Can view certificate generation history',89,'view_certificategenerationhistory'),(354,'Can add certificate invalidation',90,'add_certificateinvalidation'),(355,'Can change certificate invalidation',90,'change_certificateinvalidation'),(356,'Can delete certificate invalidation',90,'delete_certificateinvalidation'),(357,'Can view certificate invalidation',90,'view_certificateinvalidation'),(358,'Can add historical generated certificate',91,'add_historicalgeneratedcertificate'),(359,'Can change historical generated certificate',91,'change_historicalgeneratedcertificate'),(360,'Can delete historical generated certificate',91,'delete_historicalgeneratedcertificate'),(361,'Can view historical generated certificate',91,'view_historicalgeneratedcertificate'),(362,'Can add historical certificate invalidation',92,'add_historicalcertificateinvalidation'),(363,'Can change historical certificate invalidation',92,'change_historicalcertificateinvalidation'),(364,'Can delete historical certificate invalidation',92,'delete_historicalcertificateinvalidation'),(365,'Can view historical certificate invalidation',92,'view_historicalcertificateinvalidation'),(366,'Can add cert_generation argument',93,'add_certificategenerationcommandconfiguration'),(367,'Can change cert_generation argument',93,'change_certificategenerationcommandconfiguration'),(368,'Can delete cert_generation argument',93,'delete_certificategenerationcommandconfiguration'),(369,'Can view cert_generation argument',93,'view_certificategenerationcommandconfiguration'),(370,'Can add certificate allowlist',94,'add_certificateallowlist'),(371,'Can change certificate allowlist',94,'change_certificateallowlist'),(372,'Can delete certificate allowlist',94,'delete_certificateallowlist'),(373,'Can view certificate allowlist',94,'view_certificateallowlist'),(374,'Can add historical certificate allowlist',95,'add_historicalcertificateallowlist'),(375,'Can change historical certificate allowlist',95,'change_historicalcertificateallowlist'),(376,'Can delete historical certificate allowlist',95,'delete_historicalcertificateallowlist'),(377,'Can view historical certificate allowlist',95,'view_historicalcertificateallowlist'),(378,'Can add instructor task',96,'add_instructortask'),(379,'Can change instructor task',96,'change_instructortask'),(380,'Can delete instructor task',96,'delete_instructortask'),(381,'Can view instructor task',96,'view_instructortask'),(382,'Can add grade report setting',97,'add_gradereportsetting'),(383,'Can change grade report setting',97,'change_gradereportsetting'),(384,'Can delete grade report setting',97,'delete_gradereportsetting'),(385,'Can view grade report setting',97,'view_gradereportsetting'),(386,'Can add cohort membership',98,'add_cohortmembership'),(387,'Can change cohort membership',98,'change_cohortmembership'),(388,'Can delete cohort membership',98,'delete_cohortmembership'),(389,'Can view cohort membership',98,'view_cohortmembership'),(390,'Can add course cohort',99,'add_coursecohort'),(391,'Can change course cohort',99,'change_coursecohort'),(392,'Can delete course cohort',99,'delete_coursecohort'),(393,'Can view course cohort',99,'view_coursecohort'),(394,'Can add course cohorts settings',100,'add_coursecohortssettings'),(395,'Can change course cohorts settings',100,'change_coursecohortssettings'),(396,'Can delete course cohorts settings',100,'delete_coursecohortssettings'),(397,'Can view course cohorts settings',100,'view_coursecohortssettings'),(398,'Can add course user group',101,'add_courseusergroup'),(399,'Can change course user group',101,'change_courseusergroup'),(400,'Can delete course user group',101,'delete_courseusergroup'),(401,'Can view course user group',101,'view_courseusergroup'),(402,'Can add course user group partition group',102,'add_courseusergrouppartitiongroup'),(403,'Can change course user group partition group',102,'change_courseusergrouppartitiongroup'),(404,'Can delete course user group partition group',102,'delete_courseusergrouppartitiongroup'),(405,'Can view course user group partition group',102,'view_courseusergrouppartitiongroup'),(406,'Can add unregistered learner cohort assignments',103,'add_unregisteredlearnercohortassignments'),(407,'Can change unregistered learner cohort assignments',103,'change_unregisteredlearnercohortassignments'),(408,'Can delete unregistered learner cohort assignments',103,'delete_unregisteredlearnercohortassignments'),(409,'Can view unregistered learner cohort assignments',103,'view_unregisteredlearnercohortassignments'),(410,'Can add course authorization',104,'add_courseauthorization'),(411,'Can change course authorization',104,'change_courseauthorization'),(412,'Can delete course authorization',104,'delete_courseauthorization'),(413,'Can view course authorization',104,'view_courseauthorization'),(414,'Can add course email',105,'add_courseemail'),(415,'Can change course email',105,'change_courseemail'),(416,'Can delete course email',105,'delete_courseemail'),(417,'Can view course email',105,'view_courseemail'),(418,'Can add course email template',106,'add_courseemailtemplate'),(419,'Can change course email template',106,'change_courseemailtemplate'),(420,'Can delete course email template',106,'delete_courseemailtemplate'),(421,'Can view course email template',106,'view_courseemailtemplate'),(422,'Can add optout',107,'add_optout'),(423,'Can change optout',107,'change_optout'),(424,'Can delete optout',107,'delete_optout'),(425,'Can view optout',107,'view_optout'),(426,'Can add bulk email flag',108,'add_bulkemailflag'),(427,'Can change bulk email flag',108,'change_bulkemailflag'),(428,'Can delete bulk email flag',108,'delete_bulkemailflag'),(429,'Can view bulk email flag',108,'view_bulkemailflag'),(430,'Can add target',109,'add_target'),(431,'Can change target',109,'change_target'),(432,'Can delete target',109,'delete_target'),(433,'Can view target',109,'view_target'),(434,'Can add cohort target',110,'add_cohorttarget'),(435,'Can change cohort target',110,'change_cohorttarget'),(436,'Can delete cohort target',110,'delete_cohorttarget'),(437,'Can view cohort target',110,'view_cohorttarget'),(438,'Can add course mode target',111,'add_coursemodetarget'),(439,'Can change course mode target',111,'change_coursemodetarget'),(440,'Can delete course mode target',111,'delete_coursemodetarget'),(441,'Can view course mode target',111,'view_coursemodetarget'),(442,'Can add branding api config',112,'add_brandingapiconfig'),(443,'Can change branding api config',112,'change_brandingapiconfig'),(444,'Can delete branding api config',112,'delete_brandingapiconfig'),(445,'Can view branding api config',112,'view_brandingapiconfig'),(446,'Can add branding info config',113,'add_brandinginfoconfig'),(447,'Can change branding info config',113,'change_brandinginfoconfig'),(448,'Can delete branding info config',113,'delete_brandinginfoconfig'),(449,'Can view branding info config',113,'view_brandinginfoconfig'),(450,'Can add disable progress page stacked config',114,'add_disableprogresspagestackedconfig'),(451,'Can change disable progress page stacked config',114,'change_disableprogresspagestackedconfig'),(452,'Can delete disable progress page stacked config',114,'delete_disableprogresspagestackedconfig'),(453,'Can view disable progress page stacked config',114,'view_disableprogresspagestackedconfig'),(454,'Can add application',115,'add_application'),(455,'Can change application',115,'change_application'),(456,'Can delete application',115,'delete_application'),(457,'Can view application',115,'view_application'),(458,'Can add access token',116,'add_accesstoken'),(459,'Can change access token',116,'change_accesstoken'),(460,'Can delete access token',116,'delete_accesstoken'),(461,'Can view access token',116,'view_accesstoken'),(462,'Can add grant',117,'add_grant'),(463,'Can change grant',117,'change_grant'),(464,'Can delete grant',117,'delete_grant'),(465,'Can view grant',117,'view_grant'),(466,'Can add refresh token',118,'add_refreshtoken'),(467,'Can change refresh token',118,'change_refreshtoken'),(468,'Can delete refresh token',118,'delete_refreshtoken'),(469,'Can view refresh token',118,'view_refreshtoken'),(470,'Can add restricted application',119,'add_restrictedapplication'),(471,'Can change restricted application',119,'change_restrictedapplication'),(472,'Can delete restricted application',119,'delete_restrictedapplication'),(473,'Can view restricted application',119,'view_restrictedapplication'),(474,'Can add application access',120,'add_applicationaccess'),(475,'Can change application access',120,'change_applicationaccess'),(476,'Can delete application access',120,'delete_applicationaccess'),(477,'Can view application access',120,'view_applicationaccess'),(478,'Can add application organization',121,'add_applicationorganization'),(479,'Can change application organization',121,'change_applicationorganization'),(480,'Can delete application organization',121,'delete_applicationorganization'),(481,'Can view application organization',121,'view_applicationorganization'),(482,'Can add SAML Provider Data',122,'add_samlproviderdata'),(483,'Can change SAML Provider Data',122,'change_samlproviderdata'),(484,'Can delete SAML Provider Data',122,'delete_samlproviderdata'),(485,'Can view SAML Provider Data',122,'view_samlproviderdata'),(486,'Can add SAML Configuration',123,'add_samlconfiguration'),(487,'Can change SAML Configuration',123,'change_samlconfiguration'),(488,'Can delete SAML Configuration',123,'delete_samlconfiguration'),(489,'Can view SAML Configuration',123,'view_samlconfiguration'),(490,'Can add Provider Configuration (OAuth)',124,'add_oauth2providerconfig'),(491,'Can change Provider Configuration (OAuth)',124,'change_oauth2providerconfig'),(492,'Can delete Provider Configuration (OAuth)',124,'delete_oauth2providerconfig'),(493,'Can view Provider Configuration (OAuth)',124,'view_oauth2providerconfig'),(494,'Can add Provider Configuration (LTI)',125,'add_ltiproviderconfig'),(495,'Can change Provider Configuration (LTI)',125,'change_ltiproviderconfig'),(496,'Can delete Provider Configuration (LTI)',125,'delete_ltiproviderconfig'),(497,'Can view Provider Configuration (LTI)',125,'view_ltiproviderconfig'),(498,'Can add Provider Configuration (SAML IdP)',126,'add_samlproviderconfig'),(499,'Can change Provider Configuration (SAML IdP)',126,'change_samlproviderconfig'),(500,'Can delete Provider Configuration (SAML IdP)',126,'delete_samlproviderconfig'),(501,'Can view Provider Configuration (SAML IdP)',126,'view_samlproviderconfig'),(502,'Can add system wide role',127,'add_systemwiderole'),(503,'Can change system wide role',127,'change_systemwiderole'),(504,'Can delete system wide role',127,'delete_systemwiderole'),(505,'Can view system wide role',127,'view_systemwiderole'),(506,'Can add system wide role assignment',128,'add_systemwideroleassignment'),(507,'Can change system wide role assignment',128,'change_systemwideroleassignment'),(508,'Can delete system wide role assignment',128,'delete_systemwideroleassignment'),(509,'Can view system wide role assignment',128,'view_systemwideroleassignment'),(510,'Can add article',129,'add_article'),(511,'Can change article',129,'change_article'),(512,'Can delete article',129,'delete_article'),(513,'Can view article',129,'view_article'),(514,'Can edit all articles and lock/unlock/restore',129,'moderate'),(515,'Can change ownership of any article',129,'assign'),(516,'Can assign permissions to other users',129,'grant'),(517,'Can add Article for object',130,'add_articleforobject'),(518,'Can change Article for object',130,'change_articleforobject'),(519,'Can delete Article for object',130,'delete_articleforobject'),(520,'Can view Article for object',130,'view_articleforobject'),(521,'Can add article plugin',131,'add_articleplugin'),(522,'Can change article plugin',131,'change_articleplugin'),(523,'Can delete article plugin',131,'delete_articleplugin'),(524,'Can view article plugin',131,'view_articleplugin'),(525,'Can add article revision',132,'add_articlerevision'),(526,'Can change article revision',132,'change_articlerevision'),(527,'Can delete article revision',132,'delete_articlerevision'),(528,'Can view article revision',132,'view_articlerevision'),(529,'Can add reusable plugin',133,'add_reusableplugin'),(530,'Can change reusable plugin',133,'change_reusableplugin'),(531,'Can delete reusable plugin',133,'delete_reusableplugin'),(532,'Can view reusable plugin',133,'view_reusableplugin'),(533,'Can add revision plugin',134,'add_revisionplugin'),(534,'Can change revision plugin',134,'change_revisionplugin'),(535,'Can delete revision plugin',134,'delete_revisionplugin'),(536,'Can view revision plugin',134,'view_revisionplugin'),(537,'Can add revision plugin revision',135,'add_revisionpluginrevision'),(538,'Can change revision plugin revision',135,'change_revisionpluginrevision'),(539,'Can delete revision plugin revision',135,'delete_revisionpluginrevision'),(540,'Can view revision plugin revision',135,'view_revisionpluginrevision'),(541,'Can add simple plugin',136,'add_simpleplugin'),(542,'Can change simple plugin',136,'change_simpleplugin'),(543,'Can delete simple plugin',136,'delete_simpleplugin'),(544,'Can view simple plugin',136,'view_simpleplugin'),(545,'Can add URL path',137,'add_urlpath'),(546,'Can change URL path',137,'change_urlpath'),(547,'Can delete URL path',137,'delete_urlpath'),(548,'Can view URL path',137,'view_urlpath'),(549,'Can add notification',138,'add_notification'),(550,'Can change notification',138,'change_notification'),(551,'Can delete notification',138,'delete_notification'),(552,'Can view notification',138,'view_notification'),(553,'Can add type',139,'add_notificationtype'),(554,'Can change type',139,'change_notificationtype'),(555,'Can delete type',139,'delete_notificationtype'),(556,'Can view type',139,'view_notificationtype'),(557,'Can add settings',140,'add_settings'),(558,'Can change settings',140,'change_settings'),(559,'Can delete settings',140,'delete_settings'),(560,'Can view settings',140,'view_settings'),(561,'Can add subscription',141,'add_subscription'),(562,'Can change subscription',141,'change_subscription'),(563,'Can delete subscription',141,'delete_subscription'),(564,'Can view subscription',141,'view_subscription'),(565,'Can add log entry',142,'add_logentry'),(566,'Can change log entry',142,'change_logentry'),(567,'Can delete log entry',142,'delete_logentry'),(568,'Can view log entry',142,'view_logentry'),(569,'Can add permission',143,'add_permission'),(570,'Can change permission',143,'change_permission'),(571,'Can delete permission',143,'delete_permission'),(572,'Can view permission',143,'view_permission'),(573,'Can add role',144,'add_role'),(574,'Can change role',144,'change_role'),(575,'Can delete role',144,'delete_role'),(576,'Can view role',144,'view_role'),(577,'Can add forums config',145,'add_forumsconfig'),(578,'Can change forums config',145,'change_forumsconfig'),(579,'Can delete forums config',145,'delete_forumsconfig'),(580,'Can view forums config',145,'view_forumsconfig'),(581,'Can add course discussion settings',146,'add_coursediscussionsettings'),(582,'Can change course discussion settings',146,'change_coursediscussionsettings'),(583,'Can delete course discussion settings',146,'delete_coursediscussionsettings'),(584,'Can view course discussion settings',146,'view_coursediscussionsettings'),(585,'Can add discussions id mapping',147,'add_discussionsidmapping'),(586,'Can change discussions id mapping',147,'change_discussionsidmapping'),(587,'Can delete discussions id mapping',147,'delete_discussionsidmapping'),(588,'Can view discussions id mapping',147,'view_discussionsidmapping'),(589,'Can add splash config',148,'add_splashconfig'),(590,'Can change splash config',148,'change_splashconfig'),(591,'Can delete splash config',148,'delete_splashconfig'),(592,'Can view splash config',148,'view_splashconfig'),(593,'Can add user course tag',149,'add_usercoursetag'),(594,'Can change user course tag',149,'change_usercoursetag'),(595,'Can delete user course tag',149,'delete_usercoursetag'),(596,'Can view user course tag',149,'view_usercoursetag'),(597,'Can add user org tag',150,'add_userorgtag'),(598,'Can change user org tag',150,'change_userorgtag'),(599,'Can delete user org tag',150,'delete_userorgtag'),(600,'Can view user org tag',150,'view_userorgtag'),(601,'Can add user preference',151,'add_userpreference'),(602,'Can change user preference',151,'change_userpreference'),(603,'Can delete user preference',151,'delete_userpreference'),(604,'Can view user preference',151,'view_userpreference'),(605,'Can add retirement state',152,'add_retirementstate'),(606,'Can change retirement state',152,'change_retirementstate'),(607,'Can delete retirement state',152,'delete_retirementstate'),(608,'Can view retirement state',152,'view_retirementstate'),(609,'Can add User Retirement Status',153,'add_userretirementstatus'),(610,'Can change User Retirement Status',153,'change_userretirementstatus'),(611,'Can delete User Retirement Status',153,'delete_userretirementstatus'),(612,'Can view User Retirement Status',153,'view_userretirementstatus'),(613,'Can add User Retirement Request',154,'add_userretirementrequest'),(614,'Can change User Retirement Request',154,'change_userretirementrequest'),(615,'Can delete User Retirement Request',154,'delete_userretirementrequest'),(616,'Can view User Retirement Request',154,'view_userretirementrequest'),(617,'Can add User Retirement Reporting Status',155,'add_userretirementpartnerreportingstatus'),(618,'Can change User Retirement Reporting Status',155,'change_userretirementpartnerreportingstatus'),(619,'Can delete User Retirement Reporting Status',155,'delete_userretirementpartnerreportingstatus'),(620,'Can view User Retirement Reporting Status',155,'view_userretirementpartnerreportingstatus'),(621,'Can add course mode',156,'add_coursemode'),(622,'Can change course mode',156,'change_coursemode'),(623,'Can delete course mode',156,'delete_coursemode'),(624,'Can view course mode',156,'view_coursemode'),(625,'Can add course modes archive',157,'add_coursemodesarchive'),(626,'Can change course modes archive',157,'change_coursemodesarchive'),(627,'Can delete course modes archive',157,'delete_coursemodesarchive'),(628,'Can view course modes archive',157,'view_coursemodesarchive'),(629,'Can add course mode expiration config',158,'add_coursemodeexpirationconfig'),(630,'Can change course mode expiration config',158,'change_coursemodeexpirationconfig'),(631,'Can delete course mode expiration config',158,'delete_coursemodeexpirationconfig'),(632,'Can view course mode expiration config',158,'view_coursemodeexpirationconfig'),(633,'Can add historical course mode',159,'add_historicalcoursemode'),(634,'Can change historical course mode',159,'change_historicalcoursemode'),(635,'Can delete historical course mode',159,'delete_historicalcoursemode'),(636,'Can view historical course mode',159,'view_historicalcoursemode'),(637,'Can add course entitlement',160,'add_courseentitlement'),(638,'Can change course entitlement',160,'change_courseentitlement'),(639,'Can delete course entitlement',160,'delete_courseentitlement'),(640,'Can view course entitlement',160,'view_courseentitlement'),(641,'Can add course entitlement policy',161,'add_courseentitlementpolicy'),(642,'Can change course entitlement policy',161,'change_courseentitlementpolicy'),(643,'Can delete course entitlement policy',161,'delete_courseentitlementpolicy'),(644,'Can view course entitlement policy',161,'view_courseentitlementpolicy'),(645,'Can add course entitlement support detail',162,'add_courseentitlementsupportdetail'),(646,'Can change course entitlement support detail',162,'change_courseentitlementsupportdetail'),(647,'Can delete course entitlement support detail',162,'delete_courseentitlementsupportdetail'),(648,'Can view course entitlement support detail',162,'view_courseentitlementsupportdetail'),(649,'Can add historical course entitlement',163,'add_historicalcourseentitlement'),(650,'Can change historical course entitlement',163,'change_historicalcourseentitlement'),(651,'Can delete historical course entitlement',163,'delete_historicalcourseentitlement'),(652,'Can view historical course entitlement',163,'view_historicalcourseentitlement'),(653,'Can add historical course entitlement support detail',164,'add_historicalcourseentitlementsupportdetail'),(654,'Can change historical course entitlement support detail',164,'change_historicalcourseentitlementsupportdetail'),(655,'Can delete historical course entitlement support detail',164,'delete_historicalcourseentitlementsupportdetail'),(656,'Can view historical course entitlement support detail',164,'view_historicalcourseentitlementsupportdetail'),(657,'Can add software secure photo verification',165,'add_softwaresecurephotoverification'),(658,'Can change software secure photo verification',165,'change_softwaresecurephotoverification'),(659,'Can delete software secure photo verification',165,'delete_softwaresecurephotoverification'),(660,'Can view software secure photo verification',165,'view_softwaresecurephotoverification'),(661,'Can add verification deadline',166,'add_verificationdeadline'),(662,'Can change verification deadline',166,'change_verificationdeadline'),(663,'Can delete verification deadline',166,'delete_verificationdeadline'),(664,'Can view verification deadline',166,'view_verificationdeadline'),(665,'Can add sso verification',167,'add_ssoverification'),(666,'Can change sso verification',167,'change_ssoverification'),(667,'Can delete sso verification',167,'delete_ssoverification'),(668,'Can view sso verification',167,'view_ssoverification'),(669,'Can add manual verification',168,'add_manualverification'),(670,'Can change manual verification',168,'change_manualverification'),(671,'Can delete manual verification',168,'delete_manualverification'),(672,'Can view manual verification',168,'view_manualverification'),(673,'Can add sspv retry student argument',169,'add_sspverificationretryconfig'),(674,'Can change sspv retry student argument',169,'change_sspverificationretryconfig'),(675,'Can delete sspv retry student argument',169,'delete_sspverificationretryconfig'),(676,'Can view sspv retry student argument',169,'view_sspverificationretryconfig'),(677,'Can add dark lang config',170,'add_darklangconfig'),(678,'Can change dark lang config',170,'change_darklangconfig'),(679,'Can delete dark lang config',170,'delete_darklangconfig'),(680,'Can view dark lang config',170,'view_darklangconfig'),(681,'Can add whitelisted rss url',171,'add_whitelistedrssurl'),(682,'Can change whitelisted rss url',171,'change_whitelistedrssurl'),(683,'Can delete whitelisted rss url',171,'delete_whitelistedrssurl'),(684,'Can view whitelisted rss url',171,'view_whitelistedrssurl'),(685,'Can add country',172,'add_country'),(686,'Can change country',172,'change_country'),(687,'Can delete country',172,'delete_country'),(688,'Can view country',172,'view_country'),(689,'Can add country access rule',173,'add_countryaccessrule'),(690,'Can change country access rule',173,'change_countryaccessrule'),(691,'Can delete country access rule',173,'delete_countryaccessrule'),(692,'Can view country access rule',173,'view_countryaccessrule'),(693,'Can add course access rule history',174,'add_courseaccessrulehistory'),(694,'Can change course access rule history',174,'change_courseaccessrulehistory'),(695,'Can delete course access rule history',174,'delete_courseaccessrulehistory'),(696,'Can view course access rule history',174,'view_courseaccessrulehistory'),(697,'Can add embargoed course',175,'add_embargoedcourse'),(698,'Can change embargoed course',175,'change_embargoedcourse'),(699,'Can delete embargoed course',175,'delete_embargoedcourse'),(700,'Can view embargoed course',175,'view_embargoedcourse'),(701,'Can add embargoed state',176,'add_embargoedstate'),(702,'Can change embargoed state',176,'change_embargoedstate'),(703,'Can delete embargoed state',176,'delete_embargoedstate'),(704,'Can view embargoed state',176,'view_embargoedstate'),(705,'Can add ip filter',177,'add_ipfilter'),(706,'Can change ip filter',177,'change_ipfilter'),(707,'Can delete ip filter',177,'delete_ipfilter'),(708,'Can view ip filter',177,'view_ipfilter'),(709,'Can add restricted course',178,'add_restrictedcourse'),(710,'Can change restricted course',178,'change_restrictedcourse'),(711,'Can delete restricted course',178,'delete_restrictedcourse'),(712,'Can view restricted course',178,'view_restrictedcourse'),(713,'Can add course rerun state',179,'add_coursererunstate'),(714,'Can change course rerun state',179,'change_coursererunstate'),(715,'Can delete course rerun state',179,'delete_coursererunstate'),(716,'Can view course rerun state',179,'view_coursererunstate'),(717,'Can add mobile api config',180,'add_mobileapiconfig'),(718,'Can change mobile api config',180,'change_mobileapiconfig'),(719,'Can delete mobile api config',180,'delete_mobileapiconfig'),(720,'Can view mobile api config',180,'view_mobileapiconfig'),(721,'Can add app version config',181,'add_appversionconfig'),(722,'Can change app version config',181,'change_appversionconfig'),(723,'Can delete app version config',181,'delete_appversionconfig'),(724,'Can view app version config',181,'view_appversionconfig'),(725,'Can add ignore mobile available flag config',182,'add_ignoremobileavailableflagconfig'),(726,'Can change ignore mobile available flag config',182,'change_ignoremobileavailableflagconfig'),(727,'Can delete ignore mobile available flag config',182,'delete_ignoremobileavailableflagconfig'),(728,'Can view ignore mobile available flag config',182,'view_ignoremobileavailableflagconfig'),(729,'Can add association',183,'add_association'),(730,'Can change association',183,'change_association'),(731,'Can delete association',183,'delete_association'),(732,'Can view association',183,'view_association'),(733,'Can add code',184,'add_code'),(734,'Can change code',184,'change_code'),(735,'Can delete code',184,'delete_code'),(736,'Can view code',184,'view_code'),(737,'Can add nonce',185,'add_nonce'),(738,'Can change nonce',185,'change_nonce'),(739,'Can delete nonce',185,'delete_nonce'),(740,'Can view nonce',185,'view_nonce'),(741,'Can add user social auth',186,'add_usersocialauth'),(742,'Can change user social auth',186,'change_usersocialauth'),(743,'Can delete user social auth',186,'delete_usersocialauth'),(744,'Can view user social auth',186,'view_usersocialauth'),(745,'Can add partial',187,'add_partial'),(746,'Can change partial',187,'change_partial'),(747,'Can delete partial',187,'delete_partial'),(748,'Can view partial',187,'view_partial'),(749,'Can add survey answer',188,'add_surveyanswer'),(750,'Can change survey answer',188,'change_surveyanswer'),(751,'Can delete survey answer',188,'delete_surveyanswer'),(752,'Can view survey answer',188,'view_surveyanswer'),(753,'Can add survey form',189,'add_surveyform'),(754,'Can change survey form',189,'change_surveyform'),(755,'Can delete survey form',189,'delete_surveyform'),(756,'Can view survey form',189,'view_surveyform'),(757,'Can add x block asides config',190,'add_xblockasidesconfig'),(758,'Can change x block asides config',190,'change_xblockasidesconfig'),(759,'Can delete x block asides config',190,'delete_xblockasidesconfig'),(760,'Can view x block asides config',190,'view_xblockasidesconfig'),(761,'Can add score',191,'add_score'),(762,'Can change score',191,'change_score'),(763,'Can delete score',191,'delete_score'),(764,'Can view score',191,'view_score'),(765,'Can add student item',192,'add_studentitem'),(766,'Can change student item',192,'change_studentitem'),(767,'Can delete student item',192,'delete_studentitem'),(768,'Can view student item',192,'view_studentitem'),(769,'Can add submission',193,'add_submission'),(770,'Can change submission',193,'change_submission'),(771,'Can delete submission',193,'delete_submission'),(772,'Can view submission',193,'view_submission'),(773,'Can add score summary',194,'add_scoresummary'),(774,'Can change score summary',194,'change_scoresummary'),(775,'Can delete score summary',194,'delete_scoresummary'),(776,'Can view score summary',194,'view_scoresummary'),(777,'Can add score annotation',195,'add_scoreannotation'),(778,'Can change score annotation',195,'change_scoreannotation'),(779,'Can delete score annotation',195,'delete_scoreannotation'),(780,'Can view score annotation',195,'view_scoreannotation'),(781,'Can add team submission',196,'add_teamsubmission'),(782,'Can change team submission',196,'change_teamsubmission'),(783,'Can delete team submission',196,'delete_teamsubmission'),(784,'Can view team submission',196,'view_teamsubmission'),(785,'Can add assessment',197,'add_assessment'),(786,'Can change assessment',197,'change_assessment'),(787,'Can delete assessment',197,'delete_assessment'),(788,'Can view assessment',197,'view_assessment'),(789,'Can add assessment feedback',198,'add_assessmentfeedback'),(790,'Can change assessment feedback',198,'change_assessmentfeedback'),(791,'Can delete assessment feedback',198,'delete_assessmentfeedback'),(792,'Can view assessment feedback',198,'view_assessmentfeedback'),(793,'Can add assessment feedback option',199,'add_assessmentfeedbackoption'),(794,'Can change assessment feedback option',199,'change_assessmentfeedbackoption'),(795,'Can delete assessment feedback option',199,'delete_assessmentfeedbackoption'),(796,'Can view assessment feedback option',199,'view_assessmentfeedbackoption'),(797,'Can add assessment part',200,'add_assessmentpart'),(798,'Can change assessment part',200,'change_assessmentpart'),(799,'Can delete assessment part',200,'delete_assessmentpart'),(800,'Can view assessment part',200,'view_assessmentpart'),(801,'Can add criterion',201,'add_criterion'),(802,'Can change criterion',201,'change_criterion'),(803,'Can delete criterion',201,'delete_criterion'),(804,'Can view criterion',201,'view_criterion'),(805,'Can add criterion option',202,'add_criterionoption'),(806,'Can change criterion option',202,'change_criterionoption'),(807,'Can delete criterion option',202,'delete_criterionoption'),(808,'Can view criterion option',202,'view_criterionoption'),(809,'Can add peer workflow',203,'add_peerworkflow'),(810,'Can change peer workflow',203,'change_peerworkflow'),(811,'Can delete peer workflow',203,'delete_peerworkflow'),(812,'Can view peer workflow',203,'view_peerworkflow'),(813,'Can add peer workflow item',204,'add_peerworkflowitem'),(814,'Can change peer workflow item',204,'change_peerworkflowitem'),(815,'Can delete peer workflow item',204,'delete_peerworkflowitem'),(816,'Can view peer workflow item',204,'view_peerworkflowitem'),(817,'Can add rubric',205,'add_rubric'),(818,'Can change rubric',205,'change_rubric'),(819,'Can delete rubric',205,'delete_rubric'),(820,'Can view rubric',205,'view_rubric'),(821,'Can add student training workflow',206,'add_studenttrainingworkflow'),(822,'Can change student training workflow',206,'change_studenttrainingworkflow'),(823,'Can delete student training workflow',206,'delete_studenttrainingworkflow'),(824,'Can view student training workflow',206,'view_studenttrainingworkflow'),(825,'Can add student training workflow item',207,'add_studenttrainingworkflowitem'),(826,'Can change student training workflow item',207,'change_studenttrainingworkflowitem'),(827,'Can delete student training workflow item',207,'delete_studenttrainingworkflowitem'),(828,'Can view student training workflow item',207,'view_studenttrainingworkflowitem'),(829,'Can add training example',208,'add_trainingexample'),(830,'Can change training example',208,'change_trainingexample'),(831,'Can delete training example',208,'delete_trainingexample'),(832,'Can view training example',208,'view_trainingexample'),(833,'Can add staff workflow',209,'add_staffworkflow'),(834,'Can change staff workflow',209,'change_staffworkflow'),(835,'Can delete staff workflow',209,'delete_staffworkflow'),(836,'Can view staff workflow',209,'view_staffworkflow'),(837,'Can add historical shared file upload',210,'add_historicalsharedfileupload'),(838,'Can change historical shared file upload',210,'change_historicalsharedfileupload'),(839,'Can delete historical shared file upload',210,'delete_historicalsharedfileupload'),(840,'Can view historical shared file upload',210,'view_historicalsharedfileupload'),(841,'Can add shared file upload',211,'add_sharedfileupload'),(842,'Can change shared file upload',211,'change_sharedfileupload'),(843,'Can delete shared file upload',211,'delete_sharedfileupload'),(844,'Can view shared file upload',211,'view_sharedfileupload'),(845,'Can add team staff workflow',212,'add_teamstaffworkflow'),(846,'Can change team staff workflow',212,'change_teamstaffworkflow'),(847,'Can delete team staff workflow',212,'delete_teamstaffworkflow'),(848,'Can view team staff workflow',212,'view_teamstaffworkflow'),(849,'Can add assessment workflow',213,'add_assessmentworkflow'),(850,'Can change assessment workflow',213,'change_assessmentworkflow'),(851,'Can delete assessment workflow',213,'delete_assessmentworkflow'),(852,'Can view assessment workflow',213,'view_assessmentworkflow'),(853,'Can add assessment workflow cancellation',214,'add_assessmentworkflowcancellation'),(854,'Can change assessment workflow cancellation',214,'change_assessmentworkflowcancellation'),(855,'Can delete assessment workflow cancellation',214,'delete_assessmentworkflowcancellation'),(856,'Can view assessment workflow cancellation',214,'view_assessmentworkflowcancellation'),(857,'Can add assessment workflow step',215,'add_assessmentworkflowstep'),(858,'Can change assessment workflow step',215,'change_assessmentworkflowstep'),(859,'Can delete assessment workflow step',215,'delete_assessmentworkflowstep'),(860,'Can view assessment workflow step',215,'view_assessmentworkflowstep'),(861,'Can add team assessment workflow',216,'add_teamassessmentworkflow'),(862,'Can change team assessment workflow',216,'change_teamassessmentworkflow'),(863,'Can delete team assessment workflow',216,'delete_teamassessmentworkflow'),(864,'Can view team assessment workflow',216,'view_teamassessmentworkflow'),(865,'Can add profile',217,'add_profile'),(866,'Can change profile',217,'change_profile'),(867,'Can delete profile',217,'delete_profile'),(868,'Can view profile',217,'view_profile'),(869,'Can add video',218,'add_video'),(870,'Can change video',218,'change_video'),(871,'Can delete video',218,'delete_video'),(872,'Can view video',218,'view_video'),(873,'Can add encoded video',219,'add_encodedvideo'),(874,'Can change encoded video',219,'change_encodedvideo'),(875,'Can delete encoded video',219,'delete_encodedvideo'),(876,'Can view encoded video',219,'view_encodedvideo'),(877,'Can add course video',220,'add_coursevideo'),(878,'Can change course video',220,'change_coursevideo'),(879,'Can delete course video',220,'delete_coursevideo'),(880,'Can view course video',220,'view_coursevideo'),(881,'Can add video image',221,'add_videoimage'),(882,'Can change video image',221,'change_videoimage'),(883,'Can delete video image',221,'delete_videoimage'),(884,'Can view video image',221,'view_videoimage'),(885,'Can add transcript preference',222,'add_transcriptpreference'),(886,'Can change transcript preference',222,'change_transcriptpreference'),(887,'Can delete transcript preference',222,'delete_transcriptpreference'),(888,'Can view transcript preference',222,'view_transcriptpreference'),(889,'Can add video transcript',223,'add_videotranscript'),(890,'Can change video transcript',223,'change_videotranscript'),(891,'Can delete video transcript',223,'delete_videotranscript'),(892,'Can view video transcript',223,'view_videotranscript'),(893,'Can add third party transcript credentials state',224,'add_thirdpartytranscriptcredentialsstate'),(894,'Can change third party transcript credentials state',224,'change_thirdpartytranscriptcredentialsstate'),(895,'Can delete third party transcript credentials state',224,'delete_thirdpartytranscriptcredentialsstate'),(896,'Can view third party transcript credentials state',224,'view_thirdpartytranscriptcredentialsstate'),(897,'Can add course overview',225,'add_courseoverview'),(898,'Can change course overview',225,'change_courseoverview'),(899,'Can delete course overview',225,'delete_courseoverview'),(900,'Can view course overview',225,'view_courseoverview'),(901,'Can add course overview tab',226,'add_courseoverviewtab'),(902,'Can change course overview tab',226,'change_courseoverviewtab'),(903,'Can delete course overview tab',226,'delete_courseoverviewtab'),(904,'Can view course overview tab',226,'view_courseoverviewtab'),(905,'Can add course overview image set',227,'add_courseoverviewimageset'),(906,'Can change course overview image set',227,'change_courseoverviewimageset'),(907,'Can delete course overview image set',227,'delete_courseoverviewimageset'),(908,'Can view course overview image set',227,'view_courseoverviewimageset'),(909,'Can add course overview image config',228,'add_courseoverviewimageconfig'),(910,'Can change course overview image config',228,'change_courseoverviewimageconfig'),(911,'Can delete course overview image config',228,'delete_courseoverviewimageconfig'),(912,'Can view course overview image config',228,'view_courseoverviewimageconfig'),(913,'Can add historical course overview',229,'add_historicalcourseoverview'),(914,'Can change historical course overview',229,'change_historicalcourseoverview'),(915,'Can delete historical course overview',229,'delete_historicalcourseoverview'),(916,'Can view historical course overview',229,'view_historicalcourseoverview'),(917,'Can add simulate_publish argument',230,'add_simulatecoursepublishconfig'),(918,'Can change simulate_publish argument',230,'change_simulatecoursepublishconfig'),(919,'Can delete simulate_publish argument',230,'delete_simulatecoursepublishconfig'),(920,'Can view simulate_publish argument',230,'view_simulatecoursepublishconfig'),(921,'Can add block structure configuration',231,'add_blockstructureconfiguration'),(922,'Can change block structure configuration',231,'change_blockstructureconfiguration'),(923,'Can delete block structure configuration',231,'delete_blockstructureconfiguration'),(924,'Can view block structure configuration',231,'view_blockstructureconfiguration'),(925,'Can add block structure model',232,'add_blockstructuremodel'),(926,'Can change block structure model',232,'change_blockstructuremodel'),(927,'Can delete block structure model',232,'delete_blockstructuremodel'),(928,'Can view block structure model',232,'view_blockstructuremodel'),(929,'Can add x domain proxy configuration',233,'add_xdomainproxyconfiguration'),(930,'Can change x domain proxy configuration',233,'change_xdomainproxyconfiguration'),(931,'Can delete x domain proxy configuration',233,'delete_xdomainproxyconfiguration'),(932,'Can view x domain proxy configuration',233,'view_xdomainproxyconfiguration'),(933,'Can add commerce configuration',234,'add_commerceconfiguration'),(934,'Can change commerce configuration',234,'change_commerceconfiguration'),(935,'Can delete commerce configuration',234,'delete_commerceconfiguration'),(936,'Can view commerce configuration',234,'view_commerceconfiguration'),(937,'Can add credit course',235,'add_creditcourse'),(938,'Can change credit course',235,'change_creditcourse'),(939,'Can delete credit course',235,'delete_creditcourse'),(940,'Can view credit course',235,'view_creditcourse'),(941,'Can add credit eligibility',236,'add_crediteligibility'),(942,'Can change credit eligibility',236,'change_crediteligibility'),(943,'Can delete credit eligibility',236,'delete_crediteligibility'),(944,'Can view credit eligibility',236,'view_crediteligibility'),(945,'Can add credit provider',237,'add_creditprovider'),(946,'Can change credit provider',237,'change_creditprovider'),(947,'Can delete credit provider',237,'delete_creditprovider'),(948,'Can view credit provider',237,'view_creditprovider'),(949,'Can add credit request',238,'add_creditrequest'),(950,'Can change credit request',238,'change_creditrequest'),(951,'Can delete credit request',238,'delete_creditrequest'),(952,'Can view credit request',238,'view_creditrequest'),(953,'Can add credit requirement',239,'add_creditrequirement'),(954,'Can change credit requirement',239,'change_creditrequirement'),(955,'Can delete credit requirement',239,'delete_creditrequirement'),(956,'Can view credit requirement',239,'view_creditrequirement'),(957,'Can add credit requirement status',240,'add_creditrequirementstatus'),(958,'Can change credit requirement status',240,'change_creditrequirementstatus'),(959,'Can delete credit requirement status',240,'delete_creditrequirementstatus'),(960,'Can view credit requirement status',240,'view_creditrequirementstatus'),(961,'Can add credit config',241,'add_creditconfig'),(962,'Can change credit config',241,'change_creditconfig'),(963,'Can delete credit config',241,'delete_creditconfig'),(964,'Can view credit config',241,'view_creditconfig'),(965,'Can add course team',242,'add_courseteam'),(966,'Can change course team',242,'change_courseteam'),(967,'Can delete course team',242,'delete_courseteam'),(968,'Can view course team',242,'view_courseteam'),(969,'Can add course team membership',243,'add_courseteammembership'),(970,'Can change course team membership',243,'change_courseteammembership'),(971,'Can delete course team membership',243,'delete_courseteammembership'),(972,'Can view course team membership',243,'view_courseteammembership'),(973,'Can add x block configuration',244,'add_xblockconfiguration'),(974,'Can change x block configuration',244,'change_xblockconfiguration'),(975,'Can delete x block configuration',244,'delete_xblockconfiguration'),(976,'Can view x block configuration',244,'view_xblockconfiguration'),(977,'Can add x block studio configuration',245,'add_xblockstudioconfiguration'),(978,'Can change x block studio configuration',245,'change_xblockstudioconfiguration'),(979,'Can delete x block studio configuration',245,'delete_xblockstudioconfiguration'),(980,'Can view x block studio configuration',245,'view_xblockstudioconfiguration'),(981,'Can add x block studio configuration flag',246,'add_xblockstudioconfigurationflag'),(982,'Can change x block studio configuration flag',246,'change_xblockstudioconfigurationflag'),(983,'Can delete x block studio configuration flag',246,'delete_xblockstudioconfigurationflag'),(984,'Can view x block studio configuration flag',246,'view_xblockstudioconfigurationflag'),(985,'Can add programs api config',247,'add_programsapiconfig'),(986,'Can change programs api config',247,'change_programsapiconfig'),(987,'Can delete programs api config',247,'delete_programsapiconfig'),(988,'Can view programs api config',247,'view_programsapiconfig'),(989,'Can add catalog integration',248,'add_catalogintegration'),(990,'Can change catalog integration',248,'change_catalogintegration'),(991,'Can delete catalog integration',248,'delete_catalogintegration'),(992,'Can view catalog integration',248,'view_catalogintegration'),(993,'Can add self paced configuration',249,'add_selfpacedconfiguration'),(994,'Can change self paced configuration',249,'change_selfpacedconfiguration'),(995,'Can delete self paced configuration',249,'delete_selfpacedconfiguration'),(996,'Can view self paced configuration',249,'view_selfpacedconfiguration'),(997,'Can add kv store',250,'add_kvstore'),(998,'Can change kv store',250,'change_kvstore'),(999,'Can delete kv store',250,'delete_kvstore'),(1000,'Can view kv store',250,'view_kvstore'),(1001,'Can add course content milestone',251,'add_coursecontentmilestone'),(1002,'Can change course content milestone',251,'change_coursecontentmilestone'),(1003,'Can delete course content milestone',251,'delete_coursecontentmilestone'),(1004,'Can view course content milestone',251,'view_coursecontentmilestone'),(1005,'Can add course milestone',252,'add_coursemilestone'),(1006,'Can change course milestone',252,'change_coursemilestone'),(1007,'Can delete course milestone',252,'delete_coursemilestone'),(1008,'Can view course milestone',252,'view_coursemilestone'),(1009,'Can add milestone',253,'add_milestone'),(1010,'Can change milestone',253,'change_milestone'),(1011,'Can delete milestone',253,'delete_milestone'),(1012,'Can view milestone',253,'view_milestone'),(1013,'Can add milestone relationship type',254,'add_milestonerelationshiptype'),(1014,'Can change milestone relationship type',254,'change_milestonerelationshiptype'),(1015,'Can delete milestone relationship type',254,'delete_milestonerelationshiptype'),(1016,'Can view milestone relationship type',254,'view_milestonerelationshiptype'),(1017,'Can add user milestone',255,'add_usermilestone'),(1018,'Can change user milestone',255,'change_usermilestone'),(1019,'Can delete user milestone',255,'delete_usermilestone'),(1020,'Can view user milestone',255,'view_usermilestone'),(1021,'Can add api access request',1,'add_apiaccessrequest'),(1022,'Can change api access request',1,'change_apiaccessrequest'),(1023,'Can delete api access request',1,'delete_apiaccessrequest'),(1024,'Can view api access request',1,'view_apiaccessrequest'),(1025,'Can add api access config',256,'add_apiaccessconfig'),(1026,'Can change api access config',256,'change_apiaccessconfig'),(1027,'Can delete api access config',256,'delete_apiaccessconfig'),(1028,'Can view api access config',256,'view_apiaccessconfig'),(1029,'Can add catalog',257,'add_catalog'),(1030,'Can change catalog',257,'change_catalog'),(1031,'Can delete catalog',257,'delete_catalog'),(1032,'Can view catalog',257,'view_catalog'),(1033,'Can add verified track cohorted course',258,'add_verifiedtrackcohortedcourse'),(1034,'Can change verified track cohorted course',258,'change_verifiedtrackcohortedcourse'),(1035,'Can delete verified track cohorted course',258,'delete_verifiedtrackcohortedcourse'),(1036,'Can view verified track cohorted course',258,'view_verifiedtrackcohortedcourse'),(1037,'Can add migrate verified track cohorts setting',259,'add_migrateverifiedtrackcohortssetting'),(1038,'Can change migrate verified track cohorts setting',259,'change_migrateverifiedtrackcohortssetting'),(1039,'Can delete migrate verified track cohorts setting',259,'delete_migrateverifiedtrackcohortssetting'),(1040,'Can view migrate verified track cohorts setting',259,'view_migrateverifiedtrackcohortssetting'),(1041,'Can add badge assertion',260,'add_badgeassertion'),(1042,'Can change badge assertion',260,'change_badgeassertion'),(1043,'Can delete badge assertion',260,'delete_badgeassertion'),(1044,'Can view badge assertion',260,'view_badgeassertion'),(1045,'Can add badge class',261,'add_badgeclass'),(1046,'Can change badge class',261,'change_badgeclass'),(1047,'Can delete badge class',261,'delete_badgeclass'),(1048,'Can view badge class',261,'view_badgeclass'),(1049,'Can add course complete image configuration',262,'add_coursecompleteimageconfiguration'),(1050,'Can change course complete image configuration',262,'change_coursecompleteimageconfiguration'),(1051,'Can delete course complete image configuration',262,'delete_coursecompleteimageconfiguration'),(1052,'Can view course complete image configuration',262,'view_coursecompleteimageconfiguration'),(1053,'Can add course event badges configuration',263,'add_courseeventbadgesconfiguration'),(1054,'Can change course event badges configuration',263,'change_courseeventbadgesconfiguration'),(1055,'Can delete course event badges configuration',263,'delete_courseeventbadgesconfiguration'),(1056,'Can view course event badges configuration',263,'view_courseeventbadgesconfiguration'),(1057,'Can add failed task',264,'add_failedtask'),(1058,'Can change failed task',264,'change_failedtask'),(1059,'Can delete failed task',264,'delete_failedtask'),(1060,'Can view failed task',264,'view_failedtask'),(1061,'Can add crawlers config',265,'add_crawlersconfig'),(1062,'Can change crawlers config',265,'change_crawlersconfig'),(1063,'Can delete crawlers config',265,'delete_crawlersconfig'),(1064,'Can view crawlers config',265,'view_crawlersconfig'),(1065,'Can add Waffle flag course override',266,'add_waffleflagcourseoverridemodel'),(1066,'Can change Waffle flag course override',266,'change_waffleflagcourseoverridemodel'),(1067,'Can delete Waffle flag course override',266,'delete_waffleflagcourseoverridemodel'),(1068,'Can view Waffle flag course override',266,'view_waffleflagcourseoverridemodel'),(1069,'Can add course goal',267,'add_coursegoal'),(1070,'Can change course goal',267,'change_coursegoal'),(1071,'Can delete course goal',267,'delete_coursegoal'),(1072,'Can view course goal',267,'view_coursegoal'),(1073,'Can add historical course goal',268,'add_historicalcoursegoal'),(1074,'Can change historical course goal',268,'change_historicalcoursegoal'),(1075,'Can delete historical course goal',268,'delete_historicalcoursegoal'),(1076,'Can view historical course goal',268,'view_historicalcoursegoal'),(1077,'Can add historical user calendar sync config',269,'add_historicalusercalendarsyncconfig'),(1078,'Can change historical user calendar sync config',269,'change_historicalusercalendarsyncconfig'),(1079,'Can delete historical user calendar sync config',269,'delete_historicalusercalendarsyncconfig'),(1080,'Can view historical user calendar sync config',269,'view_historicalusercalendarsyncconfig'),(1081,'Can add user calendar sync config',270,'add_usercalendarsyncconfig'),(1082,'Can change user calendar sync config',270,'change_usercalendarsyncconfig'),(1083,'Can delete user calendar sync config',270,'delete_usercalendarsyncconfig'),(1084,'Can view user calendar sync config',270,'view_usercalendarsyncconfig'),(1085,'Can add course duration limit config',271,'add_coursedurationlimitconfig'),(1086,'Can change course duration limit config',271,'change_coursedurationlimitconfig'),(1087,'Can delete course duration limit config',271,'delete_coursedurationlimitconfig'),(1088,'Can view course duration limit config',271,'view_coursedurationlimitconfig'),(1089,'Can add content type gating config',272,'add_contenttypegatingconfig'),(1090,'Can change content type gating config',272,'change_contenttypegatingconfig'),(1091,'Can delete content type gating config',272,'delete_contenttypegatingconfig'),(1092,'Can view content type gating config',272,'view_contenttypegatingconfig'),(1093,'Can add discount restriction config',273,'add_discountrestrictionconfig'),(1094,'Can change discount restriction config',273,'change_discountrestrictionconfig'),(1095,'Can delete discount restriction config',273,'delete_discountrestrictionconfig'),(1096,'Can view discount restriction config',273,'view_discountrestrictionconfig'),(1097,'Can add discount percentage config',274,'add_discountpercentageconfig'),(1098,'Can change discount percentage config',274,'change_discountpercentageconfig'),(1099,'Can delete discount percentage config',274,'delete_discountpercentageconfig'),(1100,'Can view discount percentage config',274,'view_discountpercentageconfig'),(1101,'Can add Experiment Data',275,'add_experimentdata'),(1102,'Can change Experiment Data',275,'change_experimentdata'),(1103,'Can delete Experiment Data',275,'delete_experimentdata'),(1104,'Can view Experiment Data',275,'view_experimentdata'),(1105,'Can add Experiment Key-Value Pair',276,'add_experimentkeyvalue'),(1106,'Can change Experiment Key-Value Pair',276,'change_experimentkeyvalue'),(1107,'Can delete Experiment Key-Value Pair',276,'delete_experimentkeyvalue'),(1108,'Can view Experiment Key-Value Pair',276,'view_experimentkeyvalue'),(1109,'Can add historical Experiment Key-Value Pair',277,'add_historicalexperimentkeyvalue'),(1110,'Can change historical Experiment Key-Value Pair',277,'change_historicalexperimentkeyvalue'),(1111,'Can delete historical Experiment Key-Value Pair',277,'delete_historicalexperimentkeyvalue'),(1112,'Can view historical Experiment Key-Value Pair',277,'view_historicalexperimentkeyvalue'),(1113,'Can add self paced relative dates config',278,'add_selfpacedrelativedatesconfig'),(1114,'Can change self paced relative dates config',278,'change_selfpacedrelativedatesconfig'),(1115,'Can delete self paced relative dates config',278,'delete_selfpacedrelativedatesconfig'),(1116,'Can view self paced relative dates config',278,'view_selfpacedrelativedatesconfig'),(1117,'Can add external id',279,'add_externalid'),(1118,'Can change external id',279,'change_externalid'),(1119,'Can delete external id',279,'delete_externalid'),(1120,'Can view external id',279,'view_externalid'),(1121,'Can add external id type',280,'add_externalidtype'),(1122,'Can change external id type',280,'change_externalidtype'),(1123,'Can delete external id type',280,'delete_externalidtype'),(1124,'Can view external id type',280,'view_externalidtype'),(1125,'Can add historical external id',281,'add_historicalexternalid'),(1126,'Can change historical external id',281,'change_historicalexternalid'),(1127,'Can delete historical external id',281,'delete_historicalexternalid'),(1128,'Can view historical external id',281,'view_historicalexternalid'),(1129,'Can add historical external id type',282,'add_historicalexternalidtype'),(1130,'Can change historical external id type',282,'change_historicalexternalidtype'),(1131,'Can delete historical external id type',282,'delete_historicalexternalidtype'),(1132,'Can view historical external id type',282,'view_historicalexternalidtype'),(1133,'Can add user demographic',283,'add_userdemographics'),(1134,'Can change user demographic',283,'change_userdemographics'),(1135,'Can delete user demographic',283,'delete_userdemographics'),(1136,'Can view user demographic',283,'view_userdemographics'),(1137,'Can add historical user demographic',284,'add_historicaluserdemographics'),(1138,'Can change historical user demographic',284,'change_historicaluserdemographics'),(1139,'Can delete historical user demographic',284,'delete_historicaluserdemographics'),(1140,'Can view historical user demographic',284,'view_historicaluserdemographics'),(1141,'Can add Schedule',285,'add_schedule'),(1142,'Can change Schedule',285,'change_schedule'),(1143,'Can delete Schedule',285,'delete_schedule'),(1144,'Can view Schedule',285,'view_schedule'),(1145,'Can add schedule config',286,'add_scheduleconfig'),(1146,'Can change schedule config',286,'change_scheduleconfig'),(1147,'Can delete schedule config',286,'delete_scheduleconfig'),(1148,'Can view schedule config',286,'view_scheduleconfig'),(1149,'Can add schedule experience',287,'add_scheduleexperience'),(1150,'Can change schedule experience',287,'change_scheduleexperience'),(1151,'Can delete schedule experience',287,'delete_scheduleexperience'),(1152,'Can view schedule experience',287,'view_scheduleexperience'),(1153,'Can add historical Schedule',288,'add_historicalschedule'),(1154,'Can change historical Schedule',288,'change_historicalschedule'),(1155,'Can delete historical Schedule',288,'delete_historicalschedule'),(1156,'Can view historical Schedule',288,'view_historicalschedule'),(1157,'Can add course section',289,'add_coursesection'),(1158,'Can change course section',289,'change_coursesection'),(1159,'Can delete course section',289,'delete_coursesection'),(1160,'Can view course section',289,'view_coursesection'),(1161,'Can add Course Sequence',290,'add_coursesectionsequence'),(1162,'Can change Course Sequence',290,'change_coursesectionsequence'),(1163,'Can delete Course Sequence',290,'delete_coursesectionsequence'),(1164,'Can view Course Sequence',290,'view_coursesectionsequence'),(1165,'Can add learning context',291,'add_learningcontext'),(1166,'Can change learning context',291,'change_learningcontext'),(1167,'Can delete learning context',291,'delete_learningcontext'),(1168,'Can view learning context',291,'view_learningcontext'),(1169,'Can add learning sequence',292,'add_learningsequence'),(1170,'Can change learning sequence',292,'change_learningsequence'),(1171,'Can delete learning sequence',292,'delete_learningsequence'),(1172,'Can view learning sequence',292,'view_learningsequence'),(1173,'Can add Course',293,'add_coursecontext'),(1174,'Can change Course',293,'change_coursecontext'),(1175,'Can delete Course',293,'delete_coursecontext'),(1176,'Can view Course',293,'view_coursecontext'),(1177,'Can add course sequence exam',294,'add_coursesequenceexam'),(1178,'Can change course sequence exam',294,'change_coursesequenceexam'),(1179,'Can delete course sequence exam',294,'delete_coursesequenceexam'),(1180,'Can view course sequence exam',294,'view_coursesequenceexam'),(1181,'Can add publish report',295,'add_publishreport'),(1182,'Can change publish report',295,'change_publishreport'),(1183,'Can delete publish report',295,'delete_publishreport'),(1184,'Can view publish report',295,'view_publishreport'),(1185,'Can add content error',296,'add_contenterror'),(1186,'Can change content error',296,'change_contenterror'),(1187,'Can delete content error',296,'delete_contenterror'),(1188,'Can view content error',296,'view_contenterror'),(1189,'Can add user partition group',297,'add_userpartitiongroup'),(1190,'Can change user partition group',297,'change_userpartitiongroup'),(1191,'Can delete user partition group',297,'delete_userpartitiongroup'),(1192,'Can view user partition group',297,'view_userpartitiongroup'),(1193,'Can add section sequence partition group',298,'add_sectionsequencepartitiongroup'),(1194,'Can change section sequence partition group',298,'change_sectionsequencepartitiongroup'),(1195,'Can delete section sequence partition group',298,'delete_sectionsequencepartitiongroup'),(1196,'Can view section sequence partition group',298,'view_sectionsequencepartitiongroup'),(1197,'Can add section partition group',299,'add_sectionpartitiongroup'),(1198,'Can change section partition group',299,'change_sectionpartitiongroup'),(1199,'Can delete section partition group',299,'delete_sectionpartitiongroup'),(1200,'Can view section partition group',299,'view_sectionpartitiongroup'),(1201,'Can add Router Configuration',300,'add_routerconfiguration'),(1202,'Can change Router Configuration',300,'change_routerconfiguration'),(1203,'Can delete Router Configuration',300,'delete_routerconfiguration'),(1204,'Can view Router Configuration',300,'view_routerconfiguration'),(1205,'Can add organization',301,'add_organization'),(1206,'Can change organization',301,'change_organization'),(1207,'Can delete organization',301,'delete_organization'),(1208,'Can view organization',301,'view_organization'),(1209,'Can add Link Course',302,'add_organizationcourse'),(1210,'Can change Link Course',302,'change_organizationcourse'),(1211,'Can delete Link Course',302,'delete_organizationcourse'),(1212,'Can view Link Course',302,'view_organizationcourse'),(1213,'Can add historical organization',303,'add_historicalorganization'),(1214,'Can change historical organization',303,'change_historicalorganization'),(1215,'Can delete historical organization',303,'delete_historicalorganization'),(1216,'Can view historical organization',303,'view_historicalorganization'),(1217,'Can add historical Link Course',304,'add_historicalorganizationcourse'),(1218,'Can change historical Link Course',304,'change_historicalorganizationcourse'),(1219,'Can delete historical Link Course',304,'delete_historicalorganizationcourse'),(1220,'Can view historical Link Course',304,'view_historicalorganizationcourse'),(1221,'Can add integrity signature',305,'add_integritysignature'),(1222,'Can change integrity signature',305,'change_integritysignature'),(1223,'Can delete integrity signature',305,'delete_integritysignature'),(1224,'Can view integrity signature',305,'view_integritysignature'),(1225,'Can add enrollment notification email template',306,'add_enrollmentnotificationemailtemplate'),(1226,'Can change enrollment notification email template',306,'change_enrollmentnotificationemailtemplate'),(1227,'Can delete enrollment notification email template',306,'delete_enrollmentnotificationemailtemplate'),(1228,'Can view enrollment notification email template',306,'view_enrollmentnotificationemailtemplate'),(1229,'Can add Enterprise Catalog Query',307,'add_enterprisecatalogquery'),(1230,'Can change Enterprise Catalog Query',307,'change_enterprisecatalogquery'),(1231,'Can delete Enterprise Catalog Query',307,'delete_enterprisecatalogquery'),(1232,'Can view Enterprise Catalog Query',307,'view_enterprisecatalogquery'),(1233,'Can add Enterprise Customer',308,'add_enterprisecustomer'),(1234,'Can change Enterprise Customer',308,'change_enterprisecustomer'),(1235,'Can delete Enterprise Customer',308,'delete_enterprisecustomer'),(1236,'Can view Enterprise Customer',308,'view_enterprisecustomer'),(1237,'Can add Branding Configuration',309,'add_enterprisecustomerbrandingconfiguration'),(1238,'Can change Branding Configuration',309,'change_enterprisecustomerbrandingconfiguration'),(1239,'Can delete Branding Configuration',309,'delete_enterprisecustomerbrandingconfiguration'),(1240,'Can view Branding Configuration',309,'view_enterprisecustomerbrandingconfiguration'),(1241,'Can add Enterprise Customer Catalog',310,'add_enterprisecustomercatalog'),(1242,'Can change Enterprise Customer Catalog',310,'change_enterprisecustomercatalog'),(1243,'Can delete Enterprise Customer Catalog',310,'delete_enterprisecustomercatalog'),(1244,'Can view Enterprise Customer Catalog',310,'view_enterprisecustomercatalog'),(1245,'Can add enterprise customer identity provider',311,'add_enterprisecustomeridentityprovider'),(1246,'Can change enterprise customer identity provider',311,'change_enterprisecustomeridentityprovider'),(1247,'Can delete enterprise customer identity provider',311,'delete_enterprisecustomeridentityprovider'),(1248,'Can view enterprise customer identity provider',311,'view_enterprisecustomeridentityprovider'),(1249,'Can add enterprise customer reporting configuration',312,'add_enterprisecustomerreportingconfiguration'),(1250,'Can change enterprise customer reporting configuration',312,'change_enterprisecustomerreportingconfiguration'),(1251,'Can delete enterprise customer reporting configuration',312,'delete_enterprisecustomerreportingconfiguration'),(1252,'Can view enterprise customer reporting configuration',312,'view_enterprisecustomerreportingconfiguration'),(1253,'Can add Enterprise Customer Type',313,'add_enterprisecustomertype'),(1254,'Can change Enterprise Customer Type',313,'change_enterprisecustomertype'),(1255,'Can delete Enterprise Customer Type',313,'delete_enterprisecustomertype'),(1256,'Can view Enterprise Customer Type',313,'view_enterprisecustomertype'),(1257,'Can add Enterprise Customer Learner',314,'add_enterprisecustomeruser'),(1258,'Can change Enterprise Customer Learner',314,'change_enterprisecustomeruser'),(1259,'Can delete Enterprise Customer Learner',314,'delete_enterprisecustomeruser'),(1260,'Can view Enterprise Customer Learner',314,'view_enterprisecustomeruser'),(1261,'Can add enterprise course enrollment',315,'add_enterprisecourseenrollment'),(1262,'Can change enterprise course enrollment',315,'change_enterprisecourseenrollment'),(1263,'Can delete enterprise course enrollment',315,'delete_enterprisecourseenrollment'),(1264,'Can view enterprise course enrollment',315,'view_enterprisecourseenrollment'),(1265,'Can add enterprise enrollment source',316,'add_enterpriseenrollmentsource'),(1266,'Can change enterprise enrollment source',316,'change_enterpriseenrollmentsource'),(1267,'Can delete enterprise enrollment source',316,'delete_enterpriseenrollmentsource'),(1268,'Can view enterprise enrollment source',316,'view_enterpriseenrollmentsource'),(1269,'Can add enterprise feature role',317,'add_enterprisefeaturerole'),(1270,'Can change enterprise feature role',317,'change_enterprisefeaturerole'),(1271,'Can delete enterprise feature role',317,'delete_enterprisefeaturerole'),(1272,'Can view enterprise feature role',317,'view_enterprisefeaturerole'),(1273,'Can add enterprise feature user role assignment',318,'add_enterprisefeatureuserroleassignment'),(1274,'Can change enterprise feature user role assignment',318,'change_enterprisefeatureuserroleassignment'),(1275,'Can delete enterprise feature user role assignment',318,'delete_enterprisefeatureuserroleassignment'),(1276,'Can view enterprise feature user role assignment',318,'view_enterprisefeatureuserroleassignment'),(1277,'Can add historical enrollment notification email template',319,'add_historicalenrollmentnotificationemailtemplate'),(1278,'Can change historical enrollment notification email template',319,'change_historicalenrollmentnotificationemailtemplate'),(1279,'Can delete historical enrollment notification email template',319,'delete_historicalenrollmentnotificationemailtemplate'),(1280,'Can view historical enrollment notification email template',319,'view_historicalenrollmentnotificationemailtemplate'),(1281,'Can add historical enterprise course enrollment',320,'add_historicalenterprisecourseenrollment'),(1282,'Can change historical enterprise course enrollment',320,'change_historicalenterprisecourseenrollment'),(1283,'Can delete historical enterprise course enrollment',320,'delete_historicalenterprisecourseenrollment'),(1284,'Can view historical enterprise course enrollment',320,'view_historicalenterprisecourseenrollment'),(1285,'Can add historical Enterprise Customer',321,'add_historicalenterprisecustomer'),(1286,'Can change historical Enterprise Customer',321,'change_historicalenterprisecustomer'),(1287,'Can delete historical Enterprise Customer',321,'delete_historicalenterprisecustomer'),(1288,'Can view historical Enterprise Customer',321,'view_historicalenterprisecustomer'),(1289,'Can add historical Enterprise Customer Catalog',322,'add_historicalenterprisecustomercatalog'),(1290,'Can change historical Enterprise Customer Catalog',322,'change_historicalenterprisecustomercatalog'),(1291,'Can delete historical Enterprise Customer Catalog',322,'delete_historicalenterprisecustomercatalog'),(1292,'Can view historical Enterprise Customer Catalog',322,'view_historicalenterprisecustomercatalog'),(1293,'Can add historical pending enrollment',323,'add_historicalpendingenrollment'),(1294,'Can change historical pending enrollment',323,'change_historicalpendingenrollment'),(1295,'Can delete historical pending enrollment',323,'delete_historicalpendingenrollment'),(1296,'Can view historical pending enrollment',323,'view_historicalpendingenrollment'),(1297,'Can add historical pending enterprise customer user',324,'add_historicalpendingenterprisecustomeruser'),(1298,'Can change historical pending enterprise customer user',324,'change_historicalpendingenterprisecustomeruser'),(1299,'Can delete historical pending enterprise customer user',324,'delete_historicalpendingenterprisecustomeruser'),(1300,'Can view historical pending enterprise customer user',324,'view_historicalpendingenterprisecustomeruser'),(1301,'Can add pending enrollment',325,'add_pendingenrollment'),(1302,'Can change pending enrollment',325,'change_pendingenrollment'),(1303,'Can delete pending enrollment',325,'delete_pendingenrollment'),(1304,'Can view pending enrollment',325,'view_pendingenrollment'),(1305,'Can add pending enterprise customer user',326,'add_pendingenterprisecustomeruser'),(1306,'Can change pending enterprise customer user',326,'change_pendingenterprisecustomeruser'),(1307,'Can delete pending enterprise customer user',326,'delete_pendingenterprisecustomeruser'),(1308,'Can view pending enterprise customer user',326,'view_pendingenterprisecustomeruser'),(1309,'Can add system wide enterprise role',327,'add_systemwideenterpriserole'),(1310,'Can change system wide enterprise role',327,'change_systemwideenterpriserole'),(1311,'Can delete system wide enterprise role',327,'delete_systemwideenterpriserole'),(1312,'Can view system wide enterprise role',327,'view_systemwideenterpriserole'),(1313,'Can add system wide enterprise user role assignment',328,'add_systemwideenterpriseuserroleassignment'),(1314,'Can change system wide enterprise user role assignment',328,'change_systemwideenterpriseuserroleassignment'),(1315,'Can delete system wide enterprise user role assignment',328,'delete_systemwideenterpriseuserroleassignment'),(1316,'Can view system wide enterprise user role assignment',328,'view_systemwideenterpriseuserroleassignment'),(1317,'Can add licensed enterprise course enrollment',329,'add_licensedenterprisecourseenrollment'),(1318,'Can change licensed enterprise course enrollment',329,'change_licensedenterprisecourseenrollment'),(1319,'Can delete licensed enterprise course enrollment',329,'delete_licensedenterprisecourseenrollment'),(1320,'Can view licensed enterprise course enrollment',329,'view_licensedenterprisecourseenrollment'),(1321,'Can add historical licensed enterprise course enrollment',330,'add_historicallicensedenterprisecourseenrollment'),(1322,'Can change historical licensed enterprise course enrollment',330,'change_historicallicensedenterprisecourseenrollment'),(1323,'Can delete historical licensed enterprise course enrollment',330,'delete_historicallicensedenterprisecourseenrollment'),(1324,'Can view historical licensed enterprise course enrollment',330,'view_historicallicensedenterprisecourseenrollment'),(1325,'Can add historical pending enterprise customer admin user',331,'add_historicalpendingenterprisecustomeradminuser'),(1326,'Can change historical pending enterprise customer admin user',331,'change_historicalpendingenterprisecustomeradminuser'),(1327,'Can delete historical pending enterprise customer admin user',331,'delete_historicalpendingenterprisecustomeradminuser'),(1328,'Can view historical pending enterprise customer admin user',331,'view_historicalpendingenterprisecustomeradminuser'),(1329,'Can add pending enterprise customer admin user',332,'add_pendingenterprisecustomeradminuser'),(1330,'Can change pending enterprise customer admin user',332,'change_pendingenterprisecustomeradminuser'),(1331,'Can delete pending enterprise customer admin user',332,'delete_pendingenterprisecustomeradminuser'),(1332,'Can view pending enterprise customer admin user',332,'view_pendingenterprisecustomeradminuser'),(1333,'Can add historical enterprise analytics user',333,'add_historicalenterpriseanalyticsuser'),(1334,'Can change historical enterprise analytics user',333,'change_historicalenterpriseanalyticsuser'),(1335,'Can delete historical enterprise analytics user',333,'delete_historicalenterpriseanalyticsuser'),(1336,'Can view historical enterprise analytics user',333,'view_historicalenterpriseanalyticsuser'),(1337,'Can add enterprise analytics user',334,'add_enterpriseanalyticsuser'),(1338,'Can change enterprise analytics user',334,'change_enterpriseanalyticsuser'),(1339,'Can delete enterprise analytics user',334,'delete_enterpriseanalyticsuser'),(1340,'Can view enterprise analytics user',334,'view_enterpriseanalyticsuser'),(1341,'Can add update role assignments with customers config',335,'add_updateroleassignmentswithcustomersconfig'),(1342,'Can change update role assignments with customers config',335,'change_updateroleassignmentswithcustomersconfig'),(1343,'Can delete update role assignments with customers config',335,'delete_updateroleassignmentswithcustomersconfig'),(1344,'Can view update role assignments with customers config',335,'view_updateroleassignmentswithcustomersconfig'),(1345,'Can add Admin Notification Filter',336,'add_adminnotificationfilter'),(1346,'Can change Admin Notification Filter',336,'change_adminnotificationfilter'),(1347,'Can delete Admin Notification Filter',336,'delete_adminnotificationfilter'),(1348,'Can view Admin Notification Filter',336,'view_adminnotificationfilter'),(1349,'Can add Enterprise Customer Admin Notification',337,'add_adminnotification'),(1350,'Can change Enterprise Customer Admin Notification',337,'change_adminnotification'),(1351,'Can delete Enterprise Customer Admin Notification',337,'delete_adminnotification'),(1352,'Can view Enterprise Customer Admin Notification',337,'view_adminnotification'),(1353,'Can add Admin Notification Read',338,'add_adminnotificationread'),(1354,'Can change Admin Notification Read',338,'change_adminnotificationread'),(1355,'Can delete Admin Notification Read',338,'delete_adminnotificationread'),(1356,'Can view Admin Notification Read',338,'view_adminnotificationread'),(1357,'Can add historical system wide enterprise user role assignment',339,'add_historicalsystemwideenterpriseuserroleassignment'),(1358,'Can change historical system wide enterprise user role assignment',339,'change_historicalsystemwideenterpriseuserroleassignment'),(1359,'Can delete historical system wide enterprise user role assignment',339,'delete_historicalsystemwideenterpriseuserroleassignment'),(1360,'Can view historical system wide enterprise user role assignment',339,'view_historicalsystemwideenterpriseuserroleassignment'),(1361,'Can add historical Enterprise Customer Learner',340,'add_historicalenterprisecustomeruser'),(1362,'Can change historical Enterprise Customer Learner',340,'change_historicalenterprisecustomeruser'),(1363,'Can delete historical Enterprise Customer Learner',340,'delete_historicalenterprisecustomeruser'),(1364,'Can view historical Enterprise Customer Learner',340,'view_historicalenterprisecustomeruser'),(1365,'Can add Data Sharing Consent Record',341,'add_datasharingconsent'),(1366,'Can change Data Sharing Consent Record',341,'change_datasharingconsent'),(1367,'Can delete Data Sharing Consent Record',341,'delete_datasharingconsent'),(1368,'Can view Data Sharing Consent Record',341,'view_datasharingconsent'),(1369,'Can add historical Data Sharing Consent Record',342,'add_historicaldatasharingconsent'),(1370,'Can change historical Data Sharing Consent Record',342,'change_historicaldatasharingconsent'),(1371,'Can delete historical Data Sharing Consent Record',342,'delete_historicaldatasharingconsent'),(1372,'Can view historical Data Sharing Consent Record',342,'view_historicaldatasharingconsent'),(1373,'Can add data sharing consent text overrides',343,'add_datasharingconsenttextoverrides'),(1374,'Can change data sharing consent text overrides',343,'change_datasharingconsenttextoverrides'),(1375,'Can delete data sharing consent text overrides',343,'delete_datasharingconsenttextoverrides'),(1376,'Can view data sharing consent text overrides',343,'view_datasharingconsenttextoverrides'),(1377,'Can add learner data transmission audit',344,'add_learnerdatatransmissionaudit'),(1378,'Can change learner data transmission audit',344,'change_learnerdatatransmissionaudit'),(1379,'Can delete learner data transmission audit',344,'delete_learnerdatatransmissionaudit'),(1380,'Can view learner data transmission audit',344,'view_learnerdatatransmissionaudit'),(1381,'Can add content metadata item transmission',345,'add_contentmetadataitemtransmission'),(1382,'Can change content metadata item transmission',345,'change_contentmetadataitemtransmission'),(1383,'Can delete content metadata item transmission',345,'delete_contentmetadataitemtransmission'),(1384,'Can view content metadata item transmission',345,'view_contentmetadataitemtransmission'),(1385,'Can add degreed enterprise customer configuration',346,'add_degreedenterprisecustomerconfiguration'),(1386,'Can change degreed enterprise customer configuration',346,'change_degreedenterprisecustomerconfiguration'),(1387,'Can delete degreed enterprise customer configuration',346,'delete_degreedenterprisecustomerconfiguration'),(1388,'Can view degreed enterprise customer configuration',346,'view_degreedenterprisecustomerconfiguration'),(1389,'Can add degreed global configuration',347,'add_degreedglobalconfiguration'),(1390,'Can change degreed global configuration',347,'change_degreedglobalconfiguration'),(1391,'Can delete degreed global configuration',347,'delete_degreedglobalconfiguration'),(1392,'Can view degreed global configuration',347,'view_degreedglobalconfiguration'),(1393,'Can add degreed learner data transmission audit',348,'add_degreedlearnerdatatransmissionaudit'),(1394,'Can change degreed learner data transmission audit',348,'change_degreedlearnerdatatransmissionaudit'),(1395,'Can delete degreed learner data transmission audit',348,'delete_degreedlearnerdatatransmissionaudit'),(1396,'Can view degreed learner data transmission audit',348,'view_degreedlearnerdatatransmissionaudit'),(1397,'Can add historical degreed enterprise customer configuration',349,'add_historicaldegreedenterprisecustomerconfiguration'),(1398,'Can change historical degreed enterprise customer configuration',349,'change_historicaldegreedenterprisecustomerconfiguration'),(1399,'Can delete historical degreed enterprise customer configuration',349,'delete_historicaldegreedenterprisecustomerconfiguration'),(1400,'Can view historical degreed enterprise customer configuration',349,'view_historicaldegreedenterprisecustomerconfiguration'),(1401,'Can add sap success factors learner data transmission audit',350,'add_sapsuccessfactorslearnerdatatransmissionaudit'),(1402,'Can change sap success factors learner data transmission audit',350,'change_sapsuccessfactorslearnerdatatransmissionaudit'),(1403,'Can delete sap success factors learner data transmission audit',350,'delete_sapsuccessfactorslearnerdatatransmissionaudit'),(1404,'Can view sap success factors learner data transmission audit',350,'view_sapsuccessfactorslearnerdatatransmissionaudit'),(1405,'Can add sap success factors global configuration',351,'add_sapsuccessfactorsglobalconfiguration'),(1406,'Can change sap success factors global configuration',351,'change_sapsuccessfactorsglobalconfiguration'),(1407,'Can delete sap success factors global configuration',351,'delete_sapsuccessfactorsglobalconfiguration'),(1408,'Can view sap success factors global configuration',351,'view_sapsuccessfactorsglobalconfiguration'),(1409,'Can add sap success factors enterprise customer configuration',352,'add_sapsuccessfactorsenterprisecustomerconfiguration'),(1410,'Can change sap success factors enterprise customer configuration',352,'change_sapsuccessfactorsenterprisecustomerconfiguration'),(1411,'Can delete sap success factors enterprise customer configuration',352,'delete_sapsuccessfactorsenterprisecustomerconfiguration'),(1412,'Can view sap success factors enterprise customer configuration',352,'view_sapsuccessfactorsenterprisecustomerconfiguration'),(1413,'Can add cornerstone enterprise customer configuration',353,'add_cornerstoneenterprisecustomerconfiguration'),(1414,'Can change cornerstone enterprise customer configuration',353,'change_cornerstoneenterprisecustomerconfiguration'),(1415,'Can delete cornerstone enterprise customer configuration',353,'delete_cornerstoneenterprisecustomerconfiguration'),(1416,'Can view cornerstone enterprise customer configuration',353,'view_cornerstoneenterprisecustomerconfiguration'),(1417,'Can add cornerstone global configuration',354,'add_cornerstoneglobalconfiguration'),(1418,'Can change cornerstone global configuration',354,'change_cornerstoneglobalconfiguration'),(1419,'Can delete cornerstone global configuration',354,'delete_cornerstoneglobalconfiguration'),(1420,'Can view cornerstone global configuration',354,'view_cornerstoneglobalconfiguration'),(1421,'Can add cornerstone learner data transmission audit',355,'add_cornerstonelearnerdatatransmissionaudit'),(1422,'Can change cornerstone learner data transmission audit',355,'change_cornerstonelearnerdatatransmissionaudit'),(1423,'Can delete cornerstone learner data transmission audit',355,'delete_cornerstonelearnerdatatransmissionaudit'),(1424,'Can view cornerstone learner data transmission audit',355,'view_cornerstonelearnerdatatransmissionaudit'),(1425,'Can add historical cornerstone enterprise customer configuration',356,'add_historicalcornerstoneenterprisecustomerconfiguration'),(1426,'Can change historical cornerstone enterprise customer configuration',356,'change_historicalcornerstoneenterprisecustomerconfiguration'),(1427,'Can delete historical cornerstone enterprise customer configuration',356,'delete_historicalcornerstoneenterprisecustomerconfiguration'),(1428,'Can view historical cornerstone enterprise customer configuration',356,'view_historicalcornerstoneenterprisecustomerconfiguration'),(1429,'Can add xapilrs configuration',357,'add_xapilrsconfiguration'),(1430,'Can change xapilrs configuration',357,'change_xapilrsconfiguration'),(1431,'Can delete xapilrs configuration',357,'delete_xapilrsconfiguration'),(1432,'Can view xapilrs configuration',357,'view_xapilrsconfiguration'),(1433,'Can add xapi learner data transmission audit',358,'add_xapilearnerdatatransmissionaudit'),(1434,'Can change xapi learner data transmission audit',358,'change_xapilearnerdatatransmissionaudit'),(1435,'Can delete xapi learner data transmission audit',358,'delete_xapilearnerdatatransmissionaudit'),(1436,'Can view xapi learner data transmission audit',358,'view_xapilearnerdatatransmissionaudit'),(1437,'Can add historical blackboard enterprise customer configuration',359,'add_historicalblackboardenterprisecustomerconfiguration'),(1438,'Can change historical blackboard enterprise customer configuration',359,'change_historicalblackboardenterprisecustomerconfiguration'),(1439,'Can delete historical blackboard enterprise customer configuration',359,'delete_historicalblackboardenterprisecustomerconfiguration'),(1440,'Can view historical blackboard enterprise customer configuration',359,'view_historicalblackboardenterprisecustomerconfiguration'),(1441,'Can add blackboard enterprise customer configuration',360,'add_blackboardenterprisecustomerconfiguration'),(1442,'Can change blackboard enterprise customer configuration',360,'change_blackboardenterprisecustomerconfiguration'),(1443,'Can delete blackboard enterprise customer configuration',360,'delete_blackboardenterprisecustomerconfiguration'),(1444,'Can view blackboard enterprise customer configuration',360,'view_blackboardenterprisecustomerconfiguration'),(1445,'Can add blackboard learner data transmission audit',361,'add_blackboardlearnerdatatransmissionaudit'),(1446,'Can change blackboard learner data transmission audit',361,'change_blackboardlearnerdatatransmissionaudit'),(1447,'Can delete blackboard learner data transmission audit',361,'delete_blackboardlearnerdatatransmissionaudit'),(1448,'Can view blackboard learner data transmission audit',361,'view_blackboardlearnerdatatransmissionaudit'),(1449,'Can add blackboard learner assessment data transmission audit',362,'add_blackboardlearnerassessmentdatatransmissionaudit'),(1450,'Can change blackboard learner assessment data transmission audit',362,'change_blackboardlearnerassessmentdatatransmissionaudit'),(1451,'Can delete blackboard learner assessment data transmission audit',362,'delete_blackboardlearnerassessmentdatatransmissionaudit'),(1452,'Can view blackboard learner assessment data transmission audit',362,'view_blackboardlearnerassessmentdatatransmissionaudit'),(1453,'Can add historical canvas enterprise customer configuration',363,'add_historicalcanvasenterprisecustomerconfiguration'),(1454,'Can change historical canvas enterprise customer configuration',363,'change_historicalcanvasenterprisecustomerconfiguration'),(1455,'Can delete historical canvas enterprise customer configuration',363,'delete_historicalcanvasenterprisecustomerconfiguration'),(1456,'Can view historical canvas enterprise customer configuration',363,'view_historicalcanvasenterprisecustomerconfiguration'),(1457,'Can add canvas enterprise customer configuration',364,'add_canvasenterprisecustomerconfiguration'),(1458,'Can change canvas enterprise customer configuration',364,'change_canvasenterprisecustomerconfiguration'),(1459,'Can delete canvas enterprise customer configuration',364,'delete_canvasenterprisecustomerconfiguration'),(1460,'Can view canvas enterprise customer configuration',364,'view_canvasenterprisecustomerconfiguration'),(1461,'Can add canvas learner data transmission audit',365,'add_canvaslearnerdatatransmissionaudit'),(1462,'Can change canvas learner data transmission audit',365,'change_canvaslearnerdatatransmissionaudit'),(1463,'Can delete canvas learner data transmission audit',365,'delete_canvaslearnerdatatransmissionaudit'),(1464,'Can view canvas learner data transmission audit',365,'view_canvaslearnerdatatransmissionaudit'),(1465,'Can add canvas learner assessment data transmission audit',366,'add_canvaslearnerassessmentdatatransmissionaudit'),(1466,'Can change canvas learner assessment data transmission audit',366,'change_canvaslearnerassessmentdatatransmissionaudit'),(1467,'Can delete canvas learner assessment data transmission audit',366,'delete_canvaslearnerassessmentdatatransmissionaudit'),(1468,'Can view canvas learner assessment data transmission audit',366,'view_canvaslearnerassessmentdatatransmissionaudit'),(1469,'Can add moodle enterprise customer configuration',367,'add_moodleenterprisecustomerconfiguration'),(1470,'Can change moodle enterprise customer configuration',367,'change_moodleenterprisecustomerconfiguration'),(1471,'Can delete moodle enterprise customer configuration',367,'delete_moodleenterprisecustomerconfiguration'),(1472,'Can view moodle enterprise customer configuration',367,'view_moodleenterprisecustomerconfiguration'),(1473,'Can add historical moodle enterprise customer configuration',368,'add_historicalmoodleenterprisecustomerconfiguration'),(1474,'Can change historical moodle enterprise customer configuration',368,'change_historicalmoodleenterprisecustomerconfiguration'),(1475,'Can delete historical moodle enterprise customer configuration',368,'delete_historicalmoodleenterprisecustomerconfiguration'),(1476,'Can view historical moodle enterprise customer configuration',368,'view_historicalmoodleenterprisecustomerconfiguration'),(1477,'Can add moodle learner data transmission audit',369,'add_moodlelearnerdatatransmissionaudit'),(1478,'Can change moodle learner data transmission audit',369,'change_moodlelearnerdatatransmissionaudit'),(1479,'Can delete moodle learner data transmission audit',369,'delete_moodlelearnerdatatransmissionaudit'),(1480,'Can view moodle learner data transmission audit',369,'view_moodlelearnerdatatransmissionaudit'),(1481,'Can add announcement',370,'add_announcement'),(1482,'Can change announcement',370,'change_announcement'),(1483,'Can delete announcement',370,'delete_announcement'),(1484,'Can view announcement',370,'view_announcement'),(1485,'Can add bookmark',371,'add_bookmark'),(1486,'Can change bookmark',371,'change_bookmark'),(1487,'Can delete bookmark',371,'delete_bookmark'),(1488,'Can view bookmark',371,'view_bookmark'),(1489,'Can add x block cache',372,'add_xblockcache'),(1490,'Can change x block cache',372,'change_xblockcache'),(1491,'Can delete x block cache',372,'delete_xblockcache'),(1492,'Can view x block cache',372,'view_xblockcache'),(1493,'Can add content library',373,'add_contentlibrary'),(1494,'Can change content library',373,'change_contentlibrary'),(1495,'Can delete content library',373,'delete_contentlibrary'),(1496,'Can view content library',373,'view_contentlibrary'),(1497,'Can add content library permission',374,'add_contentlibrarypermission'),(1498,'Can change content library permission',374,'change_contentlibrarypermission'),(1499,'Can delete content library permission',374,'delete_contentlibrarypermission'),(1500,'Can view content library permission',374,'view_contentlibrarypermission'),(1501,'Can add credentials api config',375,'add_credentialsapiconfig'),(1502,'Can change credentials api config',375,'change_credentialsapiconfig'),(1503,'Can delete credentials api config',375,'delete_credentialsapiconfig'),(1504,'Can view credentials api config',375,'view_credentialsapiconfig'),(1505,'Can add notify_credentials argument',376,'add_notifycredentialsconfig'),(1506,'Can change notify_credentials argument',376,'change_notifycredentialsconfig'),(1507,'Can delete notify_credentials argument',376,'delete_notifycredentialsconfig'),(1508,'Can view notify_credentials argument',376,'view_notifycredentialsconfig'),(1509,'Can add historical discussions configuration',377,'add_historicaldiscussionsconfiguration'),(1510,'Can change historical discussions configuration',377,'change_historicaldiscussionsconfiguration'),(1511,'Can delete historical discussions configuration',377,'delete_historicaldiscussionsconfiguration'),(1512,'Can view historical discussions configuration',377,'view_historicaldiscussionsconfiguration'),(1513,'Can add discussions configuration',378,'add_discussionsconfiguration'),(1514,'Can change discussions configuration',378,'change_discussionsconfiguration'),(1515,'Can delete discussions configuration',378,'delete_discussionsconfiguration'),(1516,'Can view discussions configuration',378,'view_discussionsconfiguration'),(1517,'Can add provider filter',379,'add_providerfilter'),(1518,'Can change provider filter',379,'change_providerfilter'),(1519,'Can delete provider filter',379,'delete_providerfilter'),(1520,'Can view provider filter',379,'view_providerfilter'),(1521,'Can add persistent subsection grade',380,'add_persistentsubsectiongrade'),(1522,'Can change persistent subsection grade',380,'change_persistentsubsectiongrade'),(1523,'Can delete persistent subsection grade',380,'delete_persistentsubsectiongrade'),(1524,'Can view persistent subsection grade',380,'view_persistentsubsectiongrade'),(1525,'Can add visible blocks',381,'add_visibleblocks'),(1526,'Can change visible blocks',381,'change_visibleblocks'),(1527,'Can delete visible blocks',381,'delete_visibleblocks'),(1528,'Can view visible blocks',381,'view_visibleblocks'),(1529,'Can add course persistent grades flag',382,'add_coursepersistentgradesflag'),(1530,'Can change course persistent grades flag',382,'change_coursepersistentgradesflag'),(1531,'Can delete course persistent grades flag',382,'delete_coursepersistentgradesflag'),(1532,'Can view course persistent grades flag',382,'view_coursepersistentgradesflag'),(1533,'Can add persistent grades enabled flag',383,'add_persistentgradesenabledflag'),(1534,'Can change persistent grades enabled flag',383,'change_persistentgradesenabledflag'),(1535,'Can delete persistent grades enabled flag',383,'delete_persistentgradesenabledflag'),(1536,'Can view persistent grades enabled flag',383,'view_persistentgradesenabledflag'),(1537,'Can add persistent course grade',384,'add_persistentcoursegrade'),(1538,'Can change persistent course grade',384,'change_persistentcoursegrade'),(1539,'Can delete persistent course grade',384,'delete_persistentcoursegrade'),(1540,'Can view persistent course grade',384,'view_persistentcoursegrade'),(1541,'Can add compute grades setting',385,'add_computegradessetting'),(1542,'Can change compute grades setting',385,'change_computegradessetting'),(1543,'Can delete compute grades setting',385,'delete_computegradessetting'),(1544,'Can view compute grades setting',385,'view_computegradessetting'),(1545,'Can add persistent subsection grade override',386,'add_persistentsubsectiongradeoverride'),(1546,'Can change persistent subsection grade override',386,'change_persistentsubsectiongradeoverride'),(1547,'Can delete persistent subsection grade override',386,'delete_persistentsubsectiongradeoverride'),(1548,'Can view persistent subsection grade override',386,'view_persistentsubsectiongradeoverride'),(1549,'Can add historical persistent subsection grade override',387,'add_historicalpersistentsubsectiongradeoverride'),(1550,'Can change historical persistent subsection grade override',387,'change_historicalpersistentsubsectiongradeoverride'),(1551,'Can delete historical persistent subsection grade override',387,'delete_historicalpersistentsubsectiongradeoverride'),(1552,'Can view historical persistent subsection grade override',387,'view_historicalpersistentsubsectiongradeoverride'),(1553,'Can add historical program enrollment',388,'add_historicalprogramenrollment'),(1554,'Can change historical program enrollment',388,'change_historicalprogramenrollment'),(1555,'Can delete historical program enrollment',388,'delete_historicalprogramenrollment'),(1556,'Can view historical program enrollment',388,'view_historicalprogramenrollment'),(1557,'Can add program enrollment',389,'add_programenrollment'),(1558,'Can change program enrollment',389,'change_programenrollment'),(1559,'Can delete program enrollment',389,'delete_programenrollment'),(1560,'Can view program enrollment',389,'view_programenrollment'),(1561,'Can add historical program course enrollment',390,'add_historicalprogramcourseenrollment'),(1562,'Can change historical program course enrollment',390,'change_historicalprogramcourseenrollment'),(1563,'Can delete historical program course enrollment',390,'delete_historicalprogramcourseenrollment'),(1564,'Can view historical program course enrollment',390,'view_historicalprogramcourseenrollment'),(1565,'Can add program course enrollment',391,'add_programcourseenrollment'),(1566,'Can change program course enrollment',391,'change_programcourseenrollment'),(1567,'Can delete program course enrollment',391,'delete_programcourseenrollment'),(1568,'Can view program course enrollment',391,'view_programcourseenrollment'),(1569,'Can add course access role assignment',392,'add_courseaccessroleassignment'),(1570,'Can change course access role assignment',392,'change_courseaccessroleassignment'),(1571,'Can delete course access role assignment',392,'delete_courseaccessroleassignment'),(1572,'Can view course access role assignment',392,'view_courseaccessroleassignment'),(1573,'Can add site theme',393,'add_sitetheme'),(1574,'Can change site theme',393,'change_sitetheme'),(1575,'Can delete site theme',393,'delete_sitetheme'),(1576,'Can view site theme',393,'view_sitetheme'),(1577,'Can add content date',394,'add_contentdate'),(1578,'Can change content date',394,'change_contentdate'),(1579,'Can delete content date',394,'delete_contentdate'),(1580,'Can view content date',394,'view_contentdate'),(1581,'Can add date policy',395,'add_datepolicy'),(1582,'Can change date policy',395,'change_datepolicy'),(1583,'Can delete date policy',395,'delete_datepolicy'),(1584,'Can view date policy',395,'view_datepolicy'),(1585,'Can add user date',396,'add_userdate'),(1586,'Can change user date',396,'change_userdate'),(1587,'Can delete user date',396,'delete_userdate'),(1588,'Can view user date',396,'view_userdate'),(1589,'Can add csv operation',397,'add_csvoperation'),(1590,'Can change csv operation',397,'change_csvoperation'),(1591,'Can delete csv operation',397,'delete_csvoperation'),(1592,'Can view csv operation',397,'view_csvoperation'),(1593,'Can add block completion',398,'add_blockcompletion'),(1594,'Can change block completion',398,'change_blockcompletion'),(1595,'Can delete block completion',398,'delete_blockcompletion'),(1596,'Can view block completion',398,'view_blockcompletion'),(1597,'Can add proctored exam',399,'add_proctoredexam'),(1598,'Can change proctored exam',399,'change_proctoredexam'),(1599,'Can delete proctored exam',399,'delete_proctoredexam'),(1600,'Can view proctored exam',399,'view_proctoredexam'),(1601,'Can add Proctored exam review policy',400,'add_proctoredexamreviewpolicy'),(1602,'Can change Proctored exam review policy',400,'change_proctoredexamreviewpolicy'),(1603,'Can delete Proctored exam review policy',400,'delete_proctoredexamreviewpolicy'),(1604,'Can view Proctored exam review policy',400,'view_proctoredexamreviewpolicy'),(1605,'Can add proctored exam review policy history',401,'add_proctoredexamreviewpolicyhistory'),(1606,'Can change proctored exam review policy history',401,'change_proctoredexamreviewpolicyhistory'),(1607,'Can delete proctored exam review policy history',401,'delete_proctoredexamreviewpolicyhistory'),(1608,'Can view proctored exam review policy history',401,'view_proctoredexamreviewpolicyhistory'),(1609,'Can add proctored exam software secure comment',402,'add_proctoredexamsoftwaresecurecomment'),(1610,'Can change proctored exam software secure comment',402,'change_proctoredexamsoftwaresecurecomment'),(1611,'Can delete proctored exam software secure comment',402,'delete_proctoredexamsoftwaresecurecomment'),(1612,'Can view proctored exam software secure comment',402,'view_proctoredexamsoftwaresecurecomment'),(1613,'Can add Proctored exam software secure review',403,'add_proctoredexamsoftwaresecurereview'),(1614,'Can change Proctored exam software secure review',403,'change_proctoredexamsoftwaresecurereview'),(1615,'Can delete Proctored exam software secure review',403,'delete_proctoredexamsoftwaresecurereview'),(1616,'Can view Proctored exam software secure review',403,'view_proctoredexamsoftwaresecurereview'),(1617,'Can add Proctored exam review archive',404,'add_proctoredexamsoftwaresecurereviewhistory'),(1618,'Can change Proctored exam review archive',404,'change_proctoredexamsoftwaresecurereviewhistory'),(1619,'Can delete Proctored exam review archive',404,'delete_proctoredexamsoftwaresecurereviewhistory'),(1620,'Can view Proctored exam review archive',404,'view_proctoredexamsoftwaresecurereviewhistory'),(1621,'Can add proctored allowance',405,'add_proctoredexamstudentallowance'),(1622,'Can change proctored allowance',405,'change_proctoredexamstudentallowance'),(1623,'Can delete proctored allowance',405,'delete_proctoredexamstudentallowance'),(1624,'Can view proctored allowance',405,'view_proctoredexamstudentallowance'),(1625,'Can add proctored allowance history',406,'add_proctoredexamstudentallowancehistory'),(1626,'Can change proctored allowance history',406,'change_proctoredexamstudentallowancehistory'),(1627,'Can delete proctored allowance history',406,'delete_proctoredexamstudentallowancehistory'),(1628,'Can view proctored allowance history',406,'view_proctoredexamstudentallowancehistory'),(1629,'Can add proctored exam attempt',407,'add_proctoredexamstudentattempt'),(1630,'Can change proctored exam attempt',407,'change_proctoredexamstudentattempt'),(1631,'Can delete proctored exam attempt',407,'delete_proctoredexamstudentattempt'),(1632,'Can view proctored exam attempt',407,'view_proctoredexamstudentattempt'),(1633,'Can add proctored exam attempt history',408,'add_proctoredexamstudentattempthistory'),(1634,'Can change proctored exam attempt history',408,'change_proctoredexamstudentattempthistory'),(1635,'Can delete proctored exam attempt history',408,'delete_proctoredexamstudentattempthistory'),(1636,'Can view proctored exam attempt history',408,'view_proctoredexamstudentattempthistory'),(1637,'Can add score overrider',409,'add_scoreoverrider'),(1638,'Can change score overrider',409,'change_scoreoverrider'),(1639,'Can delete score overrider',409,'delete_scoreoverrider'),(1640,'Can view score overrider',409,'view_scoreoverrider'),(1641,'Can add lti configuration',410,'add_lticonfiguration'),(1642,'Can change lti configuration',410,'change_lticonfiguration'),(1643,'Can delete lti configuration',410,'delete_lticonfiguration'),(1644,'Can view lti configuration',410,'view_lticonfiguration'),(1645,'Can add lti ags line item',411,'add_ltiagslineitem'),(1646,'Can change lti ags line item',411,'change_ltiagslineitem'),(1647,'Can delete lti ags line item',411,'delete_ltiagslineitem'),(1648,'Can view lti ags line item',411,'view_ltiagslineitem'),(1649,'Can add lti ags score',412,'add_ltiagsscore'),(1650,'Can change lti ags score',412,'change_ltiagsscore'),(1651,'Can delete lti ags score',412,'delete_ltiagsscore'),(1652,'Can view lti ags score',412,'view_ltiagsscore'),(1653,'Can add lti dl content item',413,'add_ltidlcontentitem'),(1654,'Can change lti dl content item',413,'change_ltidlcontentitem'),(1655,'Can delete lti dl content item',413,'delete_ltidlcontentitem'),(1656,'Can view lti dl content item',413,'view_ltidlcontentitem'),(1657,'Can add course allow pii sharing in lti flag',414,'add_courseallowpiisharinginltiflag'),(1658,'Can change course allow pii sharing in lti flag',414,'change_courseallowpiisharinginltiflag'),(1659,'Can delete course allow pii sharing in lti flag',414,'delete_courseallowpiisharinginltiflag'),(1660,'Can view course allow pii sharing in lti flag',414,'view_courseallowpiisharinginltiflag'),(1661,'Can add verified name',415,'add_verifiedname'),(1662,'Can change verified name',415,'change_verifiedname'),(1663,'Can delete verified name',415,'delete_verifiedname'),(1664,'Can view verified name',415,'view_verifiedname'),(1665,'Can add video upload config',416,'add_videouploadconfig'),(1666,'Can change video upload config',416,'change_videouploadconfig'),(1667,'Can delete video upload config',416,'delete_videouploadconfig'),(1668,'Can view video upload config',416,'view_videouploadconfig'),(1669,'Can add course outline regenerate',417,'add_courseoutlineregenerate'),(1670,'Can change course outline regenerate',417,'change_courseoutlineregenerate'),(1671,'Can delete course outline regenerate',417,'delete_courseoutlineregenerate'),(1672,'Can view course outline regenerate',417,'view_courseoutlineregenerate'),(1673,'Can add course creator',418,'add_coursecreator'),(1674,'Can change course creator',418,'change_coursecreator'),(1675,'Can delete course creator',418,'delete_coursecreator'),(1676,'Can view course creator',418,'view_coursecreator'),(1677,'Can add studio config',419,'add_studioconfig'),(1678,'Can change studio config',419,'change_studioconfig'),(1679,'Can delete studio config',419,'delete_studioconfig'),(1680,'Can view studio config',419,'view_studioconfig'),(1681,'Can add available tag value',420,'add_tagavailablevalues'),(1682,'Can change available tag value',420,'change_tagavailablevalues'),(1683,'Can delete available tag value',420,'delete_tagavailablevalues'),(1684,'Can view available tag value',420,'view_tagavailablevalues'),(1685,'Can add tag category',421,'add_tagcategories'),(1686,'Can change tag category',421,'change_tagcategories'),(1687,'Can delete tag category',421,'delete_tagcategories'),(1688,'Can view tag category',421,'view_tagcategories'),(1689,'Can add user task artifact',422,'add_usertaskartifact'),(1690,'Can change user task artifact',422,'change_usertaskartifact'),(1691,'Can delete user task artifact',422,'delete_usertaskartifact'),(1692,'Can view user task artifact',422,'view_usertaskartifact'),(1693,'Can add user task status',423,'add_usertaskstatus'),(1694,'Can change user task status',423,'change_usertaskstatus'),(1695,'Can delete user task status',423,'delete_usertaskstatus'),(1696,'Can view user task status',423,'view_usertaskstatus');
+INSERT INTO `auth_permission` VALUES (1,'Can add permission',2,'add_permission'),(2,'Can change permission',2,'change_permission'),(3,'Can delete permission',2,'delete_permission'),(4,'Can view permission',2,'view_permission'),(5,'Can add group',3,'add_group'),(6,'Can change group',3,'change_group'),(7,'Can delete group',3,'delete_group'),(8,'Can view group',3,'view_group'),(9,'Can add user',4,'add_user'),(10,'Can change user',4,'change_user'),(11,'Can delete user',4,'delete_user'),(12,'Can view user',4,'view_user'),(13,'Can add content type',5,'add_contenttype'),(14,'Can change content type',5,'change_contenttype'),(15,'Can delete content type',5,'delete_contenttype'),(16,'Can view content type',5,'view_contenttype'),(17,'Can add redirect',6,'add_redirect'),(18,'Can change redirect',6,'change_redirect'),(19,'Can delete redirect',6,'delete_redirect'),(20,'Can view redirect',6,'view_redirect'),(21,'Can add session',7,'add_session'),(22,'Can change session',7,'change_session'),(23,'Can delete session',7,'delete_session'),(24,'Can view session',7,'view_session'),(25,'Can add site',8,'add_site'),(26,'Can change site',8,'change_site'),(27,'Can delete site',8,'delete_site'),(28,'Can view site',8,'view_site'),(29,'Can add task result',9,'add_taskresult'),(30,'Can change task result',9,'change_taskresult'),(31,'Can delete task result',9,'delete_taskresult'),(32,'Can view task result',9,'view_taskresult'),(33,'Can add chord counter',10,'add_chordcounter'),(34,'Can change chord counter',10,'change_chordcounter'),(35,'Can delete chord counter',10,'delete_chordcounter'),(36,'Can view chord counter',10,'view_chordcounter'),(37,'Can add group result',11,'add_groupresult'),(38,'Can change group result',11,'change_groupresult'),(39,'Can delete group result',11,'delete_groupresult'),(40,'Can view group result',11,'view_groupresult'),(41,'Can add Flag',12,'add_flag'),(42,'Can change Flag',12,'change_flag'),(43,'Can delete Flag',12,'delete_flag'),(44,'Can view Flag',12,'view_flag'),(45,'Can add Sample',13,'add_sample'),(46,'Can change Sample',13,'change_sample'),(47,'Can delete Sample',13,'delete_sample'),(48,'Can view Sample',13,'view_sample'),(49,'Can add Switch',14,'add_switch'),(50,'Can change Switch',14,'change_switch'),(51,'Can delete Switch',14,'delete_switch'),(52,'Can view Switch',14,'view_switch'),(53,'Can add course message',15,'add_coursemessage'),(54,'Can change course message',15,'change_coursemessage'),(55,'Can delete course message',15,'delete_coursemessage'),(56,'Can view course message',15,'view_coursemessage'),(57,'Can add global status message',16,'add_globalstatusmessage'),(58,'Can change global status message',16,'change_globalstatusmessage'),(59,'Can delete global status message',16,'delete_globalstatusmessage'),(60,'Can view global status message',16,'view_globalstatusmessage'),(61,'Can add asset base url config',17,'add_assetbaseurlconfig'),(62,'Can change asset base url config',17,'change_assetbaseurlconfig'),(63,'Can delete asset base url config',17,'delete_assetbaseurlconfig'),(64,'Can view asset base url config',17,'view_assetbaseurlconfig'),(65,'Can add asset excluded extensions config',18,'add_assetexcludedextensionsconfig'),(66,'Can change asset excluded extensions config',18,'change_assetexcludedextensionsconfig'),(67,'Can delete asset excluded extensions config',18,'delete_assetexcludedextensionsconfig'),(68,'Can view asset excluded extensions config',18,'view_assetexcludedextensionsconfig'),(69,'Can add course asset cache ttl config',19,'add_courseassetcachettlconfig'),(70,'Can change course asset cache ttl config',19,'change_courseassetcachettlconfig'),(71,'Can delete course asset cache ttl config',19,'delete_courseassetcachettlconfig'),(72,'Can view course asset cache ttl config',19,'view_courseassetcachettlconfig'),(73,'Can add cdn user agents config',20,'add_cdnuseragentsconfig'),(74,'Can change cdn user agents config',20,'change_cdnuseragentsconfig'),(75,'Can delete cdn user agents config',20,'delete_cdnuseragentsconfig'),(76,'Can view cdn user agents config',20,'view_cdnuseragentsconfig'),(77,'Can add site configuration',21,'add_siteconfiguration'),(78,'Can change site configuration',21,'change_siteconfiguration'),(79,'Can delete site configuration',21,'delete_siteconfiguration'),(80,'Can view site configuration',21,'view_siteconfiguration'),(81,'Can add site configuration history',22,'add_siteconfigurationhistory'),(82,'Can change site configuration history',22,'change_siteconfigurationhistory'),(83,'Can delete site configuration history',22,'delete_siteconfigurationhistory'),(84,'Can view site configuration history',22,'view_siteconfigurationhistory'),(85,'Can add course hls playback enabled flag',23,'add_coursehlsplaybackenabledflag'),(86,'Can change course hls playback enabled flag',23,'change_coursehlsplaybackenabledflag'),(87,'Can delete course hls playback enabled flag',23,'delete_coursehlsplaybackenabledflag'),(88,'Can view course hls playback enabled flag',23,'view_coursehlsplaybackenabledflag'),(89,'Can add hls playback enabled flag',24,'add_hlsplaybackenabledflag'),(90,'Can change hls playback enabled flag',24,'change_hlsplaybackenabledflag'),(91,'Can delete hls playback enabled flag',24,'delete_hlsplaybackenabledflag'),(92,'Can view hls playback enabled flag',24,'view_hlsplaybackenabledflag'),(93,'Can add course video transcript enabled flag',25,'add_coursevideotranscriptenabledflag'),(94,'Can change course video transcript enabled flag',25,'change_coursevideotranscriptenabledflag'),(95,'Can delete course video transcript enabled flag',25,'delete_coursevideotranscriptenabledflag'),(96,'Can view course video transcript enabled flag',25,'view_coursevideotranscriptenabledflag'),(97,'Can add video transcript enabled flag',26,'add_videotranscriptenabledflag'),(98,'Can change video transcript enabled flag',26,'change_videotranscriptenabledflag'),(99,'Can delete video transcript enabled flag',26,'delete_videotranscriptenabledflag'),(100,'Can view video transcript enabled flag',26,'view_videotranscriptenabledflag'),(101,'Can add transcript migration setting',27,'add_transcriptmigrationsetting'),(102,'Can change transcript migration setting',27,'change_transcriptmigrationsetting'),(103,'Can delete transcript migration setting',27,'delete_transcriptmigrationsetting'),(104,'Can view transcript migration setting',27,'view_transcriptmigrationsetting'),(105,'Can add migration enqueued course',28,'add_migrationenqueuedcourse'),(106,'Can change migration enqueued course',28,'change_migrationenqueuedcourse'),(107,'Can delete migration enqueued course',28,'delete_migrationenqueuedcourse'),(108,'Can view migration enqueued course',28,'view_migrationenqueuedcourse'),(109,'Can add updated course videos',29,'add_updatedcoursevideos'),(110,'Can change updated course videos',29,'change_updatedcoursevideos'),(111,'Can delete updated course videos',29,'delete_updatedcoursevideos'),(112,'Can view updated course videos',29,'view_updatedcoursevideos'),(113,'Can add video thumbnail setting',30,'add_videothumbnailsetting'),(114,'Can change video thumbnail setting',30,'change_videothumbnailsetting'),(115,'Can delete video thumbnail setting',30,'delete_videothumbnailsetting'),(116,'Can view video thumbnail setting',30,'view_videothumbnailsetting'),(117,'Can add course youtube blocked flag',31,'add_courseyoutubeblockedflag'),(118,'Can change course youtube blocked flag',31,'change_courseyoutubeblockedflag'),(119,'Can delete course youtube blocked flag',31,'delete_courseyoutubeblockedflag'),(120,'Can view course youtube blocked flag',31,'view_courseyoutubeblockedflag'),(121,'Can add course video uploads enabled by default',32,'add_coursevideouploadsenabledbydefault'),(122,'Can change course video uploads enabled by default',32,'change_coursevideouploadsenabledbydefault'),(123,'Can delete course video uploads enabled by default',32,'delete_coursevideouploadsenabledbydefault'),(124,'Can view course video uploads enabled by default',32,'view_coursevideouploadsenabledbydefault'),(125,'Can add video uploads enabled by default',33,'add_videouploadsenabledbydefault'),(126,'Can change video uploads enabled by default',33,'change_videouploadsenabledbydefault'),(127,'Can delete video uploads enabled by default',33,'delete_videouploadsenabledbydefault'),(128,'Can view video uploads enabled by default',33,'view_videouploadsenabledbydefault'),(129,'Can add vem pipeline integration',34,'add_vempipelineintegration'),(130,'Can change vem pipeline integration',34,'change_vempipelineintegration'),(131,'Can delete vem pipeline integration',34,'delete_vempipelineintegration'),(132,'Can view vem pipeline integration',34,'view_vempipelineintegration'),(133,'Can add offline computed grade',35,'add_offlinecomputedgrade'),(134,'Can change offline computed grade',35,'change_offlinecomputedgrade'),(135,'Can delete offline computed grade',35,'delete_offlinecomputedgrade'),(136,'Can view offline computed grade',35,'view_offlinecomputedgrade'),(137,'Can add offline computed grade log',36,'add_offlinecomputedgradelog'),(138,'Can change offline computed grade log',36,'change_offlinecomputedgradelog'),(139,'Can delete offline computed grade log',36,'delete_offlinecomputedgradelog'),(140,'Can view offline computed grade log',36,'view_offlinecomputedgradelog'),(141,'Can add student field override',37,'add_studentfieldoverride'),(142,'Can change student field override',37,'change_studentfieldoverride'),(143,'Can delete student field override',37,'delete_studentfieldoverride'),(144,'Can view student field override',37,'view_studentfieldoverride'),(145,'Can add student module',38,'add_studentmodule'),(146,'Can change student module',38,'change_studentmodule'),(147,'Can delete student module',38,'delete_studentmodule'),(148,'Can view student module',38,'view_studentmodule'),(149,'Can add student module history',39,'add_studentmodulehistory'),(150,'Can change student module history',39,'change_studentmodulehistory'),(151,'Can delete student module history',39,'delete_studentmodulehistory'),(152,'Can view student module history',39,'view_studentmodulehistory'),(153,'Can add x module student info field',40,'add_xmodulestudentinfofield'),(154,'Can change x module student info field',40,'change_xmodulestudentinfofield'),(155,'Can delete x module student info field',40,'delete_xmodulestudentinfofield'),(156,'Can view x module student info field',40,'view_xmodulestudentinfofield'),(157,'Can add x module student prefs field',41,'add_xmodulestudentprefsfield'),(158,'Can change x module student prefs field',41,'change_xmodulestudentprefsfield'),(159,'Can delete x module student prefs field',41,'delete_xmodulestudentprefsfield'),(160,'Can view x module student prefs field',41,'view_xmodulestudentprefsfield'),(161,'Can add x module user state summary field',42,'add_xmoduleuserstatesummaryfield'),(162,'Can change x module user state summary field',42,'change_xmoduleuserstatesummaryfield'),(163,'Can delete x module user state summary field',42,'delete_xmoduleuserstatesummaryfield'),(164,'Can view x module user state summary field',42,'view_xmoduleuserstatesummaryfield'),(165,'Can add course dynamic upgrade deadline configuration',43,'add_coursedynamicupgradedeadlineconfiguration'),(166,'Can change course dynamic upgrade deadline configuration',43,'change_coursedynamicupgradedeadlineconfiguration'),(167,'Can delete course dynamic upgrade deadline configuration',43,'delete_coursedynamicupgradedeadlineconfiguration'),(168,'Can view course dynamic upgrade deadline configuration',43,'view_coursedynamicupgradedeadlineconfiguration'),(169,'Can add dynamic upgrade deadline configuration',44,'add_dynamicupgradedeadlineconfiguration'),(170,'Can change dynamic upgrade deadline configuration',44,'change_dynamicupgradedeadlineconfiguration'),(171,'Can delete dynamic upgrade deadline configuration',44,'delete_dynamicupgradedeadlineconfiguration'),(172,'Can view dynamic upgrade deadline configuration',44,'view_dynamicupgradedeadlineconfiguration'),(173,'Can add org dynamic upgrade deadline configuration',45,'add_orgdynamicupgradedeadlineconfiguration'),(174,'Can change org dynamic upgrade deadline configuration',45,'change_orgdynamicupgradedeadlineconfiguration'),(175,'Can delete org dynamic upgrade deadline configuration',45,'delete_orgdynamicupgradedeadlineconfiguration'),(176,'Can view org dynamic upgrade deadline configuration',45,'view_orgdynamicupgradedeadlineconfiguration'),(177,'Can add last seen courseware timezone',46,'add_lastseencoursewaretimezone'),(178,'Can change last seen courseware timezone',46,'change_lastseencoursewaretimezone'),(179,'Can delete last seen courseware timezone',46,'delete_lastseencoursewaretimezone'),(180,'Can view last seen courseware timezone',46,'view_lastseencoursewaretimezone'),(181,'Can add financial assistance configuration',47,'add_financialassistanceconfiguration'),(182,'Can change financial assistance configuration',47,'change_financialassistanceconfiguration'),(183,'Can delete financial assistance configuration',47,'delete_financialassistanceconfiguration'),(184,'Can view financial assistance configuration',47,'view_financialassistanceconfiguration'),(185,'Can add student module history extended',48,'add_studentmodulehistoryextended'),(186,'Can change student module history extended',48,'change_studentmodulehistoryextended'),(187,'Can delete student module history extended',48,'delete_studentmodulehistoryextended'),(188,'Can view student module history extended',48,'view_studentmodulehistoryextended'),(189,'Can add anonymous user id',49,'add_anonymoususerid'),(190,'Can change anonymous user id',49,'change_anonymoususerid'),(191,'Can delete anonymous user id',49,'delete_anonymoususerid'),(192,'Can view anonymous user id',49,'view_anonymoususerid'),(193,'Can add course access role',50,'add_courseaccessrole'),(194,'Can change course access role',50,'change_courseaccessrole'),(195,'Can delete course access role',50,'delete_courseaccessrole'),(196,'Can view course access role',50,'view_courseaccessrole'),(197,'Can add course enrollment',51,'add_courseenrollment'),(198,'Can change course enrollment',51,'change_courseenrollment'),(199,'Can delete course enrollment',51,'delete_courseenrollment'),(200,'Can view course enrollment',51,'view_courseenrollment'),(201,'Can add course enrollment allowed',52,'add_courseenrollmentallowed'),(202,'Can change course enrollment allowed',52,'change_courseenrollmentallowed'),(203,'Can delete course enrollment allowed',52,'delete_courseenrollmentallowed'),(204,'Can view course enrollment allowed',52,'view_courseenrollmentallowed'),(205,'Can add course enrollment attribute',53,'add_courseenrollmentattribute'),(206,'Can change course enrollment attribute',53,'change_courseenrollmentattribute'),(207,'Can delete course enrollment attribute',53,'delete_courseenrollmentattribute'),(208,'Can view course enrollment attribute',53,'view_courseenrollmentattribute'),(209,'Can add dashboard configuration',54,'add_dashboardconfiguration'),(210,'Can change dashboard configuration',54,'change_dashboardconfiguration'),(211,'Can delete dashboard configuration',54,'delete_dashboardconfiguration'),(212,'Can view dashboard configuration',54,'view_dashboardconfiguration'),(213,'Can add enrollment refund configuration',55,'add_enrollmentrefundconfiguration'),(214,'Can change enrollment refund configuration',55,'change_enrollmentrefundconfiguration'),(215,'Can delete enrollment refund configuration',55,'delete_enrollmentrefundconfiguration'),(216,'Can view enrollment refund configuration',55,'view_enrollmentrefundconfiguration'),(217,'Can add entrance exam configuration',56,'add_entranceexamconfiguration'),(218,'Can change entrance exam configuration',56,'change_entranceexamconfiguration'),(219,'Can delete entrance exam configuration',56,'delete_entranceexamconfiguration'),(220,'Can view entrance exam configuration',56,'view_entranceexamconfiguration'),(221,'Can add language proficiency',57,'add_languageproficiency'),(222,'Can change language proficiency',57,'change_languageproficiency'),(223,'Can delete language proficiency',57,'delete_languageproficiency'),(224,'Can view language proficiency',57,'view_languageproficiency'),(225,'Can add linked in add to profile configuration',58,'add_linkedinaddtoprofileconfiguration'),(226,'Can change linked in add to profile configuration',58,'change_linkedinaddtoprofileconfiguration'),(227,'Can delete linked in add to profile configuration',58,'delete_linkedinaddtoprofileconfiguration'),(228,'Can view linked in add to profile configuration',58,'view_linkedinaddtoprofileconfiguration'),(229,'Can add Login Failure',59,'add_loginfailures'),(230,'Can change Login Failure',59,'change_loginfailures'),(231,'Can delete Login Failure',59,'delete_loginfailures'),(232,'Can view Login Failure',59,'view_loginfailures'),(233,'Can add manual enrollment audit',60,'add_manualenrollmentaudit'),(234,'Can change manual enrollment audit',60,'change_manualenrollmentaudit'),(235,'Can delete manual enrollment audit',60,'delete_manualenrollmentaudit'),(236,'Can view manual enrollment audit',60,'view_manualenrollmentaudit'),(237,'Can add pending email change',61,'add_pendingemailchange'),(238,'Can change pending email change',61,'change_pendingemailchange'),(239,'Can delete pending email change',61,'delete_pendingemailchange'),(240,'Can view pending email change',61,'view_pendingemailchange'),(241,'Can add pending name change',62,'add_pendingnamechange'),(242,'Can change pending name change',62,'change_pendingnamechange'),(243,'Can delete pending name change',62,'delete_pendingnamechange'),(244,'Can view pending name change',62,'view_pendingnamechange'),(245,'Can add registration',63,'add_registration'),(246,'Can change registration',63,'change_registration'),(247,'Can delete registration',63,'delete_registration'),(248,'Can view registration',63,'view_registration'),(249,'Can add user profile',64,'add_userprofile'),(250,'Can change user profile',64,'change_userprofile'),(251,'Can delete user profile',64,'delete_userprofile'),(252,'Can view user profile',64,'view_userprofile'),(253,'Can deactivate, but NOT delete users',64,'can_deactivate_users'),(254,'Can add user signup source',65,'add_usersignupsource'),(255,'Can change user signup source',65,'change_usersignupsource'),(256,'Can delete user signup source',65,'delete_usersignupsource'),(257,'Can view user signup source',65,'view_usersignupsource'),(258,'Can add user standing',66,'add_userstanding'),(259,'Can change user standing',66,'change_userstanding'),(260,'Can delete user standing',66,'delete_userstanding'),(261,'Can view user standing',66,'view_userstanding'),(262,'Can add user test group',67,'add_usertestgroup'),(263,'Can change user test group',67,'change_usertestgroup'),(264,'Can delete user test group',67,'delete_usertestgroup'),(265,'Can view user test group',67,'view_usertestgroup'),(266,'Can add user attribute',68,'add_userattribute'),(267,'Can change user attribute',68,'change_userattribute'),(268,'Can delete user attribute',68,'delete_userattribute'),(269,'Can view user attribute',68,'view_userattribute'),(270,'Can add registration cookie configuration',69,'add_registrationcookieconfiguration'),(271,'Can change registration cookie configuration',69,'change_registrationcookieconfiguration'),(272,'Can delete registration cookie configuration',69,'delete_registrationcookieconfiguration'),(273,'Can view registration cookie configuration',69,'view_registrationcookieconfiguration'),(274,'Can add social link',70,'add_sociallink'),(275,'Can change social link',70,'change_sociallink'),(276,'Can delete social link',70,'delete_sociallink'),(277,'Can view social link',70,'view_sociallink'),(278,'Can add account recovery',71,'add_accountrecovery'),(279,'Can change account recovery',71,'change_accountrecovery'),(280,'Can delete account recovery',71,'delete_accountrecovery'),(281,'Can view account recovery',71,'view_accountrecovery'),(282,'Can add pending secondary email change',72,'add_pendingsecondaryemailchange'),(283,'Can change pending secondary email change',72,'change_pendingsecondaryemailchange'),(284,'Can delete pending secondary email change',72,'delete_pendingsecondaryemailchange'),(285,'Can view pending secondary email change',72,'view_pendingsecondaryemailchange'),(286,'Can add historical course enrollment',73,'add_historicalcourseenrollment'),(287,'Can change historical course enrollment',73,'change_historicalcourseenrollment'),(288,'Can delete historical course enrollment',73,'delete_historicalcourseenrollment'),(289,'Can view historical course enrollment',73,'view_historicalcourseenrollment'),(290,'Can add bulk unenroll configuration',74,'add_bulkunenrollconfiguration'),(291,'Can change bulk unenroll configuration',74,'change_bulkunenrollconfiguration'),(292,'Can delete bulk unenroll configuration',74,'delete_bulkunenrollconfiguration'),(293,'Can view bulk unenroll configuration',74,'view_bulkunenrollconfiguration'),(294,'Can add fbe enrollment exclusion',75,'add_fbeenrollmentexclusion'),(295,'Can change fbe enrollment exclusion',75,'change_fbeenrollmentexclusion'),(296,'Can delete fbe enrollment exclusion',75,'delete_fbeenrollmentexclusion'),(297,'Can view fbe enrollment exclusion',75,'view_fbeenrollmentexclusion'),(298,'Can add allowed auth user',76,'add_allowedauthuser'),(299,'Can change allowed auth user',76,'change_allowedauthuser'),(300,'Can delete allowed auth user',76,'delete_allowedauthuser'),(301,'Can view allowed auth user',76,'view_allowedauthuser'),(302,'Can add historical manual enrollment audit',77,'add_historicalmanualenrollmentaudit'),(303,'Can change historical manual enrollment audit',77,'change_historicalmanualenrollmentaudit'),(304,'Can delete historical manual enrollment audit',77,'delete_historicalmanualenrollmentaudit'),(305,'Can view historical manual enrollment audit',77,'view_historicalmanualenrollmentaudit'),(306,'Can add account recovery configuration',78,'add_accountrecoveryconfiguration'),(307,'Can change account recovery configuration',78,'change_accountrecoveryconfiguration'),(308,'Can delete account recovery configuration',78,'delete_accountrecoveryconfiguration'),(309,'Can view account recovery configuration',78,'view_accountrecoveryconfiguration'),(310,'Can add course enrollment celebration',79,'add_courseenrollmentcelebration'),(311,'Can change course enrollment celebration',79,'change_courseenrollmentcelebration'),(312,'Can delete course enrollment celebration',79,'delete_courseenrollmentcelebration'),(313,'Can view course enrollment celebration',79,'view_courseenrollmentcelebration'),(314,'Can add bulk change enrollment configuration',80,'add_bulkchangeenrollmentconfiguration'),(315,'Can change bulk change enrollment configuration',80,'change_bulkchangeenrollmentconfiguration'),(316,'Can delete bulk change enrollment configuration',80,'delete_bulkchangeenrollmentconfiguration'),(317,'Can view bulk change enrollment configuration',80,'view_bulkchangeenrollmentconfiguration'),(318,'Can add user password toggle history',81,'add_userpasswordtogglehistory'),(319,'Can change user password toggle history',81,'change_userpasswordtogglehistory'),(320,'Can delete user password toggle history',81,'delete_userpasswordtogglehistory'),(321,'Can view user password toggle history',81,'view_userpasswordtogglehistory'),(322,'Can add user celebration',82,'add_usercelebration'),(323,'Can change user celebration',82,'change_usercelebration'),(324,'Can delete user celebration',82,'delete_usercelebration'),(325,'Can view user celebration',82,'view_usercelebration'),(326,'Can add split modulestore course index',83,'add_splitmodulestorecourseindex'),(327,'Can change split modulestore course index',83,'change_splitmodulestorecourseindex'),(328,'Can delete split modulestore course index',83,'delete_splitmodulestorecourseindex'),(329,'Can view split modulestore course index',83,'view_splitmodulestorecourseindex'),(330,'Can add historical split modulestore course index',84,'add_historicalsplitmodulestorecourseindex'),(331,'Can change historical split modulestore course index',84,'change_historicalsplitmodulestorecourseindex'),(332,'Can delete historical split modulestore course index',84,'delete_historicalsplitmodulestorecourseindex'),(333,'Can view historical split modulestore course index',84,'view_historicalsplitmodulestorecourseindex'),(334,'Can add rate limit configuration',85,'add_ratelimitconfiguration'),(335,'Can change rate limit configuration',85,'change_ratelimitconfiguration'),(336,'Can delete rate limit configuration',85,'delete_ratelimitconfiguration'),(337,'Can view rate limit configuration',85,'view_ratelimitconfiguration'),(338,'Can add certificate generation configuration',86,'add_certificategenerationconfiguration'),(339,'Can change certificate generation configuration',86,'change_certificategenerationconfiguration'),(340,'Can delete certificate generation configuration',86,'delete_certificategenerationconfiguration'),(341,'Can view certificate generation configuration',86,'view_certificategenerationconfiguration'),(342,'Can add certificate generation course setting',87,'add_certificategenerationcoursesetting'),(343,'Can change certificate generation course setting',87,'change_certificategenerationcoursesetting'),(344,'Can delete certificate generation course setting',87,'delete_certificategenerationcoursesetting'),(345,'Can view certificate generation course setting',87,'view_certificategenerationcoursesetting'),(346,'Can add certificate html view configuration',88,'add_certificatehtmlviewconfiguration'),(347,'Can change certificate html view configuration',88,'change_certificatehtmlviewconfiguration'),(348,'Can delete certificate html view configuration',88,'delete_certificatehtmlviewconfiguration'),(349,'Can view certificate html view configuration',88,'view_certificatehtmlviewconfiguration'),(350,'Can add certificate template',89,'add_certificatetemplate'),(351,'Can change certificate template',89,'change_certificatetemplate'),(352,'Can delete certificate template',89,'delete_certificatetemplate'),(353,'Can view certificate template',89,'view_certificatetemplate'),(354,'Can add certificate template asset',90,'add_certificatetemplateasset'),(355,'Can change certificate template asset',90,'change_certificatetemplateasset'),(356,'Can delete certificate template asset',90,'delete_certificatetemplateasset'),(357,'Can view certificate template asset',90,'view_certificatetemplateasset'),(358,'Can add example certificate',91,'add_examplecertificate'),(359,'Can change example certificate',91,'change_examplecertificate'),(360,'Can delete example certificate',91,'delete_examplecertificate'),(361,'Can view example certificate',91,'view_examplecertificate'),(362,'Can add example certificate set',92,'add_examplecertificateset'),(363,'Can change example certificate set',92,'change_examplecertificateset'),(364,'Can delete example certificate set',92,'delete_examplecertificateset'),(365,'Can view example certificate set',92,'view_examplecertificateset'),(366,'Can add generated certificate',93,'add_generatedcertificate'),(367,'Can change generated certificate',93,'change_generatedcertificate'),(368,'Can delete generated certificate',93,'delete_generatedcertificate'),(369,'Can view generated certificate',93,'view_generatedcertificate'),(370,'Can add certificate generation history',94,'add_certificategenerationhistory'),(371,'Can change certificate generation history',94,'change_certificategenerationhistory'),(372,'Can delete certificate generation history',94,'delete_certificategenerationhistory'),(373,'Can view certificate generation history',94,'view_certificategenerationhistory'),(374,'Can add certificate invalidation',95,'add_certificateinvalidation'),(375,'Can change certificate invalidation',95,'change_certificateinvalidation'),(376,'Can delete certificate invalidation',95,'delete_certificateinvalidation'),(377,'Can view certificate invalidation',95,'view_certificateinvalidation'),(378,'Can add historical generated certificate',96,'add_historicalgeneratedcertificate'),(379,'Can change historical generated certificate',96,'change_historicalgeneratedcertificate'),(380,'Can delete historical generated certificate',96,'delete_historicalgeneratedcertificate'),(381,'Can view historical generated certificate',96,'view_historicalgeneratedcertificate'),(382,'Can add historical certificate invalidation',97,'add_historicalcertificateinvalidation'),(383,'Can change historical certificate invalidation',97,'change_historicalcertificateinvalidation'),(384,'Can delete historical certificate invalidation',97,'delete_historicalcertificateinvalidation'),(385,'Can view historical certificate invalidation',97,'view_historicalcertificateinvalidation'),(386,'Can add cert_generation argument',98,'add_certificategenerationcommandconfiguration'),(387,'Can change cert_generation argument',98,'change_certificategenerationcommandconfiguration'),(388,'Can delete cert_generation argument',98,'delete_certificategenerationcommandconfiguration'),(389,'Can view cert_generation argument',98,'view_certificategenerationcommandconfiguration'),(390,'Can add certificate allowlist',99,'add_certificateallowlist'),(391,'Can change certificate allowlist',99,'change_certificateallowlist'),(392,'Can delete certificate allowlist',99,'delete_certificateallowlist'),(393,'Can view certificate allowlist',99,'view_certificateallowlist'),(394,'Can add historical certificate allowlist',100,'add_historicalcertificateallowlist'),(395,'Can change historical certificate allowlist',100,'change_historicalcertificateallowlist'),(396,'Can delete historical certificate allowlist',100,'delete_historicalcertificateallowlist'),(397,'Can view historical certificate allowlist',100,'view_historicalcertificateallowlist'),(398,'Can add historical certificate date override',101,'add_historicalcertificatedateoverride'),(399,'Can change historical certificate date override',101,'change_historicalcertificatedateoverride'),(400,'Can delete historical certificate date override',101,'delete_historicalcertificatedateoverride'),(401,'Can view historical certificate date override',101,'view_historicalcertificatedateoverride'),(402,'Can add certificate date override',102,'add_certificatedateoverride'),(403,'Can change certificate date override',102,'change_certificatedateoverride'),(404,'Can delete certificate date override',102,'delete_certificatedateoverride'),(405,'Can view certificate date override',102,'view_certificatedateoverride'),(406,'Can add instructor task',103,'add_instructortask'),(407,'Can change instructor task',103,'change_instructortask'),(408,'Can delete instructor task',103,'delete_instructortask'),(409,'Can view instructor task',103,'view_instructortask'),(410,'Can add grade report setting',104,'add_gradereportsetting'),(411,'Can change grade report setting',104,'change_gradereportsetting'),(412,'Can delete grade report setting',104,'delete_gradereportsetting'),(413,'Can view grade report setting',104,'view_gradereportsetting'),(414,'Can add instructor task schedule',105,'add_instructortaskschedule'),(415,'Can change instructor task schedule',105,'change_instructortaskschedule'),(416,'Can delete instructor task schedule',105,'delete_instructortaskschedule'),(417,'Can view instructor task schedule',105,'view_instructortaskschedule'),(418,'Can add historical instructor task schedule',106,'add_historicalinstructortaskschedule'),(419,'Can change historical instructor task schedule',106,'change_historicalinstructortaskschedule'),(420,'Can delete historical instructor task schedule',106,'delete_historicalinstructortaskschedule'),(421,'Can view historical instructor task schedule',106,'view_historicalinstructortaskschedule'),(422,'Can add cohort membership',107,'add_cohortmembership'),(423,'Can change cohort membership',107,'change_cohortmembership'),(424,'Can delete cohort membership',107,'delete_cohortmembership'),(425,'Can view cohort membership',107,'view_cohortmembership'),(426,'Can add course cohort',108,'add_coursecohort'),(427,'Can change course cohort',108,'change_coursecohort'),(428,'Can delete course cohort',108,'delete_coursecohort'),(429,'Can view course cohort',108,'view_coursecohort'),(430,'Can add course cohorts settings',109,'add_coursecohortssettings'),(431,'Can change course cohorts settings',109,'change_coursecohortssettings'),(432,'Can delete course cohorts settings',109,'delete_coursecohortssettings'),(433,'Can view course cohorts settings',109,'view_coursecohortssettings'),(434,'Can add course user group',110,'add_courseusergroup'),(435,'Can change course user group',110,'change_courseusergroup'),(436,'Can delete course user group',110,'delete_courseusergroup'),(437,'Can view course user group',110,'view_courseusergroup'),(438,'Can add course user group partition group',111,'add_courseusergrouppartitiongroup'),(439,'Can change course user group partition group',111,'change_courseusergrouppartitiongroup'),(440,'Can delete course user group partition group',111,'delete_courseusergrouppartitiongroup'),(441,'Can view course user group partition group',111,'view_courseusergrouppartitiongroup'),(442,'Can add unregistered learner cohort assignments',112,'add_unregisteredlearnercohortassignments'),(443,'Can change unregistered learner cohort assignments',112,'change_unregisteredlearnercohortassignments'),(444,'Can delete unregistered learner cohort assignments',112,'delete_unregisteredlearnercohortassignments'),(445,'Can view unregistered learner cohort assignments',112,'view_unregisteredlearnercohortassignments'),(446,'Can add course authorization',113,'add_courseauthorization'),(447,'Can change course authorization',113,'change_courseauthorization'),(448,'Can delete course authorization',113,'delete_courseauthorization'),(449,'Can view course authorization',113,'view_courseauthorization'),(450,'Can add course email',114,'add_courseemail'),(451,'Can change course email',114,'change_courseemail'),(452,'Can delete course email',114,'delete_courseemail'),(453,'Can view course email',114,'view_courseemail'),(454,'Can add course email template',115,'add_courseemailtemplate'),(455,'Can change course email template',115,'change_courseemailtemplate'),(456,'Can delete course email template',115,'delete_courseemailtemplate'),(457,'Can view course email template',115,'view_courseemailtemplate'),(458,'Can add optout',116,'add_optout'),(459,'Can change optout',116,'change_optout'),(460,'Can delete optout',116,'delete_optout'),(461,'Can view optout',116,'view_optout'),(462,'Can add bulk email flag',117,'add_bulkemailflag'),(463,'Can change bulk email flag',117,'change_bulkemailflag'),(464,'Can delete bulk email flag',117,'delete_bulkemailflag'),(465,'Can view bulk email flag',117,'view_bulkemailflag'),(466,'Can add target',118,'add_target'),(467,'Can change target',118,'change_target'),(468,'Can delete target',118,'delete_target'),(469,'Can view target',118,'view_target'),(470,'Can add cohort target',119,'add_cohorttarget'),(471,'Can change cohort target',119,'change_cohorttarget'),(472,'Can delete cohort target',119,'delete_cohorttarget'),(473,'Can view cohort target',119,'view_cohorttarget'),(474,'Can add course mode target',120,'add_coursemodetarget'),(475,'Can change course mode target',120,'change_coursemodetarget'),(476,'Can delete course mode target',120,'delete_coursemodetarget'),(477,'Can view course mode target',120,'view_coursemodetarget'),(478,'Can add disabled course',121,'add_disabledcourse'),(479,'Can change disabled course',121,'change_disabledcourse'),(480,'Can delete disabled course',121,'delete_disabledcourse'),(481,'Can view disabled course',121,'view_disabledcourse'),(482,'Can add branding api config',122,'add_brandingapiconfig'),(483,'Can change branding api config',122,'change_brandingapiconfig'),(484,'Can delete branding api config',122,'delete_brandingapiconfig'),(485,'Can view branding api config',122,'view_brandingapiconfig'),(486,'Can add branding info config',123,'add_brandinginfoconfig'),(487,'Can change branding info config',123,'change_brandinginfoconfig'),(488,'Can delete branding info config',123,'delete_brandinginfoconfig'),(489,'Can view branding info config',123,'view_brandinginfoconfig'),(490,'Can add disable progress page stacked config',124,'add_disableprogresspagestackedconfig'),(491,'Can change disable progress page stacked config',124,'change_disableprogresspagestackedconfig'),(492,'Can delete disable progress page stacked config',124,'delete_disableprogresspagestackedconfig'),(493,'Can view disable progress page stacked config',124,'view_disableprogresspagestackedconfig'),(494,'Can add user tour',125,'add_usertour'),(495,'Can change user tour',125,'change_usertour'),(496,'Can delete user tour',125,'delete_usertour'),(497,'Can view user tour',125,'view_usertour'),(498,'Can add user discussions tours',126,'add_userdiscussionstours'),(499,'Can change user discussions tours',126,'change_userdiscussionstours'),(500,'Can delete user discussions tours',126,'delete_userdiscussionstours'),(501,'Can view user discussions tours',126,'view_userdiscussionstours'),(502,'Can add historical user social auth',127,'add_historicalusersocialauth'),(503,'Can change historical user social auth',127,'change_historicalusersocialauth'),(504,'Can delete historical user social auth',127,'delete_historicalusersocialauth'),(505,'Can view historical user social auth',127,'view_historicalusersocialauth'),(506,'Can add application',128,'add_application'),(507,'Can change application',128,'change_application'),(508,'Can delete application',128,'delete_application'),(509,'Can view application',128,'view_application'),(510,'Can add access token',129,'add_accesstoken'),(511,'Can change access token',129,'change_accesstoken'),(512,'Can delete access token',129,'delete_accesstoken'),(513,'Can view access token',129,'view_accesstoken'),(514,'Can add grant',130,'add_grant'),(515,'Can change grant',130,'change_grant'),(516,'Can delete grant',130,'delete_grant'),(517,'Can view grant',130,'view_grant'),(518,'Can add refresh token',131,'add_refreshtoken'),(519,'Can change refresh token',131,'change_refreshtoken'),(520,'Can delete refresh token',131,'delete_refreshtoken'),(521,'Can view refresh token',131,'view_refreshtoken'),(522,'Can add restricted application',132,'add_restrictedapplication'),(523,'Can change restricted application',132,'change_restrictedapplication'),(524,'Can delete restricted application',132,'delete_restrictedapplication'),(525,'Can view restricted application',132,'view_restrictedapplication'),(526,'Can add application access',133,'add_applicationaccess'),(527,'Can change application access',133,'change_applicationaccess'),(528,'Can delete application access',133,'delete_applicationaccess'),(529,'Can view application access',133,'view_applicationaccess'),(530,'Can add application organization',134,'add_applicationorganization'),(531,'Can change application organization',134,'change_applicationorganization'),(532,'Can delete application organization',134,'delete_applicationorganization'),(533,'Can view application organization',134,'view_applicationorganization'),(534,'Can add SAML Provider Data',135,'add_samlproviderdata'),(535,'Can change SAML Provider Data',135,'change_samlproviderdata'),(536,'Can delete SAML Provider Data',135,'delete_samlproviderdata'),(537,'Can view SAML Provider Data',135,'view_samlproviderdata'),(538,'Can add SAML Configuration',136,'add_samlconfiguration'),(539,'Can change SAML Configuration',136,'change_samlconfiguration'),(540,'Can delete SAML Configuration',136,'delete_samlconfiguration'),(541,'Can view SAML Configuration',136,'view_samlconfiguration'),(542,'Can add Provider Configuration (OAuth)',137,'add_oauth2providerconfig'),(543,'Can change Provider Configuration (OAuth)',137,'change_oauth2providerconfig'),(544,'Can delete Provider Configuration (OAuth)',137,'delete_oauth2providerconfig'),(545,'Can view Provider Configuration (OAuth)',137,'view_oauth2providerconfig'),(546,'Can add Provider Configuration (LTI)',138,'add_ltiproviderconfig'),(547,'Can change Provider Configuration (LTI)',138,'change_ltiproviderconfig'),(548,'Can delete Provider Configuration (LTI)',138,'delete_ltiproviderconfig'),(549,'Can view Provider Configuration (LTI)',138,'view_ltiproviderconfig'),(550,'Can add Provider Configuration (SAML IdP)',139,'add_samlproviderconfig'),(551,'Can change Provider Configuration (SAML IdP)',139,'change_samlproviderconfig'),(552,'Can delete Provider Configuration (SAML IdP)',139,'delete_samlproviderconfig'),(553,'Can view Provider Configuration (SAML IdP)',139,'view_samlproviderconfig'),(554,'Can add system wide role',140,'add_systemwiderole'),(555,'Can change system wide role',140,'change_systemwiderole'),(556,'Can delete system wide role',140,'delete_systemwiderole'),(557,'Can view system wide role',140,'view_systemwiderole'),(558,'Can add system wide role assignment',141,'add_systemwideroleassignment'),(559,'Can change system wide role assignment',141,'change_systemwideroleassignment'),(560,'Can delete system wide role assignment',141,'delete_systemwideroleassignment'),(561,'Can view system wide role assignment',141,'view_systemwideroleassignment'),(562,'Can add article',142,'add_article'),(563,'Can change article',142,'change_article'),(564,'Can delete article',142,'delete_article'),(565,'Can view article',142,'view_article'),(566,'Can edit all articles and lock/unlock/restore',142,'moderate'),(567,'Can change ownership of any article',142,'assign'),(568,'Can assign permissions to other users',142,'grant'),(569,'Can add Article for object',143,'add_articleforobject'),(570,'Can change Article for object',143,'change_articleforobject'),(571,'Can delete Article for object',143,'delete_articleforobject'),(572,'Can view Article for object',143,'view_articleforobject'),(573,'Can add article plugin',144,'add_articleplugin'),(574,'Can change article plugin',144,'change_articleplugin'),(575,'Can delete article plugin',144,'delete_articleplugin'),(576,'Can view article plugin',144,'view_articleplugin'),(577,'Can add article revision',145,'add_articlerevision'),(578,'Can change article revision',145,'change_articlerevision'),(579,'Can delete article revision',145,'delete_articlerevision'),(580,'Can view article revision',145,'view_articlerevision'),(581,'Can add reusable plugin',146,'add_reusableplugin'),(582,'Can change reusable plugin',146,'change_reusableplugin'),(583,'Can delete reusable plugin',146,'delete_reusableplugin'),(584,'Can view reusable plugin',146,'view_reusableplugin'),(585,'Can add revision plugin',147,'add_revisionplugin'),(586,'Can change revision plugin',147,'change_revisionplugin'),(587,'Can delete revision plugin',147,'delete_revisionplugin'),(588,'Can view revision plugin',147,'view_revisionplugin'),(589,'Can add revision plugin revision',148,'add_revisionpluginrevision'),(590,'Can change revision plugin revision',148,'change_revisionpluginrevision'),(591,'Can delete revision plugin revision',148,'delete_revisionpluginrevision'),(592,'Can view revision plugin revision',148,'view_revisionpluginrevision'),(593,'Can add simple plugin',149,'add_simpleplugin'),(594,'Can change simple plugin',149,'change_simpleplugin'),(595,'Can delete simple plugin',149,'delete_simpleplugin'),(596,'Can view simple plugin',149,'view_simpleplugin'),(597,'Can add URL path',150,'add_urlpath'),(598,'Can change URL path',150,'change_urlpath'),(599,'Can delete URL path',150,'delete_urlpath'),(600,'Can view URL path',150,'view_urlpath'),(601,'Can add notification',151,'add_notification'),(602,'Can change notification',151,'change_notification'),(603,'Can delete notification',151,'delete_notification'),(604,'Can view notification',151,'view_notification'),(605,'Can add type',152,'add_notificationtype'),(606,'Can change type',152,'change_notificationtype'),(607,'Can delete type',152,'delete_notificationtype'),(608,'Can view type',152,'view_notificationtype'),(609,'Can add settings',153,'add_settings'),(610,'Can change settings',153,'change_settings'),(611,'Can delete settings',153,'delete_settings'),(612,'Can view settings',153,'view_settings'),(613,'Can add subscription',154,'add_subscription'),(614,'Can change subscription',154,'change_subscription'),(615,'Can delete subscription',154,'delete_subscription'),(616,'Can view subscription',154,'view_subscription'),(617,'Can add log entry',155,'add_logentry'),(618,'Can change log entry',155,'change_logentry'),(619,'Can delete log entry',155,'delete_logentry'),(620,'Can view log entry',155,'view_logentry'),(621,'Can add permission',156,'add_permission'),(622,'Can change permission',156,'change_permission'),(623,'Can delete permission',156,'delete_permission'),(624,'Can view permission',156,'view_permission'),(625,'Can add role',157,'add_role'),(626,'Can change role',157,'change_role'),(627,'Can delete role',157,'delete_role'),(628,'Can view role',157,'view_role'),(629,'Can add forums config',158,'add_forumsconfig'),(630,'Can change forums config',158,'change_forumsconfig'),(631,'Can delete forums config',158,'delete_forumsconfig'),(632,'Can view forums config',158,'view_forumsconfig'),(633,'Can add course discussion settings',159,'add_coursediscussionsettings'),(634,'Can change course discussion settings',159,'change_coursediscussionsettings'),(635,'Can delete course discussion settings',159,'delete_coursediscussionsettings'),(636,'Can view course discussion settings',159,'view_coursediscussionsettings'),(637,'Can add discussions id mapping',160,'add_discussionsidmapping'),(638,'Can change discussions id mapping',160,'change_discussionsidmapping'),(639,'Can delete discussions id mapping',160,'delete_discussionsidmapping'),(640,'Can view discussions id mapping',160,'view_discussionsidmapping'),(641,'Can add splash config',161,'add_splashconfig'),(642,'Can change splash config',161,'change_splashconfig'),(643,'Can delete splash config',161,'delete_splashconfig'),(644,'Can view splash config',161,'view_splashconfig'),(645,'Can add user course tag',162,'add_usercoursetag'),(646,'Can change user course tag',162,'change_usercoursetag'),(647,'Can delete user course tag',162,'delete_usercoursetag'),(648,'Can view user course tag',162,'view_usercoursetag'),(649,'Can add user org tag',163,'add_userorgtag'),(650,'Can change user org tag',163,'change_userorgtag'),(651,'Can delete user org tag',163,'delete_userorgtag'),(652,'Can view user org tag',163,'view_userorgtag'),(653,'Can add user preference',164,'add_userpreference'),(654,'Can change user preference',164,'change_userpreference'),(655,'Can delete user preference',164,'delete_userpreference'),(656,'Can view user preference',164,'view_userpreference'),(657,'Can add retirement state',165,'add_retirementstate'),(658,'Can change retirement state',165,'change_retirementstate'),(659,'Can delete retirement state',165,'delete_retirementstate'),(660,'Can view retirement state',165,'view_retirementstate'),(661,'Can add User Retirement Status',166,'add_userretirementstatus'),(662,'Can change User Retirement Status',166,'change_userretirementstatus'),(663,'Can delete User Retirement Status',166,'delete_userretirementstatus'),(664,'Can view User Retirement Status',166,'view_userretirementstatus'),(665,'Can add User Retirement Request',167,'add_userretirementrequest'),(666,'Can change User Retirement Request',167,'change_userretirementrequest'),(667,'Can delete User Retirement Request',167,'delete_userretirementrequest'),(668,'Can view User Retirement Request',167,'view_userretirementrequest'),(669,'Can add User Retirement Reporting Status',168,'add_userretirementpartnerreportingstatus'),(670,'Can change User Retirement Reporting Status',168,'change_userretirementpartnerreportingstatus'),(671,'Can delete User Retirement Reporting Status',168,'delete_userretirementpartnerreportingstatus'),(672,'Can view User Retirement Reporting Status',168,'view_userretirementpartnerreportingstatus'),(673,'Can add course mode',169,'add_coursemode'),(674,'Can change course mode',169,'change_coursemode'),(675,'Can delete course mode',169,'delete_coursemode'),(676,'Can view course mode',169,'view_coursemode'),(677,'Can add course modes archive',170,'add_coursemodesarchive'),(678,'Can change course modes archive',170,'change_coursemodesarchive'),(679,'Can delete course modes archive',170,'delete_coursemodesarchive'),(680,'Can view course modes archive',170,'view_coursemodesarchive'),(681,'Can add course mode expiration config',171,'add_coursemodeexpirationconfig'),(682,'Can change course mode expiration config',171,'change_coursemodeexpirationconfig'),(683,'Can delete course mode expiration config',171,'delete_coursemodeexpirationconfig'),(684,'Can view course mode expiration config',171,'view_coursemodeexpirationconfig'),(685,'Can add historical course mode',172,'add_historicalcoursemode'),(686,'Can change historical course mode',172,'change_historicalcoursemode'),(687,'Can delete historical course mode',172,'delete_historicalcoursemode'),(688,'Can view historical course mode',172,'view_historicalcoursemode'),(689,'Can add course entitlement',173,'add_courseentitlement'),(690,'Can change course entitlement',173,'change_courseentitlement'),(691,'Can delete course entitlement',173,'delete_courseentitlement'),(692,'Can view course entitlement',173,'view_courseentitlement'),(693,'Can add course entitlement policy',174,'add_courseentitlementpolicy'),(694,'Can change course entitlement policy',174,'change_courseentitlementpolicy'),(695,'Can delete course entitlement policy',174,'delete_courseentitlementpolicy'),(696,'Can view course entitlement policy',174,'view_courseentitlementpolicy'),(697,'Can add course entitlement support detail',175,'add_courseentitlementsupportdetail'),(698,'Can change course entitlement support detail',175,'change_courseentitlementsupportdetail'),(699,'Can delete course entitlement support detail',175,'delete_courseentitlementsupportdetail'),(700,'Can view course entitlement support detail',175,'view_courseentitlementsupportdetail'),(701,'Can add historical course entitlement',176,'add_historicalcourseentitlement'),(702,'Can change historical course entitlement',176,'change_historicalcourseentitlement'),(703,'Can delete historical course entitlement',176,'delete_historicalcourseentitlement'),(704,'Can view historical course entitlement',176,'view_historicalcourseentitlement'),(705,'Can add historical course entitlement support detail',177,'add_historicalcourseentitlementsupportdetail'),(706,'Can change historical course entitlement support detail',177,'change_historicalcourseentitlementsupportdetail'),(707,'Can delete historical course entitlement support detail',177,'delete_historicalcourseentitlementsupportdetail'),(708,'Can view historical course entitlement support detail',177,'view_historicalcourseentitlementsupportdetail'),(709,'Can add software secure photo verification',178,'add_softwaresecurephotoverification'),(710,'Can change software secure photo verification',178,'change_softwaresecurephotoverification'),(711,'Can delete software secure photo verification',178,'delete_softwaresecurephotoverification'),(712,'Can view software secure photo verification',178,'view_softwaresecurephotoverification'),(713,'Can add verification deadline',179,'add_verificationdeadline'),(714,'Can change verification deadline',179,'change_verificationdeadline'),(715,'Can delete verification deadline',179,'delete_verificationdeadline'),(716,'Can view verification deadline',179,'view_verificationdeadline'),(717,'Can add sso verification',180,'add_ssoverification'),(718,'Can change sso verification',180,'change_ssoverification'),(719,'Can delete sso verification',180,'delete_ssoverification'),(720,'Can view sso verification',180,'view_ssoverification'),(721,'Can add manual verification',181,'add_manualverification'),(722,'Can change manual verification',181,'change_manualverification'),(723,'Can delete manual verification',181,'delete_manualverification'),(724,'Can view manual verification',181,'view_manualverification'),(725,'Can add sspv retry student argument',182,'add_sspverificationretryconfig'),(726,'Can change sspv retry student argument',182,'change_sspverificationretryconfig'),(727,'Can delete sspv retry student argument',182,'delete_sspverificationretryconfig'),(728,'Can view sspv retry student argument',182,'view_sspverificationretryconfig'),(729,'Can add dark lang config',183,'add_darklangconfig'),(730,'Can change dark lang config',183,'change_darklangconfig'),(731,'Can delete dark lang config',183,'delete_darklangconfig'),(732,'Can view dark lang config',183,'view_darklangconfig'),(733,'Can add whitelisted rss url',184,'add_whitelistedrssurl'),(734,'Can change whitelisted rss url',184,'change_whitelistedrssurl'),(735,'Can delete whitelisted rss url',184,'delete_whitelistedrssurl'),(736,'Can view whitelisted rss url',184,'view_whitelistedrssurl'),(737,'Can add country',185,'add_country'),(738,'Can change country',185,'change_country'),(739,'Can delete country',185,'delete_country'),(740,'Can view country',185,'view_country'),(741,'Can add country access rule',186,'add_countryaccessrule'),(742,'Can change country access rule',186,'change_countryaccessrule'),(743,'Can delete country access rule',186,'delete_countryaccessrule'),(744,'Can view country access rule',186,'view_countryaccessrule'),(745,'Can add course access rule history',187,'add_courseaccessrulehistory'),(746,'Can change course access rule history',187,'change_courseaccessrulehistory'),(747,'Can delete course access rule history',187,'delete_courseaccessrulehistory'),(748,'Can view course access rule history',187,'view_courseaccessrulehistory'),(749,'Can add embargoed course',188,'add_embargoedcourse'),(750,'Can change embargoed course',188,'change_embargoedcourse'),(751,'Can delete embargoed course',188,'delete_embargoedcourse'),(752,'Can view embargoed course',188,'view_embargoedcourse'),(753,'Can add embargoed state',189,'add_embargoedstate'),(754,'Can change embargoed state',189,'change_embargoedstate'),(755,'Can delete embargoed state',189,'delete_embargoedstate'),(756,'Can view embargoed state',189,'view_embargoedstate'),(757,'Can add ip filter',190,'add_ipfilter'),(758,'Can change ip filter',190,'change_ipfilter'),(759,'Can delete ip filter',190,'delete_ipfilter'),(760,'Can view ip filter',190,'view_ipfilter'),(761,'Can add restricted course',191,'add_restrictedcourse'),(762,'Can change restricted course',191,'change_restrictedcourse'),(763,'Can delete restricted course',191,'delete_restrictedcourse'),(764,'Can view restricted course',191,'view_restrictedcourse'),(765,'Can add course rerun state',192,'add_coursererunstate'),(766,'Can change course rerun state',192,'change_coursererunstate'),(767,'Can delete course rerun state',192,'delete_coursererunstate'),(768,'Can view course rerun state',192,'view_coursererunstate'),(769,'Can add mobile api config',193,'add_mobileapiconfig'),(770,'Can change mobile api config',193,'change_mobileapiconfig'),(771,'Can delete mobile api config',193,'delete_mobileapiconfig'),(772,'Can view mobile api config',193,'view_mobileapiconfig'),(773,'Can add app version config',194,'add_appversionconfig'),(774,'Can change app version config',194,'change_appversionconfig'),(775,'Can delete app version config',194,'delete_appversionconfig'),(776,'Can view app version config',194,'view_appversionconfig'),(777,'Can add ignore mobile available flag config',195,'add_ignoremobileavailableflagconfig'),(778,'Can change ignore mobile available flag config',195,'change_ignoremobileavailableflagconfig'),(779,'Can delete ignore mobile available flag config',195,'delete_ignoremobileavailableflagconfig'),(780,'Can view ignore mobile available flag config',195,'view_ignoremobileavailableflagconfig'),(781,'Can add mobile config',196,'add_mobileconfig'),(782,'Can change mobile config',196,'change_mobileconfig'),(783,'Can delete mobile config',196,'delete_mobileconfig'),(784,'Can view mobile config',196,'view_mobileconfig'),(785,'Can add association',197,'add_association'),(786,'Can change association',197,'change_association'),(787,'Can delete association',197,'delete_association'),(788,'Can view association',197,'view_association'),(789,'Can add code',198,'add_code'),(790,'Can change code',198,'change_code'),(791,'Can delete code',198,'delete_code'),(792,'Can view code',198,'view_code'),(793,'Can add nonce',199,'add_nonce'),(794,'Can change nonce',199,'change_nonce'),(795,'Can delete nonce',199,'delete_nonce'),(796,'Can view nonce',199,'view_nonce'),(797,'Can add user social auth',200,'add_usersocialauth'),(798,'Can change user social auth',200,'change_usersocialauth'),(799,'Can delete user social auth',200,'delete_usersocialauth'),(800,'Can view user social auth',200,'view_usersocialauth'),(801,'Can add partial',201,'add_partial'),(802,'Can change partial',201,'change_partial'),(803,'Can delete partial',201,'delete_partial'),(804,'Can view partial',201,'view_partial'),(805,'Can add survey answer',202,'add_surveyanswer'),(806,'Can change survey answer',202,'change_surveyanswer'),(807,'Can delete survey answer',202,'delete_surveyanswer'),(808,'Can view survey answer',202,'view_surveyanswer'),(809,'Can add survey form',203,'add_surveyform'),(810,'Can change survey form',203,'change_surveyform'),(811,'Can delete survey form',203,'delete_surveyform'),(812,'Can view survey form',203,'view_surveyform'),(813,'Can add x block asides config',204,'add_xblockasidesconfig'),(814,'Can change x block asides config',204,'change_xblockasidesconfig'),(815,'Can delete x block asides config',204,'delete_xblockasidesconfig'),(816,'Can view x block asides config',204,'view_xblockasidesconfig'),(817,'Can add score',205,'add_score'),(818,'Can change score',205,'change_score'),(819,'Can delete score',205,'delete_score'),(820,'Can view score',205,'view_score'),(821,'Can add student item',206,'add_studentitem'),(822,'Can change student item',206,'change_studentitem'),(823,'Can delete student item',206,'delete_studentitem'),(824,'Can view student item',206,'view_studentitem'),(825,'Can add submission',207,'add_submission'),(826,'Can change submission',207,'change_submission'),(827,'Can delete submission',207,'delete_submission'),(828,'Can view submission',207,'view_submission'),(829,'Can add score summary',208,'add_scoresummary'),(830,'Can change score summary',208,'change_scoresummary'),(831,'Can delete score summary',208,'delete_scoresummary'),(832,'Can view score summary',208,'view_scoresummary'),(833,'Can add score annotation',209,'add_scoreannotation'),(834,'Can change score annotation',209,'change_scoreannotation'),(835,'Can delete score annotation',209,'delete_scoreannotation'),(836,'Can view score annotation',209,'view_scoreannotation'),(837,'Can add team submission',210,'add_teamsubmission'),(838,'Can change team submission',210,'change_teamsubmission'),(839,'Can delete team submission',210,'delete_teamsubmission'),(840,'Can view team submission',210,'view_teamsubmission'),(841,'Can add assessment',211,'add_assessment'),(842,'Can change assessment',211,'change_assessment'),(843,'Can delete assessment',211,'delete_assessment'),(844,'Can view assessment',211,'view_assessment'),(845,'Can add assessment feedback',212,'add_assessmentfeedback'),(846,'Can change assessment feedback',212,'change_assessmentfeedback'),(847,'Can delete assessment feedback',212,'delete_assessmentfeedback'),(848,'Can view assessment feedback',212,'view_assessmentfeedback'),(849,'Can add assessment feedback option',213,'add_assessmentfeedbackoption'),(850,'Can change assessment feedback option',213,'change_assessmentfeedbackoption'),(851,'Can delete assessment feedback option',213,'delete_assessmentfeedbackoption'),(852,'Can view assessment feedback option',213,'view_assessmentfeedbackoption'),(853,'Can add assessment part',214,'add_assessmentpart'),(854,'Can change assessment part',214,'change_assessmentpart'),(855,'Can delete assessment part',214,'delete_assessmentpart'),(856,'Can view assessment part',214,'view_assessmentpart'),(857,'Can add criterion',215,'add_criterion'),(858,'Can change criterion',215,'change_criterion'),(859,'Can delete criterion',215,'delete_criterion'),(860,'Can view criterion',215,'view_criterion'),(861,'Can add criterion option',216,'add_criterionoption'),(862,'Can change criterion option',216,'change_criterionoption'),(863,'Can delete criterion option',216,'delete_criterionoption'),(864,'Can view criterion option',216,'view_criterionoption'),(865,'Can add peer workflow',217,'add_peerworkflow'),(866,'Can change peer workflow',217,'change_peerworkflow'),(867,'Can delete peer workflow',217,'delete_peerworkflow'),(868,'Can view peer workflow',217,'view_peerworkflow'),(869,'Can add peer workflow item',218,'add_peerworkflowitem'),(870,'Can change peer workflow item',218,'change_peerworkflowitem'),(871,'Can delete peer workflow item',218,'delete_peerworkflowitem'),(872,'Can view peer workflow item',218,'view_peerworkflowitem'),(873,'Can add rubric',219,'add_rubric'),(874,'Can change rubric',219,'change_rubric'),(875,'Can delete rubric',219,'delete_rubric'),(876,'Can view rubric',219,'view_rubric'),(877,'Can add student training workflow',220,'add_studenttrainingworkflow'),(878,'Can change student training workflow',220,'change_studenttrainingworkflow'),(879,'Can delete student training workflow',220,'delete_studenttrainingworkflow'),(880,'Can view student training workflow',220,'view_studenttrainingworkflow'),(881,'Can add student training workflow item',221,'add_studenttrainingworkflowitem'),(882,'Can change student training workflow item',221,'change_studenttrainingworkflowitem'),(883,'Can delete student training workflow item',221,'delete_studenttrainingworkflowitem'),(884,'Can view student training workflow item',221,'view_studenttrainingworkflowitem'),(885,'Can add training example',222,'add_trainingexample'),(886,'Can change training example',222,'change_trainingexample'),(887,'Can delete training example',222,'delete_trainingexample'),(888,'Can view training example',222,'view_trainingexample'),(889,'Can add staff workflow',223,'add_staffworkflow'),(890,'Can change staff workflow',223,'change_staffworkflow'),(891,'Can delete staff workflow',223,'delete_staffworkflow'),(892,'Can view staff workflow',223,'view_staffworkflow'),(893,'Can add historical shared file upload',224,'add_historicalsharedfileupload'),(894,'Can change historical shared file upload',224,'change_historicalsharedfileupload'),(895,'Can delete historical shared file upload',224,'delete_historicalsharedfileupload'),(896,'Can view historical shared file upload',224,'view_historicalsharedfileupload'),(897,'Can add shared file upload',225,'add_sharedfileupload'),(898,'Can change shared file upload',225,'change_sharedfileupload'),(899,'Can delete shared file upload',225,'delete_sharedfileupload'),(900,'Can view shared file upload',225,'view_sharedfileupload'),(901,'Can add team staff workflow',226,'add_teamstaffworkflow'),(902,'Can change team staff workflow',226,'change_teamstaffworkflow'),(903,'Can delete team staff workflow',226,'delete_teamstaffworkflow'),(904,'Can view team staff workflow',226,'view_teamstaffworkflow'),(905,'Can add submission grading lock',227,'add_submissiongradinglock'),(906,'Can change submission grading lock',227,'change_submissiongradinglock'),(907,'Can delete submission grading lock',227,'delete_submissiongradinglock'),(908,'Can view submission grading lock',227,'view_submissiongradinglock'),(909,'Can add assessment workflow',228,'add_assessmentworkflow'),(910,'Can change assessment workflow',228,'change_assessmentworkflow'),(911,'Can delete assessment workflow',228,'delete_assessmentworkflow'),(912,'Can view assessment workflow',228,'view_assessmentworkflow'),(913,'Can add assessment workflow cancellation',229,'add_assessmentworkflowcancellation'),(914,'Can change assessment workflow cancellation',229,'change_assessmentworkflowcancellation'),(915,'Can delete assessment workflow cancellation',229,'delete_assessmentworkflowcancellation'),(916,'Can view assessment workflow cancellation',229,'view_assessmentworkflowcancellation'),(917,'Can add assessment workflow step',230,'add_assessmentworkflowstep'),(918,'Can change assessment workflow step',230,'change_assessmentworkflowstep'),(919,'Can delete assessment workflow step',230,'delete_assessmentworkflowstep'),(920,'Can view assessment workflow step',230,'view_assessmentworkflowstep'),(921,'Can add team assessment workflow',231,'add_teamassessmentworkflow'),(922,'Can change team assessment workflow',231,'change_teamassessmentworkflow'),(923,'Can delete team assessment workflow',231,'delete_teamassessmentworkflow'),(924,'Can view team assessment workflow',231,'view_teamassessmentworkflow'),(925,'Can add profile',232,'add_profile'),(926,'Can change profile',232,'change_profile'),(927,'Can delete profile',232,'delete_profile'),(928,'Can view profile',232,'view_profile'),(929,'Can add video',233,'add_video'),(930,'Can change video',233,'change_video'),(931,'Can delete video',233,'delete_video'),(932,'Can view video',233,'view_video'),(933,'Can add encoded video',234,'add_encodedvideo'),(934,'Can change encoded video',234,'change_encodedvideo'),(935,'Can delete encoded video',234,'delete_encodedvideo'),(936,'Can view encoded video',234,'view_encodedvideo'),(937,'Can add course video',235,'add_coursevideo'),(938,'Can change course video',235,'change_coursevideo'),(939,'Can delete course video',235,'delete_coursevideo'),(940,'Can view course video',235,'view_coursevideo'),(941,'Can add video image',236,'add_videoimage'),(942,'Can change video image',236,'change_videoimage'),(943,'Can delete video image',236,'delete_videoimage'),(944,'Can view video image',236,'view_videoimage'),(945,'Can add transcript preference',237,'add_transcriptpreference'),(946,'Can change transcript preference',237,'change_transcriptpreference'),(947,'Can delete transcript preference',237,'delete_transcriptpreference'),(948,'Can view transcript preference',237,'view_transcriptpreference'),(949,'Can add video transcript',238,'add_videotranscript'),(950,'Can change video transcript',238,'change_videotranscript'),(951,'Can delete video transcript',238,'delete_videotranscript'),(952,'Can view video transcript',238,'view_videotranscript'),(953,'Can add third party transcript credentials state',239,'add_thirdpartytranscriptcredentialsstate'),(954,'Can change third party transcript credentials state',239,'change_thirdpartytranscriptcredentialsstate'),(955,'Can delete third party transcript credentials state',239,'delete_thirdpartytranscriptcredentialsstate'),(956,'Can view third party transcript credentials state',239,'view_thirdpartytranscriptcredentialsstate'),(957,'Can add course overview',240,'add_courseoverview'),(958,'Can change course overview',240,'change_courseoverview'),(959,'Can delete course overview',240,'delete_courseoverview'),(960,'Can view course overview',240,'view_courseoverview'),(961,'Can add course overview tab',241,'add_courseoverviewtab'),(962,'Can change course overview tab',241,'change_courseoverviewtab'),(963,'Can delete course overview tab',241,'delete_courseoverviewtab'),(964,'Can view course overview tab',241,'view_courseoverviewtab'),(965,'Can add course overview image set',242,'add_courseoverviewimageset'),(966,'Can change course overview image set',242,'change_courseoverviewimageset'),(967,'Can delete course overview image set',242,'delete_courseoverviewimageset'),(968,'Can view course overview image set',242,'view_courseoverviewimageset'),(969,'Can add course overview image config',243,'add_courseoverviewimageconfig'),(970,'Can change course overview image config',243,'change_courseoverviewimageconfig'),(971,'Can delete course overview image config',243,'delete_courseoverviewimageconfig'),(972,'Can view course overview image config',243,'view_courseoverviewimageconfig'),(973,'Can add historical course overview',244,'add_historicalcourseoverview'),(974,'Can change historical course overview',244,'change_historicalcourseoverview'),(975,'Can delete historical course overview',244,'delete_historicalcourseoverview'),(976,'Can view historical course overview',244,'view_historicalcourseoverview'),(977,'Can add simulate_publish argument',245,'add_simulatecoursepublishconfig'),(978,'Can change simulate_publish argument',245,'change_simulatecoursepublishconfig'),(979,'Can delete simulate_publish argument',245,'delete_simulatecoursepublishconfig'),(980,'Can view simulate_publish argument',245,'view_simulatecoursepublishconfig'),(981,'Can add block structure configuration',246,'add_blockstructureconfiguration'),(982,'Can change block structure configuration',246,'change_blockstructureconfiguration'),(983,'Can delete block structure configuration',246,'delete_blockstructureconfiguration'),(984,'Can view block structure configuration',246,'view_blockstructureconfiguration'),(985,'Can add block structure model',247,'add_blockstructuremodel'),(986,'Can change block structure model',247,'change_blockstructuremodel'),(987,'Can delete block structure model',247,'delete_blockstructuremodel'),(988,'Can view block structure model',247,'view_blockstructuremodel'),(989,'Can add x domain proxy configuration',248,'add_xdomainproxyconfiguration'),(990,'Can change x domain proxy configuration',248,'change_xdomainproxyconfiguration'),(991,'Can delete x domain proxy configuration',248,'delete_xdomainproxyconfiguration'),(992,'Can view x domain proxy configuration',248,'view_xdomainproxyconfiguration'),(993,'Can add commerce configuration',249,'add_commerceconfiguration'),(994,'Can change commerce configuration',249,'change_commerceconfiguration'),(995,'Can delete commerce configuration',249,'delete_commerceconfiguration'),(996,'Can view commerce configuration',249,'view_commerceconfiguration'),(997,'Can add credit course',250,'add_creditcourse'),(998,'Can change credit course',250,'change_creditcourse'),(999,'Can delete credit course',250,'delete_creditcourse'),(1000,'Can view credit course',250,'view_creditcourse'),(1001,'Can add credit eligibility',251,'add_crediteligibility'),(1002,'Can change credit eligibility',251,'change_crediteligibility'),(1003,'Can delete credit eligibility',251,'delete_crediteligibility'),(1004,'Can view credit eligibility',251,'view_crediteligibility'),(1005,'Can add credit provider',252,'add_creditprovider'),(1006,'Can change credit provider',252,'change_creditprovider'),(1007,'Can delete credit provider',252,'delete_creditprovider'),(1008,'Can view credit provider',252,'view_creditprovider'),(1009,'Can add credit request',253,'add_creditrequest'),(1010,'Can change credit request',253,'change_creditrequest'),(1011,'Can delete credit request',253,'delete_creditrequest'),(1012,'Can view credit request',253,'view_creditrequest'),(1013,'Can add credit requirement',254,'add_creditrequirement'),(1014,'Can change credit requirement',254,'change_creditrequirement'),(1015,'Can delete credit requirement',254,'delete_creditrequirement'),(1016,'Can view credit requirement',254,'view_creditrequirement'),(1017,'Can add credit requirement status',255,'add_creditrequirementstatus'),(1018,'Can change credit requirement status',255,'change_creditrequirementstatus'),(1019,'Can delete credit requirement status',255,'delete_creditrequirementstatus'),(1020,'Can view credit requirement status',255,'view_creditrequirementstatus'),(1021,'Can add credit config',256,'add_creditconfig'),(1022,'Can change credit config',256,'change_creditconfig'),(1023,'Can delete credit config',256,'delete_creditconfig'),(1024,'Can view credit config',256,'view_creditconfig'),(1025,'Can add course team',257,'add_courseteam'),(1026,'Can change course team',257,'change_courseteam'),(1027,'Can delete course team',257,'delete_courseteam'),(1028,'Can view course team',257,'view_courseteam'),(1029,'Can add course team membership',258,'add_courseteammembership'),(1030,'Can change course team membership',258,'change_courseteammembership'),(1031,'Can delete course team membership',258,'delete_courseteammembership'),(1032,'Can view course team membership',258,'view_courseteammembership'),(1033,'Can add x block configuration',259,'add_xblockconfiguration'),(1034,'Can change x block configuration',259,'change_xblockconfiguration'),(1035,'Can delete x block configuration',259,'delete_xblockconfiguration'),(1036,'Can view x block configuration',259,'view_xblockconfiguration'),(1037,'Can add x block studio configuration',260,'add_xblockstudioconfiguration'),(1038,'Can change x block studio configuration',260,'change_xblockstudioconfiguration'),(1039,'Can delete x block studio configuration',260,'delete_xblockstudioconfiguration'),(1040,'Can view x block studio configuration',260,'view_xblockstudioconfiguration'),(1041,'Can add x block studio configuration flag',261,'add_xblockstudioconfigurationflag'),(1042,'Can change x block studio configuration flag',261,'change_xblockstudioconfigurationflag'),(1043,'Can delete x block studio configuration flag',261,'delete_xblockstudioconfigurationflag'),(1044,'Can view x block studio configuration flag',261,'view_xblockstudioconfigurationflag'),(1045,'Can add programs api config',262,'add_programsapiconfig'),(1046,'Can change programs api config',262,'change_programsapiconfig'),(1047,'Can delete programs api config',262,'delete_programsapiconfig'),(1048,'Can view programs api config',262,'view_programsapiconfig'),(1049,'Can add program live configuration',263,'add_programliveconfiguration'),(1050,'Can change program live configuration',263,'change_programliveconfiguration'),(1051,'Can delete program live configuration',263,'delete_programliveconfiguration'),(1052,'Can view program live configuration',263,'view_programliveconfiguration'),(1053,'Can add program discussions configuration',264,'add_programdiscussionsconfiguration'),(1054,'Can change program discussions configuration',264,'change_programdiscussionsconfiguration'),(1055,'Can delete program discussions configuration',264,'delete_programdiscussionsconfiguration'),(1056,'Can view program discussions configuration',264,'view_programdiscussionsconfiguration'),(1057,'Can add historical program live configuration',265,'add_historicalprogramliveconfiguration'),(1058,'Can change historical program live configuration',265,'change_historicalprogramliveconfiguration'),(1059,'Can delete historical program live configuration',265,'delete_historicalprogramliveconfiguration'),(1060,'Can view historical program live configuration',265,'view_historicalprogramliveconfiguration'),(1061,'Can add historical program discussions configuration',266,'add_historicalprogramdiscussionsconfiguration'),(1062,'Can change historical program discussions configuration',266,'change_historicalprogramdiscussionsconfiguration'),(1063,'Can delete historical program discussions configuration',266,'delete_historicalprogramdiscussionsconfiguration'),(1064,'Can view historical program discussions configuration',266,'view_historicalprogramdiscussionsconfiguration'),(1065,'Can add catalog integration',267,'add_catalogintegration'),(1066,'Can change catalog integration',267,'change_catalogintegration'),(1067,'Can delete catalog integration',267,'delete_catalogintegration'),(1068,'Can view catalog integration',267,'view_catalogintegration'),(1069,'Can add kv store',268,'add_kvstore'),(1070,'Can change kv store',268,'change_kvstore'),(1071,'Can delete kv store',268,'delete_kvstore'),(1072,'Can view kv store',268,'view_kvstore'),(1073,'Can add course content milestone',269,'add_coursecontentmilestone'),(1074,'Can change course content milestone',269,'change_coursecontentmilestone'),(1075,'Can delete course content milestone',269,'delete_coursecontentmilestone'),(1076,'Can view course content milestone',269,'view_coursecontentmilestone'),(1077,'Can add course milestone',270,'add_coursemilestone'),(1078,'Can change course milestone',270,'change_coursemilestone'),(1079,'Can delete course milestone',270,'delete_coursemilestone'),(1080,'Can view course milestone',270,'view_coursemilestone'),(1081,'Can add milestone',271,'add_milestone'),(1082,'Can change milestone',271,'change_milestone'),(1083,'Can delete milestone',271,'delete_milestone'),(1084,'Can view milestone',271,'view_milestone'),(1085,'Can add milestone relationship type',272,'add_milestonerelationshiptype'),(1086,'Can change milestone relationship type',272,'change_milestonerelationshiptype'),(1087,'Can delete milestone relationship type',272,'delete_milestonerelationshiptype'),(1088,'Can view milestone relationship type',272,'view_milestonerelationshiptype'),(1089,'Can add user milestone',273,'add_usermilestone'),(1090,'Can change user milestone',273,'change_usermilestone'),(1091,'Can delete user milestone',273,'delete_usermilestone'),(1092,'Can view user milestone',273,'view_usermilestone'),(1093,'Can add api access request',1,'add_apiaccessrequest'),(1094,'Can change api access request',1,'change_apiaccessrequest'),(1095,'Can delete api access request',1,'delete_apiaccessrequest'),(1096,'Can view api access request',1,'view_apiaccessrequest'),(1097,'Can add api access config',274,'add_apiaccessconfig'),(1098,'Can change api access config',274,'change_apiaccessconfig'),(1099,'Can delete api access config',274,'delete_apiaccessconfig'),(1100,'Can view api access config',274,'view_apiaccessconfig'),(1101,'Can add catalog',275,'add_catalog'),(1102,'Can change catalog',275,'change_catalog'),(1103,'Can delete catalog',275,'delete_catalog'),(1104,'Can view catalog',275,'view_catalog'),(1105,'Can add badge assertion',276,'add_badgeassertion'),(1106,'Can change badge assertion',276,'change_badgeassertion'),(1107,'Can delete badge assertion',276,'delete_badgeassertion'),(1108,'Can view badge assertion',276,'view_badgeassertion'),(1109,'Can add badge class',277,'add_badgeclass'),(1110,'Can change badge class',277,'change_badgeclass'),(1111,'Can delete badge class',277,'delete_badgeclass'),(1112,'Can view badge class',277,'view_badgeclass'),(1113,'Can add course complete image configuration',278,'add_coursecompleteimageconfiguration'),(1114,'Can change course complete image configuration',278,'change_coursecompleteimageconfiguration'),(1115,'Can delete course complete image configuration',278,'delete_coursecompleteimageconfiguration'),(1116,'Can view course complete image configuration',278,'view_coursecompleteimageconfiguration'),(1117,'Can add course event badges configuration',279,'add_courseeventbadgesconfiguration'),(1118,'Can change course event badges configuration',279,'change_courseeventbadgesconfiguration'),(1119,'Can delete course event badges configuration',279,'delete_courseeventbadgesconfiguration'),(1120,'Can view course event badges configuration',279,'view_courseeventbadgesconfiguration'),(1121,'Can add failed task',280,'add_failedtask'),(1122,'Can change failed task',280,'change_failedtask'),(1123,'Can delete failed task',280,'delete_failedtask'),(1124,'Can view failed task',280,'view_failedtask'),(1125,'Can add crawlers config',281,'add_crawlersconfig'),(1126,'Can change crawlers config',281,'change_crawlersconfig'),(1127,'Can delete crawlers config',281,'delete_crawlersconfig'),(1128,'Can view crawlers config',281,'view_crawlersconfig'),(1129,'Can add Waffle flag course override',282,'add_waffleflagcourseoverridemodel'),(1130,'Can change Waffle flag course override',282,'change_waffleflagcourseoverridemodel'),(1131,'Can delete Waffle flag course override',282,'delete_waffleflagcourseoverridemodel'),(1132,'Can view Waffle flag course override',282,'view_waffleflagcourseoverridemodel'),(1133,'Can add Waffle flag org override',283,'add_waffleflagorgoverridemodel'),(1134,'Can change Waffle flag org override',283,'change_waffleflagorgoverridemodel'),(1135,'Can delete Waffle flag org override',283,'delete_waffleflagorgoverridemodel'),(1136,'Can view Waffle flag org override',283,'view_waffleflagorgoverridemodel'),(1137,'Can add course goal',284,'add_coursegoal'),(1138,'Can change course goal',284,'change_coursegoal'),(1139,'Can delete course goal',284,'delete_coursegoal'),(1140,'Can view course goal',284,'view_coursegoal'),(1141,'Can add historical course goal',285,'add_historicalcoursegoal'),(1142,'Can change historical course goal',285,'change_historicalcoursegoal'),(1143,'Can delete historical course goal',285,'delete_historicalcoursegoal'),(1144,'Can view historical course goal',285,'view_historicalcoursegoal'),(1145,'Can add user activity',286,'add_useractivity'),(1146,'Can change user activity',286,'change_useractivity'),(1147,'Can delete user activity',286,'delete_useractivity'),(1148,'Can view user activity',286,'view_useractivity'),(1149,'Can add course goal reminder status',287,'add_coursegoalreminderstatus'),(1150,'Can change course goal reminder status',287,'change_coursegoalreminderstatus'),(1151,'Can delete course goal reminder status',287,'delete_coursegoalreminderstatus'),(1152,'Can view course goal reminder status',287,'view_coursegoalreminderstatus'),(1153,'Can add historical user calendar sync config',288,'add_historicalusercalendarsyncconfig'),(1154,'Can change historical user calendar sync config',288,'change_historicalusercalendarsyncconfig'),(1155,'Can delete historical user calendar sync config',288,'delete_historicalusercalendarsyncconfig'),(1156,'Can view historical user calendar sync config',288,'view_historicalusercalendarsyncconfig'),(1157,'Can add user calendar sync config',289,'add_usercalendarsyncconfig'),(1158,'Can change user calendar sync config',289,'change_usercalendarsyncconfig'),(1159,'Can delete user calendar sync config',289,'delete_usercalendarsyncconfig'),(1160,'Can view user calendar sync config',289,'view_usercalendarsyncconfig'),(1161,'Can add course duration limit config',290,'add_coursedurationlimitconfig'),(1162,'Can change course duration limit config',290,'change_coursedurationlimitconfig'),(1163,'Can delete course duration limit config',290,'delete_coursedurationlimitconfig'),(1164,'Can view course duration limit config',290,'view_coursedurationlimitconfig'),(1165,'Can add content type gating config',291,'add_contenttypegatingconfig'),(1166,'Can change content type gating config',291,'change_contenttypegatingconfig'),(1167,'Can delete content type gating config',291,'delete_contenttypegatingconfig'),(1168,'Can view content type gating config',291,'view_contenttypegatingconfig'),(1169,'Can add discount restriction config',292,'add_discountrestrictionconfig'),(1170,'Can change discount restriction config',292,'change_discountrestrictionconfig'),(1171,'Can delete discount restriction config',292,'delete_discountrestrictionconfig'),(1172,'Can view discount restriction config',292,'view_discountrestrictionconfig'),(1173,'Can add discount percentage config',293,'add_discountpercentageconfig'),(1174,'Can change discount percentage config',293,'change_discountpercentageconfig'),(1175,'Can delete discount percentage config',293,'delete_discountpercentageconfig'),(1176,'Can view discount percentage config',293,'view_discountpercentageconfig'),(1177,'Can add Experiment Data',294,'add_experimentdata'),(1178,'Can change Experiment Data',294,'change_experimentdata'),(1179,'Can delete Experiment Data',294,'delete_experimentdata'),(1180,'Can view Experiment Data',294,'view_experimentdata'),(1181,'Can add Experiment Key-Value Pair',295,'add_experimentkeyvalue'),(1182,'Can change Experiment Key-Value Pair',295,'change_experimentkeyvalue'),(1183,'Can delete Experiment Key-Value Pair',295,'delete_experimentkeyvalue'),(1184,'Can view Experiment Key-Value Pair',295,'view_experimentkeyvalue'),(1185,'Can add historical Experiment Key-Value Pair',296,'add_historicalexperimentkeyvalue'),(1186,'Can change historical Experiment Key-Value Pair',296,'change_historicalexperimentkeyvalue'),(1187,'Can delete historical Experiment Key-Value Pair',296,'delete_historicalexperimentkeyvalue'),(1188,'Can view historical Experiment Key-Value Pair',296,'view_historicalexperimentkeyvalue'),(1189,'Can add self paced relative dates config',297,'add_selfpacedrelativedatesconfig'),(1190,'Can change self paced relative dates config',297,'change_selfpacedrelativedatesconfig'),(1191,'Can delete self paced relative dates config',297,'delete_selfpacedrelativedatesconfig'),(1192,'Can view self paced relative dates config',297,'view_selfpacedrelativedatesconfig'),(1193,'Can add external id',298,'add_externalid'),(1194,'Can change external id',298,'change_externalid'),(1195,'Can delete external id',298,'delete_externalid'),(1196,'Can view external id',298,'view_externalid'),(1197,'Can add external id type',299,'add_externalidtype'),(1198,'Can change external id type',299,'change_externalidtype'),(1199,'Can delete external id type',299,'delete_externalidtype'),(1200,'Can view external id type',299,'view_externalidtype'),(1201,'Can add historical external id',300,'add_historicalexternalid'),(1202,'Can change historical external id',300,'change_historicalexternalid'),(1203,'Can delete historical external id',300,'delete_historicalexternalid'),(1204,'Can view historical external id',300,'view_historicalexternalid'),(1205,'Can add historical external id type',301,'add_historicalexternalidtype'),(1206,'Can change historical external id type',301,'change_historicalexternalidtype'),(1207,'Can delete historical external id type',301,'delete_historicalexternalidtype'),(1208,'Can view historical external id type',301,'view_historicalexternalidtype'),(1209,'Can add user demographic',302,'add_userdemographics'),(1210,'Can change user demographic',302,'change_userdemographics'),(1211,'Can delete user demographic',302,'delete_userdemographics'),(1212,'Can view user demographic',302,'view_userdemographics'),(1213,'Can add historical user demographic',303,'add_historicaluserdemographics'),(1214,'Can change historical user demographic',303,'change_historicaluserdemographics'),(1215,'Can delete historical user demographic',303,'delete_historicaluserdemographics'),(1216,'Can view historical user demographic',303,'view_historicaluserdemographics'),(1217,'Can add Schedule',304,'add_schedule'),(1218,'Can change Schedule',304,'change_schedule'),(1219,'Can delete Schedule',304,'delete_schedule'),(1220,'Can view Schedule',304,'view_schedule'),(1221,'Can add schedule config',305,'add_scheduleconfig'),(1222,'Can change schedule config',305,'change_scheduleconfig'),(1223,'Can delete schedule config',305,'delete_scheduleconfig'),(1224,'Can view schedule config',305,'view_scheduleconfig'),(1225,'Can add schedule experience',306,'add_scheduleexperience'),(1226,'Can change schedule experience',306,'change_scheduleexperience'),(1227,'Can delete schedule experience',306,'delete_scheduleexperience'),(1228,'Can view schedule experience',306,'view_scheduleexperience'),(1229,'Can add historical Schedule',307,'add_historicalschedule'),(1230,'Can change historical Schedule',307,'change_historicalschedule'),(1231,'Can delete historical Schedule',307,'delete_historicalschedule'),(1232,'Can view historical Schedule',307,'view_historicalschedule'),(1233,'Can add course section',308,'add_coursesection'),(1234,'Can change course section',308,'change_coursesection'),(1235,'Can delete course section',308,'delete_coursesection'),(1236,'Can view course section',308,'view_coursesection'),(1237,'Can add Course Sequence',309,'add_coursesectionsequence'),(1238,'Can change Course Sequence',309,'change_coursesectionsequence'),(1239,'Can delete Course Sequence',309,'delete_coursesectionsequence'),(1240,'Can view Course Sequence',309,'view_coursesectionsequence'),(1241,'Can add learning context',310,'add_learningcontext'),(1242,'Can change learning context',310,'change_learningcontext'),(1243,'Can delete learning context',310,'delete_learningcontext'),(1244,'Can view learning context',310,'view_learningcontext'),(1245,'Can add learning sequence',311,'add_learningsequence'),(1246,'Can change learning sequence',311,'change_learningsequence'),(1247,'Can delete learning sequence',311,'delete_learningsequence'),(1248,'Can view learning sequence',311,'view_learningsequence'),(1249,'Can add Course',312,'add_coursecontext'),(1250,'Can change Course',312,'change_coursecontext'),(1251,'Can delete Course',312,'delete_coursecontext'),(1252,'Can view Course',312,'view_coursecontext'),(1253,'Can add course sequence exam',313,'add_coursesequenceexam'),(1254,'Can change course sequence exam',313,'change_coursesequenceexam'),(1255,'Can delete course sequence exam',313,'delete_coursesequenceexam'),(1256,'Can view course sequence exam',313,'view_coursesequenceexam'),(1257,'Can add publish report',314,'add_publishreport'),(1258,'Can change publish report',314,'change_publishreport'),(1259,'Can delete publish report',314,'delete_publishreport'),(1260,'Can view publish report',314,'view_publishreport'),(1261,'Can add content error',315,'add_contenterror'),(1262,'Can change content error',315,'change_contenterror'),(1263,'Can delete content error',315,'delete_contenterror'),(1264,'Can view content error',315,'view_contenterror'),(1265,'Can add user partition group',316,'add_userpartitiongroup'),(1266,'Can change user partition group',316,'change_userpartitiongroup'),(1267,'Can delete user partition group',316,'delete_userpartitiongroup'),(1268,'Can view user partition group',316,'view_userpartitiongroup'),(1269,'Can add section sequence partition group',317,'add_sectionsequencepartitiongroup'),(1270,'Can change section sequence partition group',317,'change_sectionsequencepartitiongroup'),(1271,'Can delete section sequence partition group',317,'delete_sectionsequencepartitiongroup'),(1272,'Can view section sequence partition group',317,'view_sectionsequencepartitiongroup'),(1273,'Can add section partition group',318,'add_sectionpartitiongroup'),(1274,'Can change section partition group',318,'change_sectionpartitiongroup'),(1275,'Can delete section partition group',318,'delete_sectionpartitiongroup'),(1276,'Can view section partition group',318,'view_sectionpartitiongroup'),(1277,'Can add organization',319,'add_organization'),(1278,'Can change organization',319,'change_organization'),(1279,'Can delete organization',319,'delete_organization'),(1280,'Can view organization',319,'view_organization'),(1281,'Can add Link Course',320,'add_organizationcourse'),(1282,'Can change Link Course',320,'change_organizationcourse'),(1283,'Can delete Link Course',320,'delete_organizationcourse'),(1284,'Can view Link Course',320,'view_organizationcourse'),(1285,'Can add historical organization',321,'add_historicalorganization'),(1286,'Can change historical organization',321,'change_historicalorganization'),(1287,'Can delete historical organization',321,'delete_historicalorganization'),(1288,'Can view historical organization',321,'view_historicalorganization'),(1289,'Can add historical Link Course',322,'add_historicalorganizationcourse'),(1290,'Can change historical Link Course',322,'change_historicalorganizationcourse'),(1291,'Can delete historical Link Course',322,'delete_historicalorganizationcourse'),(1292,'Can view historical Link Course',322,'view_historicalorganizationcourse'),(1293,'Can add integrity signature',323,'add_integritysignature'),(1294,'Can change integrity signature',323,'change_integritysignature'),(1295,'Can delete integrity signature',323,'delete_integritysignature'),(1296,'Can view integrity signature',323,'view_integritysignature'),(1297,'Can add survey report',324,'add_surveyreport'),(1298,'Can change survey report',324,'change_surveyreport'),(1299,'Can delete survey report',324,'delete_surveyreport'),(1300,'Can view survey report',324,'view_surveyreport'),(1301,'Can add lti 1.3 tool key',325,'add_ltitoolkey'),(1302,'Can change lti 1.3 tool key',325,'change_ltitoolkey'),(1303,'Can delete lti 1.3 tool key',325,'delete_ltitoolkey'),(1304,'Can view lti 1.3 tool key',325,'view_ltitoolkey'),(1305,'Can add lti 1.3 tool',326,'add_ltitool'),(1306,'Can change lti 1.3 tool',326,'change_ltitool'),(1307,'Can delete lti 1.3 tool',326,'delete_ltitool'),(1308,'Can view lti 1.3 tool',326,'view_ltitool'),(1309,'Can add saved program',327,'add_savedprogram'),(1310,'Can change saved program',327,'change_savedprogram'),(1311,'Can delete saved program',327,'delete_savedprogram'),(1312,'Can view saved program',327,'view_savedprogram'),(1313,'Can add saved course',328,'add_savedcourse'),(1314,'Can change saved course',328,'change_savedcourse'),(1315,'Can delete saved course',328,'delete_savedcourse'),(1316,'Can view saved course',328,'view_savedcourse'),(1317,'Can add bundle',329,'add_bundle'),(1318,'Can change bundle',329,'change_bundle'),(1319,'Can delete bundle',329,'delete_bundle'),(1320,'Can view bundle',329,'view_bundle'),(1321,'Can add bundle link',330,'add_bundlelink'),(1322,'Can change bundle link',330,'change_bundlelink'),(1323,'Can delete bundle link',330,'delete_bundlelink'),(1324,'Can view bundle link',330,'view_bundlelink'),(1325,'Can add bundle version',331,'add_bundleversion'),(1326,'Can change bundle version',331,'change_bundleversion'),(1327,'Can delete bundle version',331,'delete_bundleversion'),(1328,'Can view bundle version',331,'view_bundleversion'),(1329,'Can add collection',332,'add_collection'),(1330,'Can change collection',332,'change_collection'),(1331,'Can delete collection',332,'delete_collection'),(1332,'Can view collection',332,'view_collection'),(1333,'Can add draft',333,'add_draft'),(1334,'Can change draft',333,'change_draft'),(1335,'Can delete draft',333,'delete_draft'),(1336,'Can view draft',333,'view_draft'),(1337,'Can add enrollment notification email template',334,'add_enrollmentnotificationemailtemplate'),(1338,'Can change enrollment notification email template',334,'change_enrollmentnotificationemailtemplate'),(1339,'Can delete enrollment notification email template',334,'delete_enrollmentnotificationemailtemplate'),(1340,'Can view enrollment notification email template',334,'view_enrollmentnotificationemailtemplate'),(1341,'Can add Enterprise Catalog Query',335,'add_enterprisecatalogquery'),(1342,'Can change Enterprise Catalog Query',335,'change_enterprisecatalogquery'),(1343,'Can delete Enterprise Catalog Query',335,'delete_enterprisecatalogquery'),(1344,'Can view Enterprise Catalog Query',335,'view_enterprisecatalogquery'),(1345,'Can add Enterprise Customer',336,'add_enterprisecustomer'),(1346,'Can change Enterprise Customer',336,'change_enterprisecustomer'),(1347,'Can delete Enterprise Customer',336,'delete_enterprisecustomer'),(1348,'Can view Enterprise Customer',336,'view_enterprisecustomer'),(1349,'Can add Branding Configuration',337,'add_enterprisecustomerbrandingconfiguration'),(1350,'Can change Branding Configuration',337,'change_enterprisecustomerbrandingconfiguration'),(1351,'Can delete Branding Configuration',337,'delete_enterprisecustomerbrandingconfiguration'),(1352,'Can view Branding Configuration',337,'view_enterprisecustomerbrandingconfiguration'),(1353,'Can add Enterprise Customer Catalog',338,'add_enterprisecustomercatalog'),(1354,'Can change Enterprise Customer Catalog',338,'change_enterprisecustomercatalog'),(1355,'Can delete Enterprise Customer Catalog',338,'delete_enterprisecustomercatalog'),(1356,'Can view Enterprise Customer Catalog',338,'view_enterprisecustomercatalog'),(1357,'Can add enterprise customer identity provider',339,'add_enterprisecustomeridentityprovider'),(1358,'Can change enterprise customer identity provider',339,'change_enterprisecustomeridentityprovider'),(1359,'Can delete enterprise customer identity provider',339,'delete_enterprisecustomeridentityprovider'),(1360,'Can view enterprise customer identity provider',339,'view_enterprisecustomeridentityprovider'),(1361,'Can add enterprise customer reporting configuration',340,'add_enterprisecustomerreportingconfiguration'),(1362,'Can change enterprise customer reporting configuration',340,'change_enterprisecustomerreportingconfiguration'),(1363,'Can delete enterprise customer reporting configuration',340,'delete_enterprisecustomerreportingconfiguration'),(1364,'Can view enterprise customer reporting configuration',340,'view_enterprisecustomerreportingconfiguration'),(1365,'Can add Enterprise Customer Type',341,'add_enterprisecustomertype'),(1366,'Can change Enterprise Customer Type',341,'change_enterprisecustomertype'),(1367,'Can delete Enterprise Customer Type',341,'delete_enterprisecustomertype'),(1368,'Can view Enterprise Customer Type',341,'view_enterprisecustomertype'),(1369,'Can add Enterprise Customer Learner',342,'add_enterprisecustomeruser'),(1370,'Can change Enterprise Customer Learner',342,'change_enterprisecustomeruser'),(1371,'Can delete Enterprise Customer Learner',342,'delete_enterprisecustomeruser'),(1372,'Can view Enterprise Customer Learner',342,'view_enterprisecustomeruser'),(1373,'Can add enterprise course enrollment',343,'add_enterprisecourseenrollment'),(1374,'Can change enterprise course enrollment',343,'change_enterprisecourseenrollment'),(1375,'Can delete enterprise course enrollment',343,'delete_enterprisecourseenrollment'),(1376,'Can view enterprise course enrollment',343,'view_enterprisecourseenrollment'),(1377,'Can add enterprise enrollment source',344,'add_enterpriseenrollmentsource'),(1378,'Can change enterprise enrollment source',344,'change_enterpriseenrollmentsource'),(1379,'Can delete enterprise enrollment source',344,'delete_enterpriseenrollmentsource'),(1380,'Can view enterprise enrollment source',344,'view_enterpriseenrollmentsource'),(1381,'Can add enterprise feature role',345,'add_enterprisefeaturerole'),(1382,'Can change enterprise feature role',345,'change_enterprisefeaturerole'),(1383,'Can delete enterprise feature role',345,'delete_enterprisefeaturerole'),(1384,'Can view enterprise feature role',345,'view_enterprisefeaturerole'),(1385,'Can add enterprise feature user role assignment',346,'add_enterprisefeatureuserroleassignment'),(1386,'Can change enterprise feature user role assignment',346,'change_enterprisefeatureuserroleassignment'),(1387,'Can delete enterprise feature user role assignment',346,'delete_enterprisefeatureuserroleassignment'),(1388,'Can view enterprise feature user role assignment',346,'view_enterprisefeatureuserroleassignment'),(1389,'Can add historical enrollment notification email template',347,'add_historicalenrollmentnotificationemailtemplate'),(1390,'Can change historical enrollment notification email template',347,'change_historicalenrollmentnotificationemailtemplate'),(1391,'Can delete historical enrollment notification email template',347,'delete_historicalenrollmentnotificationemailtemplate'),(1392,'Can view historical enrollment notification email template',347,'view_historicalenrollmentnotificationemailtemplate'),(1393,'Can add historical enterprise course enrollment',348,'add_historicalenterprisecourseenrollment'),(1394,'Can change historical enterprise course enrollment',348,'change_historicalenterprisecourseenrollment'),(1395,'Can delete historical enterprise course enrollment',348,'delete_historicalenterprisecourseenrollment'),(1396,'Can view historical enterprise course enrollment',348,'view_historicalenterprisecourseenrollment'),(1397,'Can add historical Enterprise Customer',349,'add_historicalenterprisecustomer'),(1398,'Can change historical Enterprise Customer',349,'change_historicalenterprisecustomer'),(1399,'Can delete historical Enterprise Customer',349,'delete_historicalenterprisecustomer'),(1400,'Can view historical Enterprise Customer',349,'view_historicalenterprisecustomer'),(1401,'Can add historical Enterprise Customer Catalog',350,'add_historicalenterprisecustomercatalog'),(1402,'Can change historical Enterprise Customer Catalog',350,'change_historicalenterprisecustomercatalog'),(1403,'Can delete historical Enterprise Customer Catalog',350,'delete_historicalenterprisecustomercatalog'),(1404,'Can view historical Enterprise Customer Catalog',350,'view_historicalenterprisecustomercatalog'),(1405,'Can add historical pending enrollment',351,'add_historicalpendingenrollment'),(1406,'Can change historical pending enrollment',351,'change_historicalpendingenrollment'),(1407,'Can delete historical pending enrollment',351,'delete_historicalpendingenrollment'),(1408,'Can view historical pending enrollment',351,'view_historicalpendingenrollment'),(1409,'Can add historical pending enterprise customer user',352,'add_historicalpendingenterprisecustomeruser'),(1410,'Can change historical pending enterprise customer user',352,'change_historicalpendingenterprisecustomeruser'),(1411,'Can delete historical pending enterprise customer user',352,'delete_historicalpendingenterprisecustomeruser'),(1412,'Can view historical pending enterprise customer user',352,'view_historicalpendingenterprisecustomeruser'),(1413,'Can add pending enrollment',353,'add_pendingenrollment'),(1414,'Can change pending enrollment',353,'change_pendingenrollment'),(1415,'Can delete pending enrollment',353,'delete_pendingenrollment'),(1416,'Can view pending enrollment',353,'view_pendingenrollment'),(1417,'Can add pending enterprise customer user',354,'add_pendingenterprisecustomeruser'),(1418,'Can change pending enterprise customer user',354,'change_pendingenterprisecustomeruser'),(1419,'Can delete pending enterprise customer user',354,'delete_pendingenterprisecustomeruser'),(1420,'Can view pending enterprise customer user',354,'view_pendingenterprisecustomeruser'),(1421,'Can add system wide enterprise role',355,'add_systemwideenterpriserole'),(1422,'Can change system wide enterprise role',355,'change_systemwideenterpriserole'),(1423,'Can delete system wide enterprise role',355,'delete_systemwideenterpriserole'),(1424,'Can view system wide enterprise role',355,'view_systemwideenterpriserole'),(1425,'Can add system wide enterprise user role assignment',356,'add_systemwideenterpriseuserroleassignment'),(1426,'Can change system wide enterprise user role assignment',356,'change_systemwideenterpriseuserroleassignment'),(1427,'Can delete system wide enterprise user role assignment',356,'delete_systemwideenterpriseuserroleassignment'),(1428,'Can view system wide enterprise user role assignment',356,'view_systemwideenterpriseuserroleassignment'),(1429,'Can add licensed enterprise course enrollment',357,'add_licensedenterprisecourseenrollment'),(1430,'Can change licensed enterprise course enrollment',357,'change_licensedenterprisecourseenrollment'),(1431,'Can delete licensed enterprise course enrollment',357,'delete_licensedenterprisecourseenrollment'),(1432,'Can view licensed enterprise course enrollment',357,'view_licensedenterprisecourseenrollment'),(1433,'Can add historical licensed enterprise course enrollment',358,'add_historicallicensedenterprisecourseenrollment'),(1434,'Can change historical licensed enterprise course enrollment',358,'change_historicallicensedenterprisecourseenrollment'),(1435,'Can delete historical licensed enterprise course enrollment',358,'delete_historicallicensedenterprisecourseenrollment'),(1436,'Can view historical licensed enterprise course enrollment',358,'view_historicallicensedenterprisecourseenrollment'),(1437,'Can add historical pending enterprise customer admin user',359,'add_historicalpendingenterprisecustomeradminuser'),(1438,'Can change historical pending enterprise customer admin user',359,'change_historicalpendingenterprisecustomeradminuser'),(1439,'Can delete historical pending enterprise customer admin user',359,'delete_historicalpendingenterprisecustomeradminuser'),(1440,'Can view historical pending enterprise customer admin user',359,'view_historicalpendingenterprisecustomeradminuser'),(1441,'Can add pending enterprise customer admin user',360,'add_pendingenterprisecustomeradminuser'),(1442,'Can change pending enterprise customer admin user',360,'change_pendingenterprisecustomeradminuser'),(1443,'Can delete pending enterprise customer admin user',360,'delete_pendingenterprisecustomeradminuser'),(1444,'Can view pending enterprise customer admin user',360,'view_pendingenterprisecustomeradminuser'),(1445,'Can add update role assignments with customers config',361,'add_updateroleassignmentswithcustomersconfig'),(1446,'Can change update role assignments with customers config',361,'change_updateroleassignmentswithcustomersconfig'),(1447,'Can delete update role assignments with customers config',361,'delete_updateroleassignmentswithcustomersconfig'),(1448,'Can view update role assignments with customers config',361,'view_updateroleassignmentswithcustomersconfig'),(1449,'Can add Admin Notification Filter',362,'add_adminnotificationfilter'),(1450,'Can change Admin Notification Filter',362,'change_adminnotificationfilter'),(1451,'Can delete Admin Notification Filter',362,'delete_adminnotificationfilter'),(1452,'Can view Admin Notification Filter',362,'view_adminnotificationfilter'),(1453,'Can add Admin Notification',363,'add_adminnotification'),(1454,'Can change Admin Notification',363,'change_adminnotification'),(1455,'Can delete Admin Notification',363,'delete_adminnotification'),(1456,'Can view Admin Notification',363,'view_adminnotification'),(1457,'Can add Admin Notification Read',364,'add_adminnotificationread'),(1458,'Can change Admin Notification Read',364,'change_adminnotificationread'),(1459,'Can delete Admin Notification Read',364,'delete_adminnotificationread'),(1460,'Can view Admin Notification Read',364,'view_adminnotificationread'),(1461,'Can add historical system wide enterprise user role assignment',365,'add_historicalsystemwideenterpriseuserroleassignment'),(1462,'Can change historical system wide enterprise user role assignment',365,'change_historicalsystemwideenterpriseuserroleassignment'),(1463,'Can delete historical system wide enterprise user role assignment',365,'delete_historicalsystemwideenterpriseuserroleassignment'),(1464,'Can view historical system wide enterprise user role assignment',365,'view_historicalsystemwideenterpriseuserroleassignment'),(1465,'Can add historical Enterprise Customer Learner',366,'add_historicalenterprisecustomeruser'),(1466,'Can change historical Enterprise Customer Learner',366,'change_historicalenterprisecustomeruser'),(1467,'Can delete historical Enterprise Customer Learner',366,'delete_historicalenterprisecustomeruser'),(1468,'Can view historical Enterprise Customer Learner',366,'view_historicalenterprisecustomeruser'),(1469,'Can add bulk_update_catalog_query_id argument',367,'add_bulkcatalogqueryupdatecommandconfiguration'),(1470,'Can change bulk_update_catalog_query_id argument',367,'change_bulkcatalogqueryupdatecommandconfiguration'),(1471,'Can delete bulk_update_catalog_query_id argument',367,'delete_bulkcatalogqueryupdatecommandconfiguration'),(1472,'Can view bulk_update_catalog_query_id argument',367,'view_bulkcatalogqueryupdatecommandconfiguration'),(1473,'Can add historical enterprise customer invite key',368,'add_historicalenterprisecustomerinvitekey'),(1474,'Can change historical enterprise customer invite key',368,'change_historicalenterprisecustomerinvitekey'),(1475,'Can delete historical enterprise customer invite key',368,'delete_historicalenterprisecustomerinvitekey'),(1476,'Can view historical enterprise customer invite key',368,'view_historicalenterprisecustomerinvitekey'),(1477,'Can add enterprise customer invite key',369,'add_enterprisecustomerinvitekey'),(1478,'Can change enterprise customer invite key',369,'change_enterprisecustomerinvitekey'),(1479,'Can delete enterprise customer invite key',369,'delete_enterprisecustomerinvitekey'),(1480,'Can view enterprise customer invite key',369,'view_enterprisecustomerinvitekey'),(1481,'Can add Data Sharing Consent Record',370,'add_datasharingconsent'),(1482,'Can change Data Sharing Consent Record',370,'change_datasharingconsent'),(1483,'Can delete Data Sharing Consent Record',370,'delete_datasharingconsent'),(1484,'Can view Data Sharing Consent Record',370,'view_datasharingconsent'),(1485,'Can add historical Data Sharing Consent Record',371,'add_historicaldatasharingconsent'),(1486,'Can change historical Data Sharing Consent Record',371,'change_historicaldatasharingconsent'),(1487,'Can delete historical Data Sharing Consent Record',371,'delete_historicaldatasharingconsent'),(1488,'Can view historical Data Sharing Consent Record',371,'view_historicaldatasharingconsent'),(1489,'Can add data sharing consent text overrides',372,'add_datasharingconsenttextoverrides'),(1490,'Can change data sharing consent text overrides',372,'change_datasharingconsenttextoverrides'),(1491,'Can delete data sharing consent text overrides',372,'delete_datasharingconsenttextoverrides'),(1492,'Can view data sharing consent text overrides',372,'view_datasharingconsenttextoverrides'),(1493,'Can add content metadata item transmission',373,'add_contentmetadataitemtransmission'),(1494,'Can change content metadata item transmission',373,'change_contentmetadataitemtransmission'),(1495,'Can delete content metadata item transmission',373,'delete_contentmetadataitemtransmission'),(1496,'Can view content metadata item transmission',373,'view_contentmetadataitemtransmission'),(1497,'Can add generic learner data transmission audit',374,'add_genericlearnerdatatransmissionaudit'),(1498,'Can change generic learner data transmission audit',374,'change_genericlearnerdatatransmissionaudit'),(1499,'Can delete generic learner data transmission audit',374,'delete_genericlearnerdatatransmissionaudit'),(1500,'Can view generic learner data transmission audit',374,'view_genericlearnerdatatransmissionaudit'),(1501,'Can add generic enterprise customer plugin configuration',375,'add_genericenterprisecustomerpluginconfiguration'),(1502,'Can change generic enterprise customer plugin configuration',375,'change_genericenterprisecustomerpluginconfiguration'),(1503,'Can delete generic enterprise customer plugin configuration',375,'delete_genericenterprisecustomerpluginconfiguration'),(1504,'Can view generic enterprise customer plugin configuration',375,'view_genericenterprisecustomerpluginconfiguration'),(1505,'Can add api response record',376,'add_apiresponserecord'),(1506,'Can change api response record',376,'change_apiresponserecord'),(1507,'Can delete api response record',376,'delete_apiresponserecord'),(1508,'Can view api response record',376,'view_apiresponserecord'),(1509,'Can add degreed enterprise customer configuration',377,'add_degreedenterprisecustomerconfiguration'),(1510,'Can change degreed enterprise customer configuration',377,'change_degreedenterprisecustomerconfiguration'),(1511,'Can delete degreed enterprise customer configuration',377,'delete_degreedenterprisecustomerconfiguration'),(1512,'Can view degreed enterprise customer configuration',377,'view_degreedenterprisecustomerconfiguration'),(1513,'Can add degreed global configuration',378,'add_degreedglobalconfiguration'),(1514,'Can change degreed global configuration',378,'change_degreedglobalconfiguration'),(1515,'Can delete degreed global configuration',378,'delete_degreedglobalconfiguration'),(1516,'Can view degreed global configuration',378,'view_degreedglobalconfiguration'),(1517,'Can add degreed learner data transmission audit',379,'add_degreedlearnerdatatransmissionaudit'),(1518,'Can change degreed learner data transmission audit',379,'change_degreedlearnerdatatransmissionaudit'),(1519,'Can delete degreed learner data transmission audit',379,'delete_degreedlearnerdatatransmissionaudit'),(1520,'Can view degreed learner data transmission audit',379,'view_degreedlearnerdatatransmissionaudit'),(1521,'Can add historical degreed enterprise customer configuration',380,'add_historicaldegreedenterprisecustomerconfiguration'),(1522,'Can change historical degreed enterprise customer configuration',380,'change_historicaldegreedenterprisecustomerconfiguration'),(1523,'Can delete historical degreed enterprise customer configuration',380,'delete_historicaldegreedenterprisecustomerconfiguration'),(1524,'Can view historical degreed enterprise customer configuration',380,'view_historicaldegreedenterprisecustomerconfiguration'),(1525,'Can add degreed2 learner data transmission audit',381,'add_degreed2learnerdatatransmissionaudit'),(1526,'Can change degreed2 learner data transmission audit',381,'change_degreed2learnerdatatransmissionaudit'),(1527,'Can delete degreed2 learner data transmission audit',381,'delete_degreed2learnerdatatransmissionaudit'),(1528,'Can view degreed2 learner data transmission audit',381,'view_degreed2learnerdatatransmissionaudit'),(1529,'Can add historical degreed2 enterprise customer configuration',382,'add_historicaldegreed2enterprisecustomerconfiguration'),(1530,'Can change historical degreed2 enterprise customer configuration',382,'change_historicaldegreed2enterprisecustomerconfiguration'),(1531,'Can delete historical degreed2 enterprise customer configuration',382,'delete_historicaldegreed2enterprisecustomerconfiguration'),(1532,'Can view historical degreed2 enterprise customer configuration',382,'view_historicaldegreed2enterprisecustomerconfiguration'),(1533,'Can add degreed2 enterprise customer configuration',383,'add_degreed2enterprisecustomerconfiguration'),(1534,'Can change degreed2 enterprise customer configuration',383,'change_degreed2enterprisecustomerconfiguration'),(1535,'Can delete degreed2 enterprise customer configuration',383,'delete_degreed2enterprisecustomerconfiguration'),(1536,'Can view degreed2 enterprise customer configuration',383,'view_degreed2enterprisecustomerconfiguration'),(1537,'Can add sap success factors global configuration',384,'add_sapsuccessfactorsglobalconfiguration'),(1538,'Can change sap success factors global configuration',384,'change_sapsuccessfactorsglobalconfiguration'),(1539,'Can delete sap success factors global configuration',384,'delete_sapsuccessfactorsglobalconfiguration'),(1540,'Can view sap success factors global configuration',384,'view_sapsuccessfactorsglobalconfiguration'),(1541,'Can add sap success factors enterprise customer configuration',385,'add_sapsuccessfactorsenterprisecustomerconfiguration'),(1542,'Can change sap success factors enterprise customer configuration',385,'change_sapsuccessfactorsenterprisecustomerconfiguration'),(1543,'Can delete sap success factors enterprise customer configuration',385,'delete_sapsuccessfactorsenterprisecustomerconfiguration'),(1544,'Can view sap success factors enterprise customer configuration',385,'view_sapsuccessfactorsenterprisecustomerconfiguration'),(1545,'Can add sap success factors learner data transmission audit',386,'add_sapsuccessfactorslearnerdatatransmissionaudit'),(1546,'Can change sap success factors learner data transmission audit',386,'change_sapsuccessfactorslearnerdatatransmissionaudit'),(1547,'Can delete sap success factors learner data transmission audit',386,'delete_sapsuccessfactorslearnerdatatransmissionaudit'),(1548,'Can view sap success factors learner data transmission audit',386,'view_sapsuccessfactorslearnerdatatransmissionaudit'),(1549,'Can add cornerstone enterprise customer configuration',387,'add_cornerstoneenterprisecustomerconfiguration'),(1550,'Can change cornerstone enterprise customer configuration',387,'change_cornerstoneenterprisecustomerconfiguration'),(1551,'Can delete cornerstone enterprise customer configuration',387,'delete_cornerstoneenterprisecustomerconfiguration'),(1552,'Can view cornerstone enterprise customer configuration',387,'view_cornerstoneenterprisecustomerconfiguration'),(1553,'Can add cornerstone global configuration',388,'add_cornerstoneglobalconfiguration'),(1554,'Can change cornerstone global configuration',388,'change_cornerstoneglobalconfiguration'),(1555,'Can delete cornerstone global configuration',388,'delete_cornerstoneglobalconfiguration'),(1556,'Can view cornerstone global configuration',388,'view_cornerstoneglobalconfiguration'),(1557,'Can add cornerstone learner data transmission audit',389,'add_cornerstonelearnerdatatransmissionaudit'),(1558,'Can change cornerstone learner data transmission audit',389,'change_cornerstonelearnerdatatransmissionaudit'),(1559,'Can delete cornerstone learner data transmission audit',389,'delete_cornerstonelearnerdatatransmissionaudit'),(1560,'Can view cornerstone learner data transmission audit',389,'view_cornerstonelearnerdatatransmissionaudit'),(1561,'Can add historical cornerstone enterprise customer configuration',390,'add_historicalcornerstoneenterprisecustomerconfiguration'),(1562,'Can change historical cornerstone enterprise customer configuration',390,'change_historicalcornerstoneenterprisecustomerconfiguration'),(1563,'Can delete historical cornerstone enterprise customer configuration',390,'delete_historicalcornerstoneenterprisecustomerconfiguration'),(1564,'Can view historical cornerstone enterprise customer configuration',390,'view_historicalcornerstoneenterprisecustomerconfiguration'),(1565,'Can add cornerstone course key',391,'add_cornerstonecoursekey'),(1566,'Can change cornerstone course key',391,'change_cornerstonecoursekey'),(1567,'Can delete cornerstone course key',391,'delete_cornerstonecoursekey'),(1568,'Can view cornerstone course key',391,'view_cornerstonecoursekey'),(1569,'Can add xapilrs configuration',392,'add_xapilrsconfiguration'),(1570,'Can change xapilrs configuration',392,'change_xapilrsconfiguration'),(1571,'Can delete xapilrs configuration',392,'delete_xapilrsconfiguration'),(1572,'Can view xapilrs configuration',392,'view_xapilrsconfiguration'),(1573,'Can add xapi learner data transmission audit',393,'add_xapilearnerdatatransmissionaudit'),(1574,'Can change xapi learner data transmission audit',393,'change_xapilearnerdatatransmissionaudit'),(1575,'Can delete xapi learner data transmission audit',393,'delete_xapilearnerdatatransmissionaudit'),(1576,'Can view xapi learner data transmission audit',393,'view_xapilearnerdatatransmissionaudit'),(1577,'Can add blackboard learner data transmission audit',394,'add_blackboardlearnerdatatransmissionaudit'),(1578,'Can change blackboard learner data transmission audit',394,'change_blackboardlearnerdatatransmissionaudit'),(1579,'Can delete blackboard learner data transmission audit',394,'delete_blackboardlearnerdatatransmissionaudit'),(1580,'Can view blackboard learner data transmission audit',394,'view_blackboardlearnerdatatransmissionaudit'),(1581,'Can add blackboard learner assessment data transmission audit',395,'add_blackboardlearnerassessmentdatatransmissionaudit'),(1582,'Can change blackboard learner assessment data transmission audit',395,'change_blackboardlearnerassessmentdatatransmissionaudit'),(1583,'Can delete blackboard learner assessment data transmission audit',395,'delete_blackboardlearnerassessmentdatatransmissionaudit'),(1584,'Can view blackboard learner assessment data transmission audit',395,'view_blackboardlearnerassessmentdatatransmissionaudit'),(1585,'Can add blackboard enterprise customer configuration',396,'add_blackboardenterprisecustomerconfiguration'),(1586,'Can change blackboard enterprise customer configuration',396,'change_blackboardenterprisecustomerconfiguration'),(1587,'Can delete blackboard enterprise customer configuration',396,'delete_blackboardenterprisecustomerconfiguration'),(1588,'Can view blackboard enterprise customer configuration',396,'view_blackboardenterprisecustomerconfiguration'),(1589,'Can add historical blackboard enterprise customer configuration',397,'add_historicalblackboardenterprisecustomerconfiguration'),(1590,'Can change historical blackboard enterprise customer configuration',397,'change_historicalblackboardenterprisecustomerconfiguration'),(1591,'Can delete historical blackboard enterprise customer configuration',397,'delete_historicalblackboardenterprisecustomerconfiguration'),(1592,'Can view historical blackboard enterprise customer configuration',397,'view_historicalblackboardenterprisecustomerconfiguration'),(1593,'Can add blackboard global configuration',398,'add_blackboardglobalconfiguration'),(1594,'Can change blackboard global configuration',398,'change_blackboardglobalconfiguration'),(1595,'Can delete blackboard global configuration',398,'delete_blackboardglobalconfiguration'),(1596,'Can view blackboard global configuration',398,'view_blackboardglobalconfiguration'),(1597,'Can add historical canvas enterprise customer configuration',399,'add_historicalcanvasenterprisecustomerconfiguration'),(1598,'Can change historical canvas enterprise customer configuration',399,'change_historicalcanvasenterprisecustomerconfiguration'),(1599,'Can delete historical canvas enterprise customer configuration',399,'delete_historicalcanvasenterprisecustomerconfiguration'),(1600,'Can view historical canvas enterprise customer configuration',399,'view_historicalcanvasenterprisecustomerconfiguration'),(1601,'Can add canvas enterprise customer configuration',400,'add_canvasenterprisecustomerconfiguration'),(1602,'Can change canvas enterprise customer configuration',400,'change_canvasenterprisecustomerconfiguration'),(1603,'Can delete canvas enterprise customer configuration',400,'delete_canvasenterprisecustomerconfiguration'),(1604,'Can view canvas enterprise customer configuration',400,'view_canvasenterprisecustomerconfiguration'),(1605,'Can add canvas learner data transmission audit',401,'add_canvaslearnerdatatransmissionaudit'),(1606,'Can change canvas learner data transmission audit',401,'change_canvaslearnerdatatransmissionaudit'),(1607,'Can delete canvas learner data transmission audit',401,'delete_canvaslearnerdatatransmissionaudit'),(1608,'Can view canvas learner data transmission audit',401,'view_canvaslearnerdatatransmissionaudit'),(1609,'Can add canvas learner assessment data transmission audit',402,'add_canvaslearnerassessmentdatatransmissionaudit'),(1610,'Can change canvas learner assessment data transmission audit',402,'change_canvaslearnerassessmentdatatransmissionaudit'),(1611,'Can delete canvas learner assessment data transmission audit',402,'delete_canvaslearnerassessmentdatatransmissionaudit'),(1612,'Can view canvas learner assessment data transmission audit',402,'view_canvaslearnerassessmentdatatransmissionaudit'),(1613,'Can add moodle enterprise customer configuration',403,'add_moodleenterprisecustomerconfiguration'),(1614,'Can change moodle enterprise customer configuration',403,'change_moodleenterprisecustomerconfiguration'),(1615,'Can delete moodle enterprise customer configuration',403,'delete_moodleenterprisecustomerconfiguration'),(1616,'Can view moodle enterprise customer configuration',403,'view_moodleenterprisecustomerconfiguration'),(1617,'Can add historical moodle enterprise customer configuration',404,'add_historicalmoodleenterprisecustomerconfiguration'),(1618,'Can change historical moodle enterprise customer configuration',404,'change_historicalmoodleenterprisecustomerconfiguration'),(1619,'Can delete historical moodle enterprise customer configuration',404,'delete_historicalmoodleenterprisecustomerconfiguration'),(1620,'Can view historical moodle enterprise customer configuration',404,'view_historicalmoodleenterprisecustomerconfiguration'),(1621,'Can add moodle learner data transmission audit',405,'add_moodlelearnerdatatransmissionaudit'),(1622,'Can change moodle learner data transmission audit',405,'change_moodlelearnerdatatransmissionaudit'),(1623,'Can delete moodle learner data transmission audit',405,'delete_moodlelearnerdatatransmissionaudit'),(1624,'Can view moodle learner data transmission audit',405,'view_moodlelearnerdatatransmissionaudit'),(1625,'Can add announcement',406,'add_announcement'),(1626,'Can change announcement',406,'change_announcement'),(1627,'Can delete announcement',406,'delete_announcement'),(1628,'Can view announcement',406,'view_announcement'),(1629,'Can add bookmark',407,'add_bookmark'),(1630,'Can change bookmark',407,'change_bookmark'),(1631,'Can delete bookmark',407,'delete_bookmark'),(1632,'Can view bookmark',407,'view_bookmark'),(1633,'Can add x block cache',408,'add_xblockcache'),(1634,'Can change x block cache',408,'change_xblockcache'),(1635,'Can delete x block cache',408,'delete_xblockcache'),(1636,'Can view x block cache',408,'view_xblockcache'),(1637,'Can add content library',409,'add_contentlibrary'),(1638,'Can change content library',409,'change_contentlibrary'),(1639,'Can delete content library',409,'delete_contentlibrary'),(1640,'Can view content library',409,'view_contentlibrary'),(1641,'Can add content library permission',410,'add_contentlibrarypermission'),(1642,'Can change content library permission',410,'change_contentlibrarypermission'),(1643,'Can delete content library permission',410,'delete_contentlibrarypermission'),(1644,'Can view content library permission',410,'view_contentlibrarypermission'),(1645,'Can add lti profile',411,'add_ltiprofile'),(1646,'Can change lti profile',411,'change_ltiprofile'),(1647,'Can delete lti profile',411,'delete_ltiprofile'),(1648,'Can view lti profile',411,'view_ltiprofile'),(1649,'Can add lti graded resource',412,'add_ltigradedresource'),(1650,'Can change lti graded resource',412,'change_ltigradedresource'),(1651,'Can delete lti graded resource',412,'delete_ltigradedresource'),(1652,'Can view lti graded resource',412,'view_ltigradedresource'),(1653,'Can add content library block import task',413,'add_contentlibraryblockimporttask'),(1654,'Can change content library block import task',413,'change_contentlibraryblockimporttask'),(1655,'Can delete content library block import task',413,'delete_contentlibraryblockimporttask'),(1656,'Can view content library block import task',413,'view_contentlibraryblockimporttask'),(1657,'Can add course app status',414,'add_courseappstatus'),(1658,'Can change course app status',414,'change_courseappstatus'),(1659,'Can delete course app status',414,'delete_courseappstatus'),(1660,'Can view course app status',414,'view_courseappstatus'),(1661,'Can add historical course app status',415,'add_historicalcourseappstatus'),(1662,'Can change historical course app status',415,'change_historicalcourseappstatus'),(1663,'Can delete historical course app status',415,'delete_historicalcourseappstatus'),(1664,'Can view historical course app status',415,'view_historicalcourseappstatus'),(1665,'Can add historical course live configuration',416,'add_historicalcourseliveconfiguration'),(1666,'Can change historical course live configuration',416,'change_historicalcourseliveconfiguration'),(1667,'Can delete historical course live configuration',416,'delete_historicalcourseliveconfiguration'),(1668,'Can view historical course live configuration',416,'view_historicalcourseliveconfiguration'),(1669,'Can add course live configuration',417,'add_courseliveconfiguration'),(1670,'Can change course live configuration',417,'change_courseliveconfiguration'),(1671,'Can delete course live configuration',417,'delete_courseliveconfiguration'),(1672,'Can view course live configuration',417,'view_courseliveconfiguration'),(1673,'Can add credentials api config',418,'add_credentialsapiconfig'),(1674,'Can change credentials api config',418,'change_credentialsapiconfig'),(1675,'Can delete credentials api config',418,'delete_credentialsapiconfig'),(1676,'Can view credentials api config',418,'view_credentialsapiconfig'),(1677,'Can add notify_credentials argument',419,'add_notifycredentialsconfig'),(1678,'Can change notify_credentials argument',419,'change_notifycredentialsconfig'),(1679,'Can delete notify_credentials argument',419,'delete_notifycredentialsconfig'),(1680,'Can view notify_credentials argument',419,'view_notifycredentialsconfig'),(1681,'Can add historical discussions configuration',420,'add_historicaldiscussionsconfiguration'),(1682,'Can change historical discussions configuration',420,'change_historicaldiscussionsconfiguration'),(1683,'Can delete historical discussions configuration',420,'delete_historicaldiscussionsconfiguration'),(1684,'Can view historical discussions configuration',420,'view_historicaldiscussionsconfiguration'),(1685,'Can add discussions configuration',421,'add_discussionsconfiguration'),(1686,'Can change discussions configuration',421,'change_discussionsconfiguration'),(1687,'Can delete discussions configuration',421,'delete_discussionsconfiguration'),(1688,'Can view discussions configuration',421,'view_discussionsconfiguration'),(1689,'Can add provider filter',422,'add_providerfilter'),(1690,'Can change provider filter',422,'change_providerfilter'),(1691,'Can delete provider filter',422,'delete_providerfilter'),(1692,'Can view provider filter',422,'view_providerfilter'),(1693,'Can add discussion topic link',423,'add_discussiontopiclink'),(1694,'Can change discussion topic link',423,'change_discussiontopiclink'),(1695,'Can delete discussion topic link',423,'delete_discussiontopiclink'),(1696,'Can view discussion topic link',423,'view_discussiontopiclink'),(1697,'Can add persistent subsection grade',424,'add_persistentsubsectiongrade'),(1698,'Can change persistent subsection grade',424,'change_persistentsubsectiongrade'),(1699,'Can delete persistent subsection grade',424,'delete_persistentsubsectiongrade'),(1700,'Can view persistent subsection grade',424,'view_persistentsubsectiongrade'),(1701,'Can add visible blocks',425,'add_visibleblocks'),(1702,'Can change visible blocks',425,'change_visibleblocks'),(1703,'Can delete visible blocks',425,'delete_visibleblocks'),(1704,'Can view visible blocks',425,'view_visibleblocks'),(1705,'Can add persistent course grade',426,'add_persistentcoursegrade'),(1706,'Can change persistent course grade',426,'change_persistentcoursegrade'),(1707,'Can delete persistent course grade',426,'delete_persistentcoursegrade'),(1708,'Can view persistent course grade',426,'view_persistentcoursegrade'),(1709,'Can add compute grades setting',427,'add_computegradessetting'),(1710,'Can change compute grades setting',427,'change_computegradessetting'),(1711,'Can delete compute grades setting',427,'delete_computegradessetting'),(1712,'Can view compute grades setting',427,'view_computegradessetting'),(1713,'Can add persistent subsection grade override',428,'add_persistentsubsectiongradeoverride'),(1714,'Can change persistent subsection grade override',428,'change_persistentsubsectiongradeoverride'),(1715,'Can delete persistent subsection grade override',428,'delete_persistentsubsectiongradeoverride'),(1716,'Can view persistent subsection grade override',428,'view_persistentsubsectiongradeoverride'),(1717,'Can add historical persistent subsection grade override',429,'add_historicalpersistentsubsectiongradeoverride'),(1718,'Can change historical persistent subsection grade override',429,'change_historicalpersistentsubsectiongradeoverride'),(1719,'Can delete historical persistent subsection grade override',429,'delete_historicalpersistentsubsectiongradeoverride'),(1720,'Can view historical persistent subsection grade override',429,'view_historicalpersistentsubsectiongradeoverride'),(1721,'Can add historical program enrollment',430,'add_historicalprogramenrollment'),(1722,'Can change historical program enrollment',430,'change_historicalprogramenrollment'),(1723,'Can delete historical program enrollment',430,'delete_historicalprogramenrollment'),(1724,'Can view historical program enrollment',430,'view_historicalprogramenrollment'),(1725,'Can add program enrollment',431,'add_programenrollment'),(1726,'Can change program enrollment',431,'change_programenrollment'),(1727,'Can delete program enrollment',431,'delete_programenrollment'),(1728,'Can view program enrollment',431,'view_programenrollment'),(1729,'Can add historical program course enrollment',432,'add_historicalprogramcourseenrollment'),(1730,'Can change historical program course enrollment',432,'change_historicalprogramcourseenrollment'),(1731,'Can delete historical program course enrollment',432,'delete_historicalprogramcourseenrollment'),(1732,'Can view historical program course enrollment',432,'view_historicalprogramcourseenrollment'),(1733,'Can add program course enrollment',433,'add_programcourseenrollment'),(1734,'Can change program course enrollment',433,'change_programcourseenrollment'),(1735,'Can delete program course enrollment',433,'delete_programcourseenrollment'),(1736,'Can view program course enrollment',433,'view_programcourseenrollment'),(1737,'Can add course access role assignment',434,'add_courseaccessroleassignment'),(1738,'Can change course access role assignment',434,'change_courseaccessroleassignment'),(1739,'Can delete course access role assignment',434,'delete_courseaccessroleassignment'),(1740,'Can view course access role assignment',434,'view_courseaccessroleassignment'),(1741,'Can add site theme',435,'add_sitetheme'),(1742,'Can change site theme',435,'change_sitetheme'),(1743,'Can delete site theme',435,'delete_sitetheme'),(1744,'Can view site theme',435,'view_sitetheme'),(1745,'Can add historical learner pathway progress',436,'add_historicallearnerpathwayprogress'),(1746,'Can change historical learner pathway progress',436,'change_historicallearnerpathwayprogress'),(1747,'Can delete historical learner pathway progress',436,'delete_historicallearnerpathwayprogress'),(1748,'Can view historical learner pathway progress',436,'view_historicallearnerpathwayprogress'),(1749,'Can add learner pathway progress',437,'add_learnerpathwayprogress'),(1750,'Can change learner pathway progress',437,'change_learnerpathwayprogress'),(1751,'Can delete learner pathway progress',437,'delete_learnerpathwayprogress'),(1752,'Can view learner pathway progress',437,'view_learnerpathwayprogress'),(1753,'Can add learner enterprise pathway membership',438,'add_learnerenterprisepathwaymembership'),(1754,'Can change learner enterprise pathway membership',438,'change_learnerenterprisepathwaymembership'),(1755,'Can delete learner enterprise pathway membership',438,'delete_learnerenterprisepathwaymembership'),(1756,'Can view learner enterprise pathway membership',438,'view_learnerenterprisepathwaymembership'),(1757,'Can add score overrider',439,'add_scoreoverrider'),(1758,'Can change score overrider',439,'change_scoreoverrider'),(1759,'Can delete score overrider',439,'delete_scoreoverrider'),(1760,'Can view score overrider',439,'view_scoreoverrider'),(1761,'Can add proctored exam',440,'add_proctoredexam'),(1762,'Can change proctored exam',440,'change_proctoredexam'),(1763,'Can delete proctored exam',440,'delete_proctoredexam'),(1764,'Can view proctored exam',440,'view_proctoredexam'),(1765,'Can add Proctored exam review policy',441,'add_proctoredexamreviewpolicy'),(1766,'Can change Proctored exam review policy',441,'change_proctoredexamreviewpolicy'),(1767,'Can delete Proctored exam review policy',441,'delete_proctoredexamreviewpolicy'),(1768,'Can view Proctored exam review policy',441,'view_proctoredexamreviewpolicy'),(1769,'Can add proctored exam review policy history',442,'add_proctoredexamreviewpolicyhistory'),(1770,'Can change proctored exam review policy history',442,'change_proctoredexamreviewpolicyhistory'),(1771,'Can delete proctored exam review policy history',442,'delete_proctoredexamreviewpolicyhistory'),(1772,'Can view proctored exam review policy history',442,'view_proctoredexamreviewpolicyhistory'),(1773,'Can add proctored exam software secure comment',443,'add_proctoredexamsoftwaresecurecomment'),(1774,'Can change proctored exam software secure comment',443,'change_proctoredexamsoftwaresecurecomment'),(1775,'Can delete proctored exam software secure comment',443,'delete_proctoredexamsoftwaresecurecomment'),(1776,'Can view proctored exam software secure comment',443,'view_proctoredexamsoftwaresecurecomment'),(1777,'Can add Proctored exam software secure review',444,'add_proctoredexamsoftwaresecurereview'),(1778,'Can change Proctored exam software secure review',444,'change_proctoredexamsoftwaresecurereview'),(1779,'Can delete Proctored exam software secure review',444,'delete_proctoredexamsoftwaresecurereview'),(1780,'Can view Proctored exam software secure review',444,'view_proctoredexamsoftwaresecurereview'),(1781,'Can add Proctored exam review archive',445,'add_proctoredexamsoftwaresecurereviewhistory'),(1782,'Can change Proctored exam review archive',445,'change_proctoredexamsoftwaresecurereviewhistory'),(1783,'Can delete Proctored exam review archive',445,'delete_proctoredexamsoftwaresecurereviewhistory'),(1784,'Can view Proctored exam review archive',445,'view_proctoredexamsoftwaresecurereviewhistory'),(1785,'Can add proctored allowance',446,'add_proctoredexamstudentallowance'),(1786,'Can change proctored allowance',446,'change_proctoredexamstudentallowance'),(1787,'Can delete proctored allowance',446,'delete_proctoredexamstudentallowance'),(1788,'Can view proctored allowance',446,'view_proctoredexamstudentallowance'),(1789,'Can add proctored allowance history',447,'add_proctoredexamstudentallowancehistory'),(1790,'Can change proctored allowance history',447,'change_proctoredexamstudentallowancehistory'),(1791,'Can delete proctored allowance history',447,'delete_proctoredexamstudentallowancehistory'),(1792,'Can view proctored allowance history',447,'view_proctoredexamstudentallowancehistory'),(1793,'Can add proctored exam attempt',448,'add_proctoredexamstudentattempt'),(1794,'Can change proctored exam attempt',448,'change_proctoredexamstudentattempt'),(1795,'Can delete proctored exam attempt',448,'delete_proctoredexamstudentattempt'),(1796,'Can view proctored exam attempt',448,'view_proctoredexamstudentattempt'),(1797,'Can add historical proctored exam attempt',449,'add_historicalproctoredexamstudentattempt'),(1798,'Can change historical proctored exam attempt',449,'change_historicalproctoredexamstudentattempt'),(1799,'Can delete historical proctored exam attempt',449,'delete_historicalproctoredexamstudentattempt'),(1800,'Can view historical proctored exam attempt',449,'view_historicalproctoredexamstudentattempt'),(1801,'Can add historical proctored exam',450,'add_historicalproctoredexam'),(1802,'Can change historical proctored exam',450,'change_historicalproctoredexam'),(1803,'Can delete historical proctored exam',450,'delete_historicalproctoredexam'),(1804,'Can view historical proctored exam',450,'view_historicalproctoredexam'),(1805,'Can add lti configuration',451,'add_lticonfiguration'),(1806,'Can change lti configuration',451,'change_lticonfiguration'),(1807,'Can delete lti configuration',451,'delete_lticonfiguration'),(1808,'Can view lti configuration',451,'view_lticonfiguration'),(1809,'Can add lti ags line item',452,'add_ltiagslineitem'),(1810,'Can change lti ags line item',452,'change_ltiagslineitem'),(1811,'Can delete lti ags line item',452,'delete_ltiagslineitem'),(1812,'Can view lti ags line item',452,'view_ltiagslineitem'),(1813,'Can add lti ags score',453,'add_ltiagsscore'),(1814,'Can change lti ags score',453,'change_ltiagsscore'),(1815,'Can delete lti ags score',453,'delete_ltiagsscore'),(1816,'Can view lti ags score',453,'view_ltiagsscore'),(1817,'Can add lti dl content item',454,'add_ltidlcontentitem'),(1818,'Can change lti dl content item',454,'change_ltidlcontentitem'),(1819,'Can delete lti dl content item',454,'delete_ltidlcontentitem'),(1820,'Can view lti dl content item',454,'view_ltidlcontentitem'),(1821,'Can add course allow pii sharing in lti flag',455,'add_courseallowpiisharinginltiflag'),(1822,'Can change course allow pii sharing in lti flag',455,'change_courseallowpiisharinginltiflag'),(1823,'Can delete course allow pii sharing in lti flag',455,'delete_courseallowpiisharinginltiflag'),(1824,'Can view course allow pii sharing in lti flag',455,'view_courseallowpiisharinginltiflag'),(1825,'Can add block completion',456,'add_blockcompletion'),(1826,'Can change block completion',456,'change_blockcompletion'),(1827,'Can delete block completion',456,'delete_blockcompletion'),(1828,'Can view block completion',456,'view_blockcompletion'),(1829,'Can add csv operation',457,'add_csvoperation'),(1830,'Can change csv operation',457,'change_csvoperation'),(1831,'Can delete csv operation',457,'delete_csvoperation'),(1832,'Can view csv operation',457,'view_csvoperation'),(1833,'Can add verified name',458,'add_verifiedname'),(1834,'Can change verified name',458,'change_verifiedname'),(1835,'Can delete verified name',458,'delete_verifiedname'),(1836,'Can view verified name',458,'view_verifiedname'),(1837,'Can add verified name config',459,'add_verifiednameconfig'),(1838,'Can change verified name config',459,'change_verifiednameconfig'),(1839,'Can delete verified name config',459,'delete_verifiednameconfig'),(1840,'Can view verified name config',459,'view_verifiednameconfig'),(1841,'Can add historical verified name',460,'add_historicalverifiedname'),(1842,'Can change historical verified name',460,'change_historicalverifiedname'),(1843,'Can delete historical verified name',460,'delete_historicalverifiedname'),(1844,'Can view historical verified name',460,'view_historicalverifiedname'),(1845,'Can add learner course event',461,'add_learnercourseevent'),(1846,'Can change learner course event',461,'change_learnercourseevent'),(1847,'Can delete learner course event',461,'delete_learnercourseevent'),(1848,'Can view learner course event',461,'view_learnercourseevent'),(1849,'Can add multi choice response',462,'add_multichoiceresponse'),(1850,'Can change multi choice response',462,'change_multichoiceresponse'),(1851,'Can delete multi choice response',462,'delete_multichoiceresponse'),(1852,'Can view multi choice response',462,'view_multichoiceresponse'),(1853,'Can add survey export',463,'add_surveyexport'),(1854,'Can change survey export',463,'change_surveyexport'),(1855,'Can delete survey export',463,'delete_surveyexport'),(1856,'Can view survey export',463,'view_surveyexport'),(1857,'Can add course reflection',464,'add_coursereflection'),(1858,'Can change course reflection',464,'change_coursereflection'),(1859,'Can delete course reflection',464,'delete_coursereflection'),(1860,'Can view course reflection',464,'view_coursereflection'),(1861,'Can add course goal',465,'add_coursegoal'),(1862,'Can change course goal',465,'change_coursegoal'),(1863,'Can delete course goal',465,'delete_coursegoal'),(1864,'Can view course goal',465,'view_coursegoal'),(1865,'Can add content date',466,'add_contentdate'),(1866,'Can change content date',466,'change_contentdate'),(1867,'Can delete content date',466,'delete_contentdate'),(1868,'Can view content date',466,'view_contentdate'),(1869,'Can add date policy',467,'add_datepolicy'),(1870,'Can change date policy',467,'change_datepolicy'),(1871,'Can delete date policy',467,'delete_datepolicy'),(1872,'Can view date policy',467,'view_datepolicy'),(1873,'Can add user date',468,'add_userdate'),(1874,'Can change user date',468,'change_userdate'),(1875,'Can delete user date',468,'delete_userdate'),(1876,'Can view user date',468,'view_userdate'),(1877,'Can add video upload config',469,'add_videouploadconfig'),(1878,'Can change video upload config',469,'change_videouploadconfig'),(1879,'Can delete video upload config',469,'delete_videouploadconfig'),(1880,'Can view video upload config',469,'view_videouploadconfig'),(1881,'Can add course outline regenerate',470,'add_courseoutlineregenerate'),(1882,'Can change course outline regenerate',470,'change_courseoutlineregenerate'),(1883,'Can delete course outline regenerate',470,'delete_courseoutlineregenerate'),(1884,'Can view course outline regenerate',470,'view_courseoutlineregenerate'),(1885,'Can add Arguments for backfill_course_tabs',471,'add_backfillcoursetabsconfig'),(1886,'Can change Arguments for backfill_course_tabs',471,'change_backfillcoursetabsconfig'),(1887,'Can delete Arguments for backfill_course_tabs',471,'delete_backfillcoursetabsconfig'),(1888,'Can view Arguments for backfill_course_tabs',471,'view_backfillcoursetabsconfig'),(1889,'Can add Arguments for \'clean_stale_certificate_availability_dates\'',472,'add_cleanstalecertificateavailabilitydatesconfig'),(1890,'Can change Arguments for \'clean_stale_certificate_availability_dates\'',472,'change_cleanstalecertificateavailabilitydatesconfig'),(1891,'Can delete Arguments for \'clean_stale_certificate_availability_dates\'',472,'delete_cleanstalecertificateavailabilitydatesconfig'),(1892,'Can view Arguments for \'clean_stale_certificate_availability_dates\'',472,'view_cleanstalecertificateavailabilitydatesconfig'),(1893,'Can add course creator',473,'add_coursecreator'),(1894,'Can change course creator',473,'change_coursecreator'),(1895,'Can delete course creator',473,'delete_coursecreator'),(1896,'Can view course creator',473,'view_coursecreator'),(1897,'Can add studio config',474,'add_studioconfig'),(1898,'Can change studio config',474,'change_studioconfig'),(1899,'Can delete studio config',474,'delete_studioconfig'),(1900,'Can view studio config',474,'view_studioconfig'),(1901,'Can add course graph course dump',475,'add_coursegraphcoursedump'),(1902,'Can change course graph course dump',475,'change_coursegraphcoursedump'),(1903,'Can delete course graph course dump',475,'delete_coursegraphcoursedump'),(1904,'Can view course graph course dump',475,'view_coursegraphcoursedump'),(1905,'Can add available tag value',476,'add_tagavailablevalues'),(1906,'Can change available tag value',476,'change_tagavailablevalues'),(1907,'Can delete available tag value',476,'delete_tagavailablevalues'),(1908,'Can view available tag value',476,'view_tagavailablevalues'),(1909,'Can add tag category',477,'add_tagcategories'),(1910,'Can change tag category',477,'change_tagcategories'),(1911,'Can delete tag category',477,'delete_tagcategories'),(1912,'Can view tag category',477,'view_tagcategories'),(1913,'Can add user task artifact',478,'add_usertaskartifact'),(1914,'Can change user task artifact',478,'change_usertaskartifact'),(1915,'Can delete user task artifact',478,'delete_usertaskartifact'),(1916,'Can view user task artifact',478,'view_usertaskartifact'),(1917,'Can add user task status',479,'add_usertaskstatus'),(1918,'Can change user task status',479,'change_usertaskstatus'),(1919,'Can delete user task status',479,'delete_usertaskstatus'),(1920,'Can view user task status',479,'view_usertaskstatus');
 /*!40000 ALTER TABLE `auth_permission` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -859,7 +856,7 @@ CREATE TABLE `auth_user` (
   `last_login` datetime(6) DEFAULT NULL,
   `is_superuser` tinyint(1) NOT NULL,
   `username` varchar(150) NOT NULL,
-  `first_name` varchar(30) NOT NULL,
+  `first_name` varchar(150) NOT NULL,
   `last_name` varchar(150) NOT NULL,
   `email` varchar(254) NOT NULL,
   `is_staff` tinyint(1) NOT NULL,
@@ -868,7 +865,7 @@ CREATE TABLE `auth_user` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -877,7 +874,7 @@ CREATE TABLE `auth_user` (
 
 LOCK TABLES `auth_user` WRITE;
 /*!40000 ALTER TABLE `auth_user` DISABLE KEYS */;
-INSERT INTO `auth_user` VALUES (1,'!QFIHa5ncEQJjtL8LA3TmFTGSrgGXTLzQUZAG1Ffh',NULL,1,'ecommerce_worker','','','ecommerce_worker@example.com',1,1,'2021-07-30 19:56:11.249784'),(2,'!E69DHoVh7k0hsyCSfGpDqySuKUGdcnkdj5MgI8CX',NULL,0,'login_service_user','','','login_service_user@fake.email',0,1,'2021-07-30 19:58:11.936191'),(3,'pbkdf2_sha256$150000$iScgl9wzIn3L$uy1M+YAS6ouDBBUBt64heQPHaElxihWuPGRomhee5Q4=',NULL,1,'edx','','','edx@example.com',1,1,'2021-07-30 20:01:46.187568'),(4,'pbkdf2_sha256$150000$LUUZX5Zbwfth$pGwk/LJUNYIJzbF1MPXp5OuX3rb9Odi7c1RZLbtR7M0=',NULL,0,'enterprise_worker','','','enterprise_worker@example.com',1,1,'2021-07-30 20:02:08.780691'),(5,'pbkdf2_sha256$20000$TjE34FJjc3vv$0B7GUmH8RwrOc/BvMoxjb5j8EgnWTt3sxorDANeF7Qw=',NULL,0,'honor','','','honor@example.com',0,1,'2021-07-30 20:03:49.290239'),(6,'pbkdf2_sha256$20000$TjE34FJjc3vv$0B7GUmH8RwrOc/BvMoxjb5j8EgnWTt3sxorDANeF7Qw=',NULL,0,'audit','','','audit@example.com',0,1,'2021-07-30 20:04:00.735092'),(7,'pbkdf2_sha256$20000$TjE34FJjc3vv$0B7GUmH8RwrOc/BvMoxjb5j8EgnWTt3sxorDANeF7Qw=',NULL,0,'verified','','','verified@example.com',0,1,'2021-07-30 20:04:12.294406'),(8,'pbkdf2_sha256$20000$TjE34FJjc3vv$0B7GUmH8RwrOc/BvMoxjb5j8EgnWTt3sxorDANeF7Qw=',NULL,0,'staff','','','staff@example.com',1,1,'2021-07-30 20:04:24.080168'),(9,'pbkdf2_sha256$150000$0CbTPO52VORK$lXIrLK9B9YhnAv+5hmgizznv8znftP8ms5cr+3ii3hw=',NULL,1,'retirement_service_worker','','','retirement_service_worker@example.com',1,1,'2021-07-30 20:15:14.924863');
+INSERT INTO `auth_user` VALUES (2,'!uZe7veOu1UhOq1Wo3r4KZvGm6LP9uheJsSN8i5Gw',NULL,0,'login_service_user','','','login_service_user@fake.email',0,1,'2023-02-21 14:10:50.949700'),(3,'pbkdf2_sha256$260000$mXsh1ZGHTrThJgsu4ZYJUx$JKXXutNGi3F4wQC+oj8FiWqYaLxoe0GBLm6PtxsKzxw=',NULL,1,'edx','','','edx@example.com',1,1,'2023-02-21 14:19:07.911310'),(4,'pbkdf2_sha256$260000$c8VjJNRGVFYzXikMFKkiGz$llv8kyjpRux+b2A4V4bfOToUzS69XmWygVJGTOtq8zA=',NULL,0,'enterprise_worker','','','enterprise_worker@example.com',1,1,'2023-02-21 14:19:26.427539'),(5,'pbkdf2_sha256$20000$TjE34FJjc3vv$0B7GUmH8RwrOc/BvMoxjb5j8EgnWTt3sxorDANeF7Qw=',NULL,0,'honor','','','honor@example.com',0,1,'2023-02-21 14:20:05.276063'),(6,'pbkdf2_sha256$20000$TjE34FJjc3vv$0B7GUmH8RwrOc/BvMoxjb5j8EgnWTt3sxorDANeF7Qw=',NULL,0,'audit','','','audit@example.com',0,1,'2023-02-21 14:20:15.876544'),(7,'pbkdf2_sha256$20000$TjE34FJjc3vv$0B7GUmH8RwrOc/BvMoxjb5j8EgnWTt3sxorDANeF7Qw=',NULL,0,'verified','','','verified@example.com',0,1,'2023-02-21 14:20:25.877637'),(8,'pbkdf2_sha256$20000$TjE34FJjc3vv$0B7GUmH8RwrOc/BvMoxjb5j8EgnWTt3sxorDANeF7Qw=',NULL,0,'staff','','','staff@example.com',1,1,'2023-02-21 14:20:36.511198'),(9,'pbkdf2_sha256$260000$XgJe7l0CuAcVbHGa2Lxq3y$1zU/EGibXC/qNAcJkXgxnBdMW2gwJOdV3JlRB7wB7/U=',NULL,1,'studio_worker','','','studio_worker@example.com',1,1,'2023-02-21 14:29:20.592741'),(10,'pbkdf2_sha256$260000$9rs2VbJvRiXX7OsYLRx6iX$TboW23cyjqxguPFDRajW0SQtE1QwreV+80I4hxUNwDA=',NULL,1,'retirement_service_worker','','','retirement_service_worker@example.com',1,1,'2023-02-21 14:29:52.624097'),(11,'pbkdf2_sha256$260000$riAoCVaz1hahRnyfL43FyJ$U3xXuH2homS286nMWnBQiUHmBDgMMv8dkQ3hNbUaTCE=',NULL,1,'ecommerce_worker','','','ecommerce_worker@example.com',1,1,'2023-02-21 14:38:44.158127');
 /*!40000 ALTER TABLE `auth_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -923,7 +920,7 @@ CREATE TABLE `auth_user_user_permissions` (
   KEY `auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm` (`permission_id`),
   CONSTRAINT `auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
   CONSTRAINT `auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=141 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=145 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -932,7 +929,7 @@ CREATE TABLE `auth_user_user_permissions` (
 
 LOCK TABLES `auth_user_user_permissions` WRITE;
 /*!40000 ALTER TABLE `auth_user_user_permissions` DISABLE KEYS */;
-INSERT INTO `auth_user_user_permissions` VALUES (1,4,1225),(2,4,1226),(3,4,1227),(4,4,1228),(5,4,1229),(6,4,1230),(7,4,1231),(8,4,1232),(9,4,1233),(10,4,1234),(11,4,1235),(12,4,1236),(13,4,1237),(14,4,1238),(15,4,1239),(16,4,1240),(17,4,1241),(18,4,1242),(19,4,1243),(20,4,1244),(21,4,1245),(22,4,1246),(23,4,1247),(24,4,1248),(25,4,1249),(26,4,1250),(27,4,1251),(28,4,1252),(29,4,1253),(30,4,1254),(31,4,1255),(32,4,1256),(33,4,1257),(34,4,1258),(35,4,1259),(36,4,1260),(37,4,1261),(38,4,1262),(39,4,1263),(40,4,1264),(41,4,1265),(42,4,1266),(43,4,1267),(44,4,1268),(45,4,1269),(46,4,1270),(47,4,1271),(48,4,1272),(49,4,1273),(50,4,1274),(51,4,1275),(52,4,1276),(53,4,1277),(54,4,1278),(55,4,1279),(56,4,1280),(57,4,1281),(58,4,1282),(59,4,1283),(60,4,1284),(61,4,1285),(62,4,1286),(63,4,1287),(64,4,1288),(65,4,1289),(66,4,1290),(67,4,1291),(68,4,1292),(69,4,1293),(70,4,1294),(71,4,1295),(72,4,1296),(73,4,1297),(74,4,1298),(75,4,1299),(76,4,1300),(77,4,1301),(78,4,1302),(79,4,1303),(80,4,1304),(81,4,1305),(82,4,1306),(83,4,1307),(84,4,1308),(85,4,1309),(86,4,1310),(87,4,1311),(88,4,1312),(89,4,1313),(90,4,1314),(91,4,1315),(92,4,1316),(93,4,1317),(94,4,1318),(95,4,1319),(96,4,1320),(97,4,1321),(98,4,1322),(99,4,1323),(100,4,1324),(101,4,1325),(102,4,1326),(103,4,1327),(104,4,1328),(105,4,1329),(106,4,1330),(107,4,1331),(108,4,1332),(109,4,1333),(110,4,1334),(111,4,1335),(112,4,1336),(113,4,1337),(114,4,1338),(115,4,1339),(116,4,1340),(117,4,1341),(118,4,1342),(119,4,1343),(120,4,1344),(121,4,1345),(122,4,1346),(123,4,1347),(124,4,1348),(125,4,1349),(126,4,1350),(127,4,1351),(128,4,1352),(129,4,1353),(130,4,1354),(131,4,1355),(132,4,1356),(133,4,1357),(134,4,1358),(135,4,1359),(136,4,1360),(137,4,1361),(138,4,1362),(139,4,1363),(140,4,1364);
+INSERT INTO `auth_user_user_permissions` VALUES (1,4,1337),(2,4,1338),(3,4,1339),(4,4,1340),(5,4,1341),(6,4,1342),(7,4,1343),(8,4,1344),(9,4,1345),(10,4,1346),(11,4,1347),(12,4,1348),(13,4,1349),(14,4,1350),(15,4,1351),(16,4,1352),(17,4,1353),(18,4,1354),(19,4,1355),(20,4,1356),(21,4,1357),(22,4,1358),(23,4,1359),(24,4,1360),(25,4,1361),(26,4,1362),(27,4,1363),(28,4,1364),(29,4,1365),(30,4,1366),(31,4,1367),(32,4,1368),(33,4,1369),(34,4,1370),(35,4,1371),(36,4,1372),(37,4,1373),(38,4,1374),(39,4,1375),(40,4,1376),(41,4,1377),(42,4,1378),(43,4,1379),(44,4,1380),(45,4,1381),(46,4,1382),(47,4,1383),(48,4,1384),(49,4,1385),(50,4,1386),(51,4,1387),(52,4,1388),(53,4,1389),(54,4,1390),(55,4,1391),(56,4,1392),(57,4,1393),(58,4,1394),(59,4,1395),(60,4,1396),(61,4,1397),(62,4,1398),(63,4,1399),(64,4,1400),(65,4,1401),(66,4,1402),(67,4,1403),(68,4,1404),(69,4,1405),(70,4,1406),(71,4,1407),(72,4,1408),(73,4,1409),(74,4,1410),(75,4,1411),(76,4,1412),(77,4,1413),(78,4,1414),(79,4,1415),(80,4,1416),(81,4,1417),(82,4,1418),(83,4,1419),(84,4,1420),(85,4,1421),(86,4,1422),(87,4,1423),(88,4,1424),(89,4,1425),(90,4,1426),(91,4,1427),(92,4,1428),(93,4,1429),(94,4,1430),(95,4,1431),(96,4,1432),(97,4,1433),(98,4,1434),(99,4,1435),(100,4,1436),(101,4,1437),(102,4,1438),(103,4,1439),(104,4,1440),(105,4,1441),(106,4,1442),(107,4,1443),(108,4,1444),(109,4,1445),(110,4,1446),(111,4,1447),(112,4,1448),(113,4,1449),(114,4,1450),(115,4,1451),(116,4,1452),(117,4,1453),(118,4,1454),(119,4,1455),(120,4,1456),(121,4,1457),(122,4,1458),(123,4,1459),(124,4,1460),(125,4,1461),(126,4,1462),(127,4,1463),(128,4,1464),(129,4,1465),(130,4,1466),(131,4,1467),(132,4,1468),(133,4,1469),(134,4,1470),(135,4,1471),(136,4,1472),(137,4,1473),(138,4,1474),(139,4,1475),(140,4,1476),(141,4,1477),(142,4,1478),(143,4,1479),(144,4,1480);
 /*!40000 ALTER TABLE `auth_user_user_permissions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -970,7 +967,7 @@ CREATE TABLE `auth_userprofile` (
   KEY `auth_userprofile_gender_44a122fb` (`gender`),
   KEY `auth_userprofile_level_of_education_93927e04` (`level_of_education`),
   CONSTRAINT `auth_userprofile_user_id_62634b27_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -979,7 +976,7 @@ CREATE TABLE `auth_userprofile` (
 
 LOCK TABLES `auth_userprofile` WRITE;
 /*!40000 ALTER TABLE `auth_userprofile` DISABLE KEYS */;
-INSERT INTO `auth_userprofile` VALUES (1,'','','course.xml','','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,3,NULL,NULL),(2,'','','course.xml','','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,4,NULL,NULL),(3,'','','course.xml','','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,5,NULL,NULL),(4,'','','course.xml','','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,6,NULL,NULL),(5,'','','course.xml','','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,7,NULL,NULL),(6,'','','course.xml','','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,8,NULL,NULL),(7,'','','course.xml','','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,9,NULL,NULL),(8,'','','course.xml','','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL,NULL);
+INSERT INTO `auth_userprofile` VALUES (1,'','','course.xml','','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,3,NULL,NULL),(2,'','','course.xml','','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,4,NULL,NULL),(3,'','','course.xml','','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,5,NULL,NULL),(4,'','','course.xml','','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,6,NULL,NULL),(5,'','','course.xml','','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,7,NULL,NULL),(6,'','','course.xml','','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,8,NULL,NULL),(7,'','','course.xml','','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,9,NULL,NULL),(8,'','','course.xml','','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,10,NULL,NULL),(9,'','','course.xml','','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,11,NULL,NULL);
 /*!40000 ALTER TABLE `auth_userprofile` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1000,9 +997,9 @@ CREATE TABLE `badges_badgeassertion` (
   `badge_class_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `badges_badgeassertion_created_d098832e` (`created`),
   KEY `badges_badgeassertio_badge_class_id_902ac30e_fk_badges_ba` (`badge_class_id`),
   KEY `badges_badgeassertion_user_id_13665630_fk_auth_user_id` (`user_id`),
+  KEY `badges_badgeassertion_created_d098832e` (`created`),
   CONSTRAINT `badges_badgeassertio_badge_class_id_902ac30e_fk_badges_ba` FOREIGN KEY (`badge_class_id`) REFERENCES `badges_badgeclass` (`id`),
   CONSTRAINT `badges_badgeassertion_user_id_13665630_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1118,15 +1115,29 @@ CREATE TABLE `blackboard_blackboardenterprisecustomerconfiguration` (
   `modified` datetime(6) NOT NULL,
   `active` tinyint(1) NOT NULL,
   `transmission_chunk_size` int(11) NOT NULL,
-  `channel_worker_username` varchar(255) DEFAULT NULL,
-  `catalogs_to_transmit` longtext,
-  `client_id` varchar(255) DEFAULT NULL,
-  `client_secret` varchar(255) DEFAULT NULL,
-  `blackboard_base_url` varchar(255) DEFAULT NULL,
+  `channel_worker_username` varchar(255) NOT NULL,
+  `catalogs_to_transmit` longtext NOT NULL,
+  `client_id` varchar(255) NOT NULL,
+  `client_secret` varchar(255) NOT NULL,
+  `blackboard_base_url` varchar(255) NOT NULL,
   `refresh_token` varchar(255) NOT NULL,
   `enterprise_customer_id` char(32) NOT NULL,
+  `idp_id` varchar(255) NOT NULL,
+  `disable_learner_data_transmissions` tinyint(1) NOT NULL,
+  `uuid` char(32) NOT NULL,
+  `display_name` varchar(255) NOT NULL,
+  `dry_run_mode_enabled` tinyint(1) NOT NULL,
+  `deleted_at` datetime(6) DEFAULT NULL,
+  `last_content_sync_attempted_at` datetime(6) DEFAULT NULL,
+  `last_content_sync_errored_at` datetime(6) DEFAULT NULL,
+  `last_learner_sync_attempted_at` datetime(6) DEFAULT NULL,
+  `last_learner_sync_errored_at` datetime(6) DEFAULT NULL,
+  `last_sync_attempted_at` datetime(6) DEFAULT NULL,
+  `last_sync_errored_at` datetime(6) DEFAULT NULL,
+  `last_modified_at` datetime(6) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `enterprise_customer_id` (`enterprise_customer_id`),
+  UNIQUE KEY `blackboard_blackboardent_uuid_ff12f26c_uniq` (`uuid`),
+  KEY `blackboard_blackboar_enterprise_customer__39f883b0_fk_enterpris` (`enterprise_customer_id`),
   CONSTRAINT `blackboard_blackboar_enterprise_customer__39f883b0_fk_enterpris` FOREIGN KEY (`enterprise_customer_id`) REFERENCES `enterprise_enterprisecustomer` (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1141,6 +1152,34 @@ LOCK TABLES `blackboard_blackboardenterprisecustomerconfiguration` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `blackboard_blackboardglobalconfiguration`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `blackboard_blackboardglobalconfiguration` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `change_date` datetime(6) NOT NULL,
+  `enabled` tinyint(1) NOT NULL,
+  `app_key` varchar(255) NOT NULL,
+  `app_secret` varchar(255) NOT NULL,
+  `changed_by_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `blackboard_blackboar_changed_by_id_20c18fd5_fk_auth_user` (`changed_by_id`),
+  CONSTRAINT `blackboard_blackboar_changed_by_id_20c18fd5_fk_auth_user` FOREIGN KEY (`changed_by_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `blackboard_blackboardglobalconfiguration`
+--
+
+LOCK TABLES `blackboard_blackboardglobalconfiguration` WRITE;
+/*!40000 ALTER TABLE `blackboard_blackboardglobalconfiguration` DISABLE KEYS */;
+/*!40000 ALTER TABLE `blackboard_blackboardglobalconfiguration` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `blackboard_blackboardlearnerassessmentdatatransmissionaudit`
 --
 
@@ -1149,19 +1188,33 @@ UNLOCK TABLES;
 CREATE TABLE `blackboard_blackboardlearnerassessmentdatatransmissionaudit` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `blackboard_user_email` varchar(255) NOT NULL,
-  `enterprise_course_enrollment_id` int(10) unsigned NOT NULL,
+  `enterprise_course_enrollment_id` int(11) DEFAULT NULL,
   `course_id` varchar(255) NOT NULL,
-  `subsection_id` varchar(255) NOT NULL,
+  `subsection_id` varchar(255) DEFAULT NULL,
   `grade_point_score` double NOT NULL,
   `grade_points_possible` double NOT NULL,
-  `grade` double NOT NULL,
-  `subsection_name` varchar(255) NOT NULL,
-  `status` varchar(100) NOT NULL,
-  `error_message` longtext NOT NULL,
+  `grade` double DEFAULT NULL,
+  `subsection_name` varchar(255) DEFAULT NULL,
+  `status` varchar(100) DEFAULT NULL,
+  `error_message` longtext,
   `created` datetime(6) NOT NULL,
+  `completed_timestamp` datetime(6) DEFAULT NULL,
+  `course_completed` tinyint(1) NOT NULL,
+  `enterprise_customer_uuid` char(32) DEFAULT NULL,
+  `instructor_name` varchar(255) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `plugin_configuration_id` int(11) DEFAULT NULL,
+  `total_hours` double DEFAULT NULL,
+  `friendly_status_message` varchar(255) DEFAULT NULL,
+  `api_record_id` int(11) DEFAULT NULL,
+  `content_title` varchar(255) DEFAULT NULL,
+  `progress_status` varchar(255) NOT NULL,
+  `user_email` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `api_record_id` (`api_record_id`),
   KEY `blackboard_blackboardlearne_enterprise_course_enrollmen_4d99c86b` (`enterprise_course_enrollment_id`),
-  KEY `blackboard_blackboardlearne_subsection_id_6ddb999b` (`subsection_id`)
+  KEY `blackboard_blackboardlearne_subsection_id_6ddb999b` (`subsection_id`),
+  CONSTRAINT `blackboard_blackboar_api_record_id_3a698fd1_fk_integrate` FOREIGN KEY (`api_record_id`) REFERENCES `integrated_channel_apiresponserecord` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1183,17 +1236,33 @@ UNLOCK TABLES;
 CREATE TABLE `blackboard_blackboardlearnerdatatransmissionaudit` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `blackboard_user_email` varchar(255) NOT NULL,
-  `completed_timestamp` varchar(10) NOT NULL,
+  `blackboard_completed_timestamp` varchar(10) DEFAULT NULL,
   `course_id` varchar(255) NOT NULL,
   `course_completed` tinyint(1) NOT NULL,
-  `enterprise_course_enrollment_id` int(10) unsigned NOT NULL,
-  `grade` decimal(3,2) DEFAULT NULL,
+  `enterprise_course_enrollment_id` int(11) DEFAULT NULL,
+  `grade` double DEFAULT NULL,
   `total_hours` double DEFAULT NULL,
   `created` datetime(6) NOT NULL,
-  `error_message` longtext NOT NULL,
-  `status` varchar(100) NOT NULL,
+  `error_message` longtext,
+  `status` varchar(100) DEFAULT NULL,
+  `enterprise_customer_uuid` char(32) DEFAULT NULL,
+  `instructor_name` varchar(255) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `plugin_configuration_id` int(11) DEFAULT NULL,
+  `subsection_id` varchar(255) DEFAULT NULL,
+  `subsection_name` varchar(255) DEFAULT NULL,
+  `friendly_status_message` varchar(255) DEFAULT NULL,
+  `api_record_id` int(11) DEFAULT NULL,
+  `content_title` varchar(255) DEFAULT NULL,
+  `progress_status` varchar(255) NOT NULL,
+  `user_email` varchar(255) DEFAULT NULL,
+  `completed_timestamp` datetime(6) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `blackboard_blackboardlearne_enterprise_course_enrollmen_941ea543` (`enterprise_course_enrollment_id`)
+  UNIQUE KEY `api_record_id` (`api_record_id`),
+  KEY `blackboard_blackboardlearne_enterprise_course_enrollmen_941ea543` (`enterprise_course_enrollment_id`),
+  KEY `blackboard_blackboardlearne_subsection_id_1d6d8dd3` (`subsection_id`),
+  KEY `blackboard_bldta_85936b55_idx` (`enterprise_customer_uuid`,`plugin_configuration_id`),
+  CONSTRAINT `blackboard_blackboar_api_record_id_def01b3a_fk_integrate` FOREIGN KEY (`api_record_id`) REFERENCES `integrated_channel_apiresponserecord` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1218,11 +1287,11 @@ CREATE TABLE `blackboard_historicalblackboardenterprisecustomerconfiguration` (
   `modified` datetime(6) NOT NULL,
   `active` tinyint(1) NOT NULL,
   `transmission_chunk_size` int(11) NOT NULL,
-  `channel_worker_username` varchar(255) DEFAULT NULL,
-  `catalogs_to_transmit` longtext,
-  `client_id` varchar(255) DEFAULT NULL,
-  `client_secret` varchar(255) DEFAULT NULL,
-  `blackboard_base_url` varchar(255) DEFAULT NULL,
+  `channel_worker_username` varchar(255) NOT NULL,
+  `catalogs_to_transmit` longtext NOT NULL,
+  `client_id` varchar(255) NOT NULL,
+  `client_secret` varchar(255) NOT NULL,
+  `blackboard_base_url` varchar(255) NOT NULL,
   `refresh_token` varchar(255) NOT NULL,
   `history_id` int(11) NOT NULL AUTO_INCREMENT,
   `history_date` datetime(6) NOT NULL,
@@ -1230,10 +1299,24 @@ CREATE TABLE `blackboard_historicalblackboardenterprisecustomerconfiguration` (
   `history_type` varchar(1) NOT NULL,
   `enterprise_customer_id` char(32) DEFAULT NULL,
   `history_user_id` int(11) DEFAULT NULL,
+  `idp_id` varchar(255) NOT NULL,
+  `disable_learner_data_transmissions` tinyint(1) NOT NULL,
+  `uuid` char(32) NOT NULL,
+  `display_name` varchar(255) NOT NULL,
+  `dry_run_mode_enabled` tinyint(1) NOT NULL,
+  `deleted_at` datetime(6) DEFAULT NULL,
+  `last_content_sync_attempted_at` datetime(6) DEFAULT NULL,
+  `last_content_sync_errored_at` datetime(6) DEFAULT NULL,
+  `last_learner_sync_attempted_at` datetime(6) DEFAULT NULL,
+  `last_learner_sync_errored_at` datetime(6) DEFAULT NULL,
+  `last_sync_attempted_at` datetime(6) DEFAULT NULL,
+  `last_sync_errored_at` datetime(6) DEFAULT NULL,
+  `last_modified_at` datetime(6) DEFAULT NULL,
   PRIMARY KEY (`history_id`),
   KEY `blackboard_historica_history_user_id_099f295b_fk_auth_user` (`history_user_id`),
   KEY `blackboard_historicalblackb_id_7675c06f` (`id`),
   KEY `blackboard_historicalblackb_enterprise_customer_id_b9053e9a` (`enterprise_customer_id`),
+  KEY `blackboard_historicalblackb_uuid_8670688b` (`uuid`),
   CONSTRAINT `blackboard_historica_history_user_id_099f295b_fk_auth_user` FOREIGN KEY (`history_user_id`) REFERENCES `auth_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1322,9 +1405,9 @@ CREATE TABLE `bookmarks_bookmark` (
   `xblock_cache_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `bookmarks_bookmark_user_id_usage_key_61eac24b_uniq` (`user_id`,`usage_key`),
+  KEY `bookmarks_bookmark_xblock_cache_id_808a7639_fk_bookmarks` (`xblock_cache_id`),
   KEY `bookmarks_bookmark_course_key_46609583` (`course_key`),
   KEY `bookmarks_bookmark_usage_key_d07927c9` (`usage_key`),
-  KEY `bookmarks_bookmark_xblock_cache_id_808a7639_fk_bookmarks` (`xblock_cache_id`),
   CONSTRAINT `bookmarks_bookmark_user_id_a26bf17c_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`),
   CONSTRAINT `bookmarks_bookmark_xblock_cache_id_808a7639_fk_bookmarks` FOREIGN KEY (`xblock_cache_id`) REFERENCES `bookmarks_xblockcache` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1356,7 +1439,7 @@ CREATE TABLE `bookmarks_xblockcache` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `usage_key` (`usage_key`),
   KEY `bookmarks_xblockcache_course_key_5297fa77` (`course_key`)
-) ENGINE=InnoDB AUTO_INCREMENT=160 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1365,7 +1448,6 @@ CREATE TABLE `bookmarks_xblockcache` (
 
 LOCK TABLES `bookmarks_xblockcache` WRITE;
 /*!40000 ALTER TABLE `bookmarks_xblockcache` DISABLE KEYS */;
-INSERT INTO `bookmarks_xblockcache` VALUES (1,'2021-07-30 20:03:24.260222','2021-07-30 20:03:33.880393','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@course+block@course','Demonstration Course','[]'),(2,'2021-07-30 20:03:33.885412','2021-07-30 20:03:33.885412','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@chapter+block@9fca584977d04885bc911ea76a9ef29e','holding section','[]'),(3,'2021-07-30 20:03:33.891574','2021-07-30 20:03:36.146111','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@sequential+block@07bc32474380492cb34f76e5f9d9a135','New Subsection','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@9fca584977d04885bc911ea76a9ef29e\",\"holding section\"]]]'),(4,'2021-07-30 20:03:33.898424','2021-07-30 20:03:33.898424','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@chapter+block@1414ffd5143b4b508f739b563ab468b7','About Exams and Certificates','[]'),(5,'2021-07-30 20:03:33.904979','2021-07-30 20:03:36.148434','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@sequential+block@workflow','edX Exams','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@1414ffd5143b4b508f739b563ab468b7\",\"About Exams and Certificates\"]]]'),(6,'2021-07-30 20:03:33.911162','2021-07-30 20:03:36.150601','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@d6eaa391d2be41dea20b8b1bfbcb1c45','Getting Your edX Certificate','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@1414ffd5143b4b508f739b563ab468b7\",\"About Exams and Certificates\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@workflow\",\"edX Exams\"]]]'),(7,'2021-07-30 20:03:33.917012','2021-07-30 20:03:36.152857','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@html+block@6b6bee43c7c641509da71c9299cc9f5a','Blank HTML Page','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@1414ffd5143b4b508f739b563ab468b7\",\"About Exams and Certificates\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@workflow\",\"edX Exams\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@d6eaa391d2be41dea20b8b1bfbcb1c45\",\"Getting Your edX Certificate\"]]]'),(8,'2021-07-30 20:03:33.922767','2021-07-30 20:03:36.155215','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@html+block@148ae8fa73ea460eb6f05505da0ba6e6','Getting Your edX Certificate','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@1414ffd5143b4b508f739b563ab468b7\",\"About Exams and Certificates\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@workflow\",\"edX Exams\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@d6eaa391d2be41dea20b8b1bfbcb1c45\",\"Getting Your edX Certificate\"]]]'),(9,'2021-07-30 20:03:33.928358','2021-07-30 20:03:36.157345','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@c7e98fd39a6944edb6b286c32e1150ff','Passing a Course','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@1414ffd5143b4b508f739b563ab468b7\",\"About Exams and Certificates\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@workflow\",\"edX Exams\"]]]'),(10,'2021-07-30 20:03:33.934034','2021-07-30 20:03:36.159592','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@discussion+block@23e6eda482c04335af2bb265beacaf59','','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@1414ffd5143b4b508f739b563ab468b7\",\"About Exams and Certificates\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@workflow\",\"edX Exams\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@c7e98fd39a6944edb6b286c32e1150ff\",\"Passing a Course\"]]]'),(11,'2021-07-30 20:03:33.939769','2021-07-30 20:03:36.161845','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@html+block@5e009378f0b64585baa0a14b155974b9','Passing a Course','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@1414ffd5143b4b508f739b563ab468b7\",\"About Exams and Certificates\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@workflow\",\"edX Exams\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@c7e98fd39a6944edb6b286c32e1150ff\",\"Passing a Course\"]]]'),(12,'2021-07-30 20:03:33.945787','2021-07-30 20:03:36.164318','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@1b0e2c2c84884b95b1c99fb678cc964c','Overall Grade Performance','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@1414ffd5143b4b508f739b563ab468b7\",\"About Exams and Certificates\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@workflow\",\"edX Exams\"]]]'),(13,'2021-07-30 20:03:33.951625','2021-07-30 20:03:36.167111','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@discussion+block@1a810b1a3b2447b998f0917d0e5a802b','','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@1414ffd5143b4b508f739b563ab468b7\",\"About Exams and Certificates\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@workflow\",\"edX Exams\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@1b0e2c2c84884b95b1c99fb678cc964c\",\"Overall Grade Performance\"]]]'),(14,'2021-07-30 20:03:33.957410','2021-07-30 20:03:36.169208','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@html+block@f4a39219742149f781a1dda6f43a623c','Overall Grade','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@1414ffd5143b4b508f739b563ab468b7\",\"About Exams and Certificates\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@workflow\",\"edX Exams\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@1b0e2c2c84884b95b1c99fb678cc964c\",\"Overall Grade Performance\"]]]'),(15,'2021-07-30 20:03:33.963415','2021-07-30 20:03:36.171241','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_36e0beb03f0a','Randomized Questions','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@1414ffd5143b4b508f739b563ab468b7\",\"About Exams and Certificates\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@workflow\",\"edX Exams\"]]]'),(16,'2021-07-30 20:03:33.969660','2021-07-30 20:03:36.173388','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@discussion+block@ddede76df71045ffa16de9d1481d2119','','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@1414ffd5143b4b508f739b563ab468b7\",\"About Exams and Certificates\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@workflow\",\"edX Exams\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_36e0beb03f0a\",\"Randomized Questions\"]]]'),(17,'2021-07-30 20:03:33.976421','2021-07-30 20:03:36.175424','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@problem+block@ex_practice_3','Randomized Questions','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@1414ffd5143b4b508f739b563ab468b7\",\"About Exams and Certificates\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@workflow\",\"edX Exams\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_36e0beb03f0a\",\"Randomized Questions\"]]]'),(18,'2021-07-30 20:03:33.982368','2021-07-30 20:03:36.177689','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_ac391cde8a91','Limited Checks','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@1414ffd5143b4b508f739b563ab468b7\",\"About Exams and Certificates\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@workflow\",\"edX Exams\"]]]'),(19,'2021-07-30 20:03:33.988662','2021-07-30 20:03:36.179683','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@discussion+block@cd177caa62444fbca48aa8f843f09eac','','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@1414ffd5143b4b508f739b563ab468b7\",\"About Exams and Certificates\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@workflow\",\"edX Exams\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_ac391cde8a91\",\"Limited Checks\"]]]'),(20,'2021-07-30 20:03:33.994929','2021-07-30 20:03:36.181911','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@problem+block@d1b84dcd39b0423d9e288f27f0f7f242','Few Checks','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@1414ffd5143b4b508f739b563ab468b7\",\"About Exams and Certificates\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@workflow\",\"edX Exams\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_ac391cde8a91\",\"Limited Checks\"]]]'),(21,'2021-07-30 20:03:34.001779','2021-07-30 20:03:36.184010','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@problem+block@ex_practice_limited_checks','Limited Checks','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@1414ffd5143b4b508f739b563ab468b7\",\"About Exams and Certificates\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@workflow\",\"edX Exams\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_ac391cde8a91\",\"Limited Checks\"]]]'),(22,'2021-07-30 20:03:34.007288','2021-07-30 20:03:36.185938','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@f91d8d31f7cf48ce990f8d8745ae4cfa','Answering More Than Once','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@1414ffd5143b4b508f739b563ab468b7\",\"About Exams and Certificates\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@workflow\",\"edX Exams\"]]]'),(23,'2021-07-30 20:03:34.012626','2021-07-30 20:03:36.188045','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@discussion+block@b8cec2a19ebf463f90cd3544c7927b0e','','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@1414ffd5143b4b508f739b563ab468b7\",\"About Exams and Certificates\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@workflow\",\"edX Exams\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@f91d8d31f7cf48ce990f8d8745ae4cfa\",\"Answering More Than Once\"]]]'),(24,'2021-07-30 20:03:34.018165','2021-07-30 20:03:36.190319','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@problem+block@651e0945b77f42e0a4c89b8c3e6f5b3b','Answering More Than Once','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@1414ffd5143b4b508f739b563ab468b7\",\"About Exams and Certificates\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@workflow\",\"edX Exams\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@f91d8d31f7cf48ce990f8d8745ae4cfa\",\"Answering More Than Once\"]]]'),(25,'2021-07-30 20:03:34.023682','2021-07-30 20:03:36.192779','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@b6662b497c094bcc9b870d8270c90c93','Getting Answers','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@1414ffd5143b4b508f739b563ab468b7\",\"About Exams and Certificates\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@workflow\",\"edX Exams\"]]]'),(26,'2021-07-30 20:03:34.029073','2021-07-30 20:03:36.195107','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@discussion+block@f480df4ce91347c5ae4301ddf6146238','','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@1414ffd5143b4b508f739b563ab468b7\",\"About Exams and Certificates\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@workflow\",\"edX Exams\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@b6662b497c094bcc9b870d8270c90c93\",\"Getting Answers\"]]]'),(27,'2021-07-30 20:03:34.035006','2021-07-30 20:03:36.197400','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@problem+block@45d46192272c4f6db6b63586520bbdf4','Getting Answers','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@1414ffd5143b4b508f739b563ab468b7\",\"About Exams and Certificates\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@workflow\",\"edX Exams\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@b6662b497c094bcc9b870d8270c90c93\",\"Getting Answers\"]]]'),(28,'2021-07-30 20:03:34.041106','2021-07-30 20:03:36.199514','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_f04afeac0131','Immediate Feedback','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@1414ffd5143b4b508f739b563ab468b7\",\"About Exams and Certificates\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@workflow\",\"edX Exams\"]]]'),(29,'2021-07-30 20:03:34.046474','2021-07-30 20:03:36.201588','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@discussion+block@4aba537a78774bd5a862485a8563c345','','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@1414ffd5143b4b508f739b563ab468b7\",\"About Exams and Certificates\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@workflow\",\"edX Exams\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_f04afeac0131\",\"Immediate Feedback\"]]]'),(30,'2021-07-30 20:03:34.051976','2021-07-30 20:03:36.203653','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@problem+block@ex_practice_2','Immediate Feedback','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@1414ffd5143b4b508f739b563ab468b7\",\"About Exams and Certificates\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@workflow\",\"edX Exams\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_f04afeac0131\",\"Immediate Feedback\"]]]'),(31,'2021-07-30 20:03:34.059969','2021-07-30 20:03:36.205523','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@934cc32c177d41b580c8413e561346b3','EdX Exams','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@1414ffd5143b4b508f739b563ab468b7\",\"About Exams and Certificates\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@workflow\",\"edX Exams\"]]]'),(32,'2021-07-30 20:03:34.066107','2021-07-30 20:03:36.207501','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@html+block@8293139743f34377817d537b69911530','EdX Exams','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@1414ffd5143b4b508f739b563ab468b7\",\"About Exams and Certificates\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@workflow\",\"edX Exams\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@934cc32c177d41b580c8413e561346b3\",\"EdX Exams\"]]]'),(33,'2021-07-30 20:03:34.072381','2021-07-30 20:03:34.072381','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@chapter+block@social_integration','Example Week 3: Be Social','[]'),(34,'2021-07-30 20:03:34.077954','2021-07-30 20:03:36.209357','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@sequential+block@6ab9c442501d472c8ed200e367b4edfa','More Ways to Connect','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@social_integration\",\"Example Week 3: Be Social\"]]]'),(35,'2021-07-30 20:03:34.084107','2021-07-30 20:03:36.211456','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@3f2c11aba9434e459676a7d7acc4d960','Google Hangout','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@social_integration\",\"Example Week 3: Be Social\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@6ab9c442501d472c8ed200e367b4edfa\",\"More Ways to Connect\"]]]'),(36,'2021-07-30 20:03:34.089551','2021-07-30 20:03:36.213563','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@discussion+block@ade92343df3d4953a40ab3adc8805390','Google Hangout','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@social_integration\",\"Example Week 3: Be Social\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@6ab9c442501d472c8ed200e367b4edfa\",\"More Ways to Connect\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@3f2c11aba9434e459676a7d7acc4d960\",\"Google Hangout\"]]]'),(37,'2021-07-30 20:03:34.094986','2021-07-30 20:03:36.215900','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@html+block@55cbc99f262443d886a25cf84594eafb','Text','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@social_integration\",\"Example Week 3: Be Social\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@6ab9c442501d472c8ed200e367b4edfa\",\"More Ways to Connect\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@3f2c11aba9434e459676a7d7acc4d960\",\"Google Hangout\"]]]'),(38,'2021-07-30 20:03:34.100798','2021-07-30 20:03:36.218454','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@html+block@d45779ad3d024a40a09ad8cc317c0970','Text','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@social_integration\",\"Example Week 3: Be Social\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@6ab9c442501d472c8ed200e367b4edfa\",\"More Ways to Connect\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@3f2c11aba9434e459676a7d7acc4d960\",\"Google Hangout\"]]]'),(39,'2021-07-30 20:03:34.106656','2021-07-30 20:03:36.220531','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@sequential+block@dbe8fc027bcb4fe9afb744d2e8415855','Homework - Find Your Study Buddy','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@social_integration\",\"Example Week 3: Be Social\"]]]'),(40,'2021-07-30 20:03:34.112602','2021-07-30 20:03:36.222708','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@26d89b08f75d48829a63520ed8b0037d','Homework - Find Your Study Buddy','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@social_integration\",\"Example Week 3: Be Social\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@dbe8fc027bcb4fe9afb744d2e8415855\",\"Homework - Find Your Study Buddy\"]]]'),(41,'2021-07-30 20:03:34.118545','2021-07-30 20:03:36.225035','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@html+block@6018785795994726950614ce7d0f38c5','Find Your Study Buddy','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@social_integration\",\"Example Week 3: Be Social\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@dbe8fc027bcb4fe9afb744d2e8415855\",\"Homework - Find Your Study Buddy\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@26d89b08f75d48829a63520ed8b0037d\",\"Homework - Find Your Study Buddy\"]]]'),(42,'2021-07-30 20:03:34.124137','2021-07-30 20:03:36.227301','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@sequential+block@48ecb924d7fe4b66a230137626bfa93e','Lesson 3 - Be Social','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@social_integration\",\"Example Week 3: Be Social\"]]]'),(43,'2021-07-30 20:03:34.129731','2021-07-30 20:03:36.229360','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@312cb4faed17420e82ab3178fc3e251a','Getting Help','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@social_integration\",\"Example Week 3: Be Social\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@48ecb924d7fe4b66a230137626bfa93e\",\"Lesson 3 - Be Social\"]]]'),(44,'2021-07-30 20:03:34.137066','2021-07-30 20:03:36.231680','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@html+block@8bb218cccf8d40519a971ff0e4901ccf','Getting Help','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@social_integration\",\"Example Week 3: Be Social\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@48ecb924d7fe4b66a230137626bfa93e\",\"Lesson 3 - Be Social\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@312cb4faed17420e82ab3178fc3e251a\",\"Getting Help\"]]]'),(45,'2021-07-30 20:03:34.142633','2021-07-30 20:03:36.233878','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_3888db0bc286','Discussion Forums','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@social_integration\",\"Example Week 3: Be Social\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@48ecb924d7fe4b66a230137626bfa93e\",\"Lesson 3 - Be Social\"]]]'),(46,'2021-07-30 20:03:34.148272','2021-07-30 20:03:36.236045','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@discussion+block@discussion_5deb6081620d','Discussion Forums','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@social_integration\",\"Example Week 3: Be Social\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@48ecb924d7fe4b66a230137626bfa93e\",\"Lesson 3 - Be Social\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_3888db0bc286\",\"Discussion Forums\"]]]'),(47,'2021-07-30 20:03:34.153945','2021-07-30 20:03:36.237940','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@html+block@html_49b4494da2f7','Discussion Forums','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@social_integration\",\"Example Week 3: Be Social\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@48ecb924d7fe4b66a230137626bfa93e\",\"Lesson 3 - Be Social\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_3888db0bc286\",\"Discussion Forums\"]]]'),(48,'2021-07-30 20:03:34.159681','2021-07-30 20:03:36.239692','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@3c4b575924bf4b75a2f3542df5c354fc','Be Social','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@social_integration\",\"Example Week 3: Be Social\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@48ecb924d7fe4b66a230137626bfa93e\",\"Lesson 3 - Be Social\"]]]'),(49,'2021-07-30 20:03:34.167018','2021-07-30 20:03:36.241783','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@html+block@f9f3a25e7bab46e583fd1fbbd7a2f6a0','Be Social','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@social_integration\",\"Example Week 3: Be Social\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@48ecb924d7fe4b66a230137626bfa93e\",\"Lesson 3 - Be Social\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@3c4b575924bf4b75a2f3542df5c354fc\",\"Be Social\"]]]'),(50,'2021-07-30 20:03:34.173267','2021-07-30 20:03:34.173267','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@chapter+block@graded_interactions','Example Week 2: Get Interactive','[]'),(51,'2021-07-30 20:03:34.178723','2021-07-30 20:03:36.243675','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@sequential+block@175e76c4951144a29d46211361266e0e','Homework - Essays','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@graded_interactions\",\"Example Week 2: Get Interactive\"]]]'),(52,'2021-07-30 20:03:34.184049','2021-07-30 20:03:36.245750','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@fb79dcbad35b466a8c6364f8ffee9050','Peer Assessed Essays','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@graded_interactions\",\"Example Week 2: Get Interactive\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@175e76c4951144a29d46211361266e0e\",\"Homework - Essays\"]]]'),(53,'2021-07-30 20:03:34.189540','2021-07-30 20:03:36.247854','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@discussion+block@12ad4f3ff4c14114a6e629b00e000976','Peer Grading','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@graded_interactions\",\"Example Week 2: Get Interactive\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@175e76c4951144a29d46211361266e0e\",\"Homework - Essays\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@fb79dcbad35b466a8c6364f8ffee9050\",\"Peer Assessed Essays\"]]]'),(54,'2021-07-30 20:03:34.195238','2021-07-30 20:03:36.249933','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@openassessment+block@b24c33ea35954c7889e1d2944d3fe397','Open Response Assessment','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@graded_interactions\",\"Example Week 2: Get Interactive\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@175e76c4951144a29d46211361266e0e\",\"Homework - Essays\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@fb79dcbad35b466a8c6364f8ffee9050\",\"Peer Assessed Essays\"]]]'),(55,'2021-07-30 20:03:34.200919','2021-07-30 20:03:36.252111','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@sequential+block@graded_simulations','Homework - Labs and Demos','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@graded_interactions\",\"Example Week 2: Get Interactive\"]]]'),(56,'2021-07-30 20:03:34.206957','2021-07-30 20:03:36.253931','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_bc69a47c6fae','Protein Creator','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@graded_interactions\",\"Example Week 2: Get Interactive\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@graded_simulations\",\"Homework - Labs and Demos\"]]]'),(57,'2021-07-30 20:03:34.212500','2021-07-30 20:03:36.255948','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@discussion+block@ed01bcd164e64038a78964a16eac3edc','','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@graded_interactions\",\"Example Week 2: Get Interactive\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@graded_simulations\",\"Homework - Labs and Demos\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_bc69a47c6fae\",\"Protein Creator\"]]]'),(58,'2021-07-30 20:03:34.218097','2021-07-30 20:03:36.257931','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@problem+block@700x_proteinmake','Designing Proteins in Two Dimensions','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@graded_interactions\",\"Example Week 2: Get Interactive\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@graded_simulations\",\"Homework - Labs and Demos\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_bc69a47c6fae\",\"Protein Creator\"]]]'),(59,'2021-07-30 20:03:34.224287','2021-07-30 20:03:36.260233','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@html+block@78e3719e864e45f3bee938461f3c3de6','Protein Builder','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@graded_interactions\",\"Example Week 2: Get Interactive\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@graded_simulations\",\"Homework - Labs and Demos\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_bc69a47c6fae\",\"Protein Creator\"]]]'),(60,'2021-07-30 20:03:34.230315','2021-07-30 20:03:36.262289','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_c037f3757df1','Electric Circuit Simulator','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@graded_interactions\",\"Example Week 2: Get Interactive\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@graded_simulations\",\"Homework - Labs and Demos\"]]]'),(61,'2021-07-30 20:03:34.236339','2021-07-30 20:03:36.264455','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@discussion+block@4f06b358a96f4d1dae57d6d81acd06f2','','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@graded_interactions\",\"Example Week 2: Get Interactive\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@graded_simulations\",\"Homework - Labs and Demos\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_c037f3757df1\",\"Electric Circuit Simulator\"]]]'),(62,'2021-07-30 20:03:34.242191','2021-07-30 20:03:36.266846','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@problem+block@logic_gate_problem','problem','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@graded_interactions\",\"Example Week 2: Get Interactive\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@graded_simulations\",\"Homework - Labs and Demos\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_c037f3757df1\",\"Electric Circuit Simulator\"]]]'),(63,'2021-07-30 20:03:34.247678','2021-07-30 20:03:36.269407','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@problem+block@free_form_simulation','problem','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@graded_interactions\",\"Example Week 2: Get Interactive\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@graded_simulations\",\"Homework - Labs and Demos\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_c037f3757df1\",\"Electric Circuit Simulator\"]]]'),(64,'2021-07-30 20:03:34.253906','2021-07-30 20:03:36.271843','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@html+block@d5a5caaf35e84ebc9a747038465dcfb4','Electronic Circuit Simulator','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@graded_interactions\",\"Example Week 2: Get Interactive\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@graded_simulations\",\"Homework - Labs and Demos\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_c037f3757df1\",\"Electric Circuit Simulator\"]]]'),(65,'2021-07-30 20:03:34.259489','2021-07-30 20:03:36.273794','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_aae927868e55','Code Grader','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@graded_interactions\",\"Example Week 2: Get Interactive\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@graded_simulations\",\"Homework - Labs and Demos\"]]]'),(66,'2021-07-30 20:03:34.264793','2021-07-30 20:03:36.275753','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@discussion+block@c6cd4bea43454aaea60ad01beb0cf213','','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@graded_interactions\",\"Example Week 2: Get Interactive\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@graded_simulations\",\"Homework - Labs and Demos\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_aae927868e55\",\"Code Grader\"]]]'),(67,'2021-07-30 20:03:34.270243','2021-07-30 20:03:36.277770','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@problem+block@python_grader','problem','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@graded_interactions\",\"Example Week 2: Get Interactive\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@graded_simulations\",\"Homework - Labs and Demos\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_aae927868e55\",\"Code Grader\"]]]'),(68,'2021-07-30 20:03:34.276020','2021-07-30 20:03:36.279708','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@html+block@891211e17f9a472290a5f12c7a6626d7','Code Grader','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@graded_interactions\",\"Example Week 2: Get Interactive\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@graded_simulations\",\"Homework - Labs and Demos\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_aae927868e55\",\"Code Grader\"]]]'),(69,'2021-07-30 20:03:34.281702','2021-07-30 20:03:36.281696','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_0fab6aa52165','Molecule Editor','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@graded_interactions\",\"Example Week 2: Get Interactive\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@graded_simulations\",\"Homework - Labs and Demos\"]]]'),(70,'2021-07-30 20:03:34.288321','2021-07-30 20:03:36.283693','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@discussion+block@0aa7a3bdbe18427795b0c1a1d7c3cb9a','','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@graded_interactions\",\"Example Week 2: Get Interactive\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@graded_simulations\",\"Homework - Labs and Demos\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_0fab6aa52165\",\"Molecule Editor\"]]]'),(71,'2021-07-30 20:03:34.295069','2021-07-30 20:03:36.285662','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@problem+block@700x_editmolB','Molecule Editor','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@graded_interactions\",\"Example Week 2: Get Interactive\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@graded_simulations\",\"Homework - Labs and Demos\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_0fab6aa52165\",\"Molecule Editor\"]]]'),(72,'2021-07-30 20:03:34.300490','2021-07-30 20:03:36.287760','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@html+block@2b94658d2eee4d85ae13f83bc24cfca9','','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@graded_interactions\",\"Example Week 2: Get Interactive\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@graded_simulations\",\"Homework - Labs and Demos\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_0fab6aa52165\",\"Molecule Editor\"]]]'),(73,'2021-07-30 20:03:34.307422','2021-07-30 20:03:36.289723','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@d6cee45205a449369d7ef8f159b22bdf','Labs and Demos','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@graded_interactions\",\"Example Week 2: Get Interactive\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@graded_simulations\",\"Homework - Labs and Demos\"]]]'),(74,'2021-07-30 20:03:34.313140','2021-07-30 20:03:36.291733','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@html+block@2bee8c4248e842a19ba1e73ed8d426c2','Labs and Demos','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@graded_interactions\",\"Example Week 2: Get Interactive\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@graded_simulations\",\"Homework - Labs and Demos\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@d6cee45205a449369d7ef8f159b22bdf\",\"Labs and Demos\"]]]'),(75,'2021-07-30 20:03:34.318597','2021-07-30 20:03:36.293805','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@sequential+block@simulations','Lesson 2 - Let\'s Get Interactive!','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@graded_interactions\",\"Example Week 2: Get Interactive\"]]]'),(76,'2021-07-30 20:03:34.324260','2021-07-30 20:03:36.295823','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_d32bf9b2242c','Electronic Sound Experiment','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@graded_interactions\",\"Example Week 2: Get Interactive\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@simulations\",\"Lesson 2 - Let\'s Get Interactive!\"]]]'),(77,'2021-07-30 20:03:34.329949','2021-07-30 20:03:36.297772','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@discussion+block@03f051f9a8814881a3783d2511613aa6','','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@graded_interactions\",\"Example Week 2: Get Interactive\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@simulations\",\"Lesson 2 - Let\'s Get Interactive!\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_d32bf9b2242c\",\"Electronic Sound Experiment\"]]]'),(78,'2021-07-30 20:03:34.335479','2021-07-30 20:03:36.299890','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@html+block@Lab_5B_Mosfet_Amplifier_Experiment','Electronic Sound Experiment','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@graded_interactions\",\"Example Week 2: Get Interactive\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@simulations\",\"Lesson 2 - Let\'s Get Interactive!\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_d32bf9b2242c\",\"Electronic Sound Experiment\"]]]'),(79,'2021-07-30 20:03:34.340832','2021-07-30 20:03:36.302164','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_98cf62510471','Zooming Diagrams','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@graded_interactions\",\"Example Week 2: Get Interactive\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@simulations\",\"Lesson 2 - Let\'s Get Interactive!\"]]]'),(80,'2021-07-30 20:03:34.346195','2021-07-30 20:03:36.304249','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@discussion+block@e0d7423118ab432582d03e8e8dad8e36','','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@graded_interactions\",\"Example Week 2: Get Interactive\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@simulations\",\"Lesson 2 - Let\'s Get Interactive!\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_98cf62510471\",\"Zooming Diagrams\"]]]'),(81,'2021-07-30 20:03:34.351457','2021-07-30 20:03:36.306250','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@html+block@700x_pathways','Zooming Diagrams','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@graded_interactions\",\"Example Week 2: Get Interactive\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@simulations\",\"Lesson 2 - Let\'s Get Interactive!\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_98cf62510471\",\"Zooming Diagrams\"]]]'),(82,'2021-07-30 20:03:34.356814','2021-07-30 20:03:36.308194','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_2dbb0072785e','An Interactive Reference Table','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@graded_interactions\",\"Example Week 2: Get Interactive\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@simulations\",\"Lesson 2 - Let\'s Get Interactive!\"]]]'),(83,'2021-07-30 20:03:34.362235','2021-07-30 20:03:36.311102','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@discussion+block@6f7a6670f87147149caeff6afa07a526','','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@graded_interactions\",\"Example Week 2: Get Interactive\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@simulations\",\"Lesson 2 - Let\'s Get Interactive!\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_2dbb0072785e\",\"An Interactive Reference Table\"]]]'),(84,'2021-07-30 20:03:34.369800','2021-07-30 20:03:36.313155','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@html+block@html_07d547513285','An Interactive Reference Table','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@graded_interactions\",\"Example Week 2: Get Interactive\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@simulations\",\"Lesson 2 - Let\'s Get Interactive!\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_2dbb0072785e\",\"An Interactive Reference Table\"]]]'),(85,'2021-07-30 20:03:34.376606','2021-07-30 20:03:36.315129','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@d0d804e8863c4a95a659c04d8a2b2bc0','Lesson 2 - Let\'s Get Interactive! ','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@graded_interactions\",\"Example Week 2: Get Interactive\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@simulations\",\"Lesson 2 - Let\'s Get Interactive!\"]]]'),(86,'2021-07-30 20:03:34.383575','2021-07-30 20:03:36.317242','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@html+block@78d7d3642f3a4dbabbd1b017861aa5f2','Lesson 2: Let\'s Get Interactive!','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@graded_interactions\",\"Example Week 2: Get Interactive\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@simulations\",\"Lesson 2 - Let\'s Get Interactive!\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@d0d804e8863c4a95a659c04d8a2b2bc0\",\"Lesson 2 - Let\'s Get Interactive! \"]]]'),(87,'2021-07-30 20:03:34.389492','2021-07-30 20:03:34.389492','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations','Example Week 1: Getting Started','[]'),(88,'2021-07-30 20:03:34.395161','2021-07-30 20:03:36.319018','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@sequential+block@basic_questions','Homework - Question Styles','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"]]]'),(89,'2021-07-30 20:03:34.400911','2021-07-30 20:03:36.320862','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@e8a5cc2aed424838853defab7be45e42','Text input','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@basic_questions\",\"Homework - Question Styles\"]]]'),(90,'2021-07-30 20:03:34.407121','2021-07-30 20:03:36.322902','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@discussion+block@6244918637ed4ff4b5f94a840a7e4b43','','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@basic_questions\",\"Homework - Question Styles\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@e8a5cc2aed424838853defab7be45e42\",\"Text input\"]]]'),(91,'2021-07-30 20:03:34.414451','2021-07-30 20:03:36.324845','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@problem+block@0d759dee4f9d459c8956136dbde55f02','Text Input','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@basic_questions\",\"Homework - Question Styles\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@e8a5cc2aed424838853defab7be45e42\",\"Text input\"]]]'),(92,'2021-07-30 20:03:34.422041','2021-07-30 20:03:36.327101','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@2889db1677a549abb15eb4d886f95d1c','Numerical Input','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@basic_questions\",\"Homework - Question Styles\"]]]'),(93,'2021-07-30 20:03:34.429172','2021-07-30 20:03:36.329258','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@discussion+block@501aed9d902349eeb2191fa505548de2','','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@basic_questions\",\"Homework - Question Styles\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@2889db1677a549abb15eb4d886f95d1c\",\"Numerical Input\"]]]'),(94,'2021-07-30 20:03:34.435970','2021-07-30 20:03:36.331420','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@problem+block@75f9562c77bc4858b61f907bb810d974','Numerical Input','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@basic_questions\",\"Homework - Question Styles\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@2889db1677a549abb15eb4d886f95d1c\",\"Numerical Input\"]]]'),(95,'2021-07-30 20:03:34.442239','2021-07-30 20:03:36.333658','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_1fef54c2b23b','Chemical Equations','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@basic_questions\",\"Homework - Question Styles\"]]]'),(96,'2021-07-30 20:03:34.448010','2021-07-30 20:03:36.336219','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@discussion+block@4d672c5893cb4f1dad0de67d2008522e','','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@basic_questions\",\"Homework - Question Styles\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_1fef54c2b23b\",\"Chemical Equations\"]]]'),(97,'2021-07-30 20:03:34.453929','2021-07-30 20:03:36.338560','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@problem+block@Sample_ChemFormula_Problem','Chemical Equations','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@basic_questions\",\"Homework - Question Styles\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_1fef54c2b23b\",\"Chemical Equations\"]]]'),(98,'2021-07-30 20:03:34.460984','2021-07-30 20:03:36.340617','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_0c92347a5c00','Mathematical Expressions','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@basic_questions\",\"Homework - Question Styles\"]]]'),(99,'2021-07-30 20:03:34.467463','2021-07-30 20:03:36.342805','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@discussion+block@870371212ba04dcf9536d7c7b8f3109e','','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@basic_questions\",\"Homework - Question Styles\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_0c92347a5c00\",\"Mathematical Expressions\"]]]'),(100,'2021-07-30 20:03:34.474532','2021-07-30 20:03:36.345085','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@problem+block@Sample_Algebraic_Problem','Mathematical Expressions','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@basic_questions\",\"Homework - Question Styles\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_0c92347a5c00\",\"Mathematical Expressions\"]]]'),(101,'2021-07-30 20:03:34.481012','2021-07-30 20:03:36.347204','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@54bb9b142c6c4c22afc62bcb628f0e68','Multiple Choice Questions','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@basic_questions\",\"Homework - Question Styles\"]]]'),(102,'2021-07-30 20:03:34.486933','2021-07-30 20:03:36.349378','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@discussion+block@67c26b1e826e47aaa29757f62bcd1ad0','','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@basic_questions\",\"Homework - Question Styles\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@54bb9b142c6c4c22afc62bcb628f0e68\",\"Multiple Choice Questions\"]]]'),(103,'2021-07-30 20:03:34.492981','2021-07-30 20:03:36.351652','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@problem+block@a0effb954cca4759994f1ac9e9434bf4','Multiple Choice Questions','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@basic_questions\",\"Homework - Question Styles\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@54bb9b142c6c4c22afc62bcb628f0e68\",\"Multiple Choice Questions\"]]]'),(104,'2021-07-30 20:03:34.499208','2021-07-30 20:03:36.353684','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@47dbd5f836544e61877a483c0b75606c','Drag and Drop','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@basic_questions\",\"Homework - Question Styles\"]]]'),(105,'2021-07-30 20:03:34.504981','2021-07-30 20:03:36.355852','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@discussion+block@5ab88e67d46049b9aa694cb240c39cef','','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@basic_questions\",\"Homework - Question Styles\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@47dbd5f836544e61877a483c0b75606c\",\"Drag and Drop\"]]]'),(106,'2021-07-30 20:03:34.510675','2021-07-30 20:03:36.358331','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@problem+block@d2e35c1d294b4ba0b3b1048615605d2a','Drag and Drop','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@basic_questions\",\"Homework - Question Styles\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@47dbd5f836544e61877a483c0b75606c\",\"Drag and Drop\"]]]'),(107,'2021-07-30 20:03:34.516068','2021-07-30 20:03:36.360379','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@2152d4a4aadc4cb0af5256394a3d1fc7','Pointing on a Picture','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@basic_questions\",\"Homework - Question Styles\"]]]'),(108,'2021-07-30 20:03:34.521924','2021-07-30 20:03:36.362473','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@discussion+block@e5eac7e1a5a24f5fa7ed77bb6d136591','','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@basic_questions\",\"Homework - Question Styles\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@2152d4a4aadc4cb0af5256394a3d1fc7\",\"Pointing on a Picture\"]]]'),(109,'2021-07-30 20:03:34.527139','2021-07-30 20:03:36.364748','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@problem+block@c554538a57664fac80783b99d9d6da7c','Pointing on a Picture','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@basic_questions\",\"Homework - Question Styles\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@2152d4a4aadc4cb0af5256394a3d1fc7\",\"Pointing on a Picture\"]]]'),(110,'2021-07-30 20:03:34.532732','2021-07-30 20:03:36.366806','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@sequential+block@19a30717eff543078a5d94ae9d6c18a5','Lesson 1 - Getting Started','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"]]]'),(111,'2021-07-30 20:03:34.538100','2021-07-30 20:03:36.369358','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@134df56c516a4a0dbb24dd5facef746e','Reading Assignments','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@19a30717eff543078a5d94ae9d6c18a5\",\"Lesson 1 - Getting Started\"]]]'),(112,'2021-07-30 20:03:34.543759','2021-07-30 20:03:36.371590','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@discussion+block@ffa5817d49e14fec83ad6187cbe16358','Reading Sample','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@19a30717eff543078a5d94ae9d6c18a5\",\"Lesson 1 - Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@134df56c516a4a0dbb24dd5facef746e\",\"Reading Assignments\"]]]'),(113,'2021-07-30 20:03:34.549425','2021-07-30 20:03:36.373674','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@problem+block@303034da25524878a2e66fb57c91cf85','Attributing Blame','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@19a30717eff543078a5d94ae9d6c18a5\",\"Lesson 1 - Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@134df56c516a4a0dbb24dd5facef746e\",\"Reading Assignments\"]]]'),(114,'2021-07-30 20:03:34.555152','2021-07-30 20:03:36.375844','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@problem+block@932e6f2ce8274072a355a94560216d1a','Perchance to Dream','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@19a30717eff543078a5d94ae9d6c18a5\",\"Lesson 1 - Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@134df56c516a4a0dbb24dd5facef746e\",\"Reading Assignments\"]]]'),(115,'2021-07-30 20:03:34.561311','2021-07-30 20:03:36.378261','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@html+block@2574c523e97b477a9d72fbb37bfb995f','Text','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@19a30717eff543078a5d94ae9d6c18a5\",\"Lesson 1 - Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@134df56c516a4a0dbb24dd5facef746e\",\"Reading Assignments\"]]]'),(116,'2021-07-30 20:03:34.567060','2021-07-30 20:03:36.380235','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@html+block@e0254b911fa246218bd98bbdadffef06','Reading Assignments','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@19a30717eff543078a5d94ae9d6c18a5\",\"Lesson 1 - Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@134df56c516a4a0dbb24dd5facef746e\",\"Reading Assignments\"]]]'),(117,'2021-07-30 20:03:34.572719','2021-07-30 20:03:36.382108','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@e3601c0abee6427d8c17e6d6f8fdddd1','Interactive Questions','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@19a30717eff543078a5d94ae9d6c18a5\",\"Lesson 1 - Getting Started\"]]]'),(118,'2021-07-30 20:03:34.578628','2021-07-30 20:03:36.384253','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@discussion+block@3169f89efde2452993f2f2d9bc74f5b2','','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@19a30717eff543078a5d94ae9d6c18a5\",\"Lesson 1 - Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@e3601c0abee6427d8c17e6d6f8fdddd1\",\"Interactive Questions\"]]]'),(119,'2021-07-30 20:03:34.584566','2021-07-30 20:03:36.386309','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@problem+block@9cee77a606ea4c1aa5440e0ea5d0f618','Interactive Questions','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@19a30717eff543078a5d94ae9d6c18a5\",\"Lesson 1 - Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@e3601c0abee6427d8c17e6d6f8fdddd1\",\"Interactive Questions\"]]]'),(120,'2021-07-30 20:03:34.589925','2021-07-30 20:03:36.388251','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@256f17a44983429fb1a60802203ee4e0','Video Presentation Styles','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@19a30717eff543078a5d94ae9d6c18a5\",\"Lesson 1 - Getting Started\"]]]'),(121,'2021-07-30 20:03:34.595520','2021-07-30 20:03:36.390153','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@discussion+block@e2cb0e0994f84b0abfa5f4ae42ed9d44','Video Presentation Styles','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@19a30717eff543078a5d94ae9d6c18a5\",\"Lesson 1 - Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@256f17a44983429fb1a60802203ee4e0\",\"Video Presentation Styles\"]]]'),(122,'2021-07-30 20:03:34.602791','2021-07-30 20:03:36.392156','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@video+block@636541acbae448d98ab484b028c9a7f6','Connecting a Circuit and a Circuit Diagram','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@19a30717eff543078a5d94ae9d6c18a5\",\"Lesson 1 - Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@256f17a44983429fb1a60802203ee4e0\",\"Video Presentation Styles\"]]]'),(123,'2021-07-30 20:03:34.608643','2021-07-30 20:03:36.394481','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@html+block@c2f7008c9ccf4bd09d5d800c98fb0722','','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@19a30717eff543078a5d94ae9d6c18a5\",\"Lesson 1 - Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@256f17a44983429fb1a60802203ee4e0\",\"Video Presentation Styles\"]]]'),(124,'2021-07-30 20:03:34.615043','2021-07-30 20:03:36.396564','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@4a1bba2a403f40bca5ec245e945b0d76','Video Demonstrations','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@19a30717eff543078a5d94ae9d6c18a5\",\"Lesson 1 - Getting Started\"]]]'),(125,'2021-07-30 20:03:34.622419','2021-07-30 20:03:36.398754','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@discussion+block@9f9e1373cc8243b985c8750cc8acec7d','Video Demonstrations','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@19a30717eff543078a5d94ae9d6c18a5\",\"Lesson 1 - Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@4a1bba2a403f40bca5ec245e945b0d76\",\"Video Demonstrations\"]]]'),(126,'2021-07-30 20:03:34.629028','2021-07-30 20:03:36.400947','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@html+block@ed5dccf14ae94353961f46fa07217491','','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@19a30717eff543078a5d94ae9d6c18a5\",\"Lesson 1 - Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@4a1bba2a403f40bca5ec245e945b0d76\",\"Video Demonstrations\"]]]'),(127,'2021-07-30 20:03:34.635315','2021-07-30 20:03:36.403055','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@3dc16db8d14842e38324e95d4030b8a0','Videos on edX','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@19a30717eff543078a5d94ae9d6c18a5\",\"Lesson 1 - Getting Started\"]]]'),(128,'2021-07-30 20:03:34.640507','2021-07-30 20:03:36.405360','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@discussion+block@722085be27c84ac693cfebc8ac5da700','Videos on edX','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@19a30717eff543078a5d94ae9d6c18a5\",\"Lesson 1 - Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@3dc16db8d14842e38324e95d4030b8a0\",\"Videos on edX\"]]]'),(129,'2021-07-30 20:03:34.645976','2021-07-30 20:03:36.407664','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@video+block@5c90cffecd9b48b188cbfea176bf7fe9','Video','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@19a30717eff543078a5d94ae9d6c18a5\",\"Lesson 1 - Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@3dc16db8d14842e38324e95d4030b8a0\",\"Videos on edX\"]]]'),(130,'2021-07-30 20:03:34.651419','2021-07-30 20:03:36.409924','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@html+block@0a3b4139f51a4917a3aff9d519b1eeb6','Videos on edX','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@19a30717eff543078a5d94ae9d6c18a5\",\"Lesson 1 - Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@3dc16db8d14842e38324e95d4030b8a0\",\"Videos on edX\"]]]'),(131,'2021-07-30 20:03:34.656564','2021-07-30 20:03:36.412091','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@4f6c1b4e316a419ab5b6bf30e6c708e9','Working with Videos','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@19a30717eff543078a5d94ae9d6c18a5\",\"Lesson 1 - Getting Started\"]]]'),(132,'2021-07-30 20:03:34.662217','2021-07-30 20:03:36.414194','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@discussion+block@412dc8dbb6674014862237b23c1f643f','Working with Videos','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@19a30717eff543078a5d94ae9d6c18a5\",\"Lesson 1 - Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@4f6c1b4e316a419ab5b6bf30e6c708e9\",\"Working with Videos\"]]]'),(133,'2021-07-30 20:03:34.667956','2021-07-30 20:03:36.416499','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@video+block@7e9b434e6de3435ab99bd3fb25bde807','Science and Cooking Chef Profile: JOSÉ ANDRÉS','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@19a30717eff543078a5d94ae9d6c18a5\",\"Lesson 1 - Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@4f6c1b4e316a419ab5b6bf30e6c708e9\",\"Working with Videos\"]]]'),(134,'2021-07-30 20:03:34.673669','2021-07-30 20:03:36.418681','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@html+block@6bcccc2d7343416e9e03fd7325b2f232','','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@19a30717eff543078a5d94ae9d6c18a5\",\"Lesson 1 - Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@4f6c1b4e316a419ab5b6bf30e6c708e9\",\"Working with Videos\"]]]'),(135,'2021-07-30 20:03:34.680003','2021-07-30 20:03:36.422548','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@867dddb6f55d410caaa9c1eb9c6743ec','Getting Started','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@19a30717eff543078a5d94ae9d6c18a5\",\"Lesson 1 - Getting Started\"]]]'),(136,'2021-07-30 20:03:34.685628','2021-07-30 20:03:36.426762','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@html+block@82d599b014b246c7a9b5dfc750dc08a9','Getting Started','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@19a30717eff543078a5d94ae9d6c18a5\",\"Lesson 1 - Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@867dddb6f55d410caaa9c1eb9c6743ec\",\"Getting Started\"]]]'),(137,'2021-07-30 20:03:34.692838','2021-07-30 20:03:34.692838','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@chapter+block@d8a6192ade314473a78242dfeedfbf5b','Introduction','[]'),(138,'2021-07-30 20:03:34.699965','2021-07-30 20:03:36.429265','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@sequential+block@edx_introduction','Demo Course Overview','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@d8a6192ade314473a78242dfeedfbf5b\",\"Introduction\"]]]'),(139,'2021-07-30 20:03:34.707732','2021-07-30 20:03:36.431473','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_0270f6de40fc','Introduction: Video and Sequences','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@d8a6192ade314473a78242dfeedfbf5b\",\"Introduction\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@edx_introduction\",\"Demo Course Overview\"]]]'),(140,'2021-07-30 20:03:34.714769','2021-07-30 20:03:36.433680','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@video+block@0b9e39477cf34507a7a48f74be381fdd','Welcome!','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@d8a6192ade314473a78242dfeedfbf5b\",\"Introduction\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@edx_introduction\",\"Demo Course Overview\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_0270f6de40fc\",\"Introduction: Video and Sequences\"]]]'),(141,'2021-07-30 20:03:34.721544','2021-07-30 20:03:36.437044','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@html+block@030e35c4756a4ddc8d40b95fbbfff4d4','Blank HTML Page','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@d8a6192ade314473a78242dfeedfbf5b\",\"Introduction\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@edx_introduction\",\"Demo Course Overview\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@vertical_0270f6de40fc\",\"Introduction: Video and Sequences\"]]]'),(142,'2021-07-30 20:03:36.443213','2021-07-30 20:03:36.443213','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@45c7cedb4bfe46f4a68c78787151cfb5','New Unit','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@9fca584977d04885bc911ea76a9ef29e\",\"holding section\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@07bc32474380492cb34f76e5f9d9a135\",\"New Subsection\"]]]'),(143,'2021-07-30 20:03:36.448660','2021-07-30 20:03:36.448660','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@7efc7bf4a47b4a6cb6595c32cde7712a','Homework - Find Your Study Buddy','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@social_integration\",\"Example Week 3: Be Social\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@48ecb924d7fe4b66a230137626bfa93e\",\"Lesson 3 - Be Social\"]]]'),(144,'2021-07-30 20:03:36.453829','2021-07-30 20:03:36.453829','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@html+block@87fa6792d79f4862be098e5169e93339','Blank HTML Page','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@social_integration\",\"Example Week 3: Be Social\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@48ecb924d7fe4b66a230137626bfa93e\",\"Lesson 3 - Be Social\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@7efc7bf4a47b4a6cb6595c32cde7712a\",\"Homework - Find Your Study Buddy\"]]]'),(145,'2021-07-30 20:03:36.459469','2021-07-30 20:03:36.459469','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@8f89194410954e768bde1764985454a7','Molecule Structures','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@graded_interactions\",\"Example Week 2: Get Interactive\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@graded_simulations\",\"Homework - Labs and Demos\"]]]'),(146,'2021-07-30 20:03:36.466120','2021-07-30 20:03:36.466120','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@problem+block@9b9687073e904ae197799dc415df899f','Molecule Structures','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@graded_interactions\",\"Example Week 2: Get Interactive\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@graded_simulations\",\"Homework - Labs and Demos\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@8f89194410954e768bde1764985454a7\",\"Molecule Structures\"]]]'),(147,'2021-07-30 20:03:36.472271','2021-07-30 20:03:36.472271','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@4e592689563243c484af947465eaef0d','New Unit','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@graded_interactions\",\"Example Week 2: Get Interactive\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@simulations\",\"Lesson 2 - Let\'s Get Interactive!\"]]]'),(148,'2021-07-30 20:03:36.478643','2021-07-30 20:03:36.478643','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@video+block@af7fe1335eb841cd81ce31c7ee8eb069','Video','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@graded_interactions\",\"Example Week 2: Get Interactive\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@simulations\",\"Lesson 2 - Let\'s Get Interactive!\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@4e592689563243c484af947465eaef0d\",\"New Unit\"]]]'),(149,'2021-07-30 20:03:36.483921','2021-07-30 20:03:36.483921','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@fb6b62dbec4348528629cf2232b86aea','Instructor Programmed Responses','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@basic_questions\",\"Homework - Question Styles\"]]]'),(150,'2021-07-30 20:03:36.489113','2021-07-30 20:03:36.489113','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@problem+block@d7daeff25e4f4026bdd269ae69e03e02','Instructor-Programmed Responses','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@basic_questions\",\"Homework - Question Styles\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@fb6b62dbec4348528629cf2232b86aea\",\"Instructor Programmed Responses\"]]]'),(151,'2021-07-30 20:03:36.494582','2021-07-30 20:03:36.494582','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@d91b9e5d8bc64d57a1332d06bf2f2193','When Are Your Exams? ','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@19a30717eff543078a5d94ae9d6c18a5\",\"Lesson 1 - Getting Started\"]]]'),(152,'2021-07-30 20:03:36.500455','2021-07-30 20:03:36.500455','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@html+block@9d5104b502f24ee89c3d2f4ce9d347cf','When Are Your Exams? ','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@19a30717eff543078a5d94ae9d6c18a5\",\"Lesson 1 - Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@d91b9e5d8bc64d57a1332d06bf2f2193\",\"When Are Your Exams? \"]]]'),(153,'2021-07-30 20:03:36.505742','2021-07-30 20:03:36.505742','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@a79d59cd72034188a71d388f4954a606','Exciting Labs and Tools','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@19a30717eff543078a5d94ae9d6c18a5\",\"Lesson 1 - Getting Started\"]]]'),(154,'2021-07-30 20:03:36.511090','2021-07-30 20:03:36.511090','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@discussion+block@1c8d47c425724346a7968fa1bc745dcd','Labs and Tools','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@19a30717eff543078a5d94ae9d6c18a5\",\"Lesson 1 - Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@a79d59cd72034188a71d388f4954a606\",\"Exciting Labs and Tools\"]]]'),(155,'2021-07-30 20:03:36.518055','2021-07-30 20:03:36.518055','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@html+block@ffcd6351126d4ca984409180e41d1b51','Exciting Labs and Tools','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@19a30717eff543078a5d94ae9d6c18a5\",\"Lesson 1 - Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@a79d59cd72034188a71d388f4954a606\",\"Exciting Labs and Tools\"]]]'),(156,'2021-07-30 20:03:36.524210','2021-07-30 20:03:36.524210','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@vertical+block@f0e6d90842c44cc7a50fd1a18a7dd982','Video Demonstrations','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@19a30717eff543078a5d94ae9d6c18a5\",\"Lesson 1 - Getting Started\"]]]'),(157,'2021-07-30 20:03:36.529605','2021-07-30 20:03:36.529605','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@html+block@2d3efa8db04346548bd5e5374de77628','Text','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@19a30717eff543078a5d94ae9d6c18a5\",\"Lesson 1 - Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@f0e6d90842c44cc7a50fd1a18a7dd982\",\"Video Demonstrations\"]]]'),(158,'2021-07-30 20:03:36.535328','2021-07-30 20:03:36.535328','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@video+block@ab98b0e385e64445ae97e730ffdf17e7','Biology Demonstration','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@19a30717eff543078a5d94ae9d6c18a5\",\"Lesson 1 - Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@f0e6d90842c44cc7a50fd1a18a7dd982\",\"Video Demonstrations\"]]]'),(159,'2021-07-30 20:03:36.543378','2021-07-30 20:03:36.543378','course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@html+block@eb469ec408fa4ab1a9b86c634ca9bfa9','Text','[[[\"block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations\",\"Example Week 1: Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@sequential+block@19a30717eff543078a5d94ae9d6c18a5\",\"Lesson 1 - Getting Started\"],[\"block-v1:edX+DemoX+Demo_Course+type@vertical+block@f0e6d90842c44cc7a50fd1a18a7dd982\",\"Video Demonstrations\"]]]');
 /*!40000 ALTER TABLE `bookmarks_xblockcache` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1613,6 +1695,29 @@ LOCK TABLES `bulk_email_coursemodetarget` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `bulk_email_disabledcourse`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bulk_email_disabledcourse` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `course_id` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `course_id` (`course_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bulk_email_disabledcourse`
+--
+
+LOCK TABLES `bulk_email_disabledcourse` WRITE;
+/*!40000 ALTER TABLE `bulk_email_disabledcourse` DISABLE KEYS */;
+/*!40000 ALTER TABLE `bulk_email_disabledcourse` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `bulk_email_optout`
 --
 
@@ -1690,6 +1795,139 @@ LOCK TABLES `bulk_grades_scoreoverrider` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `bundles_bundle`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bundles_bundle` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `uuid` char(32) NOT NULL,
+  `title` varchar(180) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `slug` varchar(50) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `description` longtext CHARACTER SET utf8mb4,
+  `collection_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uuid` (`uuid`),
+  KEY `bundles_bundle_collection_id_7bbee084_fk_bundles_collection_id` (`collection_id`),
+  KEY `bundles_bundle_title_4fb0d07c` (`title`),
+  KEY `bundles_bundle_slug_2ecea44e` (`slug`),
+  CONSTRAINT `bundles_bundle_collection_id_7bbee084_fk_bundles_collection_id` FOREIGN KEY (`collection_id`) REFERENCES `bundles_collection` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bundles_bundle`
+--
+
+LOCK TABLES `bundles_bundle` WRITE;
+/*!40000 ALTER TABLE `bundles_bundle` DISABLE KEYS */;
+/*!40000 ALTER TABLE `bundles_bundle` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `bundles_bundlelink`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bundles_bundlelink` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `uses_latest` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bundles_bundlelink`
+--
+
+LOCK TABLES `bundles_bundlelink` WRITE;
+/*!40000 ALTER TABLE `bundles_bundlelink` DISABLE KEYS */;
+/*!40000 ALTER TABLE `bundles_bundlelink` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `bundles_bundleversion`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bundles_bundleversion` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `version_num` int(10) unsigned NOT NULL,
+  `snapshot_digest` varchar(40) NOT NULL,
+  `change_description` longtext CHARACTER SET utf8mb4,
+  `bundle_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `bundles_bundleversion_bundle_id_version_num_60ae090e_uniq` (`bundle_id`,`version_num`),
+  KEY `bundles_bundleversion_snapshot_digest_53518161` (`snapshot_digest`),
+  CONSTRAINT `bundles_bundleversion_bundle_id_8a76e2ca_fk_bundles_bundle_id` FOREIGN KEY (`bundle_id`) REFERENCES `bundles_bundle` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bundles_bundleversion`
+--
+
+LOCK TABLES `bundles_bundleversion` WRITE;
+/*!40000 ALTER TABLE `bundles_bundleversion` DISABLE KEYS */;
+/*!40000 ALTER TABLE `bundles_bundleversion` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `bundles_collection`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bundles_collection` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `uuid` char(32) NOT NULL,
+  `title` varchar(180) CHARACTER SET utf8mb4 DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uuid` (`uuid`),
+  KEY `bundles_collection_title_ca2abfeb` (`title`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bundles_collection`
+--
+
+LOCK TABLES `bundles_collection` WRITE;
+/*!40000 ALTER TABLE `bundles_collection` DISABLE KEYS */;
+/*!40000 ALTER TABLE `bundles_collection` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `bundles_draft`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bundles_draft` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `uuid` char(32) NOT NULL,
+  `name` varchar(180) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `bundle_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uuid` (`uuid`),
+  UNIQUE KEY `bundles_draft_bundle_id_name_55dbe3ed_uniq` (`bundle_id`,`name`),
+  CONSTRAINT `bundles_draft_bundle_id_20fb78ec_fk_bundles_bundle_id` FOREIGN KEY (`bundle_id`) REFERENCES `bundles_bundle` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bundles_draft`
+--
+
+LOCK TABLES `bundles_draft` WRITE;
+/*!40000 ALTER TABLE `bundles_draft` DISABLE KEYS */;
+/*!40000 ALTER TABLE `bundles_draft` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `calendar_sync_historicalusercalendarsyncconfig`
 --
 
@@ -1764,16 +2002,30 @@ CREATE TABLE `canvas_canvasenterprisecustomerconfiguration` (
   `modified` datetime(6) NOT NULL,
   `active` tinyint(1) NOT NULL,
   `transmission_chunk_size` int(11) NOT NULL,
-  `channel_worker_username` varchar(255) DEFAULT NULL,
-  `catalogs_to_transmit` longtext,
-  `client_id` varchar(255) DEFAULT NULL,
-  `client_secret` varchar(255) DEFAULT NULL,
+  `channel_worker_username` varchar(255) NOT NULL,
+  `catalogs_to_transmit` longtext NOT NULL,
+  `client_id` varchar(255) NOT NULL,
+  `client_secret` varchar(255) NOT NULL,
   `canvas_account_id` bigint(20) DEFAULT NULL,
-  `canvas_base_url` varchar(255) DEFAULT NULL,
+  `canvas_base_url` varchar(255) NOT NULL,
   `enterprise_customer_id` char(32) NOT NULL,
   `refresh_token` varchar(255) NOT NULL,
+  `idp_id` varchar(255) NOT NULL,
+  `disable_learner_data_transmissions` tinyint(1) NOT NULL,
+  `uuid` char(32) NOT NULL,
+  `display_name` varchar(255) NOT NULL,
+  `dry_run_mode_enabled` tinyint(1) NOT NULL,
+  `deleted_at` datetime(6) DEFAULT NULL,
+  `last_content_sync_attempted_at` datetime(6) DEFAULT NULL,
+  `last_content_sync_errored_at` datetime(6) DEFAULT NULL,
+  `last_learner_sync_attempted_at` datetime(6) DEFAULT NULL,
+  `last_learner_sync_errored_at` datetime(6) DEFAULT NULL,
+  `last_sync_attempted_at` datetime(6) DEFAULT NULL,
+  `last_sync_errored_at` datetime(6) DEFAULT NULL,
+  `last_modified_at` datetime(6) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `enterprise_customer_id` (`enterprise_customer_id`),
+  UNIQUE KEY `canvas_canvasenterprisecustomerconfiguration_uuid_c3419677_uniq` (`uuid`),
+  KEY `canvas_canvasenterprisecust_enterprise_customer_id_b2e73393` (`enterprise_customer_id`),
   CONSTRAINT `canvas_canvasenterpr_enterprise_customer__b2e73393_fk_enterpris` FOREIGN KEY (`enterprise_customer_id`) REFERENCES `enterprise_enterprisecustomer` (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1796,19 +2048,33 @@ UNLOCK TABLES;
 CREATE TABLE `canvas_canvaslearnerassessmentdatatransmissionaudit` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `canvas_user_email` varchar(255) NOT NULL,
-  `enterprise_course_enrollment_id` int(10) unsigned NOT NULL,
+  `enterprise_course_enrollment_id` int(11) DEFAULT NULL,
   `course_id` varchar(255) NOT NULL,
-  `subsection_id` varchar(255) NOT NULL,
+  `subsection_id` varchar(255) DEFAULT NULL,
   `grade_point_score` double NOT NULL,
   `grade_points_possible` double NOT NULL,
-  `grade` double NOT NULL,
-  `subsection_name` varchar(255) NOT NULL,
-  `status` varchar(100) NOT NULL,
-  `error_message` longtext NOT NULL,
+  `grade` double DEFAULT NULL,
+  `subsection_name` varchar(255) DEFAULT NULL,
+  `status` varchar(100) DEFAULT NULL,
+  `error_message` longtext,
   `created` datetime(6) NOT NULL,
+  `completed_timestamp` datetime(6) DEFAULT NULL,
+  `course_completed` tinyint(1) NOT NULL,
+  `enterprise_customer_uuid` char(32) DEFAULT NULL,
+  `instructor_name` varchar(255) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `plugin_configuration_id` int(11) DEFAULT NULL,
+  `total_hours` double DEFAULT NULL,
+  `friendly_status_message` varchar(255) DEFAULT NULL,
+  `api_record_id` int(11) DEFAULT NULL,
+  `content_title` varchar(255) DEFAULT NULL,
+  `progress_status` varchar(255) NOT NULL,
+  `user_email` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `api_record_id` (`api_record_id`),
   KEY `canvas_canvaslearnerassessm_enterprise_course_enrollmen_d9dba2b4` (`enterprise_course_enrollment_id`),
-  KEY `canvas_canvaslearnerassessm_subsection_id_b3450f75` (`subsection_id`)
+  KEY `canvas_canvaslearnerassessm_subsection_id_b3450f75` (`subsection_id`),
+  CONSTRAINT `canvas_canvaslearner_api_record_id_c5b55bc9_fk_integrate` FOREIGN KEY (`api_record_id`) REFERENCES `integrated_channel_apiresponserecord` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1830,16 +2096,33 @@ UNLOCK TABLES;
 CREATE TABLE `canvas_canvaslearnerdatatransmissionaudit` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `canvas_user_email` varchar(255) NOT NULL,
-  `enterprise_course_enrollment_id` int(10) unsigned NOT NULL,
+  `enterprise_course_enrollment_id` int(11) DEFAULT NULL,
   `course_id` varchar(255) NOT NULL,
   `course_completed` tinyint(1) NOT NULL,
-  `completed_timestamp` varchar(10) NOT NULL,
-  `status` varchar(100) NOT NULL,
-  `error_message` longtext NOT NULL,
+  `canvas_completed_timestamp` varchar(10) DEFAULT NULL,
+  `status` varchar(100) DEFAULT NULL,
+  `error_message` longtext,
   `created` datetime(6) NOT NULL,
   `grade` varchar(255) DEFAULT NULL,
+  `enterprise_customer_uuid` char(32) DEFAULT NULL,
+  `instructor_name` varchar(255) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `plugin_configuration_id` int(11) DEFAULT NULL,
+  `total_hours` double DEFAULT NULL,
+  `subsection_id` varchar(255) DEFAULT NULL,
+  `subsection_name` varchar(255) DEFAULT NULL,
+  `friendly_status_message` varchar(255) DEFAULT NULL,
+  `api_record_id` int(11) DEFAULT NULL,
+  `content_title` varchar(255) DEFAULT NULL,
+  `progress_status` varchar(255) NOT NULL,
+  `user_email` varchar(255) DEFAULT NULL,
+  `completed_timestamp` datetime(6) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `canvas_canvaslearnerdatatra_enterprise_course_enrollmen_c2a9800c` (`enterprise_course_enrollment_id`)
+  UNIQUE KEY `api_record_id` (`api_record_id`),
+  KEY `canvas_canvaslearnerdatatra_enterprise_course_enrollmen_c2a9800c` (`enterprise_course_enrollment_id`),
+  KEY `canvas_canvaslearnerdatatransmissionaudit_subsection_id_00bcb67f` (`subsection_id`),
+  KEY `canvas_cldta_85936b55_idx` (`enterprise_customer_uuid`,`plugin_configuration_id`),
+  CONSTRAINT `canvas_canvaslearner_api_record_id_ba315c1c_fk_integrate` FOREIGN KEY (`api_record_id`) REFERENCES `integrated_channel_apiresponserecord` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1864,12 +2147,12 @@ CREATE TABLE `canvas_historicalcanvasenterprisecustomerconfiguration` (
   `modified` datetime(6) NOT NULL,
   `active` tinyint(1) NOT NULL,
   `transmission_chunk_size` int(11) NOT NULL,
-  `channel_worker_username` varchar(255) DEFAULT NULL,
-  `catalogs_to_transmit` longtext,
-  `client_id` varchar(255) DEFAULT NULL,
-  `client_secret` varchar(255) DEFAULT NULL,
+  `channel_worker_username` varchar(255) NOT NULL,
+  `catalogs_to_transmit` longtext NOT NULL,
+  `client_id` varchar(255) NOT NULL,
+  `client_secret` varchar(255) NOT NULL,
   `canvas_account_id` bigint(20) DEFAULT NULL,
-  `canvas_base_url` varchar(255) DEFAULT NULL,
+  `canvas_base_url` varchar(255) NOT NULL,
   `history_id` int(11) NOT NULL AUTO_INCREMENT,
   `history_date` datetime(6) NOT NULL,
   `history_change_reason` varchar(100) DEFAULT NULL,
@@ -1877,10 +2160,24 @@ CREATE TABLE `canvas_historicalcanvasenterprisecustomerconfiguration` (
   `enterprise_customer_id` char(32) DEFAULT NULL,
   `history_user_id` int(11) DEFAULT NULL,
   `refresh_token` varchar(255) NOT NULL,
+  `idp_id` varchar(255) NOT NULL,
+  `disable_learner_data_transmissions` tinyint(1) NOT NULL,
+  `uuid` char(32) NOT NULL,
+  `display_name` varchar(255) NOT NULL,
+  `dry_run_mode_enabled` tinyint(1) NOT NULL,
+  `deleted_at` datetime(6) DEFAULT NULL,
+  `last_content_sync_attempted_at` datetime(6) DEFAULT NULL,
+  `last_content_sync_errored_at` datetime(6) DEFAULT NULL,
+  `last_learner_sync_attempted_at` datetime(6) DEFAULT NULL,
+  `last_learner_sync_errored_at` datetime(6) DEFAULT NULL,
+  `last_sync_attempted_at` datetime(6) DEFAULT NULL,
+  `last_sync_errored_at` datetime(6) DEFAULT NULL,
+  `last_modified_at` datetime(6) DEFAULT NULL,
   PRIMARY KEY (`history_id`),
   KEY `canvas_historicalcan_history_user_id_615fc2a2_fk_auth_user` (`history_user_id`),
   KEY `canvas_historicalcanvasente_id_8769e0b6` (`id`),
   KEY `canvas_historicalcanvasente_enterprise_customer_id_8bd0d3ec` (`enterprise_customer_id`),
+  KEY `canvas_historicalcanvasente_uuid_cc9ae6b2` (`uuid`),
   CONSTRAINT `canvas_historicalcan_history_user_id_615fc2a2_fk_auth_user` FOREIGN KEY (`history_user_id`) REFERENCES `auth_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1922,7 +2219,7 @@ CREATE TABLE `catalog_catalogintegration` (
 
 LOCK TABLES `catalog_catalogintegration` WRITE;
 /*!40000 ALTER TABLE `catalog_catalogintegration` DISABLE KEYS */;
-INSERT INTO `catalog_catalogintegration` VALUES (1,'2021-07-30 20:15:36.967204',1,'https://example.com/api',0,NULL,'discovery_worker',100,86400);
+INSERT INTO `catalog_catalogintegration` VALUES (1,'2023-02-21 14:30:11.143952',1,'https://example.com/api',0,NULL,'discovery_worker',100,86400);
 /*!40000 ALTER TABLE `catalog_catalogintegration` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1986,6 +2283,37 @@ CREATE TABLE `certificates_certificateallowlist` (
 LOCK TABLES `certificates_certificateallowlist` WRITE;
 /*!40000 ALTER TABLE `certificates_certificateallowlist` DISABLE KEYS */;
 /*!40000 ALTER TABLE `certificates_certificateallowlist` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `certificates_certificatedateoverride`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `certificates_certificatedateoverride` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `date` datetime(6) NOT NULL,
+  `reason` longtext NOT NULL,
+  `generated_certificate_id` int(11) NOT NULL,
+  `overridden_by_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `generated_certificate_id` (`generated_certificate_id`),
+  KEY `certificates_certifi_overridden_by_id_a0ebad2d_fk_auth_user` (`overridden_by_id`),
+  CONSTRAINT `certificates_certifi_generated_certificat_d69ae0ac_fk_certifica` FOREIGN KEY (`generated_certificate_id`) REFERENCES `certificates_generatedcertificate` (`id`),
+  CONSTRAINT `certificates_certifi_overridden_by_id_a0ebad2d_fk_auth_user` FOREIGN KEY (`overridden_by_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `certificates_certificatedateoverride`
+--
+
+LOCK TABLES `certificates_certificatedateoverride` WRITE;
+/*!40000 ALTER TABLE `certificates_certificatedateoverride` DISABLE KEYS */;
+/*!40000 ALTER TABLE `certificates_certificatedateoverride` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -2124,7 +2452,7 @@ CREATE TABLE `certificates_certificatehtmlviewconfiguration` (
 
 LOCK TABLES `certificates_certificatehtmlviewconfiguration` WRITE;
 /*!40000 ALTER TABLE `certificates_certificatehtmlviewconfiguration` DISABLE KEYS */;
-INSERT INTO `certificates_certificatehtmlviewconfiguration` VALUES (1,'2021-07-30 19:55:48.905867',0,'{\"default\": {\"accomplishment_class_append\": \"accomplishment-certificate\", \"platform_name\": \"Your Platform Name Here\", \"company_about_url\": \"http://www.example.com/about-us\", \"company_privacy_url\": \"http://www.example.com/privacy-policy\", \"company_tos_url\": \"http://www.example.com/terms-service\", \"company_verified_certificate_url\": \"http://www.example.com/verified-certificate\", \"logo_src\": \"/static/certificates/images/logo.png\", \"logo_url\": \"http://www.example.com\"}, \"honor\": {\"certificate_type\": \"Honor Code\", \"certificate_title\": \"Certificate of Achievement\"}, \"verified\": {\"certificate_type\": \"Verified\", \"certificate_title\": \"Verified Certificate of Achievement\"}}',NULL);
+INSERT INTO `certificates_certificatehtmlviewconfiguration` VALUES (1,'2023-02-21 13:26:01.071913',0,'{\"default\": {\"accomplishment_class_append\": \"accomplishment-certificate\", \"platform_name\": \"Your Platform Name Here\", \"company_about_url\": \"http://www.example.com/about-us\", \"company_privacy_url\": \"http://www.example.com/privacy-policy\", \"company_tos_url\": \"http://www.example.com/terms-service\", \"company_verified_certificate_url\": \"http://www.example.com/verified-certificate\", \"logo_src\": \"/static/certificates/images/logo.png\", \"logo_url\": \"http://www.example.com\"}, \"honor\": {\"certificate_type\": \"Honor Code\", \"certificate_title\": \"Certificate of Achievement\"}, \"verified\": {\"certificate_type\": \"Verified\", \"certificate_title\": \"Verified Certificate of Achievement\"}}',NULL);
 /*!40000 ALTER TABLE `certificates_certificatehtmlviewconfiguration` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2241,8 +2569,8 @@ CREATE TABLE `certificates_examplecertificate` (
   `example_cert_set_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uuid` (`uuid`),
-  KEY `certificates_examplecertificate_access_key_8b745a5d` (`access_key`),
   KEY `certificates_example_example_cert_set_id_7e660917_fk_certifica` (`example_cert_set_id`),
+  KEY `certificates_examplecertificate_access_key_8b745a5d` (`access_key`),
   CONSTRAINT `certificates_example_example_cert_set_id_7e660917_fk_certifica` FOREIGN KEY (`example_cert_set_id`) REFERENCES `certificates_examplecertificateset` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -2356,6 +2684,43 @@ LOCK TABLES `certificates_historicalcertificateallowlist` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `certificates_historicalcertificatedateoverride`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `certificates_historicalcertificatedateoverride` (
+  `id` int(11) NOT NULL,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `date` datetime(6) NOT NULL,
+  `reason` longtext NOT NULL,
+  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_date` datetime(6) NOT NULL,
+  `history_change_reason` varchar(100) DEFAULT NULL,
+  `history_type` varchar(1) NOT NULL,
+  `generated_certificate_id` int(11) DEFAULT NULL,
+  `history_user_id` int(11) DEFAULT NULL,
+  `overridden_by_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`history_id`),
+  KEY `certificates_histori_history_user_id_dc57d369_fk_auth_user` (`history_user_id`),
+  KEY `certificates_historicalcertificatedateoverride_id_fa1513b4` (`id`),
+  KEY `certificates_historicalcert_generated_certificate_id_1090e033` (`generated_certificate_id`),
+  KEY `certificates_historicalcert_overridden_by_id_ff0a830f` (`overridden_by_id`),
+  CONSTRAINT `certificates_histori_history_user_id_dc57d369_fk_auth_user` FOREIGN KEY (`history_user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `certificates_historicalcertificatedateoverride`
+--
+
+LOCK TABLES `certificates_historicalcertificatedateoverride` WRITE;
+/*!40000 ALTER TABLE `certificates_historicalcertificatedateoverride` DISABLE KEYS */;
+/*!40000 ALTER TABLE `certificates_historicalcertificatedateoverride` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `certificates_historicalcertificateinvalidation`
 --
 
@@ -2465,7 +2830,7 @@ CREATE TABLE `commerce_commerceconfiguration` (
 
 LOCK TABLES `commerce_commerceconfiguration` WRITE;
 /*!40000 ALTER TABLE `commerce_commerceconfiguration` DISABLE KEYS */;
-INSERT INTO `commerce_commerceconfiguration` VALUES (1,'2021-07-30 20:02:30.181571',1,1,NULL,0,'/checkout/receipt/?order_number=',1,'/basket/add/');
+INSERT INTO `commerce_commerceconfiguration` VALUES (1,'2023-02-21 14:19:55.352934',1,1,NULL,0,'/checkout/receipt/?order_number=',1,'/basket/add/');
 /*!40000 ALTER TABLE `commerce_commerceconfiguration` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2640,6 +3005,63 @@ LOCK TABLES `content_libraries_contentlibrary` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `content_libraries_contentlibrary_authorized_lti_configs`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `content_libraries_contentlibrary_authorized_lti_configs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `contentlibrary_id` int(11) NOT NULL,
+  `ltitool_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `content_libraries_conten_contentlibrary_id_ltitoo_5bb55a86_uniq` (`contentlibrary_id`,`ltitool_id`),
+  KEY `content_libraries_co_ltitool_id_38e2ba78_fk_lti1p3_to` (`ltitool_id`),
+  CONSTRAINT `content_libraries_co_contentlibrary_id_75800081_fk_content_l` FOREIGN KEY (`contentlibrary_id`) REFERENCES `content_libraries_contentlibrary` (`id`),
+  CONSTRAINT `content_libraries_co_ltitool_id_38e2ba78_fk_lti1p3_to` FOREIGN KEY (`ltitool_id`) REFERENCES `lti1p3_tool` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `content_libraries_contentlibrary_authorized_lti_configs`
+--
+
+LOCK TABLES `content_libraries_contentlibrary_authorized_lti_configs` WRITE;
+/*!40000 ALTER TABLE `content_libraries_contentlibrary_authorized_lti_configs` DISABLE KEYS */;
+/*!40000 ALTER TABLE `content_libraries_contentlibrary_authorized_lti_configs` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `content_libraries_contentlibraryblockimporttask`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `content_libraries_contentlibraryblockimporttask` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `state` varchar(30) NOT NULL,
+  `progress` double NOT NULL,
+  `course_id` varchar(255) NOT NULL,
+  `created_at` datetime(6) NOT NULL,
+  `updated_at` datetime(6) NOT NULL,
+  `library_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `content_libraries_co_library_id_ccd48c48_fk_content_l` (`library_id`),
+  KEY `content_libraries_contentli_course_id_ae110694` (`course_id`),
+  CONSTRAINT `content_libraries_co_library_id_ccd48c48_fk_content_l` FOREIGN KEY (`library_id`) REFERENCES `content_libraries_contentlibrary` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `content_libraries_contentlibraryblockimporttask`
+--
+
+LOCK TABLES `content_libraries_contentlibraryblockimporttask` WRITE;
+/*!40000 ALTER TABLE `content_libraries_contentlibraryblockimporttask` DISABLE KEYS */;
+/*!40000 ALTER TABLE `content_libraries_contentlibraryblockimporttask` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `content_libraries_contentlibrarypermission`
 --
 
@@ -2654,8 +3076,8 @@ CREATE TABLE `content_libraries_contentlibrarypermission` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `content_libraries_conten_library_id_group_id_3ecc38b9_uniq` (`library_id`,`group_id`),
   UNIQUE KEY `content_libraries_conten_library_id_user_id_81babe29_uniq` (`library_id`,`user_id`),
-  KEY `content_libraries_co_user_id_b071c54d_fk_auth_user` (`user_id`),
   KEY `content_libraries_co_group_id_c2a4b6a1_fk_auth_grou` (`group_id`),
+  KEY `content_libraries_co_user_id_b071c54d_fk_auth_user` (`user_id`),
   CONSTRAINT `content_libraries_co_group_id_c2a4b6a1_fk_auth_grou` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`),
   CONSTRAINT `content_libraries_co_library_id_51247096_fk_content_l` FOREIGN KEY (`library_id`) REFERENCES `content_libraries_contentlibrary` (`id`),
   CONSTRAINT `content_libraries_co_user_id_b071c54d_fk_auth_user` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
@@ -2669,6 +3091,64 @@ CREATE TABLE `content_libraries_contentlibrarypermission` (
 LOCK TABLES `content_libraries_contentlibrarypermission` WRITE;
 /*!40000 ALTER TABLE `content_libraries_contentlibrarypermission` DISABLE KEYS */;
 /*!40000 ALTER TABLE `content_libraries_contentlibrarypermission` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `content_libraries_ltigradedresource`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `content_libraries_ltigradedresource` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `usage_key` varchar(255) NOT NULL,
+  `resource_id` varchar(255) NOT NULL,
+  `resource_title` varchar(255) DEFAULT NULL,
+  `ags_lineitem` varchar(255) NOT NULL,
+  `profile_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `content_libraries_ltigra_usage_key_profile_id_20a2f94c_uniq` (`usage_key`,`profile_id`),
+  KEY `content_libraries_lt_profile_id_a46c16cc_fk_content_l` (`profile_id`),
+  CONSTRAINT `content_libraries_lt_profile_id_a46c16cc_fk_content_l` FOREIGN KEY (`profile_id`) REFERENCES `content_libraries_ltiprofile` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `content_libraries_ltigradedresource`
+--
+
+LOCK TABLES `content_libraries_ltigradedresource` WRITE;
+/*!40000 ALTER TABLE `content_libraries_ltigradedresource` DISABLE KEYS */;
+/*!40000 ALTER TABLE `content_libraries_ltigradedresource` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `content_libraries_ltiprofile`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `content_libraries_ltiprofile` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `platform_id` varchar(255) NOT NULL,
+  `client_id` varchar(255) NOT NULL,
+  `subject_id` varchar(255) NOT NULL,
+  `created_at` datetime(6) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `content_libraries_ltipro_platform_id_client_id_su_9b6cf002_uniq` (`platform_id`,`client_id`,`subject_id`),
+  UNIQUE KEY `user_id` (`user_id`),
+  CONSTRAINT `content_libraries_ltiprofile_user_id_a54fb7a1_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `content_libraries_ltiprofile`
+--
+
+LOCK TABLES `content_libraries_ltiprofile` WRITE;
+/*!40000 ALTER TABLE `content_libraries_ltiprofile` DISABLE KEYS */;
+/*!40000 ALTER TABLE `content_libraries_ltiprofile` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -2690,9 +3170,9 @@ CREATE TABLE `content_type_gating_contenttypegatingconfig` (
   `org_course` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `content_type_gating__changed_by_id_e1754c4b_fk_auth_user` (`changed_by_id`),
+  KEY `content_type_gating__course_id_f19cc50d_fk_course_ov` (`course_id`),
   KEY `content_type_gating_contenttypegatingconfig_org_043e72a9` (`org`),
   KEY `content_typ_site_id_e91576_idx` (`site_id`,`org`,`course_id`),
-  KEY `content_type_gating__course_id_f19cc50d_fk_course_ov` (`course_id`),
   KEY `content_typ_site_id_650310_idx` (`site_id`,`org`,`org_course`,`course_id`),
   KEY `content_type_gating_contenttypegatingconfig_org_course_70742f9e` (`org_course`),
   CONSTRAINT `content_type_gating__changed_by_id_e1754c4b_fk_auth_user` FOREIGN KEY (`changed_by_id`) REFERENCES `auth_user` (`id`),
@@ -2765,6 +3245,61 @@ LOCK TABLES `contentserver_courseassetcachettlconfig` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `contentstore_backfillcoursetabsconfig`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `contentstore_backfillcoursetabsconfig` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `change_date` datetime(6) NOT NULL,
+  `enabled` tinyint(1) NOT NULL,
+  `start_index` int(11) NOT NULL,
+  `count` int(11) NOT NULL,
+  `changed_by_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `contentstore_backfil_changed_by_id_dd8278ae_fk_auth_user` (`changed_by_id`),
+  CONSTRAINT `contentstore_backfil_changed_by_id_dd8278ae_fk_auth_user` FOREIGN KEY (`changed_by_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `contentstore_backfillcoursetabsconfig`
+--
+
+LOCK TABLES `contentstore_backfillcoursetabsconfig` WRITE;
+/*!40000 ALTER TABLE `contentstore_backfillcoursetabsconfig` DISABLE KEYS */;
+/*!40000 ALTER TABLE `contentstore_backfillcoursetabsconfig` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `contentstore_cleanstalecertificateavailabilitydatesconfig`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `contentstore_cleanstalecertificateavailabilitydatesconfig` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `change_date` datetime(6) NOT NULL,
+  `enabled` tinyint(1) NOT NULL,
+  `arguments` longtext NOT NULL,
+  `changed_by_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `contentstore_cleanst_changed_by_id_eca4c67b_fk_auth_user` (`changed_by_id`),
+  CONSTRAINT `contentstore_cleanst_changed_by_id_eca4c67b_fk_auth_user` FOREIGN KEY (`changed_by_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `contentstore_cleanstalecertificateavailabilitydatesconfig`
+--
+
+LOCK TABLES `contentstore_cleanstalecertificateavailabilitydatesconfig` WRITE;
+/*!40000 ALTER TABLE `contentstore_cleanstalecertificateavailabilitydatesconfig` DISABLE KEYS */;
+/*!40000 ALTER TABLE `contentstore_cleanstalecertificateavailabilitydatesconfig` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `contentstore_videouploadconfig`
 --
 
@@ -2792,6 +3327,28 @@ LOCK TABLES `contentstore_videouploadconfig` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `cornerstone_cornerstonecoursekey`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cornerstone_cornerstonecoursekey` (
+  `internal_course_id` varchar(255) NOT NULL,
+  `external_course_id` varchar(255) NOT NULL,
+  PRIMARY KEY (`internal_course_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cornerstone_cornerstonecoursekey`
+--
+
+LOCK TABLES `cornerstone_cornerstonecoursekey` WRITE;
+/*!40000 ALTER TABLE `cornerstone_cornerstonecoursekey` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cornerstone_cornerstonecoursekey` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `cornerstone_cornerstoneenterprisecustomerconfiguration`
 --
 
@@ -2805,10 +3362,24 @@ CREATE TABLE `cornerstone_cornerstoneenterprisecustomerconfiguration` (
   `transmission_chunk_size` int(11) NOT NULL,
   `cornerstone_base_url` varchar(255) NOT NULL,
   `enterprise_customer_id` char(32) NOT NULL,
-  `channel_worker_username` varchar(255) DEFAULT NULL,
-  `catalogs_to_transmit` longtext,
+  `channel_worker_username` varchar(255) NOT NULL,
+  `catalogs_to_transmit` longtext NOT NULL,
+  `idp_id` varchar(255) NOT NULL,
+  `disable_learner_data_transmissions` tinyint(1) NOT NULL,
+  `session_token` varchar(255) NOT NULL,
+  `session_token_modified` datetime(6) DEFAULT NULL,
+  `display_name` varchar(255) NOT NULL,
+  `dry_run_mode_enabled` tinyint(1) NOT NULL,
+  `deleted_at` datetime(6) DEFAULT NULL,
+  `last_content_sync_attempted_at` datetime(6) DEFAULT NULL,
+  `last_content_sync_errored_at` datetime(6) DEFAULT NULL,
+  `last_learner_sync_attempted_at` datetime(6) DEFAULT NULL,
+  `last_learner_sync_errored_at` datetime(6) DEFAULT NULL,
+  `last_sync_attempted_at` datetime(6) DEFAULT NULL,
+  `last_sync_errored_at` datetime(6) DEFAULT NULL,
+  `last_modified_at` datetime(6) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `enterprise_customer_id` (`enterprise_customer_id`),
+  KEY `cornerstone_cornerstoneente_enterprise_customer_id_5b56887b` (`enterprise_customer_id`),
   CONSTRAINT `cornerstone_cornerst_enterprise_customer__5b56887b_fk_enterpris` FOREIGN KEY (`enterprise_customer_id`) REFERENCES `enterprise_enterprisecustomer` (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -2865,7 +3436,7 @@ CREATE TABLE `cornerstone_cornerstonelearnerdatatransmissionaudit` (
   `created` datetime(6) NOT NULL,
   `modified` datetime(6) NOT NULL,
   `user_guid` varchar(255) NOT NULL,
-  `enterprise_course_enrollment_id` int(10) unsigned DEFAULT NULL,
+  `enterprise_course_enrollment_id` int(11) DEFAULT NULL,
   `course_id` varchar(255) NOT NULL,
   `session_token` varchar(255) NOT NULL,
   `callback_url` varchar(255) NOT NULL,
@@ -2876,9 +3447,24 @@ CREATE TABLE `cornerstone_cornerstonelearnerdatatransmissionaudit` (
   `error_message` longtext,
   `user_id` int(11) NOT NULL,
   `grade` varchar(255) DEFAULT NULL,
+  `enterprise_customer_uuid` char(32) DEFAULT NULL,
+  `instructor_name` varchar(255) NOT NULL,
+  `plugin_configuration_id` int(11) DEFAULT NULL,
+  `total_hours` double DEFAULT NULL,
+  `subsection_id` varchar(255) DEFAULT NULL,
+  `subsection_name` varchar(255) DEFAULT NULL,
+  `friendly_status_message` varchar(255) DEFAULT NULL,
+  `api_record_id` int(11) DEFAULT NULL,
+  `content_title` varchar(255) DEFAULT NULL,
+  `progress_status` varchar(255) NOT NULL,
+  `user_email` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `cornerstone_cornerstonel_user_id_course_id_c975cc5f_uniq` (`user_id`,`course_id`),
+  UNIQUE KEY `api_record_id` (`api_record_id`),
   KEY `cornerstone_cornerstonelear_enterprise_course_enrollmen_e3b05dac` (`enterprise_course_enrollment_id`),
+  KEY `cornerstone_cornerstonelear_subsection_id_7c3be322` (`subsection_id`),
+  KEY `cornerstone_cldta_85936b55_idx` (`enterprise_customer_uuid`,`plugin_configuration_id`),
+  CONSTRAINT `cornerstone_cornerst_api_record_id_a825c06d_fk_integrate` FOREIGN KEY (`api_record_id`) REFERENCES `integrated_channel_apiresponserecord` (`id`),
   CONSTRAINT `cornerstone_cornerst_user_id_43bd15bf_fk_auth_user` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -2911,8 +3497,22 @@ CREATE TABLE `cornerstone_historicalcornerstoneenterprisecustomerconfiguration` 
   `history_type` varchar(1) NOT NULL,
   `enterprise_customer_id` char(32) DEFAULT NULL,
   `history_user_id` int(11) DEFAULT NULL,
-  `channel_worker_username` varchar(255) DEFAULT NULL,
-  `catalogs_to_transmit` longtext,
+  `channel_worker_username` varchar(255) NOT NULL,
+  `catalogs_to_transmit` longtext NOT NULL,
+  `idp_id` varchar(255) NOT NULL,
+  `disable_learner_data_transmissions` tinyint(1) NOT NULL,
+  `session_token` varchar(255) NOT NULL,
+  `session_token_modified` datetime(6) DEFAULT NULL,
+  `display_name` varchar(255) NOT NULL,
+  `dry_run_mode_enabled` tinyint(1) NOT NULL,
+  `deleted_at` datetime(6) DEFAULT NULL,
+  `last_content_sync_attempted_at` datetime(6) DEFAULT NULL,
+  `last_content_sync_errored_at` datetime(6) DEFAULT NULL,
+  `last_learner_sync_attempted_at` datetime(6) DEFAULT NULL,
+  `last_learner_sync_errored_at` datetime(6) DEFAULT NULL,
+  `last_sync_attempted_at` datetime(6) DEFAULT NULL,
+  `last_sync_errored_at` datetime(6) DEFAULT NULL,
+  `last_modified_at` datetime(6) DEFAULT NULL,
   PRIMARY KEY (`history_id`),
   KEY `cornerstone_historic_history_user_id_1ded83c5_fk_auth_user` (`history_user_id`),
   KEY `cornerstone_historicalcorne_id_513efd93` (`id`),
@@ -2998,6 +3598,72 @@ LOCK TABLES `course_action_state_coursererunstate` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `course_apps_courseappstatus`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `course_apps_courseappstatus` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `app_id` varchar(32) NOT NULL,
+  `enabled` tinyint(1) NOT NULL,
+  `course_key` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_app_config_for_course` (`app_id`,`course_key`),
+  KEY `course_apps_app_id_b3df8c_idx` (`app_id`,`course_key`),
+  KEY `course_apps_courseappstatus_app_id_f6c41464` (`app_id`),
+  KEY `course_apps_courseappstatus_course_key_5c04010e` (`course_key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `course_apps_courseappstatus`
+--
+
+LOCK TABLES `course_apps_courseappstatus` WRITE;
+/*!40000 ALTER TABLE `course_apps_courseappstatus` DISABLE KEYS */;
+/*!40000 ALTER TABLE `course_apps_courseappstatus` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `course_apps_historicalcourseappstatus`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `course_apps_historicalcourseappstatus` (
+  `id` int(11) NOT NULL,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `app_id` varchar(32) NOT NULL,
+  `enabled` tinyint(1) NOT NULL,
+  `course_key` varchar(255) NOT NULL,
+  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_date` datetime(6) NOT NULL,
+  `history_change_reason` varchar(100) DEFAULT NULL,
+  `history_type` varchar(1) NOT NULL,
+  `history_user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`history_id`),
+  KEY `course_apps_historic_history_user_id_970c6a3a_fk_auth_user` (`history_user_id`),
+  KEY `course_apps_historicalcourseappstatus_id_7dab7ce1` (`id`),
+  KEY `course_apps_historicalcourseappstatus_app_id_42a9f580` (`app_id`),
+  KEY `course_apps_historicalcourseappstatus_course_key_9db183df` (`course_key`),
+  CONSTRAINT `course_apps_historic_history_user_id_970c6a3a_fk_auth_user` FOREIGN KEY (`history_user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `course_apps_historicalcourseappstatus`
+--
+
+LOCK TABLES `course_apps_historicalcourseappstatus` WRITE;
+/*!40000 ALTER TABLE `course_apps_historicalcourseappstatus` DISABLE KEYS */;
+/*!40000 ALTER TABLE `course_apps_historicalcourseappstatus` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `course_creators_coursecreator`
 --
 
@@ -3009,6 +3675,7 @@ CREATE TABLE `course_creators_coursecreator` (
   `state` varchar(24) NOT NULL,
   `note` varchar(512) NOT NULL,
   `user_id` int(11) NOT NULL,
+  `all_organizations` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_id` (`user_id`),
   CONSTRAINT `course_creators_coursecreator_user_id_e4da548d_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
@@ -3022,6 +3689,33 @@ CREATE TABLE `course_creators_coursecreator` (
 LOCK TABLES `course_creators_coursecreator` WRITE;
 /*!40000 ALTER TABLE `course_creators_coursecreator` DISABLE KEYS */;
 /*!40000 ALTER TABLE `course_creators_coursecreator` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `course_creators_coursecreator_organizations`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `course_creators_coursecreator_organizations` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `coursecreator_id` int(11) NOT NULL,
+  `organization_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `course_creators_coursecr_coursecreator_id_organiz_4c4765a1_uniq` (`coursecreator_id`,`organization_id`),
+  KEY `course_creators_cour_organization_id_f561fb6c_fk_organizat` (`organization_id`),
+  CONSTRAINT `course_creators_cour_coursecreator_id_cd9dbd7f_fk_course_cr` FOREIGN KEY (`coursecreator_id`) REFERENCES `course_creators_coursecreator` (`id`),
+  CONSTRAINT `course_creators_cour_organization_id_f561fb6c_fk_organizat` FOREIGN KEY (`organization_id`) REFERENCES `organizations_organization` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `course_creators_coursecreator_organizations`
+--
+
+LOCK TABLES `course_creators_coursecreator_organizations` WRITE;
+/*!40000 ALTER TABLE `course_creators_coursecreator_organizations` DISABLE KEYS */;
+/*!40000 ALTER TABLE `course_creators_coursecreator_organizations` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -3079,9 +3773,9 @@ CREATE TABLE `course_duration_limits_coursedurationlimitconfig` (
   `org_course` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `course_duration_limi_changed_by_id_f320fd76_fk_auth_user` (`changed_by_id`),
+  KEY `course_duration_limi_course_id_97b7a8e9_fk_course_ov` (`course_id`),
   KEY `course_duration_limits_coursedurationlimitconfig_org_c2cc0091` (`org`),
   KEY `course_dura_site_id_424016_idx` (`site_id`,`org`,`course_id`),
-  KEY `course_duration_limi_course_id_97b7a8e9_fk_course_ov` (`course_id`),
   KEY `course_dura_site_id_b5bbcd_idx` (`site_id`,`org`,`org_course`,`course_id`),
   KEY `course_duration_limits_cour_org_course_bcd05764` (`org_course`),
   CONSTRAINT `course_duration_limi_changed_by_id_f320fd76_fk_auth_user` FOREIGN KEY (`changed_by_id`) REFERENCES `auth_user` (`id`),
@@ -3110,8 +3804,12 @@ CREATE TABLE `course_goals_coursegoal` (
   `course_key` varchar(255) NOT NULL,
   `goal_key` varchar(100) NOT NULL,
   `user_id` int(11) NOT NULL,
+  `days_per_week` int(10) unsigned NOT NULL,
+  `subscribed_to_reminders` tinyint(1) NOT NULL,
+  `unsubscribe_token` char(32) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `course_goals_coursegoal_user_id_course_key_052bc0d3_uniq` (`user_id`,`course_key`),
+  UNIQUE KEY `unsubscribe_token` (`unsubscribe_token`),
   KEY `course_goals_coursegoal_course_key_5585ca51` (`course_key`),
   CONSTRAINT `course_goals_coursegoal_user_id_0a07e3db_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -3124,6 +3822,33 @@ CREATE TABLE `course_goals_coursegoal` (
 LOCK TABLES `course_goals_coursegoal` WRITE;
 /*!40000 ALTER TABLE `course_goals_coursegoal` DISABLE KEYS */;
 /*!40000 ALTER TABLE `course_goals_coursegoal` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `course_goals_coursegoalreminderstatus`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `course_goals_coursegoalreminderstatus` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `email_reminder_sent` tinyint(1) NOT NULL,
+  `goal_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `goal_id` (`goal_id`),
+  CONSTRAINT `course_goals_courseg_goal_id_8a7932cf_fk_course_go` FOREIGN KEY (`goal_id`) REFERENCES `course_goals_coursegoal` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `course_goals_coursegoalreminderstatus`
+--
+
+LOCK TABLES `course_goals_coursegoalreminderstatus` WRITE;
+/*!40000 ALTER TABLE `course_goals_coursegoalreminderstatus` DISABLE KEYS */;
+/*!40000 ALTER TABLE `course_goals_coursegoalreminderstatus` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -3142,11 +3867,15 @@ CREATE TABLE `course_goals_historicalcoursegoal` (
   `history_type` varchar(1) NOT NULL,
   `history_user_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
+  `days_per_week` int(10) unsigned NOT NULL,
+  `subscribed_to_reminders` tinyint(1) NOT NULL,
+  `unsubscribe_token` char(32) DEFAULT NULL,
   PRIMARY KEY (`history_id`),
   KEY `course_goals_histori_history_user_id_b20abbc7_fk_auth_user` (`history_user_id`),
   KEY `course_goals_historicalcoursegoal_id_ae96ee01` (`id`),
   KEY `course_goals_historicalcoursegoal_course_key_a8e29f00` (`course_key`),
   KEY `course_goals_historicalcoursegoal_user_id_3aef8b4b` (`user_id`),
+  KEY `course_goals_historicalcoursegoal_unsubscribe_token_96b31785` (`unsubscribe_token`),
   CONSTRAINT `course_goals_histori_history_user_id_b20abbc7_fk_auth_user` FOREIGN KEY (`history_user_id`) REFERENCES `auth_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -3158,6 +3887,33 @@ CREATE TABLE `course_goals_historicalcoursegoal` (
 LOCK TABLES `course_goals_historicalcoursegoal` WRITE;
 /*!40000 ALTER TABLE `course_goals_historicalcoursegoal` DISABLE KEYS */;
 /*!40000 ALTER TABLE `course_goals_historicalcoursegoal` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `course_goals_useractivity`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `course_goals_useractivity` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `course_key` varchar(255) NOT NULL,
+  `date` date NOT NULL,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_user_course_date` (`user_id`,`course_key`,`date`),
+  KEY `user_course_index` (`user_id`,`course_key`),
+  CONSTRAINT `course_goals_useractivity_user_id_aed932d9_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `course_goals_useractivity`
+--
+
+LOCK TABLES `course_goals_useractivity` WRITE;
+/*!40000 ALTER TABLE `course_goals_useractivity` DISABLE KEYS */;
+/*!40000 ALTER TABLE `course_goals_useractivity` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -3387,6 +4143,75 @@ LOCK TABLES `course_home_api_disableprogresspagestackedconfig` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `course_live_courseliveconfiguration`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `course_live_courseliveconfiguration` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `course_key` varchar(255) NOT NULL,
+  `enabled` tinyint(1) NOT NULL,
+  `provider_type` varchar(50) NOT NULL,
+  `lti_configuration_id` int(11) DEFAULT NULL,
+  `free_tier` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `course_live_courseli_lti_configuration_id_ec442587_fk_lti_consu` (`lti_configuration_id`),
+  KEY `course_live_courseliveconfiguration_course_key_ff15afd8` (`course_key`),
+  CONSTRAINT `course_live_courseli_lti_configuration_id_ec442587_fk_lti_consu` FOREIGN KEY (`lti_configuration_id`) REFERENCES `lti_consumer_lticonfiguration` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `course_live_courseliveconfiguration`
+--
+
+LOCK TABLES `course_live_courseliveconfiguration` WRITE;
+/*!40000 ALTER TABLE `course_live_courseliveconfiguration` DISABLE KEYS */;
+/*!40000 ALTER TABLE `course_live_courseliveconfiguration` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `course_live_historicalcourseliveconfiguration`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `course_live_historicalcourseliveconfiguration` (
+  `id` int(11) NOT NULL,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `course_key` varchar(255) NOT NULL,
+  `enabled` tinyint(1) NOT NULL,
+  `provider_type` varchar(50) NOT NULL,
+  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_date` datetime(6) NOT NULL,
+  `history_change_reason` varchar(100) DEFAULT NULL,
+  `history_type` varchar(1) NOT NULL,
+  `history_user_id` int(11) DEFAULT NULL,
+  `lti_configuration_id` int(11) DEFAULT NULL,
+  `free_tier` tinyint(1) NOT NULL,
+  PRIMARY KEY (`history_id`),
+  KEY `course_live_historic_history_user_id_eb9f8dda_fk_auth_user` (`history_user_id`),
+  KEY `course_live_historicalcourseliveconfiguration_id_45a9db2e` (`id`),
+  KEY `course_live_historicalcours_course_key_1453fa63` (`course_key`),
+  KEY `course_live_historicalcours_lti_configuration_id_62cf6306` (`lti_configuration_id`),
+  CONSTRAINT `course_live_historic_history_user_id_eb9f8dda_fk_auth_user` FOREIGN KEY (`history_user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `course_live_historicalcourseliveconfiguration`
+--
+
+LOCK TABLES `course_live_historicalcourseliveconfiguration` WRITE;
+/*!40000 ALTER TABLE `course_live_historicalcourseliveconfiguration` DISABLE KEYS */;
+/*!40000 ALTER TABLE `course_live_historicalcourseliveconfiguration` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `course_modes_coursemode`
 --
 
@@ -3406,10 +4231,12 @@ CREATE TABLE `course_modes_coursemode` (
   `sku` varchar(255) DEFAULT NULL,
   `expiration_datetime_is_explicit` tinyint(1) NOT NULL,
   `bulk_sku` varchar(255) DEFAULT NULL,
+  `android_sku` varchar(255) DEFAULT NULL,
+  `ios_sku` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `course_modes_coursemode_course_id_mode_slug_curr_56f8e675_uniq` (`course_id`,`mode_slug`,`currency`),
   KEY `course_modes_coursemode_course_id_3daf3b9d` (`course_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3418,7 +4245,6 @@ CREATE TABLE `course_modes_coursemode` (
 
 LOCK TABLES `course_modes_coursemode` WRITE;
 /*!40000 ALTER TABLE `course_modes_coursemode` DISABLE KEYS */;
-INSERT INTO `course_modes_coursemode` VALUES (1,'course-v1:edX+DemoX+Demo_Course','verified','Verified Certificate',149,'usd','2022-07-30 20:19:59.064405',NULL,'',NULL,'8CF08E5',1,'A5B6DBE'),(2,'course-v1:edX+DemoX+Demo_Course','audit','Audit',0,'usd',NULL,NULL,'',NULL,'68EFFFF',0,NULL);
 /*!40000 ALTER TABLE `course_modes_coursemode` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -3504,12 +4330,14 @@ CREATE TABLE `course_modes_historicalcoursemode` (
   `history_type` varchar(1) NOT NULL,
   `course_id` varchar(255) DEFAULT NULL,
   `history_user_id` int(11) DEFAULT NULL,
+  `android_sku` varchar(255) DEFAULT NULL,
+  `ios_sku` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`history_id`),
   KEY `course_modes_histori_history_user_id_d92d6b6e_fk_auth_user` (`history_user_id`),
   KEY `course_modes_historicalcoursemode_id_14918a77` (`id`),
   KEY `course_modes_historicalcoursemode_course_id_e8de13cd` (`course_id`),
   CONSTRAINT `course_modes_histori_history_user_id_d92d6b6e_fk_auth_user` FOREIGN KEY (`history_user_id`) REFERENCES `auth_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3518,7 +4346,6 @@ CREATE TABLE `course_modes_historicalcoursemode` (
 
 LOCK TABLES `course_modes_historicalcoursemode` WRITE;
 /*!40000 ALTER TABLE `course_modes_historicalcoursemode` DISABLE KEYS */;
-INSERT INTO `course_modes_historicalcoursemode` VALUES (1,'verified','Verified Certificate',149,'usd','2022-07-30 20:19:59.064405',1,NULL,'',NULL,'8CF08E5','A5B6DBE',1,'2021-07-30 20:20:00.366861',NULL,'+','course-v1:edX+DemoX+Demo_Course',1),(2,'audit','Audit',0,'usd',NULL,0,NULL,'',NULL,'68EFFFF',NULL,2,'2021-07-30 20:20:00.372685',NULL,'+','course-v1:edX+DemoX+Demo_Course',1);
 /*!40000 ALTER TABLE `course_modes_historicalcoursemode` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -3578,6 +4405,10 @@ CREATE TABLE `course_overviews_courseoverview` (
   `enable_proctored_exams` tinyint(1) NOT NULL,
   `proctoring_escalation_email` longtext,
   `proctoring_provider` longtext,
+  `entrance_exam_enabled` tinyint(1) NOT NULL,
+  `entrance_exam_id` varchar(255) NOT NULL,
+  `entrance_exam_minimum_score_pct` double NOT NULL,
+  `external_id` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -3588,7 +4419,6 @@ CREATE TABLE `course_overviews_courseoverview` (
 
 LOCK TABLES `course_overviews_courseoverview` WRITE;
 /*!40000 ALTER TABLE `course_overviews_courseoverview` DISABLE KEYS */;
-INSERT INTO `course_overviews_courseoverview` VALUES ('2021-07-30 20:03:24.113182','2021-07-30 20:03:35.592577',15,'course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@course+block@course','Demonstration Course','DemoX','edX','2013-02-05 05:00:00.000000',NULL,NULL,'/asset-v1:edX+DemoX+Demo_Course+type@asset+block@images_course_image.jpg',NULL,NULL,'end',0,1,0,'','',0.60,NULL,0,0,'[]',NULL,NULL,NULL,0,NULL,NULL,'both',NULL,NULL,NULL,'edX',0,NULL,1,NULL,NULL,NULL,NULL,'/asset-v1:edX+DemoX+Demo_Course+type@asset+block@images_course_image.jpg',0,0,0,NULL,'null');
 /*!40000 ALTER TABLE `course_overviews_courseoverview` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -3669,7 +4499,7 @@ CREATE TABLE `course_overviews_courseoverviewtab` (
   PRIMARY KEY (`id`),
   KEY `course_overviews_cou_course_overview_id_71fa6321_fk_course_ov` (`course_overview_id`),
   CONSTRAINT `course_overviews_cou_course_overview_id_71fa6321_fk_course_ov` FOREIGN KEY (`course_overview_id`) REFERENCES `course_overviews_courseoverview` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3678,7 +4508,6 @@ CREATE TABLE `course_overviews_courseoverviewtab` (
 
 LOCK TABLES `course_overviews_courseoverviewtab` WRITE;
 /*!40000 ALTER TABLE `course_overviews_courseoverviewtab` DISABLE KEYS */;
-INSERT INTO `course_overviews_courseoverviewtab` VALUES (13,'info','course-v1:edX+DemoX+Demo_Course',0,'Home','course_info',NULL,NULL,0),(14,'courseware','course-v1:edX+DemoX+Demo_Course',0,'Course','courseware',NULL,NULL,0),(15,'discussion','course-v1:edX+DemoX+Demo_Course',0,'Discussion','discussion','tab/discussion',NULL,0),(16,'wiki','course-v1:edX+DemoX+Demo_Course',0,'Wiki','wiki',NULL,NULL,0),(17,'textbooks','course-v1:edX+DemoX+Demo_Course',0,'Textbooks','textbooks',NULL,NULL,0),(18,'progress','course-v1:edX+DemoX+Demo_Course',0,'Progress','progress',NULL,NULL,0);
 /*!40000 ALTER TABLE `course_overviews_courseoverviewtab` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -3743,11 +4572,15 @@ CREATE TABLE `course_overviews_historicalcourseoverview` (
   `enable_proctored_exams` tinyint(1) NOT NULL,
   `proctoring_escalation_email` longtext,
   `proctoring_provider` longtext,
+  `entrance_exam_enabled` tinyint(1) NOT NULL,
+  `entrance_exam_id` varchar(255) NOT NULL,
+  `entrance_exam_minimum_score_pct` double NOT NULL,
+  `external_id` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`history_id`),
   KEY `course_overviews_his_history_user_id_e21063d9_fk_auth_user` (`history_user_id`),
   KEY `course_overviews_historicalcourseoverview_id_647043f0` (`id`),
   CONSTRAINT `course_overviews_his_history_user_id_e21063d9_fk_auth_user` FOREIGN KEY (`history_user_id`) REFERENCES `auth_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3756,7 +4589,6 @@ CREATE TABLE `course_overviews_historicalcourseoverview` (
 
 LOCK TABLES `course_overviews_historicalcourseoverview` WRITE;
 /*!40000 ALTER TABLE `course_overviews_historicalcourseoverview` DISABLE KEYS */;
-INSERT INTO `course_overviews_historicalcourseoverview` VALUES ('2021-07-30 20:03:24.113182','2021-07-30 20:03:24.119099',15,'course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@course+block@course','edX','Empty','DemoX','edX','2030-01-01 00:00:00.000000',NULL,NULL,NULL,'/asset-v1:edX+DemoX+Demo_Course+type@asset+block@images_course_image.jpg',NULL,NULL,'end',0,1,0,'','',NULL,0.50,NULL,0,0,'[]',NULL,NULL,NULL,0,NULL,'both',NULL,NULL,NULL,0,NULL,1,NULL,1,'2021-07-30 20:03:24.121944',NULL,'+',NULL,NULL,NULL,'/asset-v1:edX+DemoX+Demo_Course+type@asset+block@images_course_image.jpg',0,0,0,NULL,'null'),('2021-07-30 20:03:24.113182','2021-07-30 20:03:33.124665',15,'course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@course+block@course','edX','Demonstration Course','DemoX','edX','2013-02-05 05:00:00.000000',NULL,NULL,NULL,'/asset-v1:edX+DemoX+Demo_Course+type@asset+block@images_course_image.jpg',NULL,NULL,'end',0,1,0,'','',NULL,0.60,NULL,0,0,'[]',NULL,NULL,NULL,0,NULL,'both',NULL,NULL,NULL,0,NULL,1,NULL,2,'2021-07-30 20:03:33.128097',NULL,'~',NULL,NULL,NULL,'/asset-v1:edX+DemoX+Demo_Course+type@asset+block@images_course_image.jpg',0,0,0,NULL,'null'),('2021-07-30 20:03:24.113182','2021-07-30 20:03:35.592577',15,'course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@course+block@course','edX','Demonstration Course','DemoX','edX','2013-02-05 05:00:00.000000',NULL,NULL,NULL,'/asset-v1:edX+DemoX+Demo_Course+type@asset+block@images_course_image.jpg',NULL,NULL,'end',0,1,0,'','',NULL,0.60,NULL,0,0,'[]',NULL,NULL,NULL,0,NULL,'both',NULL,NULL,NULL,0,NULL,1,NULL,3,'2021-07-30 20:03:35.594238',NULL,'~',NULL,NULL,NULL,'/asset-v1:edX+DemoX+Demo_Course+type@asset+block@images_course_image.jpg',0,0,0,NULL,'null');
 /*!40000 ALTER TABLE `course_overviews_historicalcourseoverview` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -3842,6 +4674,61 @@ CREATE TABLE `courseware_dynamicupgradedeadlineconfiguration` (
 LOCK TABLES `courseware_dynamicupgradedeadlineconfiguration` WRITE;
 /*!40000 ALTER TABLE `courseware_dynamicupgradedeadlineconfiguration` DISABLE KEYS */;
 /*!40000 ALTER TABLE `courseware_dynamicupgradedeadlineconfiguration` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `courseware_financialassistanceconfiguration`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `courseware_financialassistanceconfiguration` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `change_date` datetime(6) NOT NULL,
+  `enabled` tinyint(1) NOT NULL,
+  `api_base_url` varchar(200) NOT NULL,
+  `service_username` varchar(100) NOT NULL,
+  `fa_backend_enabled_courses_percentage` int(11) NOT NULL,
+  `changed_by_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `courseware_financial_changed_by_id_acb152e5_fk_auth_user` (`changed_by_id`),
+  CONSTRAINT `courseware_financial_changed_by_id_acb152e5_fk_auth_user` FOREIGN KEY (`changed_by_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `courseware_financialassistanceconfiguration`
+--
+
+LOCK TABLES `courseware_financialassistanceconfiguration` WRITE;
+/*!40000 ALTER TABLE `courseware_financialassistanceconfiguration` DISABLE KEYS */;
+/*!40000 ALTER TABLE `courseware_financialassistanceconfiguration` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `courseware_lastseencoursewaretimezone`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `courseware_lastseencoursewaretimezone` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `last_seen_courseware_timezone` varchar(255) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_id` (`user_id`),
+  KEY `courseware_lastseencoursewa_last_seen_courseware_timezo_39c8f549` (`last_seen_courseware_timezone`),
+  CONSTRAINT `courseware_lastseenc_user_id_b3deb845_fk_auth_user` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `courseware_lastseencoursewaretimezone`
+--
+
+LOCK TABLES `courseware_lastseencoursewaretimezone` WRITE;
+/*!40000 ALTER TABLE `courseware_lastseencoursewaretimezone` DISABLE KEYS */;
+/*!40000 ALTER TABLE `courseware_lastseencoursewaretimezone` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -4455,8 +5342,155 @@ CREATE TABLE `dark_lang_darklangconfig` (
 
 LOCK TABLES `dark_lang_darklangconfig` WRITE;
 /*!40000 ALTER TABLE `dark_lang_darklangconfig` DISABLE KEYS */;
-INSERT INTO `dark_lang_darklangconfig` VALUES (1,'2021-07-30 19:56:37.351278',1,'',NULL,'',0);
+INSERT INTO `dark_lang_darklangconfig` VALUES (1,'2023-02-21 13:28:15.724018',1,'',NULL,'',0);
 /*!40000 ALTER TABLE `dark_lang_darklangconfig` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `degreed2_degreed2enterprisecustomerconfiguration`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `degreed2_degreed2enterprisecustomerconfiguration` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `idp_id` varchar(255) NOT NULL,
+  `active` tinyint(1) NOT NULL,
+  `transmission_chunk_size` int(11) NOT NULL,
+  `channel_worker_username` varchar(255) NOT NULL,
+  `catalogs_to_transmit` longtext NOT NULL,
+  `disable_learner_data_transmissions` tinyint(1) NOT NULL,
+  `client_id` varchar(255) NOT NULL,
+  `client_secret` varchar(255) NOT NULL,
+  `degreed_base_url` varchar(255) NOT NULL,
+  `degreed_token_fetch_base_url` varchar(255) NOT NULL,
+  `enterprise_customer_id` char(32) NOT NULL,
+  `display_name` varchar(255) NOT NULL,
+  `dry_run_mode_enabled` tinyint(1) NOT NULL,
+  `deleted_at` datetime(6) DEFAULT NULL,
+  `last_content_sync_attempted_at` datetime(6) DEFAULT NULL,
+  `last_content_sync_errored_at` datetime(6) DEFAULT NULL,
+  `last_learner_sync_attempted_at` datetime(6) DEFAULT NULL,
+  `last_learner_sync_errored_at` datetime(6) DEFAULT NULL,
+  `last_sync_attempted_at` datetime(6) DEFAULT NULL,
+  `last_sync_errored_at` datetime(6) DEFAULT NULL,
+  `last_modified_at` datetime(6) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `degreed2_degreed2enterprise_enterprise_customer_id_93516183` (`enterprise_customer_id`),
+  CONSTRAINT `degreed2_degreed2ent_enterprise_customer__93516183_fk_enterpris` FOREIGN KEY (`enterprise_customer_id`) REFERENCES `enterprise_enterprisecustomer` (`uuid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `degreed2_degreed2enterprisecustomerconfiguration`
+--
+
+LOCK TABLES `degreed2_degreed2enterprisecustomerconfiguration` WRITE;
+/*!40000 ALTER TABLE `degreed2_degreed2enterprisecustomerconfiguration` DISABLE KEYS */;
+/*!40000 ALTER TABLE `degreed2_degreed2enterprisecustomerconfiguration` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `degreed2_degreed2learnerdatatransmissionaudit`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `degreed2_degreed2learnerdatatransmissionaudit` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `degreed_user_email` varchar(255) NOT NULL,
+  `enterprise_course_enrollment_id` int(11) DEFAULT NULL,
+  `course_id` varchar(255) NOT NULL,
+  `degreed_completed_timestamp` varchar(19) DEFAULT NULL,
+  `status` varchar(100) DEFAULT NULL,
+  `error_message` longtext,
+  `created` datetime(6) NOT NULL,
+  `course_completed` tinyint(1) NOT NULL,
+  `enterprise_customer_uuid` char(32) DEFAULT NULL,
+  `grade` double DEFAULT NULL,
+  `instructor_name` varchar(255) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `plugin_configuration_id` int(11) DEFAULT NULL,
+  `total_hours` double DEFAULT NULL,
+  `subsection_id` varchar(255) DEFAULT NULL,
+  `subsection_name` varchar(255) DEFAULT NULL,
+  `friendly_status_message` varchar(255) DEFAULT NULL,
+  `api_record_id` int(11) DEFAULT NULL,
+  `content_title` varchar(255) DEFAULT NULL,
+  `progress_status` varchar(255) NOT NULL,
+  `user_email` varchar(255) DEFAULT NULL,
+  `completed_timestamp` datetime(6) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `api_record_id` (`api_record_id`),
+  KEY `degreed2_degreed2learnerdat_enterprise_course_enrollmen_c093fa2b` (`enterprise_course_enrollment_id`),
+  KEY `degreed2_degreed2learnerdat_subsection_id_b8501613` (`subsection_id`),
+  KEY `degreed2_dldta_85936b55_idx` (`enterprise_customer_uuid`,`plugin_configuration_id`),
+  CONSTRAINT `degreed2_degreed2lea_api_record_id_0d632eab_fk_integrate` FOREIGN KEY (`api_record_id`) REFERENCES `integrated_channel_apiresponserecord` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `degreed2_degreed2learnerdatatransmissionaudit`
+--
+
+LOCK TABLES `degreed2_degreed2learnerdatatransmissionaudit` WRITE;
+/*!40000 ALTER TABLE `degreed2_degreed2learnerdatatransmissionaudit` DISABLE KEYS */;
+/*!40000 ALTER TABLE `degreed2_degreed2learnerdatatransmissionaudit` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `degreed2_historicaldegreed2enterprisecustomerconfiguration`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `degreed2_historicaldegreed2enterprisecustomerconfiguration` (
+  `id` int(11) NOT NULL,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `idp_id` varchar(255) NOT NULL,
+  `active` tinyint(1) NOT NULL,
+  `transmission_chunk_size` int(11) NOT NULL,
+  `channel_worker_username` varchar(255) NOT NULL,
+  `catalogs_to_transmit` longtext NOT NULL,
+  `disable_learner_data_transmissions` tinyint(1) NOT NULL,
+  `client_id` varchar(255) NOT NULL,
+  `client_secret` varchar(255) NOT NULL,
+  `degreed_base_url` varchar(255) NOT NULL,
+  `degreed_token_fetch_base_url` varchar(255) NOT NULL,
+  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_date` datetime(6) NOT NULL,
+  `history_change_reason` varchar(100) DEFAULT NULL,
+  `history_type` varchar(1) NOT NULL,
+  `enterprise_customer_id` char(32) DEFAULT NULL,
+  `history_user_id` int(11) DEFAULT NULL,
+  `display_name` varchar(255) NOT NULL,
+  `dry_run_mode_enabled` tinyint(1) NOT NULL,
+  `deleted_at` datetime(6) DEFAULT NULL,
+  `last_content_sync_attempted_at` datetime(6) DEFAULT NULL,
+  `last_content_sync_errored_at` datetime(6) DEFAULT NULL,
+  `last_learner_sync_attempted_at` datetime(6) DEFAULT NULL,
+  `last_learner_sync_errored_at` datetime(6) DEFAULT NULL,
+  `last_sync_attempted_at` datetime(6) DEFAULT NULL,
+  `last_sync_errored_at` datetime(6) DEFAULT NULL,
+  `last_modified_at` datetime(6) DEFAULT NULL,
+  PRIMARY KEY (`history_id`),
+  KEY `degreed2_historicald_history_user_id_35a20f8c_fk_auth_user` (`history_user_id`),
+  KEY `degreed2_historicaldegreed2_id_4a50fac9` (`id`),
+  KEY `degreed2_historicaldegreed2_enterprise_customer_id_513db5d3` (`enterprise_customer_id`),
+  CONSTRAINT `degreed2_historicald_history_user_id_35a20f8c_fk_auth_user` FOREIGN KEY (`history_user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `degreed2_historicaldegreed2enterprisecustomerconfiguration`
+--
+
+LOCK TABLES `degreed2_historicaldegreed2enterprisecustomerconfiguration` WRITE;
+/*!40000 ALTER TABLE `degreed2_historicaldegreed2enterprisecustomerconfiguration` DISABLE KEYS */;
+/*!40000 ALTER TABLE `degreed2_historicaldegreed2enterprisecustomerconfiguration` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -4479,10 +5513,22 @@ CREATE TABLE `degreed_degreedenterprisecustomerconfiguration` (
   `degreed_user_id` varchar(255) NOT NULL,
   `degreed_user_password` varchar(255) NOT NULL,
   `provider_id` varchar(100) NOT NULL,
-  `channel_worker_username` varchar(255) DEFAULT NULL,
-  `catalogs_to_transmit` longtext,
+  `channel_worker_username` varchar(255) NOT NULL,
+  `catalogs_to_transmit` longtext NOT NULL,
+  `idp_id` varchar(255) NOT NULL,
+  `disable_learner_data_transmissions` tinyint(1) NOT NULL,
+  `display_name` varchar(255) NOT NULL,
+  `dry_run_mode_enabled` tinyint(1) NOT NULL,
+  `deleted_at` datetime(6) DEFAULT NULL,
+  `last_content_sync_attempted_at` datetime(6) DEFAULT NULL,
+  `last_content_sync_errored_at` datetime(6) DEFAULT NULL,
+  `last_learner_sync_attempted_at` datetime(6) DEFAULT NULL,
+  `last_learner_sync_errored_at` datetime(6) DEFAULT NULL,
+  `last_sync_attempted_at` datetime(6) DEFAULT NULL,
+  `last_sync_errored_at` datetime(6) DEFAULT NULL,
+  `last_modified_at` datetime(6) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `enterprise_customer_id` (`enterprise_customer_id`),
+  KEY `degreed_degreedenterprisecu_enterprise_customer_id_86f16a0d` (`enterprise_customer_id`),
   CONSTRAINT `degreed_degreedenter_enterprise_customer__86f16a0d_fk_enterpris` FOREIGN KEY (`enterprise_customer_id`) REFERENCES `enterprise_enterprisecustomer` (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -4534,15 +5580,33 @@ UNLOCK TABLES;
 CREATE TABLE `degreed_degreedlearnerdatatransmissionaudit` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `degreed_user_email` varchar(255) NOT NULL,
-  `enterprise_course_enrollment_id` int(10) unsigned NOT NULL,
+  `enterprise_course_enrollment_id` int(11) DEFAULT NULL,
   `course_id` varchar(255) NOT NULL,
   `course_completed` tinyint(1) NOT NULL,
-  `completed_timestamp` varchar(10) NOT NULL,
-  `status` varchar(100) NOT NULL,
-  `error_message` longtext NOT NULL,
+  `degreed_completed_timestamp` varchar(10) DEFAULT NULL,
+  `status` varchar(100) DEFAULT NULL,
+  `error_message` longtext,
   `created` datetime(6) NOT NULL,
+  `enterprise_customer_uuid` char(32) DEFAULT NULL,
+  `grade` double DEFAULT NULL,
+  `instructor_name` varchar(255) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `plugin_configuration_id` int(11) DEFAULT NULL,
+  `total_hours` double DEFAULT NULL,
+  `subsection_id` varchar(255) DEFAULT NULL,
+  `subsection_name` varchar(255) DEFAULT NULL,
+  `friendly_status_message` varchar(255) DEFAULT NULL,
+  `api_record_id` int(11) DEFAULT NULL,
+  `content_title` varchar(255) DEFAULT NULL,
+  `progress_status` varchar(255) NOT NULL,
+  `user_email` varchar(255) DEFAULT NULL,
+  `completed_timestamp` datetime(6) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `degreed_degreedlearnerdatat_enterprise_course_enrollmen_2b4fe278` (`enterprise_course_enrollment_id`)
+  UNIQUE KEY `api_record_id` (`api_record_id`),
+  KEY `degreed_degreedlearnerdatat_enterprise_course_enrollmen_2b4fe278` (`enterprise_course_enrollment_id`),
+  KEY `degreed_degreedlearnerdatat_subsection_id_17780106` (`subsection_id`),
+  KEY `degreed_dldta_85936b55_idx` (`enterprise_customer_uuid`,`plugin_configuration_id`),
+  CONSTRAINT `degreed_degreedlearn_api_record_id_670a6fb9_fk_integrate` FOREIGN KEY (`api_record_id`) REFERENCES `integrated_channel_apiresponserecord` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -4580,8 +5644,20 @@ CREATE TABLE `degreed_historicaldegreedenterprisecustomerconfiguration` (
   `degreed_user_id` varchar(255) NOT NULL,
   `degreed_user_password` varchar(255) NOT NULL,
   `provider_id` varchar(100) NOT NULL,
-  `channel_worker_username` varchar(255) DEFAULT NULL,
-  `catalogs_to_transmit` longtext,
+  `channel_worker_username` varchar(255) NOT NULL,
+  `catalogs_to_transmit` longtext NOT NULL,
+  `idp_id` varchar(255) NOT NULL,
+  `disable_learner_data_transmissions` tinyint(1) NOT NULL,
+  `display_name` varchar(255) NOT NULL,
+  `dry_run_mode_enabled` tinyint(1) NOT NULL,
+  `deleted_at` datetime(6) DEFAULT NULL,
+  `last_content_sync_attempted_at` datetime(6) DEFAULT NULL,
+  `last_content_sync_errored_at` datetime(6) DEFAULT NULL,
+  `last_learner_sync_attempted_at` datetime(6) DEFAULT NULL,
+  `last_learner_sync_errored_at` datetime(6) DEFAULT NULL,
+  `last_sync_attempted_at` datetime(6) DEFAULT NULL,
+  `last_sync_errored_at` datetime(6) DEFAULT NULL,
+  `last_modified_at` datetime(6) DEFAULT NULL,
   PRIMARY KEY (`history_id`),
   KEY `degreed_historicalde_history_user_id_5b4776d8_fk_auth_user` (`history_user_id`),
   KEY `degreed_historicaldegreeden_id_756f1445` (`id`),
@@ -4750,6 +5826,9 @@ CREATE TABLE `discussions_discussionsconfiguration` (
   `plugin_configuration` longtext NOT NULL,
   `provider_type` varchar(100) NOT NULL,
   `lti_configuration_id` int(11) DEFAULT NULL,
+  `enable_graded_units` tinyint(1) NOT NULL,
+  `enable_in_context` tinyint(1) NOT NULL,
+  `unit_level_visibility` tinyint(1) NOT NULL,
   PRIMARY KEY (`context_key`),
   KEY `discussions_discussi_lti_configuration_id_7088d266_fk_lti_consu` (`lti_configuration_id`),
   CONSTRAINT `discussions_discussi_lti_configuration_id_7088d266_fk_lti_consu` FOREIGN KEY (`lti_configuration_id`) REFERENCES `lti_consumer_lticonfiguration` (`id`)
@@ -4763,6 +5842,41 @@ CREATE TABLE `discussions_discussionsconfiguration` (
 LOCK TABLES `discussions_discussionsconfiguration` WRITE;
 /*!40000 ALTER TABLE `discussions_discussionsconfiguration` DISABLE KEYS */;
 /*!40000 ALTER TABLE `discussions_discussionsconfiguration` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `discussions_discussiontopiclink`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `discussions_discussiontopiclink` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `context_key` varchar(255) NOT NULL,
+  `usage_key` varchar(255) DEFAULT NULL,
+  `title` varchar(255) NOT NULL,
+  `provider_id` varchar(32) NOT NULL,
+  `external_id` varchar(255) NOT NULL,
+  `enabled_in_context` tinyint(1) NOT NULL,
+  `group_id` int(11) DEFAULT NULL,
+  `ordering` int(10) unsigned DEFAULT NULL,
+  `context` json NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `discussions_discussi_group_id_2f8afa34_fk_course_gr` (`group_id`),
+  KEY `discussions_discussiontopiclink_context_key_07c00652` (`context_key`),
+  KEY `discussions_discussiontopiclink_usage_key_ea381cf9` (`usage_key`),
+  KEY `discussions_discussiontopiclink_external_id_719d30fc` (`external_id`),
+  CONSTRAINT `discussions_discussi_group_id_2f8afa34_fk_course_gr` FOREIGN KEY (`group_id`) REFERENCES `course_groups_courseusergroup` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `discussions_discussiontopiclink`
+--
+
+LOCK TABLES `discussions_discussiontopiclink` WRITE;
+/*!40000 ALTER TABLE `discussions_discussiontopiclink` DISABLE KEYS */;
+/*!40000 ALTER TABLE `discussions_discussiontopiclink` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -4784,6 +5898,9 @@ CREATE TABLE `discussions_historicaldiscussionsconfiguration` (
   `history_type` varchar(1) NOT NULL,
   `history_user_id` int(11) DEFAULT NULL,
   `lti_configuration_id` int(11) DEFAULT NULL,
+  `enable_graded_units` tinyint(1) NOT NULL,
+  `enable_in_context` tinyint(1) NOT NULL,
+  `unit_level_visibility` tinyint(1) NOT NULL,
   PRIMARY KEY (`history_id`),
   KEY `discussions_historic_history_user_id_df7ddb62_fk_auth_user` (`history_user_id`),
   KEY `discussions_historicaldiscu_context_key_7c3bca39` (`context_key`),
@@ -4898,6 +6015,36 @@ LOCK TABLES `django_celery_results_chordcounter` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `django_celery_results_groupresult`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `django_celery_results_groupresult` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `group_id` varchar(255) NOT NULL,
+  `date_created` datetime(6) NOT NULL,
+  `date_done` datetime(6) NOT NULL,
+  `content_type` varchar(128) NOT NULL,
+  `content_encoding` varchar(64) NOT NULL,
+  `result` longtext,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `group_id` (`group_id`),
+  KEY `django_cele_date_cr_bd6c1d_idx` (`date_created`),
+  KEY `django_cele_date_do_caae0e_idx` (`date_done`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `django_celery_results_groupresult`
+--
+
+LOCK TABLES `django_celery_results_groupresult` WRITE;
+/*!40000 ALTER TABLE `django_celery_results_groupresult` DISABLE KEYS */;
+/*!40000 ALTER TABLE `django_celery_results_groupresult` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `django_celery_results_taskresult`
 --
 
@@ -4918,13 +6065,14 @@ CREATE TABLE `django_celery_results_taskresult` (
   `task_name` varchar(255) DEFAULT NULL,
   `worker` varchar(100) DEFAULT NULL,
   `date_created` datetime(6) NOT NULL,
+  `periodic_task_name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `task_id` (`task_id`),
-  KEY `django_celery_results_taskresult_date_done_49edada6` (`date_done`),
-  KEY `django_celery_results_taskresult_status_cbbed23a` (`status`),
-  KEY `django_celery_results_taskresult_task_name_90987df3` (`task_name`),
-  KEY `django_celery_results_taskresult_worker_f8711389` (`worker`),
-  KEY `django_celery_results_taskresult_date_created_099f3424` (`date_created`)
+  KEY `django_cele_task_na_08aec9_idx` (`task_name`),
+  KEY `django_cele_status_9b6201_idx` (`status`),
+  KEY `django_cele_worker_d54dd8_idx` (`worker`),
+  KEY `django_cele_date_cr_f04a50_idx` (`date_created`),
+  KEY `django_cele_date_do_f59aad_idx` (`date_done`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -4955,7 +6103,6 @@ CREATE TABLE `django_comment_client_permission` (
 
 LOCK TABLES `django_comment_client_permission` WRITE;
 /*!40000 ALTER TABLE `django_comment_client_permission` DISABLE KEYS */;
-INSERT INTO `django_comment_client_permission` VALUES ('create_comment'),('create_sub_comment'),('create_thread'),('delete_comment'),('delete_thread'),('edit_content'),('endorse_comment'),('follow_commentable'),('follow_thread'),('group_delete_comment'),('group_delete_thread'),('group_edit_content'),('group_endorse_comment'),('group_openclose_thread'),('manage_moderator'),('openclose_thread'),('see_all_cohorts'),('unfollow_commentable'),('unfollow_thread'),('unvote'),('update_comment'),('update_thread'),('vote');
 /*!40000 ALTER TABLE `django_comment_client_permission` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -4974,7 +6121,7 @@ CREATE TABLE `django_comment_client_permission_roles` (
   KEY `django_comment_clien_role_id_d2cb08a2_fk_django_co` (`role_id`),
   CONSTRAINT `django_comment_clien_permission_id_f9f47fd2_fk_django_co` FOREIGN KEY (`permission_id`) REFERENCES `django_comment_client_permission` (`name`),
   CONSTRAINT `django_comment_clien_role_id_d2cb08a2_fk_django_co` FOREIGN KEY (`role_id`) REFERENCES `django_comment_client_role` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4983,7 +6130,6 @@ CREATE TABLE `django_comment_client_permission_roles` (
 
 LOCK TABLES `django_comment_client_permission_roles` WRITE;
 /*!40000 ALTER TABLE `django_comment_client_permission_roles` DISABLE KEYS */;
-INSERT INTO `django_comment_client_permission_roles` VALUES (79,'create_comment',1),(34,'create_comment',2),(45,'create_comment',3),(62,'create_comment',4),(11,'create_comment',5),(74,'create_sub_comment',1),(29,'create_sub_comment',2),(40,'create_sub_comment',3),(57,'create_sub_comment',4),(6,'create_sub_comment',5),(76,'create_thread',1),(31,'create_thread',2),(42,'create_thread',3),(59,'create_thread',4),(8,'create_thread',5),(67,'delete_comment',1),(16,'delete_comment',2),(50,'delete_comment',4),(64,'delete_thread',1),(13,'delete_thread',2),(47,'delete_thread',4),(63,'edit_content',1),(12,'edit_content',2),(46,'edit_content',4),(66,'endorse_comment',1),(15,'endorse_comment',2),(49,'endorse_comment',4),(77,'follow_commentable',1),(32,'follow_commentable',2),(43,'follow_commentable',3),(60,'follow_commentable',4),(9,'follow_commentable',5),(71,'follow_thread',1),(26,'follow_thread',2),(37,'follow_thread',3),(54,'follow_thread',4),(3,'follow_thread',5),(22,'group_delete_comment',3),(19,'group_delete_thread',3),(18,'group_edit_content',3),(21,'group_endorse_comment',3),(20,'group_openclose_thread',3),(23,'manage_moderator',1),(65,'openclose_thread',1),(14,'openclose_thread',2),(48,'openclose_thread',4),(68,'see_all_cohorts',1),(17,'see_all_cohorts',2),(51,'see_all_cohorts',4),(78,'unfollow_commentable',1),(33,'unfollow_commentable',2),(44,'unfollow_commentable',3),(61,'unfollow_commentable',4),(10,'unfollow_commentable',5),(72,'unfollow_thread',1),(27,'unfollow_thread',2),(38,'unfollow_thread',3),(55,'unfollow_thread',4),(4,'unfollow_thread',5),(75,'unvote',1),(30,'unvote',2),(41,'unvote',3),(58,'unvote',4),(7,'unvote',5),(73,'update_comment',1),(28,'update_comment',2),(39,'update_comment',3),(56,'update_comment',4),(5,'update_comment',5),(70,'update_thread',1),(25,'update_thread',2),(36,'update_thread',3),(53,'update_thread',4),(2,'update_thread',5),(69,'vote',1),(24,'vote',2),(35,'vote',3),(52,'vote',4),(1,'vote',5);
 /*!40000 ALTER TABLE `django_comment_client_permission_roles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -4999,7 +6145,7 @@ CREATE TABLE `django_comment_client_role` (
   `course_id` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `django_comment_client_role_course_id_08a9c1d1` (`course_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5008,7 +6154,6 @@ CREATE TABLE `django_comment_client_role` (
 
 LOCK TABLES `django_comment_client_role` WRITE;
 /*!40000 ALTER TABLE `django_comment_client_role` DISABLE KEYS */;
-INSERT INTO `django_comment_client_role` VALUES (1,'Administrator','course-v1:edX+DemoX+Demo_Course'),(2,'Moderator','course-v1:edX+DemoX+Demo_Course'),(3,'Group Moderator','course-v1:edX+DemoX+Demo_Course'),(4,'Community TA','course-v1:edX+DemoX+Demo_Course'),(5,'Student','course-v1:edX+DemoX+Demo_Course');
 /*!40000 ALTER TABLE `django_comment_client_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -5027,7 +6172,7 @@ CREATE TABLE `django_comment_client_role_users` (
   KEY `dcc_role_users_user_role_idx` (`user_id`,`role_id`),
   CONSTRAINT `django_comment_clien_role_id_baec77f6_fk_django_co` FOREIGN KEY (`role_id`) REFERENCES `django_comment_client_role` (`id`),
   CONSTRAINT `django_comment_clien_user_id_5d7991df_fk_auth_user` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5036,7 +6181,6 @@ CREATE TABLE `django_comment_client_role_users` (
 
 LOCK TABLES `django_comment_client_role_users` WRITE;
 /*!40000 ALTER TABLE `django_comment_client_role_users` DISABLE KEYS */;
-INSERT INTO `django_comment_client_role_users` VALUES (1,5,5),(2,5,6),(3,5,7),(4,5,8);
 /*!40000 ALTER TABLE `django_comment_client_role_users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -5053,6 +6197,7 @@ CREATE TABLE `django_comment_common_coursediscussionsettings` (
   `divided_discussions` longtext,
   `division_scheme` varchar(20) NOT NULL,
   `discussions_id_map` longtext,
+  `reported_content_email_notifications` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `course_id` (`course_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -5086,7 +6231,6 @@ CREATE TABLE `django_comment_common_discussionsidmapping` (
 
 LOCK TABLES `django_comment_common_discussionsidmapping` WRITE;
 /*!40000 ALTER TABLE `django_comment_common_discussionsidmapping` DISABLE KEYS */;
-INSERT INTO `django_comment_common_discussionsidmapping` VALUES ('course-v1:edX+DemoX+Demo_Course','{\"d9f970a42067413cbb633f81cfb12604\":\"block-v1:edX+DemoX+Demo_Course+type@discussion+block@412dc8dbb6674014862237b23c1f643f\",\"98d8feb5971041a085512ae22b398613\":\"block-v1:edX+DemoX+Demo_Course+type@discussion+block@722085be27c84ac693cfebc8ac5da700\",\"1d153da210844719a1a6cc39ca09673c\":\"block-v1:edX+DemoX+Demo_Course+type@discussion+block@9f9e1373cc8243b985c8750cc8acec7d\",\"265ca2d808814d76ad670957a2b6071f\":\"block-v1:edX+DemoX+Demo_Course+type@discussion+block@e2cb0e0994f84b0abfa5f4ae42ed9d44\",\"23347cb1d1e74ec79453ce361e38eb18\":\"block-v1:edX+DemoX+Demo_Course+type@discussion+block@3169f89efde2452993f2f2d9bc74f5b2\",\"4250393f9f684bfeb3f1d514e15592d1\":\"block-v1:edX+DemoX+Demo_Course+type@discussion+block@ffa5817d49e14fec83ad6187cbe16358\",\"eb264c9899b745fc81cd7405b53a7a65\":\"block-v1:edX+DemoX+Demo_Course+type@discussion+block@e5eac7e1a5a24f5fa7ed77bb6d136591\",\"aecab8f355744782af5a9470185f0005\":\"block-v1:edX+DemoX+Demo_Course+type@discussion+block@5ab88e67d46049b9aa694cb240c39cef\",\"cba3e4cd91d0466b9ac50926e495b76f\":\"block-v1:edX+DemoX+Demo_Course+type@discussion+block@67c26b1e826e47aaa29757f62bcd1ad0\",\"ed3164d1235645739374094a8172964b\":\"block-v1:edX+DemoX+Demo_Course+type@discussion+block@870371212ba04dcf9536d7c7b8f3109e\",\"b770140a122741fea651a50362dee7e6\":\"block-v1:edX+DemoX+Demo_Course+type@discussion+block@4d672c5893cb4f1dad0de67d2008522e\",\"c49f0dfb8fc94c9c8d9999cc95190c56\":\"block-v1:edX+DemoX+Demo_Course+type@discussion+block@501aed9d902349eeb2191fa505548de2\",\"53c486b035b4437c9197a543371e0f03\":\"block-v1:edX+DemoX+Demo_Course+type@discussion+block@6244918637ed4ff4b5f94a840a7e4b43\",\"d7b66e45154b4af18f33213337685e91\":\"block-v1:edX+DemoX+Demo_Course+type@discussion+block@6f7a6670f87147149caeff6afa07a526\",\"9ad16580878f49d1bf20ce1bc533d16e\":\"block-v1:edX+DemoX+Demo_Course+type@discussion+block@e0d7423118ab432582d03e8e8dad8e36\",\"b11488e3580241f08146cbcfca693d06\":\"block-v1:edX+DemoX+Demo_Course+type@discussion+block@03f051f9a8814881a3783d2511613aa6\",\"bb15269287ec44b6a2f69447db43d845\":\"block-v1:edX+DemoX+Demo_Course+type@discussion+block@0aa7a3bdbe18427795b0c1a1d7c3cb9a\",\"239ef52e6eee468fb698b4217a7bafc6\":\"block-v1:edX+DemoX+Demo_Course+type@discussion+block@c6cd4bea43454aaea60ad01beb0cf213\",\"cdad92273f7d4622aed770b7de8583bc\":\"block-v1:edX+DemoX+Demo_Course+type@discussion+block@4f06b358a96f4d1dae57d6d81acd06f2\",\"e4365aad2c39498d824cf984b3f9b083\":\"block-v1:edX+DemoX+Demo_Course+type@discussion+block@ed01bcd164e64038a78964a16eac3edc\",\"6e51dd8f181b44ffa6d91303a287ed3f\":\"block-v1:edX+DemoX+Demo_Course+type@discussion+block@12ad4f3ff4c14114a6e629b00e000976\",\"edx_demo_embedded_discussion\":\"block-v1:edX+DemoX+Demo_Course+type@discussion+block@discussion_5deb6081620d\",\"31c83aefa6634e83a3c80b81f5447201\":\"block-v1:edX+DemoX+Demo_Course+type@discussion+block@ade92343df3d4953a40ab3adc8805390\",\"0717ec26e67e49b2a9f30d2e15c417dd\":\"block-v1:edX+DemoX+Demo_Course+type@discussion+block@4aba537a78774bd5a862485a8563c345\",\"df0905ee484844769644f330844253e7\":\"block-v1:edX+DemoX+Demo_Course+type@discussion+block@f480df4ce91347c5ae4301ddf6146238\",\"e252d4de97c7426e8b67ff516a9962f6\":\"block-v1:edX+DemoX+Demo_Course+type@discussion+block@b8cec2a19ebf463f90cd3544c7927b0e\",\"97f19f6202e54d6a9ea59f7a573725a1\":\"block-v1:edX+DemoX+Demo_Course+type@discussion+block@cd177caa62444fbca48aa8f843f09eac\",\"d459fcb5792b459ca0aefe141e633ccc\":\"block-v1:edX+DemoX+Demo_Course+type@discussion+block@ddede76df71045ffa16de9d1481d2119\",\"ba12c2e0b81e4cef8e05e22049aafd63\":\"block-v1:edX+DemoX+Demo_Course+type@discussion+block@1a810b1a3b2447b998f0917d0e5a802b\",\"a56e406f164746d8bbff76545e6d981f\":\"block-v1:edX+DemoX+Demo_Course+type@discussion+block@23e6eda482c04335af2bb265beacaf59\",\"8ff02d4204bb42059db629e399a50a26\":\"block-v1:edX+DemoX+Demo_Course+type@discussion+block@1c8d47c425724346a7968fa1bc745dcd\"}');
 /*!40000 ALTER TABLE `django_comment_common_discussionsidmapping` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -5114,7 +6258,7 @@ CREATE TABLE `django_comment_common_forumsconfig` (
 
 LOCK TABLES `django_comment_common_forumsconfig` WRITE;
 /*!40000 ALTER TABLE `django_comment_common_forumsconfig` DISABLE KEYS */;
-INSERT INTO `django_comment_common_forumsconfig` VALUES (1,'2021-07-30 19:56:47.278174',1,5,NULL);
+INSERT INTO `django_comment_common_forumsconfig` VALUES (1,'2023-02-21 13:29:10.049796',1,5,NULL);
 /*!40000 ALTER TABLE `django_comment_common_forumsconfig` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -5130,7 +6274,7 @@ CREATE TABLE `django_content_type` (
   `model` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `django_content_type_app_label_model_76bd3d3b_uniq` (`app_label`,`model`)
-) ENGINE=InnoDB AUTO_INCREMENT=424 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=480 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5139,7 +6283,7 @@ CREATE TABLE `django_content_type` (
 
 LOCK TABLES `django_content_type` WRITE;
 /*!40000 ALTER TABLE `django_content_type` DISABLE KEYS */;
-INSERT INTO `django_content_type` VALUES (142,'admin','logentry'),(305,'agreements','integritysignature'),(370,'announcements','announcement'),(256,'api_admin','apiaccessconfig'),(1,'api_admin','apiaccessrequest'),(257,'api_admin','catalog'),(197,'assessment','assessment'),(198,'assessment','assessmentfeedback'),(199,'assessment','assessmentfeedbackoption'),(200,'assessment','assessmentpart'),(201,'assessment','criterion'),(202,'assessment','criterionoption'),(210,'assessment','historicalsharedfileupload'),(203,'assessment','peerworkflow'),(204,'assessment','peerworkflowitem'),(205,'assessment','rubric'),(211,'assessment','sharedfileupload'),(209,'assessment','staffworkflow'),(206,'assessment','studenttrainingworkflow'),(207,'assessment','studenttrainingworkflowitem'),(212,'assessment','teamstaffworkflow'),(208,'assessment','trainingexample'),(3,'auth','group'),(2,'auth','permission'),(4,'auth','user'),(260,'badges','badgeassertion'),(261,'badges','badgeclass'),(262,'badges','coursecompleteimageconfiguration'),(263,'badges','courseeventbadgesconfiguration'),(360,'blackboard','blackboardenterprisecustomerconfiguration'),(362,'blackboard','blackboardlearnerassessmentdatatransmissionaudit'),(361,'blackboard','blackboardlearnerdatatransmissionaudit'),(359,'blackboard','historicalblackboardenterprisecustomerconfiguration'),(231,'block_structure','blockstructureconfiguration'),(232,'block_structure','blockstructuremodel'),(371,'bookmarks','bookmark'),(372,'bookmarks','xblockcache'),(112,'branding','brandingapiconfig'),(113,'branding','brandinginfoconfig'),(108,'bulk_email','bulkemailflag'),(110,'bulk_email','cohorttarget'),(104,'bulk_email','courseauthorization'),(105,'bulk_email','courseemail'),(106,'bulk_email','courseemailtemplate'),(111,'bulk_email','coursemodetarget'),(107,'bulk_email','optout'),(109,'bulk_email','target'),(409,'bulk_grades','scoreoverrider'),(269,'calendar_sync','historicalusercalendarsyncconfig'),(270,'calendar_sync','usercalendarsyncconfig'),(364,'canvas','canvasenterprisecustomerconfiguration'),(366,'canvas','canvaslearnerassessmentdatatransmissionaudit'),(365,'canvas','canvaslearnerdatatransmissionaudit'),(363,'canvas','historicalcanvasenterprisecustomerconfiguration'),(248,'catalog','catalogintegration'),(264,'celery_utils','failedtask'),(94,'certificates','certificateallowlist'),(93,'certificates','certificategenerationcommandconfiguration'),(81,'certificates','certificategenerationconfiguration'),(82,'certificates','certificategenerationcoursesetting'),(89,'certificates','certificategenerationhistory'),(83,'certificates','certificatehtmlviewconfiguration'),(90,'certificates','certificateinvalidation'),(84,'certificates','certificatetemplate'),(85,'certificates','certificatetemplateasset'),(86,'certificates','examplecertificate'),(87,'certificates','examplecertificateset'),(88,'certificates','generatedcertificate'),(95,'certificates','historicalcertificateallowlist'),(92,'certificates','historicalcertificateinvalidation'),(91,'certificates','historicalgeneratedcertificate'),(234,'commerce','commerceconfiguration'),(398,'completion','blockcompletion'),(341,'consent','datasharingconsent'),(343,'consent','datasharingconsenttextoverrides'),(342,'consent','historicaldatasharingconsent'),(19,'contentserver','cdnuseragentsconfig'),(18,'contentserver','courseassetcachettlconfig'),(417,'contentstore','courseoutlineregenerate'),(416,'contentstore','videouploadconfig'),(5,'contenttypes','contenttype'),(373,'content_libraries','contentlibrary'),(374,'content_libraries','contentlibrarypermission'),(272,'content_type_gating','contenttypegatingconfig'),(353,'cornerstone','cornerstoneenterprisecustomerconfiguration'),(354,'cornerstone','cornerstoneglobalconfiguration'),(355,'cornerstone','cornerstonelearnerdatatransmissionaudit'),(356,'cornerstone','historicalcornerstoneenterprisecustomerconfiguration'),(233,'cors_csrf','xdomainproxyconfiguration'),(42,'courseware','coursedynamicupgradedeadlineconfiguration'),(43,'courseware','dynamicupgradedeadlineconfiguration'),(34,'courseware','offlinecomputedgrade'),(35,'courseware','offlinecomputedgradelog'),(44,'courseware','orgdynamicupgradedeadlineconfiguration'),(36,'courseware','studentfieldoverride'),(37,'courseware','studentmodule'),(38,'courseware','studentmodulehistory'),(39,'courseware','xmodulestudentinfofield'),(40,'courseware','xmodulestudentprefsfield'),(41,'courseware','xmoduleuserstatesummaryfield'),(45,'coursewarehistoryextended','studentmodulehistoryextended'),(179,'course_action_state','coursererunstate'),(418,'course_creators','coursecreator'),(278,'course_date_signals','selfpacedrelativedatesconfig'),(271,'course_duration_limits','coursedurationlimitconfig'),(267,'course_goals','coursegoal'),(268,'course_goals','historicalcoursegoal'),(98,'course_groups','cohortmembership'),(99,'course_groups','coursecohort'),(100,'course_groups','coursecohortssettings'),(101,'course_groups','courseusergroup'),(102,'course_groups','courseusergrouppartitiongroup'),(103,'course_groups','unregisteredlearnercohortassignments'),(114,'course_home_api','disableprogresspagestackedconfig'),(156,'course_modes','coursemode'),(158,'course_modes','coursemodeexpirationconfig'),(157,'course_modes','coursemodesarchive'),(159,'course_modes','historicalcoursemode'),(225,'course_overviews','courseoverview'),(228,'course_overviews','courseoverviewimageconfig'),(227,'course_overviews','courseoverviewimageset'),(226,'course_overviews','courseoverviewtab'),(229,'course_overviews','historicalcourseoverview'),(230,'course_overviews','simulatecoursepublishconfig'),(265,'crawlers','crawlersconfig'),(375,'credentials','credentialsapiconfig'),(376,'credentials','notifycredentialsconfig'),(241,'credit','creditconfig'),(235,'credit','creditcourse'),(236,'credit','crediteligibility'),(237,'credit','creditprovider'),(238,'credit','creditrequest'),(239,'credit','creditrequirement'),(240,'credit','creditrequirementstatus'),(170,'dark_lang','darklangconfig'),(346,'degreed','degreedenterprisecustomerconfiguration'),(347,'degreed','degreedglobalconfiguration'),(348,'degreed','degreedlearnerdatatransmissionaudit'),(349,'degreed','historicaldegreedenterprisecustomerconfiguration'),(284,'demographics','historicaluserdemographics'),(283,'demographics','userdemographics'),(274,'discounts','discountpercentageconfig'),(273,'discounts','discountrestrictionconfig'),(378,'discussions','discussionsconfiguration'),(377,'discussions','historicaldiscussionsconfiguration'),(379,'discussions','providerfilter'),(10,'django_celery_results','chordcounter'),(9,'django_celery_results','taskresult'),(146,'django_comment_common','coursediscussionsettings'),(147,'django_comment_common','discussionsidmapping'),(145,'django_comment_common','forumsconfig'),(143,'django_comment_common','permission'),(144,'django_comment_common','role'),(138,'django_notify','notification'),(139,'django_notify','notificationtype'),(140,'django_notify','settings'),(141,'django_notify','subscription'),(220,'edxval','coursevideo'),(219,'edxval','encodedvideo'),(217,'edxval','profile'),(224,'edxval','thirdpartytranscriptcredentialsstate'),(222,'edxval','transcriptpreference'),(218,'edxval','video'),(221,'edxval','videoimage'),(223,'edxval','videotranscript'),(415,'edx_name_affirmation','verifiedname'),(399,'edx_proctoring','proctoredexam'),(400,'edx_proctoring','proctoredexamreviewpolicy'),(401,'edx_proctoring','proctoredexamreviewpolicyhistory'),(402,'edx_proctoring','proctoredexamsoftwaresecurecomment'),(403,'edx_proctoring','proctoredexamsoftwaresecurereview'),(404,'edx_proctoring','proctoredexamsoftwaresecurereviewhistory'),(405,'edx_proctoring','proctoredexamstudentallowance'),(406,'edx_proctoring','proctoredexamstudentallowancehistory'),(407,'edx_proctoring','proctoredexamstudentattempt'),(408,'edx_proctoring','proctoredexamstudentattempthistory'),(394,'edx_when','contentdate'),(395,'edx_when','datepolicy'),(396,'edx_when','userdate'),(172,'embargo','country'),(173,'embargo','countryaccessrule'),(174,'embargo','courseaccessrulehistory'),(175,'embargo','embargoedcourse'),(176,'embargo','embargoedstate'),(177,'embargo','ipfilter'),(178,'embargo','restrictedcourse'),(337,'enterprise','adminnotification'),(336,'enterprise','adminnotificationfilter'),(338,'enterprise','adminnotificationread'),(306,'enterprise','enrollmentnotificationemailtemplate'),(334,'enterprise','enterpriseanalyticsuser'),(307,'enterprise','enterprisecatalogquery'),(315,'enterprise','enterprisecourseenrollment'),(308,'enterprise','enterprisecustomer'),(309,'enterprise','enterprisecustomerbrandingconfiguration'),(310,'enterprise','enterprisecustomercatalog'),(311,'enterprise','enterprisecustomeridentityprovider'),(312,'enterprise','enterprisecustomerreportingconfiguration'),(313,'enterprise','enterprisecustomertype'),(314,'enterprise','enterprisecustomeruser'),(316,'enterprise','enterpriseenrollmentsource'),(317,'enterprise','enterprisefeaturerole'),(318,'enterprise','enterprisefeatureuserroleassignment'),(319,'enterprise','historicalenrollmentnotificationemailtemplate'),(333,'enterprise','historicalenterpriseanalyticsuser'),(320,'enterprise','historicalenterprisecourseenrollment'),(321,'enterprise','historicalenterprisecustomer'),(322,'enterprise','historicalenterprisecustomercatalog'),(340,'enterprise','historicalenterprisecustomeruser'),(330,'enterprise','historicallicensedenterprisecourseenrollment'),(323,'enterprise','historicalpendingenrollment'),(331,'enterprise','historicalpendingenterprisecustomeradminuser'),(324,'enterprise','historicalpendingenterprisecustomeruser'),(339,'enterprise','historicalsystemwideenterpriseuserroleassignment'),(329,'enterprise','licensedenterprisecourseenrollment'),(325,'enterprise','pendingenrollment'),(332,'enterprise','pendingenterprisecustomeradminuser'),(326,'enterprise','pendingenterprisecustomeruser'),(327,'enterprise','systemwideenterpriserole'),(328,'enterprise','systemwideenterpriseuserroleassignment'),(335,'enterprise','updateroleassignmentswithcustomersconfig'),(160,'entitlements','courseentitlement'),(161,'entitlements','courseentitlementpolicy'),(162,'entitlements','courseentitlementsupportdetail'),(163,'entitlements','historicalcourseentitlement'),(164,'entitlements','historicalcourseentitlementsupportdetail'),(300,'event_routing_backends','routerconfiguration'),(275,'experiments','experimentdata'),(276,'experiments','experimentkeyvalue'),(277,'experiments','historicalexperimentkeyvalue'),(279,'external_user_ids','externalid'),(280,'external_user_ids','externalidtype'),(281,'external_user_ids','historicalexternalid'),(282,'external_user_ids','historicalexternalidtype'),(385,'grades','computegradessetting'),(382,'grades','coursepersistentgradesflag'),(387,'grades','historicalpersistentsubsectiongradeoverride'),(384,'grades','persistentcoursegrade'),(383,'grades','persistentgradesenabledflag'),(380,'grades','persistentsubsectiongrade'),(386,'grades','persistentsubsectiongradeoverride'),(381,'grades','visibleblocks'),(97,'instructor_task','gradereportsetting'),(96,'instructor_task','instructortask'),(345,'integrated_channel','contentmetadataitemtransmission'),(344,'integrated_channel','learnerdatatransmissionaudit'),(296,'learning_sequences','contenterror'),(293,'learning_sequences','coursecontext'),(289,'learning_sequences','coursesection'),(290,'learning_sequences','coursesectionsequence'),(294,'learning_sequences','coursesequenceexam'),(291,'learning_sequences','learningcontext'),(292,'learning_sequences','learningsequence'),(295,'learning_sequences','publishreport'),(299,'learning_sequences','sectionpartitiongroup'),(298,'learning_sequences','sectionsequencepartitiongroup'),(297,'learning_sequences','userpartitiongroup'),(190,'lms_xblock','xblockasidesconfig'),(414,'lti_consumer','courseallowpiisharinginltiflag'),(411,'lti_consumer','ltiagslineitem'),(412,'lti_consumer','ltiagsscore'),(410,'lti_consumer','lticonfiguration'),(413,'lti_consumer','ltidlcontentitem'),(251,'milestones','coursecontentmilestone'),(252,'milestones','coursemilestone'),(253,'milestones','milestone'),(254,'milestones','milestonerelationshiptype'),(255,'milestones','usermilestone'),(181,'mobile_api','appversionconfig'),(182,'mobile_api','ignoremobileavailableflagconfig'),(180,'mobile_api','mobileapiconfig'),(368,'moodle','historicalmoodleenterprisecustomerconfiguration'),(367,'moodle','moodleenterprisecustomerconfiguration'),(369,'moodle','moodlelearnerdatatransmissionaudit'),(116,'oauth2_provider','accesstoken'),(115,'oauth2_provider','application'),(117,'oauth2_provider','grant'),(118,'oauth2_provider','refreshtoken'),(120,'oauth_dispatch','applicationaccess'),(121,'oauth_dispatch','applicationorganization'),(119,'oauth_dispatch','restrictedapplication'),(303,'organizations','historicalorganization'),(304,'organizations','historicalorganizationcourse'),(301,'organizations','organization'),(302,'organizations','organizationcourse'),(247,'programs','programsapiconfig'),(392,'program_enrollments','courseaccessroleassignment'),(390,'program_enrollments','historicalprogramcourseenrollment'),(388,'program_enrollments','historicalprogramenrollment'),(391,'program_enrollments','programcourseenrollment'),(389,'program_enrollments','programenrollment'),(6,'redirects','redirect'),(171,'rss_proxy','whitelistedrssurl'),(352,'sap_success_factors','sapsuccessfactorsenterprisecustomerconfiguration'),(351,'sap_success_factors','sapsuccessfactorsglobalconfiguration'),(350,'sap_success_factors','sapsuccessfactorslearnerdatatransmissionaudit'),(288,'schedules','historicalschedule'),(285,'schedules','schedule'),(286,'schedules','scheduleconfig'),(287,'schedules','scheduleexperience'),(249,'self_paced','selfpacedconfiguration'),(7,'sessions','session'),(8,'sites','site'),(20,'site_configuration','siteconfiguration'),(21,'site_configuration','siteconfigurationhistory'),(183,'social_django','association'),(184,'social_django','code'),(185,'social_django','nonce'),(187,'social_django','partial'),(186,'social_django','usersocialauth'),(148,'splash','splashconfig'),(16,'static_replace','assetbaseurlconfig'),(17,'static_replace','assetexcludedextensionsconfig'),(14,'status','coursemessage'),(15,'status','globalstatusmessage'),(68,'student','accountrecovery'),(75,'student','accountrecoveryconfiguration'),(73,'student','allowedauthuser'),(46,'student','anonymoususerid'),(77,'student','bulkchangeenrollmentconfiguration'),(71,'student','bulkunenrollconfiguration'),(47,'student','courseaccessrole'),(48,'student','courseenrollment'),(49,'student','courseenrollmentallowed'),(50,'student','courseenrollmentattribute'),(76,'student','courseenrollmentcelebration'),(51,'student','dashboardconfiguration'),(52,'student','enrollmentrefundconfiguration'),(53,'student','entranceexamconfiguration'),(72,'student','fbeenrollmentexclusion'),(70,'student','historicalcourseenrollment'),(74,'student','historicalmanualenrollmentaudit'),(54,'student','languageproficiency'),(55,'student','linkedinaddtoprofileconfiguration'),(56,'student','loginfailures'),(57,'student','manualenrollmentaudit'),(58,'student','pendingemailchange'),(59,'student','pendingnamechange'),(69,'student','pendingsecondaryemailchange'),(60,'student','registration'),(66,'student','registrationcookieconfiguration'),(67,'student','sociallink'),(65,'student','userattribute'),(79,'student','usercelebration'),(78,'student','userpasswordtogglehistory'),(61,'student','userprofile'),(62,'student','usersignupsource'),(63,'student','userstanding'),(64,'student','usertestgroup'),(191,'submissions','score'),(195,'submissions','scoreannotation'),(194,'submissions','scoresummary'),(192,'submissions','studentitem'),(193,'submissions','submission'),(196,'submissions','teamsubmission'),(397,'super_csv','csvoperation'),(188,'survey','surveyanswer'),(189,'survey','surveyform'),(127,'system_wide_roles','systemwiderole'),(128,'system_wide_roles','systemwideroleassignment'),(420,'tagging','tagavailablevalues'),(421,'tagging','tagcategories'),(242,'teams','courseteam'),(243,'teams','courseteammembership'),(393,'theming','sitetheme'),(125,'third_party_auth','ltiproviderconfig'),(124,'third_party_auth','oauth2providerconfig'),(123,'third_party_auth','samlconfiguration'),(126,'third_party_auth','samlproviderconfig'),(122,'third_party_auth','samlproviderdata'),(250,'thumbnail','kvstore'),(152,'user_api','retirementstate'),(149,'user_api','usercoursetag'),(150,'user_api','userorgtag'),(151,'user_api','userpreference'),(155,'user_api','userretirementpartnerreportingstatus'),(154,'user_api','userretirementrequest'),(153,'user_api','userretirementstatus'),(422,'user_tasks','usertaskartifact'),(423,'user_tasks','usertaskstatus'),(80,'util','ratelimitconfiguration'),(259,'verified_track_content','migrateverifiedtrackcohortssetting'),(258,'verified_track_content','verifiedtrackcohortedcourse'),(168,'verify_student','manualverification'),(165,'verify_student','softwaresecurephotoverification'),(167,'verify_student','ssoverification'),(169,'verify_student','sspverificationretryconfig'),(166,'verify_student','verificationdeadline'),(22,'video_config','coursehlsplaybackenabledflag'),(24,'video_config','coursevideotranscriptenabledflag'),(30,'video_config','courseyoutubeblockedflag'),(23,'video_config','hlsplaybackenabledflag'),(27,'video_config','migrationenqueuedcourse'),(26,'video_config','transcriptmigrationsetting'),(28,'video_config','updatedcoursevideos'),(29,'video_config','videothumbnailsetting'),(25,'video_config','videotranscriptenabledflag'),(31,'video_pipeline','coursevideouploadsenabledbydefault'),(33,'video_pipeline','vempipelineintegration'),(32,'video_pipeline','videouploadsenabledbydefault'),(11,'waffle','flag'),(12,'waffle','sample'),(13,'waffle','switch'),(266,'waffle_utils','waffleflagcourseoverridemodel'),(129,'wiki','article'),(130,'wiki','articleforobject'),(131,'wiki','articleplugin'),(132,'wiki','articlerevision'),(133,'wiki','reusableplugin'),(134,'wiki','revisionplugin'),(135,'wiki','revisionpluginrevision'),(136,'wiki','simpleplugin'),(137,'wiki','urlpath'),(213,'workflow','assessmentworkflow'),(214,'workflow','assessmentworkflowcancellation'),(215,'workflow','assessmentworkflowstep'),(216,'workflow','teamassessmentworkflow'),(358,'xapi','xapilearnerdatatransmissionaudit'),(357,'xapi','xapilrsconfiguration'),(419,'xblock_config','studioconfig'),(244,'xblock_django','xblockconfiguration'),(245,'xblock_django','xblockstudioconfiguration'),(246,'xblock_django','xblockstudioconfigurationflag');
+INSERT INTO `django_content_type` VALUES (155,'admin','logentry'),(323,'agreements','integritysignature'),(406,'announcements','announcement'),(274,'api_admin','apiaccessconfig'),(1,'api_admin','apiaccessrequest'),(275,'api_admin','catalog'),(211,'assessment','assessment'),(212,'assessment','assessmentfeedback'),(213,'assessment','assessmentfeedbackoption'),(214,'assessment','assessmentpart'),(215,'assessment','criterion'),(216,'assessment','criterionoption'),(224,'assessment','historicalsharedfileupload'),(217,'assessment','peerworkflow'),(218,'assessment','peerworkflowitem'),(219,'assessment','rubric'),(225,'assessment','sharedfileupload'),(223,'assessment','staffworkflow'),(220,'assessment','studenttrainingworkflow'),(221,'assessment','studenttrainingworkflowitem'),(226,'assessment','teamstaffworkflow'),(222,'assessment','trainingexample'),(3,'auth','group'),(2,'auth','permission'),(4,'auth','user'),(276,'badges','badgeassertion'),(277,'badges','badgeclass'),(278,'badges','coursecompleteimageconfiguration'),(279,'badges','courseeventbadgesconfiguration'),(396,'blackboard','blackboardenterprisecustomerconfiguration'),(398,'blackboard','blackboardglobalconfiguration'),(395,'blackboard','blackboardlearnerassessmentdatatransmissionaudit'),(394,'blackboard','blackboardlearnerdatatransmissionaudit'),(397,'blackboard','historicalblackboardenterprisecustomerconfiguration'),(246,'block_structure','blockstructureconfiguration'),(247,'block_structure','blockstructuremodel'),(407,'bookmarks','bookmark'),(408,'bookmarks','xblockcache'),(122,'branding','brandingapiconfig'),(123,'branding','brandinginfoconfig'),(117,'bulk_email','bulkemailflag'),(119,'bulk_email','cohorttarget'),(113,'bulk_email','courseauthorization'),(114,'bulk_email','courseemail'),(115,'bulk_email','courseemailtemplate'),(120,'bulk_email','coursemodetarget'),(121,'bulk_email','disabledcourse'),(116,'bulk_email','optout'),(118,'bulk_email','target'),(439,'bulk_grades','scoreoverrider'),(329,'bundles','bundle'),(330,'bundles','bundlelink'),(331,'bundles','bundleversion'),(332,'bundles','collection'),(333,'bundles','draft'),(288,'calendar_sync','historicalusercalendarsyncconfig'),(289,'calendar_sync','usercalendarsyncconfig'),(400,'canvas','canvasenterprisecustomerconfiguration'),(402,'canvas','canvaslearnerassessmentdatatransmissionaudit'),(401,'canvas','canvaslearnerdatatransmissionaudit'),(399,'canvas','historicalcanvasenterprisecustomerconfiguration'),(267,'catalog','catalogintegration'),(280,'celery_utils','failedtask'),(99,'certificates','certificateallowlist'),(102,'certificates','certificatedateoverride'),(98,'certificates','certificategenerationcommandconfiguration'),(86,'certificates','certificategenerationconfiguration'),(87,'certificates','certificategenerationcoursesetting'),(94,'certificates','certificategenerationhistory'),(88,'certificates','certificatehtmlviewconfiguration'),(95,'certificates','certificateinvalidation'),(89,'certificates','certificatetemplate'),(90,'certificates','certificatetemplateasset'),(91,'certificates','examplecertificate'),(92,'certificates','examplecertificateset'),(93,'certificates','generatedcertificate'),(100,'certificates','historicalcertificateallowlist'),(101,'certificates','historicalcertificatedateoverride'),(97,'certificates','historicalcertificateinvalidation'),(96,'certificates','historicalgeneratedcertificate'),(249,'commerce','commerceconfiguration'),(456,'completion','blockcompletion'),(370,'consent','datasharingconsent'),(372,'consent','datasharingconsenttextoverrides'),(371,'consent','historicaldatasharingconsent'),(20,'contentserver','cdnuseragentsconfig'),(19,'contentserver','courseassetcachettlconfig'),(471,'contentstore','backfillcoursetabsconfig'),(472,'contentstore','cleanstalecertificateavailabilitydatesconfig'),(470,'contentstore','courseoutlineregenerate'),(469,'contentstore','videouploadconfig'),(5,'contenttypes','contenttype'),(409,'content_libraries','contentlibrary'),(413,'content_libraries','contentlibraryblockimporttask'),(410,'content_libraries','contentlibrarypermission'),(412,'content_libraries','ltigradedresource'),(411,'content_libraries','ltiprofile'),(291,'content_type_gating','contenttypegatingconfig'),(391,'cornerstone','cornerstonecoursekey'),(387,'cornerstone','cornerstoneenterprisecustomerconfiguration'),(388,'cornerstone','cornerstoneglobalconfiguration'),(389,'cornerstone','cornerstonelearnerdatatransmissionaudit'),(390,'cornerstone','historicalcornerstoneenterprisecustomerconfiguration'),(248,'cors_csrf','xdomainproxyconfiguration'),(475,'coursegraph','coursegraphcoursedump'),(43,'courseware','coursedynamicupgradedeadlineconfiguration'),(44,'courseware','dynamicupgradedeadlineconfiguration'),(47,'courseware','financialassistanceconfiguration'),(46,'courseware','lastseencoursewaretimezone'),(35,'courseware','offlinecomputedgrade'),(36,'courseware','offlinecomputedgradelog'),(45,'courseware','orgdynamicupgradedeadlineconfiguration'),(37,'courseware','studentfieldoverride'),(38,'courseware','studentmodule'),(39,'courseware','studentmodulehistory'),(40,'courseware','xmodulestudentinfofield'),(41,'courseware','xmodulestudentprefsfield'),(42,'courseware','xmoduleuserstatesummaryfield'),(48,'coursewarehistoryextended','studentmodulehistoryextended'),(192,'course_action_state','coursererunstate'),(414,'course_apps','courseappstatus'),(415,'course_apps','historicalcourseappstatus'),(473,'course_creators','coursecreator'),(297,'course_date_signals','selfpacedrelativedatesconfig'),(290,'course_duration_limits','coursedurationlimitconfig'),(284,'course_goals','coursegoal'),(287,'course_goals','coursegoalreminderstatus'),(285,'course_goals','historicalcoursegoal'),(286,'course_goals','useractivity'),(107,'course_groups','cohortmembership'),(108,'course_groups','coursecohort'),(109,'course_groups','coursecohortssettings'),(110,'course_groups','courseusergroup'),(111,'course_groups','courseusergrouppartitiongroup'),(112,'course_groups','unregisteredlearnercohortassignments'),(124,'course_home_api','disableprogresspagestackedconfig'),(417,'course_live','courseliveconfiguration'),(416,'course_live','historicalcourseliveconfiguration'),(169,'course_modes','coursemode'),(171,'course_modes','coursemodeexpirationconfig'),(170,'course_modes','coursemodesarchive'),(172,'course_modes','historicalcoursemode'),(240,'course_overviews','courseoverview'),(243,'course_overviews','courseoverviewimageconfig'),(242,'course_overviews','courseoverviewimageset'),(241,'course_overviews','courseoverviewtab'),(244,'course_overviews','historicalcourseoverview'),(245,'course_overviews','simulatecoursepublishconfig'),(281,'crawlers','crawlersconfig'),(418,'credentials','credentialsapiconfig'),(419,'credentials','notifycredentialsconfig'),(256,'credit','creditconfig'),(250,'credit','creditcourse'),(251,'credit','crediteligibility'),(252,'credit','creditprovider'),(253,'credit','creditrequest'),(254,'credit','creditrequirement'),(255,'credit','creditrequirementstatus'),(183,'dark_lang','darklangconfig'),(377,'degreed','degreedenterprisecustomerconfiguration'),(378,'degreed','degreedglobalconfiguration'),(379,'degreed','degreedlearnerdatatransmissionaudit'),(380,'degreed','historicaldegreedenterprisecustomerconfiguration'),(383,'degreed2','degreed2enterprisecustomerconfiguration'),(381,'degreed2','degreed2learnerdatatransmissionaudit'),(382,'degreed2','historicaldegreed2enterprisecustomerconfiguration'),(303,'demographics','historicaluserdemographics'),(302,'demographics','userdemographics'),(293,'discounts','discountpercentageconfig'),(292,'discounts','discountrestrictionconfig'),(421,'discussions','discussionsconfiguration'),(423,'discussions','discussiontopiclink'),(420,'discussions','historicaldiscussionsconfiguration'),(422,'discussions','providerfilter'),(10,'django_celery_results','chordcounter'),(11,'django_celery_results','groupresult'),(9,'django_celery_results','taskresult'),(159,'django_comment_common','coursediscussionsettings'),(160,'django_comment_common','discussionsidmapping'),(158,'django_comment_common','forumsconfig'),(156,'django_comment_common','permission'),(157,'django_comment_common','role'),(151,'django_notify','notification'),(152,'django_notify','notificationtype'),(153,'django_notify','settings'),(154,'django_notify','subscription'),(235,'edxval','coursevideo'),(234,'edxval','encodedvideo'),(232,'edxval','profile'),(239,'edxval','thirdpartytranscriptcredentialsstate'),(237,'edxval','transcriptpreference'),(233,'edxval','video'),(236,'edxval','videoimage'),(238,'edxval','videotranscript'),(460,'edx_name_affirmation','historicalverifiedname'),(458,'edx_name_affirmation','verifiedname'),(459,'edx_name_affirmation','verifiednameconfig'),(450,'edx_proctoring','historicalproctoredexam'),(449,'edx_proctoring','historicalproctoredexamstudentattempt'),(440,'edx_proctoring','proctoredexam'),(441,'edx_proctoring','proctoredexamreviewpolicy'),(442,'edx_proctoring','proctoredexamreviewpolicyhistory'),(443,'edx_proctoring','proctoredexamsoftwaresecurecomment'),(444,'edx_proctoring','proctoredexamsoftwaresecurereview'),(445,'edx_proctoring','proctoredexamsoftwaresecurereviewhistory'),(446,'edx_proctoring','proctoredexamstudentallowance'),(447,'edx_proctoring','proctoredexamstudentallowancehistory'),(448,'edx_proctoring','proctoredexamstudentattempt'),(466,'edx_when','contentdate'),(467,'edx_when','datepolicy'),(468,'edx_when','userdate'),(185,'embargo','country'),(186,'embargo','countryaccessrule'),(187,'embargo','courseaccessrulehistory'),(188,'embargo','embargoedcourse'),(189,'embargo','embargoedstate'),(190,'embargo','ipfilter'),(191,'embargo','restrictedcourse'),(363,'enterprise','adminnotification'),(362,'enterprise','adminnotificationfilter'),(364,'enterprise','adminnotificationread'),(367,'enterprise','bulkcatalogqueryupdatecommandconfiguration'),(334,'enterprise','enrollmentnotificationemailtemplate'),(335,'enterprise','enterprisecatalogquery'),(343,'enterprise','enterprisecourseenrollment'),(336,'enterprise','enterprisecustomer'),(337,'enterprise','enterprisecustomerbrandingconfiguration'),(338,'enterprise','enterprisecustomercatalog'),(339,'enterprise','enterprisecustomeridentityprovider'),(369,'enterprise','enterprisecustomerinvitekey'),(340,'enterprise','enterprisecustomerreportingconfiguration'),(341,'enterprise','enterprisecustomertype'),(342,'enterprise','enterprisecustomeruser'),(344,'enterprise','enterpriseenrollmentsource'),(345,'enterprise','enterprisefeaturerole'),(346,'enterprise','enterprisefeatureuserroleassignment'),(347,'enterprise','historicalenrollmentnotificationemailtemplate'),(348,'enterprise','historicalenterprisecourseenrollment'),(349,'enterprise','historicalenterprisecustomer'),(350,'enterprise','historicalenterprisecustomercatalog'),(368,'enterprise','historicalenterprisecustomerinvitekey'),(366,'enterprise','historicalenterprisecustomeruser'),(358,'enterprise','historicallicensedenterprisecourseenrollment'),(351,'enterprise','historicalpendingenrollment'),(359,'enterprise','historicalpendingenterprisecustomeradminuser'),(352,'enterprise','historicalpendingenterprisecustomeruser'),(365,'enterprise','historicalsystemwideenterpriseuserroleassignment'),(357,'enterprise','licensedenterprisecourseenrollment'),(353,'enterprise','pendingenrollment'),(360,'enterprise','pendingenterprisecustomeradminuser'),(354,'enterprise','pendingenterprisecustomeruser'),(355,'enterprise','systemwideenterpriserole'),(356,'enterprise','systemwideenterpriseuserroleassignment'),(361,'enterprise','updateroleassignmentswithcustomersconfig'),(173,'entitlements','courseentitlement'),(174,'entitlements','courseentitlementpolicy'),(175,'entitlements','courseentitlementsupportdetail'),(176,'entitlements','historicalcourseentitlement'),(177,'entitlements','historicalcourseentitlementsupportdetail'),(294,'experiments','experimentdata'),(295,'experiments','experimentkeyvalue'),(296,'experiments','historicalexperimentkeyvalue'),(298,'external_user_ids','externalid'),(299,'external_user_ids','externalidtype'),(300,'external_user_ids','historicalexternalid'),(301,'external_user_ids','historicalexternalidtype'),(427,'grades','computegradessetting'),(429,'grades','historicalpersistentsubsectiongradeoverride'),(426,'grades','persistentcoursegrade'),(424,'grades','persistentsubsectiongrade'),(428,'grades','persistentsubsectiongradeoverride'),(425,'grades','visibleblocks'),(104,'instructor_task','gradereportsetting'),(106,'instructor_task','historicalinstructortaskschedule'),(103,'instructor_task','instructortask'),(105,'instructor_task','instructortaskschedule'),(376,'integrated_channel','apiresponserecord'),(373,'integrated_channel','contentmetadataitemtransmission'),(375,'integrated_channel','genericenterprisecustomerpluginconfiguration'),(374,'integrated_channel','genericlearnerdatatransmissionaudit'),(436,'learner_pathway_progress','historicallearnerpathwayprogress'),(438,'learner_pathway_progress','learnerenterprisepathwaymembership'),(437,'learner_pathway_progress','learnerpathwayprogress'),(315,'learning_sequences','contenterror'),(312,'learning_sequences','coursecontext'),(308,'learning_sequences','coursesection'),(309,'learning_sequences','coursesectionsequence'),(313,'learning_sequences','coursesequenceexam'),(310,'learning_sequences','learningcontext'),(311,'learning_sequences','learningsequence'),(314,'learning_sequences','publishreport'),(318,'learning_sequences','sectionpartitiongroup'),(317,'learning_sequences','sectionsequencepartitiongroup'),(316,'learning_sequences','userpartitiongroup'),(204,'lms_xblock','xblockasidesconfig'),(326,'lti1p3_tool_config','ltitool'),(325,'lti1p3_tool_config','ltitoolkey'),(455,'lti_consumer','courseallowpiisharinginltiflag'),(452,'lti_consumer','ltiagslineitem'),(453,'lti_consumer','ltiagsscore'),(451,'lti_consumer','lticonfiguration'),(454,'lti_consumer','ltidlcontentitem'),(269,'milestones','coursecontentmilestone'),(270,'milestones','coursemilestone'),(271,'milestones','milestone'),(272,'milestones','milestonerelationshiptype'),(273,'milestones','usermilestone'),(194,'mobile_api','appversionconfig'),(195,'mobile_api','ignoremobileavailableflagconfig'),(193,'mobile_api','mobileapiconfig'),(196,'mobile_api','mobileconfig'),(404,'moodle','historicalmoodleenterprisecustomerconfiguration'),(403,'moodle','moodleenterprisecustomerconfiguration'),(405,'moodle','moodlelearnerdatatransmissionaudit'),(129,'oauth2_provider','accesstoken'),(128,'oauth2_provider','application'),(130,'oauth2_provider','grant'),(131,'oauth2_provider','refreshtoken'),(133,'oauth_dispatch','applicationaccess'),(134,'oauth_dispatch','applicationorganization'),(132,'oauth_dispatch','restrictedapplication'),(321,'organizations','historicalorganization'),(322,'organizations','historicalorganizationcourse'),(319,'organizations','organization'),(320,'organizations','organizationcourse'),(465,'outcome_surveys','coursegoal'),(464,'outcome_surveys','coursereflection'),(461,'outcome_surveys','learnercourseevent'),(462,'outcome_surveys','multichoiceresponse'),(463,'outcome_surveys','surveyexport'),(266,'programs','historicalprogramdiscussionsconfiguration'),(265,'programs','historicalprogramliveconfiguration'),(264,'programs','programdiscussionsconfiguration'),(263,'programs','programliveconfiguration'),(262,'programs','programsapiconfig'),(434,'program_enrollments','courseaccessroleassignment'),(432,'program_enrollments','historicalprogramcourseenrollment'),(430,'program_enrollments','historicalprogramenrollment'),(433,'program_enrollments','programcourseenrollment'),(431,'program_enrollments','programenrollment'),(6,'redirects','redirect'),(184,'rss_proxy','whitelistedrssurl'),(385,'sap_success_factors','sapsuccessfactorsenterprisecustomerconfiguration'),(384,'sap_success_factors','sapsuccessfactorsglobalconfiguration'),(386,'sap_success_factors','sapsuccessfactorslearnerdatatransmissionaudit'),(328,'save_for_later','savedcourse'),(327,'save_for_later','savedprogram'),(307,'schedules','historicalschedule'),(304,'schedules','schedule'),(305,'schedules','scheduleconfig'),(306,'schedules','scheduleexperience'),(7,'sessions','session'),(8,'sites','site'),(21,'site_configuration','siteconfiguration'),(22,'site_configuration','siteconfigurationhistory'),(197,'social_django','association'),(198,'social_django','code'),(199,'social_django','nonce'),(201,'social_django','partial'),(200,'social_django','usersocialauth'),(161,'splash','splashconfig'),(84,'split_modulestore_django','historicalsplitmodulestorecourseindex'),(83,'split_modulestore_django','splitmodulestorecourseindex'),(227,'staffgrader','submissiongradinglock'),(17,'static_replace','assetbaseurlconfig'),(18,'static_replace','assetexcludedextensionsconfig'),(15,'status','coursemessage'),(16,'status','globalstatusmessage'),(71,'student','accountrecovery'),(78,'student','accountrecoveryconfiguration'),(76,'student','allowedauthuser'),(49,'student','anonymoususerid'),(80,'student','bulkchangeenrollmentconfiguration'),(74,'student','bulkunenrollconfiguration'),(50,'student','courseaccessrole'),(51,'student','courseenrollment'),(52,'student','courseenrollmentallowed'),(53,'student','courseenrollmentattribute'),(79,'student','courseenrollmentcelebration'),(54,'student','dashboardconfiguration'),(55,'student','enrollmentrefundconfiguration'),(56,'student','entranceexamconfiguration'),(75,'student','fbeenrollmentexclusion'),(73,'student','historicalcourseenrollment'),(77,'student','historicalmanualenrollmentaudit'),(57,'student','languageproficiency'),(58,'student','linkedinaddtoprofileconfiguration'),(59,'student','loginfailures'),(60,'student','manualenrollmentaudit'),(61,'student','pendingemailchange'),(62,'student','pendingnamechange'),(72,'student','pendingsecondaryemailchange'),(63,'student','registration'),(69,'student','registrationcookieconfiguration'),(70,'student','sociallink'),(68,'student','userattribute'),(82,'student','usercelebration'),(81,'student','userpasswordtogglehistory'),(64,'student','userprofile'),(65,'student','usersignupsource'),(66,'student','userstanding'),(67,'student','usertestgroup'),(205,'submissions','score'),(209,'submissions','scoreannotation'),(208,'submissions','scoresummary'),(206,'submissions','studentitem'),(207,'submissions','submission'),(210,'submissions','teamsubmission'),(457,'super_csv','csvoperation'),(127,'support','historicalusersocialauth'),(202,'survey','surveyanswer'),(203,'survey','surveyform'),(324,'survey_report','surveyreport'),(140,'system_wide_roles','systemwiderole'),(141,'system_wide_roles','systemwideroleassignment'),(476,'tagging','tagavailablevalues'),(477,'tagging','tagcategories'),(257,'teams','courseteam'),(258,'teams','courseteammembership'),(435,'theming','sitetheme'),(138,'third_party_auth','ltiproviderconfig'),(137,'third_party_auth','oauth2providerconfig'),(136,'third_party_auth','samlconfiguration'),(139,'third_party_auth','samlproviderconfig'),(135,'third_party_auth','samlproviderdata'),(268,'thumbnail','kvstore'),(165,'user_api','retirementstate'),(162,'user_api','usercoursetag'),(163,'user_api','userorgtag'),(164,'user_api','userpreference'),(168,'user_api','userretirementpartnerreportingstatus'),(167,'user_api','userretirementrequest'),(166,'user_api','userretirementstatus'),(478,'user_tasks','usertaskartifact'),(479,'user_tasks','usertaskstatus'),(126,'user_tours','userdiscussionstours'),(125,'user_tours','usertour'),(85,'util','ratelimitconfiguration'),(181,'verify_student','manualverification'),(178,'verify_student','softwaresecurephotoverification'),(180,'verify_student','ssoverification'),(182,'verify_student','sspverificationretryconfig'),(179,'verify_student','verificationdeadline'),(23,'video_config','coursehlsplaybackenabledflag'),(25,'video_config','coursevideotranscriptenabledflag'),(31,'video_config','courseyoutubeblockedflag'),(24,'video_config','hlsplaybackenabledflag'),(28,'video_config','migrationenqueuedcourse'),(27,'video_config','transcriptmigrationsetting'),(29,'video_config','updatedcoursevideos'),(30,'video_config','videothumbnailsetting'),(26,'video_config','videotranscriptenabledflag'),(32,'video_pipeline','coursevideouploadsenabledbydefault'),(34,'video_pipeline','vempipelineintegration'),(33,'video_pipeline','videouploadsenabledbydefault'),(12,'waffle','flag'),(13,'waffle','sample'),(14,'waffle','switch'),(282,'waffle_utils','waffleflagcourseoverridemodel'),(283,'waffle_utils','waffleflagorgoverridemodel'),(142,'wiki','article'),(143,'wiki','articleforobject'),(144,'wiki','articleplugin'),(145,'wiki','articlerevision'),(146,'wiki','reusableplugin'),(147,'wiki','revisionplugin'),(148,'wiki','revisionpluginrevision'),(149,'wiki','simpleplugin'),(150,'wiki','urlpath'),(228,'workflow','assessmentworkflow'),(229,'workflow','assessmentworkflowcancellation'),(230,'workflow','assessmentworkflowstep'),(231,'workflow','teamassessmentworkflow'),(393,'xapi','xapilearnerdatatransmissionaudit'),(392,'xapi','xapilrsconfiguration'),(474,'xblock_config','studioconfig'),(259,'xblock_django','xblockconfiguration'),(260,'xblock_django','xblockstudioconfiguration'),(261,'xblock_django','xblockstudioconfigurationflag');
 /*!40000 ALTER TABLE `django_content_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -5155,7 +6299,7 @@ CREATE TABLE `django_migrations` (
   `name` varchar(255) NOT NULL,
   `applied` datetime(6) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=690 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=979 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5164,7 +6308,7 @@ CREATE TABLE `django_migrations` (
 
 LOCK TABLES `django_migrations` WRITE;
 /*!40000 ALTER TABLE `django_migrations` DISABLE KEYS */;
-INSERT INTO `django_migrations` VALUES (1,'contenttypes','0001_initial','2021-07-30 19:55:41.417847'),(2,'auth','0001_initial','2021-07-30 19:55:41.654936'),(3,'admin','0001_initial','2021-07-30 19:55:42.096197'),(4,'admin','0002_logentry_remove_auto_add','2021-07-30 19:55:42.210360'),(5,'admin','0003_logentry_add_action_flag_choices','2021-07-30 19:55:42.249486'),(6,'agreements','0001_initial','2021-07-30 19:55:42.317562'),(7,'announcements','0001_initial','2021-07-30 19:55:42.416481'),(8,'sites','0001_initial','2021-07-30 19:55:42.449485'),(9,'contenttypes','0002_remove_content_type_name','2021-07-30 19:55:42.622259'),(10,'api_admin','0001_initial','2021-07-30 19:55:42.777263'),(11,'api_admin','0002_auto_20160325_1604','2021-07-30 19:55:42.994283'),(12,'api_admin','0003_auto_20160404_1618','2021-07-30 19:55:43.569172'),(13,'api_admin','0004_auto_20160412_1506','2021-07-30 19:55:43.955117'),(14,'api_admin','0005_auto_20160414_1232','2021-07-30 19:55:44.088841'),(15,'api_admin','0006_catalog','2021-07-30 19:55:44.101465'),(16,'api_admin','0007_delete_historical_api_records','2021-07-30 19:55:44.338389'),(17,'assessment','0001_initial','2021-07-30 19:55:45.222308'),(18,'assessment','0002_staffworkflow','2021-07-30 19:55:46.208525'),(19,'assessment','0003_expand_course_id','2021-07-30 19:55:46.548011'),(20,'assessment','0004_historicalsharedfileupload_sharedfileupload','2021-07-30 19:55:46.669560'),(21,'assessment','0005_add_filename_to_sharedupload','2021-07-30 19:55:46.995408'),(22,'assessment','0006_TeamWorkflows','2021-07-30 19:55:47.039547'),(23,'auth','0002_alter_permission_name_max_length','2021-07-30 19:55:47.137699'),(24,'auth','0003_alter_user_email_max_length','2021-07-30 19:55:47.195014'),(25,'auth','0004_alter_user_username_opts','2021-07-30 19:55:47.235582'),(26,'auth','0005_alter_user_last_login_null','2021-07-30 19:55:47.300574'),(27,'auth','0006_require_contenttypes_0002','2021-07-30 19:55:47.307071'),(28,'auth','0007_alter_validators_add_error_messages','2021-07-30 19:55:47.348955'),(29,'auth','0008_alter_user_username_max_length','2021-07-30 19:55:47.412689'),(30,'auth','0009_alter_user_last_name_max_length','2021-07-30 19:55:47.479991'),(31,'auth','0010_alter_group_name_max_length','2021-07-30 19:55:47.547017'),(32,'auth','0011_update_proxy_permissions','2021-07-30 19:55:47.631489'),(33,'instructor_task','0001_initial','2021-07-30 19:55:47.693166'),(34,'certificates','0001_initial','2021-07-30 19:55:48.489089'),(35,'certificates','0002_data__certificatehtmlviewconfiguration_data','2021-07-30 19:55:48.911986'),(36,'certificates','0003_data__default_modes','2021-07-30 19:55:49.050710'),(37,'certificates','0004_certificategenerationhistory','2021-07-30 19:55:49.115117'),(38,'certificates','0005_auto_20151208_0801','2021-07-30 19:55:49.265207'),(39,'certificates','0006_certificatetemplateasset_asset_slug','2021-07-30 19:55:49.318728'),(40,'certificates','0007_certificateinvalidation','2021-07-30 19:55:49.396052'),(41,'badges','0001_initial','2021-07-30 19:55:49.758261'),(42,'badges','0002_data__migrate_assertions','2021-07-30 19:55:50.029893'),(43,'badges','0003_schema__add_event_configuration','2021-07-30 19:55:50.113326'),(44,'badges','0004_badgeclass_badgr_server_slug','2021-07-30 19:55:50.198064'),(45,'waffle','0001_initial','2021-07-30 19:55:50.382403'),(46,'sites','0002_alter_domain_unique','2021-07-30 19:55:50.581075'),(47,'enterprise','0001_squashed_0092_auto_20200312_1650','2021-07-30 19:55:53.323180'),(48,'enterprise','0093_add_use_enterprise_catalog_flag','2021-07-30 19:55:54.146000'),(49,'enterprise','0094_add_use_enterprise_catalog_sample','2021-07-30 19:55:54.372752'),(50,'enterprise','0095_auto_20200507_1138','2021-07-30 19:55:54.501976'),(51,'enterprise','0096_enterprise_catalog_admin_role','2021-07-30 19:55:54.605107'),(52,'enterprise','0097_auto_20200619_1130','2021-07-30 19:55:54.919170'),(53,'enterprise','0098_auto_20200629_1756','2021-07-30 19:55:55.047687'),(54,'enterprise','0099_auto_20200702_1537','2021-07-30 19:55:55.188321'),(55,'enterprise','0100_add_licensed_enterprise_course_enrollment','2021-07-30 19:55:55.351099'),(56,'enterprise','0101_move_data_to_saved_for_later','2021-07-30 19:55:55.502777'),(57,'enterprise','0102_auto_20200708_1615','2021-07-30 19:55:55.644573'),(58,'enterprise','0103_remove_marked_done','2021-07-30 19:55:55.768062'),(59,'enterprise','0104_sync_query_field','2021-07-30 19:55:55.898579'),(60,'enterprise','0105_add_branding_config_color_fields','2021-07-30 19:55:56.029920'),(61,'enterprise','0106_move_branding_config_colors','2021-07-30 19:55:56.129563'),(62,'enterprise','0107_remove_branding_config_banner_fields','2021-07-30 19:55:56.218918'),(63,'enterprise','0108_add_licensed_enrollment_is_revoked','2021-07-30 19:55:56.322770'),(64,'enterprise','0109_remove_use_enterprise_catalog_sample','2021-07-30 19:55:56.424123'),(65,'enterprise','0110_add_default_contract_discount','2021-07-30 19:55:56.564444'),(66,'enterprise','0111_pendingenterprisecustomeradminuser','2021-07-30 19:55:56.732306'),(67,'enterprise','0112_auto_20200914_0926','2021-07-30 19:55:56.941664'),(68,'enterprise','0113_auto_20200914_2054','2021-07-30 19:55:57.086413'),(69,'blackboard','0001_initial','2021-07-30 19:55:57.264748'),(70,'blackboard','0002_auto_20200930_1723','2021-07-30 19:55:57.731349'),(71,'blackboard','0003_blackboardlearnerdatatransmissionaudit','2021-07-30 19:55:57.758457'),(72,'blackboard','0004_blackboard_tx_chunk_size_default_1','2021-07-30 19:55:57.861186'),(73,'blackboard','0005_blackboardlearnerassessmentdatatransmissionaudit','2021-07-30 19:55:57.889242'),(74,'blackboard','0006_auto_20210708_1446','2021-07-30 19:55:57.997227'),(75,'block_structure','0001_config','2021-07-30 19:55:58.092335'),(76,'block_structure','0002_blockstructuremodel','2021-07-30 19:55:58.139285'),(77,'block_structure','0003_blockstructuremodel_storage','2021-07-30 19:55:58.152570'),(78,'block_structure','0004_blockstructuremodel_usagekeywithrun','2021-07-30 19:55:58.165165'),(79,'block_structure','0005_trim_leading_slashes_in_data_path','2021-07-30 19:55:58.185100'),(80,'bookmarks','0001_initial','2021-07-30 19:55:58.461199'),(81,'branding','0001_initial','2021-07-30 19:55:58.703534'),(82,'course_modes','0001_initial','2021-07-30 19:55:58.806201'),(83,'course_modes','0002_coursemode_expiration_datetime_is_explicit','2021-07-30 19:55:58.857642'),(84,'course_modes','0003_auto_20151113_1443','2021-07-30 19:55:58.869571'),(85,'course_modes','0004_auto_20151113_1457','2021-07-30 19:55:58.959924'),(86,'course_modes','0005_auto_20151217_0958','2021-07-30 19:55:58.998287'),(87,'course_modes','0006_auto_20160208_1407','2021-07-30 19:55:59.058430'),(88,'course_modes','0007_coursemode_bulk_sku','2021-07-30 19:55:59.090318'),(89,'course_groups','0001_initial','2021-07-30 19:55:59.769328'),(90,'bulk_email','0001_initial','2021-07-30 19:56:00.244294'),(91,'bulk_email','0002_data__load_course_email_template','2021-07-30 19:56:00.516981'),(92,'bulk_email','0003_config_model_feature_flag','2021-07-30 19:56:00.615598'),(93,'bulk_email','0004_add_email_targets','2021-07-30 19:56:01.177288'),(94,'bulk_email','0005_move_target_data','2021-07-30 19:56:01.394939'),(95,'bulk_email','0006_course_mode_targets','2021-07-30 19:56:01.518417'),(96,'courseware','0001_initial','2021-07-30 19:56:02.573738'),(97,'bulk_grades','0001_initial','2021-07-30 19:56:03.074597'),(98,'bulk_grades','0002_auto_20190703_1526','2021-07-30 19:56:03.231305'),(99,'calendar_sync','0001_initial','2021-07-30 19:56:03.527573'),(100,'calendar_sync','0002_auto_20200709_1743','2021-07-30 19:56:04.137431'),(101,'canvas','0001_initial','2021-07-30 19:56:04.478564'),(102,'canvas','0002_auto_20200806_1632','2021-07-30 19:56:04.725601'),(103,'canvas','0003_delete_canvasglobalconfiguration','2021-07-30 19:56:04.742269'),(104,'canvas','0004_adding_learner_data_to_canvas','2021-07-30 19:56:04.770811'),(105,'canvas','0005_auto_20200909_1534','2021-07-30 19:56:04.803941'),(106,'canvas','0006_canvaslearnerassessmentdatatransmissionaudit','2021-07-30 19:56:04.838259'),(107,'canvas','0007_auto_20210222_2225','2021-07-30 19:56:05.047227'),(108,'canvas','0008_auto_20210707_0815','2021-07-30 19:56:05.175413'),(109,'canvas','0009_auto_20210708_1639','2021-07-30 19:56:05.324164'),(110,'catalog','0001_initial','2021-07-30 19:56:05.471202'),(111,'catalog','0002_catalogintegration_username','2021-07-30 19:56:05.801476'),(112,'catalog','0003_catalogintegration_page_size','2021-07-30 19:56:06.053509'),(113,'catalog','0004_auto_20170616_0618','2021-07-30 19:56:06.128380'),(114,'catalog','0005_catalogintegration_long_term_cache_ttl','2021-07-30 19:56:06.221577'),(115,'celery_utils','0001_initial','2021-07-30 19:56:06.275262'),(116,'celery_utils','0002_chordable_django_backend','2021-07-30 19:56:06.299353'),(117,'certificates','0008_schema__remove_badges','2021-07-30 19:56:06.595352'),(118,'certificates','0009_certificategenerationcoursesetting_language_self_generation','2021-07-30 19:56:06.810254'),(119,'certificates','0010_certificatetemplate_language','2021-07-30 19:56:06.847254'),(120,'certificates','0011_certificatetemplate_alter_unique','2021-07-30 19:56:07.375411'),(121,'certificates','0012_certificategenerationcoursesetting_include_hours_of_effort','2021-07-30 19:56:07.451390'),(122,'certificates','0013_remove_certificategenerationcoursesetting_enabled','2021-07-30 19:56:07.521058'),(123,'certificates','0014_change_eligible_certs_manager','2021-07-30 19:56:07.642318'),(124,'certificates','0015_add_masters_choice','2021-07-30 19:56:07.798876'),(125,'certificates','0016_historicalgeneratedcertificate','2021-07-30 19:56:07.939086'),(126,'certificates','0017_add_mode_20201118_1725','2021-07-30 19:56:08.142268'),(127,'certificates','0018_historicalcertificateinvalidation','2021-07-30 19:56:08.271697'),(128,'certificates','0019_allowlistgenerationconfiguration','2021-07-30 19:56:08.435262'),(129,'certificates','0020_remove_existing_mgmt_cmd_args','2021-07-30 19:56:08.603165'),(130,'certificates','0021_remove_certificate_allowlist_duplicate_records','2021-07-30 19:56:08.751705'),(131,'certificates','0022_add_unique_constraints_to_certificatewhitelist_model','2021-07-30 19:56:08.834893'),(132,'certificates','0023_certificategenerationcommandconfiguration','2021-07-30 19:56:08.922808'),(133,'certificates','0024_delete_allowlistgenerationconfiguration','2021-07-30 19:56:08.966676'),(134,'certificates','0025_cleanup_certificate_errors','2021-07-30 19:56:09.182688'),(135,'certificates','0026_certificateallowlist','2021-07-30 19:56:09.301627'),(136,'certificates','0027_historicalcertificateallowlist','2021-07-30 19:56:09.467101'),(137,'certificates','0028_allowlist_data_20210615_2033','2021-07-30 19:56:09.653074'),(138,'certificates','0029_allowlist_created_20210623_1417','2021-07-30 19:56:10.092332'),(139,'certificates','0030_delete_certificatewhitelist','2021-07-30 19:56:10.110854'),(140,'user_api','0001_initial','2021-07-30 19:56:10.712690'),(141,'user_api','0002_retirementstate_userretirementstatus','2021-07-30 19:56:10.957569'),(142,'commerce','0001_data__add_ecommerce_service_user','2021-07-30 19:56:11.264665'),(143,'commerce','0002_commerceconfiguration','2021-07-30 19:56:11.391886'),(144,'commerce','0003_auto_20160329_0709','2021-07-30 19:56:11.502494'),(145,'commerce','0004_auto_20160531_0950','2021-07-30 19:56:11.721973'),(146,'commerce','0005_commerceconfiguration_enable_automatic_refund_approval','2021-07-30 19:56:11.826172'),(147,'commerce','0006_auto_20170424_1734','2021-07-30 19:56:11.906856'),(148,'commerce','0007_auto_20180313_0609','2021-07-30 19:56:12.096712'),(149,'commerce','0008_auto_20191024_2048','2021-07-30 19:56:12.768820'),(150,'completion','0001_initial','2021-07-30 19:56:13.164222'),(151,'completion','0002_auto_20180125_1510','2021-07-30 19:56:13.392195'),(152,'completion','0003_learning_context','2021-07-30 19:56:13.833269'),(153,'consent','0001_initial','2021-07-30 19:56:14.128760'),(154,'consent','0002_migrate_to_new_data_sharing_consent','2021-07-30 19:56:14.379523'),(155,'consent','0003_historicaldatasharingconsent_history_change_reason','2021-07-30 19:56:14.529948'),(156,'consent','0004_datasharingconsenttextoverrides','2021-07-30 19:56:14.666821'),(157,'organizations','0001_initial','2021-07-30 19:56:14.869370'),(158,'organizations','0002_auto_20170117_1434','2021-07-30 19:56:14.873974'),(159,'organizations','0003_auto_20170221_1138','2021-07-30 19:56:14.878385'),(160,'organizations','0004_auto_20170413_2315','2021-07-30 19:56:14.882821'),(161,'organizations','0005_auto_20171116_0640','2021-07-30 19:56:14.887361'),(162,'organizations','0006_auto_20171207_0259','2021-07-30 19:56:14.891782'),(163,'organizations','0007_historicalorganization','2021-07-30 19:56:14.896722'),(164,'content_libraries','0001_initial','2021-07-30 19:56:15.800404'),(165,'content_libraries','0002_group_permissions','2021-07-30 19:56:16.676407'),(166,'content_libraries','0003_contentlibrary_type','2021-07-30 19:56:16.774857'),(167,'content_libraries','0004_contentlibrary_license','2021-07-30 19:56:16.815419'),(168,'course_overviews','0001_initial','2021-07-30 19:56:16.884267'),(169,'course_overviews','0002_add_course_catalog_fields','2021-07-30 19:56:17.061286'),(170,'course_overviews','0003_courseoverviewgeneratedhistory','2021-07-30 19:56:17.088278'),(171,'course_overviews','0004_courseoverview_org','2021-07-30 19:56:17.137373'),(172,'course_overviews','0005_delete_courseoverviewgeneratedhistory','2021-07-30 19:56:17.154945'),(173,'course_overviews','0006_courseoverviewimageset','2021-07-30 19:56:17.187938'),(174,'course_overviews','0007_courseoverviewimageconfig','2021-07-30 19:56:17.412717'),(175,'course_overviews','0008_remove_courseoverview_facebook_url','2021-07-30 19:56:17.482538'),(176,'course_overviews','0009_readd_facebook_url','2021-07-30 19:56:17.490893'),(177,'course_overviews','0010_auto_20160329_2317','2021-07-30 19:56:17.697229'),(178,'course_overviews','0011_courseoverview_marketing_url','2021-07-30 19:56:17.760098'),(179,'course_overviews','0012_courseoverview_eligible_for_financial_aid','2021-07-30 19:56:17.829871'),(180,'course_overviews','0013_courseoverview_language','2021-07-30 19:56:17.887063'),(181,'course_overviews','0014_courseoverview_certificate_available_date','2021-07-30 19:56:17.939355'),(182,'content_type_gating','0001_initial','2021-07-30 19:56:18.240787'),(183,'content_type_gating','0002_auto_20181119_0959','2021-07-30 19:56:18.772846'),(184,'content_type_gating','0003_auto_20181128_1407','2021-07-30 19:56:18.953748'),(185,'content_type_gating','0004_auto_20181128_1521','2021-07-30 19:56:19.102474'),(186,'content_type_gating','0005_auto_20190306_1547','2021-07-30 19:56:20.018916'),(187,'content_type_gating','0006_auto_20190308_1447','2021-07-30 19:56:20.201436'),(188,'content_type_gating','0007_auto_20190311_1919','2021-07-30 19:56:20.971989'),(189,'content_type_gating','0008_auto_20190313_1634','2021-07-30 19:56:21.085507'),(190,'contentserver','0001_initial','2021-07-30 19:56:21.226829'),(191,'contentserver','0002_cdnuseragentsconfig','2021-07-30 19:56:21.390927'),(192,'cornerstone','0001_initial','2021-07-30 19:56:22.075312'),(193,'cornerstone','0002_cornerstoneglobalconfiguration_subject_mapping','2021-07-30 19:56:22.347343'),(194,'cornerstone','0003_auto_20190621_1000','2021-07-30 19:56:23.095768'),(195,'cornerstone','0004_cornerstoneglobalconfiguration_languages','2021-07-30 19:56:23.215290'),(196,'cornerstone','0005_auto_20190925_0730','2021-07-30 19:56:23.405949'),(197,'cornerstone','0006_auto_20191001_0742','2021-07-30 19:56:23.594937'),(198,'cornerstone','0007_auto_20210708_1446','2021-07-30 19:56:23.738750'),(199,'cors_csrf','0001_initial','2021-07-30 19:56:23.878963'),(200,'course_action_state','0001_initial','2021-07-30 19:56:24.147518'),(201,'course_overviews','0015_historicalcourseoverview','2021-07-30 19:56:24.392208'),(202,'course_overviews','0016_simulatecoursepublishconfig','2021-07-30 19:56:24.567555'),(203,'course_overviews','0017_auto_20191002_0823','2021-07-30 19:56:24.694610'),(204,'course_overviews','0018_add_start_end_in_CourseOverview','2021-07-30 19:56:25.324625'),(205,'course_overviews','0019_improve_courseoverviewtab','2021-07-30 19:56:25.654007'),(206,'course_date_signals','0001_initial','2021-07-30 19:56:26.040271'),(207,'course_duration_limits','0001_initial','2021-07-30 19:56:26.316425'),(208,'course_duration_limits','0002_auto_20181119_0959','2021-07-30 19:56:26.517217'),(209,'course_duration_limits','0003_auto_20181128_1407','2021-07-30 19:56:26.659424'),(210,'course_duration_limits','0004_auto_20181128_1521','2021-07-30 19:56:26.775379'),(211,'course_duration_limits','0005_auto_20190306_1546','2021-07-30 19:56:26.890820'),(212,'course_duration_limits','0006_auto_20190308_1447','2021-07-30 19:56:27.023982'),(213,'course_duration_limits','0007_auto_20190311_1919','2021-07-30 19:56:28.059197'),(214,'course_duration_limits','0008_auto_20190313_1634','2021-07-30 19:56:28.186312'),(215,'course_goals','0001_initial','2021-07-30 19:56:28.446406'),(216,'course_goals','0002_auto_20171010_1129','2021-07-30 19:56:28.584893'),(217,'course_goals','0003_historicalcoursegoal','2021-07-30 19:56:28.735440'),(218,'course_groups','0002_change_inline_default_cohort_value','2021-07-30 19:56:28.803399'),(219,'course_groups','0003_auto_20170609_1455','2021-07-30 19:56:28.980131'),(220,'course_overviews','0020_courseoverviewtab_url_slug','2021-07-30 19:56:29.060414'),(221,'course_overviews','0021_courseoverviewtab_link','2021-07-30 19:56:29.104729'),(222,'course_overviews','0022_courseoverviewtab_is_hidden','2021-07-30 19:56:29.152359'),(223,'course_overviews','0023_courseoverview_banner_image_url','2021-07-30 19:56:29.239511'),(224,'course_overviews','0024_overview_adds_has_highlights','2021-07-30 19:56:29.328424'),(225,'course_home_api','0001_initial','2021-07-30 19:56:29.724881'),(226,'course_modes','0008_course_key_field_to_foreign_key','2021-07-30 19:56:30.009553'),(227,'course_modes','0009_suggested_prices_to_charfield','2021-07-30 19:56:30.035892'),(228,'course_modes','0010_archived_suggested_prices_to_charfield','2021-07-30 19:56:30.054849'),(229,'course_modes','0011_change_regex_for_comma_separated_ints','2021-07-30 19:56:30.092439'),(230,'course_modes','0012_historicalcoursemode','2021-07-30 19:56:30.252498'),(231,'course_modes','0013_auto_20200115_2022','2021-07-30 19:56:30.786576'),(232,'course_overviews','0025_auto_20210702_1602','2021-07-30 19:56:31.431274'),(233,'coursewarehistoryextended','0001_initial','2021-07-30 19:56:31.733549'),(234,'coursewarehistoryextended','0002_force_studentmodule_index','2021-07-30 19:56:31.754995'),(235,'courseware','0002_coursedynamicupgradedeadlineconfiguration_dynamicupgradedeadlineconfiguration','2021-07-30 19:56:31.846325'),(236,'courseware','0003_auto_20170825_0935','2021-07-30 19:56:31.929331'),(237,'courseware','0004_auto_20171010_1639','2021-07-30 19:56:31.958436'),(238,'courseware','0005_orgdynamicupgradedeadlineconfiguration','2021-07-30 19:56:32.026641'),(239,'courseware','0006_remove_module_id_index','2021-07-30 19:56:32.096147'),(240,'courseware','0007_remove_done_index','2021-07-30 19:56:32.132709'),(241,'courseware','0008_move_idde_to_edx_when','2021-07-30 19:56:32.312774'),(242,'courseware','0009_auto_20190703_1955','2021-07-30 19:56:32.431438'),(243,'courseware','0010_auto_20190709_1559','2021-07-30 19:56:32.548406'),(244,'courseware','0011_csm_id_bigint','2021-07-30 19:56:32.687151'),(245,'courseware','0012_adjust_fields','2021-07-30 19:56:32.850406'),(246,'courseware','0013_auto_20191001_1858','2021-07-30 19:56:33.043740'),(247,'courseware','0014_fix_nan_value_for_global_speed','2021-07-30 19:56:33.609455'),(248,'courseware','0015_add_courseware_stats_index','2021-07-30 19:56:33.701446'),(249,'crawlers','0001_initial','2021-07-30 19:56:33.826888'),(250,'crawlers','0002_auto_20170419_0018','2021-07-30 19:56:33.933763'),(251,'credentials','0001_initial','2021-07-30 19:56:34.065260'),(252,'credentials','0002_auto_20160325_0631','2021-07-30 19:56:34.165637'),(253,'credentials','0003_auto_20170525_1109','2021-07-30 19:56:34.328486'),(254,'credentials','0004_notifycredentialsconfig','2021-07-30 19:56:34.454444'),(255,'credentials','0005_remove_existing_mgmt_cmd_args','2021-07-30 19:56:34.665856'),(256,'credit','0001_initial','2021-07-30 19:56:35.221905'),(257,'credit','0002_creditconfig','2021-07-30 19:56:35.636531'),(258,'credit','0003_auto_20160511_2227','2021-07-30 19:56:35.679957'),(259,'credit','0004_delete_historical_credit_records','2021-07-30 19:56:36.684299'),(260,'credit','0005_creditrequirement_sort_value','2021-07-30 19:56:36.728277'),(261,'credit','0006_creditrequirement_alter_ordering','2021-07-30 19:56:36.748475'),(262,'credit','0007_creditrequirement_copy_values','2021-07-30 19:56:36.951587'),(263,'credit','0008_creditrequirement_remove_order','2021-07-30 19:56:36.990375'),(264,'dark_lang','0001_initial','2021-07-30 19:56:37.135243'),(265,'dark_lang','0002_data__enable_on_install','2021-07-30 19:56:37.358271'),(266,'dark_lang','0003_auto_20180425_0359','2021-07-30 19:56:37.609415'),(267,'database_fixups','0001_initial','2021-07-30 19:56:37.823555'),(268,'degreed','0001_initial','2021-07-30 19:56:38.294644'),(269,'degreed','0002_auto_20180104_0103','2021-07-30 19:56:38.664489'),(270,'degreed','0003_auto_20180109_0712','2021-07-30 19:56:38.803833'),(271,'degreed','0004_auto_20180306_1251','2021-07-30 19:56:38.954900'),(272,'degreed','0005_auto_20180807_1302','2021-07-30 19:56:40.412927'),(273,'degreed','0006_upgrade_django_simple_history','2021-07-30 19:56:40.537150'),(274,'degreed','0007_auto_20190925_0730','2021-07-30 19:56:40.735586'),(275,'degreed','0008_auto_20191001_0742','2021-07-30 19:56:40.906943'),(276,'degreed','0009_auto_20210119_1546','2021-07-30 19:56:41.716965'),(277,'degreed','0010_auto_20210708_1446','2021-07-30 19:56:41.858928'),(278,'demographics','0001_initial','2021-07-30 19:56:42.481049'),(279,'demographics','0002_clean_duplicate_entries','2021-07-30 19:56:42.733726'),(280,'demographics','0003_auto_20200827_1949','2021-07-30 19:56:42.888551'),(281,'discounts','0001_initial','2021-07-30 19:56:43.241145'),(282,'discounts','0002_auto_20191022_1720','2021-07-30 19:56:43.689939'),(283,'lti_consumer','0001_initial','2021-07-30 19:56:43.783111'),(284,'discussions','0001_initial','2021-07-30 19:56:44.060619'),(285,'discussions','0002_add_provider_filter','2021-07-30 19:56:44.484254'),(286,'discussions','0003_alter_provider_filter_list','2021-07-30 19:56:45.164877'),(287,'django_celery_results','0001_initial','2021-07-30 19:56:45.202208'),(288,'django_celery_results','0002_add_task_name_args_kwargs','2021-07-30 19:56:45.328058'),(289,'django_celery_results','0003_auto_20181106_1101','2021-07-30 19:56:45.348116'),(290,'django_celery_results','0004_auto_20190516_0412','2021-07-30 19:56:45.549857'),(291,'django_celery_results','0005_taskresult_worker','2021-07-30 19:56:45.605533'),(292,'django_celery_results','0006_taskresult_date_created','2021-07-30 19:56:45.871022'),(293,'django_celery_results','0007_remove_taskresult_hidden','2021-07-30 19:56:45.917700'),(294,'django_celery_results','0008_chordcounter','2021-07-30 19:56:45.943805'),(295,'django_comment_common','0001_initial','2021-07-30 19:56:46.240250'),(296,'django_comment_common','0002_forumsconfig','2021-07-30 19:56:46.851823'),(297,'django_comment_common','0003_enable_forums','2021-07-30 19:56:47.284627'),(298,'django_comment_common','0004_auto_20161117_1209','2021-07-30 19:56:47.384990'),(299,'django_comment_common','0005_coursediscussionsettings','2021-07-30 19:56:47.418057'),(300,'django_comment_common','0006_coursediscussionsettings_discussions_id_map','2021-07-30 19:56:47.457653'),(301,'django_comment_common','0007_discussionsidmapping','2021-07-30 19:56:47.486917'),(302,'django_comment_common','0008_role_user_index','2021-07-30 19:56:47.517907'),(303,'django_notify','0001_initial','2021-07-30 19:56:48.121953'),(304,'edx_proctoring','0001_initial','2021-07-30 19:56:50.423884'),(305,'edx_proctoring','0002_proctoredexamstudentattempt_is_status_acknowledged','2021-07-30 19:56:51.127673'),(306,'edx_proctoring','0003_auto_20160101_0525','2021-07-30 19:56:51.342369'),(307,'edx_proctoring','0004_auto_20160201_0523','2021-07-30 19:56:51.461444'),(308,'edx_proctoring','0005_proctoredexam_hide_after_due','2021-07-30 19:56:51.514637'),(309,'edx_proctoring','0006_allowed_time_limit_mins','2021-07-30 19:56:51.763004'),(310,'edx_proctoring','0007_proctoredexam_backend','2021-07-30 19:56:51.819343'),(311,'edx_proctoring','0008_auto_20181116_1551','2021-07-30 19:56:52.179973'),(312,'edx_proctoring','0009_proctoredexamreviewpolicy_remove_rules','2021-07-30 19:56:52.843198'),(313,'edx_proctoring','0010_update_backend','2021-07-30 19:56:53.069010'),(314,'edx_proctoring','0011_allow_multiple_attempts','2021-07-30 19:56:53.200957'),(315,'edx_proctoring','0012_proctoredexamstudentattempt_time_remaining_seconds','2021-07-30 19:56:53.334070'),(316,'edx_proctoring','0013_proctoredexamsoftwaresecurereview_is_active_attempt','2021-07-30 19:56:53.595934'),(317,'edx_proctoring','0014_add_is_resumable_to_proctoredexamstudentattempt','2021-07-30 19:56:53.857885'),(318,'edx_proctoring','0015_rm_proctoredexamstudentattempt_ips','2021-07-30 19:56:54.448493'),(319,'edx_proctoring','0016_nullable_proctoredexamstudentattempt_name','2021-07-30 19:56:54.714612'),(320,'edx_proctoring','0017_rm_proctoredexamstudentattempt_name','2021-07-30 19:56:54.969729'),(321,'edx_when','0001_initial','2021-07-30 19:56:55.811551'),(322,'edx_when','0002_auto_20190318_1736','2021-07-30 19:56:56.464403'),(323,'edx_when','0003_auto_20190402_1501','2021-07-30 19:56:56.996707'),(324,'edx_when','0004_datepolicy_rel_date','2021-07-30 19:56:57.036881'),(325,'edx_when','0005_auto_20190911_1056','2021-07-30 19:56:57.223577'),(326,'edx_when','0006_drop_active_index','2021-07-30 19:56:57.261023'),(327,'edx_when','0007_meta_tweaks','2021-07-30 19:56:57.282978'),(328,'edxval','0001_initial','2021-07-30 19:56:57.876700'),(329,'edxval','0002_data__default_profiles','2021-07-30 19:56:57.882340'),(330,'edxval','0003_coursevideo_is_hidden','2021-07-30 19:56:57.888173'),(331,'edxval','0004_data__add_hls_profile','2021-07-30 19:56:57.894885'),(332,'edxval','0005_videoimage','2021-07-30 19:56:57.901610'),(333,'edxval','0006_auto_20171009_0725','2021-07-30 19:56:57.907833'),(334,'edxval','0007_transcript_credentials_state','2021-07-30 19:56:57.913969'),(335,'edxval','0008_remove_subtitles','2021-07-30 19:56:57.920284'),(336,'edxval','0009_auto_20171127_0406','2021-07-30 19:56:57.926522'),(337,'edxval','0010_add_video_as_foreign_key','2021-07-30 19:56:57.933003'),(338,'edxval','0011_data__add_audio_mp3_profile','2021-07-30 19:56:57.939310'),(339,'edxval','0012_thirdpartytranscriptcredentialsstate_has_creds','2021-07-30 19:56:57.946002'),(340,'edxval','0013_thirdpartytranscriptcredentialsstate_copy_values','2021-07-30 19:56:57.951890'),(341,'edxval','0014_transcript_credentials_state_retype_exists','2021-07-30 19:56:57.957774'),(342,'edxval','0015_remove_thirdpartytranscriptcredentialsstate_exists','2021-07-30 19:56:57.963728'),(343,'edxval','0016_add_transcript_credentials_model','2021-07-30 19:56:57.969735'),(344,'edxval','0002_add_error_description_field','2021-07-30 19:56:58.214156'),(345,'edxval','0003_delete_transcriptcredentials','2021-07-30 19:56:58.264812'),(346,'email_marketing','0001_initial','2021-07-30 19:56:58.435943'),(347,'email_marketing','0002_auto_20160623_1656','2021-07-30 19:57:00.052232'),(348,'email_marketing','0003_auto_20160715_1145','2021-07-30 19:57:00.607651'),(349,'email_marketing','0004_emailmarketingconfiguration_welcome_email_send_delay','2021-07-30 19:57:00.778938'),(350,'email_marketing','0005_emailmarketingconfiguration_user_registration_cookie_timeout_delay','2021-07-30 19:57:00.908696'),(351,'email_marketing','0006_auto_20170711_0615','2021-07-30 19:57:01.018609'),(352,'email_marketing','0007_auto_20170809_0653','2021-07-30 19:57:01.356220'),(353,'email_marketing','0008_auto_20170809_0539','2021-07-30 19:57:01.592846'),(354,'email_marketing','0009_remove_emailmarketingconfiguration_sailthru_activation_template','2021-07-30 19:57:01.719723'),(355,'email_marketing','0010_auto_20180425_0800','2021-07-30 19:57:01.977300'),(356,'email_marketing','0011_delete_emailmarketingconfiguration','2021-07-30 19:57:01.998480'),(357,'embargo','0001_initial','2021-07-30 19:57:02.966392'),(358,'embargo','0002_data__add_countries','2021-07-30 19:57:03.831660'),(359,'enterprise','0114_auto_20201020_0142','2021-07-30 19:57:04.055320'),(360,'enterprise','0115_enterpriseanalyticsuser_historicalenterpriseanalyticsuser','2021-07-30 19:57:04.409163'),(361,'enterprise','0116_auto_20201116_0400','2021-07-30 19:57:04.537534'),(362,'enterprise','0116_auto_20201208_1759','2021-07-30 19:57:04.759018'),(363,'enterprise','0117_auto_20201215_0258','2021-07-30 19:57:04.962015'),(364,'enterprise','unique_constraints_pending_users','2021-07-30 19:57:05.528893'),(365,'enterprise','0001_auto_20210111_1253','2021-07-30 19:57:05.739572'),(366,'enterprise','0120_systemwiderole_applies_to_all_contexts','2021-07-30 19:57:06.010068'),(367,'enterprise','0121_systemwiderole_add_ent_cust_field','2021-07-30 19:57:06.713110'),(368,'enterprise','0122_remove_field_sync_enterprise_catalog_query','2021-07-30 19:57:06.948268'),(369,'enterprise','0123_enterprisecustomeridentityprovider_default_provider','2021-07-30 19:57:07.016448'),(370,'enterprise','0124_auto_20210301_1309','2021-07-30 19:57:07.187122'),(371,'enterprise','0125_add_config_for_role_assign_backfill','2021-07-30 19:57:07.354094'),(372,'enterprise','0126_auto_20210308_1522','2021-07-30 19:57:07.565139'),(373,'enterprise','0127_enterprisecatalogquery_uuid','2021-07-30 19:57:07.604901'),(374,'enterprise','0128_enterprisecatalogquery_generate_uuids','2021-07-30 19:57:07.862938'),(375,'enterprise','0129_enterprisecatalogquery_uuid_unique','2021-07-30 19:57:07.915049'),(376,'enterprise','0130_lms_customer_lp_search_help_text','2021-07-30 19:57:08.093952'),(377,'enterprise','0131_auto_20210517_0924','2021-07-30 19:57:08.324324'),(378,'enterprise','0132_auto_20210608_1921','2021-07-30 19:57:08.714768'),(379,'enterprise','0133_auto_20210608_1931','2021-07-30 19:57:08.950122'),(380,'enterprise','0134_enterprisecustomerreportingconfiguration_enable_compression','2021-07-30 19:57:09.019843'),(381,'enterprise','0135_adminnotification_adminnotificationfilter_adminnotificationread','2021-07-30 19:57:09.254820'),(382,'enterprise','0136_auto_20210629_2129','2021-07-30 19:57:10.317618'),(383,'enterprise','0137_enrollment_email_update','2021-07-30 19:57:10.684639'),(384,'experiments','0001_initial','2021-07-30 19:57:11.094172'),(385,'student','0001_squashed_0031_auto_20200317_1122','2021-07-30 19:57:18.570600'),(386,'entitlements','0001_initial','2021-07-30 19:57:19.726125'),(387,'entitlements','0002_auto_20171102_0719','2021-07-30 19:57:20.179015'),(388,'entitlements','0003_auto_20171205_1431','2021-07-30 19:57:21.247493'),(389,'entitlements','0004_auto_20171206_1729','2021-07-30 19:57:21.425025'),(390,'entitlements','0005_courseentitlementsupportdetail','2021-07-30 19:57:21.588178'),(391,'entitlements','0006_courseentitlementsupportdetail_action','2021-07-30 19:57:21.784867'),(392,'entitlements','0007_change_expiration_period_default','2021-07-30 19:57:21.842556'),(393,'entitlements','0008_auto_20180328_1107','2021-07-30 19:57:22.088356'),(394,'entitlements','0009_courseentitlement_refund_locked','2021-07-30 19:57:22.209812'),(395,'entitlements','0010_backfill_refund_lock','2021-07-30 19:57:22.510421'),(396,'entitlements','0011_historicalcourseentitlement','2021-07-30 19:57:22.664260'),(397,'entitlements','0012_allow_blank_order_number_values','2021-07-30 19:57:22.935294'),(398,'entitlements','0013_historicalcourseentitlementsupportdetail','2021-07-30 19:57:23.076412'),(399,'entitlements','0014_auto_20200115_2022','2021-07-30 19:57:23.247026'),(400,'entitlements','0015_add_unique_together_constraint','2021-07-30 19:57:23.529403'),(401,'event_routing_backends','0001_initial','2021-07-30 19:57:23.666385'),(402,'event_routing_backends','0002_auto_20210503_0648','2021-07-30 19:57:23.896143'),(403,'experiments','0002_auto_20170627_1402','2021-07-30 19:57:23.952819'),(404,'experiments','0003_auto_20170713_1148','2021-07-30 19:57:23.981699'),(405,'experiments','0004_historicalexperimentkeyvalue','2021-07-30 19:57:24.125290'),(406,'external_user_ids','0001_initial','2021-07-30 19:57:25.300963'),(407,'external_user_ids','0002_mb_coaching_20200210_1754','2021-07-30 19:57:25.726649'),(408,'external_user_ids','0003_auto_20200224_1836','2021-07-30 19:57:25.835543'),(409,'external_user_ids','0004_add_lti_type','2021-07-30 19:57:26.172198'),(410,'grades','0001_initial','2021-07-30 19:57:26.293546'),(411,'grades','0002_rename_last_edited_field','2021-07-30 19:57:26.351074'),(412,'grades','0003_coursepersistentgradesflag_persistentgradesenabledflag','2021-07-30 19:57:26.627551'),(413,'grades','0004_visibleblocks_course_id','2021-07-30 19:57:26.712581'),(414,'grades','0005_multiple_course_flags','2021-07-30 19:57:26.830354'),(415,'grades','0006_persistent_course_grades','2021-07-30 19:57:26.890061'),(416,'grades','0007_add_passed_timestamp_column','2021-07-30 19:57:26.960393'),(417,'grades','0008_persistentsubsectiongrade_first_attempted','2021-07-30 19:57:27.004060'),(418,'grades','0009_auto_20170111_1507','2021-07-30 19:57:27.062277'),(419,'grades','0010_auto_20170112_1156','2021-07-30 19:57:27.095322'),(420,'grades','0011_null_edited_time','2021-07-30 19:57:27.196595'),(421,'grades','0012_computegradessetting','2021-07-30 19:57:27.341679'),(422,'grades','0013_persistentsubsectiongradeoverride','2021-07-30 19:57:27.403102'),(423,'grades','0014_persistentsubsectiongradeoverridehistory','2021-07-30 19:57:27.582381'),(424,'grades','0015_historicalpersistentsubsectiongradeoverride','2021-07-30 19:57:27.761501'),(425,'grades','0016_auto_20190703_1446','2021-07-30 19:57:28.120669'),(426,'grades','0017_delete_manual_psgoverride_table','2021-07-30 19:57:28.302177'),(427,'grades','0018_add_waffle_flag_defaults','2021-07-30 19:57:28.628125'),(428,'instructor_task','0002_gradereportsetting','2021-07-30 19:57:28.779789'),(429,'instructor_task','0003_alter_task_input_field','2021-07-30 19:57:28.929398'),(430,'integrated_channel','0001_squashed_0007_auto_20190925_0730','2021-07-30 19:57:29.655999'),(431,'integrated_channel','0002_learnerdatatransmissionaudit_subsection_id','2021-07-30 19:57:29.730235'),(432,'learning_sequences','0001_initial','2021-07-30 19:57:30.224943'),(433,'learning_sequences','0002_coursesectionsequence_inaccessible_after_due','2021-07-30 19:57:30.363559'),(434,'learning_sequences','0003_create_course_context_for_course_specific_models','2021-07-30 19:57:30.699245'),(435,'learning_sequences','0004_coursecontext_self_paced','2021-07-30 19:57:30.796398'),(436,'learning_sequences','0005_coursecontext_days_early_for_beta','2021-07-30 19:57:30.840461'),(437,'learning_sequences','0006_coursecontext_entrance_exam_id','2021-07-30 19:57:30.882460'),(438,'learning_sequences','0007_coursesequenceexam','2021-07-30 19:57:30.927317'),(439,'learning_sequences','0008_add_learning_context_title_index','2021-07-30 19:57:30.984125'),(440,'learning_sequences','0009_contenterror_publishreport','2021-07-30 19:57:31.060935'),(441,'learning_sequences','0010_add_publishreport_indexes','2021-07-30 19:57:31.193910'),(442,'learning_sequences','0011_course_meta_names','2021-07-30 19:57:31.244986'),(443,'learning_sequences','0012_add_user_partition_group','2021-07-30 19:57:31.377508'),(444,'learning_sequences','0013_through_model_for_user_partition_groups_1','2021-07-30 19:57:31.600285'),(445,'learning_sequences','0014_remove_user_partition_group_duplicates','2021-07-30 19:57:32.026062'),(446,'learning_sequences','0015_add_user_partition_group_unique_constraint','2021-07-30 19:57:32.068953'),(447,'learning_sequences','0016_through_model_for_user_partition_groups_2','2021-07-30 19:57:32.136978'),(448,'lms_xblock','0001_initial','2021-07-30 19:57:32.293704'),(449,'lti_consumer','0002_ltiagslineitem','2021-07-30 19:57:32.563497'),(450,'lti_consumer','0003_ltiagsscore','2021-07-30 19:57:32.791563'),(451,'lti_consumer','0004_keyset_mgmt_to_model','2021-07-30 19:57:32.986537'),(452,'lti_consumer','0005_migrate_keyset_to_model','2021-07-30 19:57:33.324059'),(453,'lti_consumer','0006_add_on_model_config_for_lti_1p1','2021-07-30 19:57:33.933284'),(454,'lti_consumer','0007_ltidlcontentitem','2021-07-30 19:57:34.132679'),(455,'lti_consumer','0008_fix_uuid_backfill','2021-07-30 19:57:35.081961'),(456,'lti_consumer','0009_backfill-empty-string-config-id','2021-07-30 19:57:35.424311'),(457,'lti_consumer','0010_backfill-empty-string-lti-config','2021-07-30 19:57:35.747028'),(458,'lti_consumer','0011_courseeditltifieldsenabledflag','2021-07-30 19:57:35.953550'),(459,'lti_consumer','0012_rename_courseeditltifieldsenabledflag_model','2021-07-30 19:57:36.469859'),(460,'milestones','0001_initial','2021-07-30 19:57:36.936045'),(461,'milestones','0002_data__seed_relationship_types','2021-07-30 19:57:37.485340'),(462,'milestones','0003_coursecontentmilestone_requirements','2021-07-30 19:57:37.538232'),(463,'milestones','0004_auto_20151221_1445','2021-07-30 19:57:37.668105'),(464,'mobile_api','0001_initial','2021-07-30 19:57:37.862281'),(465,'mobile_api','0002_auto_20160406_0904','2021-07-30 19:57:37.940287'),(466,'mobile_api','0003_ignore_mobile_available_flag','2021-07-30 19:57:38.830644'),(467,'moodle','0001_initial','2021-07-30 19:57:39.329003'),(468,'moodle','0002_moodlelearnerdatatransmissionaudit','2021-07-30 19:57:39.432753'),(469,'moodle','0003_auto_20201006_1706','2021-07-30 19:57:39.658796'),(470,'moodle','0004_auto_20201105_1921','2021-07-30 19:57:39.882652'),(471,'moodle','0005_auto_20210708_1446','2021-07-30 19:57:40.105155'),(472,'oauth2_provider','0001_initial','2021-07-30 19:57:41.141592'),(473,'oauth2_provider','0002_auto_20190406_1805','2021-07-30 19:57:41.697859'),(474,'oauth_dispatch','0001_initial','2021-07-30 19:57:41.903878'),(475,'oauth_dispatch','0002_scopedapplication_scopedapplicationorganization','2021-07-30 19:57:42.901773'),(476,'oauth_dispatch','0003_application_data','2021-07-30 19:57:43.307224'),(477,'oauth_dispatch','0004_auto_20180626_1349','2021-07-30 19:57:44.233547'),(478,'oauth_dispatch','0005_applicationaccess_type','2021-07-30 19:57:44.373500'),(479,'oauth_dispatch','0006_drop_application_id_constraints','2021-07-30 19:57:44.516032'),(480,'oauth_dispatch','0007_restore_application_id_constraints','2021-07-30 19:57:44.707458'),(481,'oauth_dispatch','0008_applicationaccess_filters','2021-07-30 19:57:44.764036'),(482,'oauth_dispatch','0009_delete_enable_scopes_waffle_switch','2021-07-30 19:57:45.116194'),(483,'oauth_dispatch','0010_noop_migration_to_test_rollback','2021-07-30 19:57:45.135571'),(484,'oauth_dispatch','0011_noop_migration_to_test_rollback','2021-07-30 19:57:45.154763'),(485,'oauth_dispatch','0012_noop_migration_to_test_rollback','2021-07-30 19:57:45.173215'),(486,'organizations','0002_unique_short_name','2021-07-30 19:57:45.249391'),(487,'organizations','0003_historicalorganizationcourse','2021-07-30 19:57:45.309966'),(488,'program_enrollments','0001_initial','2021-07-30 19:57:45.469249'),(489,'program_enrollments','0002_historicalprogramcourseenrollment_programcourseenrollment','2021-07-30 19:57:46.018768'),(490,'program_enrollments','0003_auto_20190424_1622','2021-07-30 19:57:46.888837'),(491,'program_enrollments','0004_add_programcourseenrollment_relatedname','2021-07-30 19:57:47.125174'),(492,'program_enrollments','0005_canceled_not_withdrawn','2021-07-30 19:57:47.434320'),(493,'program_enrollments','0006_add_the_correct_constraints','2021-07-30 19:57:47.626167'),(494,'program_enrollments','0007_waiting_programcourseenrollment_constraint','2021-07-30 19:57:47.674765'),(495,'program_enrollments','0008_add_ended_programenrollment_status','2021-07-30 19:57:47.747359'),(496,'program_enrollments','0009_update_course_enrollment_field_to_foreign_key','2021-07-30 19:57:47.853646'),(497,'program_enrollments','0010_add_courseaccessroleassignment','2021-07-30 19:57:47.964405'),(498,'programs','0001_initial','2021-07-30 19:57:48.062361'),(499,'programs','0002_programsapiconfig_cache_ttl','2021-07-30 19:57:48.155571'),(500,'programs','0003_auto_20151120_1613','2021-07-30 19:57:48.417353'),(501,'programs','0004_programsapiconfig_enable_certification','2021-07-30 19:57:48.488587'),(502,'programs','0005_programsapiconfig_max_retries','2021-07-30 19:57:48.560412'),(503,'programs','0006_programsapiconfig_xseries_ad_enabled','2021-07-30 19:57:48.632794'),(504,'programs','0007_programsapiconfig_program_listing_enabled','2021-07-30 19:57:48.702408'),(505,'programs','0008_programsapiconfig_program_details_enabled','2021-07-30 19:57:48.774490'),(506,'programs','0009_programsapiconfig_marketing_path','2021-07-30 19:57:48.846863'),(507,'programs','0010_auto_20170204_2332','2021-07-30 19:57:48.937732'),(508,'programs','0011_auto_20170301_1844','2021-07-30 19:57:49.731208'),(509,'programs','0012_auto_20170419_0018','2021-07-30 19:57:49.779288'),(510,'programs','0013_customprogramsconfig','2021-07-30 19:57:49.849568'),(511,'programs','0014_delete_customprogramsconfig','2021-07-30 19:57:49.900923'),(512,'redirects','0001_initial','2021-07-30 19:57:50.128659'),(513,'rss_proxy','0001_initial','2021-07-30 19:57:50.214719'),(514,'sap_success_factors','0001_squashed_0022_auto_20200206_1046','2021-07-30 19:57:51.270234'),(515,'sap_success_factors','0002_sapsuccessfactorslearnerdatatransmissionaudit_credit_hours','2021-07-30 19:57:51.383595'),(516,'sap_success_factors','0003_auto_20210701_1556','2021-07-30 19:57:51.446560'),(517,'sap_success_factors','0004_auto_20210708_1639','2021-07-30 19:57:51.510385'),(518,'sap_success_factors','0005_sapsuccessfactorsenterprisecustomerconfiguration_prevent_learner_self_submit_grades','2021-07-30 19:57:51.595396'),(519,'schedules','0001_initial','2021-07-30 19:57:51.822761'),(520,'schedules','0002_auto_20170816_1532','2021-07-30 19:57:51.937154'),(521,'schedules','0003_scheduleconfig','2021-07-30 19:57:52.173653'),(522,'schedules','0004_auto_20170922_1428','2021-07-30 19:57:52.610970'),(523,'schedules','0005_auto_20171010_1722','2021-07-30 19:57:52.988739'),(524,'schedules','0006_scheduleexperience','2021-07-30 19:57:53.215043'),(525,'schedules','0007_scheduleconfig_hold_back_ratio','2021-07-30 19:57:53.427586'),(526,'schedules','0008_add_new_start_date_field','2021-07-30 19:57:53.492611'),(527,'schedules','0009_schedule_copy_column_values','2021-07-30 19:57:53.844583'),(528,'schedules','0010_remove_null_blank_from_schedules_date','2021-07-30 19:57:53.909573'),(529,'schedules','0011_auto_20200228_2018','2021-07-30 19:57:53.971812'),(530,'schedules','0012_auto_20200302_1914','2021-07-30 19:57:54.037264'),(531,'schedules','0013_historicalschedule','2021-07-30 19:57:54.110821'),(532,'schedules','0014_historicalschedule_drop_fk','2021-07-30 19:57:54.255654'),(533,'schedules','0015_schedules_start_nullable','2021-07-30 19:57:54.399485'),(534,'schedules','0016_remove_start_from_schedules','2021-07-30 19:57:54.456600'),(535,'schedules','0017_remove_start_from_historicalschedule','2021-07-30 19:57:54.527791'),(536,'schedules','0018_readd_historicalschedule_fks','2021-07-30 19:57:54.661685'),(537,'schedules','0019_auto_20200316_1935','2021-07-30 19:57:54.863453'),(538,'schedules','0020_remove_config_rollout_fields','2021-07-30 19:57:55.071629'),(539,'self_paced','0001_initial','2021-07-30 19:57:55.171546'),(540,'sessions','0001_initial','2021-07-30 19:57:55.244858'),(541,'site_configuration','0001_initial','2021-07-30 19:57:56.170663'),(542,'site_configuration','0002_auto_20160720_0231','2021-07-30 19:57:56.441256'),(543,'site_configuration','0003_auto_20200217_1058','2021-07-30 19:57:56.569575'),(544,'site_configuration','0004_add_site_values_field','2021-07-30 19:57:56.727920'),(545,'site_configuration','0005_populate_siteconfig_history_site_values','2021-07-30 19:57:56.753489'),(546,'site_configuration','0006_copy_values_to_site_values','2021-07-30 19:57:57.129360'),(547,'site_configuration','0007_remove_values_field','2021-07-30 19:57:57.285724'),(548,'default','0001_initial','2021-07-30 19:57:57.609244'),(549,'social_auth','0001_initial','2021-07-30 19:57:57.617468'),(550,'default','0002_add_related_name','2021-07-30 19:57:57.766172'),(551,'social_auth','0002_add_related_name','2021-07-30 19:57:57.774657'),(552,'default','0003_alter_email_max_length','2021-07-30 19:57:57.829366'),(553,'social_auth','0003_alter_email_max_length','2021-07-30 19:57:57.837597'),(554,'default','0004_auto_20160423_0400','2021-07-30 19:57:57.910598'),(555,'social_auth','0004_auto_20160423_0400','2021-07-30 19:57:57.919568'),(556,'social_auth','0005_auto_20160727_2333','2021-07-30 19:57:57.956143'),(557,'social_django','0006_partial','2021-07-30 19:57:57.991874'),(558,'social_django','0007_code_timestamp','2021-07-30 19:57:58.060331'),(559,'social_django','0008_partial_timestamp','2021-07-30 19:57:58.116745'),(560,'social_django','0009_auto_20191118_0520','2021-07-30 19:57:58.299675'),(561,'social_django','0010_uid_db_index','2021-07-30 19:57:58.385145'),(562,'splash','0001_initial','2021-07-30 19:57:58.499507'),(563,'static_replace','0001_initial','2021-07-30 19:57:58.625821'),(564,'static_replace','0002_assetexcludedextensionsconfig','2021-07-30 19:57:58.753633'),(565,'status','0001_initial','2021-07-30 19:57:59.020178'),(566,'status','0002_update_help_text','2021-07-30 19:57:59.150962'),(567,'student','0032_removed_logout_view_configuration','2021-07-30 19:57:59.338649'),(568,'student','0033_userprofile_state','2021-07-30 19:57:59.473091'),(569,'student','0034_courseenrollmentcelebration','2021-07-30 19:57:59.631582'),(570,'student','0035_bulkchangeenrollmentconfiguration','2021-07-30 19:57:59.807753'),(571,'student','0036_userpasswordtogglehistory','2021-07-30 19:57:59.988870'),(572,'student','0037_linkedinaddtoprofileconfiguration_updates','2021-07-30 19:58:00.394572'),(573,'student','0038_auto_20201021_1256','2021-07-30 19:58:00.512839'),(574,'student','0039_anon_id_context','2021-07-30 19:58:00.630520'),(575,'student','0040_usercelebration','2021-07-30 19:58:01.445297'),(576,'student','0041_registration_activation_timestamp','2021-07-30 19:58:01.598516'),(577,'student','0042_allow_certificate_null_20210427_1519','2021-07-30 19:58:01.739167'),(578,'student','0043_remove_userprofile_allow_certificate','2021-07-30 19:58:01.881705'),(579,'submissions','0001_initial','2021-07-30 19:58:02.466444'),(580,'submissions','0002_auto_20151119_0913','2021-07-30 19:58:02.474676'),(581,'submissions','0003_submission_status','2021-07-30 19:58:02.483856'),(582,'submissions','0004_remove_django_extensions','2021-07-30 19:58:02.492661'),(583,'submissions','0005_CreateTeamModel','2021-07-30 19:58:02.501220'),(584,'super_csv','0001_initial','2021-07-30 19:58:02.842576'),(585,'super_csv','0002_csvoperation_user','2021-07-30 19:58:03.031646'),(586,'super_csv','0003_csvoperation_original_filename','2021-07-30 19:58:03.210826'),(587,'survey','0001_initial','2021-07-30 19:58:03.485605'),(588,'system_wide_roles','0001_SystemWideRole_SystemWideRoleAssignment','2021-07-30 19:58:03.742487'),(589,'system_wide_roles','0002_add_system_wide_student_support_role','2021-07-30 19:58:04.184051'),(590,'system_wide_roles','0003_systemwideroleassignment_applies_to_all_contexts','2021-07-30 19:58:04.324215'),(591,'teams','0001_initial','2021-07-30 19:58:04.834675'),(592,'teams','0002_slug_field_ids','2021-07-30 19:58:05.169722'),(593,'teams','0003_courseteam_organization_protected','2021-07-30 19:58:05.328640'),(594,'teams','0004_alter_defaults','2021-07-30 19:58:06.479378'),(595,'theming','0001_initial','2021-07-30 19:58:06.661187'),(596,'third_party_auth','0001_squashed_0026_auto_20200401_1932','2021-07-30 19:58:07.561687'),(597,'third_party_auth','0002_samlproviderconfig_country','2021-07-30 19:58:08.109920'),(598,'third_party_auth','0002_auto_20200721_1650','2021-07-30 19:58:08.788504'),(599,'third_party_auth','0003_samlconfiguration_is_public','2021-07-30 19:58:08.944133'),(600,'third_party_auth','0004_auto_20200919_0955','2021-07-30 19:58:09.609018'),(601,'third_party_auth','0005_auto_20210723_1527','2021-07-30 19:58:10.209762'),(602,'thumbnail','0001_initial','2021-07-30 19:58:10.247340'),(603,'track','0001_initial','2021-07-30 19:58:11.018069'),(604,'track','0002_delete_trackinglog','2021-07-30 19:58:11.046989'),(605,'user_api','0003_userretirementrequest','2021-07-30 19:58:11.249960'),(606,'user_api','0004_userretirementpartnerreportingstatus','2021-07-30 19:58:11.497469'),(607,'user_authn','0001_data__add_login_service','2021-07-30 19:58:11.954001'),(608,'util','0001_initial','2021-07-30 19:58:12.165065'),(609,'util','0002_data__default_rate_limit_config','2021-07-30 19:58:12.594640'),(610,'verified_track_content','0001_initial','2021-07-30 19:58:12.640385'),(611,'verified_track_content','0002_verifiedtrackcohortedcourse_verified_cohort_name','2021-07-30 19:58:12.709358'),(612,'verified_track_content','0003_migrateverifiedtrackcohortssetting','2021-07-30 19:58:12.948688'),(613,'verify_student','0001_initial','2021-07-30 19:58:15.520123'),(614,'verify_student','0002_auto_20151124_1024','2021-07-30 19:58:16.018756'),(615,'verify_student','0003_auto_20151113_1443','2021-07-30 19:58:16.094184'),(616,'verify_student','0004_delete_historical_records','2021-07-30 19:58:16.189193'),(617,'verify_student','0005_remove_deprecated_models','2021-07-30 19:58:17.897308'),(618,'verify_student','0006_ssoverification','2021-07-30 19:58:18.059378'),(619,'verify_student','0007_idverificationaggregate','2021-07-30 19:58:18.273604'),(620,'verify_student','0008_populate_idverificationaggregate','2021-07-30 19:58:18.755398'),(621,'verify_student','0009_remove_id_verification_aggregate','2021-07-30 19:58:19.117619'),(622,'verify_student','0010_manualverification','2021-07-30 19:58:19.281738'),(623,'verify_student','0011_add_fields_to_sspv','2021-07-30 19:58:19.599591'),(624,'verify_student','0012_sspverificationretryconfig','2021-07-30 19:58:20.502602'),(625,'verify_student','0013_add_expiration_date_field','2021-07-30 19:58:20.919485'),(626,'verify_student','0014_remove_softwaresecurephotoverification_expiry_date','2021-07-30 19:58:21.084835'),(627,'video_config','0001_initial','2021-07-30 19:58:21.409370'),(628,'video_config','0002_coursevideotranscriptenabledflag_videotranscriptenabledflag','2021-07-30 19:58:21.846613'),(629,'video_config','0003_transcriptmigrationsetting','2021-07-30 19:58:22.083156'),(630,'video_config','0004_transcriptmigrationsetting_command_run','2021-07-30 19:58:22.252415'),(631,'video_config','0005_auto_20180719_0752','2021-07-30 19:58:22.436669'),(632,'video_config','0006_videothumbnailetting_updatedcoursevideos','2021-07-30 19:58:22.697789'),(633,'video_config','0007_videothumbnailsetting_offset','2021-07-30 19:58:22.883708'),(634,'video_config','0008_courseyoutubeblockedflag','2021-07-30 19:58:23.066293'),(635,'video_pipeline','0001_initial','2021-07-30 19:58:23.286085'),(636,'video_pipeline','0002_auto_20171114_0704','2021-07-30 19:58:23.577827'),(637,'video_pipeline','0003_coursevideouploadsenabledbydefault_videouploadsenabledbydefault','2021-07-30 19:58:23.933296'),(638,'video_pipeline','0004_vempipelineintegration','2021-07-30 19:58:24.183152'),(639,'video_pipeline','0005_add_vem_course_percentage','2021-07-30 19:58:24.363388'),(640,'video_pipeline','0006_remove_vempipelineintegration_vem_enabled_courses_percentage','2021-07-30 19:58:24.513769'),(641,'video_pipeline','0007_delete_videopipelineintegration','2021-07-30 19:58:24.550693'),(642,'waffle','0002_auto_20161201_0958','2021-07-30 19:58:24.592103'),(643,'waffle','0003_update_strings_for_i18n','2021-07-30 19:58:27.461980'),(644,'waffle','0004_update_everyone_nullbooleanfield','2021-07-30 19:58:27.575030'),(645,'waffle_utils','0001_initial','2021-07-30 19:58:27.739458'),(646,'waffle_utils','0002_waffleflagcourseoverridemodel_note','2021-07-30 19:58:27.904855'),(647,'wiki','0001_initial','2021-07-30 19:58:33.668765'),(648,'wiki','0002_remove_article_subscription','2021-07-30 19:58:34.432312'),(649,'wiki','0003_ip_address_conv','2021-07-30 19:58:34.905126'),(650,'wiki','0004_increase_slug_size','2021-07-30 19:58:35.034352'),(651,'wiki','0005_remove_attachments_and_images','2021-07-30 19:58:36.078597'),(652,'wiki','0006_auto_20200110_1003','2021-07-30 19:58:36.358441'),(653,'workflow','0001_initial','2021-07-30 19:58:36.492877'),(654,'workflow','0002_remove_django_extensions','2021-07-30 19:58:36.617490'),(655,'workflow','0003_TeamWorkflows','2021-07-30 19:58:36.668301'),(656,'workflow','0004_assessmentworkflowstep_skipped','2021-07-30 19:58:36.745038'),(657,'xapi','0001_initial','2021-07-30 19:58:36.887343'),(658,'xapi','0002_auto_20180726_0142','2021-07-30 19:58:37.038689'),(659,'xapi','0003_auto_20190807_1006','2021-07-30 19:58:37.269555'),(660,'xapi','0004_auto_20190830_0710','2021-07-30 19:58:37.423528'),(661,'xblock_django','0001_initial','2021-07-30 19:58:37.556027'),(662,'xblock_django','0002_auto_20160204_0809','2021-07-30 19:58:37.690761'),(663,'xblock_django','0003_add_new_config_models','2021-07-30 19:58:38.080081'),(664,'xblock_django','0004_delete_xblock_disable_config','2021-07-30 19:58:38.326497'),(665,'social_django','0004_auto_20160423_0400','2021-07-30 19:58:38.344066'),(666,'social_django','0003_alter_email_max_length','2021-07-30 19:58:38.352967'),(667,'social_django','0002_add_related_name','2021-07-30 19:58:38.362416'),(668,'social_django','0005_auto_20160727_2333','2021-07-30 19:58:38.371828'),(669,'social_django','0001_initial','2021-07-30 19:58:38.380659'),(670,'submissions','0001_squashed_0005_CreateTeamModel','2021-07-30 19:58:38.389282'),(671,'edxval','0001_squashed_0016_add_transcript_credentials_model','2021-07-30 19:58:38.398405'),(672,'organizations','0001_squashed_0007_historicalorganization','2021-07-30 19:58:38.406972'),(673,'contentstore','0001_initial','2021-07-30 20:01:10.193536'),(674,'contentstore','0002_add_assets_page_flag','2021-07-30 20:01:10.870030'),(675,'contentstore','0003_remove_assets_page_flag','2021-07-30 20:01:11.608359'),(676,'contentstore','0004_remove_push_notification_configmodel_table','2021-07-30 20:01:12.198424'),(677,'contentstore','0005_add_enable_checklists_quality_waffle_flag','2021-07-30 20:01:12.227379'),(678,'contentstore','0006_courseoutlineregenerate','2021-07-30 20:01:12.250146'),(679,'course_creators','0001_initial','2021-07-30 20:01:12.553479'),(680,'tagging','0001_initial','2021-07-30 20:01:12.686397'),(681,'tagging','0002_auto_20170116_1541','2021-07-30 20:01:12.762608'),(682,'user_tasks','0001_initial','2021-07-30 20:01:13.420337'),(683,'user_tasks','0002_artifact_file_storage','2021-07-30 20:01:13.539378'),(684,'user_tasks','0003_url_max_length','2021-07-30 20:01:13.579594'),(685,'user_tasks','0004_url_textfield','2021-07-30 20:01:13.641414'),(686,'xblock_config','0001_initial','2021-07-30 20:01:13.830114'),(687,'xblock_config','0002_courseeditltifieldsenabledflag','2021-07-30 20:01:13.840356'),(688,'xblock_config','0003_move_course_edit_lti_fields_enabled_flag_model_to_lti_consumer','2021-07-30 20:01:13.850428'),(689,'xblock_config','0001_squashed_0003_move_course_edit_lti_fields_enabled_flag_model_to_lti_consumer','2021-07-30 20:01:13.894650');
+INSERT INTO `django_migrations` VALUES (1,'contenttypes','0001_initial','2023-02-21 13:25:56.515519'),(2,'auth','0001_initial','2023-02-21 13:25:56.917190'),(3,'admin','0001_initial','2023-02-21 13:25:57.088156'),(4,'admin','0002_logentry_remove_auto_add','2023-02-21 13:25:57.116676'),(5,'admin','0003_logentry_add_action_flag_choices','2023-02-21 13:25:57.144684'),(6,'agreements','0001_initial','2023-02-21 13:25:57.233093'),(7,'announcements','0001_initial','2023-02-21 13:25:57.254680'),(8,'sites','0001_initial','2023-02-21 13:25:57.252974'),(9,'contenttypes','0002_remove_content_type_name','2023-02-21 13:25:57.329155'),(10,'api_admin','0001_initial','2023-02-21 13:25:57.526850'),(11,'api_admin','0002_auto_20160325_1604','2023-02-21 13:25:57.592562'),(12,'api_admin','0003_auto_20160404_1618','2023-02-21 13:25:57.907332'),(13,'api_admin','0004_auto_20160412_1506','2023-02-21 13:25:58.087213'),(14,'api_admin','0005_auto_20160414_1232','2023-02-21 13:25:58.105684'),(15,'api_admin','0006_catalog','2023-02-21 13:25:58.112898'),(16,'api_admin','0007_delete_historical_api_records','2023-02-21 13:25:58.279264'),(17,'assessment','0001_initial','2023-02-21 13:25:59.321882'),(18,'assessment','0002_staffworkflow','2023-02-21 13:25:59.439420'),(19,'assessment','0003_expand_course_id','2023-02-21 13:25:59.564211'),(20,'assessment','0004_historicalsharedfileupload_sharedfileupload','2023-02-21 13:25:59.767874'),(21,'assessment','0005_add_filename_to_sharedupload','2023-02-21 13:25:59.863571'),(22,'assessment','0006_TeamWorkflows','2023-02-21 13:25:59.910984'),(23,'assessment','0007_staff_workflow_blank','2023-02-21 13:25:59.939215'),(24,'auth','0002_alter_permission_name_max_length','2023-02-21 13:25:59.987705'),(25,'auth','0003_alter_user_email_max_length','2023-02-21 13:26:00.037137'),(26,'auth','0004_alter_user_username_opts','2023-02-21 13:26:00.054875'),(27,'auth','0005_alter_user_last_login_null','2023-02-21 13:26:00.095664'),(28,'auth','0006_require_contenttypes_0002','2023-02-21 13:26:00.098374'),(29,'auth','0007_alter_validators_add_error_messages','2023-02-21 13:26:00.117388'),(30,'auth','0008_alter_user_username_max_length','2023-02-21 13:26:00.160763'),(31,'auth','0009_alter_user_last_name_max_length','2023-02-21 13:26:00.199667'),(32,'auth','0010_alter_group_name_max_length','2023-02-21 13:26:00.252906'),(33,'auth','0011_update_proxy_permissions','2023-02-21 13:26:00.288350'),(34,'auth','0012_alter_user_first_name_max_length','2023-02-21 13:26:00.332967'),(35,'instructor_task','0001_initial','2023-02-21 13:26:00.434359'),(36,'certificates','0001_initial','2023-02-21 13:26:01.015197'),(37,'certificates','0002_data__certificatehtmlviewconfiguration_data','2023-02-21 13:26:01.075768'),(38,'certificates','0003_data__default_modes','2023-02-21 13:26:01.146237'),(39,'certificates','0004_certificategenerationhistory','2023-02-21 13:26:01.249994'),(40,'certificates','0005_auto_20151208_0801','2023-02-21 13:26:01.288635'),(41,'certificates','0006_certificatetemplateasset_asset_slug','2023-02-21 13:26:01.320236'),(42,'certificates','0007_certificateinvalidation','2023-02-21 13:26:01.428182'),(43,'badges','0001_initial','2023-02-21 13:26:01.901081'),(44,'badges','0002_data__migrate_assertions','2023-02-21 13:26:01.961444'),(45,'badges','0003_schema__add_event_configuration','2023-02-21 13:26:02.043811'),(46,'badges','0004_badgeclass_badgr_server_slug','2023-02-21 13:26:02.093753'),(47,'waffle','0001_initial','2023-02-21 13:26:02.376088'),(48,'sites','0002_alter_domain_unique','2023-02-21 13:26:02.400242'),(49,'enterprise','0001_squashed_0092_auto_20200312_1650','2023-02-21 13:26:05.990195'),(50,'enterprise','0093_add_use_enterprise_catalog_flag','2023-02-21 13:26:06.128096'),(51,'enterprise','0094_add_use_enterprise_catalog_sample','2023-02-21 13:26:06.363282'),(52,'integrated_channel','0001_squashed_0007_auto_20190925_0730','2023-02-21 13:26:06.816522'),(53,'integrated_channel','0002_learnerdatatransmissionaudit_subsection_id','2023-02-21 13:26:06.844445'),(54,'integrated_channel','0003_contentmetadataitemtransmission_content_last_changed','2023-02-21 13:26:06.903132'),(55,'integrated_channel','0004_contentmetadataitemtransmission_enterprise_customer_catalog_uuid','2023-02-21 13:26:06.960962'),(56,'integrated_channel','0005_auto_20211005_1052','2023-02-21 13:26:07.003333'),(57,'integrated_channel','0006_contentmetadataitemtransmission_deleted_at','2023-02-21 13:26:07.062420'),(58,'integrated_channel','0007_delete_learnerdatatransmissionaudit','2023-02-21 13:26:07.075731'),(59,'integrated_channel','0008_genericlearnerdatatransmissionaudit','2023-02-21 13:26:07.112935'),(60,'integrated_channel','0009_auto_20220325_1757','2023-02-21 13:26:07.196652'),(61,'enterprise','0095_auto_20200507_1138','2023-02-21 13:26:07.389074'),(62,'enterprise','0096_enterprise_catalog_admin_role','2023-02-21 13:26:07.507528'),(63,'enterprise','0097_auto_20200619_1130','2023-02-21 13:26:07.745764'),(64,'enterprise','0098_auto_20200629_1756','2023-02-21 13:26:07.925725'),(65,'enterprise','0099_auto_20200702_1537','2023-02-21 13:26:08.101620'),(66,'enterprise','0100_add_licensed_enterprise_course_enrollment','2023-02-21 13:26:08.445488'),(67,'enterprise','0101_move_data_to_saved_for_later','2023-02-21 13:26:08.625974'),(68,'enterprise','0102_auto_20200708_1615','2023-02-21 13:26:08.872572'),(69,'enterprise','0103_remove_marked_done','2023-02-21 13:26:09.046375'),(70,'enterprise','0104_sync_query_field','2023-02-21 13:26:09.268357'),(71,'enterprise','0105_add_branding_config_color_fields','2023-02-21 13:26:09.441852'),(72,'enterprise','0106_move_branding_config_colors','2023-02-21 13:26:09.549711'),(73,'enterprise','0107_remove_branding_config_banner_fields','2023-02-21 13:26:09.659715'),(74,'enterprise','0108_add_licensed_enrollment_is_revoked','2023-02-21 13:26:09.777200'),(75,'enterprise','0109_remove_use_enterprise_catalog_sample','2023-02-21 13:26:09.888001'),(76,'enterprise','0110_add_default_contract_discount','2023-02-21 13:26:10.081410'),(77,'enterprise','0111_pendingenterprisecustomeradminuser','2023-02-21 13:26:10.355117'),(78,'enterprise','0112_auto_20200914_0926','2023-02-21 13:26:10.531518'),(79,'enterprise','0113_auto_20200914_2054','2023-02-21 13:26:11.037320'),(80,'enterprise','0114_auto_20201020_0142','2023-02-21 13:26:11.247946'),(81,'enterprise','0115_enterpriseanalyticsuser_historicalenterpriseanalyticsuser','2023-02-21 13:26:11.502309'),(82,'enterprise','0116_auto_20201116_0400','2023-02-21 13:26:11.541124'),(83,'enterprise','0116_auto_20201208_1759','2023-02-21 13:26:11.723927'),(84,'enterprise','0117_auto_20201215_0258','2023-02-21 13:26:11.850833'),(85,'enterprise','unique_constraints_pending_users','2023-02-21 13:26:12.340525'),(86,'enterprise','0001_auto_20210111_1253','2023-02-21 13:26:12.514222'),(87,'enterprise','0120_systemwiderole_applies_to_all_contexts','2023-02-21 13:26:12.669213'),(88,'enterprise','0121_systemwiderole_add_ent_cust_field','2023-02-21 13:26:12.785496'),(89,'enterprise','0122_remove_field_sync_enterprise_catalog_query','2023-02-21 13:26:12.951690'),(90,'enterprise','0123_enterprisecustomeridentityprovider_default_provider','2023-02-21 13:26:13.016656'),(91,'enterprise','0124_auto_20210301_1309','2023-02-21 13:26:13.169012'),(92,'enterprise','0125_add_config_for_role_assign_backfill','2023-02-21 13:26:13.334801'),(93,'enterprise','0126_auto_20210308_1522','2023-02-21 13:26:13.557838'),(94,'enterprise','0127_enterprisecatalogquery_uuid','2023-02-21 13:26:13.610668'),(95,'enterprise','0128_enterprisecatalogquery_generate_uuids','2023-02-21 13:26:13.727939'),(96,'enterprise','0129_enterprisecatalogquery_uuid_unique','2023-02-21 13:26:13.775978'),(97,'enterprise','0130_lms_customer_lp_search_help_text','2023-02-21 13:26:13.908065'),(98,'enterprise','0131_auto_20210517_0924','2023-02-21 13:26:14.103147'),(99,'enterprise','0132_auto_20210608_1921','2023-02-21 13:26:14.701649'),(100,'enterprise','0133_auto_20210608_1931','2023-02-21 13:26:14.826785'),(101,'enterprise','0134_enterprisecustomerreportingconfiguration_enable_compression','2023-02-21 13:26:14.891942'),(102,'enterprise','0135_adminnotification_adminnotificationfilter_adminnotificationread','2023-02-21 13:26:15.169981'),(103,'enterprise','0136_auto_20210629_2129','2023-02-21 13:26:15.587773'),(104,'enterprise','0137_enrollment_email_update','2023-02-21 13:26:15.734531'),(105,'enterprise','0138_bulkcatalogqueryupdatecommandconfiguration','2023-02-21 13:26:15.905546'),(106,'enterprise','0139_auto_20210803_1854','2023-02-21 13:26:15.962103'),(107,'enterprise','0140_update_enrollment_sources','2023-02-21 13:26:16.087113'),(108,'enterprise','0141_make_enterprisecatalogquery_title_unique','2023-02-21 13:26:16.246216'),(109,'enterprise','0142_auto_20210907_2059','2023-02-21 13:26:16.294887'),(110,'enterprise','0143_auto_20210908_0559','2023-02-21 13:26:16.657715'),(111,'enterprise','0144_auto_20211011_1030','2023-02-21 13:26:16.678647'),(112,'enterprise','0145_auto_20211013_1018','2023-02-21 13:26:16.877501'),(113,'enterprise','0146_enterprise_customer_invite_key','2023-02-21 13:26:17.816780'),(114,'enterprise','0147_auto_20211129_1949','2023-02-21 13:26:18.019623'),(115,'enterprise','0148_auto_20211129_2114','2023-02-21 13:26:18.223580'),(116,'enterprise','0149_invite_key_required_default_expiry_backfill','2023-02-21 13:26:18.356873'),(117,'enterprise','0150_invite_key_expiry_required','2023-02-21 13:26:18.574343'),(118,'enterprise','0151_add_is_active_to_invite_key','2023-02-21 13:26:18.795636'),(119,'enterprise','0152_add_should_inactivate_other_customers','2023-02-21 13:26:18.996586'),(120,'enterprise','0153_add_enable_browse_and_request','2023-02-21 13:26:19.264691'),(121,'integrated_channel','0010_genericenterprisecustomerpluginconfiguration','2023-02-21 13:26:19.422661'),(122,'integrated_channel','0011_contentmetadataitemtransmission_plugin_configuration_id','2023-02-21 13:26:19.487746'),(123,'integrated_channel','0012_alter_contentmetadataitemtransmission_unique_together','2023-02-21 13:26:19.555083'),(124,'integrated_channel','0013_auto_20220405_2311','2023-02-21 13:26:19.626636'),(125,'integrated_channel','0014_genericenterprisecustomerpluginconfiguration_dry_run_mode_enabled','2023-02-21 13:26:19.696612'),(126,'integrated_channel','0015_auto_20220718_2113','2023-02-21 13:26:20.042364'),(127,'integrated_channel','0016_contentmetadataitemtransmission_content_title','2023-02-21 13:26:20.108112'),(128,'integrated_channel','0017_contentmetadataitemtransmission_friendly_status_message','2023-02-21 13:26:20.179863'),(129,'integrated_channel','0018_genericlearnerdatatransmissionaudit_friendly_status_message','2023-02-21 13:26:20.215341'),(130,'integrated_channel','0016_contentmetadataitemtransmission_marked_for','2023-02-21 13:26:20.284318'),(131,'integrated_channel','0019_merge_20220928_1842','2023-02-21 13:26:20.288055'),(132,'integrated_channel','0020_auto_20220929_1712','2023-02-21 13:26:20.574496'),(133,'integrated_channel','0021_remove_contentmetadataitemtransmission_api_response_body','2023-02-21 13:26:20.644017'),(134,'blackboard','0001_initial','2023-02-21 13:26:23.204837'),(135,'blackboard','0002_auto_20200930_1723','2023-02-21 13:26:23.208163'),(136,'blackboard','0003_blackboardlearnerdatatransmissionaudit','2023-02-21 13:26:23.211386'),(137,'blackboard','0004_blackboard_tx_chunk_size_default_1','2023-02-21 13:26:23.215405'),(138,'blackboard','0005_blackboardlearnerassessmentdatatransmissionaudit','2023-02-21 13:26:23.218942'),(139,'blackboard','0006_auto_20210708_1446','2023-02-21 13:26:23.223978'),(140,'blackboard','0007_auto_20210909_1536','2023-02-21 13:26:23.227628'),(141,'blackboard','0008_auto_20210923_1727','2023-02-21 13:26:23.231094'),(142,'blackboard','0009_alter_blackboardenterprisecustomerconfiguration_enterprise_customer','2023-02-21 13:26:23.236111'),(143,'blackboard','0010_auto_20211221_1532','2023-02-21 13:26:23.239549'),(144,'blackboard','0011_auto_20220126_1837','2023-02-21 13:26:23.243109'),(145,'blackboard','0012_auto_20220131_1539','2023-02-21 13:26:23.247077'),(146,'blackboard','0013_blacboardglobalconfiguration','2023-02-21 13:26:23.250527'),(147,'blackboard','0014_alter_blackboardlearnerassessmentdatatransmissionaudit_enterprise_course_enrollment_id','2023-02-21 13:26:23.254047'),(148,'blackboard','0002_auto_20220302_2231','2023-02-21 13:26:23.502542'),(149,'blackboard','0003_alter_blackboardlearnerdatatransmissionaudit_completed_timestamp','2023-02-21 13:26:23.545414'),(150,'blackboard','0004_auto_20220324_1550','2023-02-21 13:26:23.946330'),(151,'blackboard','0005_auto_20220325_1757','2023-02-21 13:26:24.099605'),(152,'blackboard','0006_auto_20220405_2311','2023-02-21 13:26:24.646943'),(153,'blackboard','0007_auto_20220523_1625','2023-02-21 13:26:24.858351'),(154,'blackboard','0008_auto_20220913_2018','2023-02-21 13:26:24.931789'),(155,'blackboard','0009_auto_20220929_1720','2023-02-21 13:26:25.485409'),(156,'blackboard','0010_auto_20221021_0159','2023-02-21 13:26:25.716239'),(157,'blackboard','0011_auto_20221031_1855','2023-02-21 13:26:25.899829'),(158,'blackboard','0012_move_and_recrete_completed_timestamp','2023-02-21 13:26:25.957062'),(159,'blackboard','0013_alter_blackboardlearnerdatatransmissionaudit_index_together','2023-02-21 13:26:25.991023'),(160,'blackboard','0014_auto_20230105_2122','2023-02-21 13:26:27.264925'),(161,'blackboard','0015_auto_20230112_2002','2023-02-21 13:26:27.487469'),(162,'block_structure','0001_config','2023-02-21 13:26:27.678185'),(163,'block_structure','0002_blockstructuremodel','2023-02-21 13:26:27.710139'),(164,'block_structure','0003_blockstructuremodel_storage','2023-02-21 13:26:27.722227'),(165,'block_structure','0004_blockstructuremodel_usagekeywithrun','2023-02-21 13:26:27.736831'),(166,'block_structure','0005_trim_leading_slashes_in_data_path','2023-02-21 13:26:27.750471'),(167,'bookmarks','0001_initial','2023-02-21 13:26:28.208067'),(168,'branding','0001_initial','2023-02-21 13:26:28.879779'),(169,'course_modes','0001_initial','2023-02-21 13:26:28.973901'),(170,'course_modes','0002_coursemode_expiration_datetime_is_explicit','2023-02-21 13:26:29.022463'),(171,'course_modes','0003_auto_20151113_1443','2023-02-21 13:26:29.039712'),(172,'course_modes','0004_auto_20151113_1457','2023-02-21 13:26:29.296707'),(173,'course_modes','0005_auto_20151217_0958','2023-02-21 13:26:29.316997'),(174,'course_modes','0006_auto_20160208_1407','2023-02-21 13:26:29.404926'),(175,'course_modes','0007_coursemode_bulk_sku','2023-02-21 13:26:29.440595'),(176,'course_groups','0001_initial','2023-02-21 13:26:30.518311'),(177,'bulk_email','0001_initial','2023-02-21 13:26:31.004841'),(178,'bulk_email','0002_data__load_course_email_template','2023-02-21 13:26:31.234861'),(179,'bulk_email','0003_config_model_feature_flag','2023-02-21 13:26:31.688788'),(180,'bulk_email','0004_add_email_targets','2023-02-21 13:26:32.265621'),(181,'bulk_email','0005_move_target_data','2023-02-21 13:26:32.425499'),(182,'bulk_email','0006_course_mode_targets','2023-02-21 13:26:32.762154'),(183,'bulk_email','0007_disabledcourse','2023-02-21 13:26:32.788004'),(184,'courseware','0001_initial','2023-02-21 13:26:35.305727'),(185,'bulk_grades','0001_initial','2023-02-21 13:26:35.577748'),(186,'bulk_grades','0002_auto_20190703_1526','2023-02-21 13:26:35.758899'),(187,'bundles','0001_initial','2023-02-21 13:26:35.983931'),(188,'bundles','0002_create_drafts','2023-02-21 13:26:36.068981'),(189,'bundles','0003_update_character_set','2023-02-21 13:26:36.349430'),(190,'calendar_sync','0001_initial','2023-02-21 13:26:36.887529'),(191,'calendar_sync','0002_auto_20200709_1743','2023-02-21 13:26:37.169366'),(192,'canvas','0001_initial','2023-02-21 13:26:37.728621'),(193,'canvas','0002_auto_20200806_1632','2023-02-21 13:26:38.245883'),(194,'canvas','0003_delete_canvasglobalconfiguration','2023-02-21 13:26:38.263663'),(195,'canvas','0004_adding_learner_data_to_canvas','2023-02-21 13:26:38.302307'),(196,'canvas','0005_auto_20200909_1534','2023-02-21 13:26:38.326895'),(197,'canvas','0006_canvaslearnerassessmentdatatransmissionaudit','2023-02-21 13:26:38.380243'),(198,'canvas','0007_auto_20210222_2225','2023-02-21 13:26:38.616248'),(199,'canvas','0008_auto_20210707_0815','2023-02-21 13:26:38.792669'),(200,'canvas','0009_auto_20210708_1639','2023-02-21 13:26:38.975343'),(201,'canvas','0010_auto_20210909_1536','2023-02-21 13:26:39.312376'),(202,'canvas','0011_auto_20210923_1727','2023-02-21 13:26:39.560092'),(203,'canvas','0012_alter_canvasenterprisecustomerconfiguration_enterprise_customer','2023-02-21 13:26:39.788306'),(204,'canvas','0013_auto_20211221_1535','2023-02-21 13:26:40.435534'),(205,'canvas','0014_auto_20220126_1837','2023-02-21 13:26:42.042883'),(206,'canvas','0015_auto_20220127_1605','2023-02-21 13:26:42.219199'),(207,'canvas','0016_auto_20220131_1539','2023-02-21 13:26:42.438659'),(208,'canvas','0017_auto_20220302_2231','2023-02-21 13:26:42.680176'),(209,'canvas','0018_alter_canvaslearnerdatatransmissionaudit_completed_timestamp','2023-02-21 13:26:42.712927'),(210,'canvas','0019_auto_20220324_1550','2023-02-21 13:26:42.995018'),(211,'canvas','0020_auto_20220325_1757','2023-02-21 13:26:43.069474'),(212,'canvas','0021_auto_20220405_2311','2023-02-21 13:26:43.689632'),(213,'canvas','0022_auto_20220523_1625','2023-02-21 13:26:43.963380'),(214,'canvas','0023_auto_20220913_2018','2023-02-21 13:26:44.037178'),(215,'canvas','0024_auto_20220929_1720','2023-02-21 13:26:44.714169'),(216,'canvas','0025_auto_20221021_0159','2023-02-21 13:26:45.085198'),(217,'canvas','0026_auto_20221031_1855','2023-02-21 13:26:45.338767'),(218,'canvas','0027_move_and_recrete_completed_timestamp','2023-02-21 13:26:45.413982'),(219,'canvas','0028_alter_canvaslearnerdatatransmissionaudit_index_together','2023-02-21 13:26:45.453826'),(220,'canvas','0029_auto_20230105_2122','2023-02-21 13:26:46.789463'),(221,'canvas','0030_auto_20230112_2002','2023-02-21 13:26:47.005991'),(222,'catalog','0001_initial','2023-02-21 13:26:47.203199'),(223,'catalog','0002_catalogintegration_username','2023-02-21 13:26:47.631672'),(224,'catalog','0003_catalogintegration_page_size','2023-02-21 13:26:47.746873'),(225,'catalog','0004_auto_20170616_0618','2023-02-21 13:26:47.838797'),(226,'catalog','0005_catalogintegration_long_term_cache_ttl','2023-02-21 13:26:47.954221'),(227,'celery_utils','0001_initial','2023-02-21 13:26:48.020078'),(228,'celery_utils','0002_chordable_django_backend','2023-02-21 13:26:48.024744'),(229,'certificates','0008_schema__remove_badges','2023-02-21 13:26:48.331017'),(230,'certificates','0009_certificategenerationcoursesetting_language_self_generation','2023-02-21 13:26:48.611809'),(231,'certificates','0010_certificatetemplate_language','2023-02-21 13:26:48.652984'),(232,'certificates','0011_certificatetemplate_alter_unique','2023-02-21 13:26:48.881912'),(233,'certificates','0012_certificategenerationcoursesetting_include_hours_of_effort','2023-02-21 13:26:48.918509'),(234,'certificates','0013_remove_certificategenerationcoursesetting_enabled','2023-02-21 13:26:48.954461'),(235,'certificates','0014_change_eligible_certs_manager','2023-02-21 13:26:49.045462'),(236,'certificates','0015_add_masters_choice','2023-02-21 13:26:49.150093'),(237,'certificates','0016_historicalgeneratedcertificate','2023-02-21 13:26:49.540111'),(238,'certificates','0017_add_mode_20201118_1725','2023-02-21 13:26:49.904341'),(239,'certificates','0018_historicalcertificateinvalidation','2023-02-21 13:26:50.165382'),(240,'certificates','0019_allowlistgenerationconfiguration','2023-02-21 13:26:50.710649'),(241,'certificates','0020_remove_existing_mgmt_cmd_args','2023-02-21 13:26:50.911376'),(242,'certificates','0021_remove_certificate_allowlist_duplicate_records','2023-02-21 13:26:51.102154'),(243,'certificates','0022_add_unique_constraints_to_certificatewhitelist_model','2023-02-21 13:26:51.208120'),(244,'certificates','0023_certificategenerationcommandconfiguration','2023-02-21 13:26:51.400743'),(245,'certificates','0024_delete_allowlistgenerationconfiguration','2023-02-21 13:26:51.418326'),(246,'certificates','0025_cleanup_certificate_errors','2023-02-21 13:26:51.681026'),(247,'certificates','0026_certificateallowlist','2023-02-21 13:26:51.934533'),(248,'certificates','0027_historicalcertificateallowlist','2023-02-21 13:26:52.167872'),(249,'certificates','0028_allowlist_data_20210615_2033','2023-02-21 13:26:52.360233'),(250,'certificates','0029_allowlist_created_20210623_1417','2023-02-21 13:26:52.608654'),(251,'certificates','0030_delete_certificatewhitelist','2023-02-21 13:26:52.629414'),(252,'certificates','0031_certificatedateoverride_historicalcertificatedateoverride','2023-02-21 13:26:53.858205'),(253,'certificates','0032_change_certificatedateoverride_date','2023-02-21 13:26:54.209413'),(254,'certificates','0033_auto_20220307_1100','2023-02-21 13:26:54.621078'),(255,'certificates','0034_auto_20220401_1213','2023-02-21 13:26:54.887153'),(256,'user_api','0001_initial','2023-02-21 13:26:56.829772'),(257,'user_api','0002_retirementstate_userretirementstatus','2023-02-21 13:26:57.454904'),(258,'commerce','0001_data__add_ecommerce_service_user','2023-02-21 13:26:57.747060'),(259,'commerce','0002_commerceconfiguration','2023-02-21 13:26:57.987834'),(260,'commerce','0003_auto_20160329_0709','2023-02-21 13:26:58.109471'),(261,'commerce','0004_auto_20160531_0950','2023-02-21 13:26:58.448693'),(262,'commerce','0005_commerceconfiguration_enable_automatic_refund_approval','2023-02-21 13:26:58.592323'),(263,'commerce','0006_auto_20170424_1734','2023-02-21 13:26:58.707091'),(264,'commerce','0007_auto_20180313_0609','2023-02-21 13:26:58.992023'),(265,'commerce','0008_auto_20191024_2048','2023-02-21 13:26:59.243096'),(266,'completion','0001_initial','2023-02-21 13:27:00.159040'),(267,'completion','0002_auto_20180125_1510','2023-02-21 13:27:00.277050'),(268,'completion','0003_learning_context','2023-02-21 13:27:00.788809'),(269,'consent','0001_initial','2023-02-21 13:27:01.576027'),(270,'consent','0002_migrate_to_new_data_sharing_consent','2023-02-21 13:27:01.877484'),(271,'consent','0003_historicaldatasharingconsent_history_change_reason','2023-02-21 13:27:02.138842'),(272,'consent','0004_datasharingconsenttextoverrides','2023-02-21 13:27:02.542290'),(273,'lti1p3_tool_config','0001_initial','2023-02-21 13:27:02.704997'),(274,'organizations','0001_initial','2023-02-21 13:27:03.894996'),(275,'organizations','0002_auto_20170117_1434','2023-02-21 13:27:03.908950'),(276,'organizations','0003_auto_20170221_1138','2023-02-21 13:27:03.921348'),(277,'organizations','0004_auto_20170413_2315','2023-02-21 13:27:03.932518'),(278,'organizations','0005_auto_20171116_0640','2023-02-21 13:27:03.939505'),(279,'organizations','0006_auto_20171207_0259','2023-02-21 13:27:03.945876'),(280,'organizations','0007_historicalorganization','2023-02-21 13:27:03.955441'),(281,'content_libraries','0001_initial','2023-02-21 13:27:05.067894'),(282,'content_libraries','0002_group_permissions','2023-02-21 13:27:07.289155'),(283,'content_libraries','0003_contentlibrary_type','2023-02-21 13:27:07.371161'),(284,'content_libraries','0004_contentlibrary_license','2023-02-21 13:27:07.463512'),(285,'content_libraries','0005_ltigradedresource_ltiprofile','2023-02-21 13:27:08.857898'),(286,'content_libraries','0006_auto_20210615_1916','2023-02-21 13:27:09.527888'),(287,'content_libraries','0005_contentlibraryblockimporttask','2023-02-21 13:27:09.907940'),(288,'content_libraries','0007_merge_20210818_0614','2023-02-21 13:27:09.917783'),(289,'content_libraries','0008_auto_20210818_2148','2023-02-21 13:27:11.452407'),(290,'content_libraries','0009_alter_contentlibrary_authorized_lti_configs','2023-02-21 13:27:12.302756'),(291,'course_overviews','0001_initial','2023-02-21 13:27:12.407673'),(292,'course_overviews','0002_add_course_catalog_fields','2023-02-21 13:27:12.631931'),(293,'course_overviews','0003_courseoverviewgeneratedhistory','2023-02-21 13:27:12.695077'),(294,'course_overviews','0004_courseoverview_org','2023-02-21 13:27:12.778862'),(295,'course_overviews','0005_delete_courseoverviewgeneratedhistory','2023-02-21 13:27:12.886333'),(296,'course_overviews','0006_courseoverviewimageset','2023-02-21 13:27:13.020097'),(297,'course_overviews','0007_courseoverviewimageconfig','2023-02-21 13:27:13.466085'),(298,'course_overviews','0008_remove_courseoverview_facebook_url','2023-02-21 13:27:13.473512'),(299,'course_overviews','0009_readd_facebook_url','2023-02-21 13:27:13.479831'),(300,'course_overviews','0010_auto_20160329_2317','2023-02-21 13:27:13.566137'),(301,'course_overviews','0011_courseoverview_marketing_url','2023-02-21 13:27:13.607661'),(302,'course_overviews','0012_courseoverview_eligible_for_financial_aid','2023-02-21 13:27:13.652748'),(303,'course_overviews','0013_courseoverview_language','2023-02-21 13:27:13.696826'),(304,'course_overviews','0014_courseoverview_certificate_available_date','2023-02-21 13:27:13.746864'),(305,'content_type_gating','0001_initial','2023-02-21 13:27:14.126622'),(306,'content_type_gating','0002_auto_20181119_0959','2023-02-21 13:27:14.460302'),(307,'content_type_gating','0003_auto_20181128_1407','2023-02-21 13:27:14.718950'),(308,'content_type_gating','0004_auto_20181128_1521','2023-02-21 13:27:14.861280'),(309,'content_type_gating','0005_auto_20190306_1547','2023-02-21 13:27:15.013581'),(310,'content_type_gating','0006_auto_20190308_1447','2023-02-21 13:27:15.175450'),(311,'content_type_gating','0007_auto_20190311_1919','2023-02-21 13:27:16.615487'),(312,'content_type_gating','0008_auto_20190313_1634','2023-02-21 13:27:16.786484'),(313,'contentserver','0001_initial','2023-02-21 13:27:17.127029'),(314,'contentserver','0002_cdnuseragentsconfig','2023-02-21 13:27:17.483985'),(315,'cornerstone','0001_initial','2023-02-21 13:27:19.562043'),(316,'cornerstone','0002_cornerstoneglobalconfiguration_subject_mapping','2023-02-21 13:27:19.695856'),(317,'cornerstone','0003_auto_20190621_1000','2023-02-21 13:27:20.263443'),(318,'cornerstone','0004_cornerstoneglobalconfiguration_languages','2023-02-21 13:27:20.420393'),(319,'cornerstone','0005_auto_20190925_0730','2023-02-21 13:27:20.850892'),(320,'cornerstone','0006_auto_20191001_0742','2023-02-21 13:27:21.121074'),(321,'cornerstone','0007_auto_20210708_1446','2023-02-21 13:27:21.340752'),(322,'cornerstone','0008_auto_20210909_1536','2023-02-21 13:27:21.607689'),(323,'cornerstone','0009_auto_20210923_1727','2023-02-21 13:27:22.266597'),(324,'cornerstone','0010_cornerstonecoursekey','2023-02-21 13:27:22.295509'),(325,'cornerstone','0011_auto_20211103_1855','2023-02-21 13:27:22.927646'),(326,'cornerstone','0012_alter_cornerstoneenterprisecustomerconfiguration_enterprise_customer','2023-02-21 13:27:23.346588'),(327,'cornerstone','0013_auto_20220126_1837','2023-02-21 13:27:24.261676'),(328,'cornerstone','0014_auto_20220131_1539','2023-02-21 13:27:24.586899'),(329,'cornerstone','0015_auto_20220302_2231','2023-02-21 13:27:25.236192'),(330,'cornerstone','0016_auto_20220324_1550','2023-02-21 13:27:26.281995'),(331,'cornerstone','0017_alter_cornerstonelearnerdatatransmissionaudit_course_completed','2023-02-21 13:27:26.436128'),(332,'cornerstone','0018_auto_20220325_1757','2023-02-21 13:27:26.757575'),(333,'cornerstone','0019_auto_20220405_2311','2023-02-21 13:27:27.169783'),(334,'cornerstone','0020_auto_20220523_1625','2023-02-21 13:27:27.858674'),(335,'cornerstone','0021_cornerstonelearnerdatatransmissionaudit_friendly_status_message','2023-02-21 13:27:28.051742'),(336,'cornerstone','0022_cornerstonelearnerdatatransmissionaudit_api_record','2023-02-21 13:27:28.385690'),(337,'cornerstone','0023_auto_20221021_0159','2023-02-21 13:27:28.940336'),(338,'cornerstone','0024_auto_20221031_1855','2023-02-21 13:27:29.249696'),(339,'cornerstone','0025_alter_cornerstonelearnerdatatransmissionaudit_index_together','2023-02-21 13:27:29.411943'),(340,'cornerstone','0026_auto_20230105_2122','2023-02-21 13:27:31.306820'),(341,'cornerstone','0027_auto_20230112_2002','2023-02-21 13:27:31.601917'),(342,'cors_csrf','0001_initial','2023-02-21 13:27:31.853139'),(343,'course_action_state','0001_initial','2023-02-21 13:27:32.310045'),(344,'course_apps','0001_initial','2023-02-21 13:27:32.729685'),(345,'course_overviews','0015_historicalcourseoverview','2023-02-21 13:27:33.574489'),(346,'course_overviews','0016_simulatecoursepublishconfig','2023-02-21 13:27:33.928290'),(347,'course_overviews','0017_auto_20191002_0823','2023-02-21 13:27:34.145994'),(348,'course_overviews','0018_add_start_end_in_CourseOverview','2023-02-21 13:27:34.680763'),(349,'course_overviews','0019_improve_courseoverviewtab','2023-02-21 13:27:35.032080'),(350,'course_date_signals','0001_initial','2023-02-21 13:27:35.671640'),(351,'course_duration_limits','0001_initial','2023-02-21 13:27:36.293368'),(352,'course_duration_limits','0002_auto_20181119_0959','2023-02-21 13:27:36.433223'),(353,'course_duration_limits','0003_auto_20181128_1407','2023-02-21 13:27:36.597125'),(354,'course_duration_limits','0004_auto_20181128_1521','2023-02-21 13:27:36.755808'),(355,'course_duration_limits','0005_auto_20190306_1546','2023-02-21 13:27:36.914406'),(356,'course_duration_limits','0006_auto_20190308_1447','2023-02-21 13:27:37.071858'),(357,'course_duration_limits','0007_auto_20190311_1919','2023-02-21 13:27:38.099179'),(358,'course_duration_limits','0008_auto_20190313_1634','2023-02-21 13:27:38.272983'),(359,'course_goals','0001_initial','2023-02-21 13:27:39.176482'),(360,'course_goals','0002_auto_20171010_1129','2023-02-21 13:27:39.445319'),(361,'course_goals','0003_historicalcoursegoal','2023-02-21 13:27:40.176055'),(362,'course_goals','0004_auto_20210806_0137','2023-02-21 13:27:41.235332'),(363,'course_goals','0005_useractivity','2023-02-21 13:27:42.785553'),(364,'course_goals','0006_add_unsubscribe_token','2023-02-21 13:27:43.681761'),(365,'course_goals','0007_set_unsubscribe_token_default','2023-02-21 13:27:44.342990'),(366,'course_goals','0008_coursegoalreminderstatus','2023-02-21 13:27:44.854265'),(367,'course_groups','0002_change_inline_default_cohort_value','2023-02-21 13:27:44.882390'),(368,'course_groups','0003_auto_20170609_1455','2023-02-21 13:27:45.477247'),(369,'course_overviews','0020_courseoverviewtab_url_slug','2023-02-21 13:27:45.571360'),(370,'course_overviews','0021_courseoverviewtab_link','2023-02-21 13:27:45.729883'),(371,'course_overviews','0022_courseoverviewtab_is_hidden','2023-02-21 13:27:45.836469'),(372,'course_overviews','0023_courseoverview_banner_image_url','2023-02-21 13:27:46.244701'),(373,'course_overviews','0024_overview_adds_has_highlights','2023-02-21 13:27:46.794912'),(374,'course_home_api','0001_initial','2023-02-21 13:27:48.474245'),(375,'lti_consumer','0001_initial','2023-02-21 13:27:48.537284'),(376,'lti_consumer','0002_ltiagslineitem','2023-02-21 13:27:48.674930'),(377,'lti_consumer','0003_ltiagsscore','2023-02-21 13:27:48.787493'),(378,'lti_consumer','0004_keyset_mgmt_to_model','2023-02-21 13:27:48.978197'),(379,'lti_consumer','0005_migrate_keyset_to_model','2023-02-21 13:27:49.309237'),(380,'lti_consumer','0006_add_on_model_config_for_lti_1p1','2023-02-21 13:27:49.919997'),(381,'lti_consumer','0007_ltidlcontentitem','2023-02-21 13:27:50.002868'),(382,'lti_consumer','0008_fix_uuid_backfill','2023-02-21 13:27:50.399228'),(383,'lti_consumer','0009_backfill-empty-string-config-id','2023-02-21 13:27:50.865817'),(384,'lti_consumer','0010_backfill-empty-string-lti-config','2023-02-21 13:27:51.211238'),(385,'lti_consumer','0011_courseeditltifieldsenabledflag','2023-02-21 13:27:51.815863'),(386,'lti_consumer','0012_rename_courseeditltifieldsenabledflag_model','2023-02-21 13:27:52.258065'),(387,'lti_consumer','0013_auto_20210712_1352','2023-02-21 13:27:52.308137'),(388,'course_live','0001_initial','2023-02-21 13:27:52.961638'),(389,'course_live','0002_auto_20220617_1822','2023-02-21 13:27:53.205681'),(390,'course_modes','0008_course_key_field_to_foreign_key','2023-02-21 13:27:53.537364'),(391,'course_modes','0009_suggested_prices_to_charfield','2023-02-21 13:27:53.574035'),(392,'course_modes','0010_archived_suggested_prices_to_charfield','2023-02-21 13:27:53.597564'),(393,'course_modes','0011_change_regex_for_comma_separated_ints','2023-02-21 13:27:53.644210'),(394,'course_modes','0012_historicalcoursemode','2023-02-21 13:27:54.461433'),(395,'course_modes','0013_auto_20200115_2022','2023-02-21 13:27:54.755340'),(396,'course_modes','0014_auto_20230207_1212','2023-02-21 13:27:55.581046'),(397,'course_overviews','0025_auto_20210702_1602','2023-02-21 13:27:56.886709'),(398,'course_overviews','0026_courseoverview_entrance_exam','2023-02-21 13:27:59.079890'),(399,'course_overviews','0027_auto_20221102_1109','2023-02-21 13:27:59.427447'),(400,'coursewarehistoryextended','0001_initial','2023-02-21 13:28:00.135617'),(401,'coursewarehistoryextended','0002_force_studentmodule_index','2023-02-21 13:28:00.174814'),(402,'courseware','0002_coursedynamicupgradedeadlineconfiguration_dynamicupgradedeadlineconfiguration','2023-02-21 13:28:01.035587'),(403,'courseware','0003_auto_20170825_0935','2023-02-21 13:28:01.239765'),(404,'courseware','0004_auto_20171010_1639','2023-02-21 13:28:01.444491'),(405,'courseware','0005_orgdynamicupgradedeadlineconfiguration','2023-02-21 13:28:02.380592'),(406,'courseware','0006_remove_module_id_index','2023-02-21 13:28:02.537498'),(407,'courseware','0007_remove_done_index','2023-02-21 13:28:02.732434'),(408,'courseware','0008_move_idde_to_edx_when','2023-02-21 13:28:02.964366'),(409,'courseware','0009_auto_20190703_1955','2023-02-21 13:28:03.179276'),(410,'courseware','0010_auto_20190709_1559','2023-02-21 13:28:03.409582'),(411,'courseware','0011_csm_id_bigint','2023-02-21 13:28:03.699063'),(412,'courseware','0012_adjust_fields','2023-02-21 13:28:04.181895'),(413,'courseware','0013_auto_20191001_1858','2023-02-21 13:28:04.810544'),(414,'courseware','0014_fix_nan_value_for_global_speed','2023-02-21 13:28:05.123415'),(415,'courseware','0015_add_courseware_stats_index','2023-02-21 13:28:05.306730'),(416,'courseware','0016_lastseencoursewaretimezone','2023-02-21 13:28:05.796764'),(417,'courseware','0017_financialassistanceconfiguration','2023-02-21 13:28:06.164551'),(418,'crawlers','0001_initial','2023-02-21 13:28:06.711146'),(419,'crawlers','0002_auto_20170419_0018','2023-02-21 13:28:06.952864'),(420,'credentials','0001_initial','2023-02-21 13:28:07.790707'),(421,'credentials','0002_auto_20160325_0631','2023-02-21 13:28:08.094382'),(422,'credentials','0003_auto_20170525_1109','2023-02-21 13:28:08.610594'),(423,'credentials','0004_notifycredentialsconfig','2023-02-21 13:28:09.009955'),(424,'credentials','0005_remove_existing_mgmt_cmd_args','2023-02-21 13:28:09.359287'),(425,'credit','0001_initial','2023-02-21 13:28:11.044313'),(426,'credit','0002_creditconfig','2023-02-21 13:28:11.759953'),(427,'credit','0003_auto_20160511_2227','2023-02-21 13:28:11.784726'),(428,'credit','0004_delete_historical_credit_records','2023-02-21 13:28:13.491762'),(429,'credit','0005_creditrequirement_sort_value','2023-02-21 13:28:13.682982'),(430,'credit','0006_creditrequirement_alter_ordering','2023-02-21 13:28:13.736124'),(431,'credit','0007_creditrequirement_copy_values','2023-02-21 13:28:14.232701'),(432,'credit','0008_creditrequirement_remove_order','2023-02-21 13:28:14.316355'),(433,'dark_lang','0001_initial','2023-02-21 13:28:15.395440'),(434,'dark_lang','0002_data__enable_on_install','2023-02-21 13:28:15.731664'),(435,'dark_lang','0003_auto_20180425_0359','2023-02-21 13:28:16.206386'),(436,'database_fixups','0001_initial','2023-02-21 13:28:16.590174'),(437,'degreed','0001_initial','2023-02-21 13:28:18.083313'),(438,'degreed','0002_auto_20180104_0103','2023-02-21 13:28:18.674554'),(439,'degreed','0003_auto_20180109_0712','2023-02-21 13:28:19.094970'),(440,'degreed','0004_auto_20180306_1251','2023-02-21 13:28:19.454574'),(441,'degreed','0005_auto_20180807_1302','2023-02-21 13:28:22.027018'),(442,'degreed','0006_upgrade_django_simple_history','2023-02-21 13:28:22.261573'),(443,'degreed','0007_auto_20190925_0730','2023-02-21 13:28:22.678810'),(444,'degreed','0008_auto_20191001_0742','2023-02-21 13:28:23.404359'),(445,'degreed','0009_auto_20210119_1546','2023-02-21 13:28:25.349180'),(446,'degreed','0010_auto_20210708_1446','2023-02-21 13:28:25.984683'),(447,'degreed','0011_auto_20210909_1536','2023-02-21 13:28:26.570496'),(448,'degreed','0012_auto_20210923_1727','2023-02-21 13:28:26.957377'),(449,'degreed','0013_alter_degreedenterprisecustomerconfiguration_enterprise_customer','2023-02-21 13:28:27.352462'),(450,'degreed','0014_auto_20220126_1837','2023-02-21 13:28:30.658957'),(451,'degreed','0015_auto_20220131_1539','2023-02-21 13:28:31.414364'),(452,'degreed','0016_auto_20220302_2231','2023-02-21 13:28:31.805510'),(453,'degreed','0017_alter_degreedlearnerdatatransmissionaudit_completed_timestamp','2023-02-21 13:28:31.865517'),(454,'degreed','0018_auto_20220324_1550','2023-02-21 13:28:32.442313'),(455,'degreed','0019_auto_20220325_1757','2023-02-21 13:28:32.558009'),(456,'degreed','0020_auto_20220405_2311','2023-02-21 13:28:32.668738'),(457,'degreed','0021_auto_20220523_1625','2023-02-21 13:28:33.039682'),(458,'degreed','0022_degreedlearnerdatatransmissionaudit_friendly_status_message','2023-02-21 13:28:33.085631'),(459,'degreed','0023_degreedlearnerdatatransmissionaudit_api_record','2023-02-21 13:28:33.350573'),(460,'degreed','0024_auto_20221021_0159','2023-02-21 13:28:33.738859'),(461,'degreed','0025_auto_20221031_1855','2023-02-21 13:28:34.062820'),(462,'degreed','0026_move_and_recrete_completed_timestamp','2023-02-21 13:28:34.153601'),(463,'degreed','0027_alter_degreedlearnerdatatransmissionaudit_index_together','2023-02-21 13:28:34.221197'),(464,'degreed','0028_auto_20230105_2122','2023-02-21 13:28:37.084787'),(465,'degreed','0029_auto_20230112_2002','2023-02-21 13:28:37.488010'),(466,'degreed2','0001_initial','2023-02-21 13:28:38.690076'),(467,'degreed2','0002_auto_20211101_2021','2023-02-21 13:28:39.337591'),(468,'degreed2','0003_alter_degreed2enterprisecustomerconfiguration_enterprise_customer','2023-02-21 13:28:39.644931'),(469,'degreed2','0004_auto_20220126_1837','2023-02-21 13:28:42.993844'),(470,'degreed2','0005_auto_20220131_1539','2023-02-21 13:28:43.472012'),(471,'degreed2','0006_auto_20220214_1627','2023-02-21 13:28:43.942039'),(472,'degreed2','0007_auto_20220302_2231','2023-02-21 13:28:44.839984'),(473,'degreed2','0008_degreed2learnerdatatransmissionaudit_course_completed','2023-02-21 13:28:44.954750'),(474,'degreed2','0009_alter_degreed2learnerdatatransmissionaudit_completed_timestamp','2023-02-21 13:28:45.024850'),(475,'degreed2','0010_auto_20220324_1550','2023-02-21 13:28:45.469788'),(476,'degreed2','0011_auto_20220325_1757','2023-02-21 13:28:45.563172'),(477,'degreed2','0012_auto_20220405_2311','2023-02-21 13:28:45.671912'),(478,'degreed2','0013_auto_20220523_1625','2023-02-21 13:28:46.109092'),(479,'degreed2','0014_degreed2learnerdatatransmissionaudit_friendly_status_message','2023-02-21 13:28:46.196262'),(480,'degreed2','0015_degreed2learnerdatatransmissionaudit_api_record','2023-02-21 13:28:46.563114'),(481,'degreed2','0016_auto_20221021_0159','2023-02-21 13:28:46.754324'),(482,'degreed2','0017_auto_20221031_1855','2023-02-21 13:28:47.255946'),(483,'degreed2','0018_move_and_recrete_completed_timestamp','2023-02-21 13:28:47.374713'),(484,'degreed2','0019_alter_degreed2learnerdatatransmissionaudit_index_together','2023-02-21 13:28:47.454528'),(485,'degreed2','0020_auto_20230105_2122','2023-02-21 13:28:50.490292'),(486,'degreed2','0021_auto_20230112_2002','2023-02-21 13:28:50.972293'),(487,'demographics','0001_initial','2023-02-21 13:28:52.364209'),(488,'demographics','0002_clean_duplicate_entries','2023-02-21 13:28:52.824021'),(489,'demographics','0003_auto_20200827_1949','2023-02-21 13:28:53.205431'),(490,'discounts','0001_initial','2023-02-21 13:28:54.131239'),(491,'discounts','0002_auto_20191022_1720','2023-02-21 13:28:55.408395'),(492,'discussions','0001_initial','2023-02-21 13:28:56.161291'),(493,'discussions','0002_add_provider_filter','2023-02-21 13:28:57.117551'),(494,'discussions','0003_alter_provider_filter_list','2023-02-21 13:28:57.953891'),(495,'discussions','0004_historicalprogramdiscussionsconfiguration_programdiscussionsconfiguration','2023-02-21 13:28:58.800560'),(496,'discussions','0005_auto_20210910_0940','2023-02-21 13:28:59.063515'),(497,'discussions','0006_auto_20211006_0441','2023-02-21 13:29:01.005045'),(498,'discussions','0007_add_discussion_topic_link','2023-02-21 13:29:01.819152'),(499,'discussions','0008_auto_20220119_0746','2023-02-21 13:29:03.121823'),(500,'discussions','0009_discussiontopiclink_ordering','2023-02-21 13:29:03.558904'),(501,'discussions','0010_auto_20220203_2134','2023-02-21 13:29:04.936502'),(502,'discussions','0011_auto_20220510_0716','2023-02-21 13:29:05.451957'),(503,'discussions','0012_auto_20220511_0827','2023-02-21 13:29:05.893913'),(504,'discussions','0013_auto_20220802_1154','2023-02-21 13:29:06.125881'),(505,'discussions','0014_auto_20220826_1107','2023-02-21 13:29:06.715666'),(506,'discussions','0015_discussiontopiclink_context','2023-02-21 13:29:06.774073'),(507,'django_celery_results','0001_initial','2023-02-21 13:29:06.838172'),(508,'django_celery_results','0002_add_task_name_args_kwargs','2023-02-21 13:29:06.975665'),(509,'django_celery_results','0003_auto_20181106_1101','2023-02-21 13:29:07.003930'),(510,'django_celery_results','0004_auto_20190516_0412','2023-02-21 13:29:07.264748'),(511,'django_celery_results','0005_taskresult_worker','2023-02-21 13:29:07.360902'),(512,'django_celery_results','0006_taskresult_date_created','2023-02-21 13:29:07.767967'),(513,'django_celery_results','0007_remove_taskresult_hidden','2023-02-21 13:29:07.839493'),(514,'django_celery_results','0008_chordcounter','2023-02-21 13:29:07.875613'),(515,'django_celery_results','0009_groupresult','2023-02-21 13:29:08.400871'),(516,'django_celery_results','0010_remove_duplicate_indices','2023-02-21 13:29:08.467819'),(517,'django_celery_results','0011_taskresult_periodic_task_name','2023-02-21 13:29:08.532897'),(518,'django_comment_common','0001_initial','2023-02-21 13:29:09.274032'),(519,'django_comment_common','0002_forumsconfig','2023-02-21 13:29:09.653827'),(520,'django_comment_common','0003_enable_forums','2023-02-21 13:29:10.057705'),(521,'django_comment_common','0004_auto_20161117_1209','2023-02-21 13:29:10.243472'),(522,'django_comment_common','0005_coursediscussionsettings','2023-02-21 13:29:10.291708'),(523,'django_comment_common','0006_coursediscussionsettings_discussions_id_map','2023-02-21 13:29:10.343762'),(524,'django_comment_common','0007_discussionsidmapping','2023-02-21 13:29:10.377788'),(525,'django_comment_common','0008_role_user_index','2023-02-21 13:29:10.406939'),(526,'django_comment_common','0009_coursediscussionsettings_reported_content_email_notifications','2023-02-21 13:29:10.453327'),(527,'django_notify','0001_initial','2023-02-21 13:29:12.930924'),(528,'edx_name_affirmation','0001_initial','2023-02-21 13:29:13.308096'),(529,'edx_name_affirmation','0002_verifiednameconfig','2023-02-21 13:29:13.755916'),(530,'edx_name_affirmation','0003_verifiedname_status','2023-02-21 13:29:13.983282'),(531,'edx_name_affirmation','0004_auto_20210816_0958','2023-02-21 13:29:14.245083'),(532,'edx_name_affirmation','0005_remove_verifiedname_is_verified','2023-02-21 13:29:14.577336'),(533,'edx_name_affirmation','0006_auto_20210830_2029','2023-02-21 13:29:15.076032'),(534,'edx_name_affirmation','0007_historicalverifiedname','2023-02-21 13:29:15.944644'),(535,'edx_proctoring','0001_initial','2023-02-21 13:29:21.087161'),(536,'edx_proctoring','0002_proctoredexamstudentattempt_is_status_acknowledged','2023-02-21 13:29:21.374294'),(537,'edx_proctoring','0003_auto_20160101_0525','2023-02-21 13:29:21.708099'),(538,'edx_proctoring','0004_auto_20160201_0523','2023-02-21 13:29:21.905941'),(539,'edx_proctoring','0005_proctoredexam_hide_after_due','2023-02-21 13:29:21.968000'),(540,'edx_proctoring','0006_allowed_time_limit_mins','2023-02-21 13:29:22.411360'),(541,'edx_proctoring','0007_proctoredexam_backend','2023-02-21 13:29:22.465993'),(542,'edx_proctoring','0008_auto_20181116_1551','2023-02-21 13:29:23.554342'),(543,'edx_proctoring','0009_proctoredexamreviewpolicy_remove_rules','2023-02-21 13:29:23.974841'),(544,'edx_proctoring','0010_update_backend','2023-02-21 13:29:24.389682'),(545,'edx_proctoring','0011_allow_multiple_attempts','2023-02-21 13:29:24.610255'),(546,'edx_proctoring','0012_proctoredexamstudentattempt_time_remaining_seconds','2023-02-21 13:29:24.877303'),(547,'edx_proctoring','0013_proctoredexamsoftwaresecurereview_is_active_attempt','2023-02-21 13:29:25.313469'),(548,'edx_proctoring','0014_add_is_resumable_to_proctoredexamstudentattempt','2023-02-21 13:29:25.803967'),(549,'edx_proctoring','0015_rm_proctoredexamstudentattempt_ips','2023-02-21 13:29:27.197660'),(550,'edx_proctoring','0016_nullable_proctoredexamstudentattempt_name','2023-02-21 13:29:27.627947'),(551,'edx_proctoring','0017_rm_proctoredexamstudentattempt_name','2023-02-21 13:29:28.020242'),(552,'edx_proctoring','0018_historicalproctoredexamstudentattempt','2023-02-21 13:29:28.463490'),(553,'edx_proctoring','0019_proctoredexamsoftwaresecurereview_encrypted_video_url','2023-02-21 13:29:28.698903'),(554,'edx_proctoring','0020_auto_20211028_1915','2023-02-21 13:29:29.210323'),(555,'edx_proctoring','0021_auto_20211029_1353','2023-02-21 13:29:30.466896'),(556,'edx_proctoring','0022_proctoredexamstudentattempt_add_readytoresume_resumed','2023-02-21 13:29:31.462699'),(557,'edx_proctoring','0023_historicalproctoredexam','2023-02-21 13:29:31.899407'),(558,'edx_proctoring','0024_delete_proctoredexamstudentattempthistory','2023-02-21 13:29:31.922555'),(559,'edx_when','0001_initial','2023-02-21 13:29:32.701268'),(560,'edx_when','0002_auto_20190318_1736','2023-02-21 13:29:33.961648'),(561,'edx_when','0003_auto_20190402_1501','2023-02-21 13:29:34.830228'),(562,'edx_when','0004_datepolicy_rel_date','2023-02-21 13:29:34.916765'),(563,'edx_when','0005_auto_20190911_1056','2023-02-21 13:29:35.169726'),(564,'edx_when','0006_drop_active_index','2023-02-21 13:29:35.202871'),(565,'edx_when','0007_meta_tweaks','2023-02-21 13:29:35.231312'),(566,'edx_when','0008_courseversion_block_type','2023-02-21 13:29:35.310381'),(567,'edxval','0001_squashed_0016_add_transcript_credentials_model','2023-02-21 13:29:36.304519'),(568,'edxval','0002_add_error_description_field','2023-02-21 13:29:36.357143'),(569,'edxval','0003_delete_transcriptcredentials','2023-02-21 13:29:36.403523'),(570,'email_marketing','0001_initial','2023-02-21 13:29:36.790199'),(571,'email_marketing','0002_auto_20160623_1656','2023-02-21 13:29:40.559325'),(572,'email_marketing','0003_auto_20160715_1145','2023-02-21 13:29:41.812160'),(573,'email_marketing','0004_emailmarketingconfiguration_welcome_email_send_delay','2023-02-21 13:29:42.768311'),(574,'email_marketing','0005_emailmarketingconfiguration_user_registration_cookie_timeout_delay','2023-02-21 13:29:43.075856'),(575,'email_marketing','0006_auto_20170711_0615','2023-02-21 13:29:43.355772'),(576,'email_marketing','0007_auto_20170809_0653','2023-02-21 13:29:44.103798'),(577,'email_marketing','0008_auto_20170809_0539','2023-02-21 13:29:44.442880'),(578,'email_marketing','0009_remove_emailmarketingconfiguration_sailthru_activation_template','2023-02-21 13:29:44.636037'),(579,'email_marketing','0010_auto_20180425_0800','2023-02-21 13:29:45.110428'),(580,'email_marketing','0011_delete_emailmarketingconfiguration','2023-02-21 13:29:45.133563'),(581,'embargo','0001_initial','2023-02-21 13:29:46.952062'),(582,'embargo','0002_data__add_countries','2023-02-21 13:29:48.027251'),(583,'enterprise','0154_alter_systemwideenterpriseuserroleassignment_unique_together','2023-02-21 13:29:48.680808'),(584,'enterprise','0155_add_is_relinkable_to_enterprise_customer_user','2023-02-21 13:29:49.138958'),(585,'enterprise','0156_add_is_active_role_assignment','2023-02-21 13:29:49.718385'),(586,'enterprise','0157_make_field_nullable_before_removal','2023-02-21 13:29:50.784514'),(587,'enterprise','0158_remove_is_active_from_role_assignment','2023-02-21 13:29:51.298337'),(588,'enterprise','0159_add_enable_learner_portal_offers','2023-02-21 13:29:51.688151'),(589,'enterprise','0160_add_enable_portal_learner_credit_management_screen','2023-02-21 13:29:52.087821'),(590,'enterprise','0161_alter_enterprisecustomerreportingconfiguration_data_type','2023-02-21 13:29:52.585893'),(591,'enterprise','0162_add_enable_executive_education_2U_fulfillment','2023-02-21 13:29:52.975691'),(592,'enterprise','0163_auto_20220928_1611','2023-02-21 13:29:53.527825'),(593,'enterprise','0164_enterprisecatalogquery_include_exec_ed_2u_courses','2023-02-21 13:29:53.629212'),(594,'enterprise','0165_alter_enterprisecustomerreportingconfiguration_pgp_encryption_key','2023-02-21 13:29:53.779854'),(595,'enterprise','0166_auto_20221209_0819','2023-02-21 13:29:55.389520'),(596,'experiments','0001_initial','2023-02-21 13:29:56.227338'),(597,'student','0001_squashed_0031_auto_20200317_1122','2023-02-21 13:30:18.424435'),(598,'entitlements','0001_initial','2023-02-21 13:30:19.563061'),(599,'entitlements','0002_auto_20171102_0719','2023-02-21 13:30:20.706140'),(600,'entitlements','0003_auto_20171205_1431','2023-02-21 13:30:22.189841'),(601,'entitlements','0004_auto_20171206_1729','2023-02-21 13:30:23.231185'),(602,'entitlements','0005_courseentitlementsupportdetail','2023-02-21 13:30:23.919348'),(603,'entitlements','0006_courseentitlementsupportdetail_action','2023-02-21 13:30:24.341373'),(604,'entitlements','0007_change_expiration_period_default','2023-02-21 13:30:24.443395'),(605,'entitlements','0008_auto_20180328_1107','2023-02-21 13:30:25.199097'),(606,'entitlements','0009_courseentitlement_refund_locked','2023-02-21 13:30:25.617843'),(607,'entitlements','0010_backfill_refund_lock','2023-02-21 13:30:26.215642'),(608,'entitlements','0011_historicalcourseentitlement','2023-02-21 13:30:26.821317'),(609,'entitlements','0012_allow_blank_order_number_values','2023-02-21 13:30:28.204758'),(610,'entitlements','0013_historicalcourseentitlementsupportdetail','2023-02-21 13:30:29.554868'),(611,'entitlements','0014_auto_20200115_2022','2023-02-21 13:30:30.312453'),(612,'entitlements','0015_add_unique_together_constraint','2023-02-21 13:30:31.910043'),(613,'experiments','0002_auto_20170627_1402','2023-02-21 13:30:32.024909'),(614,'experiments','0003_auto_20170713_1148','2023-02-21 13:30:32.056496'),(615,'experiments','0004_historicalexperimentkeyvalue','2023-02-21 13:30:33.669942'),(616,'external_user_ids','0001_initial','2023-02-21 13:30:43.458984'),(617,'external_user_ids','0002_mb_coaching_20200210_1754','2023-02-21 13:30:45.961895'),(618,'external_user_ids','0003_auto_20200224_1836','2023-02-21 13:30:47.988746'),(619,'external_user_ids','0004_add_lti_type','2023-02-21 13:30:50.762505'),(620,'grades','0001_initial','2023-02-21 13:30:51.202988'),(621,'grades','0002_rename_last_edited_field','2023-02-21 13:30:51.356716'),(622,'grades','0003_coursepersistentgradesflag_persistentgradesenabledflag','2023-02-21 13:30:57.570056'),(623,'grades','0004_visibleblocks_course_id','2023-02-21 13:30:57.689630'),(624,'grades','0005_multiple_course_flags','2023-02-21 13:30:58.614217'),(625,'grades','0006_persistent_course_grades','2023-02-21 13:30:58.857840'),(626,'grades','0007_add_passed_timestamp_column','2023-02-21 13:30:59.092364'),(627,'grades','0008_persistentsubsectiongrade_first_attempted','2023-02-21 13:30:59.199988'),(628,'grades','0009_auto_20170111_1507','2023-02-21 13:30:59.383864'),(629,'grades','0010_auto_20170112_1156','2023-02-21 13:30:59.505750'),(630,'grades','0011_null_edited_time','2023-02-21 13:30:59.745275'),(631,'grades','0012_computegradessetting','2023-02-21 13:31:00.998037'),(632,'grades','0013_persistentsubsectiongradeoverride','2023-02-21 13:31:01.224686'),(633,'grades','0014_persistentsubsectiongradeoverridehistory','2023-02-21 13:31:02.805902'),(634,'grades','0015_historicalpersistentsubsectiongradeoverride','2023-02-21 13:31:03.899059'),(635,'grades','0016_auto_20190703_1446','2023-02-21 13:31:05.200160'),(636,'grades','0017_delete_manual_psgoverride_table','2023-02-21 13:31:07.244124'),(637,'grades','0018_add_waffle_flag_defaults','2023-02-21 13:31:07.971538'),(638,'grades','0019_auto_20220912_0855','2023-02-21 13:31:08.761252'),(639,'instructor_task','0002_gradereportsetting','2023-02-21 13:31:09.500065'),(640,'instructor_task','0003_alter_task_input_field','2023-02-21 13:31:10.112142'),(641,'instructor_task','0004_historicalinstructortaskschedule_instructortaskschedule','2023-02-21 13:31:11.634923'),(642,'instructor_task','0005_alter_instructortaskschedule_task','2023-02-21 13:31:13.907848'),(643,'integrated_channel','0022_alter_contentmetadataitemtransmission_index_together','2023-02-21 13:31:14.117988'),(644,'integrated_channel','0023_auto_20221021_0159','2023-02-21 13:31:14.384081'),(645,'integrated_channel','0024_genericenterprisecustomerpluginconfiguration_deleted_at','2023-02-21 13:31:14.522826'),(646,'integrated_channel','0025_auto_20230105_2122','2023-02-21 13:31:15.338522'),(647,'integrated_channel','0026_genericenterprisecustomerpluginconfiguration_last_modified_at','2023-02-21 13:31:15.465456'),(648,'learner_pathway_progress','0001_initial','2023-02-21 13:31:16.091789'),(649,'learner_pathway_progress','0002_historicallearnerpathwayprogress_learnerpathwayprogress','2023-02-21 13:31:17.152875'),(650,'learner_pathway_progress','0003_auto_20220901_0616','2023-02-21 13:31:18.314082'),(651,'learner_pathway_progress','0004_auto_20220907_0316','2023-02-21 13:31:19.037070'),(652,'learner_pathway_progress','0005_auto_20221007_0758','2023-02-21 13:31:19.568836'),(653,'learning_sequences','0001_initial','2023-02-21 13:31:20.402621'),(654,'learning_sequences','0002_coursesectionsequence_inaccessible_after_due','2023-02-21 13:31:20.487304'),(655,'learning_sequences','0003_create_course_context_for_course_specific_models','2023-02-21 13:31:21.122249'),(656,'learning_sequences','0004_coursecontext_self_paced','2023-02-21 13:31:21.200705'),(657,'learning_sequences','0005_coursecontext_days_early_for_beta','2023-02-21 13:31:21.263386'),(658,'learning_sequences','0006_coursecontext_entrance_exam_id','2023-02-21 13:31:21.319152'),(659,'learning_sequences','0007_coursesequenceexam','2023-02-21 13:31:21.411621'),(660,'learning_sequences','0008_add_learning_context_title_index','2023-02-21 13:31:21.460786'),(661,'learning_sequences','0009_contenterror_publishreport','2023-02-21 13:31:21.652050'),(662,'learning_sequences','0010_add_publishreport_indexes','2023-02-21 13:31:21.790076'),(663,'learning_sequences','0011_course_meta_names','2023-02-21 13:31:21.852784'),(664,'learning_sequences','0012_add_user_partition_group','2023-02-21 13:31:22.234122'),(665,'learning_sequences','0013_through_model_for_user_partition_groups_1','2023-02-21 13:31:22.621786'),(666,'learning_sequences','0014_remove_user_partition_group_duplicates','2023-02-21 13:31:23.112303'),(667,'learning_sequences','0015_add_user_partition_group_unique_constraint','2023-02-21 13:31:23.158032'),(668,'learning_sequences','0016_through_model_for_user_partition_groups_2','2023-02-21 13:31:23.252987'),(669,'lms_xblock','0001_initial','2023-02-21 13:31:24.190432'),(670,'lti_consumer','0014_adds_external_id','2023-02-21 13:31:24.269804'),(671,'lti_consumer','0015_add_additional_1p3_fields','2023-02-21 13:31:24.779537'),(672,'lti_consumer','0016_lticonfiguration_lti_1p3_proctoring_enabled','2023-02-21 13:31:24.849247'),(673,'milestones','0001_initial','2023-02-21 13:31:25.613678'),(674,'milestones','0002_data__seed_relationship_types','2023-02-21 13:31:26.117524'),(675,'milestones','0003_coursecontentmilestone_requirements','2023-02-21 13:31:26.187665'),(676,'milestones','0004_auto_20151221_1445','2023-02-21 13:31:26.343048'),(677,'mobile_api','0001_initial','2023-02-21 13:31:26.876745'),(678,'mobile_api','0002_auto_20160406_0904','2023-02-21 13:31:27.038271'),(679,'mobile_api','0003_ignore_mobile_available_flag','2023-02-21 13:31:27.868075'),(680,'mobile_api','0004_mobileconfig','2023-02-21 13:31:27.917278'),(681,'moodle','0001_initial','2023-02-21 13:31:29.824384'),(682,'moodle','0002_moodlelearnerdatatransmissionaudit','2023-02-21 13:31:29.873964'),(683,'moodle','0003_auto_20201006_1706','2023-02-21 13:31:30.263844'),(684,'moodle','0004_auto_20201105_1921','2023-02-21 13:31:30.713189'),(685,'moodle','0005_auto_20210708_1446','2023-02-21 13:31:31.094816'),(686,'moodle','0006_auto_20210909_1536','2023-02-21 13:31:31.617750'),(687,'moodle','0007_auto_20210923_1727','2023-02-21 13:31:32.119807'),(688,'moodle','0008_alter_moodleenterprisecustomerconfiguration_enterprise_customer','2023-02-21 13:31:33.175241'),(689,'moodle','0009_auto_20220126_1837','2023-02-21 13:31:38.299647'),(690,'moodle','0010_auto_20220131_1539','2023-02-21 13:31:39.437324'),(691,'moodle','0011_auto_20220302_2231','2023-02-21 13:31:40.567101'),(692,'moodle','0012_alter_moodlelearnerdatatransmissionaudit_completed_timestamp','2023-02-21 13:31:40.707533'),(693,'moodle','0013_auto_20220324_1550','2023-02-21 13:31:41.666180'),(694,'moodle','0014_auto_20220325_1757','2023-02-21 13:31:41.863793'),(695,'moodle','0015_auto_20220405_2311','2023-02-21 13:31:42.167398'),(696,'moodle','0016_auto_20220523_1625','2023-02-21 13:31:43.150225'),(697,'moodle','0017_moodlelearnerdatatransmissionaudit_friendly_status_message','2023-02-21 13:31:43.272426'),(698,'moodle','0018_moodlelearnerdatatransmissionaudit_api_record','2023-02-21 13:31:45.318206'),(699,'moodle','0019_auto_20221021_0159','2023-02-21 13:31:45.979698'),(700,'moodle','0020_auto_20221031_1855','2023-02-21 13:31:46.935863'),(701,'moodle','0021_move_and_recrete_completed_timestamp','2023-02-21 13:31:47.097900'),(702,'moodle','0022_auto_20221220_1527','2023-02-21 13:31:48.361092'),(703,'moodle','0023_alter_moodlelearnerdatatransmissionaudit_index_together','2023-02-21 13:31:48.467938'),(704,'moodle','0024_auto_20230105_2122','2023-02-21 13:31:52.137578'),(705,'moodle','0025_auto_20230112_2002','2023-02-21 13:31:52.591638'),(706,'oauth2_provider','0001_initial','2023-02-21 13:31:55.988452'),(707,'oauth2_provider','0002_auto_20190406_1805','2023-02-21 13:31:56.766355'),(708,'oauth_dispatch','0001_initial','2023-02-21 13:31:57.246115'),(709,'oauth_dispatch','0002_scopedapplication_scopedapplicationorganization','2023-02-21 13:31:58.854739'),(710,'oauth_dispatch','0003_application_data','2023-02-21 13:31:59.835459'),(711,'oauth_dispatch','0004_auto_20180626_1349','2023-02-21 13:32:02.797766'),(712,'oauth_dispatch','0005_applicationaccess_type','2023-02-21 13:32:03.926387'),(713,'oauth_dispatch','0006_drop_application_id_constraints','2023-02-21 13:32:05.487720'),(714,'oauth_dispatch','0007_restore_application_id_constraints','2023-02-21 13:32:07.619338'),(715,'oauth_dispatch','0008_applicationaccess_filters','2023-02-21 13:32:07.699250'),(716,'oauth_dispatch','0009_delete_enable_scopes_waffle_switch','2023-02-21 13:32:08.314658'),(717,'oauth_dispatch','0010_noop_migration_to_test_rollback','2023-02-21 13:32:08.336086'),(718,'oauth_dispatch','0011_noop_migration_to_test_rollback','2023-02-21 13:32:08.358385'),(719,'oauth_dispatch','0012_noop_migration_to_test_rollback','2023-02-21 13:32:08.379724'),(720,'organizations','0002_unique_short_name','2023-02-21 13:32:08.798633'),(721,'organizations','0003_historicalorganizationcourse','2023-02-21 13:32:09.414523'),(722,'outcome_surveys','0001_initial','2023-02-21 13:32:09.564751'),(723,'outcome_surveys','0002_learnercourseevent_already_sent','2023-02-21 13:32:09.650779'),(724,'outcome_surveys','0003_auto_20230130_0352','2023-02-21 13:32:10.231579'),(725,'outcome_surveys','0004_auto_20230203_0147','2023-02-21 13:32:10.865118'),(726,'program_enrollments','0001_initial','2023-02-21 13:32:13.809959'),(727,'program_enrollments','0002_historicalprogramcourseenrollment_programcourseenrollment','2023-02-21 13:32:16.017503'),(728,'program_enrollments','0003_auto_20190424_1622','2023-02-21 13:32:16.508229'),(729,'program_enrollments','0004_add_programcourseenrollment_relatedname','2023-02-21 13:32:17.502682'),(730,'program_enrollments','0005_canceled_not_withdrawn','2023-02-21 13:32:18.971444'),(731,'program_enrollments','0006_add_the_correct_constraints','2023-02-21 13:32:19.810833'),(732,'program_enrollments','0007_waiting_programcourseenrollment_constraint','2023-02-21 13:32:19.945335'),(733,'program_enrollments','0008_add_ended_programenrollment_status','2023-02-21 13:32:22.050233'),(734,'program_enrollments','0009_update_course_enrollment_field_to_foreign_key','2023-02-21 13:32:23.092716'),(735,'program_enrollments','0010_add_courseaccessroleassignment','2023-02-21 13:32:24.347493'),(736,'programs','0001_initial','2023-02-21 13:32:25.277602'),(737,'programs','0002_programsapiconfig_cache_ttl','2023-02-21 13:32:25.847180'),(738,'programs','0003_auto_20151120_1613','2023-02-21 13:32:30.848753'),(739,'programs','0004_programsapiconfig_enable_certification','2023-02-21 13:32:31.280048'),(740,'programs','0005_programsapiconfig_max_retries','2023-02-21 13:32:31.952805'),(741,'programs','0006_programsapiconfig_xseries_ad_enabled','2023-02-21 13:32:32.348092'),(742,'programs','0007_programsapiconfig_program_listing_enabled','2023-02-21 13:32:32.674958'),(743,'programs','0008_programsapiconfig_program_details_enabled','2023-02-21 13:32:32.982953'),(744,'programs','0009_programsapiconfig_marketing_path','2023-02-21 13:32:33.412048'),(745,'programs','0010_auto_20170204_2332','2023-02-21 13:32:34.717929'),(746,'programs','0011_auto_20170301_1844','2023-02-21 13:32:40.663707'),(747,'programs','0012_auto_20170419_0018','2023-02-21 13:32:41.023871'),(748,'programs','0013_customprogramsconfig','2023-02-21 13:32:41.765965'),(749,'programs','0014_delete_customprogramsconfig','2023-02-21 13:32:41.802969'),(750,'programs','0015_historicalprogramdiscussionsconfiguration_historicalprogramliveconfiguration_programdiscussionsconfi','2023-02-21 13:32:45.256858'),(751,'redirects','0001_initial','2023-02-21 13:32:45.923158'),(752,'redirects','0002_alter_redirect_new_path_help_text','2023-02-21 13:32:46.010499'),(753,'rss_proxy','0001_initial','2023-02-21 13:32:46.049805'),(754,'sap_success_factors','0001_squashed_0022_auto_20200206_1046','2023-02-21 13:32:47.985654'),(755,'sap_success_factors','0002_sapsuccessfactorslearnerdatatransmissionaudit_credit_hours','2023-02-21 13:32:47.995587'),(756,'sap_success_factors','0003_auto_20210701_1556','2023-02-21 13:32:48.006286'),(757,'sap_success_factors','0004_auto_20210708_1639','2023-02-21 13:32:48.015277'),(758,'sap_success_factors','0005_sapsuccessfactorsenterprisecustomerconfiguration_prevent_learner_self_submit_grades','2023-02-21 13:32:48.026394'),(759,'sap_success_factors','0006_sapsuccessfactorsenterprisecustomerconfiguration_idp_id','2023-02-21 13:32:48.036515'),(760,'sap_success_factors','0007_sapsuccessfactorsenterprisecustomerconfiguration_disable_learner_data_transmissions','2023-02-21 13:32:48.048715'),(761,'sap_success_factors','0008_alter_sapsuccessfactorsenterprisecustomerconfiguration_enterprise_customer','2023-02-21 13:32:48.057603'),(762,'sap_success_factors','0009_auto_20220126_1837','2023-02-21 13:32:48.066139'),(763,'sap_success_factors','0010_sapsuccessfactorsenterprisecustomerconfiguration_display_name','2023-02-21 13:32:48.074574'),(764,'sap_success_factors','0011_alter_sapsuccessfactorslearnerdatatransmissionaudit_enterprise_course_enrollment_id','2023-02-21 13:32:48.083163'),(765,'sap_success_factors','0002_alter_sapsuccessfactorsenterprisecustomerconfiguration_display_name','2023-02-21 13:32:48.231857'),(766,'sap_success_factors','0003_alter_sapsuccessfactorslearnerdatatransmissionaudit_completed_timestamp','2023-02-21 13:32:48.291908'),(767,'sap_success_factors','0004_auto_20220324_1550','2023-02-21 13:32:48.971190'),(768,'sap_success_factors','0005_auto_20220325_1757','2023-02-21 13:32:48.983820'),(769,'sap_success_factors','0006_auto_20220330_1157','2023-02-21 13:32:48.994768'),(770,'sap_success_factors','0005_sapsuccessfactorsenterprisecustomerconfiguration_dry_run_mode_enabled','2023-02-21 13:32:49.162235'),(771,'sap_success_factors','0006_sapsuccessfactorslearnerdatatransmissionaudit_friendly_status_message','2023-02-21 13:32:49.920952'),(772,'sap_success_factors','0007_sapsuccessfactorslearnerdatatransmissionaudit_api_record','2023-02-21 13:32:50.609389'),(773,'sap_success_factors','0008_auto_20221021_0159','2023-02-21 13:32:50.972687'),(774,'sap_success_factors','0009_sapsuccessfactorsenterprisecustomerconfiguration_deleted_at','2023-02-21 13:32:51.145926'),(775,'sap_success_factors','0010_move_and_recrete_completed_timestamp','2023-02-21 13:32:51.362970'),(776,'sap_success_factors','0011_alter_sapsuccessfactorslearnerdatatransmissionaudit_index_together','2023-02-21 13:32:51.531850'),(777,'sap_success_factors','0012_auto_20230105_2122','2023-02-21 13:32:52.645546'),(778,'sap_success_factors','0013_sapsuccessfactorsenterprisecustomerconfiguration_last_modified_at','2023-02-21 13:32:52.801849'),(779,'save_for_later','0001_initial','2023-02-21 13:32:52.918717'),(780,'save_for_later','0002_auto_20220322_1621','2023-02-21 13:32:53.482988'),(781,'schedules','0001_initial','2023-02-21 13:32:54.230119'),(782,'schedules','0002_auto_20170816_1532','2023-02-21 13:32:54.351707'),(783,'schedules','0003_scheduleconfig','2023-02-21 13:32:55.491223'),(784,'schedules','0004_auto_20170922_1428','2023-02-21 13:32:56.245603'),(785,'schedules','0005_auto_20171010_1722','2023-02-21 13:32:57.106924'),(786,'schedules','0006_scheduleexperience','2023-02-21 13:32:57.858943'),(787,'schedules','0007_scheduleconfig_hold_back_ratio','2023-02-21 13:32:58.323136'),(788,'schedules','0008_add_new_start_date_field','2023-02-21 13:32:58.428949'),(789,'schedules','0009_schedule_copy_column_values','2023-02-21 13:32:59.684998'),(790,'schedules','0010_remove_null_blank_from_schedules_date','2023-02-21 13:32:59.766597'),(791,'schedules','0011_auto_20200228_2018','2023-02-21 13:33:00.343625'),(792,'schedules','0012_auto_20200302_1914','2023-02-21 13:33:00.949962'),(793,'schedules','0013_historicalschedule','2023-02-21 13:33:01.591467'),(794,'schedules','0014_historicalschedule_drop_fk','2023-02-21 13:33:02.156121'),(795,'schedules','0015_schedules_start_nullable','2023-02-21 13:33:02.675453'),(796,'schedules','0016_remove_start_from_schedules','2023-02-21 13:33:02.775714'),(797,'schedules','0017_remove_start_from_historicalschedule','2023-02-21 13:33:03.225790'),(798,'schedules','0018_readd_historicalschedule_fks','2023-02-21 13:33:04.980123'),(799,'schedules','0019_auto_20200316_1935','2023-02-21 13:33:06.263128'),(800,'schedules','0020_remove_config_rollout_fields','2023-02-21 13:33:07.157752'),(801,'sessions','0001_initial','2023-02-21 13:33:07.239613'),(802,'site_configuration','0001_initial','2023-02-21 13:33:09.217142'),(803,'site_configuration','0002_auto_20160720_0231','2023-02-21 13:33:09.591052'),(804,'site_configuration','0003_auto_20200217_1058','2023-02-21 13:33:09.918713'),(805,'site_configuration','0004_add_site_values_field','2023-02-21 13:33:10.241872'),(806,'site_configuration','0005_populate_siteconfig_history_site_values','2023-02-21 13:33:10.278027'),(807,'site_configuration','0006_copy_values_to_site_values','2023-02-21 13:33:11.242068'),(808,'site_configuration','0007_remove_values_field','2023-02-21 13:33:11.478036'),(809,'site_configuration','0008_auto_20210910_0940','2023-02-21 13:33:11.660046'),(810,'default','0001_initial','2023-02-21 13:33:12.838816'),(811,'social_auth','0001_initial','2023-02-21 13:33:12.850773'),(812,'default','0002_add_related_name','2023-02-21 13:33:13.338829'),(813,'social_auth','0002_add_related_name','2023-02-21 13:33:13.347587'),(814,'default','0003_alter_email_max_length','2023-02-21 13:33:13.455902'),(815,'social_auth','0003_alter_email_max_length','2023-02-21 13:33:13.465163'),(816,'default','0004_auto_20160423_0400','2023-02-21 13:33:14.475355'),(817,'social_auth','0004_auto_20160423_0400','2023-02-21 13:33:14.488613'),(818,'social_auth','0005_auto_20160727_2333','2023-02-21 13:33:14.545730'),(819,'social_django','0006_partial','2023-02-21 13:33:14.610483'),(820,'social_django','0007_code_timestamp','2023-02-21 13:33:14.704075'),(821,'social_django','0008_partial_timestamp','2023-02-21 13:33:14.799950'),(822,'social_django','0009_auto_20191118_0520','2023-02-21 13:33:15.623973'),(823,'social_django','0010_uid_db_index','2023-02-21 13:33:16.082527'),(824,'splash','0001_initial','2023-02-21 13:33:16.766738'),(825,'split_modulestore_django','0001_initial','2023-02-21 13:33:17.731081'),(826,'split_modulestore_django','0002_data_migration','2023-02-21 14:10:20.881045'),(827,'staffgrader','0001_initial','2023-02-21 14:10:20.916647'),(828,'static_replace','0001_initial','2023-02-21 14:10:21.301704'),(829,'static_replace','0002_assetexcludedextensionsconfig','2023-02-21 14:10:21.756292'),(830,'status','0001_initial','2023-02-21 14:10:22.870588'),(831,'status','0002_update_help_text','2023-02-21 14:10:23.102211'),(832,'student','0032_removed_logout_view_configuration','2023-02-21 14:10:23.475584'),(833,'student','0033_userprofile_state','2023-02-21 14:10:23.749998'),(834,'student','0034_courseenrollmentcelebration','2023-02-21 14:10:24.125040'),(835,'student','0035_bulkchangeenrollmentconfiguration','2023-02-21 14:10:24.868911'),(836,'student','0036_userpasswordtogglehistory','2023-02-21 14:10:25.273793'),(837,'student','0037_linkedinaddtoprofileconfiguration_updates','2023-02-21 14:10:25.961403'),(838,'student','0038_auto_20201021_1256','2023-02-21 14:10:26.218616'),(839,'student','0039_anon_id_context','2023-02-21 14:10:26.460312'),(840,'student','0040_usercelebration','2023-02-21 14:10:27.219142'),(841,'student','0041_registration_activation_timestamp','2023-02-21 14:10:27.471997'),(842,'student','0042_allow_certificate_null_20210427_1519','2023-02-21 14:10:27.727679'),(843,'student','0043_remove_userprofile_allow_certificate','2023-02-21 14:10:27.991614'),(844,'student','0044_courseenrollmentcelebration_celebrate_weekly_goal','2023-02-21 14:10:28.053153'),(845,'submissions','0001_initial','2023-02-21 14:10:29.610191'),(846,'submissions','0002_auto_20151119_0913','2023-02-21 14:10:29.618239'),(847,'submissions','0003_submission_status','2023-02-21 14:10:29.626122'),(848,'submissions','0004_remove_django_extensions','2023-02-21 14:10:29.634702'),(849,'submissions','0005_CreateTeamModel','2023-02-21 14:10:29.643844'),(850,'submissions','0002_team_submission_optional','2023-02-21 14:10:29.990975'),(851,'submissions','0003_ensure_ascii','2023-02-21 14:10:30.028478'),(852,'super_csv','0001_initial','2023-02-21 14:10:30.077884'),(853,'super_csv','0002_csvoperation_user','2023-02-21 14:10:30.448776'),(854,'super_csv','0003_csvoperation_original_filename','2023-02-21 14:10:30.732477'),(855,'support','0001_initial','2023-02-21 14:10:31.503512'),(856,'survey','0001_initial','2023-02-21 14:10:32.010787'),(857,'survey_report','0001_initial','2023-02-21 14:10:32.047023'),(858,'survey_report','0002_auto_20221130_1533','2023-02-21 14:10:32.183084'),(859,'survey_report','0003_add_state_field_and_add_default_values_to_fields','2023-02-21 14:10:32.332036'),(860,'system_wide_roles','0001_SystemWideRole_SystemWideRoleAssignment','2023-02-21 14:10:32.765748'),(861,'system_wide_roles','0002_add_system_wide_student_support_role','2023-02-21 14:10:33.275684'),(862,'system_wide_roles','0003_systemwideroleassignment_applies_to_all_contexts','2023-02-21 14:10:33.905984'),(863,'teams','0001_initial','2023-02-21 14:10:35.039510'),(864,'teams','0002_slug_field_ids','2023-02-21 14:10:35.555941'),(865,'teams','0003_courseteam_organization_protected','2023-02-21 14:10:36.224064'),(866,'teams','0004_alter_defaults','2023-02-21 14:10:37.235544'),(867,'theming','0001_initial','2023-02-21 14:10:37.663130'),(868,'third_party_auth','0001_squashed_0026_auto_20200401_1932','2023-02-21 14:10:39.967730'),(869,'third_party_auth','0002_samlproviderconfig_country','2023-02-21 14:10:40.627800'),(870,'third_party_auth','0002_auto_20200721_1650','2023-02-21 14:10:41.773551'),(871,'third_party_auth','0003_samlconfiguration_is_public','2023-02-21 14:10:42.079806'),(872,'third_party_auth','0004_auto_20200919_0955','2023-02-21 14:10:43.526877'),(873,'third_party_auth','0005_auto_20210723_1527','2023-02-21 14:10:44.457979'),(874,'third_party_auth','0006_auto_20220314_1551','2023-02-21 14:10:47.770521'),(875,'third_party_auth','0007_samlproviderconfig_was_valid_at','2023-02-21 14:10:48.079123'),(876,'third_party_auth','0008_auto_20220324_1422','2023-02-21 14:10:48.672412'),(877,'third_party_auth','0009_historicalusersocialauth','2023-02-21 14:10:49.468870'),(878,'third_party_auth','0010_delete_historicalusersocialauth','2023-02-21 14:10:49.494847'),(879,'thumbnail','0001_initial','2023-02-21 14:10:49.526935'),(880,'track','0001_initial','2023-02-21 14:10:49.561379'),(881,'track','0002_delete_trackinglog','2023-02-21 14:10:49.587183'),(882,'user_api','0003_userretirementrequest','2023-02-21 14:10:50.014807'),(883,'user_api','0004_userretirementpartnerreportingstatus','2023-02-21 14:10:50.455161'),(884,'user_authn','0001_data__add_login_service','2023-02-21 14:10:50.974710'),(885,'user_tours','0001_initial','2023-02-21 14:10:51.755505'),(886,'user_tours','0002_auto_20230110_0905','2023-02-21 14:10:52.427559'),(887,'util','0001_initial','2023-02-21 14:10:52.875374'),(888,'util','0002_data__default_rate_limit_config','2023-02-21 14:10:53.731957'),(889,'verify_student','0001_initial','2023-02-21 14:10:58.168830'),(890,'verify_student','0002_auto_20151124_1024','2023-02-21 14:10:58.511158'),(891,'verify_student','0003_auto_20151113_1443','2023-02-21 14:10:58.800255'),(892,'verify_student','0004_delete_historical_records','2023-02-21 14:10:59.248141'),(893,'verify_student','0005_remove_deprecated_models','2023-02-21 14:11:03.203469'),(894,'verify_student','0006_ssoverification','2023-02-21 14:11:03.643558'),(895,'verify_student','0007_idverificationaggregate','2023-02-21 14:11:04.562794'),(896,'verify_student','0008_populate_idverificationaggregate','2023-02-21 14:11:05.020978'),(897,'verify_student','0009_remove_id_verification_aggregate','2023-02-21 14:11:05.850684'),(898,'verify_student','0010_manualverification','2023-02-21 14:11:06.624210'),(899,'verify_student','0011_add_fields_to_sspv','2023-02-21 14:11:07.258092'),(900,'verify_student','0012_sspverificationretryconfig','2023-02-21 14:11:07.662944'),(901,'verify_student','0013_add_expiration_date_field','2023-02-21 14:11:08.891581'),(902,'verify_student','0014_remove_softwaresecurephotoverification_expiry_date','2023-02-21 14:11:09.200409'),(903,'video_config','0001_initial','2023-02-21 14:11:10.038916'),(904,'video_config','0002_coursevideotranscriptenabledflag_videotranscriptenabledflag','2023-02-21 14:11:11.223934'),(905,'video_config','0003_transcriptmigrationsetting','2023-02-21 14:11:11.668173'),(906,'video_config','0004_transcriptmigrationsetting_command_run','2023-02-21 14:11:11.952099'),(907,'video_config','0005_auto_20180719_0752','2023-02-21 14:11:12.606497'),(908,'video_config','0006_videothumbnailetting_updatedcoursevideos','2023-02-21 14:11:13.119594'),(909,'video_config','0007_videothumbnailsetting_offset','2023-02-21 14:11:13.422260'),(910,'video_config','0008_courseyoutubeblockedflag','2023-02-21 14:11:13.868743'),(911,'video_pipeline','0001_initial','2023-02-21 14:11:14.705048'),(912,'video_pipeline','0002_auto_20171114_0704','2023-02-21 14:11:15.294207'),(913,'video_pipeline','0003_coursevideouploadsenabledbydefault_videouploadsenabledbydefault','2023-02-21 14:11:16.134650'),(914,'video_pipeline','0004_vempipelineintegration','2023-02-21 14:11:16.952185'),(915,'video_pipeline','0005_add_vem_course_percentage','2023-02-21 14:11:17.242518'),(916,'video_pipeline','0006_remove_vempipelineintegration_vem_enabled_courses_percentage','2023-02-21 14:11:17.566297'),(917,'video_pipeline','0007_delete_videopipelineintegration','2023-02-21 14:11:17.594962'),(918,'waffle','0002_auto_20161201_0958','2023-02-21 14:11:17.624685'),(919,'waffle','0003_update_strings_for_i18n','2023-02-21 14:11:23.292034'),(920,'waffle','0004_update_everyone_nullbooleanfield','2023-02-21 14:11:23.578121'),(921,'waffle_utils','0001_initial','2023-02-21 14:11:24.006111'),(922,'waffle_utils','0002_waffleflagcourseoverridemodel_note','2023-02-21 14:11:24.314659'),(923,'waffle_utils','0003_add_org_level_waffle_override','2023-02-21 14:11:25.410227'),(924,'wiki','0001_initial','2023-02-21 14:11:37.902916'),(925,'wiki','0002_remove_article_subscription','2023-02-21 14:11:37.961869'),(926,'wiki','0003_ip_address_conv','2023-02-21 14:11:38.867136'),(927,'wiki','0004_increase_slug_size','2023-02-21 14:11:38.983566'),(928,'wiki','0005_remove_attachments_and_images','2023-02-21 14:11:41.199279'),(929,'wiki','0006_auto_20200110_1003','2023-02-21 14:11:41.500053'),(930,'workflow','0001_initial','2023-02-21 14:11:41.701847'),(931,'workflow','0002_remove_django_extensions','2023-02-21 14:11:41.747989'),(932,'workflow','0003_TeamWorkflows','2023-02-21 14:11:41.832405'),(933,'workflow','0004_assessmentworkflowstep_skipped','2023-02-21 14:11:41.898662'),(934,'xapi','0001_initial','2023-02-21 14:11:42.760106'),(935,'xapi','0002_auto_20180726_0142','2023-02-21 14:11:43.019627'),(936,'xapi','0003_auto_20190807_1006','2023-02-21 14:11:43.761012'),(937,'xapi','0004_auto_20190830_0710','2023-02-21 14:11:44.056852'),(938,'xapi','0005_auto_20220324_1550','2023-02-21 14:11:47.137287'),(939,'xapi','0006_auto_20220325_1757','2023-02-21 14:11:47.731109'),(940,'xapi','0007_auto_20220405_2311','2023-02-21 14:11:48.330598'),(941,'xapi','0008_xapilearnerdatatransmissionaudit_friendly_status_message','2023-02-21 14:11:49.003812'),(942,'xapi','0009_xapilearnerdatatransmissionaudit_api_record','2023-02-21 14:11:49.453709'),(943,'xapi','0010_auto_20221021_0159','2023-02-21 14:11:50.386209'),(944,'xapi','0011_alter_xapilearnerdatatransmissionaudit_index_together','2023-02-21 14:11:51.088828'),(945,'xblock_django','0001_initial','2023-02-21 14:11:51.520782'),(946,'xblock_django','0002_auto_20160204_0809','2023-02-21 14:11:51.831989'),(947,'xblock_django','0003_add_new_config_models','2023-02-21 14:11:53.469781'),(948,'xblock_django','0004_delete_xblock_disable_config','2023-02-21 14:11:53.936302'),(949,'social_django','0004_auto_20160423_0400','2023-02-21 14:11:53.968948'),(950,'social_django','0001_initial','2023-02-21 14:11:53.978002'),(951,'social_django','0003_alter_email_max_length','2023-02-21 14:11:53.986483'),(952,'social_django','0002_add_related_name','2023-02-21 14:11:53.995365'),(953,'social_django','0005_auto_20160727_2333','2023-02-21 14:11:54.004187'),(954,'submissions','0001_squashed_0005_CreateTeamModel','2023-02-21 14:11:54.012795'),(955,'organizations','0001_squashed_0007_historicalorganization','2023-02-21 14:11:54.022870'),(956,'sap_success_factors','0004_auto_20220324_1550_squashed_0006_auto_20220330_1157','2023-02-21 14:11:54.030905'),(957,'sap_success_factors','0001_squashed_0022_auto_20200206_1046_squashed_0011_alter_sapsuccessfactorslearnerdatatransmissionaudit_enterprise_course_enrollment_id','2023-02-21 14:11:54.039666'),(958,'blackboard','0001_initial_squashed_0014_alter_blackboardlearnerassessmentdatatransmissionaudit_enterprise_course_enrollment_id','2023-02-21 14:11:54.047924'),(959,'contentstore','0001_initial','2023-02-21 14:18:20.728696'),(960,'contentstore','0002_add_assets_page_flag','2023-02-21 14:18:21.758959'),(961,'contentstore','0003_remove_assets_page_flag','2023-02-21 14:18:22.616383'),(962,'contentstore','0004_remove_push_notification_configmodel_table','2023-02-21 14:18:23.311983'),(963,'contentstore','0005_add_enable_checklists_quality_waffle_flag','2023-02-21 14:18:23.339689'),(964,'contentstore','0006_courseoutlineregenerate','2023-02-21 14:18:23.363687'),(965,'contentstore','0007_backfillcoursetabsconfig','2023-02-21 14:18:23.906393'),(966,'contentstore','0008_cleanstalecertificateavailabilitydatesconfig','2023-02-21 14:18:24.319837'),(967,'course_creators','0001_initial','2023-02-21 14:18:24.750847'),(968,'course_creators','0002_add_org_support_for_course_creators','2023-02-21 14:18:25.716990'),(969,'tagging','0001_initial','2023-02-21 14:18:25.828483'),(970,'tagging','0002_auto_20170116_1541','2023-02-21 14:18:25.870431'),(971,'user_tasks','0001_initial','2023-02-21 14:18:26.657025'),(972,'user_tasks','0002_artifact_file_storage','2023-02-21 14:18:26.693002'),(973,'user_tasks','0003_url_max_length','2023-02-21 14:18:26.731443'),(974,'user_tasks','0004_url_textfield','2023-02-21 14:18:26.789843'),(975,'xblock_config','0001_initial','2023-02-21 14:18:27.169784'),(976,'xblock_config','0002_courseeditltifieldsenabledflag','2023-02-21 14:18:27.179255'),(977,'xblock_config','0003_move_course_edit_lti_fields_enabled_flag_model_to_lti_consumer','2023-02-21 14:18:27.187571'),(978,'xblock_config','0001_squashed_0003_move_course_edit_lti_fields_enabled_flag_model_to_lti_consumer','2023-02-21 14:18:27.222866');
 /*!40000 ALTER TABLE `django_migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -5245,6 +6389,45 @@ INSERT INTO `django_site` VALUES (1,'example.com','example.com');
 UNLOCK TABLES;
 
 --
+-- Table structure for table `edx_name_affirmation_historicalverifiedname`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `edx_name_affirmation_historicalverifiedname` (
+  `id` int(11) NOT NULL,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `verified_name` varchar(255) NOT NULL,
+  `profile_name` varchar(255) DEFAULT NULL,
+  `verification_attempt_id` int(10) unsigned DEFAULT NULL,
+  `proctored_exam_attempt_id` int(10) unsigned DEFAULT NULL,
+  `status` varchar(32) NOT NULL,
+  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_date` datetime(6) NOT NULL,
+  `history_change_reason` varchar(100) DEFAULT NULL,
+  `history_type` varchar(1) NOT NULL,
+  `history_user_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`history_id`),
+  KEY `edx_name_affirmation_history_user_id_00f2a1d8_fk_auth_user` (`history_user_id`),
+  KEY `edx_name_affirmation_historicalverifiedname_id_18379bb4` (`id`),
+  KEY `edx_name_affirmation_histor_verified_name_9a18834a` (`verified_name`),
+  KEY `edx_name_affirmation_historicalverifiedname_user_id_b0ad4bb5` (`user_id`),
+  CONSTRAINT `edx_name_affirmation_history_user_id_00f2a1d8_fk_auth_user` FOREIGN KEY (`history_user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `edx_name_affirmation_historicalverifiedname`
+--
+
+LOCK TABLES `edx_name_affirmation_historicalverifiedname` WRITE;
+/*!40000 ALTER TABLE `edx_name_affirmation_historicalverifiedname` DISABLE KEYS */;
+/*!40000 ALTER TABLE `edx_name_affirmation_historicalverifiedname` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `edx_when_contentdate`
 --
 
@@ -5257,13 +6440,15 @@ CREATE TABLE `edx_when_contentdate` (
   `policy_id` int(11) NOT NULL,
   `active` tinyint(1) NOT NULL,
   `field` varchar(255) NOT NULL,
+  `block_type` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `edx_when_contentdate_policy_id_location_field_a26790ec_uniq` (`policy_id`,`location`,`field`),
   KEY `edx_when_contentdate_course_id_e6c39fdc` (`course_id`),
   KEY `edx_when_contentdate_location_485206ea` (`location`),
   KEY `edx_when_contentdate_policy_id_af2bcaf4` (`policy_id`),
+  KEY `edx_when_course_block_type_idx` (`course_id`,`block_type`),
   CONSTRAINT `edx_when_contentdate_policy_id_af2bcaf4_fk_edx_when_` FOREIGN KEY (`policy_id`) REFERENCES `edx_when_datepolicy` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5272,7 +6457,6 @@ CREATE TABLE `edx_when_contentdate` (
 
 LOCK TABLES `edx_when_contentdate` WRITE;
 /*!40000 ALTER TABLE `edx_when_contentdate` DISABLE KEYS */;
-INSERT INTO `edx_when_contentdate` VALUES (1,'course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@course+block@course',1,1,'start'),(2,'course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@sequential+block@edx_introduction',2,1,'start'),(3,'course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@sequential+block@basic_questions',3,1,'start'),(4,'course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@problem+block@Sample_Algebraic_Problem',3,1,'start'),(5,'course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@sequential+block@simulations',2,1,'start'),(6,'course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@html+block@html_07d547513285',3,1,'start'),(7,'course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@html+block@700x_pathways',3,1,'start'),(8,'course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@sequential+block@graded_simulations',3,1,'start'),(9,'course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@problem+block@700x_editmolB',3,1,'start'),(10,'course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@problem+block@python_grader',3,1,'start'),(11,'course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@problem+block@free_form_simulation',3,1,'start'),(12,'course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@problem+block@logic_gate_problem',3,1,'start'),(13,'course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@problem+block@700x_proteinmake',3,1,'start'),(14,'course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@sequential+block@48ecb924d7fe4b66a230137626bfa93e',4,1,'start'),(15,'course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@chapter+block@1414ffd5143b4b508f739b563ab468b7',2,1,'start'),(16,'course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@sequential+block@workflow',3,1,'start'),(17,'course-v1:edX+DemoX+Demo_Course','block-v1:edX+DemoX+Demo_Course+type@chapter+block@9fca584977d04885bc911ea76a9ef29e',5,1,'start');
 /*!40000 ALTER TABLE `edx_when_contentdate` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -5291,7 +6475,7 @@ CREATE TABLE `edx_when_datepolicy` (
   PRIMARY KEY (`id`),
   KEY `edx_when_datepolicy_abs_date_1a510cd3` (`abs_date`),
   KEY `edx_when_datepolicy_rel_date_836d6051` (`rel_date`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5300,7 +6484,6 @@ CREATE TABLE `edx_when_datepolicy` (
 
 LOCK TABLES `edx_when_datepolicy` WRITE;
 /*!40000 ALTER TABLE `edx_when_datepolicy` DISABLE KEYS */;
-INSERT INTO `edx_when_datepolicy` VALUES (1,'2021-07-30 20:03:33.741576','2021-07-30 20:03:33.741576','2013-02-05 05:00:00.000000',NULL),(2,'2021-07-30 20:03:33.747629','2021-07-30 20:03:33.747629','1970-01-01 05:00:00.000000',NULL),(3,'2021-07-30 20:03:33.757359','2021-07-30 20:03:33.757359','2013-02-05 00:00:00.000000',NULL),(4,'2021-07-30 20:03:33.838258','2021-07-30 20:03:33.838258','1978-02-05 00:00:00.000000',NULL),(5,'2021-07-30 20:03:33.853049','2021-07-30 20:03:33.853049','2970-01-01 05:00:00.000000',NULL);
 /*!40000 ALTER TABLE `edx_when_datepolicy` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -5321,9 +6504,9 @@ CREATE TABLE `edx_when_userdate` (
   `user_id` int(11) NOT NULL,
   `content_date_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
+  KEY `edx_when_userdate_actor_id_cbef1cdc_fk_auth_user_id` (`actor_id`),
   KEY `edx_when_userdate_user_id_46e8cc36_fk_auth_user_id` (`user_id`),
   KEY `edx_when_userdate_content_date_id_35c5e2e2_fk_edx_when_` (`content_date_id`),
-  KEY `edx_when_userdate_actor_id_cbef1cdc_fk_auth_user_id` (`actor_id`),
   KEY `edx_when_userdate_rel_date_954ee5b4` (`rel_date`),
   CONSTRAINT `edx_when_userdate_actor_id_cbef1cdc_fk_auth_user_id` FOREIGN KEY (`actor_id`) REFERENCES `auth_user` (`id`),
   CONSTRAINT `edx_when_userdate_content_date_id_35c5e2e2_fk_edx_when_` FOREIGN KEY (`content_date_id`) REFERENCES `edx_when_contentdate` (`id`),
@@ -5499,7 +6682,7 @@ CREATE TABLE `edxval_video` (
   UNIQUE KEY `edx_video_id` (`edx_video_id`),
   KEY `edxval_video_client_video_id_2b668312` (`client_video_id`),
   KEY `edxval_video_status_5f33a104` (`status`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5508,7 +6691,6 @@ CREATE TABLE `edxval_video` (
 
 LOCK TABLES `edxval_video` WRITE;
 /*!40000 ALTER TABLE `edxval_video` DISABLE KEYS */;
-INSERT INTO `edxval_video` VALUES (1,'2021-07-30 20:03:23.013599','0097780c-8149-4c04-a6f8-a2e585a3e72b','External Video',0,'external',NULL),(2,'2021-07-30 20:03:23.074102','8d8edaee-c510-4e02-8610-5f7f869dfd56','External Video',0,'external',NULL),(3,'2021-07-30 20:03:23.120345','2ee3effc-2339-4db5-8648-db518c6190d4','External Video',0,'external',NULL),(4,'2021-07-30 20:03:23.155393','c1fc41ed-650b-4684-8e5d-ac0850bfce69','External Video',0,'external',NULL),(5,'2021-07-30 20:03:23.193551','8b4a688f-64a4-4612-a486-cd126da0f53a','External Video',0,'external',NULL),(6,'2021-07-30 20:03:34.760505','7d06f060-ed5a-4530-932d-5d87b4c3adf9','External Video',0,'external',NULL),(7,'2021-07-30 20:03:34.800758','07345653-929b-46e5-bfde-cc9373f19ff5','External Video',0,'external',NULL),(8,'2021-07-30 20:03:34.822330','caed5b70-3eb1-4538-9319-01d8fd078a6e','External Video',0,'external',NULL),(9,'2021-07-30 20:03:34.926081','a295c105-a6d7-4176-b8c2-4a1ed7481d3a','External Video',0,'external',NULL);
 /*!40000 ALTER TABLE `edxval_video` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -5560,7 +6742,7 @@ CREATE TABLE `edxval_videotranscript` (
   KEY `edxval_videotranscript_language_code_d78ce3d1` (`language_code`),
   KEY `edxval_videotranscript_file_format_3adddaf7` (`file_format`),
   CONSTRAINT `edxval_videotranscript_video_id_6ffdfb56_fk_edxval_video_id` FOREIGN KEY (`video_id`) REFERENCES `edxval_video` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5569,7 +6751,6 @@ CREATE TABLE `edxval_videotranscript` (
 
 LOCK TABLES `edxval_videotranscript` WRITE;
 /*!40000 ALTER TABLE `edxval_videotranscript` DISABLE KEYS */;
-INSERT INTO `edxval_videotranscript` VALUES (1,'2021-07-30 20:03:23.033186','2021-07-30 20:03:23.036210','video-transcripts/47482e31b07e436996843034faa05815.sjson','en','Custom','sjson',1),(2,'2021-07-30 20:03:23.086289','2021-07-30 20:03:23.091190','video-transcripts/9972af9689e94737ae690d31eab8f658.sjson','en','Custom','sjson',2),(3,'2021-07-30 20:03:23.129048','2021-07-30 20:03:23.131718','video-transcripts/777c9ed2e6934ee6a75af8404d1aa270.sjson','en','Custom','sjson',3),(4,'2021-07-30 20:03:23.164139','2021-07-30 20:03:23.166702','video-transcripts/68c4f051fe764ce7afd2d7fa2dbd908a.sjson','en','Custom','sjson',4),(5,'2021-07-30 20:03:23.203407','2021-07-30 20:03:23.206698','video-transcripts/3b534b34be1f423bb2acb9fa6a1e73e8.sjson','en','Custom','sjson',5),(6,'2021-07-30 20:03:34.770836','2021-07-30 20:03:34.773716','video-transcripts/a759e08b38bf4c118031298f16918c29.sjson','en','Custom','sjson',6),(7,'2021-07-30 20:03:34.830201','2021-07-30 20:03:34.833772','video-transcripts/64809c267d034513979fa0aa60236dea.sjson','en','Custom','sjson',8),(8,'2021-07-30 20:03:34.933868','2021-07-30 20:03:34.936216','video-transcripts/f11497de98bf4439b3344aa8f1b1b451.sjson','en','Custom','sjson',9);
 /*!40000 ALTER TABLE `edxval_videotranscript` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -5766,10 +6947,11 @@ CREATE TABLE `enterprise_adminnotification` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `created` datetime(6) NOT NULL,
   `modified` datetime(6) NOT NULL,
-  `text` varchar(255) NOT NULL,
+  `text` varchar(512) NOT NULL,
   `is_active` tinyint(1) NOT NULL,
   `start_date` date NOT NULL,
   `expiration_date` date NOT NULL,
+  `title` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -5866,6 +7048,33 @@ LOCK TABLES `enterprise_adminnotificationread` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `enterprise_bulkcatalogqueryupdatecommandconfiguration`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `enterprise_bulkcatalogqueryupdatecommandconfiguration` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `change_date` datetime(6) NOT NULL,
+  `enabled` tinyint(1) NOT NULL,
+  `arguments` longtext NOT NULL,
+  `changed_by_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `enterprise_bulkcatal_changed_by_id_accb978f_fk_auth_user` (`changed_by_id`),
+  CONSTRAINT `enterprise_bulkcatal_changed_by_id_accb978f_fk_auth_user` FOREIGN KEY (`changed_by_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `enterprise_bulkcatalogqueryupdatecommandconfiguration`
+--
+
+LOCK TABLES `enterprise_bulkcatalogqueryupdatecommandconfiguration` WRITE;
+/*!40000 ALTER TABLE `enterprise_bulkcatalogqueryupdatecommandconfiguration` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_bulkcatalogqueryupdatecommandconfiguration` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `enterprise_enrollmentnotificationemailtemplate`
 --
 
@@ -5892,35 +7101,8 @@ CREATE TABLE `enterprise_enrollmentnotificationemailtemplate` (
 
 LOCK TABLES `enterprise_enrollmentnotificationemailtemplate` WRITE;
 /*!40000 ALTER TABLE `enterprise_enrollmentnotificationemailtemplate` DISABLE KEYS */;
-INSERT INTO `enterprise_enrollmentnotificationemailtemplate` VALUES (1,'2021-07-30 19:57:08.931998','2021-07-30 19:57:08.931998','\n        {% load i18n %}{% if user_name %}{% blocktrans %}Dear {{ user_name }},{% endblocktrans %}{% else %}{% blocktrans %}Hi!{% endblocktrans %}{% endif %}\n        {% if enrolled_in.type == \"program\" %}\n        {% blocktrans with program_url=enrolled_in.url program_name=enrolled_in.name program_branding=enrolled_in.branding start_date=enrolled_in.start|date:\"DATE_FORMAT\" %}You have been enrolled in {{ program_name }}, a {{ program_branding }} program offered by {{ organization_name }}. This program begins {{ start_date }}. For more information, see the following link:\n\n        {{ program_url }}{% endblocktrans %}{% else %}\n        {% blocktrans with course_url=enrolled_in.url course_name=enrolled_in.name start_date=enrolled_in.start|date:\"DATE_FORMAT\" %}You have been enrolled in {{ course_name }}, a course offered by {{ organization_name }}. This course begins {{ start_date }}. For more information, see the following link:\n\n        {{ course_url }}{% endblocktrans %}{% endif %}\n        {% blocktrans with enrolled_in_name=enrolled_in.name %}\n        Thanks,\n\n        The {{enrolled_in_name}} team{% endblocktrans %}\n        ','\n        {% load i18n %}<html>\n        <body>\n        <p>{% if user_name %}{% blocktrans %}Dear {{ user_name }},{% endblocktrans %}{% else %}{% blocktrans %}Hi!{% endblocktrans %}{% endif %}</p>\n        <p>{% if enrolled_in.type == \"program\" %}\n        {% blocktrans with program_url=enrolled_in.url program_name=enrolled_in.name program_branding=enrolled_in.branding start_date=enrolled_in.start|date:\"DATE_FORMAT\" %}You have been enrolled in <a href=\"{{ program_url }}\">{{ program_name }}</a>, a {{ program_branding }} program offered by {{ organization_name }}. This program begins {{ start_date }}. For more information, see <a href=\"{{ program_url }}\">{{ program_name }}</a>.{% endblocktrans %}{% else %}\n        {% blocktrans with course_url=enrolled_in.url course_name=enrolled_in.name start_date=enrolled_in.start|date:\"DATE_FORMAT\" %}You have been enrolled in <a href=\"{{ course_url }}\">{{ course_name }}</a>, a course offered by {{ organization_name }}. This course begins {{ start_date }}. For more information, see <a href=\"{{ course_url }}\">{{ course_name }}</a>.{% endblocktrans %}{% endif %}\n        </p>\n        {% blocktrans with enrolled_in_name=enrolled_in.name %}<p>\n        Thanks,\n        </p>\n        <p>\n        The {{enrolled_in_name}} team\n        </p>{% endblocktrans %}\n        </body>\n        </html>','',NULL,'SELF_ENROLL'),(2,'2021-07-30 19:57:08.939475','2021-07-30 19:57:10.673913','\n        Great News! You\'ve been enrolled in {{enrolled_in.name}} by {{organization_name}}\n\n        This course is a free benefit offered especially for you, and we are excited for you to meet your learning community on edX.\n\n        Visit this link to see and enroll in your course, {{enrolled_in.url}}\n\n        The {{enrolled_in.name}} team\n        ','\n<html>\n<head>\n    <style type=\"text/css\">\n        a, a:visited, a:hover, a:active {\n            text-decoration: none;\n            color: #00262b;\n        }\n    </style>\n</head>\n<body>\n    <table style=\"max-width: 650;\" align=\"center\">\n        <tbody>\n            <tr>\n            <td>\n                <table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" role=\"presentation\" style=\"border-collapse:collapse;border-spacing:0px\">\n                    <tbody>\n                        <tr>\n                        <td align=\"left\" valign=\"top\" style=\"padding:8px;Margin:0;width:560px\">\n                            <img src=\"https://ci3.googleusercontent.com/proxy/ZAml-YgIIJEht-OBl6GqLNIUeVKLyPvs_ldFo9FShp-andj1YQxvliJXv_s_Tmh6cg1-5avJJmvXmzxbQp06sB_WUeYYkN9kzV6jtVUvYKPPjUX_8_iFJAZqsNqYakl4nQyHnl0dClFzxiaLuULSPoqGPLBfJmNOEXIBYkvKYa95640xvHwDiQ22bZ16=s0-d-e1-ft#https://appboy-images.com/appboy/communication/assets/image_assets/images/5fc568622213594dcbda2623/original.png?1606772834\" width=\"110\" height=\"57\" border=\"0\" style=\"display:block\" alt=\"edX\" id=\"m_-37988256656304111logo\" class=\"CToWUd\">\n                        </td>\n                        <td align=\"right\" valign=\"top\" style=\"white-space:nowrap;text-decoration:none;color:#00262b;font-family:\'inter\',Arial,sans-serif;font-size:18px;line-height:21px\">\n                            <a href=\"{{dashboard_url}}\">My Dashboard</a> \n                        </td>\n                        </tr>\n                    </tbody>\n                </table>\n            </td>\n            </tr>\n            <tr>\n            <td align=\"left\" bgcolor=\"#002b2b\" style=\"Margin:0;padding-left:20px;padding-right:20px;padding-top:40px;padding-bottom:40px;background-color:#002b2b;background-image:url(https://ci3.googleusercontent.com/proxy/2CLnc9QL2u1L0MsUErVcQVBOz6OlDew2A5O8umOI9v7PGI3ip8YnJqYPRcexkjGsbNvNa6kUFyuHAMp7LlVBKKa7bxaKUjEO566AyX4M_6PhDtwz-QpLXLg9eQZQ93LIwP-5SbUtfxd203xXFTVBatJrN9P2hsuJSWFwd9k2pooiea6Qsg=s0-d-e1-ft#https://fzvpwi.stripocdn.email/content/guids/CABINET_4d3c6887b8ac137f656a3dd54bb5f6c8/images/53481614126118338.png);background-repeat:no-repeat;background-position:left top\" background=\"https://ci3.googleusercontent.com/proxy/2CLnc9QL2u1L0MsUErVcQVBOz6OlDew2A5O8umOI9v7PGI3ip8YnJqYPRcexkjGsbNvNa6kUFyuHAMp7LlVBKKa7bxaKUjEO566AyX4M_6PhDtwz-QpLXLg9eQZQ93LIwP-5SbUtfxd203xXFTVBatJrN9P2hsuJSWFwd9k2pooiea6Qsg=s0-d-e1-ft#https://fzvpwi.stripocdn.email/content/guids/CABINET_4d3c6887b8ac137f656a3dd54bb5f6c8/images/53481614126118338.png\">\n                <table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"border-collapse:collapse;border-spacing:0px\">\n                    <tbody>\n                        <tr>\n                        <td align=\"center\" valign=\"top\" style=\"padding:0;Margin:0;width:560px\">\n                            <table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" role=\"presentation\" style=\"border-collapse:collapse;border-spacing:0px\">\n                                <tbody>\n                                    <tr>\n                                    <td align=\"center\" style=\"padding:0;Margin:0\">\n                                        <p style=\"Margin:0;font-size:32px;font-family:helvetica,\'helvetica neue\',arial,verdana,sans-serif;line-height:48px;color:#ffffff\"><strong><span class=\"il\">Congratulations</span>, Restless Learner</strong></p>\n                                    </td>\n                                    </tr>\n                                    <tr>\n                                    <td align=\"center\" style=\"padding:0;Margin:0\">\n                                        <p style=\"Margin:0;font-size:20px;font-family:arial,\'helvetica neue\',helvetica,sans-serif;line-height:30px;color:#ffffff\">Great News! You\'ve been <span class=\"il\">Enrolled</span> in {{enrolled_in.name}} by {{organization_name}}</p>\n                                    </td>\n                                    </tr>\n                                </tbody>\n                            </table>\n                        </td>\n                        </tr>\n                    </tbody>\n                </table>\n            </td>\n            </tr>\n            <tr>\n            <td align=\"left\" style=\"padding:0;Margin:0;padding-top:20px;padding-left:20px;padding-right:20px\">\n                <table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"border-collapse:collapse;border-spacing:0px\">\n                    <tbody>\n                        <tr>\n                        <td align=\"center\" valign=\"top\" style=\"padding:0;Margin:0;width:560px\">\n                            <table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" role=\"presentation\" style=\"border-collapse:collapse;border-spacing:0px\">\n                                <tbody>\n                                    <tr>\n                                    <td align=\"center\" style=\"padding:0;Margin:0\">\n                                        <p style=\"Margin:0;font-size:14px;font-family:arial,\'helvetica neue\',helvetica,sans-serif;line-height:21px;color:#333333\">\n                                            This course is a free benefit offered especially for you, and we are excited for you to meet your learning community on edX.\n                                        </p>\n                                    </td>\n                                    </tr>\n                                </tbody>\n                            </table>\n                        </td>\n                        </tr>\n                    </tbody>\n                </table>\n            </td>\n            </tr>\n            <tr>\n            <td>\n                <table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" role=\"presentation\" style=\"border-collapse:collapse;border-spacing:0px\">\n                    <tbody>\n                        <tr>\n                        <td align=\"center\" bgcolor=\"#ffffff\" style=\"padding:0;Margin:0;padding-top:10px;padding-left:10px;padding-bottom:15px\"><span class=\"m_-37988256656304111es-button-border\" style=\"border-style:solid;border-color:#d03529;background:#d03529;border-width:0px 0px 2px 0px;display:inline-block;border-radius:0px;width:auto\"><a href=\"{{enrolled_in.url}}\" class=\"m_-37988256656304111es-button\" style=\"text-decoration:none;font-family:helvetica,\'helvetica neue\',arial,verdana,sans-serif;font-size:18px;color:#ffffff;border-style:solid;border-color:#d03529;border-width:10px 15px;display:inline-block;background:#d03529;border-radius:0px;font-weight:normal;font-style:normal;line-height:22px;width:auto;text-align:center\" target=\"_blank\">Start my course</a></span></td>\n                        </tr>\n                    </tbody>\n                </table>\n            </td>\n            </tr>\n            <tr>\n            <td align=\"center\" bgcolor=\"#ffffff\" style=\"padding:20px;Margin:0;background-color:#ffffff\">\n                <table cellpadding=\"0\" cellspacing=\"0\" class=\"m_-37988256656304111es-left\" align=\"center\" style=\"display:inline-block;border-collapse:collapse;border-spacing:0px;\">\n                    <tbody>\n                        <tr>\n                        <td class=\"m_-37988256656304111es-m-p0r\" align=\"center\" style=\"padding:0;Margin:0;width:50px\">\n                            <table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" role=\"presentation\" style=\"border-collapse:collapse;border-spacing:0px\">\n                                <tbody>\n                                    <tr>\n                                    <td align=\"center\" style=\"padding:0;Margin:0;font-size:0px\"><a href=\"https://www.facebook.com/edX\"><img src=\"https://ci3.googleusercontent.com/proxy/2EBI4EepyVUk0cIRxzfMGmsBqU6TKjJsw7CqB8hSM0zRlLb0-BL0Y_JXhu-E6b1DiMGQ-4NHHem0qkjDgG_0xHNTYSsmJ0Rv9qBXCj2SJyT-yFlrkA7SYr4YkGg8CdkRYlkwZsQzU0DiZIDWZopRyOkPvcHWVTLwzCdJMKZcFc57HfR-eQ=s0-d-e1-ft#https://fzvpwi.stripocdn.email/content/guids/CABINET_4d3c6887b8ac137f656a3dd54bb5f6c8/images/71001614127047298.png\" alt=\"facebook logo hyperlink\" style=\"display:block;border:0;outline:none;text-decoration:none\" width=\"35\" height=\"35\" class=\"CToWUd\"></a></td>\n                                    </tr>\n                                </tbody>\n                            </table>\n                        </td>\n                        <td class=\"m_-37988256656304111es-hidden\" style=\"padding:0;Margin:0;width:15px\"></td>\n                        </tr>\n                    </tbody>\n                </table>\n                <table cellpadding=\"0\" cellspacing=\"0\" class=\"m_-37988256656304111es-left\" align=\"center\" style=\"display:inline-block;border-collapse:collapse;border-spacing:0px;\">\n                    <tbody>\n                        <tr>\n                        <td align=\"center\" style=\"padding:0;Margin:0;width:50px\">\n                            <table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" role=\"presentation\" style=\"border-collapse:collapse;border-spacing:0px\">\n                                <tbody>\n                                    <tr>\n                                    <td align=\"center\" style=\"padding:0;Margin:0;font-size:0px\"><a href=\"https://twitter.com/edXOnline\"><img src=\"https://ci4.googleusercontent.com/proxy/yPnmVX7UE9sXw9LbZmrtTLvkrZVy9NJurDVqU6aByY871Dj0GMzEmJZOQm5kTImdMT_qNIIvpVpTpTpboYZB6wPyZuOUKwd49j6Q7yTB9IM0DWSMdldQ4XiOHReWms7Mw7HL9rRGk1iRLwmx0IT5frUGIcmc4ulwvQcjBFSHUBcMBDrAvQ=s0-d-e1-ft#https://fzvpwi.stripocdn.email/content/guids/CABINET_4d3c6887b8ac137f656a3dd54bb5f6c8/images/19131614127052508.png\" alt=\"twitter logo hyperlink\" style=\"display:block;border:0;outline:none;text-decoration:none\" width=\"35\" height=\"35\" class=\"CToWUd\"></a></td>\n                                    </tr>\n                                </tbody>\n                            </table>\n                        </td>\n                        <td class=\"m_-37988256656304111es-hidden\" style=\"padding:0;Margin:0;width:15px\"></td>\n                        </tr>\n                    </tbody>\n                </table>\n                <table cellpadding=\"0\" cellspacing=\"0\" class=\"m_-37988256656304111es-left\" align=\"center\" style=\"display:inline-block;border-collapse:collapse;border-spacing:0px\">\n                    <tbody>\n                        <tr>\n                        <td align=\"center\" style=\"padding:0;Margin:0;width:50px\">\n                            <table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" role=\"presentation\" style=\"border-collapse:collapse;border-spacing:0px\">\n                                <tbody>\n                                    <tr>\n                                    <td align=\"center\" style=\"padding:0;Margin:0;font-size:0px\"><a href=\"https://www.linkedin.com/school/edx/\"><img src=\"https://ci6.googleusercontent.com/proxy/GT773Vs37lIPuUvoTpVMvtQ8sSuiC9sGLGtWGNti6nwmrZGrcewvoO_zFG4XJadUV-xPRYqf9zbLEshuVcSQMZiI1yUuM5VKxTF9lLfuzDWV1ZbMPEpk2cAWEZcDAW8mD3VFxY5l0y1Gxvcc_2bB4L-ApvPHnnIw7rXB_XDe1o37B4xPaA=s0-d-e1-ft#https://fzvpwi.stripocdn.email/content/guids/CABINET_4d3c6887b8ac137f656a3dd54bb5f6c8/images/42721614127058646.png\" alt=\"linkedin logo hyperlink\" style=\"display:block;border:0;outline:none;text-decoration:none\" width=\"35\" height=\"35\" class=\"CToWUd\"></a></td>\n                                    </tr>\n                                </tbody>\n                            </table>\n                        </td>\n                        <td class=\"m_-37988256656304111es-hidden\" style=\"padding:0;Margin:0;width:15px\"></td>\n                        </tr>\n                    </tbody>\n                </table>\n                <table cellpadding=\"0\" cellspacing=\"0\" class=\"m_-37988256656304111es-left\" align=\"center\" style=\"display:inline-block;border-collapse:collapse;border-spacing:0px\">\n                    <tbody>\n                        <tr>\n                        <td align=\"center\" style=\"padding:0;Margin:0;width:50px\">\n                            <table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" role=\"presentation\" style=\"border-collapse:collapse;border-spacing:0px\">\n                                <tbody>\n                                    <tr>\n                                    <td align=\"center\" style=\"padding:0;Margin:0;font-size:0px\"><a href=\"https://www.reddit.com/r/edX/\"><img src=\"https://ci6.googleusercontent.com/proxy/hVT_30jYZguhmOyUAcTTZhCNDjjlivo3GAljGnyt_nNnjp0A0zcheoKw-XgM2NSD7M-CemzJEui6RIte_cH0YyJXUwCJWFpZ6j96QCB3T2UeQddtN1_VrVyQoDnAR1G82cHdJnq6Ysc-KQPvBKngjYaaPYSvcvMuHR0QS7dcnlGK35dUlA=s0-d-e1-ft#https://fzvpwi.stripocdn.email/content/guids/CABINET_4d3c6887b8ac137f656a3dd54bb5f6c8/images/23371614127063365.png\" alt=\"reddit logo hyperlink\" style=\"display:block;border:0;outline:none;text-decoration:none\" width=\"35\" height=\"35\" class=\"CToWUd\"></a></td>\n                                    </tr>\n                                </tbody>\n                            </table>\n                        </td>\n                        <td class=\"m_-37988256656304111es-hidden\" style=\"padding:0;Margin:0;width:15px\"></td>\n                        </tr>\n                    </tbody>\n                </table>\n                <table cellpadding=\"0\" cellspacing=\"0\" class=\"m_-37988256656304111es-left\" align=\"center\" style=\"display:inline-block;border-collapse:collapse;border-spacing:0px;\">\n                    <tbody>\n                        <tr>\n                        <td align=\"left\" style=\"padding:0;Margin:0;width:50px\">\n                            <table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" role=\"presentation\" style=\"border-collapse:collapse;border-spacing:0px\">\n                                <tbody>\n                                    <tr>\n                                    <td align=\"center\" style=\"padding:0;Margin:0;font-size:0px\"><a href=\"https://api.whatsapp.com/send?text=edX\"><img src=\"https://ci4.googleusercontent.com/proxy/9UmWL708u3GDWbf_b3dzLoavIieL1kLHnipq6vGF06ZpMlLEQe9WkHJZsNVHfBwYZhpp71tbA8EJgf2_mhGV2RwDBIiUox83T4sP6uZKF3rw6QGEtQY2Ou16eR6v39Quf2AHsnh78t6JK6PMqlxGVSVKB2WkmUX37_2jtgfIqVtOLlV1bw=s0-d-e1-ft#https://fzvpwi.stripocdn.email/content/guids/CABINET_4d3c6887b8ac137f656a3dd54bb5f6c8/images/18781614127069989.png\" alt=\"whatsapp logo hyperlink\" style=\"display:block;border:0;outline:none;text-decoration:none\" width=\"35\" height=\"35\" class=\"CToWUd\"></a></td>\n                                    </tr>\n                                </tbody>\n                            </table>\n                        </td>\n                        </tr>\n                    </tbody>\n                </table>\n            </td>\n            </tr>\n            <tr>\n            <td>\n                <table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\">\n                    <tbody>\n                        <tr>\n                        <td height=\"20\" style=\"line-height:1px;font-size:1px\"></td>\n                        </tr>\n                        <tr>\n                        <td align=\"left\" valign=\"top\"><a href=\"https://business.edx.org\" style=\"font-family:\'Open Sans\',Arial,sans-serif;font-size:14px;line-height:17px;text-decoration:none;color:#707070\" target=\"_blank\"><span style=\"color:#00262b\">edX for Business</span><span style=\"color:#707070\"> — eLearning Solutions for Your Company</span></a></td>\n                        </tr>\n                        <tr>\n                        <td height=\"20\" style=\"line-height:1px;font-size:1px\"></td>\n                        </tr>\n                        <tr>\n                        <td align=\"left\" style=\"font-family:\'Open Sans\',Arial,sans-serif;color:#707070;font-size:14px;line-height:17px\" valign=\"top\">© 2021 edX Inc. All rights reserved.</td>\n                        </tr>\n                        <tr>\n                        <td height=\"20\" style=\"line-height:1px;font-size:1px\"></td>\n                        </tr>\n                        <tr>\n                        <td height=\"20\" style=\"line-height:1px;font-size:1px\"></td>\n                        </tr>\n                        <tr>\n                        <td align=\"left\" style=\"font-family:\'Open Sans\',Arial,sans-serif;color:#707070;font-size:14px;line-height:17px\" valign=\"top\">141 Portland St. 9th Floor, Cambridge, MA 02139</td>\n                        </tr>\n                        <tr>\n                        <td height=\"30\" style=\"line-height:1px;font-size:1px\"></td>\n                        </tr>\n                    </tbody>\n                </table>\n            </td>\n            </tr>\n        </tbody>\n    </table>\n</body>\n</html>\n         ','',NULL,'ADMIN_ENROLL');
+INSERT INTO `enterprise_enrollmentnotificationemailtemplate` VALUES (1,'2023-02-21 13:26:14.814149','2023-02-21 13:26:14.814149','\n        {% load i18n %}{% if user_name %}{% blocktrans %}Dear {{ user_name }},{% endblocktrans %}{% else %}{% blocktrans %}Hi!{% endblocktrans %}{% endif %}\n        {% if enrolled_in.type == \"program\" %}\n        {% blocktrans with program_url=enrolled_in.url program_name=enrolled_in.name program_branding=enrolled_in.branding start_date=enrolled_in.start|date:\"DATE_FORMAT\" %}You have been enrolled in {{ program_name }}, a {{ program_branding }} program offered by {{ organization_name }}. This program begins {{ start_date }}. For more information, see the following link:\n\n        {{ program_url }}{% endblocktrans %}{% else %}\n        {% blocktrans with course_url=enrolled_in.url course_name=enrolled_in.name start_date=enrolled_in.start|date:\"DATE_FORMAT\" %}You have been enrolled in {{ course_name }}, a course offered by {{ organization_name }}. This course begins {{ start_date }}. For more information, see the following link:\n\n        {{ course_url }}{% endblocktrans %}{% endif %}\n        {% blocktrans with enrolled_in_name=enrolled_in.name %}\n        Thanks,\n\n        The {{enrolled_in_name}} team{% endblocktrans %}\n        ','\n        {% load i18n %}<html>\n        <body>\n        <p>{% if user_name %}{% blocktrans %}Dear {{ user_name }},{% endblocktrans %}{% else %}{% blocktrans %}Hi!{% endblocktrans %}{% endif %}</p>\n        <p>{% if enrolled_in.type == \"program\" %}\n        {% blocktrans with program_url=enrolled_in.url program_name=enrolled_in.name program_branding=enrolled_in.branding start_date=enrolled_in.start|date:\"DATE_FORMAT\" %}You have been enrolled in <a href=\"{{ program_url }}\">{{ program_name }}</a>, a {{ program_branding }} program offered by {{ organization_name }}. This program begins {{ start_date }}. For more information, see <a href=\"{{ program_url }}\">{{ program_name }}</a>.{% endblocktrans %}{% else %}\n        {% blocktrans with course_url=enrolled_in.url course_name=enrolled_in.name start_date=enrolled_in.start|date:\"DATE_FORMAT\" %}You have been enrolled in <a href=\"{{ course_url }}\">{{ course_name }}</a>, a course offered by {{ organization_name }}. This course begins {{ start_date }}. For more information, see <a href=\"{{ course_url }}\">{{ course_name }}</a>.{% endblocktrans %}{% endif %}\n        </p>\n        {% blocktrans with enrolled_in_name=enrolled_in.name %}<p>\n        Thanks,\n        </p>\n        <p>\n        The {{enrolled_in_name}} team\n        </p>{% endblocktrans %}\n        </body>\n        </html>','',NULL,'SELF_ENROLL'),(2,'2023-02-21 13:26:14.819248','2023-02-21 13:26:15.724587','\n        Great News! You\'ve been enrolled in {{enrolled_in.name}} by {{organization_name}}\n\n        This course is a free benefit offered especially for you, and we are excited for you to meet your learning community on edX.\n\n        Visit this link to see and enroll in your course, {{enrolled_in.url}}\n\n        The {{enrolled_in.name}} team\n        ','\n<html>\n<head>\n    <style type=\"text/css\">\n        a, a:visited, a:hover, a:active {\n            text-decoration: none;\n            color: #00262b;\n        }\n    </style>\n</head>\n<body>\n    <table style=\"max-width: 650;\" align=\"center\">\n        <tbody>\n            <tr>\n            <td>\n                <table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" role=\"presentation\" style=\"border-collapse:collapse;border-spacing:0px\">\n                    <tbody>\n                        <tr>\n                        <td align=\"left\" valign=\"top\" style=\"padding:8px;Margin:0;width:560px\">\n                            <img src=\"https://ci3.googleusercontent.com/proxy/ZAml-YgIIJEht-OBl6GqLNIUeVKLyPvs_ldFo9FShp-andj1YQxvliJXv_s_Tmh6cg1-5avJJmvXmzxbQp06sB_WUeYYkN9kzV6jtVUvYKPPjUX_8_iFJAZqsNqYakl4nQyHnl0dClFzxiaLuULSPoqGPLBfJmNOEXIBYkvKYa95640xvHwDiQ22bZ16=s0-d-e1-ft#https://appboy-images.com/appboy/communication/assets/image_assets/images/5fc568622213594dcbda2623/original.png?1606772834\" width=\"110\" height=\"57\" border=\"0\" style=\"display:block\" alt=\"edX\" id=\"m_-37988256656304111logo\" class=\"CToWUd\">\n                        </td>\n                        <td align=\"right\" valign=\"top\" style=\"white-space:nowrap;text-decoration:none;color:#00262b;font-family:\'inter\',Arial,sans-serif;font-size:18px;line-height:21px\">\n                            <a href=\"{{dashboard_url}}\">My Dashboard</a> \n                        </td>\n                        </tr>\n                    </tbody>\n                </table>\n            </td>\n            </tr>\n            <tr>\n            <td align=\"left\" bgcolor=\"#002b2b\" style=\"Margin:0;padding-left:20px;padding-right:20px;padding-top:40px;padding-bottom:40px;background-color:#002b2b;background-image:url(https://ci3.googleusercontent.com/proxy/2CLnc9QL2u1L0MsUErVcQVBOz6OlDew2A5O8umOI9v7PGI3ip8YnJqYPRcexkjGsbNvNa6kUFyuHAMp7LlVBKKa7bxaKUjEO566AyX4M_6PhDtwz-QpLXLg9eQZQ93LIwP-5SbUtfxd203xXFTVBatJrN9P2hsuJSWFwd9k2pooiea6Qsg=s0-d-e1-ft#https://fzvpwi.stripocdn.email/content/guids/CABINET_4d3c6887b8ac137f656a3dd54bb5f6c8/images/53481614126118338.png);background-repeat:no-repeat;background-position:left top\" background=\"https://ci3.googleusercontent.com/proxy/2CLnc9QL2u1L0MsUErVcQVBOz6OlDew2A5O8umOI9v7PGI3ip8YnJqYPRcexkjGsbNvNa6kUFyuHAMp7LlVBKKa7bxaKUjEO566AyX4M_6PhDtwz-QpLXLg9eQZQ93LIwP-5SbUtfxd203xXFTVBatJrN9P2hsuJSWFwd9k2pooiea6Qsg=s0-d-e1-ft#https://fzvpwi.stripocdn.email/content/guids/CABINET_4d3c6887b8ac137f656a3dd54bb5f6c8/images/53481614126118338.png\">\n                <table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"border-collapse:collapse;border-spacing:0px\">\n                    <tbody>\n                        <tr>\n                        <td align=\"center\" valign=\"top\" style=\"padding:0;Margin:0;width:560px\">\n                            <table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" role=\"presentation\" style=\"border-collapse:collapse;border-spacing:0px\">\n                                <tbody>\n                                    <tr>\n                                    <td align=\"center\" style=\"padding:0;Margin:0\">\n                                        <p style=\"Margin:0;font-size:32px;font-family:helvetica,\'helvetica neue\',arial,verdana,sans-serif;line-height:48px;color:#ffffff\"><strong><span class=\"il\">Congratulations</span>, Restless Learner</strong></p>\n                                    </td>\n                                    </tr>\n                                    <tr>\n                                    <td align=\"center\" style=\"padding:0;Margin:0\">\n                                        <p style=\"Margin:0;font-size:20px;font-family:arial,\'helvetica neue\',helvetica,sans-serif;line-height:30px;color:#ffffff\">Great News! You\'ve been <span class=\"il\">Enrolled</span> in {{enrolled_in.name}} by {{organization_name}}</p>\n                                    </td>\n                                    </tr>\n                                </tbody>\n                            </table>\n                        </td>\n                        </tr>\n                    </tbody>\n                </table>\n            </td>\n            </tr>\n            <tr>\n            <td align=\"left\" style=\"padding:0;Margin:0;padding-top:20px;padding-left:20px;padding-right:20px\">\n                <table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"border-collapse:collapse;border-spacing:0px\">\n                    <tbody>\n                        <tr>\n                        <td align=\"center\" valign=\"top\" style=\"padding:0;Margin:0;width:560px\">\n                            <table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" role=\"presentation\" style=\"border-collapse:collapse;border-spacing:0px\">\n                                <tbody>\n                                    <tr>\n                                    <td align=\"center\" style=\"padding:0;Margin:0\">\n                                        <p style=\"Margin:0;font-size:14px;font-family:arial,\'helvetica neue\',helvetica,sans-serif;line-height:21px;color:#333333\">\n                                            This course is a free benefit offered especially for you, and we are excited for you to meet your learning community on edX.\n                                        </p>\n                                    </td>\n                                    </tr>\n                                </tbody>\n                            </table>\n                        </td>\n                        </tr>\n                    </tbody>\n                </table>\n            </td>\n            </tr>\n            <tr>\n            <td>\n                <table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" role=\"presentation\" style=\"border-collapse:collapse;border-spacing:0px\">\n                    <tbody>\n                        <tr>\n                        <td align=\"center\" bgcolor=\"#ffffff\" style=\"padding:0;Margin:0;padding-top:10px;padding-left:10px;padding-bottom:15px\"><span class=\"m_-37988256656304111es-button-border\" style=\"border-style:solid;border-color:#d03529;background:#d03529;border-width:0px 0px 2px 0px;display:inline-block;border-radius:0px;width:auto\"><a href=\"{{enrolled_in.url}}\" class=\"m_-37988256656304111es-button\" style=\"text-decoration:none;font-family:helvetica,\'helvetica neue\',arial,verdana,sans-serif;font-size:18px;color:#ffffff;border-style:solid;border-color:#d03529;border-width:10px 15px;display:inline-block;background:#d03529;border-radius:0px;font-weight:normal;font-style:normal;line-height:22px;width:auto;text-align:center\" target=\"_blank\">Start my course</a></span></td>\n                        </tr>\n                    </tbody>\n                </table>\n            </td>\n            </tr>\n            <tr>\n            <td align=\"center\" bgcolor=\"#ffffff\" style=\"padding:20px;Margin:0;background-color:#ffffff\">\n                <table cellpadding=\"0\" cellspacing=\"0\" class=\"m_-37988256656304111es-left\" align=\"center\" style=\"display:inline-block;border-collapse:collapse;border-spacing:0px;\">\n                    <tbody>\n                        <tr>\n                        <td class=\"m_-37988256656304111es-m-p0r\" align=\"center\" style=\"padding:0;Margin:0;width:50px\">\n                            <table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" role=\"presentation\" style=\"border-collapse:collapse;border-spacing:0px\">\n                                <tbody>\n                                    <tr>\n                                    <td align=\"center\" style=\"padding:0;Margin:0;font-size:0px\"><a href=\"https://www.facebook.com/edX\"><img src=\"https://ci3.googleusercontent.com/proxy/2EBI4EepyVUk0cIRxzfMGmsBqU6TKjJsw7CqB8hSM0zRlLb0-BL0Y_JXhu-E6b1DiMGQ-4NHHem0qkjDgG_0xHNTYSsmJ0Rv9qBXCj2SJyT-yFlrkA7SYr4YkGg8CdkRYlkwZsQzU0DiZIDWZopRyOkPvcHWVTLwzCdJMKZcFc57HfR-eQ=s0-d-e1-ft#https://fzvpwi.stripocdn.email/content/guids/CABINET_4d3c6887b8ac137f656a3dd54bb5f6c8/images/71001614127047298.png\" alt=\"facebook logo hyperlink\" style=\"display:block;border:0;outline:none;text-decoration:none\" width=\"35\" height=\"35\" class=\"CToWUd\"></a></td>\n                                    </tr>\n                                </tbody>\n                            </table>\n                        </td>\n                        <td class=\"m_-37988256656304111es-hidden\" style=\"padding:0;Margin:0;width:15px\"></td>\n                        </tr>\n                    </tbody>\n                </table>\n                <table cellpadding=\"0\" cellspacing=\"0\" class=\"m_-37988256656304111es-left\" align=\"center\" style=\"display:inline-block;border-collapse:collapse;border-spacing:0px;\">\n                    <tbody>\n                        <tr>\n                        <td align=\"center\" style=\"padding:0;Margin:0;width:50px\">\n                            <table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" role=\"presentation\" style=\"border-collapse:collapse;border-spacing:0px\">\n                                <tbody>\n                                    <tr>\n                                    <td align=\"center\" style=\"padding:0;Margin:0;font-size:0px\"><a href=\"https://twitter.com/edXOnline\"><img src=\"https://ci4.googleusercontent.com/proxy/yPnmVX7UE9sXw9LbZmrtTLvkrZVy9NJurDVqU6aByY871Dj0GMzEmJZOQm5kTImdMT_qNIIvpVpTpTpboYZB6wPyZuOUKwd49j6Q7yTB9IM0DWSMdldQ4XiOHReWms7Mw7HL9rRGk1iRLwmx0IT5frUGIcmc4ulwvQcjBFSHUBcMBDrAvQ=s0-d-e1-ft#https://fzvpwi.stripocdn.email/content/guids/CABINET_4d3c6887b8ac137f656a3dd54bb5f6c8/images/19131614127052508.png\" alt=\"twitter logo hyperlink\" style=\"display:block;border:0;outline:none;text-decoration:none\" width=\"35\" height=\"35\" class=\"CToWUd\"></a></td>\n                                    </tr>\n                                </tbody>\n                            </table>\n                        </td>\n                        <td class=\"m_-37988256656304111es-hidden\" style=\"padding:0;Margin:0;width:15px\"></td>\n                        </tr>\n                    </tbody>\n                </table>\n                <table cellpadding=\"0\" cellspacing=\"0\" class=\"m_-37988256656304111es-left\" align=\"center\" style=\"display:inline-block;border-collapse:collapse;border-spacing:0px\">\n                    <tbody>\n                        <tr>\n                        <td align=\"center\" style=\"padding:0;Margin:0;width:50px\">\n                            <table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" role=\"presentation\" style=\"border-collapse:collapse;border-spacing:0px\">\n                                <tbody>\n                                    <tr>\n                                    <td align=\"center\" style=\"padding:0;Margin:0;font-size:0px\"><a href=\"https://www.linkedin.com/school/edx/\"><img src=\"https://ci6.googleusercontent.com/proxy/GT773Vs37lIPuUvoTpVMvtQ8sSuiC9sGLGtWGNti6nwmrZGrcewvoO_zFG4XJadUV-xPRYqf9zbLEshuVcSQMZiI1yUuM5VKxTF9lLfuzDWV1ZbMPEpk2cAWEZcDAW8mD3VFxY5l0y1Gxvcc_2bB4L-ApvPHnnIw7rXB_XDe1o37B4xPaA=s0-d-e1-ft#https://fzvpwi.stripocdn.email/content/guids/CABINET_4d3c6887b8ac137f656a3dd54bb5f6c8/images/42721614127058646.png\" alt=\"linkedin logo hyperlink\" style=\"display:block;border:0;outline:none;text-decoration:none\" width=\"35\" height=\"35\" class=\"CToWUd\"></a></td>\n                                    </tr>\n                                </tbody>\n                            </table>\n                        </td>\n                        <td class=\"m_-37988256656304111es-hidden\" style=\"padding:0;Margin:0;width:15px\"></td>\n                        </tr>\n                    </tbody>\n                </table>\n                <table cellpadding=\"0\" cellspacing=\"0\" class=\"m_-37988256656304111es-left\" align=\"center\" style=\"display:inline-block;border-collapse:collapse;border-spacing:0px\">\n                    <tbody>\n                        <tr>\n                        <td align=\"center\" style=\"padding:0;Margin:0;width:50px\">\n                            <table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" role=\"presentation\" style=\"border-collapse:collapse;border-spacing:0px\">\n                                <tbody>\n                                    <tr>\n                                    <td align=\"center\" style=\"padding:0;Margin:0;font-size:0px\"><a href=\"https://www.reddit.com/r/edX/\"><img src=\"https://ci6.googleusercontent.com/proxy/hVT_30jYZguhmOyUAcTTZhCNDjjlivo3GAljGnyt_nNnjp0A0zcheoKw-XgM2NSD7M-CemzJEui6RIte_cH0YyJXUwCJWFpZ6j96QCB3T2UeQddtN1_VrVyQoDnAR1G82cHdJnq6Ysc-KQPvBKngjYaaPYSvcvMuHR0QS7dcnlGK35dUlA=s0-d-e1-ft#https://fzvpwi.stripocdn.email/content/guids/CABINET_4d3c6887b8ac137f656a3dd54bb5f6c8/images/23371614127063365.png\" alt=\"reddit logo hyperlink\" style=\"display:block;border:0;outline:none;text-decoration:none\" width=\"35\" height=\"35\" class=\"CToWUd\"></a></td>\n                                    </tr>\n                                </tbody>\n                            </table>\n                        </td>\n                        <td class=\"m_-37988256656304111es-hidden\" style=\"padding:0;Margin:0;width:15px\"></td>\n                        </tr>\n                    </tbody>\n                </table>\n                <table cellpadding=\"0\" cellspacing=\"0\" class=\"m_-37988256656304111es-left\" align=\"center\" style=\"display:inline-block;border-collapse:collapse;border-spacing:0px;\">\n                    <tbody>\n                        <tr>\n                        <td align=\"left\" style=\"padding:0;Margin:0;width:50px\">\n                            <table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" role=\"presentation\" style=\"border-collapse:collapse;border-spacing:0px\">\n                                <tbody>\n                                    <tr>\n                                    <td align=\"center\" style=\"padding:0;Margin:0;font-size:0px\"><a href=\"https://api.whatsapp.com/send?text=edX\"><img src=\"https://ci4.googleusercontent.com/proxy/9UmWL708u3GDWbf_b3dzLoavIieL1kLHnipq6vGF06ZpMlLEQe9WkHJZsNVHfBwYZhpp71tbA8EJgf2_mhGV2RwDBIiUox83T4sP6uZKF3rw6QGEtQY2Ou16eR6v39Quf2AHsnh78t6JK6PMqlxGVSVKB2WkmUX37_2jtgfIqVtOLlV1bw=s0-d-e1-ft#https://fzvpwi.stripocdn.email/content/guids/CABINET_4d3c6887b8ac137f656a3dd54bb5f6c8/images/18781614127069989.png\" alt=\"whatsapp logo hyperlink\" style=\"display:block;border:0;outline:none;text-decoration:none\" width=\"35\" height=\"35\" class=\"CToWUd\"></a></td>\n                                    </tr>\n                                </tbody>\n                            </table>\n                        </td>\n                        </tr>\n                    </tbody>\n                </table>\n            </td>\n            </tr>\n            <tr>\n            <td>\n                <table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\">\n                    <tbody>\n                        <tr>\n                        <td height=\"20\" style=\"line-height:1px;font-size:1px\"></td>\n                        </tr>\n                        <tr>\n                        <td align=\"left\" valign=\"top\"><a href=\"https://business.edx.org\" style=\"font-family:\'Open Sans\',Arial,sans-serif;font-size:14px;line-height:17px;text-decoration:none;color:#707070\" target=\"_blank\"><span style=\"color:#00262b\">edX for Business</span><span style=\"color:#707070\"> — eLearning Solutions for Your Company</span></a></td>\n                        </tr>\n                        <tr>\n                        <td height=\"20\" style=\"line-height:1px;font-size:1px\"></td>\n                        </tr>\n                        <tr>\n                        <td align=\"left\" style=\"font-family:\'Open Sans\',Arial,sans-serif;color:#707070;font-size:14px;line-height:17px\" valign=\"top\">© 2021 edX Inc. All rights reserved.</td>\n                        </tr>\n                        <tr>\n                        <td height=\"20\" style=\"line-height:1px;font-size:1px\"></td>\n                        </tr>\n                        <tr>\n                        <td height=\"20\" style=\"line-height:1px;font-size:1px\"></td>\n                        </tr>\n                        <tr>\n                        <td align=\"left\" style=\"font-family:\'Open Sans\',Arial,sans-serif;color:#707070;font-size:14px;line-height:17px\" valign=\"top\">141 Portland St. 9th Floor, Cambridge, MA 02139</td>\n                        </tr>\n                        <tr>\n                        <td height=\"30\" style=\"line-height:1px;font-size:1px\"></td>\n                        </tr>\n                    </tbody>\n                </table>\n            </td>\n            </tr>\n        </tbody>\n    </table>\n</body>\n</html>\n         ','',NULL,'ADMIN_ENROLL');
 /*!40000 ALTER TABLE `enterprise_enrollmentnotificationemailtemplate` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `enterprise_enterpriseanalyticsuser`
---
-
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `enterprise_enterpriseanalyticsuser` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `created` datetime(6) NOT NULL,
-  `modified` datetime(6) NOT NULL,
-  `analytics_user_id` varchar(255) NOT NULL,
-  `enterprise_customer_user_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `enterprise_enterpriseana_enterprise_customer_user_bdd48f28_uniq` (`enterprise_customer_user_id`,`analytics_user_id`),
-  CONSTRAINT `enterprise_enterpris_enterprise_customer__006186e8_fk_enterpris` FOREIGN KEY (`enterprise_customer_user_id`) REFERENCES `enterprise_enterprisecustomeruser` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `enterprise_enterpriseanalyticsuser`
---
-
-LOCK TABLES `enterprise_enterpriseanalyticsuser` WRITE;
-/*!40000 ALTER TABLE `enterprise_enterpriseanalyticsuser` DISABLE KEYS */;
-/*!40000 ALTER TABLE `enterprise_enterpriseanalyticsuser` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -5933,11 +7115,13 @@ CREATE TABLE `enterprise_enterprisecatalogquery` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `created` datetime(6) NOT NULL,
   `modified` datetime(6) NOT NULL,
-  `title` varchar(255) NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
   `content_filter` longtext,
   `uuid` char(32) NOT NULL,
+  `include_exec_ed_2u_courses` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `enterprise_enterprisecatalogquery_uuid_4fdf5c5a_uniq` (`uuid`)
+  UNIQUE KEY `enterprise_enterprisecatalogquery_uuid_4fdf5c5a_uniq` (`uuid`),
+  UNIQUE KEY `enterprise_enterprisecatalogquery_title_7a5a0a9d_uniq` (`title`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -6018,6 +7202,12 @@ CREATE TABLE `enterprise_enterprisecustomer` (
   `enable_portal_lms_configurations_screen` tinyint(1) NOT NULL,
   `sender_alias` varchar(255) DEFAULT NULL,
   `reply_to` varchar(254) DEFAULT NULL,
+  `hide_labor_market_data` tinyint(1) NOT NULL,
+  `enable_universal_link` tinyint(1) NOT NULL,
+  `enable_browse_and_request` tinyint(1) NOT NULL,
+  `enable_learner_portal_offers` tinyint(1) NOT NULL,
+  `enable_portal_learner_credit_management_screen` tinyint(1) NOT NULL,
+  `enable_executive_education_2U_fulfillment` tinyint(1) NOT NULL,
   PRIMARY KEY (`uuid`),
   UNIQUE KEY `slug` (`slug`),
   KEY `enterprise_enterpris_customer_type_id_4b1ee315_fk_enterpris` (`customer_type_id`),
@@ -6129,6 +7319,36 @@ LOCK TABLES `enterprise_enterprisecustomeridentityprovider` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `enterprise_enterprisecustomerinvitekey`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `enterprise_enterprisecustomerinvitekey` (
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `is_removed` tinyint(1) NOT NULL,
+  `uuid` char(32) NOT NULL,
+  `usage_limit` int(10) unsigned NOT NULL,
+  `expiration_date` datetime(6) NOT NULL,
+  `enterprise_customer_id` char(32) NOT NULL,
+  `is_active` tinyint(1) NOT NULL,
+  PRIMARY KEY (`uuid`),
+  KEY `enterprise_enterpris_enterprise_customer__2d339ecc_fk_enterpris` (`enterprise_customer_id`),
+  CONSTRAINT `enterprise_enterpris_enterprise_customer__2d339ecc_fk_enterpris` FOREIGN KEY (`enterprise_customer_id`) REFERENCES `enterprise_enterprisecustomer` (`uuid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `enterprise_enterprisecustomerinvitekey`
+--
+
+LOCK TABLES `enterprise_enterprisecustomerinvitekey` WRITE;
+/*!40000 ALTER TABLE `enterprise_enterprisecustomerinvitekey` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_enterprisecustomerinvitekey` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `enterprise_enterprisecustomerreportingconfiguration`
 --
 
@@ -6222,7 +7442,7 @@ CREATE TABLE `enterprise_enterprisecustomertype` (
 
 LOCK TABLES `enterprise_enterprisecustomertype` WRITE;
 /*!40000 ALTER TABLE `enterprise_enterprisecustomertype` DISABLE KEYS */;
-INSERT INTO `enterprise_enterprisecustomertype` VALUES (1,'2021-07-30 19:55:52.656204','2021-07-30 19:55:52.656204','Enterprise');
+INSERT INTO `enterprise_enterprisecustomertype` VALUES (1,'2023-02-21 13:26:04.298519','2023-02-21 13:26:04.298519','Enterprise');
 /*!40000 ALTER TABLE `enterprise_enterprisecustomertype` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -6240,10 +7460,15 @@ CREATE TABLE `enterprise_enterprisecustomeruser` (
   `active` tinyint(1) NOT NULL,
   `linked` tinyint(1) NOT NULL,
   `enterprise_customer_id` char(32) NOT NULL,
+  `invite_key_id` char(32) DEFAULT NULL,
+  `should_inactivate_other_customers` tinyint(1) NOT NULL,
+  `is_relinkable` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `enterprise_enterprisecus_enterprise_customer_id_u_ffddc29f_uniq` (`enterprise_customer_id`,`user_id`),
   KEY `enterprise_enterprisecustomeruser_user_id_aa8d772f` (`user_id`),
-  CONSTRAINT `enterprise_enterpris_enterprise_customer__f0fea924_fk_enterpris` FOREIGN KEY (`enterprise_customer_id`) REFERENCES `enterprise_enterprisecustomer` (`uuid`)
+  KEY `enterprise_enterpris_invite_key_id_41c8641f_fk_enterpris` (`invite_key_id`),
+  CONSTRAINT `enterprise_enterpris_enterprise_customer__f0fea924_fk_enterpris` FOREIGN KEY (`enterprise_customer_id`) REFERENCES `enterprise_enterprisecustomer` (`uuid`),
+  CONSTRAINT `enterprise_enterpris_invite_key_id_41c8641f_fk_enterpris` FOREIGN KEY (`invite_key_id`) REFERENCES `enterprise_enterprisecustomerinvitekey` (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -6270,7 +7495,7 @@ CREATE TABLE `enterprise_enterpriseenrollmentsource` (
   `slug` varchar(30) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6279,7 +7504,7 @@ CREATE TABLE `enterprise_enterpriseenrollmentsource` (
 
 LOCK TABLES `enterprise_enterpriseenrollmentsource` WRITE;
 /*!40000 ALTER TABLE `enterprise_enterpriseenrollmentsource` DISABLE KEYS */;
-INSERT INTO `enterprise_enterpriseenrollmentsource` VALUES (1,'2021-07-30 19:55:53.294357','2021-07-30 19:55:53.294357','Manual Enterprise Enrollment','manual'),(2,'2021-07-30 19:55:53.299502','2021-07-30 19:55:53.299502','Enterprise API Enrollment','enterprise_api'),(3,'2021-07-30 19:55:53.305742','2021-07-30 19:55:53.305742','Enterprise Enrollment URL','enrollment_url'),(4,'2021-07-30 19:55:53.310894','2021-07-30 19:55:53.310894','Enterprise Offer Redemption','offer_redemption'),(5,'2021-07-30 19:55:53.314689','2021-07-30 19:55:53.314689','Enterprise User Enrollment Background Task','enrollment_task'),(6,'2021-07-30 19:55:53.318212','2021-07-30 19:55:53.318212','Enterprise management command enrollment','management_command');
+INSERT INTO `enterprise_enterpriseenrollmentsource` VALUES (1,'2023-02-21 13:26:05.071551','2023-02-21 13:26:05.071551','Manual Enterprise Enrollment','manual'),(2,'2023-02-21 13:26:05.076859','2023-02-21 13:26:05.076859','Enterprise API Enrollment','enterprise_api'),(3,'2023-02-21 13:26:05.083123','2023-02-21 13:26:05.083123','Enterprise Enrollment URL','enrollment_url'),(4,'2023-02-21 13:26:05.085828','2023-02-21 13:26:05.085828','Enterprise Offer Redemption','offer_redemption'),(5,'2023-02-21 13:26:05.089048','2023-02-21 13:26:05.089048','Enterprise User Enrollment Background Task','enrollment_task'),(6,'2023-02-21 13:26:05.092349','2023-02-21 13:26:05.092349','Enterprise management command enrollment','management_command'),(7,'2023-02-21 13:26:16.080455','2023-02-21 13:26:16.080455','Customer Admin Enrollment','customer_admin');
 /*!40000 ALTER TABLE `enterprise_enterpriseenrollmentsource` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -6306,7 +7531,7 @@ CREATE TABLE `enterprise_enterprisefeaturerole` (
 
 LOCK TABLES `enterprise_enterprisefeaturerole` WRITE;
 /*!40000 ALTER TABLE `enterprise_enterprisefeaturerole` DISABLE KEYS */;
-INSERT INTO `enterprise_enterprisefeaturerole` VALUES (1,'2021-07-30 19:55:53.185889','2021-07-30 19:55:53.185889','catalog_admin',NULL),(2,'2021-07-30 19:55:53.189222','2021-07-30 19:55:53.189222','dashboard_admin',NULL),(3,'2021-07-30 19:55:53.192711','2021-07-30 19:55:53.192711','enrollment_api_admin',NULL),(4,'2021-07-30 19:55:53.196386','2021-07-30 19:55:53.196386','reporting_config_admin',NULL);
+INSERT INTO `enterprise_enterprisefeaturerole` VALUES (1,'2023-02-21 13:26:04.941346','2023-02-21 13:26:04.941346','catalog_admin',NULL),(2,'2023-02-21 13:26:04.944783','2023-02-21 13:26:04.944783','dashboard_admin',NULL),(3,'2023-02-21 13:26:04.952356','2023-02-21 13:26:04.952356','enrollment_api_admin',NULL),(4,'2023-02-21 13:26:04.957911','2023-02-21 13:26:04.957911','reporting_config_admin',NULL);
 /*!40000 ALTER TABLE `enterprise_enterprisefeaturerole` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -6375,40 +7600,6 @@ CREATE TABLE `enterprise_historicalenrollmentnotificationemailtemplate` (
 LOCK TABLES `enterprise_historicalenrollmentnotificationemailtemplate` WRITE;
 /*!40000 ALTER TABLE `enterprise_historicalenrollmentnotificationemailtemplate` DISABLE KEYS */;
 /*!40000 ALTER TABLE `enterprise_historicalenrollmentnotificationemailtemplate` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `enterprise_historicalenterpriseanalyticsuser`
---
-
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `enterprise_historicalenterpriseanalyticsuser` (
-  `id` int(11) NOT NULL,
-  `created` datetime(6) NOT NULL,
-  `modified` datetime(6) NOT NULL,
-  `analytics_user_id` varchar(255) NOT NULL,
-  `history_id` int(11) NOT NULL AUTO_INCREMENT,
-  `history_date` datetime(6) NOT NULL,
-  `history_change_reason` varchar(100) DEFAULT NULL,
-  `history_type` varchar(1) NOT NULL,
-  `enterprise_customer_user_id` int(11) DEFAULT NULL,
-  `history_user_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`history_id`),
-  KEY `enterprise_historica_history_user_id_749d5e98_fk_auth_user` (`history_user_id`),
-  KEY `enterprise_historicalenterpriseanalyticsuser_id_62dc75c5` (`id`),
-  KEY `enterprise_historicalenterp_enterprise_customer_user_id_2b116b91` (`enterprise_customer_user_id`),
-  CONSTRAINT `enterprise_historica_history_user_id_749d5e98_fk_auth_user` FOREIGN KEY (`history_user_id`) REFERENCES `auth_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `enterprise_historicalenterpriseanalyticsuser`
---
-
-LOCK TABLES `enterprise_historicalenterpriseanalyticsuser` WRITE;
-/*!40000 ALTER TABLE `enterprise_historicalenterpriseanalyticsuser` DISABLE KEYS */;
-/*!40000 ALTER TABLE `enterprise_historicalenterpriseanalyticsuser` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -6490,6 +7681,12 @@ CREATE TABLE `enterprise_historicalenterprisecustomer` (
   `enable_portal_lms_configurations_screen` tinyint(1) NOT NULL,
   `sender_alias` varchar(255) DEFAULT NULL,
   `reply_to` varchar(254) DEFAULT NULL,
+  `hide_labor_market_data` tinyint(1) NOT NULL,
+  `enable_universal_link` tinyint(1) NOT NULL,
+  `enable_browse_and_request` tinyint(1) NOT NULL,
+  `enable_learner_portal_offers` tinyint(1) NOT NULL,
+  `enable_portal_learner_credit_management_screen` tinyint(1) NOT NULL,
+  `enable_executive_education_2U_fulfillment` tinyint(1) NOT NULL,
   PRIMARY KEY (`history_id`),
   KEY `enterprise_historica_history_user_id_bbd9b0d6_fk_auth_user` (`history_user_id`),
   KEY `enterprise_historicalenterprisecustomer_uuid_75c3528e` (`uuid`),
@@ -6549,6 +7746,43 @@ LOCK TABLES `enterprise_historicalenterprisecustomercatalog` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `enterprise_historicalenterprisecustomerinvitekey`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `enterprise_historicalenterprisecustomerinvitekey` (
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `is_removed` tinyint(1) NOT NULL,
+  `uuid` char(32) NOT NULL,
+  `usage_limit` int(10) unsigned NOT NULL,
+  `expiration_date` datetime(6) NOT NULL,
+  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_date` datetime(6) NOT NULL,
+  `history_change_reason` varchar(100) DEFAULT NULL,
+  `history_type` varchar(1) NOT NULL,
+  `enterprise_customer_id` char(32) DEFAULT NULL,
+  `history_user_id` int(11) DEFAULT NULL,
+  `is_active` tinyint(1) NOT NULL,
+  PRIMARY KEY (`history_id`),
+  KEY `enterprise_historica_history_user_id_b0abba8d_fk_auth_user` (`history_user_id`),
+  KEY `enterprise_historicalenterprisecustomerinvitekey_uuid_3e79330b` (`uuid`),
+  KEY `enterprise_historicalenterp_enterprise_customer_id_808a040d` (`enterprise_customer_id`),
+  CONSTRAINT `enterprise_historica_history_user_id_b0abba8d_fk_auth_user` FOREIGN KEY (`history_user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `enterprise_historicalenterprisecustomerinvitekey`
+--
+
+LOCK TABLES `enterprise_historicalenterprisecustomerinvitekey` WRITE;
+/*!40000 ALTER TABLE `enterprise_historicalenterprisecustomerinvitekey` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_historicalenterprisecustomerinvitekey` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `enterprise_historicalenterprisecustomeruser`
 --
 
@@ -6567,11 +7801,15 @@ CREATE TABLE `enterprise_historicalenterprisecustomeruser` (
   `history_type` varchar(1) NOT NULL,
   `enterprise_customer_id` char(32) DEFAULT NULL,
   `history_user_id` int(11) DEFAULT NULL,
+  `invite_key_id` char(32) DEFAULT NULL,
+  `should_inactivate_other_customers` tinyint(1) NOT NULL,
+  `is_relinkable` tinyint(1) NOT NULL,
   PRIMARY KEY (`history_id`),
   KEY `enterprise_historica_history_user_id_22dafe08_fk_auth_user` (`history_user_id`),
   KEY `enterprise_historicalenterprisecustomeruser_id_fa66f378` (`id`),
   KEY `enterprise_historicalenterprisecustomeruser_user_id_6262547b` (`user_id`),
   KEY `enterprise_historicalenterp_enterprise_customer_id_4b5807fa` (`enterprise_customer_id`),
+  KEY `enterprise_historicalenterp_invite_key_id_701be209` (`invite_key_id`),
   CONSTRAINT `enterprise_historica_history_user_id_22dafe08_fk_auth_user` FOREIGN KEY (`history_user_id`) REFERENCES `auth_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -6913,7 +8151,7 @@ CREATE TABLE `enterprise_systemwideenterpriserole` (
 
 LOCK TABLES `enterprise_systemwideenterpriserole` WRITE;
 /*!40000 ALTER TABLE `enterprise_systemwideenterpriserole` DISABLE KEYS */;
-INSERT INTO `enterprise_systemwideenterpriserole` VALUES (1,'2021-07-30 19:55:53.172356','2021-07-30 19:55:53.172356','enterprise_admin',NULL),(2,'2021-07-30 19:55:53.177414','2021-07-30 19:55:53.177414','enterprise_learner',NULL),(3,'2021-07-30 19:55:53.181807','2021-07-30 19:55:53.181807','enterprise_openedx_operator',NULL),(4,'2021-07-30 19:55:54.598010','2021-07-30 19:55:54.598010','enterprise_catalog_admin','Role for access to endpoints in the enterprise catalog service');
+INSERT INTO `enterprise_systemwideenterpriserole` VALUES (1,'2023-02-21 13:26:04.928596','2023-02-21 13:26:04.928596','enterprise_admin',NULL),(2,'2023-02-21 13:26:04.933431','2023-02-21 13:26:04.933431','enterprise_learner',NULL),(3,'2023-02-21 13:26:04.936997','2023-02-21 13:26:04.936997','enterprise_openedx_operator',NULL),(4,'2023-02-21 13:26:07.500896','2023-02-21 13:26:07.500896','enterprise_catalog_admin','Role for access to endpoints in the enterprise catalog service');
 /*!40000 ALTER TABLE `enterprise_systemwideenterpriserole` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -6932,9 +8170,9 @@ CREATE TABLE `enterprise_systemwideenterpriseuserroleassignment` (
   `applies_to_all_contexts` tinyint(1) NOT NULL,
   `enterprise_customer_id` char(32) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `enterprise_systemwid_user_id_e890aef2_fk_auth_user` (`user_id`),
-  KEY `enterprise_systemwid_enterprise_customer__0136c565_fk_enterpris` (`enterprise_customer_id`),
+  UNIQUE KEY `enterprise_systemwideent_enterprise_customer_id_r_970babc4_uniq` (`enterprise_customer_id`,`role_id`,`user_id`),
   KEY `enterprise_systemwid_role_id_bc7092f0_fk_enterpris` (`role_id`),
+  KEY `enterprise_systemwid_user_id_e890aef2_fk_auth_user` (`user_id`),
   CONSTRAINT `enterprise_systemwid_enterprise_customer__0136c565_fk_enterpris` FOREIGN KEY (`enterprise_customer_id`) REFERENCES `enterprise_enterprisecustomer` (`uuid`),
   CONSTRAINT `enterprise_systemwid_role_id_bc7092f0_fk_enterpris` FOREIGN KEY (`role_id`) REFERENCES `enterprise_systemwideenterpriserole` (`id`),
   CONSTRAINT `enterprise_systemwid_user_id_e890aef2_fk_auth_user` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
@@ -7002,8 +8240,8 @@ CREATE TABLE `entitlements_courseentitlement` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `entitlements_courseentitlement_uuid_2228ffad_uniq` (`uuid`),
   UNIQUE KEY `entitlements_courseentit_course_uuid_order_number_b37c9e13_uniq` (`course_uuid`,`order_number`),
-  KEY `entitlements_courseentitlement_user_id_a518a225_fk_auth_user_id` (`user_id`),
   KEY `entitlements_coursee_enrollment_course_ru_3fc796af_fk_student_c` (`enrollment_course_run_id`),
+  KEY `entitlements_courseentitlement_user_id_a518a225_fk_auth_user_id` (`user_id`),
   KEY `entitlements_coursee__policy_id_37bd7c13_fk_entitleme` (`_policy_id`),
   CONSTRAINT `entitlements_coursee__policy_id_37bd7c13_fk_entitleme` FOREIGN KEY (`_policy_id`) REFERENCES `entitlements_courseentitlementpolicy` (`id`),
   CONSTRAINT `entitlements_coursee_enrollment_course_ru_3fc796af_fk_student_c` FOREIGN KEY (`enrollment_course_run_id`) REFERENCES `student_courseenrollment` (`id`),
@@ -7167,36 +8405,6 @@ LOCK TABLES `entitlements_historicalcourseentitlementsupportdetail` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `event_routing_backends_routerconfiguration`
---
-
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `event_routing_backends_routerconfiguration` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `change_date` datetime(6) NOT NULL,
-  `enabled` tinyint(1) NOT NULL,
-  `backend_name` varchar(50) NOT NULL,
-  `configurations` longblob NOT NULL,
-  `changed_by_id` int(11) DEFAULT NULL,
-  `route_url` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `event_routing_backen_changed_by_id_32085a77_fk_auth_user` (`changed_by_id`),
-  KEY `event_routing_backends_routerconfiguration_backend_name_5d1feedc` (`backend_name`),
-  CONSTRAINT `event_routing_backen_changed_by_id_32085a77_fk_auth_user` FOREIGN KEY (`changed_by_id`) REFERENCES `auth_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `event_routing_backends_routerconfiguration`
---
-
-LOCK TABLES `event_routing_backends_routerconfiguration` WRITE;
-/*!40000 ALTER TABLE `event_routing_backends_routerconfiguration` DISABLE KEYS */;
-/*!40000 ALTER TABLE `event_routing_backends_routerconfiguration` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `experiments_experimentdata`
 --
 
@@ -7215,7 +8423,7 @@ CREATE TABLE `experiments_experimentdata` (
   KEY `experiments_experimentdata_user_id_experiment_id_15bd1b30_idx` (`user_id`,`experiment_id`),
   KEY `experiments_experimentdata_experiment_id_e816cee5` (`experiment_id`),
   CONSTRAINT `experiments_experimentdata_user_id_bd6f4720_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7224,7 +8432,6 @@ CREATE TABLE `experiments_experimentdata` (
 
 LOCK TABLES `experiments_experimentdata` WRITE;
 /*!40000 ALTER TABLE `experiments_experimentdata` DISABLE KEYS */;
-INSERT INTO `experiments_experimentdata` VALUES (1,'2021-07-30 20:04:36.398637','2021-07-30 20:04:36.398637',18,'course-v1:edX+DemoX+Demo_Course','-1',5),(2,'2021-07-30 20:04:47.664832','2021-07-30 20:04:47.664832',18,'course-v1:edX+DemoX+Demo_Course','-1',6),(3,'2021-07-30 20:04:59.290615','2021-07-30 20:04:59.290615',18,'course-v1:edX+DemoX+Demo_Course','-1',7),(4,'2021-07-30 20:05:10.499358','2021-07-30 20:05:10.499358',18,'course-v1:edX+DemoX+Demo_Course','-1',8);
 /*!40000 ALTER TABLE `experiments_experimentdata` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -7345,7 +8552,7 @@ CREATE TABLE `external_user_ids_externalidtype` (
 
 LOCK TABLES `external_user_ids_externalidtype` WRITE;
 /*!40000 ALTER TABLE `external_user_ids_externalidtype` DISABLE KEYS */;
-INSERT INTO `external_user_ids_externalidtype` VALUES (1,'2021-07-30 19:57:25.712965','2021-07-30 19:57:25.712965','mb_coaching','MicroBachelors Coaching'),(2,'2021-07-30 19:57:26.154370','2021-07-30 19:57:26.154370','lti','LTI Xblock launches');
+INSERT INTO `external_user_ids_externalidtype` VALUES (1,'2023-02-21 13:30:45.884511','2023-02-21 13:30:45.884511','mb_coaching','MicroBachelors Coaching'),(2,'2023-02-21 13:30:50.619141','2023-02-21 13:30:50.619141','lti','LTI Xblock launches');
 /*!40000 ALTER TABLE `external_user_ids_externalidtype` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -7449,34 +8656,6 @@ LOCK TABLES `grades_computegradessetting` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `grades_coursepersistentgradesflag`
---
-
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `grades_coursepersistentgradesflag` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `change_date` datetime(6) NOT NULL,
-  `enabled` tinyint(1) NOT NULL,
-  `course_id` varchar(255) NOT NULL,
-  `changed_by_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `grades_coursepersist_changed_by_id_c8c392d6_fk_auth_user` (`changed_by_id`),
-  KEY `grades_coursepersistentgradesflag_course_id_b494f1e7` (`course_id`),
-  CONSTRAINT `grades_coursepersist_changed_by_id_c8c392d6_fk_auth_user` FOREIGN KEY (`changed_by_id`) REFERENCES `auth_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `grades_coursepersistentgradesflag`
---
-
-LOCK TABLES `grades_coursepersistentgradesflag` WRITE;
-/*!40000 ALTER TABLE `grades_coursepersistentgradesflag` DISABLE KEYS */;
-/*!40000 ALTER TABLE `grades_coursepersistentgradesflag` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `grades_historicalpersistentsubsectiongradeoverride`
 --
 
@@ -7550,33 +8729,6 @@ CREATE TABLE `grades_persistentcoursegrade` (
 LOCK TABLES `grades_persistentcoursegrade` WRITE;
 /*!40000 ALTER TABLE `grades_persistentcoursegrade` DISABLE KEYS */;
 /*!40000 ALTER TABLE `grades_persistentcoursegrade` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `grades_persistentgradesenabledflag`
---
-
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `grades_persistentgradesenabledflag` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `change_date` datetime(6) NOT NULL,
-  `enabled` tinyint(1) NOT NULL,
-  `enabled_for_all_courses` tinyint(1) NOT NULL,
-  `changed_by_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `grades_persistentgra_changed_by_id_f80cdad1_fk_auth_user` (`changed_by_id`),
-  CONSTRAINT `grades_persistentgra_changed_by_id_f80cdad1_fk_auth_user` FOREIGN KEY (`changed_by_id`) REFERENCES `auth_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `grades_persistentgradesenabledflag`
---
-
-LOCK TABLES `grades_persistentgradesenabledflag` WRITE;
-/*!40000 ALTER TABLE `grades_persistentgradesenabledflag` DISABLE KEYS */;
-/*!40000 ALTER TABLE `grades_persistentgradesenabledflag` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -7706,6 +8858,41 @@ LOCK TABLES `instructor_task_gradereportsetting` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `instructor_task_historicalinstructortaskschedule`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `instructor_task_historicalinstructortaskschedule` (
+  `id` int(11) NOT NULL,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `task_args` longtext NOT NULL,
+  `task_due` datetime(6) NOT NULL,
+  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_date` datetime(6) NOT NULL,
+  `history_change_reason` varchar(100) DEFAULT NULL,
+  `history_type` varchar(1) NOT NULL,
+  `history_user_id` int(11) DEFAULT NULL,
+  `task_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`history_id`),
+  KEY `instructor_task_hist_history_user_id_4a50d181_fk_auth_user` (`history_user_id`),
+  KEY `instructor_task_historicalinstructortaskschedule_id_e5476408` (`id`),
+  KEY `instructor_task_historicali_task_id_c3ace79c` (`task_id`),
+  CONSTRAINT `instructor_task_hist_history_user_id_4a50d181_fk_auth_user` FOREIGN KEY (`history_user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `instructor_task_historicalinstructortaskschedule`
+--
+
+LOCK TABLES `instructor_task_historicalinstructortaskschedule` WRITE;
+/*!40000 ALTER TABLE `instructor_task_historicalinstructortaskschedule` DISABLE KEYS */;
+/*!40000 ALTER TABLE `instructor_task_historicalinstructortaskschedule` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `instructor_task_instructortask`
 --
 
@@ -7745,6 +8932,59 @@ LOCK TABLES `instructor_task_instructortask` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `instructor_task_instructortaskschedule`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `instructor_task_instructortaskschedule` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `task_args` longtext NOT NULL,
+  `task_due` datetime(6) NOT NULL,
+  `task_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `task_id` (`task_id`),
+  CONSTRAINT `instructor_task_inst_task_id_7564a79b_fk_instructo` FOREIGN KEY (`task_id`) REFERENCES `instructor_task_instructortask` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `instructor_task_instructortaskschedule`
+--
+
+LOCK TABLES `instructor_task_instructortaskschedule` WRITE;
+/*!40000 ALTER TABLE `instructor_task_instructortaskschedule` DISABLE KEYS */;
+/*!40000 ALTER TABLE `instructor_task_instructortaskschedule` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `integrated_channel_apiresponserecord`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `integrated_channel_apiresponserecord` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `status_code` int(10) unsigned DEFAULT NULL,
+  `body` longtext,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `integrated_channel_apiresponserecord`
+--
+
+LOCK TABLES `integrated_channel_apiresponserecord` WRITE;
+/*!40000 ALTER TABLE `integrated_channel_apiresponserecord` DISABLE KEYS */;
+/*!40000 ALTER TABLE `integrated_channel_apiresponserecord` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `integrated_channel_contentmetadataitemtransmission`
 --
 
@@ -7758,8 +8998,22 @@ CREATE TABLE `integrated_channel_contentmetadataitemtransmission` (
   `content_id` varchar(255) NOT NULL,
   `channel_metadata` longtext NOT NULL,
   `enterprise_customer_id` char(32) NOT NULL,
+  `content_last_changed` datetime(6) DEFAULT NULL,
+  `enterprise_customer_catalog_uuid` char(32) DEFAULT NULL,
+  `remote_deleted_at` datetime(6) DEFAULT NULL,
+  `plugin_configuration_id` int(10) unsigned DEFAULT NULL,
+  `api_response_status_code` int(10) unsigned DEFAULT NULL,
+  `remote_created_at` datetime(6) DEFAULT NULL,
+  `remote_updated_at` datetime(6) DEFAULT NULL,
+  `content_title` varchar(255) DEFAULT NULL,
+  `friendly_status_message` varchar(255) DEFAULT NULL,
+  `marked_for` varchar(32) DEFAULT NULL,
+  `api_record_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `integrated_channel_conte_enterprise_customer_id_i_44ca3772_uniq` (`enterprise_customer_id`,`integrated_channel_code`,`content_id`),
+  UNIQUE KEY `api_record_id` (`api_record_id`),
+  KEY `integrated_channel_contentm_enterprise_customer_id_f6439bfb` (`enterprise_customer_id`),
+  KEY `integrated_channel_conten_enterprise_customer_id_in_d0b69e31_idx` (`enterprise_customer_id`,`integrated_channel_code`,`plugin_configuration_id`,`content_id`),
+  CONSTRAINT `integrated_channel_c_api_record_id_9f45970e_fk_integrate` FOREIGN KEY (`api_record_id`) REFERENCES `integrated_channel_apiresponserecord` (`id`),
   CONSTRAINT `integrated_channel_c_enterprise_customer__f6439bfb_fk_enterpris` FOREIGN KEY (`enterprise_customer_id`) REFERENCES `enterprise_enterprisecustomer` (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -7774,35 +9028,182 @@ LOCK TABLES `integrated_channel_contentmetadataitemtransmission` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `integrated_channel_learnerdatatransmissionaudit`
+-- Table structure for table `integrated_channel_genericenterprisecustomerpluginconfiguration`
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `integrated_channel_learnerdatatransmissionaudit` (
+CREATE TABLE `integrated_channel_genericenterprisecustomerpluginconfiguration` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `enterprise_course_enrollment_id` int(10) unsigned NOT NULL,
-  `course_id` varchar(255) NOT NULL,
-  `course_completed` tinyint(1) NOT NULL,
-  `completed_timestamp` bigint(20) NOT NULL,
-  `instructor_name` varchar(255) NOT NULL,
-  `grade` varchar(100) NOT NULL,
-  `status` varchar(100) NOT NULL,
-  `error_message` longtext NOT NULL,
   `created` datetime(6) NOT NULL,
-  `subsection_id` varchar(255) DEFAULT NULL,
+  `modified` datetime(6) NOT NULL,
+  `display_name` varchar(255) NOT NULL,
+  `idp_id` varchar(255) NOT NULL,
+  `active` tinyint(1) NOT NULL,
+  `transmission_chunk_size` int(11) NOT NULL,
+  `channel_worker_username` varchar(255) NOT NULL,
+  `catalogs_to_transmit` longtext NOT NULL,
+  `disable_learner_data_transmissions` tinyint(1) NOT NULL,
+  `enterprise_customer_id` char(32) NOT NULL,
+  `dry_run_mode_enabled` tinyint(1) NOT NULL,
+  `deleted_at` datetime(6) DEFAULT NULL,
+  `last_content_sync_attempted_at` datetime(6) DEFAULT NULL,
+  `last_content_sync_errored_at` datetime(6) DEFAULT NULL,
+  `last_learner_sync_attempted_at` datetime(6) DEFAULT NULL,
+  `last_learner_sync_errored_at` datetime(6) DEFAULT NULL,
+  `last_sync_attempted_at` datetime(6) DEFAULT NULL,
+  `last_sync_errored_at` datetime(6) DEFAULT NULL,
+  `last_modified_at` datetime(6) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `integrated_channel_learnerd_enterprise_course_enrollmen_c2e6c2e0` (`enterprise_course_enrollment_id`)
+  KEY `integrated_channel_g_enterprise_customer__662cf9ac_fk_enterpris` (`enterprise_customer_id`),
+  CONSTRAINT `integrated_channel_g_enterprise_customer__662cf9ac_fk_enterpris` FOREIGN KEY (`enterprise_customer_id`) REFERENCES `enterprise_enterprisecustomer` (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `integrated_channel_learnerdatatransmissionaudit`
+-- Dumping data for table `integrated_channel_genericenterprisecustomerpluginconfiguration`
 --
 
-LOCK TABLES `integrated_channel_learnerdatatransmissionaudit` WRITE;
-/*!40000 ALTER TABLE `integrated_channel_learnerdatatransmissionaudit` DISABLE KEYS */;
-/*!40000 ALTER TABLE `integrated_channel_learnerdatatransmissionaudit` ENABLE KEYS */;
+LOCK TABLES `integrated_channel_genericenterprisecustomerpluginconfiguration` WRITE;
+/*!40000 ALTER TABLE `integrated_channel_genericenterprisecustomerpluginconfiguration` DISABLE KEYS */;
+/*!40000 ALTER TABLE `integrated_channel_genericenterprisecustomerpluginconfiguration` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `integrated_channel_genericlearnerdatatransmissionaudit`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `integrated_channel_genericlearnerdatatransmissionaudit` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `enterprise_customer_uuid` char(32) DEFAULT NULL,
+  `plugin_configuration_id` int(11) DEFAULT NULL,
+  `enterprise_course_enrollment_id` int(11) DEFAULT NULL,
+  `course_id` varchar(255) NOT NULL,
+  `course_completed` tinyint(1) NOT NULL,
+  `completed_timestamp` datetime(6) DEFAULT NULL,
+  `instructor_name` varchar(255) NOT NULL,
+  `grade` double DEFAULT NULL,
+  `total_hours` double DEFAULT NULL,
+  `status` varchar(100) DEFAULT NULL,
+  `error_message` longtext,
+  `subsection_id` varchar(255) DEFAULT NULL,
+  `subsection_name` varchar(255) DEFAULT NULL,
+  `friendly_status_message` varchar(255) DEFAULT NULL,
+  `api_record_id` int(11) DEFAULT NULL,
+  `content_title` varchar(255) DEFAULT NULL,
+  `progress_status` varchar(255) NOT NULL,
+  `user_email` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `api_record_id` (`api_record_id`),
+  KEY `integrated_channel_genericl_enterprise_course_enrollmen_4f9a5a2a` (`enterprise_course_enrollment_id`),
+  KEY `integrated_channel_genericl_subsection_id_e1451a08` (`subsection_id`),
+  CONSTRAINT `integrated_channel_g_api_record_id_5b5e9dfb_fk_integrate` FOREIGN KEY (`api_record_id`) REFERENCES `integrated_channel_apiresponserecord` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `integrated_channel_genericlearnerdatatransmissionaudit`
+--
+
+LOCK TABLES `integrated_channel_genericlearnerdatatransmissionaudit` WRITE;
+/*!40000 ALTER TABLE `integrated_channel_genericlearnerdatatransmissionaudit` DISABLE KEYS */;
+/*!40000 ALTER TABLE `integrated_channel_genericlearnerdatatransmissionaudit` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `learner_pathway_progress_historicallearnerpathwayprogress`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `learner_pathway_progress_historicallearnerpathwayprogress` (
+  `id` int(11) NOT NULL,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `learner_pathway_uuid` char(32) NOT NULL,
+  `learner_pathway_progress` longtext NOT NULL,
+  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_date` datetime(6) NOT NULL,
+  `history_change_reason` varchar(100) DEFAULT NULL,
+  `history_type` varchar(1) NOT NULL,
+  `history_user_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`history_id`),
+  KEY `learner_pathway_prog_history_user_id_72cbc5ff_fk_auth_user` (`history_user_id`),
+  KEY `learner_pathway_progress_hi_id_4032af49` (`id`),
+  KEY `learner_pathway_progress_hi_user_id_9b76ad23` (`user_id`),
+  CONSTRAINT `learner_pathway_prog_history_user_id_72cbc5ff_fk_auth_user` FOREIGN KEY (`history_user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `learner_pathway_progress_historicallearnerpathwayprogress`
+--
+
+LOCK TABLES `learner_pathway_progress_historicallearnerpathwayprogress` WRITE;
+/*!40000 ALTER TABLE `learner_pathway_progress_historicallearnerpathwayprogress` DISABLE KEYS */;
+/*!40000 ALTER TABLE `learner_pathway_progress_historicallearnerpathwayprogress` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `learner_pathway_progress_learnerenterprisepathwaymembership`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `learner_pathway_progress_learnerenterprisepathwaymembership` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `enterprise_customer_uuid` char(32) NOT NULL,
+  `learner_pathway_uuid` char(32) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `learner_pathway_progress_user_id_learner_pathway__bd6dc3ce_uniq` (`user_id`,`learner_pathway_uuid`,`enterprise_customer_uuid`),
+  KEY `learner_pathway_progress_le_enterprise_customer_uuid_bb253771` (`enterprise_customer_uuid`),
+  CONSTRAINT `learner_pathway_prog_user_id_86dea5e8_fk_auth_user` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `learner_pathway_progress_learnerenterprisepathwaymembership`
+--
+
+LOCK TABLES `learner_pathway_progress_learnerenterprisepathwaymembership` WRITE;
+/*!40000 ALTER TABLE `learner_pathway_progress_learnerenterprisepathwaymembership` DISABLE KEYS */;
+/*!40000 ALTER TABLE `learner_pathway_progress_learnerenterprisepathwaymembership` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `learner_pathway_progress_learnerpathwayprogress`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `learner_pathway_progress_learnerpathwayprogress` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `learner_pathway_uuid` char(32) NOT NULL,
+  `learner_pathway_progress` longtext NOT NULL,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `learner_pathway_progress_user_id_learner_pathway__056d35ab_uniq` (`user_id`,`learner_pathway_uuid`),
+  CONSTRAINT `learner_pathway_prog_user_id_97c147db_fk_auth_user` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `learner_pathway_progress_learnerpathwayprogress`
+--
+
+LOCK TABLES `learner_pathway_progress_learnerpathwayprogress` WRITE;
+/*!40000 ALTER TABLE `learner_pathway_progress_learnerpathwayprogress` DISABLE KEYS */;
+/*!40000 ALTER TABLE `learner_pathway_progress_learnerpathwayprogress` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -7856,7 +9257,6 @@ CREATE TABLE `learning_sequences_coursecontext` (
 
 LOCK TABLES `learning_sequences_coursecontext` WRITE;
 /*!40000 ALTER TABLE `learning_sequences_coursecontext` DISABLE KEYS */;
-INSERT INTO `learning_sequences_coursecontext` VALUES ('2021-07-30 20:03:24.085812','2021-07-30 20:03:35.393790',1,'private',0,NULL,NULL);
 /*!40000 ALTER TABLE `learning_sequences_coursecontext` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -7880,7 +9280,7 @@ CREATE TABLE `learning_sequences_coursesection` (
   UNIQUE KEY `learning_sequences_cours_course_context_id_usage__0df8eb59_uniq` (`course_context_id`,`usage_key`),
   KEY `learning_sequences_course_course_context_id_orderin_ee5cfc42_idx` (`course_context_id`,`ordering`),
   CONSTRAINT `learning_sequences_c_course_context_id_f9845b47_fk_learning_` FOREIGN KEY (`course_context_id`) REFERENCES `learning_sequences_coursecontext` (`learning_context_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7889,7 +9289,6 @@ CREATE TABLE `learning_sequences_coursesection` (
 
 LOCK TABLES `learning_sequences_coursesection` WRITE;
 /*!40000 ALTER TABLE `learning_sequences_coursesection` DISABLE KEYS */;
-INSERT INTO `learning_sequences_coursesection` VALUES (1,0,'block-v1:edX+DemoX+Demo_Course+type@chapter+block@d8a6192ade314473a78242dfeedfbf5b','Introduction',0,0,'2021-07-30 20:03:35.399639','2021-07-30 20:03:35.399639',1),(2,1,'block-v1:edX+DemoX+Demo_Course+type@chapter+block@interactive_demonstrations','Example Week 1: Getting Started',0,0,'2021-07-30 20:03:35.407841','2021-07-30 20:03:35.407841',1),(3,2,'block-v1:edX+DemoX+Demo_Course+type@chapter+block@graded_interactions','Example Week 2: Get Interactive',0,0,'2021-07-30 20:03:35.415300','2021-07-30 20:03:35.415300',1),(4,3,'block-v1:edX+DemoX+Demo_Course+type@chapter+block@social_integration','Example Week 3: Be Social',0,0,'2021-07-30 20:03:35.424370','2021-07-30 20:03:35.424370',1),(5,4,'block-v1:edX+DemoX+Demo_Course+type@chapter+block@1414ffd5143b4b508f739b563ab468b7','About Exams and Certificates',0,0,'2021-07-30 20:03:35.429753','2021-07-30 20:03:35.429753',1),(6,5,'block-v1:edX+DemoX+Demo_Course+type@chapter+block@9fca584977d04885bc911ea76a9ef29e','holding section',0,0,'2021-07-30 20:03:35.435435','2021-07-30 20:03:35.435435',1);
 /*!40000 ALTER TABLE `learning_sequences_coursesection` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -7917,7 +9316,7 @@ CREATE TABLE `learning_sequences_coursesectionsequence` (
   CONSTRAINT `learning_sequences_c_course_context_id_bb2762af_fk_learning_` FOREIGN KEY (`course_context_id`) REFERENCES `learning_sequences_coursecontext` (`learning_context_id`),
   CONSTRAINT `learning_sequences_c_section_id_646c2074_fk_learning_` FOREIGN KEY (`section_id`) REFERENCES `learning_sequences_coursesection` (`id`),
   CONSTRAINT `learning_sequences_c_sequence_id_e6a12a64_fk_learning_` FOREIGN KEY (`sequence_id`) REFERENCES `learning_sequences_learningsequence` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7926,7 +9325,6 @@ CREATE TABLE `learning_sequences_coursesectionsequence` (
 
 LOCK TABLES `learning_sequences_coursesectionsequence` WRITE;
 /*!40000 ALTER TABLE `learning_sequences_coursesectionsequence` DISABLE KEYS */;
-INSERT INTO `learning_sequences_coursesectionsequence` VALUES (1,0,0,0,'2021-07-30 20:03:35.499607','2021-07-30 20:03:35.499607',1,1,0,1),(2,1,0,0,'2021-07-30 20:03:35.507573','2021-07-30 20:03:35.507573',2,2,0,1),(3,2,0,0,'2021-07-30 20:03:35.514246','2021-07-30 20:03:35.514246',2,3,0,1),(4,3,0,0,'2021-07-30 20:03:35.520614','2021-07-30 20:03:35.520614',3,4,0,1),(5,4,0,0,'2021-07-30 20:03:35.527469','2021-07-30 20:03:35.527469',3,5,0,1),(6,5,0,0,'2021-07-30 20:03:35.534432','2021-07-30 20:03:35.534432',3,6,0,1),(7,6,0,0,'2021-07-30 20:03:35.540409','2021-07-30 20:03:35.540409',4,7,0,1),(8,7,0,0,'2021-07-30 20:03:35.546974','2021-07-30 20:03:35.546974',4,8,0,1),(9,8,0,0,'2021-07-30 20:03:35.553096','2021-07-30 20:03:35.553096',4,9,0,1),(10,9,0,0,'2021-07-30 20:03:35.558958','2021-07-30 20:03:35.558958',5,10,0,1),(11,10,0,0,'2021-07-30 20:03:35.564969','2021-07-30 20:03:35.564969',6,11,0,1);
 /*!40000 ALTER TABLE `learning_sequences_coursesectionsequence` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -7977,7 +9375,7 @@ CREATE TABLE `learning_sequences_learningcontext` (
   UNIQUE KEY `context_key` (`context_key`),
   KEY `learning_se_publish_62319b_idx` (`published_at`),
   KEY `learning_sequences_learningcontext_title_5a70c4cd` (`title`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7986,7 +9384,6 @@ CREATE TABLE `learning_sequences_learningcontext` (
 
 LOCK TABLES `learning_sequences_learningcontext` WRITE;
 /*!40000 ALTER TABLE `learning_sequences_learningcontext` DISABLE KEYS */;
-INSERT INTO `learning_sequences_learningcontext` VALUES (1,'course-v1:edX+DemoX+Demo_Course','Demonstration Course','2021-07-30 20:03:35.279683','61045b17d6207e0a890bc540','2021-07-30 20:03:24.081187','2021-07-30 20:03:35.390690');
 /*!40000 ALTER TABLE `learning_sequences_learningcontext` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -8006,7 +9403,7 @@ CREATE TABLE `learning_sequences_learningsequence` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `learning_sequences_learn_learning_context_id_usag_6a13230f_uniq` (`learning_context_id`,`usage_key`),
   CONSTRAINT `learning_sequences_l_learning_context_id_25f3e4ab_fk_learning_` FOREIGN KEY (`learning_context_id`) REFERENCES `learning_sequences_learningcontext` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8015,7 +9412,6 @@ CREATE TABLE `learning_sequences_learningsequence` (
 
 LOCK TABLES `learning_sequences_learningsequence` WRITE;
 /*!40000 ALTER TABLE `learning_sequences_learningsequence` DISABLE KEYS */;
-INSERT INTO `learning_sequences_learningsequence` VALUES (1,1,'block-v1:edX+DemoX+Demo_Course+type@sequential+block@edx_introduction','Demo Course Overview','2021-07-30 20:03:35.444160','2021-07-30 20:03:35.444160'),(2,1,'block-v1:edX+DemoX+Demo_Course+type@sequential+block@19a30717eff543078a5d94ae9d6c18a5','Lesson 1 - Getting Started','2021-07-30 20:03:35.448799','2021-07-30 20:03:35.448799'),(3,1,'block-v1:edX+DemoX+Demo_Course+type@sequential+block@basic_questions','Homework - Question Styles','2021-07-30 20:03:35.455260','2021-07-30 20:03:35.455260'),(4,1,'block-v1:edX+DemoX+Demo_Course+type@sequential+block@simulations','Lesson 2 - Let\'s Get Interactive!','2021-07-30 20:03:35.459509','2021-07-30 20:03:35.459509'),(5,1,'block-v1:edX+DemoX+Demo_Course+type@sequential+block@graded_simulations','Homework - Labs and Demos','2021-07-30 20:03:35.463542','2021-07-30 20:03:35.463542'),(6,1,'block-v1:edX+DemoX+Demo_Course+type@sequential+block@175e76c4951144a29d46211361266e0e','Homework - Essays','2021-07-30 20:03:35.468256','2021-07-30 20:03:35.468256'),(7,1,'block-v1:edX+DemoX+Demo_Course+type@sequential+block@48ecb924d7fe4b66a230137626bfa93e','Lesson 3 - Be Social','2021-07-30 20:03:35.471963','2021-07-30 20:03:35.471963'),(8,1,'block-v1:edX+DemoX+Demo_Course+type@sequential+block@dbe8fc027bcb4fe9afb744d2e8415855','Homework - Find Your Study Buddy','2021-07-30 20:03:35.477312','2021-07-30 20:03:35.477312'),(9,1,'block-v1:edX+DemoX+Demo_Course+type@sequential+block@6ab9c442501d472c8ed200e367b4edfa','More Ways to Connect','2021-07-30 20:03:35.481381','2021-07-30 20:03:35.481381'),(10,1,'block-v1:edX+DemoX+Demo_Course+type@sequential+block@workflow','edX Exams','2021-07-30 20:03:35.485113','2021-07-30 20:03:35.485113'),(11,1,'block-v1:edX+DemoX+Demo_Course+type@sequential+block@07bc32474380492cb34f76e5f9d9a135','New Subsection','2021-07-30 20:03:35.488730','2021-07-30 20:03:35.488730');
 /*!40000 ALTER TABLE `learning_sequences_learningsequence` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -8037,7 +9433,7 @@ CREATE TABLE `learning_sequences_publishreport` (
   KEY `learning_sequences_publishreport_num_sections_ad9e0ae2` (`num_sections`),
   KEY `learning_sequences_publishreport_num_sequences_51743c92` (`num_sequences`),
   CONSTRAINT `learning_sequences_p_learning_context_id_dd7a29fd_fk_learning_` FOREIGN KEY (`learning_context_id`) REFERENCES `learning_sequences_learningcontext` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8046,7 +9442,6 @@ CREATE TABLE `learning_sequences_publishreport` (
 
 LOCK TABLES `learning_sequences_publishreport` WRITE;
 /*!40000 ALTER TABLE `learning_sequences_publishreport` DISABLE KEYS */;
-INSERT INTO `learning_sequences_publishreport` VALUES (1,0,6,11,1);
 /*!40000 ALTER TABLE `learning_sequences_publishreport` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -8157,6 +9552,68 @@ LOCK TABLES `lms_xblock_xblockasidesconfig` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `lti1p3_tool`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `lti1p3_tool` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `is_active` tinyint(1) NOT NULL,
+  `issuer` varchar(255) NOT NULL,
+  `client_id` varchar(255) NOT NULL,
+  `use_by_default` tinyint(1) NOT NULL,
+  `auth_login_url` varchar(1024) NOT NULL,
+  `auth_token_url` varchar(1024) NOT NULL,
+  `auth_audience` varchar(1024) DEFAULT NULL,
+  `key_set_url` varchar(1024) DEFAULT NULL,
+  `key_set` longtext,
+  `deployment_ids` longtext NOT NULL,
+  `tool_key_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `lti1p3_tool_issuer_client_id_b3116be4_uniq` (`issuer`,`client_id`),
+  KEY `lti1p3_tool_tool_key_id_608be89f_fk_lti1p3_tool_key_id` (`tool_key_id`),
+  CONSTRAINT `lti1p3_tool_tool_key_id_608be89f_fk_lti1p3_tool_key_id` FOREIGN KEY (`tool_key_id`) REFERENCES `lti1p3_tool_key` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `lti1p3_tool`
+--
+
+LOCK TABLES `lti1p3_tool` WRITE;
+/*!40000 ALTER TABLE `lti1p3_tool` DISABLE KEYS */;
+/*!40000 ALTER TABLE `lti1p3_tool` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `lti1p3_tool_key`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `lti1p3_tool_key` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `private_key` longtext NOT NULL,
+  `public_key` longtext,
+  `public_jwk` longtext,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `lti1p3_tool_key`
+--
+
+LOCK TABLES `lti1p3_tool_key` WRITE;
+/*!40000 ALTER TABLE `lti1p3_tool_key` DISABLE KEYS */;
+/*!40000 ALTER TABLE `lti1p3_tool_key` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `lti_consumer_ltiagslineitem`
 --
 
@@ -8239,6 +9696,16 @@ CREATE TABLE `lti_consumer_lticonfiguration` (
   `lti_1p1_client_secret` varchar(255) NOT NULL,
   `lti_1p1_launch_url` varchar(255) NOT NULL,
   `lti_config` longtext NOT NULL,
+  `external_id` varchar(255) DEFAULT NULL,
+  `lti_1p3_launch_url` varchar(255) NOT NULL,
+  `lti_1p3_oidc_url` varchar(255) NOT NULL,
+  `lti_1p3_tool_keyset_url` varchar(255) NOT NULL,
+  `lti_1p3_tool_public_key` longtext NOT NULL,
+  `lti_advantage_ags_mode` varchar(20) NOT NULL,
+  `lti_advantage_deep_linking_enabled` tinyint(1) NOT NULL,
+  `lti_advantage_deep_linking_launch_url` varchar(225) NOT NULL,
+  `lti_advantage_enable_nrps` tinyint(1) NOT NULL,
+  `lti_1p3_proctoring_enabled` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `lti_consumer_lticonfiguration_config_id_7e375962_uniq` (`config_id`),
   KEY `lti_consumer_lticonfiguration_location_e7e37735` (`location`)
@@ -8298,10 +9765,10 @@ CREATE TABLE `milestones_coursecontentmilestone` (
   `requirements` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `milestones_coursecontent_course_id_content_id_mil_7caa5ba5_uniq` (`course_id`,`content_id`,`milestone_id`),
-  KEY `milestones_coursecontentmilestone_course_id_6fd3fad0` (`course_id`),
-  KEY `milestones_coursecontentmilestone_content_id_21f4c95f` (`content_id`),
   KEY `milestones_coursecon_milestone_id_bd7a608b_fk_milestone` (`milestone_id`),
   KEY `milestones_coursecon_milestone_relationsh_31556ebf_fk_milestone` (`milestone_relationship_type_id`),
+  KEY `milestones_coursecontentmilestone_course_id_6fd3fad0` (`course_id`),
+  KEY `milestones_coursecontentmilestone_content_id_21f4c95f` (`content_id`),
   KEY `milestones_coursecontentmilestone_active_b7ab709d` (`active`),
   CONSTRAINT `milestones_coursecon_milestone_id_bd7a608b_fk_milestone` FOREIGN KEY (`milestone_id`) REFERENCES `milestones_milestone` (`id`),
   CONSTRAINT `milestones_coursecon_milestone_relationsh_31556ebf_fk_milestone` FOREIGN KEY (`milestone_relationship_type_id`) REFERENCES `milestones_milestonerelationshiptype` (`id`)
@@ -8333,9 +9800,9 @@ CREATE TABLE `milestones_coursemilestone` (
   `milestone_relationship_type_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `milestones_coursemilestone_course_id_milestone_id_36b21ae8_uniq` (`course_id`,`milestone_id`),
-  KEY `milestones_coursemilestone_course_id_ce46a0fc` (`course_id`),
   KEY `milestones_coursemil_milestone_id_03d9ef01_fk_milestone` (`milestone_id`),
   KEY `milestones_coursemil_milestone_relationsh_6c64b782_fk_milestone` (`milestone_relationship_type_id`),
+  KEY `milestones_coursemilestone_course_id_ce46a0fc` (`course_id`),
   KEY `milestones_coursemilestone_active_c590442e` (`active`),
   CONSTRAINT `milestones_coursemil_milestone_id_03d9ef01_fk_milestone` FOREIGN KEY (`milestone_id`) REFERENCES `milestones_milestone` (`id`),
   CONSTRAINT `milestones_coursemil_milestone_relationsh_6c64b782_fk_milestone` FOREIGN KEY (`milestone_relationship_type_id`) REFERENCES `milestones_milestonerelationshiptype` (`id`)
@@ -8407,7 +9874,7 @@ CREATE TABLE `milestones_milestonerelationshiptype` (
 
 LOCK TABLES `milestones_milestonerelationshiptype` WRITE;
 /*!40000 ALTER TABLE `milestones_milestonerelationshiptype` DISABLE KEYS */;
-INSERT INTO `milestones_milestonerelationshiptype` VALUES (1,'2021-07-30 19:57:37.465864','2021-07-30 19:57:37.465864','requires','Autogenerated milestone relationship type \"requires\"',1),(2,'2021-07-30 19:57:37.474848','2021-07-30 19:57:37.474848','fulfills','Autogenerated milestone relationship type \"fulfills\"',1);
+INSERT INTO `milestones_milestonerelationshiptype` VALUES (1,'2023-02-21 13:31:26.094047','2023-02-21 13:31:26.094047','requires','Autogenerated milestone relationship type \"requires\"',1),(2,'2023-02-21 13:31:26.105500','2023-02-21 13:31:26.105500','fulfills','Autogenerated milestone relationship type \"fulfills\"',1);
 /*!40000 ALTER TABLE `milestones_milestonerelationshiptype` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -8529,6 +9996,31 @@ LOCK TABLES `mobile_api_mobileapiconfig` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `mobile_api_mobileconfig`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mobile_api_mobileconfig` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `value` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `mobile_api_mobileconfig`
+--
+
+LOCK TABLES `mobile_api_mobileconfig` WRITE;
+/*!40000 ALTER TABLE `mobile_api_mobileconfig` DISABLE KEYS */;
+/*!40000 ALTER TABLE `mobile_api_mobileconfig` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `moodle_historicalmoodleenterprisecustomerconfiguration`
 --
 
@@ -8540,20 +10032,34 @@ CREATE TABLE `moodle_historicalmoodleenterprisecustomerconfiguration` (
   `modified` datetime(6) NOT NULL,
   `active` tinyint(1) NOT NULL,
   `transmission_chunk_size` int(11) NOT NULL,
-  `channel_worker_username` varchar(255) DEFAULT NULL,
-  `catalogs_to_transmit` longtext,
+  `channel_worker_username` varchar(255) NOT NULL,
+  `catalogs_to_transmit` longtext NOT NULL,
   `moodle_base_url` varchar(255) NOT NULL,
   `service_short_name` varchar(255) NOT NULL,
   `category_id` int(11) DEFAULT NULL,
-  `username` varchar(255) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
-  `token` varchar(255) DEFAULT NULL,
+  `username` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL,
   `history_id` int(11) NOT NULL AUTO_INCREMENT,
   `history_date` datetime(6) NOT NULL,
   `history_change_reason` varchar(100) DEFAULT NULL,
   `history_type` varchar(1) NOT NULL,
   `enterprise_customer_id` char(32) DEFAULT NULL,
   `history_user_id` int(11) DEFAULT NULL,
+  `idp_id` varchar(255) NOT NULL,
+  `disable_learner_data_transmissions` tinyint(1) NOT NULL,
+  `display_name` varchar(255) NOT NULL,
+  `dry_run_mode_enabled` tinyint(1) NOT NULL,
+  `deleted_at` datetime(6) DEFAULT NULL,
+  `grade_assignment_name` varchar(255) NOT NULL,
+  `grade_scale` int(11) NOT NULL,
+  `last_content_sync_attempted_at` datetime(6) DEFAULT NULL,
+  `last_content_sync_errored_at` datetime(6) DEFAULT NULL,
+  `last_learner_sync_attempted_at` datetime(6) DEFAULT NULL,
+  `last_learner_sync_errored_at` datetime(6) DEFAULT NULL,
+  `last_sync_attempted_at` datetime(6) DEFAULT NULL,
+  `last_sync_errored_at` datetime(6) DEFAULT NULL,
+  `last_modified_at` datetime(6) DEFAULT NULL,
   PRIMARY KEY (`history_id`),
   KEY `moodle_historicalmoo_history_user_id_22017ee9_fk_auth_user` (`history_user_id`),
   KEY `moodle_historicalmoodleente_id_71ddc422` (`id`),
@@ -8583,17 +10089,31 @@ CREATE TABLE `moodle_moodleenterprisecustomerconfiguration` (
   `modified` datetime(6) NOT NULL,
   `active` tinyint(1) NOT NULL,
   `transmission_chunk_size` int(11) NOT NULL,
-  `channel_worker_username` varchar(255) DEFAULT NULL,
-  `catalogs_to_transmit` longtext,
+  `channel_worker_username` varchar(255) NOT NULL,
+  `catalogs_to_transmit` longtext NOT NULL,
   `moodle_base_url` varchar(255) NOT NULL,
   `service_short_name` varchar(255) NOT NULL,
   `category_id` int(11) DEFAULT NULL,
-  `username` varchar(255) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
-  `token` varchar(255) DEFAULT NULL,
+  `username` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL,
   `enterprise_customer_id` char(32) NOT NULL,
+  `idp_id` varchar(255) NOT NULL,
+  `disable_learner_data_transmissions` tinyint(1) NOT NULL,
+  `display_name` varchar(255) NOT NULL,
+  `dry_run_mode_enabled` tinyint(1) NOT NULL,
+  `deleted_at` datetime(6) DEFAULT NULL,
+  `grade_assignment_name` varchar(255) NOT NULL,
+  `grade_scale` int(11) NOT NULL,
+  `last_content_sync_attempted_at` datetime(6) DEFAULT NULL,
+  `last_content_sync_errored_at` datetime(6) DEFAULT NULL,
+  `last_learner_sync_attempted_at` datetime(6) DEFAULT NULL,
+  `last_learner_sync_errored_at` datetime(6) DEFAULT NULL,
+  `last_sync_attempted_at` datetime(6) DEFAULT NULL,
+  `last_sync_errored_at` datetime(6) DEFAULT NULL,
+  `last_modified_at` datetime(6) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `enterprise_customer_id` (`enterprise_customer_id`),
+  KEY `moodle_moodleenterprisecust_enterprise_customer_id_6668537b` (`enterprise_customer_id`),
   CONSTRAINT `moodle_moodleenterpr_enterprise_customer__6668537b_fk_enterpris` FOREIGN KEY (`enterprise_customer_id`) REFERENCES `enterprise_enterprisecustomer` (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -8616,17 +10136,33 @@ UNLOCK TABLES;
 CREATE TABLE `moodle_moodlelearnerdatatransmissionaudit` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `moodle_user_email` varchar(255) NOT NULL,
-  `enterprise_course_enrollment_id` int(10) unsigned NOT NULL,
+  `enterprise_course_enrollment_id` int(11) DEFAULT NULL,
   `course_id` varchar(255) NOT NULL,
-  `grade` decimal(3,2) DEFAULT NULL,
+  `grade` double DEFAULT NULL,
   `total_hours` double DEFAULT NULL,
   `course_completed` tinyint(1) NOT NULL,
-  `completed_timestamp` varchar(10) NOT NULL,
-  `status` varchar(100) NOT NULL,
-  `error_message` longtext NOT NULL,
+  `moodle_completed_timestamp` varchar(10) DEFAULT NULL,
+  `status` varchar(100) DEFAULT NULL,
+  `error_message` longtext,
   `created` datetime(6) NOT NULL,
+  `enterprise_customer_uuid` char(32) DEFAULT NULL,
+  `instructor_name` varchar(255) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `plugin_configuration_id` int(11) DEFAULT NULL,
+  `subsection_id` varchar(255) DEFAULT NULL,
+  `subsection_name` varchar(255) DEFAULT NULL,
+  `friendly_status_message` varchar(255) DEFAULT NULL,
+  `api_record_id` int(11) DEFAULT NULL,
+  `content_title` varchar(255) DEFAULT NULL,
+  `progress_status` varchar(255) NOT NULL,
+  `user_email` varchar(255) DEFAULT NULL,
+  `completed_timestamp` datetime(6) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `moodle_moodlelearnerdatatra_enterprise_course_enrollmen_70fa10d7` (`enterprise_course_enrollment_id`)
+  UNIQUE KEY `api_record_id` (`api_record_id`),
+  KEY `moodle_moodlelearnerdatatra_enterprise_course_enrollmen_70fa10d7` (`enterprise_course_enrollment_id`),
+  KEY `moodle_moodlelearnerdatatransmissionaudit_subsection_id_fcac3b8c` (`subsection_id`),
+  KEY `moodle_mldta_85936b55_idx` (`enterprise_customer_uuid`,`plugin_configuration_id`),
+  CONSTRAINT `moodle_moodlelearner_api_record_id_749298db_fk_integrate` FOREIGN KEY (`api_record_id`) REFERENCES `integrated_channel_apiresponserecord` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -8637,6 +10173,68 @@ CREATE TABLE `moodle_moodlelearnerdatatransmissionaudit` (
 LOCK TABLES `moodle_moodlelearnerdatatransmissionaudit` WRITE;
 /*!40000 ALTER TABLE `moodle_moodlelearnerdatatransmissionaudit` DISABLE KEYS */;
 /*!40000 ALTER TABLE `moodle_moodlelearnerdatatransmissionaudit` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `nameaffirmation_verifiedname`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `nameaffirmation_verifiedname` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `verified_name` varchar(255) NOT NULL,
+  `profile_name` varchar(255) DEFAULT NULL,
+  `verification_attempt_id` int(10) unsigned DEFAULT NULL,
+  `proctored_exam_attempt_id` int(10) unsigned DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
+  `status` varchar(32) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `nameaffirmation_verifiedname_user_id_e272fb19_fk_auth_user_id` (`user_id`),
+  KEY `nameaffirmation_verifiedname_verified_name_7097d450` (`verified_name`),
+  CONSTRAINT `nameaffirmation_verifiedname_user_id_e272fb19_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `nameaffirmation_verifiedname`
+--
+
+LOCK TABLES `nameaffirmation_verifiedname` WRITE;
+/*!40000 ALTER TABLE `nameaffirmation_verifiedname` DISABLE KEYS */;
+/*!40000 ALTER TABLE `nameaffirmation_verifiedname` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `nameaffirmation_verifiednameconfig`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `nameaffirmation_verifiednameconfig` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `change_date` datetime(6) NOT NULL,
+  `enabled` tinyint(1) NOT NULL,
+  `use_verified_name_for_certs` tinyint(1) NOT NULL,
+  `changed_by_id` int(11) DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `nameaffirmation_veri_changed_by_id_e6d2f562_fk_auth_user` (`changed_by_id`),
+  KEY `nameaffirmation_veri_user_id_5b5e177e_fk_auth_user` (`user_id`),
+  CONSTRAINT `nameaffirmation_veri_changed_by_id_e6d2f562_fk_auth_user` FOREIGN KEY (`changed_by_id`) REFERENCES `auth_user` (`id`),
+  CONSTRAINT `nameaffirmation_veri_user_id_5b5e177e_fk_auth_user` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `nameaffirmation_verifiednameconfig`
+--
+
+LOCK TABLES `nameaffirmation_verifiednameconfig` WRITE;
+/*!40000 ALTER TABLE `nameaffirmation_verifiednameconfig` DISABLE KEYS */;
+/*!40000 ALTER TABLE `nameaffirmation_verifiednameconfig` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -8780,7 +10378,7 @@ CREATE TABLE `oauth2_provider_accesstoken` (
 
 LOCK TABLES `oauth2_provider_accesstoken` WRITE;
 /*!40000 ALTER TABLE `oauth2_provider_accesstoken` DISABLE KEYS */;
-INSERT INTO `oauth2_provider_accesstoken` VALUES (1,'VBoA9dtTKCiki7JXnB0lOQAuh8Yi2t','2021-07-31 06:19:59.431909','read write email profile',4,1,'2021-07-30 20:19:59.424167','2021-07-30 20:19:59.433966',NULL);
+INSERT INTO `oauth2_provider_accesstoken` VALUES (1,'9LmBvHCdRKOEsXVPqgregDgaacclKC','2023-02-22 00:41:59.864879','read write email profile',7,11,'2023-02-21 14:41:59.840767','2023-02-21 14:41:59.869501',NULL);
 /*!40000 ALTER TABLE `oauth2_provider_accesstoken` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -8807,7 +10405,7 @@ CREATE TABLE `oauth2_provider_application` (
   KEY `oauth2_provider_application_user_id_79829054_fk_auth_user_id` (`user_id`),
   KEY `oauth2_provider_application_client_secret_53133678` (`client_secret`),
   CONSTRAINT `oauth2_provider_application_user_id_79829054_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8816,7 +10414,7 @@ CREATE TABLE `oauth2_provider_application` (
 
 LOCK TABLES `oauth2_provider_application` WRITE;
 /*!40000 ALTER TABLE `oauth2_provider_application` DISABLE KEYS */;
-INSERT INTO `oauth2_provider_application` VALUES (1,'login-service-client-id','','public','password','X4L6BKKf0JgMn1TH0BFnmFLnKRplLYKmUYbqGc2qQLRIGzFjGiwQMPnIOyHMLiW6A8qsVX9mshchCUCcQGLELj5O4eZKCeeEacHON8JikewexicMCCw22gtxwkO4eGPu','Login Service for JWT Cookies',2,0,'2021-07-30 19:58:11.944124','2021-07-30 19:58:11.944166'),(2,'AjEA1P865dsBif42kQYMWJiLLGKQSVSYXy5X6o1V','','confidential','client-credentials','sZuhQuuV3QtpgpXqY6wXrPhB09R81Ijk8CBfzoSP9NER1xYEoLBaqKSggXzvCCjjIKOmytxV6Is3ClqqKMmRZtXTau7r9jrx5dfdgXRCGMSEIFy4xrWOC7Af3F8JP3jY','retirement',9,0,'2021-07-30 20:15:27.098232','2021-07-30 20:15:27.098284'),(3,'ecommerce-sso-key','http://localhost:18130/complete/edx-oauth2/','confidential','authorization-code','ecommerce-sso-secret','ecommerce-sso',1,1,'2021-07-30 20:18:16.419993','2021-07-30 20:18:16.420058'),(4,'ecommerce-backend-service-key','','confidential','client-credentials','ecommerce-backend-service-secret','ecommerce-backend-service',1,0,'2021-07-30 20:18:28.452549','2021-07-30 20:18:28.452606');
+INSERT INTO `oauth2_provider_application` VALUES (1,'login-service-client-id','','public','password','pvZnl8tp2fTy8OahmJOwZ72b92glVVB8igFF5wOy1KE9HCCvH1pqebamJ1mVBcp1MnrsRcCIjt9rnh4N1XR0ToHW85k5ah9XkicRKpaUHAth3EVghTEe0SXq1HCE4kUt','Login Service for JWT Cookies',2,0,'2023-02-21 14:10:50.956718','2023-02-21 14:10:50.956749'),(2,'enterprise-backend-service-key','','confidential','client-credentials','enterprise-backend-service-secret','enterprise-backend-service',4,0,'2023-02-21 14:19:44.951695','2023-02-21 14:19:44.951755'),(3,'studio-sso-key','http://localhost:18010/complete/edx-oauth2/','confidential','authorization-code','studio-sso-secret','studio-sso',9,1,'2023-02-21 14:29:32.045802','2023-02-21 14:29:32.045858'),(4,'studio-backend-service-key','','confidential','client-credentials','studio-backend-service-secret','studio-backend-service',9,0,'2023-02-21 14:29:42.672176','2023-02-21 14:29:42.672228'),(5,'48JirUwtsCgfpuOCK5RKP1rIpvGQHWK6c3zyvsMf','','confidential','client-credentials','WTYWhvtfCKmkX5Qh3pCWqLn5RAW8I8V9aEhpcwIYk5LTTwRzc1VYQmYMeAOlsetU8hky2RObZt32dtuSo1ILGLhap5VyyFIYn5UXPrW0SiyZoMv6ZK6USFKDTkmkSHpx','retirement',10,0,'2023-02-21 14:30:03.200959','2023-02-21 14:30:03.201010'),(6,'ecommerce-sso-key','http://localhost:18130/complete/edx-oauth2/','confidential','authorization-code','ecommerce-sso-secret','ecommerce-sso',11,1,'2023-02-21 14:39:13.815179','2023-02-21 14:39:13.815235'),(7,'ecommerce-backend-service-key','','confidential','client-credentials','ecommerce-backend-service-secret','ecommerce-backend-service',11,0,'2023-02-21 14:39:29.303725','2023-02-21 14:39:29.303778');
 /*!40000 ALTER TABLE `oauth2_provider_application` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -8905,7 +10503,7 @@ CREATE TABLE `oauth_dispatch_applicationaccess` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `application_id` (`application_id`),
   CONSTRAINT `oauth_dispatch_appli_application_id_dcddee6e_fk_oauth2_pr` FOREIGN KEY (`application_id`) REFERENCES `oauth2_provider_application` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8914,7 +10512,7 @@ CREATE TABLE `oauth_dispatch_applicationaccess` (
 
 LOCK TABLES `oauth_dispatch_applicationaccess` WRITE;
 /*!40000 ALTER TABLE `oauth_dispatch_applicationaccess` DISABLE KEYS */;
-INSERT INTO `oauth_dispatch_applicationaccess` VALUES (1,'user_id',3,NULL);
+INSERT INTO `oauth_dispatch_applicationaccess` VALUES (1,'user_id',3,NULL),(2,'user_id',6,NULL);
 /*!40000 ALTER TABLE `oauth_dispatch_applicationaccess` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -9105,6 +10703,243 @@ LOCK TABLES `organizations_organizationcourse` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `outcome_surveys_coursegoal`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `outcome_surveys_coursegoal` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `survey_id` int(11) NOT NULL,
+  `survey_response_id` bigint(20) NOT NULL,
+  `enrollment_type` varchar(16) DEFAULT NULL,
+  `lms_enrollment_id` int(11) DEFAULT NULL,
+  `goal_achieved` tinyint(1) DEFAULT NULL,
+  `online_learning_goal` longtext,
+  `open_to_outreach` tinyint(1) DEFAULT NULL,
+  `salary_change` tinyint(1) DEFAULT NULL,
+  `job_promotion` tinyint(1) DEFAULT NULL,
+  `learning_experience_importance` varchar(256) DEFAULT NULL,
+  `experience_impacted_goals` longtext,
+  `close_to_goal` varchar(256) DEFAULT NULL,
+  `factors_influenced_timeline` longtext,
+  `achieve_goal_sooner` longtext,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `outcome_surveys_coursego_survey_id_survey_respons_cb97bf9e_uniq` (`survey_id`,`survey_response_id`),
+  KEY `outcome_sur_lms_enr_9c26bd_idx` (`lms_enrollment_id`),
+  KEY `outcome_sur_survey__8d827f_idx` (`survey_id`,`survey_response_id`),
+  KEY `outcome_sur_survey__f64c25_idx` (`survey_response_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `outcome_surveys_coursegoal`
+--
+
+LOCK TABLES `outcome_surveys_coursegoal` WRITE;
+/*!40000 ALTER TABLE `outcome_surveys_coursegoal` DISABLE KEYS */;
+/*!40000 ALTER TABLE `outcome_surveys_coursegoal` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `outcome_surveys_coursegoal_online_learning_goals`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `outcome_surveys_coursegoal_online_learning_goals` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `coursegoal_id` int(11) NOT NULL,
+  `multichoiceresponse_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `outcome_surveys_coursego_coursegoal_id_multichoic_bb8f094a_uniq` (`coursegoal_id`,`multichoiceresponse_id`),
+  KEY `outcome_surveys_cour_multichoiceresponse__332c96b0_fk_outcome_s` (`multichoiceresponse_id`),
+  CONSTRAINT `outcome_surveys_cour_coursegoal_id_4f4f26d1_fk_outcome_s` FOREIGN KEY (`coursegoal_id`) REFERENCES `outcome_surveys_coursegoal` (`id`),
+  CONSTRAINT `outcome_surveys_cour_multichoiceresponse__332c96b0_fk_outcome_s` FOREIGN KEY (`multichoiceresponse_id`) REFERENCES `outcome_surveys_multichoiceresponse` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `outcome_surveys_coursegoal_online_learning_goals`
+--
+
+LOCK TABLES `outcome_surveys_coursegoal_online_learning_goals` WRITE;
+/*!40000 ALTER TABLE `outcome_surveys_coursegoal_online_learning_goals` DISABLE KEYS */;
+/*!40000 ALTER TABLE `outcome_surveys_coursegoal_online_learning_goals` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `outcome_surveys_coursereflection`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `outcome_surveys_coursereflection` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `survey_id` int(11) NOT NULL,
+  `survey_response_id` bigint(20) NOT NULL,
+  `enrollment_type` varchar(16) DEFAULT NULL,
+  `lms_enrollment_id` int(11) DEFAULT NULL,
+  `help_reach_goal` varchar(256) DEFAULT NULL,
+  `course_rating` int(11) DEFAULT NULL,
+  `course_experience` longtext,
+  `open_to_outreach` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `outcome_surveys_coursere_survey_id_survey_respons_150db796_uniq` (`survey_id`,`survey_response_id`),
+  KEY `outcome_sur_lms_enr_245902_idx` (`lms_enrollment_id`),
+  KEY `outcome_sur_survey__8a6a99_idx` (`survey_id`,`survey_response_id`),
+  KEY `outcome_sur_survey__16601f_idx` (`survey_response_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `outcome_surveys_coursereflection`
+--
+
+LOCK TABLES `outcome_surveys_coursereflection` WRITE;
+/*!40000 ALTER TABLE `outcome_surveys_coursereflection` DISABLE KEYS */;
+/*!40000 ALTER TABLE `outcome_surveys_coursereflection` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `outcome_surveys_coursereflection_goal_decisions`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `outcome_surveys_coursereflection_goal_decisions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `coursereflection_id` int(11) NOT NULL,
+  `multichoiceresponse_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `outcome_surveys_coursere_coursereflection_id_mult_89d1af54_uniq` (`coursereflection_id`,`multichoiceresponse_id`),
+  KEY `outcome_surveys_cour_multichoiceresponse__b3e6a8b6_fk_outcome_s` (`multichoiceresponse_id`),
+  CONSTRAINT `outcome_surveys_cour_coursereflection_id_3806b9ae_fk_outcome_s` FOREIGN KEY (`coursereflection_id`) REFERENCES `outcome_surveys_coursereflection` (`id`),
+  CONSTRAINT `outcome_surveys_cour_multichoiceresponse__b3e6a8b6_fk_outcome_s` FOREIGN KEY (`multichoiceresponse_id`) REFERENCES `outcome_surveys_multichoiceresponse` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `outcome_surveys_coursereflection_goal_decisions`
+--
+
+LOCK TABLES `outcome_surveys_coursereflection_goal_decisions` WRITE;
+/*!40000 ALTER TABLE `outcome_surveys_coursereflection_goal_decisions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `outcome_surveys_coursereflection_goal_decisions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `outcome_surveys_coursereflection_online_learning_goals`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `outcome_surveys_coursereflection_online_learning_goals` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `coursereflection_id` int(11) NOT NULL,
+  `multichoiceresponse_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `outcome_surveys_coursere_coursereflection_id_mult_d674a28b_uniq` (`coursereflection_id`,`multichoiceresponse_id`),
+  KEY `outcome_surveys_cour_multichoiceresponse__0e4d8322_fk_outcome_s` (`multichoiceresponse_id`),
+  CONSTRAINT `outcome_surveys_cour_coursereflection_id_5ae3ab28_fk_outcome_s` FOREIGN KEY (`coursereflection_id`) REFERENCES `outcome_surveys_coursereflection` (`id`),
+  CONSTRAINT `outcome_surveys_cour_multichoiceresponse__0e4d8322_fk_outcome_s` FOREIGN KEY (`multichoiceresponse_id`) REFERENCES `outcome_surveys_multichoiceresponse` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `outcome_surveys_coursereflection_online_learning_goals`
+--
+
+LOCK TABLES `outcome_surveys_coursereflection_online_learning_goals` WRITE;
+/*!40000 ALTER TABLE `outcome_surveys_coursereflection_online_learning_goals` DISABLE KEYS */;
+/*!40000 ALTER TABLE `outcome_surveys_coursereflection_online_learning_goals` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `outcome_surveys_learnercourseevent`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `outcome_surveys_learnercourseevent` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `course_id` varchar(255) NOT NULL,
+  `data` longtext NOT NULL,
+  `follow_up_date` date NOT NULL,
+  `event_type` varchar(255) NOT NULL,
+  `already_sent` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `outcome_sur_follow__a60cf0_idx` (`follow_up_date`),
+  KEY `outcome_sur_created_80c513_idx` (`created`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `outcome_surveys_learnercourseevent`
+--
+
+LOCK TABLES `outcome_surveys_learnercourseevent` WRITE;
+/*!40000 ALTER TABLE `outcome_surveys_learnercourseevent` DISABLE KEYS */;
+/*!40000 ALTER TABLE `outcome_surveys_learnercourseevent` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `outcome_surveys_multichoiceresponse`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `outcome_surveys_multichoiceresponse` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `answer` longtext NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `outcome_surveys_multichoiceresponse`
+--
+
+LOCK TABLES `outcome_surveys_multichoiceresponse` WRITE;
+/*!40000 ALTER TABLE `outcome_surveys_multichoiceresponse` DISABLE KEYS */;
+/*!40000 ALTER TABLE `outcome_surveys_multichoiceresponse` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `outcome_surveys_surveyexport`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `outcome_surveys_surveyexport` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `survey_id` int(11) NOT NULL,
+  `last_successfull_export_at` datetime(6) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `outcome_surveys_surveyexport`
+--
+
+LOCK TABLES `outcome_surveys_surveyexport` WRITE;
+/*!40000 ALTER TABLE `outcome_surveys_surveyexport` DISABLE KEYS */;
+/*!40000 ALTER TABLE `outcome_surveys_surveyexport` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `proctoring_proctoredexam`
 --
 
@@ -9140,6 +10975,51 @@ CREATE TABLE `proctoring_proctoredexam` (
 LOCK TABLES `proctoring_proctoredexam` WRITE;
 /*!40000 ALTER TABLE `proctoring_proctoredexam` DISABLE KEYS */;
 /*!40000 ALTER TABLE `proctoring_proctoredexam` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `proctoring_proctoredexamhistory`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `proctoring_proctoredexamhistory` (
+  `id` int(11) NOT NULL,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `course_id` varchar(255) NOT NULL,
+  `content_id` varchar(255) NOT NULL,
+  `external_id` varchar(255) DEFAULT NULL,
+  `exam_name` longtext NOT NULL,
+  `time_limit_mins` int(11) NOT NULL,
+  `due_date` datetime(6) DEFAULT NULL,
+  `is_proctored` tinyint(1) NOT NULL,
+  `is_practice_exam` tinyint(1) NOT NULL,
+  `is_active` tinyint(1) NOT NULL,
+  `hide_after_due` tinyint(1) NOT NULL,
+  `backend` varchar(255) DEFAULT NULL,
+  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_date` datetime(6) NOT NULL,
+  `history_change_reason` varchar(100) DEFAULT NULL,
+  `history_type` varchar(1) NOT NULL,
+  `history_user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`history_id`),
+  KEY `proctoring_proctored_history_user_id_f11ddc53_fk_auth_user` (`history_user_id`),
+  KEY `proctoring_proctoredexamhistory_id_bcb725e3` (`id`),
+  KEY `proctoring_proctoredexamhistory_course_id_66a57818` (`course_id`),
+  KEY `proctoring_proctoredexamhistory_content_id_ac9543fc` (`content_id`),
+  KEY `proctoring_proctoredexamhistory_external_id_711a44cd` (`external_id`),
+  CONSTRAINT `proctoring_proctored_history_user_id_f11ddc53_fk_auth_user` FOREIGN KEY (`history_user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `proctoring_proctoredexamhistory`
+--
+
+LOCK TABLES `proctoring_proctoredexamhistory` WRITE;
+/*!40000 ALTER TABLE `proctoring_proctoredexamhistory` DISABLE KEYS */;
+/*!40000 ALTER TABLE `proctoring_proctoredexamhistory` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -9217,11 +11097,11 @@ CREATE TABLE `proctoring_proctoredexamsoftwaresecurereview` (
   `attempt_code` varchar(255) NOT NULL,
   `review_status` varchar(255) NOT NULL,
   `raw_data` longtext NOT NULL,
-  `video_url` longtext NOT NULL,
   `exam_id` int(11) DEFAULT NULL,
   `reviewed_by_id` int(11) DEFAULT NULL,
   `student_id` int(11) DEFAULT NULL,
   `is_attempt_active` tinyint(1) NOT NULL,
+  `encrypted_video_url` longblob,
   PRIMARY KEY (`id`),
   UNIQUE KEY `proctoring_proctoredexam_attempt_code_706d3717_uniq` (`attempt_code`),
   KEY `proctoring_proctored_exam_id_ea6095a3_fk_proctorin` (`exam_id`),
@@ -9255,11 +11135,11 @@ CREATE TABLE `proctoring_proctoredexamsoftwaresecurereviewhistory` (
   `attempt_code` varchar(255) NOT NULL,
   `review_status` varchar(255) NOT NULL,
   `raw_data` longtext NOT NULL,
-  `video_url` longtext NOT NULL,
   `exam_id` int(11) DEFAULT NULL,
   `reviewed_by_id` int(11) DEFAULT NULL,
   `student_id` int(11) DEFAULT NULL,
   `is_attempt_active` tinyint(1) NOT NULL,
+  `encrypted_video_url` longblob,
   PRIMARY KEY (`id`),
   KEY `proctoring_proctored_exam_id_380d8588_fk_proctorin` (`exam_id`),
   KEY `proctoring_proctored_reviewed_by_id_bb993b3a_fk_auth_user` (`reviewed_by_id`),
@@ -9367,6 +11247,8 @@ CREATE TABLE `proctoring_proctoredexamstudentattempt` (
   `is_status_acknowledged` tinyint(1) NOT NULL,
   `time_remaining_seconds` int(11) DEFAULT NULL,
   `is_resumable` tinyint(1) NOT NULL,
+  `ready_to_resume` tinyint(1) NOT NULL,
+  `resumed` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `proctoring_proctored_proctored_exam_id_0732c688_fk_proctorin` (`proctored_exam_id`),
   KEY `proctoring_proctoredexamstudentattempt_attempt_code_b10ad854` (`attempt_code`),
@@ -9384,6 +11266,57 @@ CREATE TABLE `proctoring_proctoredexamstudentattempt` (
 LOCK TABLES `proctoring_proctoredexamstudentattempt` WRITE;
 /*!40000 ALTER TABLE `proctoring_proctoredexamstudentattempt` DISABLE KEYS */;
 /*!40000 ALTER TABLE `proctoring_proctoredexamstudentattempt` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `proctoring_proctoredexamstudentattempt_history`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `proctoring_proctoredexamstudentattempt_history` (
+  `id` int(11) NOT NULL,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `started_at` datetime(6) DEFAULT NULL,
+  `completed_at` datetime(6) DEFAULT NULL,
+  `attempt_code` varchar(255) DEFAULT NULL,
+  `external_id` varchar(255) DEFAULT NULL,
+  `allowed_time_limit_mins` int(11) DEFAULT NULL,
+  `status` varchar(64) NOT NULL,
+  `taking_as_proctored` tinyint(1) NOT NULL,
+  `is_sample_attempt` tinyint(1) NOT NULL,
+  `review_policy_id` int(11) DEFAULT NULL,
+  `is_status_acknowledged` tinyint(1) NOT NULL,
+  `time_remaining_seconds` int(11) DEFAULT NULL,
+  `is_resumable` tinyint(1) NOT NULL,
+  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_date` datetime(6) NOT NULL,
+  `history_change_reason` varchar(100) DEFAULT NULL,
+  `history_type` varchar(1) NOT NULL,
+  `history_user_id` int(11) DEFAULT NULL,
+  `proctored_exam_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `ready_to_resume` tinyint(1) NOT NULL,
+  `resumed` tinyint(1) NOT NULL,
+  PRIMARY KEY (`history_id`),
+  KEY `proctoring_proctored_history_user_id_8594589b_fk_auth_user` (`history_user_id`),
+  KEY `proctoring_proctoredexamstudentattempt_history_id_849280b0` (`id`),
+  KEY `proctoring_proctoredexamstu_attempt_code_2719f85f` (`attempt_code`),
+  KEY `proctoring_proctoredexamstu_external_id_210c6def` (`external_id`),
+  KEY `proctoring_proctoredexamstu_proctored_exam_id_446aaba3` (`proctored_exam_id`),
+  KEY `proctoring_proctoredexamstudentattempt_history_user_id_ea9fa127` (`user_id`),
+  CONSTRAINT `proctoring_proctored_history_user_id_8594589b_fk_auth_user` FOREIGN KEY (`history_user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `proctoring_proctoredexamstudentattempt_history`
+--
+
+LOCK TABLES `proctoring_proctoredexamstudentattempt_history` WRITE;
+/*!40000 ALTER TABLE `proctoring_proctoredexamstudentattempt_history` DISABLE KEYS */;
+/*!40000 ALTER TABLE `proctoring_proctoredexamstudentattempt_history` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -9415,48 +11348,6 @@ CREATE TABLE `proctoring_proctoredexamstudentattemptcomment` (
 LOCK TABLES `proctoring_proctoredexamstudentattemptcomment` WRITE;
 /*!40000 ALTER TABLE `proctoring_proctoredexamstudentattemptcomment` DISABLE KEYS */;
 /*!40000 ALTER TABLE `proctoring_proctoredexamstudentattemptcomment` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `proctoring_proctoredexamstudentattempthistory`
---
-
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `proctoring_proctoredexamstudentattempthistory` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `created` datetime(6) NOT NULL,
-  `modified` datetime(6) NOT NULL,
-  `attempt_id` int(11) DEFAULT NULL,
-  `started_at` datetime(6) DEFAULT NULL,
-  `completed_at` datetime(6) DEFAULT NULL,
-  `attempt_code` varchar(255) DEFAULT NULL,
-  `external_id` varchar(255) DEFAULT NULL,
-  `allowed_time_limit_mins` int(11) DEFAULT NULL,
-  `status` varchar(64) NOT NULL,
-  `taking_as_proctored` tinyint(1) NOT NULL,
-  `is_sample_attempt` tinyint(1) NOT NULL,
-  `review_policy_id` int(11) DEFAULT NULL,
-  `proctored_exam_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `is_resumable` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `proctoring_proctored_proctored_exam_id_72c6f4ab_fk_proctorin` (`proctored_exam_id`),
-  KEY `proctoring_proctored_user_id_52fb8674_fk_auth_user` (`user_id`),
-  KEY `proctoring_proctoredexamstu_attempt_code_8db28074` (`attempt_code`),
-  KEY `proctoring_proctoredexamstu_external_id_65de5faf` (`external_id`),
-  CONSTRAINT `proctoring_proctored_proctored_exam_id_72c6f4ab_fk_proctorin` FOREIGN KEY (`proctored_exam_id`) REFERENCES `proctoring_proctoredexam` (`id`),
-  CONSTRAINT `proctoring_proctored_user_id_52fb8674_fk_auth_user` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `proctoring_proctoredexamstudentattempthistory`
---
-
-LOCK TABLES `proctoring_proctoredexamstudentattempthistory` WRITE;
-/*!40000 ALTER TABLE `proctoring_proctoredexamstudentattempthistory` DISABLE KEYS */;
-/*!40000 ALTER TABLE `proctoring_proctoredexamstudentattempthistory` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -9611,8 +11502,8 @@ CREATE TABLE `program_enrollments_programenrollment` (
   `status` varchar(9) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `program_enrollments_prog_external_user_key_progra_ec52a567_uniq` (`external_user_key`,`program_uuid`,`curriculum_uuid`),
   UNIQUE KEY `program_enrollments_prog_user_id_program_uuid_cur_ecf769fd_uniq` (`user_id`,`program_uuid`,`curriculum_uuid`),
+  UNIQUE KEY `program_enrollments_prog_external_user_key_progra_ec52a567_uniq` (`external_user_key`,`program_uuid`,`curriculum_uuid`),
   KEY `program_enrollments_programenrollment_external_user_key_c27b83c5` (`external_user_key`),
   KEY `program_enrollments_programenrollment_program_uuid_131378e0` (`program_uuid`),
   KEY `program_enrollments_programenrollment_curriculum_uuid_da64e123` (`curriculum_uuid`),
@@ -9628,6 +11519,132 @@ CREATE TABLE `program_enrollments_programenrollment` (
 LOCK TABLES `program_enrollments_programenrollment` WRITE;
 /*!40000 ALTER TABLE `program_enrollments_programenrollment` DISABLE KEYS */;
 /*!40000 ALTER TABLE `program_enrollments_programenrollment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `programs_historicalprogramdiscussionsconfiguration`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `programs_historicalprogramdiscussionsconfiguration` (
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `program_uuid` varchar(50) NOT NULL,
+  `enabled` tinyint(1) NOT NULL,
+  `provider_type` varchar(50) NOT NULL,
+  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_date` datetime(6) NOT NULL,
+  `history_change_reason` varchar(100) DEFAULT NULL,
+  `history_type` varchar(1) NOT NULL,
+  `history_user_id` int(11) DEFAULT NULL,
+  `lti_configuration_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`history_id`),
+  KEY `programs_historicalp_history_user_id_f7f2a83d_fk_auth_user` (`history_user_id`),
+  KEY `programs_historicalprogramd_program_uuid_688a7a3b` (`program_uuid`),
+  KEY `programs_historicalprogramd_lti_configuration_id_d06284f6` (`lti_configuration_id`),
+  CONSTRAINT `programs_historicalp_history_user_id_f7f2a83d_fk_auth_user` FOREIGN KEY (`history_user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `programs_historicalprogramdiscussionsconfiguration`
+--
+
+LOCK TABLES `programs_historicalprogramdiscussionsconfiguration` WRITE;
+/*!40000 ALTER TABLE `programs_historicalprogramdiscussionsconfiguration` DISABLE KEYS */;
+/*!40000 ALTER TABLE `programs_historicalprogramdiscussionsconfiguration` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `programs_historicalprogramliveconfiguration`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `programs_historicalprogramliveconfiguration` (
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `program_uuid` varchar(50) NOT NULL,
+  `enabled` tinyint(1) NOT NULL,
+  `provider_type` varchar(50) NOT NULL,
+  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_date` datetime(6) NOT NULL,
+  `history_change_reason` varchar(100) DEFAULT NULL,
+  `history_type` varchar(1) NOT NULL,
+  `history_user_id` int(11) DEFAULT NULL,
+  `lti_configuration_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`history_id`),
+  KEY `programs_historicalp_history_user_id_80056ec3_fk_auth_user` (`history_user_id`),
+  KEY `programs_historicalprograml_program_uuid_61256da7` (`program_uuid`),
+  KEY `programs_historicalprograml_lti_configuration_id_db7b44b9` (`lti_configuration_id`),
+  CONSTRAINT `programs_historicalp_history_user_id_80056ec3_fk_auth_user` FOREIGN KEY (`history_user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `programs_historicalprogramliveconfiguration`
+--
+
+LOCK TABLES `programs_historicalprogramliveconfiguration` WRITE;
+/*!40000 ALTER TABLE `programs_historicalprogramliveconfiguration` DISABLE KEYS */;
+/*!40000 ALTER TABLE `programs_historicalprogramliveconfiguration` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `programs_programdiscussionsconfiguration`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `programs_programdiscussionsconfiguration` (
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `program_uuid` varchar(50) NOT NULL,
+  `enabled` tinyint(1) NOT NULL,
+  `provider_type` varchar(50) NOT NULL,
+  `lti_configuration_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`program_uuid`),
+  KEY `programs_programdisc_lti_configuration_id_822f71be_fk_lti_consu` (`lti_configuration_id`),
+  CONSTRAINT `programs_programdisc_lti_configuration_id_822f71be_fk_lti_consu` FOREIGN KEY (`lti_configuration_id`) REFERENCES `lti_consumer_lticonfiguration` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `programs_programdiscussionsconfiguration`
+--
+
+LOCK TABLES `programs_programdiscussionsconfiguration` WRITE;
+/*!40000 ALTER TABLE `programs_programdiscussionsconfiguration` DISABLE KEYS */;
+/*!40000 ALTER TABLE `programs_programdiscussionsconfiguration` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `programs_programliveconfiguration`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `programs_programliveconfiguration` (
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `program_uuid` varchar(50) NOT NULL,
+  `enabled` tinyint(1) NOT NULL,
+  `provider_type` varchar(50) NOT NULL,
+  `lti_configuration_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`program_uuid`),
+  KEY `programs_programlive_lti_configuration_id_c72e8df4_fk_lti_consu` (`lti_configuration_id`),
+  CONSTRAINT `programs_programlive_lti_configuration_id_c72e8df4_fk_lti_consu` FOREIGN KEY (`lti_configuration_id`) REFERENCES `lti_consumer_lticonfiguration` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `programs_programliveconfiguration`
+--
+
+LOCK TABLES `programs_programliveconfiguration` WRITE;
+/*!40000 ALTER TABLE `programs_programliveconfiguration` DISABLE KEYS */;
+/*!40000 ALTER TABLE `programs_programliveconfiguration` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -9654,7 +11671,7 @@ CREATE TABLE `programs_programsapiconfig` (
 
 LOCK TABLES `programs_programsapiconfig` WRITE;
 /*!40000 ALTER TABLE `programs_programsapiconfig` DISABLE KEYS */;
-INSERT INTO `programs_programsapiconfig` VALUES (1,'2021-07-30 20:15:36.962054',1,NULL,'');
+INSERT INTO `programs_programsapiconfig` VALUES (1,'2023-02-21 14:30:11.135179',1,NULL,'');
 /*!40000 ALTER TABLE `programs_programsapiconfig` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -9695,8 +11712,8 @@ CREATE TABLE `sap_success_factors_sapsuccessfactorsenterprisecustomerconfidb8a` 
   `modified` datetime(6) NOT NULL,
   `active` tinyint(1) NOT NULL,
   `transmission_chunk_size` int(11) NOT NULL,
-  `channel_worker_username` varchar(255) DEFAULT NULL,
-  `catalogs_to_transmit` longtext,
+  `channel_worker_username` varchar(255) NOT NULL,
+  `catalogs_to_transmit` longtext NOT NULL,
   `key` varchar(255) NOT NULL,
   `sapsf_base_url` varchar(255) NOT NULL,
   `sapsf_company_id` varchar(255) NOT NULL,
@@ -9708,8 +11725,20 @@ CREATE TABLE `sap_success_factors_sapsuccessfactorsenterprisecustomerconfidb8a` 
   `transmit_total_hours` tinyint(1) NOT NULL,
   `enterprise_customer_id` char(32) NOT NULL,
   `prevent_self_submit_grades` tinyint(1) NOT NULL,
+  `idp_id` varchar(255) NOT NULL,
+  `disable_learner_data_transmissions` tinyint(1) NOT NULL,
+  `display_name` varchar(255) NOT NULL,
+  `dry_run_mode_enabled` tinyint(1) NOT NULL,
+  `deleted_at` datetime(6) DEFAULT NULL,
+  `last_content_sync_attempted_at` datetime(6) DEFAULT NULL,
+  `last_content_sync_errored_at` datetime(6) DEFAULT NULL,
+  `last_learner_sync_attempted_at` datetime(6) DEFAULT NULL,
+  `last_learner_sync_errored_at` datetime(6) DEFAULT NULL,
+  `last_sync_attempted_at` datetime(6) DEFAULT NULL,
+  `last_sync_errored_at` datetime(6) DEFAULT NULL,
+  `last_modified_at` datetime(6) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `enterprise_customer_id` (`enterprise_customer_id`),
+  KEY `sap_success_factors__enterprise_customer__4819a28c_fk_enterpris` (`enterprise_customer_id`),
   CONSTRAINT `sap_success_factors__enterprise_customer__4819a28c_fk_enterpris` FOREIGN KEY (`enterprise_customer_id`) REFERENCES `enterprise_enterprisecustomer` (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -9763,19 +11792,34 @@ UNLOCK TABLES;
 CREATE TABLE `sap_success_factors_sapsuccessfactorslearnerdatatransmission3ce5` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sapsf_user_id` varchar(255) NOT NULL,
-  `enterprise_course_enrollment_id` int(10) unsigned NOT NULL,
+  `enterprise_course_enrollment_id` int(11) DEFAULT NULL,
   `course_id` varchar(255) NOT NULL,
   `course_completed` tinyint(1) NOT NULL,
   `instructor_name` varchar(255) NOT NULL,
   `grade` varchar(100) NOT NULL,
   `total_hours` double DEFAULT NULL,
-  `completed_timestamp` bigint(20) NOT NULL,
-  `status` varchar(100) NOT NULL,
-  `error_message` longtext NOT NULL,
+  `sap_completed_timestamp` bigint(20) DEFAULT NULL,
+  `status` varchar(100) DEFAULT NULL,
+  `error_message` longtext,
   `created` datetime(6) NOT NULL,
   `credit_hours` double DEFAULT NULL,
+  `enterprise_customer_uuid` char(32) DEFAULT NULL,
+  `modified` datetime(6) NOT NULL,
+  `subsection_id` varchar(255) DEFAULT NULL,
+  `subsection_name` varchar(255) DEFAULT NULL,
+  `plugin_configuration_id` int(11) DEFAULT NULL,
+  `friendly_status_message` varchar(255) DEFAULT NULL,
+  `api_record_id` int(11) DEFAULT NULL,
+  `content_title` varchar(255) DEFAULT NULL,
+  `progress_status` varchar(255) NOT NULL,
+  `user_email` varchar(255) DEFAULT NULL,
+  `completed_timestamp` datetime(6) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `sap_success_factors_sapsucc_enterprise_course_enrollmen_99be77d5` (`enterprise_course_enrollment_id`)
+  UNIQUE KEY `api_record_id` (`api_record_id`),
+  KEY `sap_success_factors_sapsucc_enterprise_course_enrollmen_99be77d5` (`enterprise_course_enrollment_id`),
+  KEY `sap_success_factors_sapsucc_subsection_id_16d4fa9f` (`subsection_id`),
+  KEY `sapsf_sldta_85936b55_idx` (`enterprise_customer_uuid`,`plugin_configuration_id`),
+  CONSTRAINT `sap_success_factors__api_record_id_17e80380_fk_integrate` FOREIGN KEY (`api_record_id`) REFERENCES `integrated_channel_apiresponserecord` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -9786,6 +11830,72 @@ CREATE TABLE `sap_success_factors_sapsuccessfactorslearnerdatatransmission3ce5` 
 LOCK TABLES `sap_success_factors_sapsuccessfactorslearnerdatatransmission3ce5` WRITE;
 /*!40000 ALTER TABLE `sap_success_factors_sapsuccessfactorslearnerdatatransmission3ce5` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sap_success_factors_sapsuccessfactorslearnerdatatransmission3ce5` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `save_for_later_savedcourse`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `save_for_later_savedcourse` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `email` varchar(254) NOT NULL,
+  `course_id` varchar(255) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `marketing_url` varchar(255) DEFAULT NULL,
+  `max_effort` int(11) DEFAULT NULL,
+  `min_effort` int(11) DEFAULT NULL,
+  `org_img_url` varchar(255) DEFAULT NULL,
+  `weeks_to_complete` int(11) DEFAULT NULL,
+  `email_sent_count` int(11) DEFAULT NULL,
+  `reminder_email_sent` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `save_for_later_savedcourse_email_course_id_1f83cc89_uniq` (`email`,`course_id`),
+  KEY `save_for_later_savedcourse_email_a7a78246` (`email`),
+  KEY `save_for_later_savedcourse_course_id_563c1de2` (`course_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `save_for_later_savedcourse`
+--
+
+LOCK TABLES `save_for_later_savedcourse` WRITE;
+/*!40000 ALTER TABLE `save_for_later_savedcourse` DISABLE KEYS */;
+/*!40000 ALTER TABLE `save_for_later_savedcourse` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `save_for_later_savedprogram`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `save_for_later_savedprogram` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `email` varchar(254) NOT NULL,
+  `program_uuid` char(32) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `email_sent_count` int(11) DEFAULT NULL,
+  `reminder_email_sent` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `save_for_later_savedprogram_email_program_uuid_2ea5e0c1_uniq` (`email`,`program_uuid`),
+  KEY `save_for_later_savedprogram_email_af38009b` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `save_for_later_savedprogram`
+--
+
+LOCK TABLES `save_for_later_savedprogram` WRITE;
+/*!40000 ALTER TABLE `save_for_later_savedprogram` DISABLE KEYS */;
+/*!40000 ALTER TABLE `save_for_later_savedprogram` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -9814,7 +11924,7 @@ CREATE TABLE `schedules_historicalschedule` (
   KEY `schedules_historicalschedule_enrollment_id_cd620413` (`enrollment_id`),
   KEY `schedules_historical_history_user_id_6f5d6d7b_fk_auth_user` (`history_user_id`),
   CONSTRAINT `schedules_historical_history_user_id_6f5d6d7b_fk_auth_user` FOREIGN KEY (`history_user_id`) REFERENCES `auth_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9823,7 +11933,6 @@ CREATE TABLE `schedules_historicalschedule` (
 
 LOCK TABLES `schedules_historicalschedule` WRITE;
 /*!40000 ALTER TABLE `schedules_historicalschedule` DISABLE KEYS */;
-INSERT INTO `schedules_historicalschedule` VALUES (1,'2021-07-30 20:04:36.366163','2021-07-30 20:04:36.366163',1,'2021-07-30 20:04:36.338973',NULL,1,'2021-07-30 20:04:36.368083',NULL,'+',1,NULL),(2,'2021-07-30 20:04:47.632150','2021-07-30 20:04:47.632150',1,'2021-07-30 20:04:47.602766',NULL,2,'2021-07-30 20:04:47.634148',NULL,'+',2,NULL),(3,'2021-07-30 20:04:59.260885','2021-07-30 20:04:59.260885',1,'2021-07-30 20:04:59.237993',NULL,3,'2021-07-30 20:04:59.262132',NULL,'+',3,NULL),(4,'2021-07-30 20:05:10.467427','2021-07-30 20:05:10.467427',1,'2021-07-30 20:05:10.440635',NULL,4,'2021-07-30 20:05:10.469120',NULL,'+',4,NULL);
 /*!40000 ALTER TABLE `schedules_historicalschedule` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -9846,7 +11955,7 @@ CREATE TABLE `schedules_schedule` (
   KEY `schedules_schedule_upgrade_deadline_0079081d` (`upgrade_deadline`),
   KEY `schedules_schedule_start_date_3a1c341e` (`start_date`),
   CONSTRAINT `schedules_schedule_enrollment_id_91bf8152_fk_student_c` FOREIGN KEY (`enrollment_id`) REFERENCES `student_courseenrollment` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9855,7 +11964,6 @@ CREATE TABLE `schedules_schedule` (
 
 LOCK TABLES `schedules_schedule` WRITE;
 /*!40000 ALTER TABLE `schedules_schedule` DISABLE KEYS */;
-INSERT INTO `schedules_schedule` VALUES (1,'2021-07-30 20:04:36.366163','2021-07-30 20:04:36.366163',1,NULL,1,'2021-07-30 20:04:36.338973'),(2,'2021-07-30 20:04:47.632150','2021-07-30 20:04:47.632150',1,NULL,2,'2021-07-30 20:04:47.602766'),(3,'2021-07-30 20:04:59.260885','2021-07-30 20:04:59.260885',1,NULL,3,'2021-07-30 20:04:59.237993'),(4,'2021-07-30 20:05:10.467427','2021-07-30 20:05:10.467427',1,NULL,4,'2021-07-30 20:05:10.440635');
 /*!40000 ALTER TABLE `schedules_schedule` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -9907,7 +12015,7 @@ CREATE TABLE `schedules_scheduleexperience` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `schedule_id` (`schedule_id`),
   CONSTRAINT `schedules_scheduleex_schedule_id_ed95c8e7_fk_schedules` FOREIGN KEY (`schedule_id`) REFERENCES `schedules_schedule` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9916,35 +12024,7 @@ CREATE TABLE `schedules_scheduleexperience` (
 
 LOCK TABLES `schedules_scheduleexperience` WRITE;
 /*!40000 ALTER TABLE `schedules_scheduleexperience` DISABLE KEYS */;
-INSERT INTO `schedules_scheduleexperience` VALUES (1,0,1),(2,0,2),(3,0,3),(4,0,4);
 /*!40000 ALTER TABLE `schedules_scheduleexperience` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `self_paced_selfpacedconfiguration`
---
-
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `self_paced_selfpacedconfiguration` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `change_date` datetime(6) NOT NULL,
-  `enabled` tinyint(1) NOT NULL,
-  `enable_course_home_improvements` tinyint(1) NOT NULL,
-  `changed_by_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `self_paced_selfpaced_changed_by_id_02789a26_fk_auth_user` (`changed_by_id`),
-  CONSTRAINT `self_paced_selfpaced_changed_by_id_02789a26_fk_auth_user` FOREIGN KEY (`changed_by_id`) REFERENCES `auth_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `self_paced_selfpacedconfiguration`
---
-
-LOCK TABLES `self_paced_selfpacedconfiguration` WRITE;
-/*!40000 ALTER TABLE `self_paced_selfpacedconfiguration` DISABLE KEYS */;
-/*!40000 ALTER TABLE `self_paced_selfpacedconfiguration` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -9970,7 +12050,7 @@ CREATE TABLE `site_configuration_siteconfiguration` (
 
 LOCK TABLES `site_configuration_siteconfiguration` WRITE;
 /*!40000 ALTER TABLE `site_configuration_siteconfiguration` DISABLE KEYS */;
-INSERT INTO `site_configuration_siteconfiguration` VALUES (1,1,1,'{\"COURSE_CATALOG_API_URL\":\"http://edx.devstack.discovery:18381/api/v1/\"}');
+INSERT INTO `site_configuration_siteconfiguration` VALUES (1,1,1,'{\n    \"COURSE_CATALOG_API_URL\": \"http://edx.devstack.discovery:18381/api/v1/\"\n}');
 /*!40000 ALTER TABLE `site_configuration_siteconfiguration` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -9999,7 +12079,7 @@ CREATE TABLE `site_configuration_siteconfigurationhistory` (
 
 LOCK TABLES `site_configuration_siteconfigurationhistory` WRITE;
 /*!40000 ALTER TABLE `site_configuration_siteconfigurationhistory` DISABLE KEYS */;
-INSERT INTO `site_configuration_siteconfigurationhistory` VALUES (1,'2021-07-30 20:15:37.005496','2021-07-30 20:15:37.005496',1,1,'{\"COURSE_CATALOG_API_URL\":\"http://edx.devstack.discovery:18381/api/v1/\"}');
+INSERT INTO `site_configuration_siteconfigurationhistory` VALUES (1,'2023-02-21 14:30:11.153776','2023-02-21 14:30:11.153776',1,1,'{\n    \"COURSE_CATALOG_API_URL\": \"http://edx.devstack.discovery:18381/api/v1/\"\n}');
 /*!40000 ALTER TABLE `site_configuration_siteconfigurationhistory` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -10175,6 +12255,112 @@ LOCK TABLES `splash_splashconfig` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `split_modulestore_django_historicalsplitmodulestorecourseindex`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `split_modulestore_django_historicalsplitmodulestorecourseindex` (
+  `id` int(11) NOT NULL,
+  `objectid` varchar(24) NOT NULL,
+  `course_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `org` varchar(255) NOT NULL,
+  `draft_version` varchar(24) NOT NULL,
+  `published_version` varchar(24) NOT NULL,
+  `library_version` varchar(24) NOT NULL,
+  `wiki_slug` varchar(255) NOT NULL,
+  `base_store` varchar(20) NOT NULL,
+  `edited_on` datetime(6) NOT NULL,
+  `last_update` datetime(6) NOT NULL,
+  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_date` datetime(6) NOT NULL,
+  `history_change_reason` varchar(100) DEFAULT NULL,
+  `history_type` varchar(1) NOT NULL,
+  `edited_by_id` int(11) DEFAULT NULL,
+  `history_user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`history_id`),
+  KEY `split_modulestore_dj_history_user_id_754e3954_fk_auth_user` (`history_user_id`),
+  KEY `split_modulestore_django_hi_id_cca5b74e` (`id`),
+  KEY `split_modulestore_django_hi_objectid_9082e8b9` (`objectid`),
+  KEY `split_modulestore_django_hi_course_id_5d260730` (`course_id`),
+  KEY `split_modulestore_django_hi_org_fa289e5d` (`org`),
+  KEY `split_modulestore_django_hi_wiki_slug_74bcb405` (`wiki_slug`),
+  CONSTRAINT `split_modulestore_dj_history_user_id_754e3954_fk_auth_user` FOREIGN KEY (`history_user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `split_modulestore_django_historicalsplitmodulestorecourseindex`
+--
+
+LOCK TABLES `split_modulestore_django_historicalsplitmodulestorecourseindex` WRITE;
+/*!40000 ALTER TABLE `split_modulestore_django_historicalsplitmodulestorecourseindex` DISABLE KEYS */;
+/*!40000 ALTER TABLE `split_modulestore_django_historicalsplitmodulestorecourseindex` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `split_modulestore_django_splitmodulestorecourseindex`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `split_modulestore_django_splitmodulestorecourseindex` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `objectid` varchar(24) NOT NULL,
+  `course_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `org` varchar(255) NOT NULL,
+  `draft_version` varchar(24) NOT NULL,
+  `published_version` varchar(24) NOT NULL,
+  `library_version` varchar(24) NOT NULL,
+  `wiki_slug` varchar(255) NOT NULL,
+  `base_store` varchar(20) NOT NULL,
+  `edited_on` datetime(6) NOT NULL,
+  `last_update` datetime(6) NOT NULL,
+  `edited_by_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `objectid` (`objectid`),
+  UNIQUE KEY `course_id` (`course_id`),
+  UNIQUE KEY `course_id_2` (`course_id`),
+  KEY `split_modulestore_django_sp_org_47b4a2ef` (`org`),
+  KEY `split_modulestore_django_sp_wiki_slug_20040736` (`wiki_slug`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `split_modulestore_django_splitmodulestorecourseindex`
+--
+
+LOCK TABLES `split_modulestore_django_splitmodulestorecourseindex` WRITE;
+/*!40000 ALTER TABLE `split_modulestore_django_splitmodulestorecourseindex` DISABLE KEYS */;
+/*!40000 ALTER TABLE `split_modulestore_django_splitmodulestorecourseindex` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `staffgrader_submissiongradinglock`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `staffgrader_submissiongradinglock` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `submission_uuid` varchar(128) NOT NULL,
+  `owner_id` varchar(40) NOT NULL,
+  `created_at` datetime(6) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `submission_uuid` (`submission_uuid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `staffgrader_submissiongradinglock`
+--
+
+LOCK TABLES `staffgrader_submissiongradinglock` WRITE;
+/*!40000 ALTER TABLE `staffgrader_submissiongradinglock` DISABLE KEYS */;
+/*!40000 ALTER TABLE `staffgrader_submissiongradinglock` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `static_replace_assetbaseurlconfig`
 --
 
@@ -10240,8 +12426,8 @@ CREATE TABLE `status_coursemessage` (
   `message` longtext,
   `global_message_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `status_coursemessage_course_key_90c77a2e` (`course_key`),
   KEY `status_coursemessage_global_message_id_01bbfbe6_fk_status_gl` (`global_message_id`),
+  KEY `status_coursemessage_course_key_90c77a2e` (`course_key`),
   CONSTRAINT `status_coursemessage_global_message_id_01bbfbe6_fk_status_gl` FOREIGN KEY (`global_message_id`) REFERENCES `status_globalstatusmessage` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -10362,7 +12548,7 @@ CREATE TABLE `student_anonymoususerid` (
 
 LOCK TABLES `student_anonymoususerid` WRITE;
 /*!40000 ALTER TABLE `student_anonymoususerid` DISABLE KEYS */;
-INSERT INTO `student_anonymoususerid` VALUES (1,'de619ab51c7f4e9c7216b4644c24f3b5','',1);
+INSERT INTO `student_anonymoususerid` VALUES (1,'c9eac113d5ec22b2e5c36ea75b380659','',11);
 /*!40000 ALTER TABLE `student_anonymoususerid` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -10470,7 +12656,7 @@ CREATE TABLE `student_courseenrollment` (
   KEY `student_courseenrollment_course_id_a6f93be8` (`course_id`),
   KEY `student_courseenrollment_created_79829893` (`created`),
   CONSTRAINT `student_courseenrollment_user_id_4263a8e2_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -10479,7 +12665,6 @@ CREATE TABLE `student_courseenrollment` (
 
 LOCK TABLES `student_courseenrollment` WRITE;
 /*!40000 ALTER TABLE `student_courseenrollment` DISABLE KEYS */;
-INSERT INTO `student_courseenrollment` VALUES (1,'course-v1:edX+DemoX+Demo_Course','2021-07-30 20:04:36.338973',1,'audit',5),(2,'course-v1:edX+DemoX+Demo_Course','2021-07-30 20:04:47.602766',1,'audit',6),(3,'course-v1:edX+DemoX+Demo_Course','2021-07-30 20:04:59.237993',1,'audit',7),(4,'course-v1:edX+DemoX+Demo_Course','2021-07-30 20:05:10.440635',1,'audit',8);
 /*!40000 ALTER TABLE `student_courseenrollment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -10517,7 +12702,6 @@ CREATE TABLE `student_courseenrollment_history` (
 
 LOCK TABLES `student_courseenrollment_history` WRITE;
 /*!40000 ALTER TABLE `student_courseenrollment_history` DISABLE KEYS */;
-INSERT INTO `student_courseenrollment_history` VALUES (2,'2021-07-30 20:04:47.602766',1,'audit','276e16628f3b49a292c0f02ca60b8231','2021-07-30 20:04:47.674358',NULL,'~','course-v1:edX+DemoX+Demo_Course',NULL,6),(3,'2021-07-30 20:04:59.237993',1,'audit','2f12db5e8ba644f388738a0a21a384c6','2021-07-30 20:04:59.302112',NULL,'~','course-v1:edX+DemoX+Demo_Course',NULL,7),(1,'2021-07-30 20:04:36.338973',1,'audit','3ff68501dcda4e3c879ac3f8b36d6ac7','2021-07-30 20:04:36.412152',NULL,'~','course-v1:edX+DemoX+Demo_Course',NULL,5),(4,'2021-07-30 20:05:10.440635',0,'audit','41de38d2cbe3494eaf1c0a0d0415f9db','2021-07-30 20:05:10.441392',NULL,'+','course-v1:edX+DemoX+Demo_Course',NULL,8),(2,'2021-07-30 20:04:47.602766',1,'audit','51cb7895f4094284ad1620bf664a3f32','2021-07-30 20:04:47.649797',NULL,'~','course-v1:edX+DemoX+Demo_Course',NULL,6),(4,'2021-07-30 20:05:10.440635',1,'audit','613bb3b1c5ad40a5bc2a0b8eb1eb7730','2021-07-30 20:05:10.509471',NULL,'~','course-v1:edX+DemoX+Demo_Course',NULL,8),(1,'2021-07-30 20:04:36.338973',1,'audit','6ac7e8586a0048d19acd0611c5e1dabd','2021-07-30 20:04:36.383427',NULL,'~','course-v1:edX+DemoX+Demo_Course',NULL,5),(3,'2021-07-30 20:04:59.237993',1,'audit','7ef5f073a5e141c5973e872d03533afd','2021-07-30 20:04:59.274321',NULL,'~','course-v1:edX+DemoX+Demo_Course',NULL,7),(2,'2021-07-30 20:04:47.602766',0,'audit','8bf358a1c2684743a1471804ddeaf32b','2021-07-30 20:04:47.604198',NULL,'+','course-v1:edX+DemoX+Demo_Course',NULL,6),(4,'2021-07-30 20:05:10.440635',1,'audit','8e292a7d2e944bda80985aa1549ee0f7','2021-07-30 20:05:10.485972',NULL,'~','course-v1:edX+DemoX+Demo_Course',NULL,8),(3,'2021-07-30 20:04:59.237993',0,'audit','aabfc2d4d252447bbba9ffc668d19c8c','2021-07-30 20:04:59.238977',NULL,'+','course-v1:edX+DemoX+Demo_Course',NULL,7),(1,'2021-07-30 20:04:36.338973',0,'audit','ead7491cbbef42b39cfff05d3607973e','2021-07-30 20:04:36.339763',NULL,'+','course-v1:edX+DemoX+Demo_Course',NULL,5);
 /*!40000 ALTER TABLE `student_courseenrollment_history` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -10536,10 +12720,10 @@ CREATE TABLE `student_courseenrollmentallowed` (
   `user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `student_courseenrollmentallowed_email_course_id_1e23ed5e_uniq` (`email`,`course_id`),
+  KEY `student_courseenrollmentallowed_user_id_5875cce6_fk_auth_user_id` (`user_id`),
   KEY `student_courseenrollmentallowed_email_969706a0` (`email`),
   KEY `student_courseenrollmentallowed_course_id_67eff667` (`course_id`),
   KEY `student_courseenrollmentallowed_created_b2066658` (`created`),
-  KEY `student_courseenrollmentallowed_user_id_5875cce6_fk_auth_user_id` (`user_id`),
   CONSTRAINT `student_courseenrollmentallowed_user_id_5875cce6_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -10592,6 +12776,7 @@ CREATE TABLE `student_courseenrollmentcelebration` (
   `modified` datetime(6) NOT NULL,
   `celebrate_first_section` tinyint(1) NOT NULL,
   `enrollment_id` int(11) NOT NULL,
+  `celebrate_weekly_goal` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `enrollment_id` (`enrollment_id`),
   CONSTRAINT `student_courseenroll_enrollment_id_c697e4ce_fk_student_c` FOREIGN KEY (`enrollment_id`) REFERENCES `student_courseenrollment` (`id`)
@@ -11213,9 +13398,9 @@ CREATE TABLE `submissions_score` (
   `student_item_id` int(11) NOT NULL,
   `submission_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `submissions_score_created_at_b65f0390` (`created_at`),
   KEY `submissions_score_student_item_id_de4f5954_fk_submissio` (`student_item_id`),
   KEY `submissions_score_submission_id_ba095829_fk_submissio` (`submission_id`),
+  KEY `submissions_score_created_at_b65f0390` (`created_at`),
   CONSTRAINT `submissions_score_student_item_id_de4f5954_fk_submissio` FOREIGN KEY (`student_item_id`) REFERENCES `submissions_studentitem` (`id`),
   CONSTRAINT `submissions_score_submission_id_ba095829_fk_submissio` FOREIGN KEY (`submission_id`) REFERENCES `submissions_submission` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -11335,11 +13520,11 @@ CREATE TABLE `submissions_submission` (
   `status` varchar(1) NOT NULL,
   `team_submission_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
+  KEY `submissions_submissi_team_submission_id_40e6bc97_fk_submissio` (`team_submission_id`),
   KEY `submissions_submissi_student_item_id_9d087470_fk_submissio` (`student_item_id`),
   KEY `submissions_submission_uuid_210428ab` (`uuid`),
   KEY `submissions_submission_submitted_at_9653124d` (`submitted_at`),
   KEY `submissions_submission_created_at_01c4bf22` (`created_at`),
-  KEY `submissions_submissi_team_submission_id_40e6bc97_fk_submissio` (`team_submission_id`),
   CONSTRAINT `submissions_submissi_student_item_id_9d087470_fk_submissio` FOREIGN KEY (`student_item_id`) REFERENCES `submissions_studentitem` (`id`),
   CONSTRAINT `submissions_submissi_team_submission_id_40e6bc97_fk_submissio` FOREIGN KEY (`team_submission_id`) REFERENCES `submissions_teamsubmission` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -11426,6 +13611,72 @@ LOCK TABLES `super_csv_csvoperation` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `support_historicalusersocialauth`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `support_historicalusersocialauth` (
+  `id` int(11) NOT NULL,
+  `provider` varchar(32) NOT NULL,
+  `uid` varchar(255) NOT NULL,
+  `extra_data` longtext NOT NULL,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_date` datetime(6) NOT NULL,
+  `history_change_reason` varchar(100) DEFAULT NULL,
+  `history_type` varchar(1) NOT NULL,
+  `history_user_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`history_id`),
+  KEY `support_historicalus_history_user_id_a54cd5b3_fk_auth_user` (`history_user_id`),
+  KEY `support_historicalusersocialauth_id_979b8a3c` (`id`),
+  KEY `support_historicalusersocialauth_uid_9f2e466e` (`uid`),
+  KEY `support_historicalusersocialauth_user_id_95d74953` (`user_id`),
+  CONSTRAINT `support_historicalus_history_user_id_a54cd5b3_fk_auth_user` FOREIGN KEY (`history_user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `support_historicalusersocialauth`
+--
+
+LOCK TABLES `support_historicalusersocialauth` WRITE;
+/*!40000 ALTER TABLE `support_historicalusersocialauth` DISABLE KEYS */;
+/*!40000 ALTER TABLE `support_historicalusersocialauth` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `survey_report_surveyreport`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `survey_report_surveyreport` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `courses_offered` bigint(20) NOT NULL,
+  `learners` bigint(20) NOT NULL,
+  `registered_learners` bigint(20) NOT NULL,
+  `enrollments` bigint(20) NOT NULL,
+  `generated_certificates` bigint(20) NOT NULL,
+  `extra_data` longtext NOT NULL,
+  `created_at` datetime(6) NOT NULL,
+  `state` varchar(24) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `survey_report_surveyreport`
+--
+
+LOCK TABLES `survey_report_surveyreport` WRITE;
+/*!40000 ALTER TABLE `survey_report_surveyreport` DISABLE KEYS */;
+/*!40000 ALTER TABLE `survey_report_surveyreport` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `survey_surveyanswer`
 --
 
@@ -11441,10 +13692,10 @@ CREATE TABLE `survey_surveyanswer` (
   `form_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `survey_surveyanswer_field_name_7123dc3d` (`field_name`),
-  KEY `survey_surveyanswer_course_key_497ade68` (`course_key`),
   KEY `survey_surveyanswer_form_id_7f0df59f_fk_survey_surveyform_id` (`form_id`),
   KEY `survey_surveyanswer_user_id_4c028d25_fk_auth_user_id` (`user_id`),
+  KEY `survey_surveyanswer_field_name_7123dc3d` (`field_name`),
+  KEY `survey_surveyanswer_course_key_497ade68` (`course_key`),
   CONSTRAINT `survey_surveyanswer_form_id_7f0df59f_fk_survey_surveyform_id` FOREIGN KEY (`form_id`) REFERENCES `survey_surveyform` (`id`),
   CONSTRAINT `survey_surveyanswer_user_id_4c028d25_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -11508,7 +13759,7 @@ CREATE TABLE `system_wide_roles_systemwiderole` (
 
 LOCK TABLES `system_wide_roles_systemwiderole` WRITE;
 /*!40000 ALTER TABLE `system_wide_roles_systemwiderole` DISABLE KEYS */;
-INSERT INTO `system_wide_roles_systemwiderole` VALUES (1,'2021-07-30 19:58:04.166906','2021-07-30 19:58:04.166906','student_support_admin',NULL);
+INSERT INTO `system_wide_roles_systemwiderole` VALUES (1,'2023-02-21 14:10:33.255201','2023-02-21 14:10:33.255201','student_support_admin',NULL);
 /*!40000 ALTER TABLE `system_wide_roles_systemwiderole` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -11714,6 +13965,7 @@ CREATE TABLE `third_party_auth_ltiproviderconfig` (
   `enable_sso_id_verification` tinyint(1) NOT NULL,
   `organization_id` int(11) DEFAULT NULL,
   `disable_for_enterprise_sso` tinyint(1) NOT NULL,
+  `was_valid_at` datetime(6) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `third_party_auth_lti_changed_by_id_7b39c829_fk_auth_user` (`changed_by_id`),
   KEY `third_party_auth_lti_site_id_c8442a80_fk_django_si` (`site_id`),
@@ -11767,6 +14019,7 @@ CREATE TABLE `third_party_auth_oauth2providerconfig` (
   `enable_sso_id_verification` tinyint(1) NOT NULL,
   `organization_id` int(11) DEFAULT NULL,
   `disable_for_enterprise_sso` tinyint(1) NOT NULL,
+  `was_valid_at` datetime(6) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `third_party_auth_oau_changed_by_id_55219296_fk_auth_user` (`changed_by_id`),
   KEY `third_party_auth_oau_site_id_a4ae3e66_fk_django_si` (`site_id`),
@@ -11874,6 +14127,8 @@ CREATE TABLE `third_party_auth_samlproviderconfig` (
   `organization_id` int(11) DEFAULT NULL,
   `country` varchar(128) NOT NULL,
   `disable_for_enterprise_sso` tinyint(1) NOT NULL,
+  `display_name` varchar(35) NOT NULL,
+  `was_valid_at` datetime(6) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `third_party_auth_sam_changed_by_id_4c8fa8c0_fk_auth_user` (`changed_by_id`),
   KEY `third_party_auth_sam_site_id_b7e2af73_fk_django_si` (`site_id`),
@@ -12237,6 +14492,59 @@ LOCK TABLES `user_tasks_usertaskstatus` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `user_tours_userdiscussionstours`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user_tours_userdiscussionstours` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `tour_name` varchar(255) NOT NULL,
+  `show_tour` tinyint(1) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_tours__user_id_0397d5_idx` (`user_id`,`tour_name`),
+  CONSTRAINT `user_tours_userdiscussionstours_user_id_4d286074_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_tours_userdiscussionstours`
+--
+
+LOCK TABLES `user_tours_userdiscussionstours` WRITE;
+/*!40000 ALTER TABLE `user_tours_userdiscussionstours` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_tours_userdiscussionstours` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_tours_usertour`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user_tours_usertour` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `course_home_tour_status` varchar(50) NOT NULL,
+  `show_courseware_tour` tinyint(1) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_id` (`user_id`),
+  CONSTRAINT `user_tours_usertour_user_id_723c222b_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_tours_usertour`
+--
+
+LOCK TABLES `user_tours_usertour` WRITE;
+/*!40000 ALTER TABLE `user_tours_usertour` DISABLE KEYS */;
+INSERT INTO `user_tours_usertour` VALUES (1,'show-new-user-tour',1,3),(2,'show-new-user-tour',1,4),(3,'show-new-user-tour',1,5),(4,'show-new-user-tour',1,6),(5,'show-new-user-tour',1,7),(6,'show-new-user-tour',1,8),(7,'show-new-user-tour',1,9),(8,'show-new-user-tour',1,10),(9,'show-new-user-tour',1,11);
+/*!40000 ALTER TABLE `user_tours_usertour` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `util_ratelimitconfiguration`
 --
 
@@ -12259,62 +14567,8 @@ CREATE TABLE `util_ratelimitconfiguration` (
 
 LOCK TABLES `util_ratelimitconfiguration` WRITE;
 /*!40000 ALTER TABLE `util_ratelimitconfiguration` DISABLE KEYS */;
-INSERT INTO `util_ratelimitconfiguration` VALUES (1,'2021-07-30 19:58:12.583225',1,NULL);
+INSERT INTO `util_ratelimitconfiguration` VALUES (1,'2023-02-21 14:10:53.721223',1,NULL);
 /*!40000 ALTER TABLE `util_ratelimitconfiguration` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `verified_track_content_migrateverifiedtrackcohortssetting`
---
-
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `verified_track_content_migrateverifiedtrackcohortssetting` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `change_date` datetime(6) NOT NULL,
-  `enabled` tinyint(1) NOT NULL,
-  `old_course_key` varchar(255) NOT NULL,
-  `rerun_course_key` varchar(255) NOT NULL,
-  `audit_cohort_names` longtext NOT NULL,
-  `changed_by_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `verified_track_conte_changed_by_id_29944bff_fk_auth_user` (`changed_by_id`),
-  CONSTRAINT `verified_track_conte_changed_by_id_29944bff_fk_auth_user` FOREIGN KEY (`changed_by_id`) REFERENCES `auth_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `verified_track_content_migrateverifiedtrackcohortssetting`
---
-
-LOCK TABLES `verified_track_content_migrateverifiedtrackcohortssetting` WRITE;
-/*!40000 ALTER TABLE `verified_track_content_migrateverifiedtrackcohortssetting` DISABLE KEYS */;
-/*!40000 ALTER TABLE `verified_track_content_migrateverifiedtrackcohortssetting` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `verified_track_content_verifiedtrackcohortedcourse`
---
-
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `verified_track_content_verifiedtrackcohortedcourse` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `course_key` varchar(255) NOT NULL,
-  `enabled` tinyint(1) NOT NULL,
-  `verified_cohort_name` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `course_key` (`course_key`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `verified_track_content_verifiedtrackcohortedcourse`
---
-
-LOCK TABLES `verified_track_content_verifiedtrackcohortedcourse` WRITE;
-/*!40000 ALTER TABLE `verified_track_content_verifiedtrackcohortedcourse` DISABLE KEYS */;
-/*!40000 ALTER TABLE `verified_track_content_verifiedtrackcohortedcourse` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -12332,7 +14586,7 @@ CREATE TABLE `verify_student_manualverification` (
   `updated_at` datetime(6) NOT NULL,
   `reason` varchar(255) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `expiration_date` datetime(6),
+  `expiration_date` datetime(6) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `verify_student_manua_user_id_f38b72b4_fk_auth_user` (`user_id`),
   KEY `verify_student_manualverification_created_at_e4e3731a` (`created_at`),
@@ -12377,7 +14631,7 @@ CREATE TABLE `verify_student_softwaresecurephotoverification` (
   `reviewing_user_id` int(11) DEFAULT NULL,
   `user_id` int(11) NOT NULL,
   `expiry_email_date` datetime(6) DEFAULT NULL,
-  `expiration_date` datetime(6),
+  `expiration_date` datetime(6) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `verify_student_softw_copy_id_photo_from_i_059e40b6_fk_verify_st` (`copy_id_photo_from_id`),
   KEY `verify_student_softw_reviewing_user_id_55fd003a_fk_auth_user` (`reviewing_user_id`),
@@ -12420,7 +14674,7 @@ CREATE TABLE `verify_student_ssoverification` (
   `identity_provider_type` varchar(100) NOT NULL,
   `identity_provider_slug` varchar(30) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `expiration_date` datetime(6),
+  `expiration_date` datetime(6) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `verify_student_ssoverification_user_id_5e6186eb_fk_auth_user_id` (`user_id`),
   KEY `verify_student_ssoverification_created_at_6381e5a4` (`created_at`),
@@ -12482,7 +14736,7 @@ CREATE TABLE `verify_student_verificationdeadline` (
   `deadline_is_explicit` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `course_key` (`course_key`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -12491,7 +14745,6 @@ CREATE TABLE `verify_student_verificationdeadline` (
 
 LOCK TABLES `verify_student_verificationdeadline` WRITE;
 /*!40000 ALTER TABLE `verify_student_verificationdeadline` DISABLE KEYS */;
-INSERT INTO `verify_student_verificationdeadline` VALUES (1,'2021-07-30 20:20:00.362316','2021-07-30 20:20:00.362316','course-v1:edX+DemoX+Demo_Course','2023-07-30 20:19:59.064405',1);
 /*!40000 ALTER TABLE `verify_student_verificationdeadline` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -12866,7 +15119,7 @@ CREATE TABLE `waffle_flag` (
 
 LOCK TABLES `waffle_flag` WRITE;
 /*!40000 ALTER TABLE `waffle_flag` DISABLE KEYS */;
-INSERT INTO `waffle_flag` VALUES (2,'grades.rejected_exam_overrides_grade',1,NULL,0,1,0,0,'',0,'','2021-07-30 19:57:28.611436','2021-07-30 19:57:28.611457'),(3,'grades.enforce_freeze_grade_after_course_end',1,NULL,0,1,0,0,'',0,'','2021-07-30 19:57:28.614958','2021-07-30 19:57:28.614974'),(4,'grades.writable_gradebook',1,NULL,0,1,0,0,'',0,'','2021-07-30 19:57:28.619924','2021-07-30 19:57:28.619941'),(5,'studio.enable_checklists_quality',1,NULL,0,1,0,0,'',0,'','2021-07-30 20:01:12.215572','2021-07-30 20:01:12.215591');
+INSERT INTO `waffle_flag` VALUES (2,'grades.rejected_exam_overrides_grade',1,NULL,0,1,0,0,'',0,'','2023-02-21 13:31:07.946574','2023-02-21 13:31:07.946591'),(3,'grades.enforce_freeze_grade_after_course_end',1,NULL,0,1,0,0,'',0,'','2023-02-21 13:31:07.951895','2023-02-21 13:31:07.951908'),(4,'grades.writable_gradebook',1,NULL,0,1,0,0,'',0,'','2023-02-21 13:31:07.957214','2023-02-21 13:31:07.957227'),(5,'studio.enable_checklists_quality',1,NULL,0,1,0,0,'',0,'','2023-02-21 14:18:23.327344','2023-02-21 14:18:23.327354');
 /*!40000 ALTER TABLE `waffle_flag` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -13010,6 +15263,39 @@ CREATE TABLE `waffle_utils_waffleflagcourseoverridemodel` (
 LOCK TABLES `waffle_utils_waffleflagcourseoverridemodel` WRITE;
 /*!40000 ALTER TABLE `waffle_utils_waffleflagcourseoverridemodel` DISABLE KEYS */;
 /*!40000 ALTER TABLE `waffle_utils_waffleflagcourseoverridemodel` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `waffle_utils_waffleflagorgoverridemodel`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `waffle_utils_waffleflagorgoverridemodel` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `change_date` datetime(6) NOT NULL,
+  `enabled` tinyint(1) NOT NULL,
+  `waffle_flag` varchar(255) NOT NULL,
+  `org` varchar(255) NOT NULL,
+  `override_choice` varchar(3) NOT NULL,
+  `note` longtext NOT NULL,
+  `changed_by_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `waffle_org_and_waffle_flag` (`org`,`waffle_flag`),
+  KEY `waffle_utils_wafflef_changed_by_id_01495c88_fk_auth_user` (`changed_by_id`),
+  KEY `waffle_utils_waffleflagorgoverridemodel_waffle_flag_1569d94e` (`waffle_flag`),
+  KEY `waffle_utils_waffleflagorgoverridemodel_org_8ffe16cd` (`org`),
+  CONSTRAINT `waffle_utils_wafflef_changed_by_id_01495c88_fk_auth_user` FOREIGN KEY (`changed_by_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `waffle_utils_waffleflagorgoverridemodel`
+--
+
+LOCK TABLES `waffle_utils_waffleflagorgoverridemodel` WRITE;
+/*!40000 ALTER TABLE `waffle_utils_waffleflagorgoverridemodel` DISABLE KEYS */;
+/*!40000 ALTER TABLE `waffle_utils_waffleflagorgoverridemodel` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -13392,7 +15678,7 @@ CREATE TABLE `workflow_assessmentworkflowstep` (
   `assessment_completed_at` datetime(6) DEFAULT NULL,
   `order_num` int(10) unsigned NOT NULL,
   `workflow_id` int(11) NOT NULL,
-  `skipped` tinyint(1),
+  `skipped` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `workflow_assessmentw_workflow_id_fe52b4aa_fk_workflow_` (`workflow_id`),
   CONSTRAINT `workflow_assessmentw_workflow_id_fe52b4aa_fk_workflow_` FOREIGN KEY (`workflow_id`) REFERENCES `workflow_assessmentworkflow` (`id`)
@@ -13442,18 +15728,32 @@ CREATE TABLE `xapi_xapilearnerdatatransmissionaudit` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `created` datetime(6) NOT NULL,
   `modified` datetime(6) NOT NULL,
-  `enterprise_course_enrollment_id` int(10) unsigned DEFAULT NULL,
+  `enterprise_course_enrollment_id` int(11) DEFAULT NULL,
   `course_id` varchar(255) NOT NULL,
   `course_completed` tinyint(1) NOT NULL,
   `completed_timestamp` datetime(6) DEFAULT NULL,
-  `grade` varchar(255) DEFAULT NULL,
-  `status` varchar(100) NOT NULL,
+  `grade` double DEFAULT NULL,
+  `status` varchar(100) DEFAULT NULL,
   `error_message` longtext,
   `user_id` int(11) NOT NULL,
+  `enterprise_customer_uuid` char(32) DEFAULT NULL,
+  `instructor_name` varchar(255) NOT NULL,
+  `plugin_configuration_id` int(11) DEFAULT NULL,
+  `total_hours` double DEFAULT NULL,
+  `subsection_id` varchar(255) DEFAULT NULL,
+  `subsection_name` varchar(255) DEFAULT NULL,
+  `friendly_status_message` varchar(255) DEFAULT NULL,
+  `api_record_id` int(11) DEFAULT NULL,
+  `content_title` varchar(255) DEFAULT NULL,
+  `progress_status` varchar(255) NOT NULL,
+  `user_email` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `xapi_xapilearnerdatatran_user_id_course_id_557488b4_uniq` (`user_id`,`course_id`),
+  UNIQUE KEY `api_record_id` (`api_record_id`),
   KEY `xapi_xapilearnerdatatransmi_enterprise_course_enrollmen_0a180d75` (`enterprise_course_enrollment_id`),
-  KEY `xapi_xapilearnerdatatransmissionaudit_course_id_c18248d2` (`course_id`),
+  KEY `xapi_xapilearnerdatatransmissionaudit_subsection_id_3dec030e` (`subsection_id`),
+  KEY `xapi_xldta_85936b55_idx` (`enterprise_customer_uuid`,`plugin_configuration_id`),
+  CONSTRAINT `xapi_xapilearnerdata_api_record_id_7a66c373_fk_integrate` FOREIGN KEY (`api_record_id`) REFERENCES `integrated_channel_apiresponserecord` (`id`),
   CONSTRAINT `xapi_xapilearnerdata_user_id_6a49eb25_fk_auth_user` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -13647,4 +15947,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-07-30 20:20:06
+-- Dump completed on 2023-02-21 14:42:10
