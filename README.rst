@@ -365,15 +365,6 @@ Some common service combinations include:
 .. _analyticsapi: https://github.com/openedx/edx-analytics-data-api
 
 
-Known Issues
-------------
-
-Currently, some containers rely on Elasticsearch 7 and some rely on Elasticsearch 1.5. This is
-because services are in the process of being upgraded to Elasticsearch 7, but not all of them
-support Elasticsearch 7 yet. As we complete these migrations, we will update the dependencies
-of these containers.
-
-
 
 Advanced Configuration Options
 ------------------------------
@@ -411,7 +402,6 @@ As a specific example, if ``OPENEDX_RELEASE`` is set in your environment as ``ju
 .. _edx-e2e-tests README: https://github.com/edx/edx-e2e-tests/#how-to-run-lms-and-studio-tests
 .. _edxops Docker image: https://hub.docker.com/r/edxops/
 .. _Docker Hub: https://hub.docker.com/
-.. _Pycharm Integration documentation: docs/pycharm_integration.rst
 .. _devpi documentation: docs/devpi.rst
 .. _edx-platform testing documentation: https://github.com/openedx/edx-platform/blob/master/docs/guides/testing/testing.rst#running-python-unit-tests
 .. |Build Status provisioning| image:: https://github.com/openedx/devstack/actions/workflows/provisioning-tests.yml/badge.svg?branch=master
