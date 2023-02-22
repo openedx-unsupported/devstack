@@ -286,10 +286,6 @@ After changing settings, you can restart the LMS/Studio process without restarti
    make dev.restart-devserver.lms     # For LMS
    make dev.restart-devserver.studio  # For Studio/CMS
 
-How do I integrate with PyCharm?
---------------------------------
-
-See the `Pycharm Integration documentation`_.
 
 What is DevPI and how does it affect Devstack?
 ----------------------------------------------
@@ -304,5 +300,4 @@ See the `devpi documentation`_.
 .. _Changing Themes for an Open edX Site: https://edx.readthedocs.io/projects/edx-installing-configuring-and-running/en/latest/configuration/changing_appearance/theming/index.html
 .. _updating relational database dumps: docs/database-dumps.rst
 .. _Django Migration Don'ts: https://engineering.edx.org/django-migration-donts-f4588fd11b64
-.. _Pycharm Integration documentation: docs/pycharm_integration.rst
 .. _devpi documentation: docs/devpi.rst
