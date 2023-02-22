@@ -174,7 +174,7 @@ websocket-client==0.59.0
     #   -r requirements/base.txt
     #   docker
     #   docker-compose
-zipp==3.13.0
+zipp==3.14.0
     # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
