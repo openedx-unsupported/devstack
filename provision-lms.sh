@@ -26,8 +26,8 @@ for app in "${apps[@]}"; do
 done
 
 # Run edxapp migrations first since they are needed for the service users and OAuth clients
-# docker-compose exec -T  lms bash -e -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && paver update_db --settings devstack_docker'
 
+# docker-compose exec -T  lms bash -e -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && paver update_db --settings devstack_docker'
 docker-compose exec -T lms bash -e -c 'source /edx/app/edxapp/edxapp_env && /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-platform/manage.py lms showmigrations --database default --traceback --pythonpath=. --settings devstack_docker'
 docker-compose exec -T lms bash -e -c 'source /edx/app/edxapp/edxapp_env && /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-platform/manage.py lms migrate --database default --noinput --traceback --pythonpath=. --settings devstack_docker'
 docker-compose exec -T lms bash -e -c 'source /edx/app/edxapp/edxapp_env && /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-platform/manage.py lms showmigrations --database student_module_history --traceback --pythonpath=. --settings devstack_docker'
@@ -50,8 +50,16 @@ docker-compose exec -T lms bash -e -c 'source /edx/app/edxapp/edxapp_env && pyth
 
 # Create demo course and users
 #docker-compose exec -T lms bash -e -c '/edx/app/edx_ansible/venvs/edx_ansible/bin/ansible-playbook /edx/app/edx_ansible/edx_ansible/playbooks/demo.yml -v -c local -i "127.0.0.1," --extra-vars="COMMON_EDXAPP_SETTINGS=devstack_docker"'
-docker-compose exec -T lms bash -e -c 'git clone https://github.com/openedx/edx-demo-course.git /tmp/edx-demo-course'
-docker-compose exec -T lms bash -e -c 'source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py cms --settings=devstack_docker import /edx/var/edxapp/data /tmp/edx-demo-course && rm -rf /tmp/edx-demo-course'
+if [[ ${DEVSTACK_SKIP_DEMO-false} == "true" ]]
+then
+    echo "Skipping import of demo course. DEVSTACK_SKIP_DEMO is set to true"
+else
+    docker-compose exec -T lms bash -e -c 'git clone https://github.com/openedx/edx-demo-course.git /tmp/edx-demo-course'
+    docker-compose exec -T lms bash -e -c 'source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py cms --settings=devstack_docker import /edx/var/edxapp/data /tmp/edx-demo-course && rm -rf /tmp/edx-demo-course'
+    # Seed forums for the demo course
+    docker-compose exec -T lms bash -e -c "source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack_docker seed_permissions_roles course-v1:edX+DemoX+Demo_Course"
+fi
+
 demo_hashed_password='pbkdf2_sha256$20000$TjE34FJjc3vv$0B7GUmH8RwrOc/BvMoxjb5j8EgnWTt3sxorDANeF7Qw='
 for user in honor audit verified staff ; do
   email="$user@example.com"
@@ -61,11 +69,13 @@ for user in honor audit verified staff ; do
   else
     docker-compose exec -T lms bash -e -c "source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack_docker --service-variant lms manage_user $user $email --initial-password-hash \'$demo_hashed_password\'"
   fi
+  if [[ "${DEVSTACK_SKIP_DEMO-false}" != "true" ]]
+  then
   # Enroll users in the demo course
-  docker-compose exec -T lms bash -e -c "source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack_docker --service-variant lms enroll_user_in_course -e $email -c course-v1:edX+DemoX+Demo_Course"
+      docker-compose exec -T lms bash -e -c "source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack_docker --service-variant lms enroll_user_in_course -e $email -c course-v1:edX+DemoX+Demo_Course"
+  fi
 done
-# Seed forums for the demo course
-docker-compose exec -T lms bash -e -c "source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack_docker seed_permissions_roles course-v1:edX+DemoX+Demo_Course"
+
 
 # Fix missing vendor file by clearing the cache
 docker-compose exec -T  lms bash -e -c 'rm /edx/app/edxapp/edx-platform/.prereqs_cache/Node_prereqs.sha1'
