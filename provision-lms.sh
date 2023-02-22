@@ -65,9 +65,9 @@ for user in honor audit verified staff ; do
   email="$user@example.com"
   # Set staff flag for staff user
   if [[ $user == "staff" ]] ; then
-    docker-compose exec -T lms bash -e -c "source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack_docker --service-variant lms manage_user $user $email --initial-password-hash \'$demo_hashed_password\' --staff"
+    docker-compose exec -T lms bash -e -c "source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack_docker --service-variant lms manage_user $user $email --initial-password-hash '$demo_hashed_password' --staff"
   else
-    docker-compose exec -T lms bash -e -c "source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack_docker --service-variant lms manage_user $user $email --initial-password-hash \'$demo_hashed_password\'"
+    docker-compose exec -T lms bash -e -c "source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack_docker --service-variant lms manage_user $user $email --initial-password-hash '$demo_hashed_password'"
   fi
   if [[ "${DEVSTACK_SKIP_DEMO-false}" != "true" ]]
   then
