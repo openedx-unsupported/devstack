@@ -26,7 +26,6 @@ for app in "${apps[@]}"; do
 done
 
 # Run edxapp migrations first since they are needed for the service users and OAuth clients
-
 # docker-compose exec -T  lms bash -e -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && paver update_db --settings devstack_docker'
 docker-compose exec -T lms bash -e -c 'source /edx/app/edxapp/edxapp_env && /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-platform/manage.py lms showmigrations --database default --traceback --pythonpath=. --settings devstack_docker'
 docker-compose exec -T lms bash -e -c 'source /edx/app/edxapp/edxapp_env && /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-platform/manage.py lms migrate --database default --noinput --traceback --pythonpath=. --settings devstack_docker'
