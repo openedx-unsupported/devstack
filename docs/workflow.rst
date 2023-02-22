@@ -14,8 +14,8 @@ These instructions are written using the LMS as an example. Replace ``lms`` with
 #. Activate your devstack virtualenv. See the main Getting Started instructions if you don't already have one.
 #. Launch your service in a clean state:
 
-   #. Run ``make lms-down lms-pull lms-up`` to halt any running services and remove their containers, pull the latest disk images, and launch your service.
-   #. Optionally, watch ``make lms-logs`` to follow the logs. This lets you see when the service finishes coming up, and prints the port it is listening on.
+   #. Run ``make dev.remove-containers dev.pull.lms dev.up.lms`` to halt any running services and remove their containers, pull the latest disk images, and launch your service.
+   #. Optionally, watch ``make dev.logs.lms`` to follow the logs. This lets you see when the service finishes coming up, and prints the port it is listening on.
 
       - Your service is up when you see a block of messages that looks like the following::
 
@@ -25,15 +25,15 @@ These instructions are written using the LMS as an example. Replace ``lms`` with
           edx.devstack.lms                  | Starting development server at http://0.0.0.0:18000/
           edx.devstack.lms                  | Quit the server with CONTROL-C.
 
-      - If the logs show warning messages about missing tables or needed migrations, run ``make lms-migrate`` and then continue
+      - If the logs show warning messages about missing tables or needed migrations, run ``make dev.migrate.lms`` and then continue
 
-      - If there are complaints about import failures, Python package requirements may have changed since the last disk image. Run ``make lms-shell`` and then ``make requirements`` from inside the shell, then restart the service with ``make lms-restart-devserver``.
+      - If there are complaints about import failures, Python package requirements may have changed since the last disk image. Run ``make lms-shell`` and then ``make requirements`` from inside the shell, then restart the service with ``make dev.restart-devserver.lms``.
 
 #. Your service should now be up and accessible, and you can develop in your IDA's repo. When you make changes on disk, a file watcher will restart the service in devstack. It may take a moment for the service to come back up with your changes.
 
-   - For some changes, this auto-restarting is insufficient, and you'll need to make a change from inside ``make lms-shell`` (such as ``make requirements`` or a migrations or other management command) and then run ``make lms-restart-devserver`` from the outside.
+   - For some changes, this auto-restarting is insufficient, and you'll need to make a change from inside ``make lms-shell`` (such as ``make requirements`` or a migrations or other management command) and then run ``make dev.restart-devserver.lms`` from the outside. Running ``make dev.restart-devserver.lms`` may also fix issues if the runserver command is not restarting automatically after code changes.
 
-#. When you're done, you can either run ``make lms-stop`` to shut down the service but leave the container intact (with requirements installations and other file changes preserved) or ``make lms-down`` to destroy the containers as well.
+#. When you're done, you can run ``make dev.stop.lms`` to shut down the service but leave the container intact (with requirements installations and other file changes preserved).
 
 Variations
 ----------
