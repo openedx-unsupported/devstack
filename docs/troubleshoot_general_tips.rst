@@ -198,14 +198,14 @@ erratically.
 Missing Module
 --------------
 
-Occasionally, you'll get errors like 'Cannot import name Name from module xyz'. This usually happens because the code and the image are out of sync. To fix this, first make sure you have the latest images and the latest code:
+Occasionally, you'll get errors like 'Cannot import name Name from module xyz'. This usually happens because the code and the image are out of sync. To fix this, first make sure you have the latest images and the latest code. These instructions are written using the LMS as an example. Replace lms with studio, credentials, discovery, etc. as appropriate.
 
-#. Run ``make dev.stop.my-service`` from devstack
-#. To update your image, you can run ``make dev.pull.my-service`` from devstack.
+#. Run ``make dev.stop.lms`` from devstack
+#. To update your image, you can run ``make dev.pull.lms`` from devstack.
 #. To get the latest code, you can run ``git fetch && git pull`` from the head of the code repository. If you are working on a branch, you may need to rebase it onto the latest master or main.
-#. From devstack, run ``make dev.up.my-service`` and ``make dev.logs.my-service``
-#. If the import error is still there, run ``make dev.shell.my-service`` and then, from within the service container, run ``make requirements``
-#. After doing this, it may Just Work or you may need to restart the service with ``make dev.restart-devserver.my-service`` (run from devstack)
+#. From devstack, run ``make dev.up.lms`` and ``make dev.logs.lms``
+#. If the import error is still there, run ``make dev.shell.lms`` and then, from within the service container, run ``make requirements``
+#. After doing this, it may Just Work or you may need to restart the service with ``make dev.restart-devserver.lms`` (run from devstack)
 
 
 
