@@ -195,4 +195,24 @@ Resources - File Sharing section of the Docker preferences.  Using a symlink as
 the current directory and sharing the real directory (or vice-versa) may work
 erratically.
 
+Missing Module
+--------------
+
+Occasionally, you'll get errors like 'Cannot import name Name from module xyz'. This usually happens because the code and the image are out of sync. To fix this, first make sure you have the latest images and the latest code:
+#. Run `make dev.stop.my-service` from devstack
+#. To update your image, you can run `make dev.pull.my-service` from devstack.
+#. To get the latest code, you can run `git fetch && git pull` from the head of the code repository. If you are working on a branch, you may need to rebase it onto the latest master or main.
+#. From devstack, run `make dev.up.my-service` and `make dev.logs.my-service`
+#. If the import error is still there, run `make dev.shell.my-service` and then, from within the service container, run `make requirements.`
+#. After doing this, it may Just Work or you may need to restart the service with `make dev.restart-devserver.my-service` (run from devstack)
+
+.. code:: sh
+
+   ...
+   Build failed running pavelib.assets.update_assets: Subprocess return code: 137
+
+This error is an indication that your docker process died during execution.  Most likely,
+this error is due to running out of memory.  Try increasing the memory
+allocated to Docker (Recommended: 8 CPUs, 10 GB Memory, 2GB Swap).
+
 .. _Understanding Git Conceptually: https://www.sbf5.com/~cduan/technical/git/
