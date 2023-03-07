@@ -13,7 +13,7 @@ CACHES:
         KEY_PREFIX: discovery
         LOCATION:
         - edx.devstack.memcached:11211
-CELERY_BROKER_URL: redis://:@127.0.0.1:6379/
+CELERY_BROKER_URL: redis://:password@edx.devstack.redis:6379/
 CORS_ORIGIN_WHITELIST: []
 CSRF_COOKIE_SECURE: false
 DATABASES:
