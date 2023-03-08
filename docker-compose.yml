@@ -622,7 +622,7 @@ services:
       DJANGO_WATCHMAN_TIMEOUT: 30
       LMS_CFG: "/edx/etc/lms.yml"
       CMS_CFG: "/edx/etc/studio.yml"
-    image: edxops/edxapp:${OPENEDX_RELEASE:-latest}
+    image: openedx/lms-dev:${OPENEDX_RELEASE:-latest}
     networks:
       default:
         aliases:
