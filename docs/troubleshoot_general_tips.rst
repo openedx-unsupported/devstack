@@ -195,4 +195,22 @@ Resources - File Sharing section of the Docker preferences.  Using a symlink as
 the current directory and sharing the real directory (or vice-versa) may work
 erratically.
 
+Missing module
+--------------
+
+Occasionally, you'll get errors like 'Cannot import name Name from module xyz'. This usually happens because the code and the image are out of sync. To fix this, first make sure you have the latest images and the latest code. These instructions are written using the LMS as an example. Replace lms with studio, credentials, discovery, etc. as appropriate.
+
+#. Run ``make dev.stop.lms`` from devstack
+#. To update your image, you can run ``make dev.pull.lms`` from devstack.
+#. To get the latest code, you can run ``git fetch && git pull`` from the head of the code repository. If you are working on a branch, you may need to rebase it onto the latest master or main.
+#. From devstack, run ``make dev.up.lms`` and ``make dev.logs.lms``
+#. If the import error is still there, run ``make dev.shell.lms`` and then, from within the service container, run ``make requirements``
+#. After doing this, it may Just Work or you may need to restart the service with ``make dev.restart-devserver.lms`` (run from devstack)
+
+Missing tables/migrations/fields
+--------------------------------
+Another error you may get if the code and the image are out of sync is sql or Django ORM errors about missing tables or models not having a certain field. To fix this, make sure you have the latest images and latest code, similar to the steps for Missing Module. Once you have updated the image and code, run ``make dev.migrate.lms`` (or your other service) from devstack to apply the latest migrations. You shouldn't need to restart the webserver or container.
+
+
+
 .. _Understanding Git Conceptually: https://www.sbf5.com/~cduan/technical/git/
