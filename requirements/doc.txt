@@ -27,11 +27,11 @@ cffi==1.15.1
     #   -r requirements/base.txt
     #   cryptography
     #   pynacl
-charset-normalizer==3.0.1
+charset-normalizer==3.1.0
     # via
     #   -r requirements/base.txt
     #   requests
-cryptography==39.0.1
+cryptography==39.0.2
     # via
     #   -r requirements/base.txt
     #   paramiko
