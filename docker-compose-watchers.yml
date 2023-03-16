@@ -7,7 +7,7 @@ services:
     environment:
       BOK_CHOY_HOSTNAME: edx.devstack.lms_watcher
       ASSET_WATCHER_TIMEOUT: 12
-    image: edxops/edxapp:${OPENEDX_RELEASE:-latest}
+    image: openedx/lms-dev:${OPENEDX_RELEASE:-latest}
     volumes:
       - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform
       - edxapp_lms_assets:/edx/var/edxapp/staticfiles/
