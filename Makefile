@@ -495,9 +495,9 @@ dev.static.%: ## Rebuild static assets for the specified service's container.
 ########################################################################################
 
 
-dev.reset: dev.down dev.reset-repos dev.prune dev.pull.large-and-slow dev.up.large-and-slow dev.static dev.migrate ## Attempt to reset the local devstack to the default branch working state without destroying data.
+dev.reset: dev.remove-containers dev.reset-repos dev.prune dev.pull.large-and-slow dev.up.large-and-slow dev.static dev.migrate ## Attempt to reset the local devstack to the default branch working state without destroying data.
 
-dev.destroy.coursegraph: dev.down.coursegraph ## Remove all coursegraph data.
+dev.destroy.coursegraph: dev.remove-containers.coursegraph ## Remove all coursegraph data.
 	docker volume rm ${COMPOSE_PROJECT_NAME}_coursegraph_data
 
 dev.destroy: ## Irreversibly remove all devstack-related containers, networks, and volumes.
