@@ -364,7 +364,7 @@ Some common service combinations include:
 .. _insights: https://github.com/openedx/edx-analytics-dashboard
 .. _analyticsapi: https://github.com/openedx/edx-analytics-data-api
 
-
+Currently, Devstack and MYSQL interact poorly with newer Apple Machines which use "M1" Chips. An error causes provisioning to fail. A workaround is to specify ``platform: linux/amd64`` under the heading ``mysql57`` in ``docker-compose.yml`` and attempting to provision again.
 
 Advanced Configuration Options
 ------------------------------
