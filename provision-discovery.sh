@@ -3,6 +3,11 @@
 set -eu -o pipefail
 set -x
 
+docker-compose up -d lms
+docker-compose up -d studio
+docker-compose up -d ecommerce
+sleep 5 # Give above services some time to boot up
+
 ./provision-ida.sh discovery discovery 18381
 
 docker-compose exec -T discovery bash -e -c 'rm -rf /edx/var/discovery/*'
@@ -12,6 +17,7 @@ set +e
 # FIXME[bash-e]: Bash scripts should use -e -- but this script fails
 # (after many retries) when trying to talk to ecommerce
 docker-compose exec -T discovery bash -e -c 'source /edx/app/discovery/discovery_env && python /edx/app/discovery/discovery/manage.py refresh_course_metadata'
+docker-compose exec -T discovery bash -e -c 'source /edx/app/discovery/discovery_env && python /edx/app/discovery/discovery/manage.py add_provisioning_data'
 set -e
 
 docker-compose exec -T discovery bash -e -c 'source /edx/app/discovery/discovery_env && python /edx/app/discovery/discovery/manage.py update_index --disable-change-limit'
