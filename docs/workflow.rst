@@ -58,7 +58,7 @@ You can routinely create backups of your local databases. To create a backup, us
 Running micro-frontends outside of devstack
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Although several micro-frontends (MFEs) are built into devstack (the full list is in the `service table`_), some users prefer to run those MFEs directly on their host machine. You can achieve this by first removing the devstack MFE container, and then starting the host version. For example::
+Although several micro-frontends (MFEs) are built into devstack (the full list is in :doc:`service_list`), some users prefer to run those MFEs directly on their host machine. You can achieve this by first removing the devstack MFE container, and then starting the host version. For example::
 
   make dev.down.frontend-app-learning  # Bring down the devstack version of the Learning MFE.
   cd <path-to-frontend-app-learning>   # Navigate to the Learning MFE's repository.
@@ -67,5 +67,3 @@ Although several micro-frontends (MFEs) are built into devstack (the full list i
 Of course ``learning`` can be replaced with ``gradebook``, ``payment``, or another frontend-app name.
 
 If you forget to bring down the devstack version of the MFE, you will notice a port conflict when trying to start the host version.
-
-.. _service table: ../README.rst#service-list

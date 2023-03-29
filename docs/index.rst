@@ -1,5 +1,5 @@
 Open edX Devstack
-=================
+#################
 
 Devstack is the local Docker-based environment for developing in the Open edX platform.
 
@@ -29,15 +29,20 @@ It also includes the following extra components:
 * The course-authoring micro-frontend
 * The enhanced staff grader (ora-grading) micro-frontend
 
-Contents:
+  .. _Docker Compose: https://docs.docker.com/compose/
+
+Contents
+********
 
 .. toctree::
    :maxdepth: 2
 
-   readme
+   getting_started
+   logging_in
+   workflow
+   service_list
    devstack_interface
    devstack_faq
-   workflow
    building-images
    database-dumps
    devpi
@@ -45,9 +50,10 @@ Contents:
    pycharm_integration
    testing_and_debugging
    troubleshoot_general_tips
+   advanced_configuration
 
 Indices and tables
-==================
+******************
 
 * :ref:`genindex`
 * :ref:`modindex`
