@@ -27,11 +27,11 @@ cffi==1.15.1
     #   -r requirements/base.txt
     #   cryptography
     #   pynacl
-charset-normalizer==3.0.1
+charset-normalizer==3.1.0
     # via
     #   -r requirements/base.txt
     #   requests
-cryptography==39.0.1
+cryptography==40.0.1
     # via
     #   -r requirements/base.txt
     #   paramiko
@@ -69,7 +69,7 @@ idna==3.4
     #   requests
 imagesize==1.4.1
     # via sphinx
-importlib-metadata==6.0.0
+importlib-metadata==6.1.0
     # via sphinx
 jinja2==3.1.2
     # via sphinx
@@ -84,7 +84,7 @@ packaging==23.0
     #   -r requirements/base.txt
     #   docker
     #   sphinx
-paramiko==3.0.0
+paramiko==3.1.0
     # via
     #   -r requirements/base.txt
     #   docker
@@ -111,7 +111,7 @@ python-dotenv==0.21.1
     # via
     #   -r requirements/base.txt
     #   docker-compose
-pytz==2022.7.1
+pytz==2023.2
     # via babel
 pyyaml==5.4.1
     # via
@@ -162,7 +162,7 @@ texttable==1.6.7
     #   docker-compose
 tomli==2.0.1
     # via doc8
-urllib3==1.26.14
+urllib3==1.26.15
     # via
     #   -r requirements/base.txt
     #   docker
