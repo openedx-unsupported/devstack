@@ -38,6 +38,11 @@ If you are using Linux, use the ``overlay2`` storage driver, kernel version
 
    docker info | grep -i 'storage driver'
 
+.. _Docker for Mac: https://docs.docker.com/docker-for-mac/
+.. _licensing terms: https://www.docker.com/pricing/faq
+.. _configuring Docker for Mac: https://docs.docker.com/docker-for-mac/#/advanced
+.. _Docker for Windows: https://docs.docker.com/docker-for-windows/
+
 Please note
 ~~~~~~~~~~~
 
@@ -46,7 +51,7 @@ from within a Virtual Machine, as these commands are meant to stand up a VM-like
 Docker containers.
 
 However, you may want to run the ``make`` commands from within a Python 3 virtual
-environment, as described in `Getting Started`_. This will keep the Python packages required for Devstack separate from
+environment. This will keep the Python packages required for Devstack separate from
 the ones installed globally on your system.
 
 Directions to setup devstack
@@ -54,7 +59,7 @@ Directions to setup devstack
 
 The default devstack services can be run by following the steps below.
 
-**Note:** This will set up a large number of services, more than you are likely to need to work with, but that's only necessary for first-time provisioning. See `Service List`_ and the `most common development workflow`_ for how to run and update devstack with just the services you need, rather than the ``large-and-slow`` default set.
+**Note:** This will set up a large number of services, more than you are likely to need to work with, but that's only necessary for first-time provisioning. See :doc:`service_list` and the :doc:`most common development workflow <workflow>` for how to run and update devstack with just the services you need, rather than the ``large-and-slow`` default set.
 
 #. Install the requirements inside of a `Python virtualenv`_.
 
@@ -164,4 +169,6 @@ This data collection is behind a consent flag, so please help devstack's maintai
 
    make metrics-opt-in
 
-Now that you're up and running, read about the `most common development workflow`_.
+Now that you're up and running, read about the :doc:`most common development workflow <workflow>`.
+
+.. _Python virtualenv: https://docs.python-guide.org/en/latest/dev/virtualenvs/#lower-level-virtualenv

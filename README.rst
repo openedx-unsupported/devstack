@@ -16,7 +16,7 @@ Where to Find Help
 
 There are a number of places to get help, including mailing lists and real-time chat. Please choose an appropriate venue for your question. This helps ensure that you get good prompt advice, and keeps discussion focused. For details of your options, see the `Community`_ pages.
 
-- See the `most common development workflow`_ (after you've finished `Getting Started`_).
+- See the `most common development workflow`_ (after you've finished :doc:`getting_started`).
 - See the `Devstack Interface`_
 - See some `helpful troubleshooting tips`_.
 - See the `Frequently Asked Questions`_.
@@ -38,13 +38,8 @@ You can also browse all the documentation in `Read the Docs`_.
 Notices
 -------
 
-**NOTE:** LMS is now using MySql 5.7 by default. You have to run ``make dev.pull.lms`` and ``make dev.provision.lms`` (more details in `Getting Started`_) to fetch latest images and reprovision local copies of databases in order for an existing devstack setup to keep working.
+**NOTE:** LMS is now using MySql 5.7 by default. You have to run ``make dev.pull.lms`` and ``make dev.provision.lms`` (more details in :doc:`getting_started`) to fetch latest images and reprovision local copies of databases in order for an existing devstack setup to keep working.
 
-.. _Docker Compose: https://docs.docker.com/compose/
-.. _Docker for Mac: https://docs.docker.com/docker-for-mac/
-.. _licensing terms: https://www.docker.com/pricing/faq
-.. _Docker for Windows: https://docs.docker.com/docker-for-windows/
-.. _configuring Docker for Mac: https://docs.docker.com/docker-for-mac/#/advanced
 .. _feature added in Docker 17.05: https://github.com/openedx/configuration/pull/3864
 .. _edx-e2e-tests README: https://github.com/edx/edx-e2e-tests/#how-to-run-lms-and-studio-tests
 .. _edxops Docker image: https://hub.docker.com/r/edxops/
@@ -61,5 +56,4 @@ Notices
     :alt: Documentation Status
     :scale: 100%
     :target: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/
-.. _Python virtualenv: https://docs.python-guide.org/en/latest/dev/virtualenvs/#lower-level-virtualenv
 .. _Community: https://open.edx.org/community/connect/

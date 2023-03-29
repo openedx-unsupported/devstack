@@ -10,7 +10,7 @@ Prerequisites
 -------------
 
 1. You must complete all steps for provisioning your Docker Devstack environment
-   in the `README`_ before proceeding with the PyCharm setup.
+   in :doc:`getting_started` before proceeding with the PyCharm setup.
 
 2. If you are on a Mac, make sure you are on a newer version than macOS
    Yosemite. A this time, this should work with either El Capitan or Sierra.
@@ -343,5 +343,4 @@ One way to do this is to follow these instructions:
 .. _Jetbrains ticket PY-22893: https://youtrack.jetbrains.com/issue/PY-22893
 .. _PyCharm: https://www.jetbrains.com/pycharm/
 .. _PyCharm IDE setup: https://openedx.atlassian.net/wiki/spaces/AC/pages/92209229/PyCharm
-.. _README: ../README.rst
 .. _vendor documentation: https://www.jetbrains.com/help/pycharm/2017.1/configuring-remote-interpreters-via-docker-compose.html
