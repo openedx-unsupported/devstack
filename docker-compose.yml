@@ -461,7 +461,6 @@ services:
       LMS_CFG: "/edx/etc/lms.yml"
       CMS_CFG: "/edx/etc/studio.yml"
       PATH: "/edx/app/edxapp/venvs/edxapp/bin:/edx/app/edxapp/nodeenv/bin:/edx/app/edxapp/edx-platform/node_modules/.bin:/edx/app/edxapp/edx-platform/bin:${PATH}"
-      DJANGO_SETTINGS_MODULE: lms.envs.devstack_docker
       SERVICE_VARIANT: lms
     image: openedx/lms-dev:${OPENEDX_RELEASE:-latest}
     networks:
@@ -662,7 +661,6 @@ services:
       DJANGO_WATCHMAN_TIMEOUT: 30
       LMS_CFG: "/edx/etc/lms.yml"
       CMS_CFG: "/edx/etc/studio.yml"
-      DJANGO_SETTINGS_MODULE: cms.envs.devstack_docker
       SERVICE_VARIANT: cms
     image: openedx/lms-dev:${OPENEDX_RELEASE:-latest}
     networks:
