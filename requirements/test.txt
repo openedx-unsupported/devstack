@@ -22,11 +22,11 @@ cffi==1.15.1
     #   -r requirements/base.txt
     #   cryptography
     #   pynacl
-charset-normalizer==3.0.1
+charset-normalizer==3.1.0
     # via
     #   -r requirements/base.txt
     #   requests
-cryptography==39.0.1
+cryptography==40.0.1
     # via
     #   -r requirements/base.txt
     #   paramiko
@@ -48,7 +48,7 @@ docopt==0.6.2
     # via
     #   -r requirements/base.txt
     #   docker-compose
-exceptiongroup==1.1.0
+exceptiongroup==1.1.1
     # via pytest
 idna==3.4
     # via
@@ -65,7 +65,7 @@ packaging==23.0
     #   -r requirements/base.txt
     #   docker
     #   pytest
-paramiko==3.0.0
+paramiko==3.1.0
     # via
     #   -r requirements/base.txt
     #   docker
@@ -87,7 +87,7 @@ pyrsistent==0.19.3
     # via
     #   -r requirements/base.txt
     #   jsonschema
-pytest==7.2.1
+pytest==7.2.2
     # via -r requirements/test.in
 python-dotenv==0.21.1
     # via
@@ -114,7 +114,7 @@ texttable==1.6.7
     #   docker-compose
 tomli==2.0.1
     # via pytest
-urllib3==1.26.14
+urllib3==1.26.15
     # via
     #   -r requirements/base.txt
     #   docker
