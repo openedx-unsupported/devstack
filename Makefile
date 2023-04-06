@@ -259,8 +259,8 @@ $(foreach db_service,$(DB_SERVICES_LIST),\
 dev.migrate: | $(_db_migration_targets) ## Run migrations for applicable default services.
 
 dev.migrate.studio:
-	docker-compose exec -T -u root lms bash -e -c '/edx/app/edxapp/venvs/edxapp/bin/python manage.py cms showmigrations --database default --traceback --pythonpath=. --settings devstack_docker'
-	docker-compose exec -T -u root lms bash -e -c '/edx/app/edxapp/venvs/edxapp/bin/python manage.py cms migrate --database default --noinput --traceback --pythonpath=. --settings devstack_docker'
+	docker-compose exec -T -u root cms bash -e -c '/edx/app/edxapp/venvs/edxapp/bin/python manage.py cms showmigrations --database default --traceback --pythonpath=. --settings devstack_docker'
+	docker-compose exec -T -u root cms bash -e -c '/edx/app/edxapp/venvs/edxapp/bin/python manage.py cms migrate --database default --noinput --traceback --pythonpath=. --settings devstack_docker'
 
 dev.migrate.lms:
 	docker-compose exec -T -u root lms bash -e -c '/edx/app/edxapp/venvs/edxapp/bin/python manage.py lms showmigrations --database default --traceback --pythonpath=. --settings devstack_docker'
