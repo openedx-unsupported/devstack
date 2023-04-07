@@ -1,59 +1,106 @@
-Open edX Devstack |Build Status provisioning| |Build Status CLI| |docs|
-=======================================================================
+Open edX Devstack
+#################
 
-Devstack is the local Docker-based environment for developing in the Open edX
+|ci-provisioning-badge| |ci-cli-badge| |doc-badge| |license-badge|
+|status-badge|
+
+Purpose
+*******
+
+Devstack is a local Docker-based environment for developing in the Open edX
 platform.  Use it to get up and running quickly with Open edX services.
 
-Documentation is on `Read the Docs`_.  Code repository is on `GitHub`_.
+Getting Started
+***************
 
-.. _Read the Docs: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/
-.. _GitHub: https://github.com/openedx/devstack
+The `Getting Started guide`_ lives with the rest of the documentation in Read the Docs.
 
-.. contents:: **Table of Contents:**
+.. _Getting Started guide: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/getting_started.html
 
-Where to Find Help
-------------------
+Getting Help
+************
 
-There are a number of places to get help, including mailing lists and real-time chat. Please choose an appropriate venue for your question. This helps ensure that you get good prompt advice, and keeps discussion focused. For details of your options, see the `Community`_ pages.
+Documentation
+=============
 
-- See the `most common development workflow`_ (after you've finished :doc:`getting_started`).
-- See the `Devstack Interface`_
-- See some `helpful troubleshooting tips`_.
-- See the `Frequently Asked Questions`_.
-- Or learn about `testing and debugging your code in devstack`_.
-- If you get confused about any of the terms used in these docs, see `edX Glossary`_
+Start by going through `the documentation`_ on Read the Docs.  If you need more help see below.
 
-You can also browse all the documentation in `Read the Docs`_.
+.. _the documentation: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest
 
-.. _most common development workflow: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/workflow.html
-.. _Devstack Interface: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/devstack_interface.html
-.. _helpful troubleshooting tips: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/troubleshoot_general_tips.html
-.. _Frequently Asked Questions: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/devstack_faq.html
-.. _testing and debugging your code in devstack:
-.. _testing_and_debugging.rst: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/testing_and_debugging.html
-.. _edX Glossary: https://openedx.atlassian.net/wiki/spaces/AC/pages/28967341/edX+Glossary
+More Help
+=========
 
-.. _Read the Docs: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/
+If you're having trouble, we have discussion forums at
+https://discuss.openedx.org where you can connect with others in the
+community.
 
-Notices
--------
+Our real-time conversations are on Slack. You can request a `Slack
+invitation`_, then join our `community Slack workspace`_.
 
-**NOTE:** LMS is now using MySql 5.7 by default. You have to run ``make dev.pull.lms`` and ``make dev.provision.lms`` (more details in :doc:`getting_started`) to fetch latest images and reprovision local copies of databases in order for an existing devstack setup to keep working.
+For anything non-trivial, the best path is to open an issue in this
+repository with as many details about the issue you are facing as you
+can provide.
 
-.. _feature added in Docker 17.05: https://github.com/openedx/configuration/pull/3864
-.. _edx-e2e-tests README: https://github.com/edx/edx-e2e-tests/#how-to-run-lms-and-studio-tests
-.. _edxops Docker image: https://hub.docker.com/r/edxops/
-.. _Docker Hub: https://hub.docker.com/
-.. _devpi documentation: docs/devpi.rst
-.. _edx-platform testing documentation: https://github.com/openedx/edx-platform/blob/master/docs/guides/testing/testing.rst#running-python-unit-tests
-.. |Build Status provisioning| image:: https://github.com/openedx/devstack/actions/workflows/provisioning-tests.yml/badge.svg?branch=master
+https://github.com/openedx/devstack/issues
+
+For more information about these options, see the `Getting Help`_ page.
+
+.. _Slack invitation: https://openedx.org/slack
+.. _community Slack workspace: https://openedx.slack.com/
+.. _Getting Help: https://openedx.org/getting-help
+
+License
+*******
+
+The code in this repository is licensed under the AGPL 3.0 unless
+otherwise noted.
+
+Please see `LICENSE <LICENSE>`_ for details.
+
+Contributing
+************
+
+Contributions are very welcome.
+Please read `How To Contribute <https://openedx.org/r/how-to-contribute>`_ for details.
+
+This project is currently accepting all types of contributions, bug fixes,
+security fixes, maintenance work, or new features.  However, please make sure
+to have a discussion about your new feature idea with the maintainers prior to
+beginning development to maximize the chances of your change being accepted.
+You can start a conversation by creating a new issue on this repo summarizing
+your idea.
+
+The Open edX Code of Conduct
+****************************
+
+All community members are expected to follow the `Open edX Code of Conduct`_.
+
+.. _Open edX Code of Conduct: https://openedx.org/code-of-conduct/
+
+People
+******
+
+**TODO:** Create ``catalog-info.yaml`` for Backstage, and update this section.
+
+Reporting Security Issues
+*************************
+
+Please do not report security issues in public. Please email security@edx.org.
+
+.. |ci-provisioning-badge| image:: https://github.com/openedx/devstack/actions/workflows/provisioning-tests.yml/badge.svg?branch=master
     :target: https://github.com/openedx/devstack/actions/workflows/provisioning-tests.yml
-    :alt: Provisioning tests
-.. |Build Status CLI| image:: https://github.com/openedx/devstack/actions/workflows/cli-tests.yml/badge.svg?branch=master
+    :alt: CI Provisioning
+
+.. |ci-cli-badge| image:: https://github.com/openedx/devstack/actions/workflows/cli-tests.yml/badge.svg?branch=master
     :target: https://github.com/openedx/devstack/actions/workflows/cli-tests.yml
-    :alt: CLI tests
-.. |docs| image:: https://readthedocs.org/projects/docs/badge/?version=latest
-    :alt: Documentation Status
-    :scale: 100%
-    :target: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/
-.. _Community: https://open.edx.org/community/connect/
+    :alt: CI CLI
+
+.. |doc-badge| image:: https://readthedocs.org/projects/open-edx-devstack/badge/?version=latest
+    :target: https://open-edx-devstack.readthedocs.io/en/latest/
+    :alt: Documentation
+
+.. |license-badge| image:: https://img.shields.io/github/license/openedx/devstack.svg
+    :target: https://github.com/openedx/devstack/blob/master/LICENSE
+    :alt: License
+
+.. |status-badge| image:: https://img.shields.io/badge/Status-Maintained-brightgreen
