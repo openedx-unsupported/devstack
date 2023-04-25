@@ -432,7 +432,7 @@ dev.shell.discovery:
 	docker-compose exec discovery env TERM=$(TERM) bash -c '/bin/bash'
 
 dev.shell.ecommerce:
-	docker-compose exec ecommerce env TERM=$(TERM) /edx/app/ecommerce/devstack.sh open
+	docker-compose exec ecommerce env TERM=$(TERM) /bin/bash
 
 dev.shell.registrar:
 	docker-compose exec registrar env TERM=$(TERM) /bin/bash

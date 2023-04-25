@@ -373,13 +373,16 @@ services:
     environment:
       DJANGO_WATCHMAN_TIMEOUT: 30
       ENABLE_DJANGO_TOOLBAR: 1
-    image: edxops/ecommerce:${OPENEDX_RELEASE:-latest}
+    image: edxops/ecommerce-dev:${OPENEDX_RELEASE:-latest}
     networks:
       default:
         aliases:
           - edx.devstack.ecommerce
     ports:
       - "18130:18130"
+    volumes:
+      - ${PWD}/configuration_files/ecommerce.yml:/edx/etc/ecommerce.yml
+
 
   edx_notes_api:
     # Sleep as a part of start up to give elasticsearch enough time to start up.
