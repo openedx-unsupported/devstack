@@ -5,9 +5,6 @@ set -eu -o pipefail
 . scripts/colors.sh
 set -x
 
-# Common provisioning tasks for IDAs, including requirements, migrations, oauth client creation, etc.
-# ./provision-ida.sh edx_notes_api edx-notes 18120 edx_notes_api
-
 name=edx_notes_api
 port=18734
 client_name=edx-notes  # The name of the Oauth client stored in the edxapp DB.
