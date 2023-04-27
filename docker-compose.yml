@@ -391,7 +391,7 @@ services:
       - elasticsearch710
       - lms
       - mysql57
-    image: edxops/notes-dev:${OPENEDX_RELEASE:-latest}
+    image: openedx/edx-notes-api-dev:${OPENEDX_RELEASE:-latest}
     networks:
       default:
         aliases:
