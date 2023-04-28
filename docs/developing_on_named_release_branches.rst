@@ -3,7 +3,7 @@ Developing on Open edX named release branches
 
 .. contents:: Table of Contents
 
-By default, the startup steps in `README.rst`_ will install the devstack using the master branch of all repos. If you want to install a named release instead, follow these steps before pulling the docker images in step 3 of the `Getting Started`_ guide:
+By default, the startup steps in :doc:`getting_started` will install the devstack using the master branch of all repos. If you want to install a named release instead, follow these steps before the step that pulls the docker images:
 
 #. Set the ``OPENEDX_RELEASE`` environment variable to the appropriate image
    tag; "hawthorn.master", "zebrawood.rc1", etc.  Note that unlike a server
@@ -11,24 +11,21 @@ By default, the startup steps in `README.rst`_ will install the devstack using t
 #. Check out the appropriate branch in devstack, e.g. ``git checkout open-release/ironwood.master``
 #. Use ``make dev.checkout`` to check out the correct branch in the local
    checkout of each service repository
-#. Continue with step 3 in the `getting started`_ guide to pull the correct docker images.
+#. Continue with step 3 in :doc:`getting_started` to pull the correct docker images.
 
 All ``make`` target and ``docker-compose`` calls should now use the correct
 images until you change or unset ``OPENEDX_RELEASE`` again.  To work on the
 master branches and ``latest`` images, unset ``OPENEDX_RELEASE`` or set it to
 an empty string.
 
-.. _README.rst: https://github.com/openedx/devstack
-.. _getting started: https://github.com/openedx/devstack#getting-started
-
 How do I run multiple named Open edX releases on same machine?
 --------------------------------------------------------------
 You can have multiple isolated Devstacks provisioned on a single computer now. Follow these directions **after installing at least two devstacks** to switch between them.
 
-#. If you haven't done so, follow the steps in the `Getting Started`_ section, to install the master devstack or any other named release. We recommend that you have at least one devstack on the master branch.
+#. If you haven't done so, follow the steps in :doc:`getting_started`, to install the master devstack or any other named release. We recommend that you have at least one devstack on the master branch.
 #. Change directory to your devstack and activate the virtual env.
 #. Stop any running containers by issuing a ``make dev.stop``.
-#. Follow the steps in `Getting Started`_ section again, setting the additional OPENEDX_RELEASE you want to install in step 2
+#. Follow the steps in :doc:`getting_started` again, setting the additional OPENEDX_RELEASE you want to install in step 2
 
 The implication of this is that you can switch between isolated Devstack databases by changing the value of the ``OPENEDX_RELEASE`` environment variable.
 
