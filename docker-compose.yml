@@ -648,12 +648,16 @@ services:
 
   xqueue:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.xqueue"
-    image: edxops/xqueue:${OPENEDX_RELEASE:-latest}
+    image: edxops/xqueue-dev:${OPENEDX_RELEASE:-latest}
+    working_dir: /edx/app/xqueue/xqueue
     command: bash -c 'source /edx/app/xqueue/xqueue_env && while true; do python /edx/app/xqueue/xqueue/manage.py runserver 0.0.0.0:18040 ; sleep 2; done'
     volumes:
       - ${DEVSTACK_WORKSPACE}/xqueue:/edx/app/xqueue/xqueue
+      - ${PWD}/configuration_files/xqueue.yml:/edx/etc/xqueue.yml
     depends_on:
       - mysql57
+    environment:
+      XQUEUE_CFG: "/edx/etc/xqueue.yml"
     networks:
       default:
         aliases:
@@ -663,10 +667,12 @@ services:
 
   xqueue_consumer:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.xqueue_consumer"
-    image: edxops/xqueue:${OPENEDX_RELEASE:-latest}
+    image: edxops/xqueue-dev:${OPENEDX_RELEASE:-latest}
+    working_dir: /edx/app/xqueue/xqueue
     command: bash -c 'source /edx/app/xqueue/xqueue_env && while true; do python /edx/app/xqueue/xqueue/manage.py run_consumer ; sleep 2; done'
     volumes:
       - ${DEVSTACK_WORKSPACE}/xqueue:/edx/app/xqueue/xqueue
+      - ${PWD}/configuration_files/xqueue.yml:/edx/etc/xqueue.yml
     depends_on:
       - mysql57
     networks:

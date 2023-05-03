@@ -259,8 +259,8 @@ $(foreach db_service,$(DB_SERVICES_LIST),\
 dev.migrate: | $(_db_migration_targets) ## Run migrations for applicable default services.
 
 dev.migrate.studio:
-	docker-compose exec -T -u root cms bash -e -c '/edx/app/edxapp/venvs/edxapp/bin/python manage.py cms showmigrations --database default --traceback --pythonpath=. --settings devstack_docker'
-	docker-compose exec -T -u root cms bash -e -c '/edx/app/edxapp/venvs/edxapp/bin/python manage.py cms migrate --database default --noinput --traceback --pythonpath=. --settings devstack_docker'
+	docker-compose exec -T -u root studio bash -e -c '/edx/app/edxapp/venvs/edxapp/bin/python manage.py cms showmigrations --database default --traceback --pythonpath=. --settings devstack_docker'
+	docker-compose exec -T -u root studio bash -e -c '/edx/app/edxapp/venvs/edxapp/bin/python manage.py cms migrate --database default --noinput --traceback --pythonpath=. --settings devstack_docker'
 
 dev.migrate.lms:
 	docker-compose exec -T -u root lms bash -e -c '/edx/app/edxapp/venvs/edxapp/bin/python manage.py lms showmigrations --database default --traceback --pythonpath=. --settings devstack_docker'
@@ -438,7 +438,7 @@ dev.shell.registrar:
 	docker-compose exec registrar env TERM=$(TERM) /bin/bash
 
 dev.shell.xqueue:
-	docker-compose exec xqueue env TERM=$(TERM) /edx/app/xqueue/devstack.sh open
+	docker-compose exec xqueue env TERM=$(TERM) /bin/bash
 
 dev.shell.lms:
 	docker-compose exec lms env TERM=$(TERM) bash -c '/bin/bash'
@@ -453,7 +453,7 @@ dev.shell.studio_watcher:
 	docker-compose exec studio_watcher env TERM=$(TERM) bash -c '/bin/bash'
 
 dev.shell.xqueue_consumer:
-	docker-compose exec xqueue_consumer env TERM=$(TERM) /edx/app/xqueue/devstack.sh open
+	docker-compose exec xqueue_consumer env TERM=$(TERM) /bin/bash
 
 dev.shell.analyticsapi:
 	docker exec -it edx.devstack.analyticsapi env TERM=$(TERM) bash -c '/bin/bash'
@@ -633,4 +633,3 @@ build-courses: ## Build course and provision studio, and ecommerce with it.
 	$(WINPTY) bash ./course-generator/build-course-json.sh course-generator/tmp-config.json
 	$(WINPTY) bash ./course-generator/create-courses.sh --studio --ecommerce course-generator/tmp-config.json
 	rm course-generator/tmp-config.json
-
