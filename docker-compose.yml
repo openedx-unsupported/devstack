@@ -257,7 +257,7 @@ services:
   redis:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.redis"
     hostname: redis.devstack.edx
-    image: redis:6.2.7
+    image: redis:6.2.9
     command: redis-server --requirepass password
     networks:
       default:
