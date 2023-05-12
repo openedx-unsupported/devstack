@@ -12,7 +12,7 @@ bcrypt==4.0.1
     # via
     #   -r requirements/base.txt
     #   paramiko
-certifi==2022.12.7
+certifi==2023.5.7
     # via
     #   -r requirements/base.txt
     #   requests
@@ -33,7 +33,7 @@ distro==1.8.0
     # via
     #   -r requirements/base.txt
     #   docker-compose
-docker[ssh]==6.0.1
+docker[ssh]==6.1.1
     # via
     #   -r requirements/base.txt
     #   docker-compose
@@ -96,7 +96,7 @@ pyyaml==5.4.1
     # via
     #   -r requirements/base.txt
     #   docker-compose
-requests==2.29.0
+requests==2.30.0
     # via
     #   -r requirements/base.txt
     #   docker
@@ -113,7 +113,7 @@ texttable==1.6.7
     #   docker-compose
 tomli==2.0.1
     # via pytest
-urllib3==1.26.15
+urllib3==2.0.2
     # via
     #   -r requirements/base.txt
     #   docker
