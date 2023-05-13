@@ -433,7 +433,7 @@ services:
       - "44567:4567"
 
   lms:
-    command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py lms runserver 0.0.0.0:18000 --settings devstack_docker; sleep 2; done'
+    command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do if [ ! -f /edx/app/edxapp/fingerprint ] || ! diff -q /edx/app/edxapp/fingerprint <(find /edx/app/edxapp/venvs/edxapp -printf '%P %t %s %i %m %U %G\n' | sort | sha256sum) >/dev/null 2>&1; then make requirements find /edx/app/edxapp/venvs/edxapp -printf '%P %t %s %i %m %U %G\n' | sort | sha256sum > /edx/app/edxapp/fingerprint fi python /edx/app/edxapp/edx-platform/manage.py lms runserver 0.0.0.0:18000 --settings devstack_docker sleep 2 done'
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.lms"
     hostname: lms.devstack.edx
     depends_on:
