@@ -386,7 +386,7 @@ services:
 
   edx_notes_api:
     # Sleep as a part of start up to give elasticsearch enough time to start up.
-    command: bash -c 'source /edx/app/edx_notes_api/edx_notes_api_env && while true; do python /edx/app/edx_notes_api/edx_notes_api/manage.py runserver 0.0.0.0:18120 --settings notesserver.settings.devstack; sleep 4; done'
+    command: bash -c 'while true; do python /edx/app/notes/manage.py runserver 0.0.0.0:18120 --settings notesserver.settings.devstack; sleep 4; done'
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.edxnotesapi"
     hostname: edx_notes_api.devstack.edx
     depends_on:
@@ -394,7 +394,7 @@ services:
       - elasticsearch710
       - lms
       - mysql57
-    image: edxops/notes:${OPENEDX_RELEASE:-latest}
+    image: openedx/edx-notes-api-dev:${OPENEDX_RELEASE:-latest}
     networks:
       default:
         aliases:
