@@ -226,6 +226,7 @@ CORS error from login_refresh in MFE
 If you see "Access to XMLHttpRequest at 'http://localhost:18000/login_refresh' from origin 'http://localhost:2000' has been blocked by CORS policy: Request header field x-xsrf-token is not allowed by Access-Control-Allow-Headers in preflight response" it usually means you don't have a valid session.
 
 The fix is to get a new auth session. You can
+
 1. First surf to http://localhost:18000 to restart your logged in http session.
 2. Log out and then back in.
 3. Clearing your cookies, then log back in.
