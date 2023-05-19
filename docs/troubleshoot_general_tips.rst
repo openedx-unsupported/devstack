@@ -229,5 +229,5 @@ The fix is to get a new auth session. You can
 
 1. First surf to http://localhost:18000 to restart your logged in http session.
 2. Log out and then back in.
-3. Clearing your cookies, then log back in.
+3. Clear your cookies, then log back in.
 
