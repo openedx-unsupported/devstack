@@ -214,3 +214,20 @@ Another error you may get if the code and the image are out of sync is sql or Dj
 
 
 .. _Understanding Git Conceptually: https://www.sbf5.com/~cduan/technical/git/
+
+Demo course is empty in studio
+------------------------------
+After provisioning and opening Studio, you may see an empty outline for the demo course. This usually means there is a disconnect between the block ids in mySQL and the corresponding data in Mongo.
+
+To fix, simply add a new subsection and publish. The act of publishing should reload the whole course correctly.
+
+CORS error from login_refresh in MFE
+------------------------------------
+If you see "Access to XMLHttpRequest at 'http://localhost:18000/login_refresh' from origin 'http://localhost:2000' has been blocked by CORS policy: Request header field x-xsrf-token is not allowed by Access-Control-Allow-Headers in preflight response" it usually means you don't have a valid session.
+
+The fix is to get a new auth session. You can do any of the following:
+
+1. Before navigating to your MFE, go to http://localhost:18000 to restart your logged in http session.
+2. Log out and then back in.
+3. Clear your cookies, then log back in.
+
