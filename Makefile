@@ -432,13 +432,13 @@ dev.shell.discovery:
 	docker-compose exec discovery env TERM=$(TERM) bash -c '/bin/bash'
 
 dev.shell.ecommerce:
-	docker-compose exec ecommerce env TERM=$(TERM) /edx/app/ecommerce/devstack.sh open
+	docker-compose exec ecommerce env TERM=$(TERM) /bin/bash
 
 dev.shell.registrar:
 	docker-compose exec registrar env TERM=$(TERM) /bin/bash
 
 dev.shell.xqueue:
-	docker-compose exec xqueue env TERM=$(TERM) /edx/app/xqueue/devstack.sh open
+	docker-compose exec xqueue env TERM=$(TERM) /bin/bash
 
 dev.shell.lms:
 	docker-compose exec lms env TERM=$(TERM) bash -c '/bin/bash'
@@ -453,7 +453,7 @@ dev.shell.studio_watcher:
 	docker-compose exec studio_watcher env TERM=$(TERM) bash -c '/bin/bash'
 
 dev.shell.xqueue_consumer:
-	docker-compose exec xqueue_consumer env TERM=$(TERM) /edx/app/xqueue/devstack.sh open
+	docker-compose exec xqueue_consumer env TERM=$(TERM) /bin/bash
 
 dev.shell.analyticsapi:
 	docker exec -it edx.devstack.analyticsapi env TERM=$(TERM) bash -c '/bin/bash'
@@ -633,4 +633,3 @@ build-courses: ## Build course and provision studio, and ecommerce with it.
 	$(WINPTY) bash ./course-generator/build-course-json.sh course-generator/tmp-config.json
 	$(WINPTY) bash ./course-generator/create-courses.sh --studio --ecommerce course-generator/tmp-config.json
 	rm course-generator/tmp-config.json
-
