@@ -257,7 +257,7 @@ services:
   redis:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.redis"
     hostname: redis.devstack.edx
-    image: redis:6.2.7
+    image: redis:6.2.12
     command: redis-server --requirepass password
     networks:
       default:
@@ -373,17 +373,20 @@ services:
     environment:
       DJANGO_WATCHMAN_TIMEOUT: 30
       ENABLE_DJANGO_TOOLBAR: 1
-    image: edxops/ecommerce:${OPENEDX_RELEASE:-latest}
+    image: edxops/ecommerce-dev:${OPENEDX_RELEASE:-latest}
     networks:
       default:
         aliases:
           - edx.devstack.ecommerce
     ports:
       - "18130:18130"
+    volumes:
+      - ${PWD}/configuration_files/ecommerce.yml:/edx/etc/ecommerce.yml
+
 
   edx_notes_api:
     # Sleep as a part of start up to give elasticsearch enough time to start up.
-    command: bash -c 'source /edx/app/edx_notes_api/edx_notes_api_env && while true; do python /edx/app/edx_notes_api/edx_notes_api/manage.py runserver 0.0.0.0:18120 --settings notesserver.settings.devstack; sleep 4; done'
+    command: bash -c 'while true; do python /edx/app/notes/manage.py runserver 0.0.0.0:18120 --settings notesserver.settings.devstack; sleep 4; done'
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.edxnotesapi"
     hostname: edx_notes_api.devstack.edx
     depends_on:
@@ -391,7 +394,7 @@ services:
       - elasticsearch710
       - lms
       - mysql57
-    image: edxops/notes:${OPENEDX_RELEASE:-latest}
+    image: openedx/edx-notes-api-dev:${OPENEDX_RELEASE:-latest}
     networks:
       default:
         aliases:
@@ -645,12 +648,16 @@ services:
 
   xqueue:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.xqueue"
-    image: edxops/xqueue:${OPENEDX_RELEASE:-latest}
+    image: edxops/xqueue-dev:${OPENEDX_RELEASE:-latest}
+    working_dir: /edx/app/xqueue/xqueue
     command: bash -c 'source /edx/app/xqueue/xqueue_env && while true; do python /edx/app/xqueue/xqueue/manage.py runserver 0.0.0.0:18040 ; sleep 2; done'
     volumes:
       - ${DEVSTACK_WORKSPACE}/xqueue:/edx/app/xqueue/xqueue
+      - ${PWD}/configuration_files/xqueue.yml:/edx/etc/xqueue.yml
     depends_on:
       - mysql57
+    environment:
+      XQUEUE_CFG: "/edx/etc/xqueue.yml"
     networks:
       default:
         aliases:
@@ -660,10 +667,12 @@ services:
 
   xqueue_consumer:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.xqueue_consumer"
-    image: edxops/xqueue:${OPENEDX_RELEASE:-latest}
+    image: edxops/xqueue-dev:${OPENEDX_RELEASE:-latest}
+    working_dir: /edx/app/xqueue/xqueue
     command: bash -c 'source /edx/app/xqueue/xqueue_env && while true; do python /edx/app/xqueue/xqueue/manage.py run_consumer ; sleep 2; done'
     volumes:
       - ${DEVSTACK_WORKSPACE}/xqueue:/edx/app/xqueue/xqueue
+      - ${PWD}/configuration_files/xqueue.yml:/edx/etc/xqueue.yml
     depends_on:
       - mysql57
     networks:
