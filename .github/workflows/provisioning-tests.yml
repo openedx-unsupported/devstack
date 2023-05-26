@@ -30,7 +30,7 @@ jobs:
       fail-fast: false # some services can be flaky; let others run to completion even if one fails
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: setup python
         uses: actions/setup-python@v4
         with:
