@@ -24,7 +24,7 @@ beautifulsoup4==4.12.2
     # via pydata-sphinx-theme
 bleach==6.0.0
     # via readme-renderer
-certifi==2022.12.7
+certifi==2023.5.7
     # via
     #   -r requirements/base.txt
     #   requests
@@ -47,7 +47,7 @@ distro==1.8.0
     #   docker-compose
 doc8==1.1.1
     # via -r requirements/doc.in
-docker[ssh]==6.0.1
+docker[ssh]==6.1.1
     # via
     #   -r requirements/base.txt
     #   docker-compose
@@ -129,7 +129,7 @@ pyyaml==5.4.1
     #   docker-compose
 readme-renderer==37.3
     # via -r requirements/doc.in
-requests==2.29.0
+requests==2.30.0
     # via
     #   -r requirements/base.txt
     #   docker
@@ -178,7 +178,7 @@ tomli==2.0.1
     # via doc8
 typing-extensions==4.5.0
     # via pydata-sphinx-theme
-urllib3==1.26.15
+urllib3==2.0.2
     # via
     #   -r requirements/base.txt
     #   docker

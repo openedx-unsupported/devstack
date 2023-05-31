@@ -18,7 +18,7 @@ build==0.10.0
     # via
     #   -r requirements/pip-tools.txt
     #   pip-tools
-certifi==2022.12.7
+certifi==2023.5.7
     # via
     #   -r requirements/base.txt
     #   -r requirements/test.txt
@@ -50,7 +50,7 @@ distro==1.8.0
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   docker-compose
-docker[ssh]==6.0.1
+docker[ssh]==6.1.1
     # via
     #   -r requirements/base.txt
     #   -r requirements/test.txt
@@ -153,7 +153,7 @@ pyyaml==5.4.1
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   docker-compose
-requests==2.29.0
+requests==2.30.0
     # via
     #   -r requirements/base.txt
     #   -r requirements/test.txt
@@ -187,7 +187,7 @@ tox==3.28.0
     #   tox-battery
 tox-battery==0.6.1
     # via -r requirements/dev.in
-urllib3==1.26.15
+urllib3==2.0.2
     # via
     #   -r requirements/base.txt
     #   -r requirements/test.txt
