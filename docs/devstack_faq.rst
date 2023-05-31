@@ -42,7 +42,7 @@ manually install or upgrade Python packages in a container (via
 ``pip install``, ``paver install_python_prereqs``, etc.), they will no
 longer be present if you restart the container.  (Devstack Docker containers
 lose changes made to the filesystem when you reboot your computer, run
-``make down``, restart or upgrade Docker itself, etc.) If you want to ensure
+``make remove-containers``, restart or upgrade Docker itself, etc.) If you want to ensure
 that your new or upgraded packages are present in the container every time it
 starts, you have a few options:
 
@@ -259,7 +259,7 @@ database migrations and package updates.
 
 When switching to a branch which differs greatly from the one you've been
 working on (especially if the new branch is more recent), you may wish to
-halt and remove the existing containers via ``make down``, pull the latest Docker
+halt and remove the existing containers via ``make remove-containers``, pull the latest Docker
 images via ``make dev.pull.<service>``, and then re-run ``make dev.provision.<service>``
 in order to recreate up-to-date databases, static assets, etc.
 
@@ -286,10 +286,6 @@ After changing settings, you can restart the LMS/Studio process without restarti
    make dev.restart-devserver.lms     # For LMS
    make dev.restart-devserver.studio  # For Studio/CMS
 
-How do I integrate with PyCharm?
---------------------------------
-
-See the `Pycharm Integration documentation`_.
 
 What is DevPI and how does it affect Devstack?
 ----------------------------------------------
@@ -304,5 +300,4 @@ See the `devpi documentation`_.
 .. _Changing Themes for an Open edX Site: https://edx.readthedocs.io/projects/edx-installing-configuring-and-running/en/latest/configuration/changing_appearance/theming/index.html
 .. _updating relational database dumps: docs/database-dumps.rst
 .. _Django Migration Don'ts: https://engineering.edx.org/django-migration-donts-f4588fd11b64
-.. _Pycharm Integration documentation: docs/pycharm_integration.rst
 .. _devpi documentation: docs/devpi.rst

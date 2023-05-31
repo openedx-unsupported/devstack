@@ -33,14 +33,14 @@ services:
       - ${DEVSTACK_WORKSPACE}/src:/edx/src
   edx_notes_api:
     volumes:
-      - ${DEVSTACK_WORKSPACE}/edx-notes-api:/edx/app/edx_notes_api/edx_notes_api
+      - ${DEVSTACK_WORKSPACE}/edx-notes-api:/edx/app/notes/
       - ${DEVSTACK_WORKSPACE}/src:/edx/src
   registrar:
     volumes:
-      - ${DEVSTACK_WORKSPACE}/registrar:/edx/app/registrar/registrar
+      - ${DEVSTACK_WORKSPACE}/registrar:/edx/app/registrar
   registrar-worker:
     volumes:
-      - ${DEVSTACK_WORKSPACE}/registrar:/edx/app/registrar/registrar
+      - ${DEVSTACK_WORKSPACE}/registrar:/edx/app/registrar
   studio:
     volumes:
       - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform

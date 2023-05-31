@@ -59,7 +59,7 @@
         dev.up.with-watchers dev.validate docs e2e-tests e2e-tests.with-shell \
         help requirements impl-dev.clone.https impl-dev.clone.ssh impl-dev.provision \
         impl-dev.pull impl-dev.pull.without-deps impl-dev.up impl-dev.up.attach \
-        impl-dev.up.without-deps selfcheck upgrade upgrade \
+        impl-dev.up.without-deps selfcheck upgrade \
         validate-lms-volume vnc-passwords
 
 # Load up options (configurable through options.local.mk).
@@ -259,10 +259,12 @@ $(foreach db_service,$(DB_SERVICES_LIST),\
 dev.migrate: | $(_db_migration_targets) ## Run migrations for applicable default services.
 
 dev.migrate.studio:
-	docker-compose exec studio bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_db'
+	docker-compose exec -T -u root studio bash -e -c '/edx/app/edxapp/venvs/edxapp/bin/python manage.py cms showmigrations --database default --traceback --pythonpath=. --settings devstack_docker'
+	docker-compose exec -T -u root studio bash -e -c '/edx/app/edxapp/venvs/edxapp/bin/python manage.py cms migrate --database default --noinput --traceback --pythonpath=. --settings devstack_docker'
 
 dev.migrate.lms:
-	docker-compose exec lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_db'
+	docker-compose exec -T -u root lms bash -e -c '/edx/app/edxapp/venvs/edxapp/bin/python manage.py lms showmigrations --database default --traceback --pythonpath=. --settings devstack_docker'
+	docker-compose exec -T -u root lms bash -e -c '/edx/app/edxapp/venvs/edxapp/bin/python manage.py lms migrate --database default --noinput --traceback --pythonpath=. --settings devstack_docker'
 
 dev.migrate.%: ## Run migrations on a service.
 	docker-compose exec $* bash -c 'source /edx/app/$*/$*_env && cd /edx/app/$*/$*/ && make migrate'
@@ -359,10 +361,16 @@ dev.kill.%: ## Kill specific services.
 dev.rm-stopped: ## Remove stopped containers. Does not affect running containers.
 	docker-compose rm --force
 
-dev.down: ## Stop and remove containers and networks for all services.
+dev.down: ## Documentation for a change to naming
+	@echo "dev.down has been renamed to dev.remove-containers. If this doesn't seem like what you were looking for, you probably want to be using dev.stop instead. See docs for more details."
+
+dev.down.%:
+	@echo "dev.down has been renamed to dev.remove-containers. If this doesn't seem like what you were looking for, you probably want to be using dev.stop instead. See docs for more details."
+
+dev.remove-containers: ## Stop and remove containers and networks for all services.
 	docker-compose down
 
-dev.down.%: ## Stop and remove containers for specific services.
+dev.remove-containers.%: ## Stop and remove containers for specific services.
 	docker-compose rm --force --stop $$(echo $* | tr + " ")
 
 
@@ -424,28 +432,28 @@ dev.shell.discovery:
 	docker-compose exec discovery env TERM=$(TERM) bash -c '/bin/bash'
 
 dev.shell.ecommerce:
-	docker-compose exec ecommerce env TERM=$(TERM) /edx/app/ecommerce/devstack.sh open
+	docker-compose exec ecommerce env TERM=$(TERM) /bin/bash
 
 dev.shell.registrar:
-	docker-compose exec registrar env TERM=$(TERM) /edx/app/registrar/devstack.sh open
+	docker-compose exec registrar env TERM=$(TERM) /bin/bash
 
 dev.shell.xqueue:
-	docker-compose exec xqueue env TERM=$(TERM) /edx/app/xqueue/devstack.sh open
+	docker-compose exec xqueue env TERM=$(TERM) /bin/bash
 
 dev.shell.lms:
-	docker-compose exec lms env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
+	docker-compose exec lms env TERM=$(TERM) bash -c '/bin/bash'
 
 dev.shell.lms_watcher:
-	docker-compose exec lms_watcher env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
+	docker-compose exec lms_watcher env TERM=$(TERM) bash -c '/bin/bash'
 
 dev.shell.studio:
-	docker-compose exec studio env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
+	docker-compose exec studio env TERM=$(TERM) bash -c '/bin/bash'
 
 dev.shell.studio_watcher:
-	docker-compose exec studio_watcher env TERM=$(TERM) /edx/app/edxapp/devstack.sh open
+	docker-compose exec studio_watcher env TERM=$(TERM) bash -c '/bin/bash'
 
 dev.shell.xqueue_consumer:
-	docker-compose exec xqueue_consumer env TERM=$(TERM) /edx/app/xqueue/devstack.sh open
+	docker-compose exec xqueue_consumer env TERM=$(TERM) /bin/bash
 
 dev.shell.analyticsapi:
 	docker exec -it edx.devstack.analyticsapi env TERM=$(TERM) bash -c '/bin/bash'
@@ -487,9 +495,9 @@ dev.static.%: ## Rebuild static assets for the specified service's container.
 ########################################################################################
 
 
-dev.reset: dev.down dev.reset-repos dev.prune dev.pull.large-and-slow dev.up.large-and-slow dev.static dev.migrate ## Attempt to reset the local devstack to the default branch working state without destroying data.
+dev.reset: dev.remove-containers dev.reset-repos dev.prune dev.pull.large-and-slow dev.up.large-and-slow dev.static dev.migrate ## Attempt to reset the local devstack to the default branch working state without destroying data.
 
-dev.destroy.coursegraph: dev.down.coursegraph ## Remove all coursegraph data.
+dev.destroy.coursegraph: dev.remove-containers.coursegraph ## Remove all coursegraph data.
 	docker volume rm ${COMPOSE_PROJECT_NAME}_coursegraph_data
 
 dev.destroy: ## Irreversibly remove all devstack-related containers, networks, and volumes.
@@ -625,4 +633,3 @@ build-courses: ## Build course and provision studio, and ecommerce with it.
 	$(WINPTY) bash ./course-generator/build-course-json.sh course-generator/tmp-config.json
 	$(WINPTY) bash ./course-generator/create-courses.sh --studio --ecommerce course-generator/tmp-config.json
 	rm course-generator/tmp-config.json
-

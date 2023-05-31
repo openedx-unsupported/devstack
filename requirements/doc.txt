@@ -4,21 +4,27 @@
 #
 #    make upgrade
 #
-alabaster==0.7.12
+accessible-pygments==0.0.4
+    # via pydata-sphinx-theme
+alabaster==0.7.13
     # via sphinx
-attrs==22.2.0
+attrs==23.1.0
     # via
     #   -r requirements/base.txt
     #   jsonschema
-babel==2.11.0
-    # via sphinx
+babel==2.12.1
+    # via
+    #   pydata-sphinx-theme
+    #   sphinx
 bcrypt==4.0.1
     # via
     #   -r requirements/base.txt
     #   paramiko
-bleach==5.0.1
+beautifulsoup4==4.12.2
+    # via pydata-sphinx-theme
+bleach==6.0.0
     # via readme-renderer
-certifi==2022.12.7
+certifi==2023.5.7
     # via
     #   -r requirements/base.txt
     #   requests
@@ -27,11 +33,11 @@ cffi==1.15.1
     #   -r requirements/base.txt
     #   cryptography
     #   pynacl
-charset-normalizer==2.1.1
+charset-normalizer==3.1.0
     # via
     #   -r requirements/base.txt
     #   requests
-cryptography==39.0.0
+cryptography==40.0.2
     # via
     #   -r requirements/base.txt
     #   paramiko
@@ -41,7 +47,7 @@ distro==1.8.0
     #   docker-compose
 doc8==1.1.1
     # via -r requirements/doc.in
-docker[ssh]==6.0.1
+docker[ssh]==6.1.1
     # via
     #   -r requirements/base.txt
     #   docker-compose
@@ -58,18 +64,17 @@ docopt==0.6.2
 docutils==0.19
     # via
     #   doc8
+    #   pydata-sphinx-theme
     #   readme-renderer
     #   restructuredtext-lint
     #   sphinx
-edx-sphinx-theme==3.0.0
-    # via -r requirements/doc.in
 idna==3.4
     # via
     #   -r requirements/base.txt
     #   requests
 imagesize==1.4.1
     # via sphinx
-importlib-metadata==6.0.0
+importlib-metadata==6.6.0
     # via sphinx
 jinja2==3.1.2
     # via sphinx
@@ -77,26 +82,31 @@ jsonschema==3.2.0
     # via
     #   -r requirements/base.txt
     #   docker-compose
-markupsafe==2.1.1
+markupsafe==2.1.2
     # via jinja2
-packaging==23.0
+packaging==23.1
     # via
     #   -r requirements/base.txt
     #   docker
+    #   pydata-sphinx-theme
     #   sphinx
-paramiko==2.12.0
+paramiko==3.1.0
     # via
     #   -r requirements/base.txt
     #   docker
-pbr==5.11.0
+pbr==5.11.1
     # via stevedore
 pycparser==2.21
     # via
     #   -r requirements/base.txt
     #   cffi
-pygments==2.14.0
+pydata-sphinx-theme==0.13.3
+    # via sphinx-book-theme
+pygments==2.15.1
     # via
+    #   accessible-pygments
     #   doc8
+    #   pydata-sphinx-theme
     #   readme-renderer
     #   sphinx
 pynacl==1.5.0
@@ -107,11 +117,11 @@ pyrsistent==0.19.3
     # via
     #   -r requirements/base.txt
     #   jsonschema
-python-dotenv==0.21.0
+python-dotenv==0.21.1
     # via
     #   -r requirements/base.txt
     #   docker-compose
-pytz==2022.7
+pytz==2023.3
     # via babel
 pyyaml==5.4.1
     # via
@@ -119,7 +129,7 @@ pyyaml==5.4.1
     #   docker-compose
 readme-renderer==37.3
     # via -r requirements/doc.in
-requests==2.28.1
+requests==2.30.0
     # via
     #   -r requirements/base.txt
     #   docker
@@ -132,22 +142,25 @@ six==1.16.0
     #   -r requirements/base.txt
     #   bleach
     #   dockerpty
-    #   edx-sphinx-theme
     #   jsonschema
-    #   paramiko
     #   websocket-client
 snowballstemmer==2.2.0
     # via sphinx
+soupsieve==2.4.1
+    # via beautifulsoup4
 sphinx==5.3.0
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/doc.in
-    #   edx-sphinx-theme
-sphinxcontrib-applehelp==1.0.3
+    #   pydata-sphinx-theme
+    #   sphinx-book-theme
+sphinx-book-theme==1.0.1
+    # via -r requirements/doc.in
+sphinxcontrib-applehelp==1.0.4
     # via sphinx
 sphinxcontrib-devhelp==1.0.2
     # via sphinx
-sphinxcontrib-htmlhelp==2.0.0
+sphinxcontrib-htmlhelp==2.0.1
     # via sphinx
 sphinxcontrib-jsmath==1.0.1
     # via sphinx
@@ -155,7 +168,7 @@ sphinxcontrib-qthelp==1.0.3
     # via sphinx
 sphinxcontrib-serializinghtml==1.1.5
     # via sphinx
-stevedore==4.1.1
+stevedore==5.0.0
     # via doc8
 texttable==1.6.7
     # via
@@ -163,7 +176,9 @@ texttable==1.6.7
     #   docker-compose
 tomli==2.0.1
     # via doc8
-urllib3==1.26.13
+typing-extensions==4.5.0
+    # via pydata-sphinx-theme
+urllib3==2.0.2
     # via
     #   -r requirements/base.txt
     #   docker
@@ -175,7 +190,7 @@ websocket-client==0.59.0
     #   -r requirements/base.txt
     #   docker
     #   docker-compose
-zipp==3.11.0
+zipp==3.15.0
     # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:

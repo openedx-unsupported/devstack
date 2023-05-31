@@ -1,17 +1,24 @@
 Open edX Devstack
-=================
+#################
 
-Devstack is the local Docker-based environment for developing in the Open edX platform.
+Devstack is a local Docker-based environment for developing in the Open edX platform.
 
-Contents:
+The Devstack runs as multiple containers with `Docker Compose`_ at its core.
+
+.. _Docker Compose: https://docs.docker.com/compose/
+
+Contents
+********
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
-   readme
+   getting_started
+   logging_in
+   workflow
+   service_list
    devstack_interface
    devstack_faq
-   workflow
    building-images
    database-dumps
    devpi
@@ -19,10 +26,4 @@ Contents:
    pycharm_integration
    testing_and_debugging
    troubleshoot_general_tips
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+   advanced_configuration

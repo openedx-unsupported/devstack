@@ -13,6 +13,9 @@ readonly MYSQL_DB_PASSWORD="password"
 readonly EDXAPP_DBS=("edxapp" "edxapp_csmh")
 DBS=("ecommerce" "${EDXAPP_DBS[@]}")
 
+# don't include the demo course in the initial sql since it relies on data being present in mongo
+export DEVSTACK_SKIP_DEMO="true"
+
 
 # create a docker devstack with LMS and ecommerce
 make destroy

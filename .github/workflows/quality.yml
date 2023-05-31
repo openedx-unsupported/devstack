@@ -1,0 +1,39 @@
+# Assorted quality checks for PRs.
+
+name: Quality checks
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+
+  run_ci:
+    runs-on: ubuntu-20.04
+    env:
+      DEVSTACK_WORKSPACE: /tmp
+      SHALLOW_CLONE: 1
+    strategy:
+      matrix:
+        python-version:
+          - '3.8'
+      fail-fast: false
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Test Makefile
+        run: make selfcheck
+
+      - name: Install Python dependencies
+        run:  make requirements
+
+      - name: Test that docs build without errors
+        run:  make docs

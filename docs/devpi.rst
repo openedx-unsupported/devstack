@@ -16,7 +16,7 @@ requirements of all Devstack applications.
 In general the operation of devpi should be transparent. You may notice
 some significant speedup in tox testing and ``paver update_prereqs``
 operations after the first run. Container storage should persist through
-``make dev.down`` and ``make dev.up.<service>`` operations.
+``make dev.remove-containers`` and ``make dev.up.<service>`` operations.
 
 The devpi web interface can be browsed from the host at:
 http://localhost:3141/

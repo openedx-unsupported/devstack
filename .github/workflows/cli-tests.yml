@@ -31,7 +31,7 @@ jobs:
       fail-fast: false
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: setup python
         uses: actions/setup-python@v2
         with:
@@ -46,7 +46,7 @@ jobs:
           curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
           sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal test"
           sudo apt update
-          sudo apt install docker-ce
+          sudo apt install docker-ce containerd.io
           docker version
           docker-compose --version
 

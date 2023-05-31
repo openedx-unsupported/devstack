@@ -257,7 +257,7 @@ services:
   redis:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.redis"
     hostname: redis.devstack.edx
-    image: redis:6.2.7
+    image: redis:6.2.12
     command: redis-server --requirepass password
     networks:
       default:
@@ -336,6 +336,7 @@ services:
       - memcached
       - mysql57
       - opensearch12
+      - redis
     # Allows attachment to the discovery service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
@@ -372,17 +373,20 @@ services:
     environment:
       DJANGO_WATCHMAN_TIMEOUT: 30
       ENABLE_DJANGO_TOOLBAR: 1
-    image: edxops/ecommerce:${OPENEDX_RELEASE:-latest}
+    image: edxops/ecommerce-dev:${OPENEDX_RELEASE:-latest}
     networks:
       default:
         aliases:
           - edx.devstack.ecommerce
     ports:
       - "18130:18130"
+    volumes:
+      - ${PWD}/configuration_files/ecommerce.yml:/edx/etc/ecommerce.yml
+
 
   edx_notes_api:
     # Sleep as a part of start up to give elasticsearch enough time to start up.
-    command: bash -c 'source /edx/app/edx_notes_api/edx_notes_api_env && while true; do python /edx/app/edx_notes_api/edx_notes_api/manage.py runserver 0.0.0.0:18120 --settings notesserver.settings.devstack; sleep 4; done'
+    command: bash -c 'while true; do python /edx/app/notes/manage.py runserver 0.0.0.0:18120 --settings notesserver.settings.devstack; sleep 4; done'
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.edxnotesapi"
     hostname: edx_notes_api.devstack.edx
     depends_on:
@@ -390,7 +394,7 @@ services:
       - elasticsearch710
       - lms
       - mysql57
-    image: edxops/notes:${OPENEDX_RELEASE:-latest}
+    image: openedx/edx-notes-api-dev:${OPENEDX_RELEASE:-latest}
     networks:
       default:
         aliases:
@@ -454,7 +458,8 @@ services:
       LMS_CFG: "/edx/etc/lms.yml"
       CMS_CFG: "/edx/etc/studio.yml"
       PATH: "/edx/app/edxapp/venvs/edxapp/bin:/edx/app/edxapp/nodeenv/bin:/edx/app/edxapp/edx-platform/node_modules/.bin:/edx/app/edxapp/edx-platform/bin:${PATH}"
-    image: edxops/edxapp:${OPENEDX_RELEASE:-latest}
+      SERVICE_VARIANT: lms
+    image: openedx/lms-dev:${OPENEDX_RELEASE:-latest}
     networks:
       default:
         aliases:
@@ -525,7 +530,7 @@ services:
       - ${PWD}/configuration_files/analytics_api.yml:/edx/etc/analytics_api.yml
 
   registrar:
-    command: bash -c 'source /edx/app/registrar/registrar_env && while true; do python /edx/app/registrar/registrar/manage.py runserver 0.0.0.0:18734; sleep 2; done'
+    command: bash -c 'while true; do python /edx/app/registrar/manage.py runserver 0.0.0.0:18734; sleep 2; done'
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.registrar"
     hostname: registrar.devstack.edx
     depends_on:
@@ -553,7 +558,9 @@ services:
       CELERY_BROKER_VHOST: 10
       CELERY_BROKER_PASSWORD: password
       DJANGO_WATCHMAN_TIMEOUT: 30
-    image: edxops/registrar:${OPENEDX_RELEASE:-latest}
+      ANALYTICS_DASHBOARD_CFG: /edx/etc/registrar.yml
+    image: edxops/registrar-dev:${OPENEDX_RELEASE:-latest}
+    working_dir: /edx/app/registrar
     networks:
       default:
         aliases:
@@ -562,9 +569,11 @@ services:
       - "18734:18734"
     volumes:
       - /edx/var/registrar/
+      - ${PWD}/configuration_files/registrar.yml:/edx/etc/registrar.yml
+
 
   registrar-worker:
-    command: bash -c 'source /edx/app/registrar/registrar_env && cd /edx/app/registrar/registrar && celery -A registrar worker -l debug -c 2'
+    command: bash -c 'cd /edx/app/registrar && celery -A registrar worker -l debug -c 2'
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.registrar-worker"
     hostname: registrar-worker.devstack.edx
     depends_on:
@@ -587,7 +596,7 @@ services:
       CELERY_BROKER_VHOST: 10
       CELERY_BROKER_PASSWORD: password
       DJANGO_WATCHMAN_TIMEOUT: 30
-    image: edxops/registrar:${OPENEDX_RELEASE:-latest}
+    image: edxops/registrar-dev:${OPENEDX_RELEASE:-latest}
     networks:
       default:
         aliases:
@@ -622,7 +631,8 @@ services:
       DJANGO_WATCHMAN_TIMEOUT: 30
       LMS_CFG: "/edx/etc/lms.yml"
       CMS_CFG: "/edx/etc/studio.yml"
-    image: edxops/edxapp:${OPENEDX_RELEASE:-latest}
+      SERVICE_VARIANT: cms
+    image: openedx/lms-dev:${OPENEDX_RELEASE:-latest}
     networks:
       default:
         aliases:
@@ -638,12 +648,16 @@ services:
 
   xqueue:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.xqueue"
-    image: edxops/xqueue:${OPENEDX_RELEASE:-latest}
+    image: edxops/xqueue-dev:${OPENEDX_RELEASE:-latest}
+    working_dir: /edx/app/xqueue/xqueue
     command: bash -c 'source /edx/app/xqueue/xqueue_env && while true; do python /edx/app/xqueue/xqueue/manage.py runserver 0.0.0.0:18040 ; sleep 2; done'
     volumes:
       - ${DEVSTACK_WORKSPACE}/xqueue:/edx/app/xqueue/xqueue
+      - ${PWD}/configuration_files/xqueue.yml:/edx/etc/xqueue.yml
     depends_on:
       - mysql57
+    environment:
+      XQUEUE_CFG: "/edx/etc/xqueue.yml"
     networks:
       default:
         aliases:
@@ -653,10 +667,12 @@ services:
 
   xqueue_consumer:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.xqueue_consumer"
-    image: edxops/xqueue:${OPENEDX_RELEASE:-latest}
+    image: edxops/xqueue-dev:${OPENEDX_RELEASE:-latest}
+    working_dir: /edx/app/xqueue/xqueue
     command: bash -c 'source /edx/app/xqueue/xqueue_env && while true; do python /edx/app/xqueue/xqueue/manage.py run_consumer ; sleep 2; done'
     volumes:
       - ${DEVSTACK_WORKSPACE}/xqueue:/edx/app/xqueue/xqueue
+      - ${PWD}/configuration_files/xqueue.yml:/edx/etc/xqueue.yml
     depends_on:
       - mysql57
     networks:
