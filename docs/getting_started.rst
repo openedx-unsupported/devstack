@@ -8,10 +8,12 @@ You will need to have the following installed:
 
 - make
 - Python 3.8
-- Docker
+- Docker, including ``docker-compose``
 
 This project requires **Docker 17.06+ CE**.  We recommend Docker Stable, but
-Docker Edge should work as well.
+Docker Edge should work as well. Ensure that your Docker installation includes
+``docker-compose``; on some operating systems (e.g. Ubuntu Linux) this may require
+a separate package.
 
 **NOTE:** Switching between Docker Stable and Docker Edge will remove all images and
 settings.  Don't forget to restore your memory setting and be prepared to
@@ -50,9 +52,7 @@ You should run all ``make`` commands described below on your local machinge, *no
 from within a Virtual Machine, as these commands are meant to stand up a VM-like environment using
 Docker containers.
 
-However, you may want to run the ``make`` commands from within a Python 3 virtual
-environment. This will keep the Python packages required for Devstack separate from
-the ones installed globally on your system.
+For basic development purposes, you will not need a virtualenv. (You will only need to set up a virtualenv and run ``make requirements`` if you are working on devstack itself.)
 
 Directions to setup devstack
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -60,14 +60,6 @@ Directions to setup devstack
 The default devstack services can be run by following the steps below.
 
 **Note:** This will set up a large number of services, more than you are likely to need to work with, but that's only necessary for first-time provisioning. See :doc:`service_list` and the :doc:`most common development workflow <workflow>` for how to run and update devstack with just the services you need, rather than the ``large-and-slow`` default set.
-
-#. Install the requirements inside of a `Python virtualenv`_.
-
-   .. code:: sh
-
-       make requirements
-
-   This will install docker-compose and other utilities into your virtualenv.
 
 #. The Docker Compose file mounts a host volume for each service's executing
    code. The host directory defaults to be a sibling of this directory. For
@@ -170,5 +162,3 @@ This data collection is behind a consent flag, so please help devstack's maintai
    make metrics-opt-in
 
 Now that you're up and running, read about the :doc:`most common development workflow <workflow>`.
-
-.. _Python virtualenv: https://docs.python-guide.org/en/latest/dev/virtualenvs/#lower-level-virtualenv
