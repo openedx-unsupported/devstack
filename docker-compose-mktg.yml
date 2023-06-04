@@ -13,7 +13,7 @@ version: "2.1"
 services:
 
   mktg:
-    image: eu.gcr.io/openedx-231314/edraak/marketing
+    image: eu.gcr.io/openedx-231314/edraak/marketing:test
     environment:
       NODE_ENV: development
     command: bash -c 'while true; do python manage.py runserver 0.0.0.0:8500 --settings=marketingsite.envs.dev; sleep 2; done'

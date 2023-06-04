@@ -18,7 +18,7 @@ functools32==3.2.3.post2 ; python_version == "2.7"
 idna==2.6                 # via requests
 ipaddress==1.0.22         # via docker, docker-compose
 jsonschema==2.6.0         # via docker-compose
-pyyaml==3.12              # via docker-compose
+#pyyaml==3.12              # via docker-compose
 requests==2.18.4          # via docker, docker-compose
 six==1.11.0               # via docker, docker-compose, docker-pycreds, dockerpty, websocket-client
 texttable==0.9.1          # via docker-compose
