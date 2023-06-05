@@ -227,7 +227,7 @@ services:
     command: mongod --nojournal --storageEngine wiredTiger
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.mongo"
     hostname: mongo.devstack.edx
-    image: mongo:${MONGO_VERSION:-4.2.14}
+    image: mongo:${MONGO_VERSION:-4.4.18}
     networks:
       default:
         aliases:
