@@ -52,8 +52,6 @@ You should run all ``make`` commands described below on your local machinge, *no
 from within a Virtual Machine, as these commands are meant to stand up a VM-like environment using
 Docker containers.
 
-For basic development purposes, you will not need a virtualenv. (You will only need to set up a virtualenv and run ``make requirements`` if you are working on devstack itself.)
-
 Directions to setup devstack
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
