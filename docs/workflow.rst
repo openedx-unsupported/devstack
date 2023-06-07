@@ -11,7 +11,6 @@ These instructions are written using the LMS as an example. Replace ``lms`` with
 
    - Make sure your IDA's repo is checked out to the commit you want to use for development, and that that commit is based on an up to date branch, so that it matches the disk images devstack will pull.
 
-#. Activate your devstack virtualenv. See the main Getting Started instructions if you don't already have one.
 #. Launch your service in a clean state:
 
    #. Run ``make dev.remove-containers dev.pull.lms dev.up.lms`` to halt any running services and remove their containers, pull the latest disk images, and launch your service.
