@@ -230,3 +230,11 @@ The fix is to get a new auth session. You can do any of the following:
 3. Refresh http://localhost:18000
 4. Log in
 5. Navigate back to the MFE
+
+Missing vendor file node_modules/backbone.paginator/lib/backbone.paginator.js
+-----------------------------------------------------------------------------
+This message sometimes appears when provisioning. The root cause of this is as yet unknown but the most effective workaround seems to be
+
+1. Enter an lms shell (`make lms-shell` in devstack)
+2. Run `npm ci`
+3. Run `paver update_assets`
