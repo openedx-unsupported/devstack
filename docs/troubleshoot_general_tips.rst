@@ -234,7 +234,4 @@ The fix is to get a new auth session. You can do any of the following:
 Missing vendor file node_modules/backbone.paginator/lib/backbone.paginator.js
 -----------------------------------------------------------------------------
 This message sometimes appears when provisioning. The root cause of this is as yet unknown but the most effective workaround seems to be
-
-1. Enter an lms shell (`make lms-shell` in devstack)
-2. Run ``npm ci``
-3. Run ``paver update_assets``
+to shell into the LMS (``make lms-shell`` in devstack) and run ``npm ci`` followed by ``paver update_assets``
