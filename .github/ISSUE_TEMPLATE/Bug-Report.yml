@@ -1,0 +1,42 @@
+name: Bug Report
+description: File a bug report
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please check the [devstack troubleshooting guide](https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/troubleshoot_general_tips.html) and the [existing list of blocking bugs](https://github.com/openedx/devstack/labels/blocker) before filing a new issue.
+  - type: textarea
+    id: bug-report
+    attributes:
+      label: Describe the bug that you are seeing.
+    validations:
+      required: true
+  - type: input
+    id: container
+    attributes:
+      label: Did this happen on the host (your machine or the remote instance) or in the container?
+      description: e.g. Did this happen outside of running `make dev.shell.<service>` or inside running `make dev.shell.<service>`?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction-steps
+    attributes:
+      label: Steps to reproduce.
+      description: Do you have a way to replicate what you're seeing?
+    validations:
+      required: false
+  - type: dropdown
+    id: mac-type
+    attributes:
+      label: What system was this issue seen on?
+      description: What type of OS/hardware was devstack running on when you observed it?
+      options:
+        - Apple Silicon
+        - Apple Intel
+        - Hosted Devstack
+        - Linux
+        - Other
+    validations:
+      required: true
