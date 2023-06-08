@@ -235,3 +235,6 @@ Missing vendor file node_modules/backbone.paginator/lib/backbone.paginator.js
 -----------------------------------------------------------------------------
 This message sometimes appears when provisioning. The root cause of this is as yet unknown but the most effective workaround seems to be
 to shell into the LMS (``make lms-shell`` in devstack) and run ``npm ci``, followed by ``paver update_assets``.
+See `the github issue`_ to follow the work being done on the resolution.
+
+.. _the github issue: https://github.com/openedx/devstack/issues/1072
