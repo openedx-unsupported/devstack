@@ -1,0 +1,24 @@
+name: Add comment
+on:
+  issues:
+    types:
+      - labeled
+jobs:
+  add-comment:
+    if: github.event.label.name == 'bug'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Add comment
+        uses: peter-evans/create-or-update-comment@5f728c3dae25f329afbe34ee4d08eef25569d79f
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            Follow-up checklist (for Arch-BOM usage)
+            - [ ] Is the issue flaky or consistent?
+            - [ ] Does it affect multiple people or multiple types of systems?
+            - [ ] Update the devstack troubleshooting documentation page if necessary
+              - [ ] Do we need a new troubleshooting section?
+              - [ ] Did a troubleshooting section already exist, but it wasn't easy to find given the symptoms?
+              - [ ] If a recurring issue, should we ticket an automated resolution in place of the doc?
