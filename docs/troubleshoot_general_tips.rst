@@ -1,7 +1,10 @@
 Troubleshooting: Common Issues
-==============================
+##############################
 
 .. contents:: Table of Contents
+
+Known Issues
+============
 
 File ownership change
 ---------------------
@@ -238,3 +241,12 @@ to shell into the LMS (``make lms-shell`` in devstack) and run ``npm ci``, follo
 See `the github issue`_ to follow the work being done on the resolution.
 
 .. _the github issue: https://github.com/openedx/devstack/issues/1072
+
+
+Reporting New Issues
+====================
+
+Please check the `existing list of known bugs`_ or file `a bug report`_ with any information that could help us debug it.
+
+.. _existing list of known bugs: https://github.com/openedx/devstack/labels/bug
+.. _a bug report: https://github.com/openedx/devstack/issues/new?assignees=&labels=bug&projects=&template=Bug-Report.yml&title=%5BBug%5D%3A+
