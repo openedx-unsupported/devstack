@@ -12,6 +12,9 @@ port=18150
 
 docker-compose up -d $name
 
+echo -e "${GREEN}Change MySQL Host to mysql80 for ${name}...${NC}"
+docker-compose exec -T ${name}  bash -e -c 'find /edx/ -type f -exec sed -i 's/mysql57/mysql80/g' {} +' -- "$name"
+
 echo -e "${GREEN}Installing requirements for ${name}...${NC}"
 docker-compose exec -T ${name}  bash -e -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials && make requirements' -- "$name"
 
