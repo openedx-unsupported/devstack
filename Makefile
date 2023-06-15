@@ -56,7 +56,7 @@
         dev.static dev.static.lms dev.static.studio dev.stats dev.status \
         dev.stop dev.up dev.up.attach dev.up.shell \
         dev.up.without-deps dev.up.without-deps.shell dev.up.with-programs \
-        dev.up.with-watchers dev.validate docs e2e-tests e2e-tests.with-shell \
+        dev.up.with-watchers dev.validate docs \
         help requirements impl-dev.clone.https impl-dev.clone.ssh impl-dev.provision \
         impl-dev.pull impl-dev.pull.without-deps impl-dev.up impl-dev.up.attach \
         impl-dev.up.without-deps selfcheck upgrade upgrade \
@@ -212,12 +212,8 @@ impl-dev.pull.%: ## Pull latest Docker images for services and their dependencie
 ########################################################################################
 
 impl-dev.provision: ## Provision dev environment with default services, and then stop them.
-	# We provision all default services as well as 'e2e' (end-to-end tests).
-	# e2e is not part of `DEFAULT_SERVICES` because it isn't a service;
-	# it's just a way to tell ./provision.sh that the fake data for end-to-end
-	# tests should be prepared.
 	make dev.check-memory
-	$(WINPTY) bash ./provision.sh $(DEFAULT_SERVICES)+e2e
+	$(WINPTY) bash ./provision.sh $(DEFAULT_SERVICES)
 	make dev.stop
 
 dev.provision: ## Provision dev environment with default services, and then stop them.
@@ -595,12 +591,6 @@ metrics-opt-out: ## To opt out of metrics data collection
 
 docs: ## generate Sphinx HTML documentation, including API docs
 	tox -e docs
-
-e2e-tests: dev.up.lms+studio+firefox+chrome ## Run the end-to-end tests against the service containers.
-	docker run -t --network=$(COMPOSE_PROJECT_NAME)_default -v $(DEVSTACK_WORKSPACE)/edx-e2e-tests:/edx-e2e-tests --env-file $(DEVSTACK_WORKSPACE)/edx-e2e-tests/devstack_env edxops/e2e env TERM=$(TERM) bash -c 'paver e2e_test'
-
-e2e-tests.with-shell: dev.up.lms+studio+firefox+chrome ## Start the end-to-end tests container with a shell.
-	docker run -it --network=$(COMPOSE_PROJECT_NAME)_default -v $(DEVSTACK_WORKSPACE)/edx-e2e-tests:/edx-e2e-tests --env-file $(DEVSTACK_WORKSPACE)/edx-e2e-tests/devstack_env edxops/e2e env TERM=$(TERM) bash
 
 validate-lms-volume: ## Validate that changes to the local workspace are reflected in the LMS container.
 	touch $(DEVSTACK_WORKSPACE)/edx-platform/testfile
