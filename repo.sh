@@ -45,7 +45,7 @@ non_release_repos=(
     "https://github.com/openedx/frontend-app-program-console.git"
     "https://github.com/openedx/frontend-app-account.git"
     "https://github.com/openedx/frontend-app-profile.git"
-    "https://github.com/edx/frontend-app-ora-grading.git"
+    "https://github.com/openedx/frontend-app-ora-grading.git"
 )
 
 ssh_repos=(
@@ -73,7 +73,7 @@ non_release_ssh_repos=(
     "git@github.com:openedx/frontend-app-program-console.git"
     "git@github.com:openedx/frontend-app-account.git"
     "git@github.com:openedx/frontend-app-profile.git"
-    "git@github.com:edx/frontend-app-ora-grading.git"
+    "git@github.com:openedx/frontend-app-ora-grading.git"
 )
 
 if [ -n "${OPENEDX_RELEASE}" ]; then
