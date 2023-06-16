@@ -261,7 +261,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ""
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-    image: mysql:latest
+    image: mysql:8.0.26
     networks:
       default:
         aliases:
