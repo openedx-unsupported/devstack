@@ -14,7 +14,7 @@
 .PHONY: backup check-memory destroy \
         dev.provision.services dev.repo.reset \
         dev.up.all dev.up.watchers down \
-        e2e-shell healthchecks lms-restart \
+        healthchecks lms-restart \
         lms-watcher-shell logs provision pull  \
         pull.xqueue restore static stats stop stop.all  \
         stop.watchers stop.xqueue studio-restart \
@@ -56,8 +56,6 @@ dev.up.all: dev.up.with-watchers
 dev.up.watchers: dev.up.lms_watcher+studio_watcher
 
 down: dev.down
-
-e2e-shell: e2e-tests.with-shell
 
 healthchecks: dev.check
 

@@ -42,7 +42,6 @@ lms \
 ecommerce \
 discovery \
 credentials \
-e2e \
 forum \
 notes \
 registrar \
