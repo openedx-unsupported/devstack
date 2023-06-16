@@ -73,7 +73,7 @@ exceptiongroup==1.1.1
     # via
     #   -r requirements/test.txt
     #   pytest
-filelock==3.12.0
+filelock==3.12.2
     # via
     #   tox
     #   virtualenv
@@ -109,7 +109,7 @@ pexpect==4.8.0
     # via -r requirements/test.txt
 pip-tools==6.13.0
     # via -r requirements/pip-tools.txt
-platformdirs==3.5.1
+platformdirs==3.5.3
     # via virtualenv
 pluggy==1.0.0
     # via
@@ -141,7 +141,7 @@ pyrsistent==0.19.3
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   jsonschema
-pytest==7.3.1
+pytest==7.3.2
     # via -r requirements/test.txt
 python-dotenv==0.21.1
     # via
@@ -187,7 +187,7 @@ tox==3.28.0
     #   tox-battery
 tox-battery==0.6.1
     # via -r requirements/dev.in
-urllib3==2.0.2
+urllib3==2.0.3
     # via
     #   -r requirements/base.txt
     #   -r requirements/test.txt
