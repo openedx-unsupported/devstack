@@ -178,7 +178,7 @@ tomli==2.0.1
     # via doc8
 typing-extensions==4.6.3
     # via pydata-sphinx-theme
-urllib3==2.0.2
+urllib3==2.0.3
     # via
     #   -r requirements/base.txt
     #   docker

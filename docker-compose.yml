@@ -28,7 +28,6 @@ services:
     ports:
       - "15900:5900"
     volumes:  # for file uploads
-      - ../edx-e2e-tests/upload_files:/edx/app/e2e/edx-e2e-tests/upload_files
       - ../edx-platform/common/test/data:/edx/app/edxapp/edx-platform/common/test/data
 
   coursegraph:
@@ -149,7 +148,6 @@ services:
     ports:
       - "25900:5900"
     volumes:  # for file uploads
-      - ../edx-e2e-tests/upload_files:/edx/app/e2e/edx-e2e-tests/upload_files
       - ../edx-platform/common/test/data:/edx/app/edxapp/edx-platform/common/test/data
 
   # Events broker
