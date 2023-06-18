@@ -8,8 +8,8 @@
 #     make dev.attach.credentials
 #     make dev.pull.registrar+studio
 #     make dev.up.lms
-#     make dev.up.without-deps.lms+forum+discovery+mysql57+elasticsearch+memcached
-#     make dev.restart-container.mysql57+lms
+#     make dev.up.without-deps.lms+forum+discovery+mysql80+elasticsearch+memcached
+#     make dev.restart-container.mysql80+lms
 
 # There are also "prefix-form" targets, which are simply an alternate way to spell
 # the 'dev.' targets.
@@ -226,8 +226,8 @@ impl-dev.provision.%: dev.check-memory ## Provision specified services.
 dev.provision.%: ## Provision specified services.
 	@scripts/send_metrics.py wrap "dev.provision.$*"
 
-dev.backup: dev.up.mysql57+mongo+elasticsearch+elasticsearch7+elasticsearch710+opensearch12+coursegraph ## Write all data volumes to the host.
-	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.mysql57) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/mysql57.tar.gz /var/lib/mysql
+dev.backup: dev.up.mysql80+mongo+elasticsearch+elasticsearch7+elasticsearch710+opensearch12+coursegraph ## Write all data volumes to the host.
+	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.mysql80) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/mysql80.tar.gz /var/lib/mysql
 	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.mongo) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/mongo.tar.gz /data/db
 	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.elasticsearch) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/elasticsearch.tar.gz /usr/share/elasticsearch/data
 	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.elasticsearch7) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/elasticsearch7.tar.gz /usr/share/elasticsearch/data
@@ -235,8 +235,8 @@ dev.backup: dev.up.mysql57+mongo+elasticsearch+elasticsearch7+elasticsearch710+o
 	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.opensearch12) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/opensearch12.tar.gz /usr/share/opensearch/data
 	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.coursegraph) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/coursegraph.tar.gz /data
 
-dev.restore: dev.up.mysql57+mongo+elasticsearch+elasticsearch7+elasticsearch710+opensearch12+coursegraph ## Restore all data volumes from the host. WILL OVERWRITE ALL EXISTING DATA!
-	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.mysql57) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/mysql57.tar.gz
+dev.restore: dev.up.mysql80+mongo+elasticsearch+elasticsearch7+elasticsearch710+opensearch12+coursegraph ## Restore all data volumes from the host. WILL OVERWRITE ALL EXISTING DATA!
+	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.mysql80) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/mysql80.tar.gz
 	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.mongo) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/mongo.tar.gz
 	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.elasticsearch) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/elasticsearch.tar.gz
 	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.elasticsearch7) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/elasticsearch7.tar.gz
@@ -268,7 +268,7 @@ dev.migrate.%: ## Run migrations on a service.
 dev.drop-db: _expects-database.dev.drop-db
 
 dev.drop-db.%: ## Irreversably drop the contents of a MySQL database in each mysql container.
-	docker-compose exec -T mysql57 bash -c "mysql --execute=\"DROP DATABASE $*;\""
+	docker-compose exec -T mysql80 bash -c "mysql --execute=\"DROP DATABASE $*;\""
 
 
 ########################################################################################
@@ -461,10 +461,10 @@ dev.shell.%: ## Run a shell on the specified service's container.
 	docker-compose exec $* /bin/bash
 
 dev.dbshell:
-	docker-compose exec mysql57 bash -c "mysql"
+	docker-compose exec mysql80 bash -c "mysql"
 
 dev.dbshell.%: ## Run a SQL shell on the given database.
-	docker-compose exec mysql57 bash -c "mysql $*"
+	docker-compose exec mysql80 bash -c "mysql $*"
 
 # List of Makefile targets to run static asset generation, in the form dev.static.$(service)
 # Services will only have their asset generation added here

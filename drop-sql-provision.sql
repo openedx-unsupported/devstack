@@ -1,0 +1,21 @@
+drop user 'credentials001'@'%';
+drop user 'discov001'@'%';
+drop user 'ecomm001'@'%';
+drop user 'notes001'@'%';
+drop user 'registrar001'@'%';
+drop user 'xqueue001'@'%';
+drop user 'analytics001'@'%';
+drop user 'edxapp001'@'%';
+
+#drop database `analytics-api`;
+#drop database `credentials`;
+#drop database `dashboard`;
+#drop database `discovery`;
+#drop database `ecommerce`;
+#drop database `edxapp`;
+#drop database `edxapp_csmh`;
+#drop database `notes`;
+#drop database `reports`;
+#drop database `reports_v1`;
+#drop database `registrar`;
+#drop database `xqueue`;
