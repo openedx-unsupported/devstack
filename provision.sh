@@ -123,13 +123,22 @@ echo -e "${GREEN}Will provision the following:\n  ${to_provision_ordered}${NC}"
 
 # Bring the databases online.
 docker-compose up -d mysql57
+docker-compose up -d mysql80
 if needs_mongo "$to_provision_ordered"; then
 	docker-compose up -d mongo
 fi
 
-# Ensure the MySQL server is online and usable
+# Ensure the MySQL5 server is online and usable
 echo "${GREEN}Waiting for MySQL 5.7.${NC}"
 until docker-compose exec -T mysql57 bash -e -c "mysql -uroot -se \"SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = 'root')\"" &> /dev/null
+do
+  printf "."
+  sleep 1
+done
+
+# Ensure the MySQL8 server is online and usable
+echo "${GREEN}Waiting for MySQL 8.0.${NC}"
+until docker-compose exec -T mysql80 bash -e -c "mysql -uroot -se \"SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = 'root')\"" &> /dev/null
 do
   printf "."
   sleep 1
@@ -146,13 +155,23 @@ do
   sleep 1
 done
 
-echo -e "${GREEN}MySQL ready.${NC}"
+echo -e "${GREEN}MySQL5 ready.${NC}"
 
+echo "${GREEN}Waiting for MySQL 8.0 to restart.${NC}"
+until docker-compose exec -T mysql80 bash -e -c "mysql -uroot -se \"SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = 'root')\"" &> /dev/null
+do
+  printf "."
+  sleep 1
+done
+
+echo -e "${GREEN}MySQL8 ready.${NC}"
 
 # Ensure that the MySQL databases and users are created for all IDAs.
 # (A no-op for databases and users that already exist).
 echo -e "${GREEN}Ensuring MySQL 5.7 databases and users exist...${NC}"
 docker-compose exec -T mysql57 bash -e -c "mysql -uroot mysql" < provision.sql
+echo -e "${GREEN}Ensuring MySQL 8.0 databases and users exist...${NC}"
+docker-compose exec -T mysql80 bash -e -c "mysql -uroot mysql" < provision-mysql80.sql
 
 # If necessary, ensure the MongoDB server is online and usable
 # and create its users.
