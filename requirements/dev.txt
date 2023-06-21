@@ -109,7 +109,7 @@ pexpect==4.8.0
     # via -r requirements/test.txt
 pip-tools==6.13.0
     # via -r requirements/pip-tools.txt
-platformdirs==3.5.3
+platformdirs==3.7.0
     # via virtualenv
 pluggy==1.0.0
     # via
@@ -193,7 +193,7 @@ urllib3==2.0.3
     #   -r requirements/test.txt
     #   docker
     #   requests
-virtualenv==20.23.0
+virtualenv==20.23.1
     # via tox
 websocket-client==0.59.0
     # via
