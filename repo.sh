@@ -25,7 +25,6 @@ repos=(
     "https://github.com/openedx/credentials.git"
     "https://github.com/openedx/cs_comments_service.git"
     "https://github.com/openedx/ecommerce.git"
-    "https://github.com/edx/edx-e2e-tests.git"
     "https://github.com/openedx/edx-notes-api.git"
     "https://github.com/openedx/edx-platform.git"
     "https://github.com/openedx/xqueue.git"
@@ -46,7 +45,7 @@ non_release_repos=(
     "https://github.com/openedx/frontend-app-program-console.git"
     "https://github.com/openedx/frontend-app-account.git"
     "https://github.com/openedx/frontend-app-profile.git"
-    "https://github.com/edx/frontend-app-ora-grading.git"
+    "https://github.com/openedx/frontend-app-ora-grading.git"
 )
 
 ssh_repos=(
@@ -54,7 +53,6 @@ ssh_repos=(
     "git@github.com:openedx/credentials.git"
     "git@github.com:openedx/cs_comments_service.git"
     "git@github.com:openedx/ecommerce.git"
-    "git@github.com:edx/edx-e2e-tests.git"
     "git@github.com:openedx/edx-notes-api.git"
     "git@github.com:openedx/edx-platform.git"
     "git@github.com:openedx/xqueue.git"
@@ -75,12 +73,7 @@ non_release_ssh_repos=(
     "git@github.com:openedx/frontend-app-program-console.git"
     "git@github.com:openedx/frontend-app-account.git"
     "git@github.com:openedx/frontend-app-profile.git"
-    "git@github.com:edx/frontend-app-ora-grading.git"
-)
-
-private_repos=(
-    # Needed to run whitelabel tests.
-    "https://github.com/edx/edx-themes.git"
+    "git@github.com:openedx/frontend-app-ora-grading.git"
 )
 
 if [ -n "${OPENEDX_RELEASE}" ]; then
@@ -184,11 +177,6 @@ clone_ssh ()
     _clone "${ssh_repos[@]}"
 }
 
-clone_private ()
-{
-    _clone "${private_repos[@]}"
-}
-
 reset ()
 {
     read -p "This will switch to the default branch and pull changes in your local git checkouts. Would you like to proceed? [y/n] " -r
@@ -249,8 +237,6 @@ elif [ "$1" == "clone" ]; then
     clone
 elif [ "$1" == "clone_ssh" ]; then
     clone_ssh
-elif [ "$1" == "whitelabel" ]; then
-    clone_private
 elif [ "$1" == "reset" ]; then
     reset
 elif [ "$1" == "status" ]; then
