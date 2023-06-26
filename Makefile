@@ -539,6 +539,7 @@ $(addsuffix -restart-container, $(ALL_SERVICES_LIST)): %-restart-container: dev.
 $(addsuffix -stop, $(ALL_SERVICES_LIST)): %-stop: dev.stop.%
 $(addsuffix -kill, $(ALL_SERVICES_LIST)): %-kill: dev.kill.%
 $(addsuffix -down, $(ALL_SERVICES_LIST)): %-down: dev.down.%
+$(addsuffix -remove-containers, $(ALL_SERVICES_LIST)): %-remove-containers: dev.remove-containers.%
 $(addsuffix -check, $(EDX_SERVICES_LIST)): %-check: dev.check.%
 $(addsuffix -restart-devserver, $(EDX_SERVICES_LIST)): %-restart-devserver: dev.restart-devserver.%
 $(addsuffix -logs, $(ALL_SERVICES_LIST)): %-logs: dev.logs.%
