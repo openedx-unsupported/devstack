@@ -74,7 +74,7 @@ idna==3.4
     #   requests
 imagesize==1.4.1
     # via sphinx
-importlib-metadata==6.6.0
+importlib-metadata==6.7.0
     # via sphinx
 jinja2==3.1.2
     # via sphinx
@@ -127,7 +127,7 @@ pyyaml==5.4.1
     # via
     #   -r requirements/base.txt
     #   docker-compose
-readme-renderer==37.3
+readme-renderer==40.0
     # via -r requirements/doc.in
 requests==2.31.0
     # via

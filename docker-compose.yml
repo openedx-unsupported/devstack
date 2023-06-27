@@ -252,6 +252,23 @@ services:
     volumes:
       - mysql57_data:/var/lib/mysql
 
+  mysql80:
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.mysql80"
+    hostname: mysql80.devstack.edx
+    environment:
+      MYSQL_ROOT_PASSWORD: ""
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    image: mysql:8.0.26
+    networks:
+      default:
+        aliases:
+          - edx.devstack.mysql80
+    ports:
+      - "3406:3306"
+    volumes:
+      - mysql80_data:/var/lib/mysql
+
   redis:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.redis"
     hostname: redis.devstack.edx
@@ -865,3 +882,4 @@ volumes:
   mongo_data:
   opensearch12_data:
   mysql57_data:
+  mysql80_data:
