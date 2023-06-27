@@ -61,7 +61,7 @@ Although several micro-frontends (MFEs) are built into devstack (the full list i
 
   make dev.down.frontend-app-learning  # Bring down the devstack version of the Learning MFE.
   cd <path-to-frontend-app-learning>   # Navigate to the Learning MFE's repository.
-  npm install && npm start             # Install JS packages, and start the NPM devserver on your local host.
+  npm ci && npm start                  # Install JS packages, and start the NPM devserver on your local host.
 
 Of course ``learning`` can be replaced with ``gradebook``, ``payment``, or another frontend-app name.
 
