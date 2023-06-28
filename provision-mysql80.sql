@@ -1,7 +1,6 @@
--- The use of `CREATE USER IF NOT EXISTS` is necessary due to the
--- mysql80 image already containing most or all of these users. It's
--- not clear why that is, but `IF NOT EXISTS` allows us to provision
--- in any case.
+-- The use of `CREATE USER IF NOT EXISTS` is necessary since the
+-- mysql80_data volume may already contain these users due to previous
+-- provisioning https://github.com/openedx/devstack/issues/1113
 
 CREATE DATABASE IF NOT EXISTS credentials;
 CREATE USER IF NOT EXISTS 'credentials001'@'%' IDENTIFIED BY 'password';
