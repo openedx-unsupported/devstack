@@ -9,6 +9,7 @@ studio_port=18010
 # Load database dumps for the largest databases to save time
 ./load-db.sh edxapp
 ./load-db.sh edxapp_csmh
+./load-db-mongo.sh edxapp
 
 # Bring edxapp containers online
 for app in "${apps[@]}"; do
@@ -50,15 +51,10 @@ docker-compose exec -T lms bash -e -c 'source /edx/app/edxapp/edxapp_env && pyth
 
 # Create demo course and users
 #docker-compose exec -T lms bash -e -c '/edx/app/edx_ansible/venvs/edx_ansible/bin/ansible-playbook /edx/app/edx_ansible/edx_ansible/playbooks/demo.yml -v -c local -i "127.0.0.1," --extra-vars="COMMON_EDXAPP_SETTINGS=devstack_docker"'
-if [[ ${DEVSTACK_SKIP_DEMO-false} == "true" ]]
-then
-    echo "Skipping import of demo course. DEVSTACK_SKIP_DEMO is set to true"
-else
-    docker-compose exec -T lms bash -e -c 'git clone https://github.com/openedx/edx-demo-course.git /tmp/edx-demo-course'
-    docker-compose exec -T lms bash -e -c 'source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py cms --settings=devstack_docker import /edx/var/edxapp/data /tmp/edx-demo-course && rm -rf /tmp/edx-demo-course'
-    # Seed forums for the demo course
-    docker-compose exec -T lms bash -e -c "source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack_docker seed_permissions_roles course-v1:edX+DemoX+Demo_Course"
-fi
+docker-compose exec -T lms bash -e -c 'git clone https://github.com/openedx/edx-demo-course.git /tmp/edx-demo-course'
+docker-compose exec -T lms bash -e -c 'source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py cms --settings=devstack_docker import /edx/var/edxapp/data /tmp/edx-demo-course && rm -rf /tmp/edx-demo-course'
+# Seed forums for the demo course
+docker-compose exec -T lms bash -e -c "source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack_docker seed_permissions_roles course-v1:edX+DemoX+Demo_Course"
 
 demo_hashed_password='pbkdf2_sha256$20000$TjE34FJjc3vv$0B7GUmH8RwrOc/BvMoxjb5j8EgnWTt3sxorDANeF7Qw='
 for user in honor audit verified staff ; do
@@ -69,11 +65,8 @@ for user in honor audit verified staff ; do
   else
     docker-compose exec -T lms bash -e -c "source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack_docker --service-variant lms manage_user $user $email --initial-password-hash '$demo_hashed_password'"
   fi
-  if [[ "${DEVSTACK_SKIP_DEMO-false}" != "true" ]]
-  then
   # Enroll users in the demo course
-      docker-compose exec -T lms bash -e -c "source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack_docker --service-variant lms enroll_user_in_course -e $email -c course-v1:edX+DemoX+Demo_Course"
-  fi
+  docker-compose exec -T lms bash -e -c "source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack_docker --service-variant lms enroll_user_in_course -e $email -c course-v1:edX+DemoX+Demo_Course"
 done
 
 

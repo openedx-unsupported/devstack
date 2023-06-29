@@ -6,31 +6,38 @@
 set -eu -o pipefail
 set -x
 
-# constants
-readonly EDXAPP_MYSQL_DB_USER="edxapp001"
-readonly ECOMMERCE_MYSQL_DB_USER="ecomm001"
-readonly MYSQL_DB_PASSWORD="password"
-readonly EDXAPP_DBS=("edxapp" "edxapp_csmh")
-DBS=("ecommerce" "${EDXAPP_DBS[@]}")
-
-# don't include the demo course in the initial sql since it relies on data being present in mongo
-export DEVSTACK_SKIP_DEMO="true"
-
-
 # create a docker devstack with LMS and ecommerce
 make destroy
 make dev.clone.ssh
 make dev.provision.services.lms+ecommerce
 
-# dump schema and data from mysql databases in the mysql docker container and copy them to current directory in docker host
-MYSQL_DOCKER_CONTAINER="$(make --silent --no-print-directory dev.print-container.mysql57)"
-for DB_NAME in "${DBS[@]}"; do
-    DB_CREATION_SQL_SCRIPT="${DB_NAME}.sql"
-    if [[ " ${EDXAPP_DBS[@]} " =~ " ${DB_NAME} " ]]; then
-        MYSQL_DB_USER=${EDXAPP_MYSQL_DB_USER}
-    else
-        MYSQL_DB_USER=${ECOMMERCE_MYSQL_DB_USER}
-    fi
-    docker exec ${MYSQL_DOCKER_CONTAINER} /bin/bash -c "mysqldump -u ${MYSQL_DB_USER} -p${MYSQL_DB_PASSWORD} --no-tablespaces --add-drop-database --skip-add-drop-table --databases ${DB_NAME} > ${DB_CREATION_SQL_SCRIPT}"
-    docker cp ${MYSQL_DOCKER_CONTAINER}:/${DB_CREATION_SQL_SCRIPT} .
-done
+
+function dump_sql {
+    DB_NAME="$1"
+    MYSQL_DB_USER="$2"
+
+    DUMP_NAME="$DB_NAME.sql"
+
+    # It's important to use -T here to prevent pseudo-TTY allocation;
+    # that would force mysql's stderr output (a complaint about
+    # passwords on the command line) to be muxed into the dump output.
+    docker-compose exec -T mysql57 mysqldump -u "$MYSQL_DB_USER" -p"password" \
+                   --no-tablespaces --add-drop-database --skip-add-drop-table \
+                   --databases "$DB_NAME" > "$DUMP_NAME"
+}
+
+# Dump MySQL schema and data to DB_NAME.sql (given DB name and user)
+dump_sql edxapp edxapp001
+dump_sql edxapp_csmh edxapp001
+dump_sql ecommerce ecomm001
+
+
+function dump_mongo {
+    DB_NAME="$1"
+
+    docker-compose exec -T mongo mongodump -u edxapp -p password --db "$DB_NAME" \
+                   --archive > ./"mongo.$DB_NAME.archive"
+}
+
+# Dump Mongo data to mongo.DB_NAME.archive
+dump_mongo edxapp
