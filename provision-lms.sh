@@ -56,8 +56,10 @@ docker-compose exec -T lms bash -e -c 'source /edx/app/edxapp/edxapp_env && pyth
 
 # Create demo course and users
 #docker-compose exec -T lms bash -e -c '/edx/app/edx_ansible/venvs/edx_ansible/bin/ansible-playbook /edx/app/edx_ansible/edx_ansible/playbooks/demo.yml -v -c local -i "127.0.0.1," --extra-vars="COMMON_EDXAPP_SETTINGS=devstack_docker"'
-if [[ -n "${DEVSTACK_SKIP_DEMO:-}" ]]; then
-    echo "Skipping import of demo course. DEVSTACK_SKIP_DEMO is set to true"
+if [[ -z "${DEVSTACK_LOAD_DEMO_COURSE:-}" ]]; then
+    # Generally only loaded when creating a new DB dump, not for each
+    # new devstack installation.
+    echo "Skipping import of demo course since DEVSTACK_LOAD_DEMO_COURSE is not set."
 else
     docker-compose exec -T lms bash -e -c 'git clone https://github.com/openedx/edx-demo-course.git /tmp/edx-demo-course'
     docker-compose exec -T lms bash -e -c 'source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py cms --settings=devstack_docker import /edx/var/edxapp/data /tmp/edx-demo-course && rm -rf /tmp/edx-demo-course'
@@ -74,7 +76,7 @@ for user in honor audit verified staff ; do
   else
     docker-compose exec -T lms bash -e -c "source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack_docker --service-variant lms manage_user $user $email --initial-password-hash '$demo_hashed_password'"
   fi
-  if [[ -z "${DEVSTACK_SKIP_DEMO:-}" ]]; then
+  if [[ -n "${DEVSTACK_LOAD_DEMO_COURSE:-}" ]]; then
       # Enroll users in the demo course
       docker-compose exec -T lms bash -e -c "source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack_docker --service-variant lms enroll_user_in_course -e $email -c course-v1:edX+DemoX+Demo_Course"
   fi

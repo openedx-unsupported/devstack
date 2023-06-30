@@ -13,8 +13,9 @@ readonly MYSQL_DB_PASSWORD="password"
 readonly EDXAPP_DBS=("edxapp" "edxapp_csmh")
 DBS=("ecommerce" "${EDXAPP_DBS[@]}")
 
-# don't include the demo course in the initial sql since it relies on data being present in mongo
-export DEVSTACK_SKIP_DEMO=yes
+# Load the demo course during provisioning so that the DB dump will
+# have it. This relies on the Mongo dump being included as well.
+export DEVSTACK_LOAD_DEMO_COURSE=yes
 # Don't import the old dump when creating a new dump; we don't want
 # stale data to be conveyed to the next iteration.
 export DEVSTACK_PROVISION_CLEAN_DB=yes
