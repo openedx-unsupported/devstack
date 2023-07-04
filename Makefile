@@ -496,7 +496,8 @@ dev.reset: dev.remove-containers dev.reset-repos dev.prune dev.pull.large-and-sl
 dev.destroy.coursegraph: dev.remove-containers.coursegraph ## Remove all coursegraph data.
 	docker volume rm ${COMPOSE_PROJECT_NAME}_coursegraph_data
 
-dev.destroy: ## Irreversibly remove all devstack-related containers, networks, and volumes.
+# See https://github.com/openedx/devstack/issues/1113 for lack of ability to destroy data volumes
+dev.destroy: ## Irreversibly remove all devstack-related containers and networks (though not data volumes)
 	$(WINPTY) bash ./destroy.sh
 
 ########################################################################################
