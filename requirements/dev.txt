@@ -69,7 +69,7 @@ docopt==0.6.2
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   docker-compose
-exceptiongroup==1.1.1
+exceptiongroup==1.1.2
     # via
     #   -r requirements/test.txt
     #   pytest
@@ -107,11 +107,11 @@ paramiko==3.2.0
     #   docker
 pexpect==4.8.0
     # via -r requirements/test.txt
-pip-tools==6.13.0
+pip-tools==6.14.0
     # via -r requirements/pip-tools.txt
-platformdirs==3.7.0
+platformdirs==3.8.0
     # via virtualenv
-pluggy==1.0.0
+pluggy==1.2.0
     # via
     #   -r requirements/test.txt
     #   pytest
@@ -141,7 +141,7 @@ pyrsistent==0.19.3
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   jsonschema
-pytest==7.3.2
+pytest==7.4.0
     # via -r requirements/test.txt
 python-dotenv==0.21.1
     # via
@@ -177,6 +177,7 @@ tomli==2.0.1
     #   -r requirements/pip-tools.txt
     #   -r requirements/test.txt
     #   build
+    #   pip-tools
     #   pyproject-hooks
     #   pytest
     #   tox
