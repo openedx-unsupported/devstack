@@ -253,6 +253,7 @@ services:
       - mysql57_data:/var/lib/mysql
 
   mysql80:
+    platform: linux/amd64
     command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.mysql80"
     hostname: mysql80.devstack.edx
