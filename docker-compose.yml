@@ -259,6 +259,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ""
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    # Oracle-packaged version includes an `linux/arm64/v8` version, needed for
+    # machines with Apple Silicon CPUs (Mac M1, M2)
     image: mysql:8.0.33-oracle
     networks:
       default:
