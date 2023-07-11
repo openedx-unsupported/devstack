@@ -47,7 +47,7 @@ However, it can be argued that the opposite dependency relationship also makes s
 Decision
 ========
 
-Whichever dependency direction (frontends depend on backends, or vice versa) is more logically sound, we conclude that, for the purposes of Devstack, *asserting that backends depend on frontends is more useful to developers*. Specifically, it is beneficial to current and future developer workflows if ``make dev.up.lms`` automatically starts and learning-related frontends, ``make dev.up.studio`` automatically starts all authoring-related frontends, ``make dev.up.ecommerce`` starts all purchasing-related frontends, and so on.
+Whichever dependency direction (frontends depend on backends, or vice versa) is more logically sound, we conclude that, for the purposes of Devstack, *asserting that backends depend on frontends is more useful to developers*. Specifically, it is beneficial to current and future developer workflows if ``make dev.up.lms`` automatically starts and learning-related frontends, ``make dev.up.cms`` automatically starts all authoring-related frontends, ``make dev.up.ecommerce`` starts all purchasing-related frontends, and so on.
 
 A necessary corollary to this decision is that *all micro-frontends required for default functionality must be included in devstack*. While it is encouraged that *all* new and existing micro-frontends are added to devstack using the pattern described above, it is absolutely necessary that MFEs which are required for out-of-the-box functionality be added to devstack.
 

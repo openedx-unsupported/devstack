@@ -656,10 +656,10 @@ services:
     volumes:
       - /edx/var/registrar/
 
-  studio:
+  cms:
     command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py cms runserver 0.0.0.0:18010 --settings devstack_docker; sleep 2; done'
-    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.studio"
-    hostname: studio.devstack.edx
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.cms"
+    hostname: cms.devstack.edx
     depends_on:
       - devpi
       - elasticsearch710
@@ -667,11 +667,11 @@ services:
       - memcached
       - mongo
       - mysql57
-    # Allows attachment to the Studio service using 'docker attach <containerID>'.
+    # Allows attachment to the CMS service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
     environment:
-      BOK_CHOY_HOSTNAME: edx.devstack.studio
+      BOK_CHOY_HOSTNAME: edx.devstack.cms
       BOK_CHOY_LMS_PORT: 18103
       BOK_CHOY_CMS_PORT: 18131
       EDXAPP_TEST_MONGO_HOST: edx.devstack.mongo
@@ -686,15 +686,15 @@ services:
     networks:
       default:
         aliases:
-          - edx.devstack.studio
-          - studio.devstack.edx
+          - edx.devstack.cms
+          - cms.devstack.edx
     ports:
       - "18010:18010"
       - "19877:19877" # JS test debugging
       # - "18103:18103"
       # - "18131:18131"
     volumes:
-      - edxapp_studio_assets:/edx/var/edxapp/staticfiles/
+      - edxapp_cms_assets:/edx/var/edxapp/staticfiles/
 
   xqueue:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.xqueue"
@@ -796,7 +796,7 @@ services:
     ports:
       - "2001:2001"
     depends_on:
-      - studio
+      - cms
 
   frontend-app-gradebook:
     extends:
@@ -857,7 +857,7 @@ services:
       - "3001:3001"
     depends_on:
       - lms
-      - studio
+      - cms
 
   frontend-app-payment:
     extends:
@@ -910,7 +910,7 @@ volumes:
   discovery_assets:
   devpi_data:
   edxapp_lms_assets:
-  edxapp_studio_assets:
+  edxapp_cms_assets:
   elasticsearch_data:
   elasticsearch7_data:
   elasticsearch710_data:
