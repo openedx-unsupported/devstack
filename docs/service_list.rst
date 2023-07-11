@@ -6,7 +6,7 @@ Each service is accessible at ``localhost`` on a specific port.
 The table below provides links to the homepage, API root, or API docs of each service,
 as well as links to the repository where each service's code lives.
 
-Most developers will be best served by working with specific combinations of these services, for example ``make dev.pull.studio`` or ``make dev.up.ecommerce``. These will pull in dependencies as needed—starting ecommerce will also start lms, and lms will pull in forums, discovery, and others. If you need multiple, they can be listed like ``make dev.up.studio+ecommerce``. After the service table below there is a list of some common combinations.
+Most developers will be best served by working with specific combinations of these services, for example ``make dev.pull.cms`` or ``make dev.up.ecommerce``. These will pull in dependencies as needed—starting ecommerce will also start lms, and lms will pull in forums, discovery, and others. If you need multiple, they can be listed like ``make dev.up.cms+ecommerce``. After the service table below there is a list of some common combinations.
 
 Instead of a service name or list, you can also run commands like ``make dev.provision`` / ``make dev.pull.large-and-slow`` / ``make dev.up.large-and-slow``. This is a larger list than most people will need for most of their work, and includes all of the services marked "Default" in the below table. (Some of these targets use ``large-and-slow`` in their name as a warning; others may be changed to use this over time.) However, you can change this list by modifying the ``DEFAULT_SERVICES`` option as described in :doc:`advanced_configuration`.
 
@@ -15,7 +15,7 @@ Instead of a service name or list, you can also run commands like ``make dev.pro
 +====================================+=====================================+================+==============+
 | `lms`_                             | http://localhost:18000/             | Python/Django  | Default      |
 +------------------------------------+-------------------------------------+----------------+--------------+
-| `studio`_                          | http://localhost:18010/             | Python/Django  | Default      |
+| `cms`_                             | http://localhost:18010/             | Python/Django  | Default      |
 +------------------------------------+-------------------------------------+----------------+--------------+
 | `forum`_                           | http://localhost:44567/api/v1/      | Ruby/Sinatra   | Default      |
 +------------------------------------+-------------------------------------+----------------+--------------+
@@ -64,7 +64,7 @@ Some common service combinations include:
 
 * ``lms``: LMS, along with dependencies ``forum``, ``discovery``, ``Authn`` and some databases
 * ``ecommerce``: Ecommerce, but also LMS as a dependency (for auth)
-* ``studio+credentials``: Services can be combined to affect both at once
+* ``cms+credentials``: Services can be combined to affect both at once
 
 .. _credentials: https://github.com/openedx/credentials
 .. _discovery: https://github.com/openedx/course-discovery
@@ -77,8 +77,7 @@ Some common service combinations include:
 .. _lms: https://github.com/openedx/edx-platform
 .. _frontend-app-program-console: https://github.com/openedx/frontend-app-program-console
 .. _registrar: https://github.com/openedx/registrar
-.. _studio: https://github.com/openedx/edx-platform
-.. _lms: https://github.com/openedx/edx-platform
+.. _cms: https://github.com/openedx/edx-platform
 .. _frontend-app-learning: https://github.com/openedx/frontend-app-learning
 .. _frontend-app-library-authoring: https://github.com/openedx/frontend-app-library-authoring
 .. _frontend-app-course-authoring: https://github.com/openedx/frontend-app-course-authoring

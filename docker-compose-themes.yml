@@ -10,6 +10,6 @@ services:
   lms:
       volumes:
       - ${DEVSTACK_WORKSPACE}/edx-themes:/edx/app/edx-themes
-  studio:
+  cms:
       volumes:
       - ${DEVSTACK_WORKSPACE}/edx-themes:/edx/app/edx-themes

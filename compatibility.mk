@@ -17,8 +17,8 @@
         healthchecks lms-restart \
         lms-watcher-shell logs provision pull  \
         pull.xqueue restore static stats stop stop.all  \
-        stop.watchers stop.xqueue studio-restart \
-        studio-watcher-shell validate \
+        stop.watchers stop.xqueue cms-restart \
+        cms-watcher-shell validate \
         xqueue_consumer-restart xqueue-restart
 
 #####################################################################
@@ -53,7 +53,7 @@ dev.repo.reset: dev.reset-repos
 
 dev.up.all: dev.up.with-watchers
 
-dev.up.watchers: dev.up.lms_watcher+studio_watcher
+dev.up.watchers: dev.up.lms_watcher+cms_watcher
 
 down: dev.down
 
@@ -81,13 +81,13 @@ stop.all: dev.stop
 
 stop: dev.stop
 
-stop.watchers: dev.stop.lms_watcher+studio_watcher
+stop.watchers: dev.stop.lms_watcher+cms_watcher
 
 stop.xqueue: dev.stop.xqueue+xqueue_consumer
 
-studio-restart: dev.restart-devserver.studio
+cms-restart: dev.restart-devserver.cms
 
-studio-watcher-shell: dev.shell.studio_watcher
+cms-watcher-shell: dev.shell.cms_watcher
 
 validate: dev.validate
 
