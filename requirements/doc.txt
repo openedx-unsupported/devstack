@@ -33,11 +33,11 @@ cffi==1.15.1
     #   -r requirements/base.txt
     #   cryptography
     #   pynacl
-charset-normalizer==3.1.0
+charset-normalizer==3.2.0
     # via
     #   -r requirements/base.txt
     #   requests
-cryptography==41.0.1
+cryptography==41.0.2
     # via
     #   -r requirements/base.txt
     #   paramiko
@@ -74,7 +74,7 @@ idna==3.4
     #   requests
 imagesize==1.4.1
     # via sphinx
-importlib-metadata==6.7.0
+importlib-metadata==6.8.0
     # via sphinx
 jinja2==3.1.2
     # via sphinx
@@ -189,7 +189,7 @@ websocket-client==0.59.0
     #   -r requirements/base.txt
     #   docker
     #   docker-compose
-zipp==3.15.0
+zipp==3.16.0
     # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
