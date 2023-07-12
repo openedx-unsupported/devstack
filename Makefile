@@ -255,12 +255,10 @@ $(foreach db_service,$(DB_SERVICES_LIST),\
 dev.migrate: | $(_db_migration_targets) ## Run migrations for applicable default services.
 
 dev.migrate.cms:
-	docker-compose exec -T -u root cms bash -e -c '/edx/app/edxapp/venvs/edxapp/bin/python manage.py cms showmigrations --database default --traceback --pythonpath=. --settings devstack_docker'
-	docker-compose exec -T -u root cms bash -e -c '/edx/app/edxapp/venvs/edxapp/bin/python manage.py cms migrate --database default --noinput --traceback --pythonpath=. --settings devstack_docker'
+	docker-compose exec cms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && make migrate-cms'
 
 dev.migrate.lms:
-	docker-compose exec -T -u root lms bash -e -c '/edx/app/edxapp/venvs/edxapp/bin/python manage.py lms showmigrations --database default --traceback --pythonpath=. --settings devstack_docker'
-	docker-compose exec -T -u root lms bash -e -c '/edx/app/edxapp/venvs/edxapp/bin/python manage.py lms migrate --database default --noinput --traceback --pythonpath=. --settings devstack_docker'
+	docker-compose exec lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && make migrate-lms'
 
 dev.migrate.%: ## Run migrations on a service.
 	docker-compose exec $* bash -c 'source /edx/app/$*/$*_env && cd /edx/app/$*/$*/ && make migrate'
