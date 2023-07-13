@@ -26,13 +26,12 @@ for app in "${apps[@]}"; do
 done
 
 # Run edxapp migrations first since they are needed for the service users and OAuth clients
-docker-compose exec -T lms bash -e -c 'source /edx/app/edxapp/edxapp_env && /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-platform/manage.py lms showmigrations --database default --traceback --pythonpath=. --settings devstack_docker'
-docker-compose exec -T lms bash -e -c 'source /edx/app/edxapp/edxapp_env && /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-platform/manage.py lms migrate --database default --noinput --traceback --pythonpath=. --settings devstack_docker'
+# Make migrate runs migrations for both lms and cms.
+docker-compose exec -T lms bash -e -c 'source /edx/app/edxapp/edxapp_env && make migrate'
+
 docker-compose exec -T lms bash -e -c 'source /edx/app/edxapp/edxapp_env && /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-platform/manage.py lms showmigrations --database student_module_history --traceback --pythonpath=. --settings devstack_docker'
 docker-compose exec -T lms bash -e -c 'source /edx/app/edxapp/edxapp_env && /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-platform/manage.py lms migrate --database student_module_history --noinput --traceback --pythonpath=. --settings devstack_docker'
 
-docker-compose exec -T cms bash -e -c 'source /edx/app/edxapp/edxapp_env && /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-platform/manage.py cms showmigrations --database default --traceback --pythonpath=. --settings devstack_docker'
-docker-compose exec -T cms bash -e -c 'source /edx/app/edxapp/edxapp_env && /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-platform/manage.py cms migrate --database default --noinput --traceback --pythonpath=. --settings devstack_docker'
 docker-compose exec -T cms bash -e -c 'source /edx/app/edxapp/edxapp_env && /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-platform/manage.py cms showmigrations --database student_module_history --traceback --pythonpath=. --settings devstack_docker'
 docker-compose exec -T cms bash -e -c 'source /edx/app/edxapp/edxapp_env && /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-platform/manage.py cms migrate --database student_module_history --noinput --traceback --pythonpath=. --settings devstack_docker'
 
