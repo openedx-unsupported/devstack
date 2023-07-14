@@ -29,16 +29,16 @@ cffi==1.15.1
     #   -r requirements/test.txt
     #   cryptography
     #   pynacl
-charset-normalizer==3.1.0
+charset-normalizer==3.2.0
     # via
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   requests
-click==8.1.3
+click==8.1.4
     # via
     #   -r requirements/pip-tools.txt
     #   pip-tools
-cryptography==41.0.1
+cryptography==41.0.2
     # via
     #   -r requirements/base.txt
     #   -r requirements/test.txt
@@ -109,7 +109,7 @@ pexpect==4.8.0
     # via -r requirements/test.txt
 pip-tools==6.14.0
     # via -r requirements/pip-tools.txt
-platformdirs==3.8.0
+platformdirs==3.8.1
     # via virtualenv
 pluggy==1.2.0
     # via
