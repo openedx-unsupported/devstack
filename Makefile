@@ -461,6 +461,11 @@ dev.shell.%: ## Run a shell on the specified service's container.
 dev.dbshell:
 	docker-compose exec mysql57 bash -c "mysql"
 
+dev.dbcopy8.%: ## Copy data from old mysql 5.7 container into a new 8 db
+	docker-compose exec mysql57 bash -c "mysqldump $*" > .dev/$*.sql
+	docker-compose exec -T mysql80 bash -c "mysql $*" < .dev/$*.sql
+	rm .dev/$*.sql
+
 dev.dbshell.%: ## Run a SQL shell on the given database.
 	docker-compose exec mysql57 bash -c "mysql $*"
 
