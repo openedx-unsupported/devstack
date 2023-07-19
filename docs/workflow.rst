@@ -52,7 +52,19 @@ If you want to pull down just the images for one service but not its dependencie
 Database backups
 ~~~~~~~~~~~~~~~~
 
-You can routinely create backups of your local databases. To create a backup, use ``make dev.backup``. When you want to restore you database to the backup, run ``make dev.restore``. Warning, this will retore all your databases. You might have to cycle the database containers off and on using ``make dev.down.<database service name>`` and ``make dev.up.<database service name>``.
+You can routinely create backups of your local databases. To create a backup, use ``make dev.backup``. When you want to restore you database to the backup, run ``make dev.restore``. Warning, this will restore all your databases. You might have to cycle the database containers off and on using ``make dev.down.<database service name>`` and ``make dev.up.<database service name>``.
+
+Comprehensive backup
+~~~~~~~~~~~~~~~~~~~~
+
+You can also back up and restore *all* devstack-related volumes -- not just databases, but also node_modules and static assets volumes. (These commands currently only work on Linux.)
+
+- Back up: ``make stop && sudo rsync -savx --numeric-ids --include='/devstack_***' --exclude='*' --delete /var/lib/docker/volumes/ .dev/backups/2023-07-18/``
+- Restore: ``make stop && sudo rsync -savx --numeric-ids --include='/devstack_***' --exclude='*' --delete .dev/backups/2023-07-18/ /var/lib/docker/volumes/``
+
+The above example creates and restores from a backup directory named ``2023-07-18`` and assumes that you're working from the master branch; if you're working from a named release or have explicitly specified an alternative ``COMPOSE_PROJECT_NAME``, you'll need to adjust the ``--include`` parameter.
+
+Containers should be stopped before the backup or restore is performed, or databases are very likely to become corrupted.
 
 Running micro-frontends outside of devstack
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
