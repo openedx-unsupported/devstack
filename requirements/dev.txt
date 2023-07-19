@@ -34,7 +34,7 @@ charset-normalizer==3.2.0
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   requests
-click==8.1.4
+click==8.1.6
     # via
     #   -r requirements/pip-tools.txt
     #   pip-tools
@@ -43,7 +43,7 @@ cryptography==41.0.2
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   paramiko
-distlib==0.3.6
+distlib==0.3.7
     # via virtualenv
 distro==1.8.0
     # via
@@ -107,9 +107,9 @@ paramiko==3.2.0
     #   docker
 pexpect==4.8.0
     # via -r requirements/test.txt
-pip-tools==6.14.0
+pip-tools==7.0.0
     # via -r requirements/pip-tools.txt
-platformdirs==3.8.1
+platformdirs==3.9.1
     # via virtualenv
 pluggy==1.2.0
     # via
@@ -194,7 +194,7 @@ urllib3==2.0.3
     #   -r requirements/test.txt
     #   docker
     #   requests
-virtualenv==20.23.1
+virtualenv==20.24.0
     # via tox
 websocket-client==0.59.0
     # via
