@@ -3,7 +3,7 @@ Workflow
 
 Here's a common workflow you might use in devstack for feature development or debugging in an IDA.
 
-These instructions are written using the LMS as an example. Replace ``lms`` with ``studio``, ``credentials``, ``discovery``, etc. as appropriate.
+These instructions are written using the LMS as an example. Replace ``lms`` with ``cms``, ``credentials``, ``discovery``, etc. as appropriate.
 
 #. Get your IDA's repo ready for development.
 
@@ -40,9 +40,9 @@ Variations
 Multiple services
 ~~~~~~~~~~~~~~~~~
 
-If you're working on multiple services at a time, you can use Make targets of a different form that take a list of services. For example, if you want to pull images for ``lms``, ``studio``, and ``credentials``, you can run ``make dev.pull.lms+studio+credentials``. This will pull down images for the three services, as well as for all of their runtime dependencies.
+If you're working on multiple services at a time, you can use Make targets of a different form that take a list of services. For example, if you want to pull images for ``lms``, ``cms``, and ``credentials``, you can run ``make dev.pull.lms+cms+credentials``. This will pull down images for the three services, as well as for all of their runtime dependencies.
 
-You can also use the more tab-completion-friendly commands separately: ``make lms-pull studio-pull credentials-pull``.
+You can also use the more tab-completion-friendly commands separately: ``make lms-pull cms-pull credentials-pull``.
 
 Time-savers
 ~~~~~~~~~~~
