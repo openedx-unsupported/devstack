@@ -120,7 +120,7 @@ The default devstack services can be run by following the steps below.
 
 To stop a service, use ``make dev.stop.<service>``, and to both stop it
 and remove the container (along with any changes you have made
-to the filesystem in the container) use ``make dev.down.<service>``.
+to the filesystem in the container) use ``make dev.remove-containers.<service>``.
 
 After the services have started, if you need shell access to one of the
 services, run ``make dev.shell.<service>``. For example to access the
