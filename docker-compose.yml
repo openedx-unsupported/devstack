@@ -439,7 +439,7 @@ services:
       - mongo
       - elasticsearch710
       - opensearch12
-    image: edxops/forum:${OPENEDX_RELEASE:-latest}
+    image: edxops/forum:nutmeg.master
     stdin_open: true
     tty: true
     networks:
