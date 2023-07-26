@@ -51,7 +51,7 @@ Useful Commands and Summary
 
   Especially if you are running devstack after a few days of break, you will likely want to use ``make dev.pull.<service>`` before this using this command.
 
-  Also see below at ``dev.stop`` and ``dev.down`` for opposite counterparts of this command
+  Also see below at ``dev.stop`` and ``dev.remove-containers`` for opposite counterparts of this command
 
   Variations:
 
@@ -70,15 +70,15 @@ Useful Commands and Summary
   Variation:
   + ``make dev.stop.<service>`` will only stop the specified container
 
-- ``dev.down``: stops and removes all running containers as well as any networks that were created. Next time you use dev.up.<service> to bring up containers, your containers have reverted back to the pulled image.
+- ``dev.remove-containers``: stops and removes all running containers as well as any networks that were created. Next time you use dev.up.<service> to bring up containers, your containers have reverted back to the pulled image.
 
   Note: This will not affect content of the databases.
 
-  When to use: use this command only if you are okay with removing any changes you might have made to your containers. You will likely want to use ``make dev.stop`` instead of ``make dev.down``.
+  When to use: use this command only if you are okay with removing any changes you might have made to your containers. You will likely want to use ``make dev.stop`` instead of ``make dev.remove-containers``.
 
   Variation:
 
-  + ``make dev.down.<service>`` will stop and remove only the specified container.
+  + ``make dev.remove-containers.<service>`` will stop and remove only the specified container.
 
     Note: This will only bring down <service>'s container and not its dependencies.
 
