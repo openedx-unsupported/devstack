@@ -9,7 +9,7 @@ could not be done while offline due to not being able to contact PyPI.
 To help speed up those tasks and bring us close to being able to use
 Devstack entirely offline we have introduced a devpi PyPI cache container
 to Devstack. Currently it is only configured as a package cache for LMS
-and Studio, but the hope is to expand its use to the other Devstack
+and CMS, but the hope is to expand its use to the other Devstack
 applications and to move to a state where it comes pre-populated with the
 requirements of all Devstack applications.
 
@@ -28,7 +28,7 @@ https://www.devpi.net/
 What is cached?
 ---------------
 
-devpi will cache anything that LMS or Studio pull from PyPI via pip,
+devpi will cache anything that LMS or CMS pull from PyPI via pip,
 including things from the various requirements files. It will not cache
 requirements given as URLs (ex. ``git+https`` style links) or local
 packages (ex. ``-e common/lib/calc``). When these types of packages are
@@ -52,7 +52,7 @@ Disabling devpi
 ---------------
 
 To temporarily remove devpi caching from an edxapp container, start a
-shell (``dev.shell.lms`` or ``dev.shell.studio``) and move or delete
+shell (``dev.shell.lms`` or ``dev.shell.cms``) and move or delete
 ``/root/.pip/pip.conf``. This will be undone on the next container
 restart unless the container state is persisted.
 

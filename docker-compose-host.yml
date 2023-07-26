@@ -41,7 +41,7 @@ services:
   registrar-worker:
     volumes:
       - ${DEVSTACK_WORKSPACE}/registrar:/edx/app/registrar
-  studio:
+  cms:
     volumes:
       - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform
       - edxapp_media:/edx/var/edxapp/media

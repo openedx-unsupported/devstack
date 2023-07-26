@@ -1,10 +1,22 @@
-# This file contains configuration common too all microfrontends
+# This file contains configuration common to all microfrontends
 
 version: "2.1"
 
 services:
   microfrontend:
-    command: bash -c 'npm install; while true; do npm start; sleep 2; done'
+    # Use `npm ci` rather than `npm install` for a few reasons:
+    #
+    # - Repeatability: Respect the currently checked out package
+    #   versions rather than upgrading when package.json and
+    #   package-lock.json don't match. (Two people using this at
+    #   different times on the same commit should get the same
+    #   results.)
+    # - Immutability: Don't change the repo's working directory
+    #   unexpectedly when there's a lock mismatch.
+    #
+    # Fail fast if package install fails to avoid mysterious
+    # errors later.
+    command: bash -c 'npm ci || exit 1; while true; do npm start; sleep 2; done'
     stdin_open: true
     tty: true
     image: node:16

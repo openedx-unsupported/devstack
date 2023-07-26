@@ -1,17 +1,17 @@
 #!/usr/bin/env bash
-# Script that provisions studio, and ecommerce with courses
-# USAGE: ./create-courses [--studio] [--ecommerce] course-config.json
-studio=false
+# Script that provisions cms, and ecommerce with courses
+# USAGE: ./create-courses [--cms] [--ecommerce] course-config.json
+cms=false
 ecommerce=false
 echo "Parsing options"
 container_error=false
 for arg in "$@"; do
-    if [ $arg == "--studio" ]; then
-        if [ ! "$(docker-compose exec lms bash -c 'echo "Course will be created for studio"; exit $?')" ]; then
-            echo "Issue with studio container"
+    if [ $arg == "--cms" ]; then
+        if [ ! "$(docker-compose exec lms bash -c 'echo "Course will be created for cms"; exit $?')" ]; then
+            echo "Issue with cms container"
             container_error=true
         else
-            studio=true
+            cms=true
         fi
     elif [ $arg == "--ecommerce" ]; then
         if [ ! "$(docker-compose exec ecommerce bash -c 'echo "Course will be created for ecommerce"; exit $?')" ]; then
@@ -40,8 +40,8 @@ while IFS='' read -r line || [[ -n "$line" ]]; do
     course_json=$course_json${line/"\"number\": null"/"\"number\": \""$RANDOM"\""}
 done < "${@: -1}"
 
-if $studio ; then
-	echo "Creating courses on studio."
+if $cms ; then
+	echo "Creating courses on cms."
 	docker-compose exec lms bash -c "source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py cms --settings=devstack_docker generate_courses '$course_json'"
 fi
 

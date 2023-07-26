@@ -3,7 +3,7 @@ Workflow
 
 Here's a common workflow you might use in devstack for feature development or debugging in an IDA.
 
-These instructions are written using the LMS as an example. Replace ``lms`` with ``studio``, ``credentials``, ``discovery``, etc. as appropriate.
+These instructions are written using the LMS as an example. Replace ``lms`` with ``cms``, ``credentials``, ``discovery``, etc. as appropriate.
 
 #. Get your IDA's repo ready for development.
 
@@ -40,9 +40,9 @@ Variations
 Multiple services
 ~~~~~~~~~~~~~~~~~
 
-If you're working on multiple services at a time, you can use Make targets of a different form that take a list of services. For example, if you want to pull images for ``lms``, ``studio``, and ``credentials``, you can run ``make dev.pull.lms+studio+credentials``. This will pull down images for the three services, as well as for all of their runtime dependencies.
+If you're working on multiple services at a time, you can use Make targets of a different form that take a list of services. For example, if you want to pull images for ``lms``, ``cms``, and ``credentials``, you can run ``make dev.pull.lms+cms+credentials``. This will pull down images for the three services, as well as for all of their runtime dependencies.
 
-You can also use the more tab-completion-friendly commands separately: ``make lms-pull studio-pull credentials-pull``.
+You can also use the more tab-completion-friendly commands separately: ``make lms-pull cms-pull credentials-pull``.
 
 Time-savers
 ~~~~~~~~~~~
@@ -52,7 +52,19 @@ If you want to pull down just the images for one service but not its dependencie
 Database backups
 ~~~~~~~~~~~~~~~~
 
-You can routinely create backups of your local databases. To create a backup, use ``make dev.backup``. When you want to restore you database to the backup, run ``make dev.restore``. Warning, this will retore all your databases. You might have to cycle the database containers off and on using ``make dev.down.<database service name>`` and ``make dev.up.<database service name>``.
+You can routinely create backups of your local databases. To create a backup, use ``make dev.backup``. When you want to restore you database to the backup, run ``make dev.restore``. Warning, this will restore all your databases. You might have to cycle the database containers off and on using ``make dev.down.<database service name>`` and ``make dev.up.<database service name>``.
+
+Comprehensive backup
+~~~~~~~~~~~~~~~~~~~~
+
+You can also back up and restore *all* devstack-related volumes -- not just databases, but also node_modules and static assets volumes. (These commands currently only work on Linux.)
+
+- Back up: ``make stop && sudo rsync -savx --numeric-ids --include='/devstack_***' --exclude='*' --delete /var/lib/docker/volumes/ .dev/backups/2023-07-18/``
+- Restore: ``make stop && sudo rsync -savx --numeric-ids --include='/devstack_***' --exclude='*' --delete .dev/backups/2023-07-18/ /var/lib/docker/volumes/``
+
+The above example creates and restores from a backup directory named ``2023-07-18`` and assumes that you're working from the master branch; if you're working from a named release or have explicitly specified an alternative ``COMPOSE_PROJECT_NAME``, you'll need to adjust the ``--include`` parameter.
+
+Containers should be stopped before the backup or restore is performed, or databases are very likely to become corrupted.
 
 Running micro-frontends outside of devstack
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -61,7 +73,7 @@ Although several micro-frontends (MFEs) are built into devstack (the full list i
 
   make dev.down.frontend-app-learning  # Bring down the devstack version of the Learning MFE.
   cd <path-to-frontend-app-learning>   # Navigate to the Learning MFE's repository.
-  npm install && npm start             # Install JS packages, and start the NPM devserver on your local host.
+  npm ci && npm start                  # Install JS packages, and start the NPM devserver on your local host.
 
 Of course ``learning`` can be replaced with ``gradebook``, ``payment``, or another frontend-app name.
 

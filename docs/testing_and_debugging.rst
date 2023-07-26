@@ -45,11 +45,11 @@ You can bring that same service back up with:
 
     make dev.up.<service>
 
-Running LMS and Studio Tests
+Running LMS and CMS Tests
 ----------------------------
 
 After entering a shell for the appropriate service via ``make lms-shell`` or
-``make studio-shell``, you can run any of the usual paver commands from the
+``make cms-shell``, you can run any of the usual paver commands from the
 `edx-platform testing documentation`_.  Examples:
 
 .. code:: sh

@@ -64,8 +64,8 @@ if should_check lms; then
     run_check lms_heartbeat lms \
         "curl --fail -L http://localhost:18000/heartbeat"
 
-    echo "Checking Studio heartbeat:"
-    run_check studio_heartbeat lms \
+    echo "Checking CMS heartbeat:"
+    run_check cms_heartbeat lms \
         "curl --fail -L http://localhost:18010/heartbeat"
 
     echo "Validating LMS volume:"

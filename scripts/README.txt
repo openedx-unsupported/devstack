@@ -53,5 +53,5 @@ All Operating Systems
 ---------------------
 
 Done!  Try visiting http://localhost:18000/ for the LMS and
-http://localhost:18010/ for Studio.  It may take a minute or two for the
+http://localhost:18010/ for CMS.  It may take a minute or two for the
 services to finish initializing and start responding to requests.

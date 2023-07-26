@@ -87,8 +87,8 @@ needs_mongo() {
 to_provision=" "
 for serv in $requested_services; do
 	case "$serv" in
-		studio)
-			echo -e "${YELLOW}Studio is provisioned alongside LMS.\nPass 'lms' as an argument to ensure that Studio is provisioned.${NC}"
+		cms)
+			echo -e "${YELLOW}CMS is provisioned alongside LMS.\nPass 'lms' as an argument to ensure that CMS is provisioned.${NC}"
 			continue
 			;;
 		edx_notes_api)

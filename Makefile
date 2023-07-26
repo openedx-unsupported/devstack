@@ -6,7 +6,7 @@
 # and SERVICES is a plus-sign-separated list of services.
 # Examples:
 #     make dev.attach.credentials
-#     make dev.pull.registrar+studio
+#     make dev.pull.registrar+cms
 #     make dev.up.lms
 #     make dev.up.without-deps.lms+forum+discovery+mysql57+elasticsearch+memcached
 #     make dev.restart-container.mysql57+lms
@@ -45,15 +45,15 @@
         create-test-course dev.attach dev.backup dev.cache-programs dev.check \
         dev.check-memory dev.checkout dev.clone dev.clone.https dev.clone.ssh \
         dev.dbshell dev.destroy dev.down dev.drop-db dev.kill dev.logs \
-        dev.migrate dev.migrate.lms dev.migrate.studio \
+        dev.migrate dev.migrate.lms dev.migrate.cms \
         devpi-password dev.provision dev.ps dev.pull dev.pull.without-deps \
         dev.reset dev.reset-repos dev.restart-container dev.restart-devserver \
         dev.restart-devserver.forum dev.restore dev.rm-stopped dev.shell \
         dev.shell.credentials dev.shell.discovery \
         dev.shell.ecommerce dev.shell.lms dev.shell.lms_watcher \
-        dev.shell.registrar dev.shell.studio \
-        dev.shell.studio_watcher dev.shell.xqueue dev.shell.xqueue_consumer \
-        dev.static dev.static.lms dev.static.studio dev.stats dev.status \
+        dev.shell.registrar dev.shell.cms \
+        dev.shell.cms_watcher dev.shell.xqueue dev.shell.xqueue_consumer \
+        dev.static dev.static.lms dev.static.cms dev.stats dev.status \
         dev.stop dev.up dev.up.attach dev.up.shell \
         dev.up.without-deps dev.up.without-deps.shell dev.up.with-programs \
         dev.up.with-watchers dev.validate docs \
@@ -226,8 +226,9 @@ impl-dev.provision.%: dev.check-memory ## Provision specified services.
 dev.provision.%: ## Provision specified services.
 	@scripts/send_metrics.py wrap "dev.provision.$*"
 
-dev.backup: dev.up.mysql57+mongo+elasticsearch+elasticsearch7+elasticsearch710+opensearch12+coursegraph ## Write all data volumes to the host.
+dev.backup: dev.up.mysql57+mysql80+mongo+elasticsearch+elasticsearch7+elasticsearch710+opensearch12+coursegraph ## Write all data volumes to the host.
 	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.mysql57) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/mysql57.tar.gz /var/lib/mysql
+	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.mysql80) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/mysql80.tar.gz /var/lib/mysql
 	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.mongo) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/mongo.tar.gz /data/db
 	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.elasticsearch) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/elasticsearch.tar.gz /usr/share/elasticsearch/data
 	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.elasticsearch7) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/elasticsearch7.tar.gz /usr/share/elasticsearch/data
@@ -235,8 +236,9 @@ dev.backup: dev.up.mysql57+mongo+elasticsearch+elasticsearch7+elasticsearch710+o
 	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.opensearch12) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/opensearch12.tar.gz /usr/share/opensearch/data
 	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.coursegraph) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/coursegraph.tar.gz /data
 
-dev.restore: dev.up.mysql57+mongo+elasticsearch+elasticsearch7+elasticsearch710+opensearch12+coursegraph ## Restore all data volumes from the host. WILL OVERWRITE ALL EXISTING DATA!
+dev.restore: dev.up.mysql57+mysql80+mongo+elasticsearch+elasticsearch7+elasticsearch710+opensearch12+coursegraph ## Restore all data volumes from the host. WILL OVERWRITE ALL EXISTING DATA!
 	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.mysql57) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/mysql57.tar.gz
+	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.mysql80) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/mysql80.tar.gz
 	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.mongo) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/mongo.tar.gz
 	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.elasticsearch) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/elasticsearch.tar.gz
 	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.elasticsearch7) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/elasticsearch7.tar.gz
@@ -254,13 +256,11 @@ $(foreach db_service,$(DB_SERVICES_LIST),\
 
 dev.migrate: | $(_db_migration_targets) ## Run migrations for applicable default services.
 
-dev.migrate.studio:
-	docker-compose exec -T -u root studio bash -e -c '/edx/app/edxapp/venvs/edxapp/bin/python manage.py cms showmigrations --database default --traceback --pythonpath=. --settings devstack_docker'
-	docker-compose exec -T -u root studio bash -e -c '/edx/app/edxapp/venvs/edxapp/bin/python manage.py cms migrate --database default --noinput --traceback --pythonpath=. --settings devstack_docker'
+dev.migrate.cms:
+	docker-compose exec cms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && make migrate-cms'
 
 dev.migrate.lms:
-	docker-compose exec -T -u root lms bash -e -c '/edx/app/edxapp/venvs/edxapp/bin/python manage.py lms showmigrations --database default --traceback --pythonpath=. --settings devstack_docker'
-	docker-compose exec -T -u root lms bash -e -c '/edx/app/edxapp/venvs/edxapp/bin/python manage.py lms migrate --database default --noinput --traceback --pythonpath=. --settings devstack_docker'
+	docker-compose exec lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && make migrate-lms'
 
 dev.migrate.%: ## Run migrations on a service.
 	docker-compose exec $* bash -c 'source /edx/app/$*/$*_env && cd /edx/app/$*/$*/ && make migrate'
@@ -293,11 +293,11 @@ dev.up.with-programs: dev.up dev.cache-programs ## Bring up default services + c
 
 dev.up.with-programs.%: dev.up.$* dev.cache-programs ## Bring up services and their dependencies + cache programs in LMS.
 
-dev.up.with-watchers: dev.up.$(DEFAULT_SERVICES)+lms_watcher+studio_watcher ## Bring up default services + asset watcher containers.
+dev.up.with-watchers: dev.up.$(DEFAULT_SERVICES)+lms_watcher+cms_watcher ## Bring up default services + asset watcher containers.
 
 dev.up.with-watchers.%: ## Bring up services and their dependencies + asset watcher containers.
 	make dev.up.$*
-	make dev.up.lms_watcher+studio_watcher
+	make dev.up.lms_watcher+cms_watcher
 
 dev.up.without-deps: _expects-service-list.dev.up.without-deps
 
@@ -442,11 +442,11 @@ dev.shell.lms:
 dev.shell.lms_watcher:
 	docker-compose exec lms_watcher env TERM=$(TERM) bash -c '/bin/bash'
 
-dev.shell.studio:
-	docker-compose exec studio env TERM=$(TERM) bash -c '/bin/bash'
+dev.shell.cms:
+	docker-compose exec cms env TERM=$(TERM) bash -c '/bin/bash'
 
-dev.shell.studio_watcher:
-	docker-compose exec studio_watcher env TERM=$(TERM) bash -c '/bin/bash'
+dev.shell.cms_watcher:
+	docker-compose exec cms_watcher env TERM=$(TERM) bash -c '/bin/bash'
 
 dev.shell.xqueue_consumer:
 	docker-compose exec xqueue_consumer env TERM=$(TERM) /bin/bash
@@ -462,6 +462,11 @@ dev.shell.%: ## Run a shell on the specified service's container.
 
 dev.dbshell:
 	docker-compose exec mysql57 bash -c "mysql"
+
+dev.dbcopy8.%: ## Copy data from old mysql 5.7 container into a new 8 db
+	docker-compose exec mysql57 bash -c "mysqldump $*" > .dev/$*.sql
+	docker-compose exec -T mysql80 bash -c "mysql $*" < .dev/$*.sql
+	rm .dev/$*.sql
 
 dev.dbshell.%: ## Run a SQL shell on the given database.
 	docker-compose exec mysql57 bash -c "mysql $*"
@@ -479,8 +484,8 @@ dev.static: | $(_asset_compilation_targets)
 dev.static.lms:
 	docker-compose exec -T lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_assets lms'
 
-dev.static.studio:
-	docker-compose exec -T studio bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_assets studio'
+dev.static.cms:
+	docker-compose exec -T cms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && paver update_assets cms'
 
 dev.static.%: ## Rebuild static assets for the specified service's container.
 	docker-compose exec -T $* bash -c 'source /edx/app/$*/$*_env && cd /edx/app/$*/$*/ && make static'
@@ -496,7 +501,8 @@ dev.reset: dev.remove-containers dev.reset-repos dev.prune dev.pull.large-and-sl
 dev.destroy.coursegraph: dev.remove-containers.coursegraph ## Remove all coursegraph data.
 	docker volume rm ${COMPOSE_PROJECT_NAME}_coursegraph_data
 
-dev.destroy: ## Irreversibly remove all devstack-related containers, networks, and volumes.
+# See https://github.com/openedx/devstack/issues/1113 for lack of ability to destroy data volumes
+dev.destroy: ## Irreversibly remove all devstack-related containers and networks (though not data volumes)
 	$(WINPTY) bash ./destroy.sh
 
 ########################################################################################
@@ -539,6 +545,7 @@ $(addsuffix -restart-container, $(ALL_SERVICES_LIST)): %-restart-container: dev.
 $(addsuffix -stop, $(ALL_SERVICES_LIST)): %-stop: dev.stop.%
 $(addsuffix -kill, $(ALL_SERVICES_LIST)): %-kill: dev.kill.%
 $(addsuffix -down, $(ALL_SERVICES_LIST)): %-down: dev.down.%
+$(addsuffix -remove-containers, $(ALL_SERVICES_LIST)): %-remove-containers: dev.remove-containers.%
 $(addsuffix -check, $(EDX_SERVICES_LIST)): %-check: dev.check.%
 $(addsuffix -restart-devserver, $(EDX_SERVICES_LIST)): %-restart-devserver: dev.restart-devserver.%
 $(addsuffix -logs, $(ALL_SERVICES_LIST)): %-logs: dev.logs.%
@@ -572,7 +579,7 @@ _expects-service-list.%:
 	@echo "For example:"
 	@echo "    make $*.lms"
 	@echo "Or:"
-	@echo "    make $*.registrar+ecommerce+studio"
+	@echo "    make $*.registrar+ecommerce+cms"
 
 _expects-database.%:
 	@echo "'make $*' on its own has no effect."
@@ -615,11 +622,11 @@ devpi-password: ## Get the root devpi password for the devpi container.
 hadoop-application-logs-%: ## View hadoop logs by application Id.
 	docker-compose exec nodemanager yarn logs -applicationId $*
 
-create-test-course: ## Provisions studio, and ecommerce with course(s) in test-course.json.
-	$(WINPTY) bash ./course-generator/create-courses.sh --studio --ecommerce course-generator/test-course.json
+create-test-course: ## Provisions cms, and ecommerce with course(s) in test-course.json.
+	$(WINPTY) bash ./course-generator/create-courses.sh --cms --ecommerce course-generator/test-course.json
 
-build-courses: ## Build course and provision studio, and ecommerce with it.
+build-courses: ## Build course and provision cms, and ecommerce with it.
 	# Modify test-course.json before running this make target to generate a custom course
 	$(WINPTY) bash ./course-generator/build-course-json.sh course-generator/tmp-config.json
-	$(WINPTY) bash ./course-generator/create-courses.sh --studio --ecommerce course-generator/tmp-config.json
+	$(WINPTY) bash ./course-generator/create-courses.sh --cms --ecommerce course-generator/tmp-config.json
 	rm course-generator/tmp-config.json
