@@ -302,7 +302,7 @@ dev.up.with-watchers.%: ## Bring up services and their dependencies + asset watc
 dev.up.without-deps: _expects-service-list.dev.up.without-deps
 
 impl-dev.up.without-deps.%: dev.check-memory ## Bring up services by themselves.
-	docker-compose up --detach --no-deps $$(echo $* | tr + " ")
+	docker-compose up -d --no-deps $$(echo $* | tr + " ")
 
 dev.up.without-deps.%: ## Bring up services by themselves.
 	@scripts/send_metrics.py wrap "dev.up.without-deps.$*"
