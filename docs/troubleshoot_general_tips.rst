@@ -250,7 +250,8 @@ Starting From Scratch
 
 If you think your devstack is broken beyond repair, you can start from scratch using ``make dev.destroy``, followed by the :doc:`getting_started` instructions.
 
-If you want to make absolutely sure that there are no lingering data volumes after the ``dev.destroy`` step, run ``docker volume ls --quiet | grep devstack`` -- if you see surviving devstack volumes that are currently mentioned in docker-compose.yml, there may be a bug.
+If you want to make absolutely sure that there are no lingering data volumes after the ``dev.destroy`` step, run ``docker volume ls --quiet | grep devstack`` -- if you see surviving devstack volumes that are currently mentioned in docker-compose.yml, there may be a bug. If you can reproduce the issue reliably, consider `reporting an issue <Reporting New Issues_>`_.
+
 
 Reporting New Issues
 ====================
