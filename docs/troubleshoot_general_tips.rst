@@ -244,6 +244,21 @@ See `the github issue`_ to follow the work being done on the resolution.
 
 .. _the github issue: https://github.com/openedx/devstack/issues/1072
 
+When all else fails, nuke the whole thing.
+==========================================
+
+If you are having problems installing devstack and would like to attempt to start from a clean install, you can follow these steps:
+
+1. Delete the devstack repo.
+2. Delete all devstack assets locally. To do this:
+
+    a. Stop and remove all Docker containers (through a UI or with the devstack shell ``make dev.remove-containers`` CLI command).
+    b. Run ``docker system prune -a``.
+    c. Confirm that all containers are gone with ``docker container ls``.
+    d. Confirm that all images are gone with ``docker image ls``.
+    e. Confirm that all volumes are gone with ``docker volume ls``.
+
+3. If you have any ``blockstore`` containers, or other containers not directly managed by devstack make commands, manually delete these as well.
 
 Starting From Scratch
 =====================
