@@ -218,9 +218,11 @@ Another error you may get if the code and the image are out of sync is sql or Dj
 
 Demo course is empty in studio
 ------------------------------
-After provisioning and opening Studio, you may see an empty outline for the demo course. This usually means there is a disconnect between the block ids in mySQL and the corresponding data in Mongo. See https://github.com/openedx/devstack/issues/1073 for the tracking issue.
+After provisioning and opening Studio, you may see an empty outline for the demo course. This usually means there is a disconnect between the block ids in mySQL and the corresponding data in Mongo.
 
-To fix, simply add a new subsection and publish. The act of publishing should reload the whole course correctly.
+To fix this locally, simply add a new subsection and publish. The act of publishing should reload the whole course correctly.
+
+See https://github.com/openedx/devstack/issues/1073 for the GitHub issue tracking this bug.
 
 CORS error from login_refresh in MFE
 ------------------------------------
@@ -246,7 +248,7 @@ See `the github issue`_ to follow the work being done on the resolution.
 Starting From Scratch
 =====================
 
-If you think your devstack is broken beyond repair, you can start from scratch using ``make dev.destroy``, followed by the Getting Started instructions.
+If you think your devstack is broken beyond repair, you can start from scratch using ``make dev.destroy``, followed by the :doc:`getting_started` instructions.
 
 If you want to make absolutely sure that there are no lingering data volumes after the ``dev.destroy`` step, run ``docker volume ls --quiet | grep devstack`` -- if you see surviving devstack volumes that are currently mentioned in docker-compose.yml, there may be a bug.
 
