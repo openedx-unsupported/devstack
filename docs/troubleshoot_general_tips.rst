@@ -254,7 +254,7 @@ Permission denied for copying studio-frontend JS & CSS during provisioning
 
 During ``make dev.provision``, the edx-platform script ``copy-node-modules.sh`` would fail with the following output, or similar::
 
-    Copying studio-frontend JS & CSS from node_modules into vendor directories... 
+    Copying studio-frontend JS & CSS from node_modules into vendor directories...
     + read -r -d '' src_file
     ++ find node_modules/@edx/studio-frontend/dist -type f -print0
     + [[ node_modules/@edx/studio-frontend/dist/accessibilityPolicy.min.css = *.css ]]
