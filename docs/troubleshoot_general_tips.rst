@@ -244,6 +244,25 @@ See `the github issue`_ to follow the work being done on the resolution.
 
 .. _the github issue: https://github.com/openedx/devstack/issues/1072
 
+Past problems (fixed)
+=====================
+
+If you see any of the following issues, you'll need to update your repos and pull the latest images.
+
+Permission denied for copying studio-frontend JS & CSS during provisioning
+--------------------------------------------------------------------------
+
+During ``make dev.provision``, the edx-platform script ``copy-node-modules.sh`` would fail with the following output, or similar::
+
+    Copying studio-frontend JS & CSS from node_modules into vendor directories... 
+    + read -r -d '' src_file
+    ++ find node_modules/@edx/studio-frontend/dist -type f -print0
+    + [[ node_modules/@edx/studio-frontend/dist/accessibilityPolicy.min.css = *.css ]]
+    + cp --force node_modules/@edx/studio-frontend/dist/accessibilityPolicy.min.css common/static/common/css/vendor
+    cp: cannot remove 'common/static/common/css/vendor/accessibilityPolicy.min.css': Permission denied
+
+This issue was introduced on edx-platform master in July 2023 and was resolved in August 2023 (without becoming part of a named release). See https://github.com/openedx/devstack/issues/1138 for more details, including a workaround for those unable to upgrade their repos or images for some reason.
+
 
 Starting From Scratch
 =====================
