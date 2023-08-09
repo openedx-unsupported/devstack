@@ -94,7 +94,7 @@ The default devstack services can be run by following the steps below.
    **NOTE:** When running the provision command, databases for ecommerce and edxapp
    will be dropped and recreated.
 
-   The username and password for the superusers are both ``edx``. You can access
+   The username for the superuser is ``edx@example.com`` and the password is ``edx``. You can access
    the services directly via Django admin at the ``/admin/`` path, or login via
    single sign-on at ``/login/``.
 
