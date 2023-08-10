@@ -46,7 +46,7 @@
         dev.check-memory dev.checkout dev.clone dev.clone.https dev.clone.ssh \
         dev.dbshell dev.destroy dev.down dev.drop-db dev.kill dev.logs \
         dev.migrate dev.migrate.lms dev.migrate.cms \
-        devpi-password dev.provision dev.ps dev.pull dev.pull.without-deps \
+        dev.provision dev.ps dev.pull dev.pull.without-deps \
         dev.reset dev.reset-repos dev.restart-container dev.restart-devserver \
         dev.restart-devserver.forum dev.restore dev.rm-stopped dev.shell \
         dev.shell.credentials dev.shell.discovery \
@@ -615,9 +615,6 @@ validate-lms-volume: ## Validate that changes to the local workspace are reflect
 vnc-passwords: ## Get the VNC passwords for the Chrome and Firefox Selenium containers.
 	@docker-compose logs chrome 2>&1 | grep "VNC password" | tail -1
 	@docker-compose logs firefox 2>&1 | grep "VNC password" | tail -1
-
-devpi-password: ## Get the root devpi password for the devpi container.
-	docker-compose exec devpi bash -c "cat /data/server/.serverpassword"
 
 hadoop-application-logs-%: ## View hadoop logs by application Id.
 	docker-compose exec nodemanager yarn logs -applicationId $*

@@ -21,7 +21,6 @@ Contents
    devstack_faq
    building-images
    database-dumps
-   devpi
    developing_on_named_release_branches
    pycharm_integration
    testing_and_debugging
