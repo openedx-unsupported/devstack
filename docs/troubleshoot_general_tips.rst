@@ -273,7 +273,7 @@ To update devstack to the latest images and code:
 
 1. ``make dev.stop`` This will stop all running containers.
 2. ``make dev.reset-repos`` This will pull all the latest code into all your devstack service and MFE repos.
-3. ``git fetch && git pull`` on the master branch in devstack. This will pull all the latest code into the devstack repo itself
+3. ``git fetch && git pull`` on the master branch in devstack. This will pull all the latest code into the devstack repo itself.
 4. ``make dev.pull.lms`` This will pull the latest lms image and all its dependencies. If you need other services/MFEs, you can replace this with ``make dev.pull.lms+cms+other_service+other_MFE...`` or ``make dev.pull.large-and-slow`` if you really need everything.
 
 Depending on your needs, you may also want to run ``make dev.migrate.lms`` to apply all the latest migrations and/or ``make dev.static.lms`` to recompile static assets.
