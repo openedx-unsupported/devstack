@@ -198,6 +198,7 @@ services:
      - "27017:27017"
     volumes:
       - mongo_data:/data/db
+      - mongo_config_data:/data/configdb
 
   mysql57:
     command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci
@@ -244,6 +245,8 @@ services:
       default:
         aliases:
           - edx.devstack.redis
+    volumes:
+      - redis_data:/data
 
   # storage layer for data schemas in Kafka
   schema-registry:
@@ -844,6 +847,8 @@ volumes:
   edxapp_cms_assets:
   elasticsearch710_data:
   mongo_data:
+  mongo_config_data:
   opensearch12_data:
   mysql57_data:
   mysql80_data:
+  redis_data:
