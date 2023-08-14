@@ -247,7 +247,7 @@ See `the github issue`_ to follow the work being done on the resolution.
 Past problems (fixed)
 =====================
 
-If you see any of the following issues, you'll need to `pull new code and images`_.
+If you see any of the following issues, you'll need to `update your repos and pull the latest images`_.
 
 Permission denied for copying studio-frontend JS & CSS during provisioning
 --------------------------------------------------------------------------
@@ -263,7 +263,7 @@ During ``make dev.provision``, the edx-platform script ``copy-node-modules.sh`` 
 
 This issue was introduced on edx-platform master in July 2023 and was resolved in August 2023 (without becoming part of a named release). See https://github.com/openedx/devstack/issues/1138 for more details, including a workaround for those unable to upgrade their repos or images for some reason.
 
-.. _pull new code and images:
+.. _update your repos and pull the latest images:
 
 Updating Devstack
 =================
