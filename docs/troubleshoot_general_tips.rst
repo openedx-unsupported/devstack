@@ -247,7 +247,7 @@ See `the github issue`_ to follow the work being done on the resolution.
 Past problems (fixed)
 =====================
 
-If you see any of the following issues, you'll need to update your repos and pull the latest images.
+If you see any of the following issues, you'll need to `update your repos and pull the latest images`_.
 
 Permission denied for copying studio-frontend JS & CSS during provisioning
 --------------------------------------------------------------------------
@@ -263,6 +263,23 @@ During ``make dev.provision``, the edx-platform script ``copy-node-modules.sh`` 
 
 This issue was introduced on edx-platform master in July 2023 and was resolved in August 2023 (without becoming part of a named release). See https://github.com/openedx/devstack/issues/1138 for more details, including a workaround for those unable to upgrade their repos or images for some reason.
 
+.. _update your repos and pull the latest images:
+
+Updating Devstack
+=================
+It may be that the bug you have encountered has already been resolved and you just need to update your devstack. You can do this without losing any of your existing data or having to reprovision, although you will lose your container command history once you pull new images.
+
+To update devstack to the latest images and code:
+
+1. ``make dev.stop`` This will stop all running containers.
+2. ``make dev.reset-repos`` This will pull all the latest code into all your devstack service and MFE repos.
+3. ``git fetch && git pull`` on the master branch in devstack. This will pull all the latest code into the devstack repo itself.
+4. ``make dev.pull.lms`` This will pull the latest lms image and all its dependencies. If you need other services/MFEs, you can replace this with ``make dev.pull.lms+cms+other_service+other_MFE...`` or ``make dev.pull.large-and-slow`` if you really need everything.
+
+Depending on your needs, you may also want to run ``make dev.migrate.lms`` to apply all the latest migrations and/or ``make dev.static.lms`` to recompile static assets.
+Like with pulling images, you can also narrow these commands to specific services/MFEs with ``make dev.migrate.lms+cms+...,`` or run  ``make dev.migrate`` and ``make dev.static`` (no suffixes) to include everything.
+
+Running ``make dev.reset`` will do all the above for all services, which can be useful but takes much more time. It will also run a full ``docker system prune -f`` to get rid of unused images and networks.
 
 Starting From Scratch
 =====================
