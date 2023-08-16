@@ -8,7 +8,7 @@ attrs==23.1.0
     # via jsonschema
 bcrypt==4.0.1
     # via paramiko
-certifi==2023.5.7
+certifi==2023.7.22
     # via requests
 cffi==1.15.1
     # via
@@ -16,7 +16,7 @@ cffi==1.15.1
     #   pynacl
 charset-normalizer==3.2.0
     # via requests
-cryptography==41.0.2
+cryptography==41.0.3
     # via paramiko
 distro==1.8.0
     # via docker-compose
@@ -34,7 +34,7 @@ jsonschema==3.2.0
     # via docker-compose
 packaging==23.1
     # via docker
-paramiko==3.2.0
+paramiko==3.3.1
     # via docker
 pycparser==2.21
     # via cffi
@@ -59,7 +59,7 @@ six==1.16.0
     #   websocket-client
 texttable==1.6.7
     # via docker-compose
-urllib3==2.0.3
+urllib3==2.0.4
     # via
     #   docker
     #   requests
