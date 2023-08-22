@@ -298,13 +298,14 @@ services:
     depends_on:
       - lms
       - memcached
+      - mysql80
       - mysql57
     # Allows attachment to the credentials service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
     environment:
       CACHE_LOCATION: edx.devstack.memcached:11211
-      DB_HOST: edx.devstack.mysql57
+      DB_HOST: edx.devstack.mysql80
       SOCIAL_AUTH_EDX_OIDC_URL_ROOT: http://edx.devstack.lms:18000/oauth2
       ENABLE_DJANGO_TOOLBAR: 1
       DJANGO_WATCHMAN_TIMEOUT: 30
@@ -323,6 +324,7 @@ services:
     depends_on:
       - elasticsearch710
       - memcached
+      - mysql80
       - mysql57
       - opensearch12
       - redis
@@ -332,7 +334,7 @@ services:
     environment:
       # This next DB_MIGRATION_HOST line can be removed once edx/configuration has been updated with this value for
       # a while and most people have had a chance to do a "make pull" to get the latest images.
-      DB_MIGRATION_HOST: edx.devstack.mysql57
+      DB_MIGRATION_HOST: edx.devstack.mysql80
       TEST_ELASTICSEARCH_URL: "edx.devstack.elasticsearch710"
       ENABLE_DJANGO_TOOLBAR: 1
       DJANGO_WATCHMAN_TIMEOUT: 30
@@ -355,6 +357,7 @@ services:
       - discovery
       - lms
       - memcached
+      - mysql80
       - mysql57
     # Allows attachment to the ecommerce service using 'docker attach <containerID>'.
     stdin_open: true
@@ -382,6 +385,7 @@ services:
       - devpi
       - elasticsearch710
       - lms
+      - mysql80
       - mysql57
     image: openedx/edx-notes-api-dev:${OPENEDX_RELEASE:-latest}
     networks:
@@ -392,7 +396,7 @@ services:
       - "18120:18120"
     environment:
       DB_ENGINE: "django.db.backends.mysql"
-      DB_HOST: "edx.devstack.mysql57"
+      DB_HOST: "edx.devstack.mysql80"
       DB_NAME: "notes"
       DB_PASSWORD: "password"
       DB_PORT: "3306"
@@ -433,6 +437,7 @@ services:
       - localstack
       - memcached
       - mongo
+      - mysql80
       - mysql57
     # Allows attachment to the LMS service using 'docker attach <containerID>'.
     stdin_open: true
@@ -469,6 +474,7 @@ services:
     hostname: insights.devstack.edx
     depends_on:
       - analyticsapi
+      - mysql80
       - mysql57
       - lms
       - memcached
@@ -476,7 +482,7 @@ services:
     stdin_open: true
     tty: true
     environment:
-      DB_HOST: edx.devstack.mysql57
+      DB_HOST: edx.devstack.mysql80
       DB_NAME: dashboard
       DB_PORT: 3306
       DB_USER: analytics001
@@ -528,13 +534,14 @@ services:
     container_name: edx.devstack.analyticsapi
     hostname: analyticsapi
     depends_on:
+      - mysql80
       - mysql57
       - elasticsearch710
     command: bash -c 'source /edx/app/analytics_api/analytics_api_env && while true;  do python /edx/app/analytics_api/analytics_api/manage.py runserver 0.0.0.0:19001 --settings analyticsdataserver.settings.devstack; sleep 2; done'
     stdin_open: true
     tty: true
     environment:
-      DB_HOST: edx.devstack.mysql57
+      DB_HOST: edx.devstack.mysql80
       DB_PORT: 3306
       DB_USER: analytics001
       DB_PASSWORD: password
@@ -553,6 +560,7 @@ services:
     depends_on:
       - discovery
       - lms
+      - mysql80
       - mysql57
       - memcached
       - redis
@@ -561,7 +569,7 @@ services:
     stdin_open: true
     tty: true
     environment:
-      DB_HOST: edx.devstack.mysql57
+      DB_HOST: edx.devstack.mysql80
       DB_NAME: registrar
       DB_PORT: 3306
       DB_USER: registrar001
@@ -595,12 +603,13 @@ services:
     hostname: registrar-worker.devstack.edx
     depends_on:
       - lms
+      - mysql80
       - mysql57
       - redis
     stdin_open: true
     tty: true
     environment:
-      DB_HOST: edx.devstack.mysql57
+      DB_HOST: edx.devstack.mysql80
       DB_NAME: registrar
       DB_PORT: 3306
       DB_USER: registrar001
@@ -633,6 +642,7 @@ services:
       - lms
       - memcached
       - mongo
+      - mysql80
       - mysql57
     # Allows attachment to the CMS service using 'docker attach <containerID>'.
     stdin_open: true
@@ -672,6 +682,7 @@ services:
       - ${DEVSTACK_WORKSPACE}/xqueue:/edx/app/xqueue/xqueue
       - ${PWD}/configuration_files/xqueue.yml:/edx/etc/xqueue.yml
     depends_on:
+      - mysql80
       - mysql57
     environment:
       XQUEUE_CFG: "/edx/etc/xqueue.yml"
@@ -691,6 +702,7 @@ services:
       - ${DEVSTACK_WORKSPACE}/xqueue:/edx/app/xqueue/xqueue
       - ${PWD}/configuration_files/xqueue.yml:/edx/etc/xqueue.yml
     depends_on:
+      - mysql80
       - mysql57
     networks:
       default:

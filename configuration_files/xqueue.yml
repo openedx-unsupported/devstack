@@ -5,7 +5,7 @@ DATABASES:
         ATOMIC_REQUESTS: true
         CONN_MAX_AGE: 0
         ENGINE: django.db.backends.mysql
-        HOST: edx.devstack.mysql57
+        HOST: edx.devstack.mysql80
         NAME: xqueue
         OPTIONS: {}
         PASSWORD: password
