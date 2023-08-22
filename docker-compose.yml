@@ -250,7 +250,7 @@ services:
     ports:
       - "3506:3306"
     volumes:
-      - mysql57_data:/var/lib/mysql
+      - mysql80_data:/var/lib/mysql
 
   mysql80:
     command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci
@@ -326,7 +326,7 @@ services:
     depends_on:
       - lms
       - memcached
-      - mysql57
+      - mysql80
     # Allows attachment to the credentials service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
@@ -351,7 +351,7 @@ services:
     depends_on:
       - elasticsearch710
       - memcached
-      - mysql57
+      - mysql80
       - opensearch12
       - redis
     # Allows attachment to the discovery service using 'docker attach <containerID>'.
@@ -383,7 +383,7 @@ services:
       - discovery
       - lms
       - memcached
-      - mysql57
+      - mysql80
     # Allows attachment to the ecommerce service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
@@ -410,7 +410,7 @@ services:
       - devpi
       - elasticsearch710
       - lms
-      - mysql57
+      - mysql80
     image: openedx/edx-notes-api-dev:${OPENEDX_RELEASE:-latest}
     networks:
       default:
@@ -460,7 +460,7 @@ services:
       - forum
       - memcached
       - mongo
-      - mysql57
+      - mysql80
     # Allows attachment to the LMS service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
@@ -496,7 +496,7 @@ services:
     hostname: insights.devstack.edx
     depends_on:
       - analyticsapi
-      - mysql57
+      - mysql80
       - lms
       - memcached
     # Allows attachment to the insights service using 'docker attach <containerID>'.
@@ -528,7 +528,7 @@ services:
     container_name: edx.devstack.analyticsapi
     hostname: analyticsapi
     depends_on:
-      - mysql57
+      - mysql80
       - elasticsearch710
     command: bash -c 'source /edx/app/analytics_api/analytics_api_env && while true;  do python /edx/app/analytics_api/analytics_api/manage.py runserver 0.0.0.0:19001 --settings analyticsdataserver.settings.devstack; sleep 2; done'
     stdin_open: true
@@ -553,7 +553,7 @@ services:
     depends_on:
       - discovery
       - lms
-      - mysql57
+      - mysql80
       - memcached
       - redis
       - registrar-worker
@@ -595,7 +595,7 @@ services:
     hostname: registrar-worker.devstack.edx
     depends_on:
       - lms
-      - mysql57
+      - mysql80
       - redis
     stdin_open: true
     tty: true
@@ -633,7 +633,7 @@ services:
       - lms
       - memcached
       - mongo
-      - mysql57
+      - mysql80
     # Allows attachment to the CMS service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
@@ -672,7 +672,7 @@ services:
       - ${DEVSTACK_WORKSPACE}/xqueue:/edx/app/xqueue/xqueue
       - ${PWD}/configuration_files/xqueue.yml:/edx/etc/xqueue.yml
     depends_on:
-      - mysql57
+      - mysql80
     environment:
       XQUEUE_CFG: "/edx/etc/xqueue.yml"
     networks:
@@ -691,7 +691,7 @@ services:
       - ${DEVSTACK_WORKSPACE}/xqueue:/edx/app/xqueue/xqueue
       - ${PWD}/configuration_files/xqueue.yml:/edx/etc/xqueue.yml
     depends_on:
-      - mysql57
+      - mysql80
     networks:
       default:
         aliases:
