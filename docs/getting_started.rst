@@ -40,10 +40,10 @@ If you are using Linux, use the ``overlay2`` storage driver, kernel version
 
    docker info | grep -i 'storage driver'
 
-.. _Docker for Mac: https://docs.docker.com/docker-for-mac/
+.. _Docker for Mac: https://docs.docker.com/desktop/install/mac-install/
 .. _licensing terms: https://www.docker.com/pricing/faq
-.. _configuring Docker for Mac: https://docs.docker.com/docker-for-mac/#/advanced
-.. _Docker for Windows: https://docs.docker.com/docker-for-windows/
+.. _configuring Docker for Mac: https://docs.docker.com/desktop/settings/mac/#advanced
+.. _Docker for Windows: https://docs.docker.com/desktop/install/windows-install/
 
 Please note
 ~~~~~~~~~~~
