@@ -263,6 +263,16 @@ During ``make dev.provision``, the edx-platform script ``copy-node-modules.sh`` 
 
 This issue was introduced on edx-platform master in July 2023 and was resolved in August 2023 (without becoming part of a named release). See https://github.com/openedx/devstack/issues/1138 for more details, including a workaround for those unable to upgrade their repos or images for some reason.
 
+Cannot find valid pkg-config name
+---------------------------------
+
+During ``make requirements`` there would be an error::
+
+    Exception: Cannot find valid pkg-config name.
+    Specify MYSQLCLIENT_CFLAGS and MYSQLCLIENT_LDFLAGS env vars manually
+
+This was resolved in July 2023 with https://github.com/openedx/edx-platform/pull/32732.
+
 .. _update your repos and pull the latest images:
 
 Updating Devstack
