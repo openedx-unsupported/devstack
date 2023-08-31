@@ -600,7 +600,7 @@ services:
       - lms
       - memcached
       - mongo
-      - mysql57
+      - mysql80
     # Allows attachment to the CMS service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
