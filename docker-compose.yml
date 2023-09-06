@@ -50,42 +50,6 @@ services:
     environment:
       NEO4J_AUTH: "neo4j/edx"  # Initial username/password for Neo4j Web interface.
 
-  elasticsearch:
-    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.elasticsearch"
-    hostname: elasticsearch.devstack.edx
-    image: edxops/elasticsearch:devstack
-    networks:
-      default:
-        aliases:
-          - edx.devstack.elasticsearch
-    # TODO: What to do about these forwarded ports? They'll conflict with ports forwarded by the Vagrant VM.
-    # ports:
-    #   - "9200:9200"
-    #   - "9300:9300"
-    volumes:
-      - elasticsearch_data:/usr/share/elasticsearch/data
-      - elasticsearch_data:/usr/share/elasticsearch/logs
-
-  # This is meant to be used to test ES upgrades so that we do not have to upgrade all of our services to ES5 at once.
-  elasticsearch7:
-    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.elasticsearch7"
-    hostname: elasticsearch7.devstack.edx
-    image: elasticsearch:7.8.1
-    networks:
-      default:
-        aliases:
-          - edx.devstack.elasticsearch7
-    ports:
-      - "9200:9200"
-      - "9300:9300"
-    volumes:
-      - elasticsearch7_data:/usr/share/elasticsearch/data
-    environment:
-      - discovery.type=single-node
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-
-  # This is meant to be used to test ES upgrades.
   elasticsearch710:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.elasticsearch710"
     hostname: elasticsearch710.devstack.edx
