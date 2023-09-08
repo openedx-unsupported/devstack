@@ -14,7 +14,7 @@ bcrypt==4.0.1
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   paramiko
-build==0.10.0
+build==1.0.0
     # via
     #   -r requirements/pip-tools.txt
     #   pip-tools
@@ -82,6 +82,10 @@ idna==3.4
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   requests
+importlib-metadata==6.8.0
+    # via
+    #   -r requirements/pip-tools.txt
+    #   build
 iniconfig==2.0.0
     # via
     #   -r requirements/test.txt
@@ -141,7 +145,7 @@ pyrsistent==0.19.3
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   jsonschema
-pytest==7.4.0
+pytest==7.4.1
     # via -r requirements/test.txt
 python-dotenv==0.21.1
     # via
@@ -196,7 +200,7 @@ urllib3==2.0.4
     #   -r requirements/test.txt
     #   docker
     #   requests
-virtualenv==20.24.3
+virtualenv==20.24.4
     # via tox
 websocket-client==0.59.0
     # via
@@ -208,6 +212,10 @@ wheel==0.41.2
     # via
     #   -r requirements/pip-tools.txt
     #   pip-tools
+zipp==3.16.2
+    # via
+    #   -r requirements/pip-tools.txt
+    #   importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
 # pip
