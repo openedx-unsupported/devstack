@@ -121,7 +121,7 @@ python-dotenv==0.21.1
     # via
     #   -r requirements/base.txt
     #   docker-compose
-pytz==2023.3
+pytz==2023.3.post1
     # via babel
 pyyaml==5.4.1
     # via
@@ -146,7 +146,7 @@ six==1.16.0
     #   websocket-client
 snowballstemmer==2.2.0
     # via sphinx
-soupsieve==2.4.1
+soupsieve==2.5
     # via beautifulsoup4
 sphinx==6.2.1
     # via
