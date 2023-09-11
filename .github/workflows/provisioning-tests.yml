@@ -46,7 +46,7 @@ jobs:
           sudo apt update
           sudo apt install docker-ce containerd.io
           docker version
-          docker-compose --version
+          docker compose --version
 
       - name: free up disk space
         run:  sudo apt remove --purge -y ghc-* azure-cli google-cloud-sdk hhvm llvm-* dotnet-* powershell mono-* php* ruby*

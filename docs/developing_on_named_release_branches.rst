@@ -13,7 +13,7 @@ By default, the startup steps in :doc:`getting_started` will install the devstac
    checkout of each service repository
 #. Continue with step 3 in :doc:`getting_started` to pull the correct docker images.
 
-All ``make`` target and ``docker-compose`` calls should now use the correct
+All ``make`` target and ``docker compose`` calls should now use the correct
 images until you change or unset ``OPENEDX_RELEASE`` again.  To work on the
 master branches and ``latest`` images, unset ``OPENEDX_RELEASE`` or set it to
 an empty string.

@@ -46,7 +46,7 @@ run_check() {
     if $cmd; then  # Run the command itself and check if it succeeded.
         succeeded="$succeeded $check_name"
     else
-        docker-compose logs "$service"
+        docker compose logs "$service"
         failed="$failed $check_name"
     fi
     set -e  # Re-enable exit-on-error

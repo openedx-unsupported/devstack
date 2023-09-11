@@ -7,14 +7,14 @@ echo "Parsing options"
 container_error=false
 for arg in "$@"; do
     if [ $arg == "--cms" ]; then
-        if [ ! "$(docker-compose exec lms bash -c 'echo "Course will be created for cms"; exit $?')" ]; then
+        if [ ! "$(docker compose exec lms bash -c 'echo "Course will be created for cms"; exit $?')" ]; then
             echo "Issue with cms container"
             container_error=true
         else
             cms=true
         fi
     elif [ $arg == "--ecommerce" ]; then
-        if [ ! "$(docker-compose exec ecommerce bash -c 'echo "Course will be created for ecommerce"; exit $?')" ]; then
+        if [ ! "$(docker compose exec ecommerce bash -c 'echo "Course will be created for ecommerce"; exit $?')" ]; then
             echo "Issue with ecommerce container"
             container_error=true
         else
@@ -42,10 +42,10 @@ done < "${@: -1}"
 
 if $cms ; then
 	echo "Creating courses on cms."
-	docker-compose exec lms bash -c "source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py cms --settings=devstack_docker generate_courses '$course_json'"
+	docker compose exec lms bash -c "source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py cms --settings=devstack_docker generate_courses '$course_json'"
 fi
 
 if $ecommerce ; then
 	echo "Creating courses on ecommerce."
-	docker-compose exec ecommerce bash -c "source /edx/app/ecommerce/ecommerce_env && python /edx/app/ecommerce/ecommerce/manage.py generate_courses '$course_json'"
+	docker compose exec ecommerce bash -c "source /edx/app/ecommerce/ecommerce_env && python /edx/app/ecommerce/ecommerce/manage.py generate_courses '$course_json'"
 fi

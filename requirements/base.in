@@ -1,4 +1,3 @@
 -c constraints.txt
 
-docker-compose                      # For launching the devstack Docker containers
-PyYAML                              # For parsing configuration files while generating offline installers
+PyYAML>=6.0.0                              # For parsing configuration files while generating offline installers

@@ -134,7 +134,7 @@ for example:
 
 The most common culprit is an infinite restart loop where an error during
 service startup causes the process to exit, but we've configured
-``docker-compose`` to immediately try starting it again (so the container will
+``docker compose`` to immediately try starting it again (so the container will
 stay running long enough for you to use a shell to investigate and fix the
 problem).  Make sure the set of packages installed in the container matches
 what your current code branch expects; you may need to rerun ``pip`` on a

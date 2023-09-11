@@ -8,11 +8,11 @@ You will need to have the following installed:
 
 - make
 - Python 3.8
-- Docker, including ``docker-compose``
+- Docker, including ``docker compose``
 
-This project requires **Docker 17.06+ CE**.  We recommend Docker Stable, but
+This project requires **Docker 19.03+ CE**.  We recommend Docker Stable, but
 Docker Edge should work as well. Ensure that your Docker installation includes
-``docker-compose``; on some operating systems (e.g. Ubuntu Linux) this may require
+``docker compose``; on some operating systems (e.g. Ubuntu Linux) this may require
 a separate package.
 
 **NOTE:** Switching between Docker Stable and Docker Edge will remove all images and
