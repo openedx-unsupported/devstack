@@ -4,7 +4,7 @@ name: Provisioning tests
 
 on:
   push:
-    branches: [master]
+    branches: [master, rsgraber/20230831-rm-docker-compose]
     paths-ignore:
       - '**.rst'
   pull_request:
