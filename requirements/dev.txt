@@ -4,71 +4,16 @@
 #
 #    make upgrade
 #
-attrs==23.1.0
-    # via
-    #   -r requirements/base.txt
-    #   -r requirements/test.txt
-    #   jsonschema
-bcrypt==4.0.1
-    # via
-    #   -r requirements/base.txt
-    #   -r requirements/test.txt
-    #   paramiko
 build==1.0.0
     # via
     #   -r requirements/pip-tools.txt
     #   pip-tools
-certifi==2023.7.22
-    # via
-    #   -r requirements/base.txt
-    #   -r requirements/test.txt
-    #   requests
-cffi==1.15.1
-    # via
-    #   -r requirements/base.txt
-    #   -r requirements/test.txt
-    #   cryptography
-    #   pynacl
-charset-normalizer==3.2.0
-    # via
-    #   -r requirements/base.txt
-    #   -r requirements/test.txt
-    #   requests
 click==8.1.7
     # via
     #   -r requirements/pip-tools.txt
     #   pip-tools
-cryptography==41.0.3
-    # via
-    #   -r requirements/base.txt
-    #   -r requirements/test.txt
-    #   paramiko
 distlib==0.3.7
     # via virtualenv
-distro==1.8.0
-    # via
-    #   -r requirements/base.txt
-    #   -r requirements/test.txt
-    #   docker-compose
-docker[ssh]==6.1.3
-    # via
-    #   -r requirements/base.txt
-    #   -r requirements/test.txt
-    #   docker-compose
-docker-compose==1.29.2
-    # via
-    #   -r requirements/base.txt
-    #   -r requirements/test.txt
-dockerpty==0.4.1
-    # via
-    #   -r requirements/base.txt
-    #   -r requirements/test.txt
-    #   docker-compose
-docopt==0.6.2
-    # via
-    #   -r requirements/base.txt
-    #   -r requirements/test.txt
-    #   docker-compose
 exceptiongroup==1.1.3
     # via
     #   -r requirements/test.txt
@@ -77,11 +22,6 @@ filelock==3.12.3
     # via
     #   tox
     #   virtualenv
-idna==3.4
-    # via
-    #   -r requirements/base.txt
-    #   -r requirements/test.txt
-    #   requests
 importlib-metadata==6.8.0
     # via
     #   -r requirements/pip-tools.txt
@@ -90,25 +30,13 @@ iniconfig==2.0.0
     # via
     #   -r requirements/test.txt
     #   pytest
-jsonschema==3.2.0
-    # via
-    #   -r requirements/base.txt
-    #   -r requirements/test.txt
-    #   docker-compose
 packaging==23.1
     # via
-    #   -r requirements/base.txt
     #   -r requirements/pip-tools.txt
     #   -r requirements/test.txt
     #   build
-    #   docker
     #   pytest
     #   tox
-paramiko==3.3.1
-    # via
-    #   -r requirements/base.txt
-    #   -r requirements/test.txt
-    #   docker
 pexpect==4.8.0
     # via -r requirements/test.txt
 pip-tools==7.3.0
@@ -126,56 +54,18 @@ ptyprocess==0.7.0
     #   pexpect
 py==1.11.0
     # via tox
-pycparser==2.21
-    # via
-    #   -r requirements/base.txt
-    #   -r requirements/test.txt
-    #   cffi
-pynacl==1.5.0
-    # via
-    #   -r requirements/base.txt
-    #   -r requirements/test.txt
-    #   paramiko
 pyproject-hooks==1.0.0
     # via
     #   -r requirements/pip-tools.txt
     #   build
-pyrsistent==0.19.3
-    # via
-    #   -r requirements/base.txt
-    #   -r requirements/test.txt
-    #   jsonschema
 pytest==7.4.1
     # via -r requirements/test.txt
-python-dotenv==0.21.1
+pyyaml==6.0.1
     # via
     #   -r requirements/base.txt
     #   -r requirements/test.txt
-    #   docker-compose
-pyyaml==5.4.1
-    # via
-    #   -r requirements/base.txt
-    #   -r requirements/test.txt
-    #   docker-compose
-requests==2.31.0
-    # via
-    #   -r requirements/base.txt
-    #   -r requirements/test.txt
-    #   docker
-    #   docker-compose
 six==1.16.0
-    # via
-    #   -r requirements/base.txt
-    #   -r requirements/test.txt
-    #   dockerpty
-    #   jsonschema
-    #   tox
-    #   websocket-client
-texttable==1.6.7
-    # via
-    #   -r requirements/base.txt
-    #   -r requirements/test.txt
-    #   docker-compose
+    # via tox
 tomli==2.0.1
     # via
     #   -r requirements/pip-tools.txt
@@ -194,20 +84,8 @@ tox-battery==0.6.2
     # via -r requirements/dev.in
 typing-extensions==4.7.1
     # via filelock
-urllib3==2.0.4
-    # via
-    #   -r requirements/base.txt
-    #   -r requirements/test.txt
-    #   docker
-    #   requests
 virtualenv==20.24.4
     # via tox
-websocket-client==0.59.0
-    # via
-    #   -r requirements/base.txt
-    #   -r requirements/test.txt
-    #   docker
-    #   docker-compose
 wheel==0.41.2
     # via
     #   -r requirements/pip-tools.txt
