@@ -5,9 +5,11 @@ name: Provisioning tests
 on:
   push:
     branches: [master]
+    paths-ignore:
+      - '**.rst'
   pull_request:
-    branches:
-      - '**'
+    paths-ignore:
+      - '**.rst'
   schedule:
     # run at 7:30 am M-F
     - cron: '30 11 * * 1-5'
