@@ -57,8 +57,8 @@ jobs:
           brew install lima docker
           limactl start --name=default template://docker
           echo "DOCKER_HOST=unix:///Users/runner/.lima/default/sock/docker.sock" >> $GITHUB_ENV
-	  mkdir -p ~/.docker/cli-plugins
-  	  ln -sfn /usr/local/opt/docker-compose/bin/docker-compose ~/.docker/cli-plugins
+          mkdir -p ~/.docker/cli-plugins
+          ln -sfn /usr/local/opt/docker-compose/bin/docker-compose ~/.docker/cli-plugins
 
       - name: Install Python dependencies
         run:  make requirements
