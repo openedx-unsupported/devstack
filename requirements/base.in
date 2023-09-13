@@ -1,3 +1,4 @@
 -c constraints.txt
 
+# Support for Apple Silicon begins with 6.0.0
 PyYAML>=6.0.0                              # For parsing configuration files while generating offline installers
