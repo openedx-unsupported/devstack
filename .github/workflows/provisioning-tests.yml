@@ -4,7 +4,7 @@ name: Provisioning tests
 
 on:
   push:
-    branches: [master, rsgraber/20230831-rm-docker-compose]
+    branches: [master]
     paths-ignore:
       - '**.rst'
   pull_request:
@@ -28,7 +28,7 @@ jobs:
         os:
           - ubuntu-20.04 # Ubuntu 20.04 "Focal Fossa"
         python-version: [ '3.8' ]
-        services: [ discovery+lms+forum ,registrar+lms, ecommerce+lms, edx_notes_api+lms, credentials+lms, xqueue, analyticsapi+coursegraph+insights]
+        services: [ discovery+lms+forum ,registrar+lms, ecommerce+lms, edx_notes_api+lms, credentials+lms, xqueue, analyticsapi+insights]
       fail-fast: false # some services can be flaky; let others run to completion even if one fails
 
     steps:
