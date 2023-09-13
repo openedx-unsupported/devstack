@@ -86,7 +86,7 @@ pyrsistent==0.19.3
     # via
     #   -r requirements/base.txt
     #   jsonschema
-pytest==7.4.1
+pytest==7.4.2
     # via -r requirements/test.in
 python-dotenv==0.21.1
     # via

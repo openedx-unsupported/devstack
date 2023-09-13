@@ -14,7 +14,7 @@ bcrypt==4.0.1
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   paramiko
-build==1.0.0
+build==1.0.3
     # via
     #   -r requirements/pip-tools.txt
     #   pip-tools
@@ -145,7 +145,7 @@ pyrsistent==0.19.3
     #   -r requirements/base.txt
     #   -r requirements/test.txt
     #   jsonschema
-pytest==7.4.1
+pytest==7.4.2
     # via -r requirements/test.txt
 python-dotenv==0.21.1
     # via
@@ -200,7 +200,7 @@ urllib3==2.0.4
     #   -r requirements/test.txt
     #   docker
     #   requests
-virtualenv==20.24.4
+virtualenv==20.24.5
     # via tox
 websocket-client==0.59.0
     # via
