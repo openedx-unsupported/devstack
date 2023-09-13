@@ -35,7 +35,7 @@ services:
     hostname: coursegraph.devstack.edx
     # Try to keep this in sync with the NEO4J_VERSION declared within
     # https://github.com/openedx/configuration/blob/master/playbooks/roles/neo4j
-    image: neo4j:3.5.28
+    image: neo4j:5.11.0
     networks:
       default:
         aliases:
@@ -48,7 +48,7 @@ services:
     stdin_open: true
     tty: true
     environment:
-      NEO4J_AUTH: "neo4j/edx"  # Initial username/password for Neo4j Web interface.
+      NEO4J_AUTH: "neo4j/edxedxedx"  # Initial username/password for Neo4j Web interface.
 
   devpi:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.devpi"
