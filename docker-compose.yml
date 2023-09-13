@@ -48,7 +48,7 @@ services:
     stdin_open: true
     tty: true
     environment:
-      NEO4J_AUTH: "neo4j/edx"  # Initial username/password for Neo4j Web interface.
+      NEO4J_AUTH: "neo4j/edxedxedx"  # Initial username/password for Neo4j Web interface.
 
   devpi:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.devpi"
