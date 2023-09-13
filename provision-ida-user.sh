@@ -13,7 +13,6 @@ client_port=$3
 echo -e "${GREEN}Creating service user and OAuth2 applications for ${app_name}...${NC}"
 
 # Create the service user.
-docker compose exec -T lms bash -e -c 'pip install /edx/app/edxapp/edx-platform'
 docker compose exec -T lms  bash -e -c 'source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack_docker manage_user $1_worker $1_worker@example.com --staff --superuser' -- "$app_name"
 
 # Create the DOT applications - one for single sign-on and one for backend service IDA-to-IDA authentication.
