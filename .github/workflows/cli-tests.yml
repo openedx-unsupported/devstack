@@ -54,11 +54,12 @@ jobs:
       - name: Docker installation - Mac
         if: ${{ matrix.os.name == 'mac' }}
         run: |
-          brew install lima docker
+          brew install lima docker docker-compose
+          echo $HOMEBREW_PREFIX
           limactl start --name=default template://docker
           echo "DOCKER_HOST=unix:///Users/runner/.lima/default/sock/docker.sock" >> $GITHUB_ENV
           mkdir -p ~/.docker/cli-plugins
-          ln -sfn /usr/local/opt/docker-compose/bin/docker-compose ~/.docker/cli-plugins
+          ln -sfn $HOMEBREW_PREFIX/docker-compose/bin/docker-compose ~/.docker/cli-plugins
 
       - name: Install Python dependencies
         run:  make requirements
