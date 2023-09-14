@@ -23,6 +23,7 @@ well as the newer ``docker compose``. The easiest way to do this is to add
 is to add a shell script with the following and put it on the PATH under the name docker-compose:
 
     .. code:: sh
+
         #!/bin/bash
         docker compose "$@"
 
