@@ -1,7 +1,7 @@
 Devstack Interface
 ------------------
 
-Devstack comes built in with many useful make commands that act as an user interface. This UI is essentially a make wrapper around docker-compose commands. We attempt to give a short summary of what the make commands do below, but it would be a good idea for you to familiarize yourself with some knowledge of docker-compose.
+Devstack comes built in with many useful make commands that act as an user interface. This UI is essentially a make wrapper around ``docker compose`` commands. We attempt to give a short summary of what the make commands do below, but it would be a good idea for you to familiarize yourself with some knowledge of docker compose.
 
 Due to the organic nature of how this user interface came into being, there are often multiple ways to do the same thing. The two main variants of commands are of the form: ``dev.ACTION.SERVICE`` vs ``SERVICE-ACTION``. The ``SERVICE-ACTION`` variant tends to be more tab-completion friendly.
 

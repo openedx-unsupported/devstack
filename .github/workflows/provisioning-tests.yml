@@ -28,7 +28,7 @@ jobs:
         os:
           - ubuntu-20.04 # Ubuntu 20.04 "Focal Fossa"
         python-version: [ '3.8' ]
-        services: [ discovery+lms+forum ,registrar+lms, ecommerce+lms, edx_notes_api+lms, credentials+lms, xqueue]
+        services: [ discovery+lms+forum ,registrar+lms, ecommerce+lms, edx_notes_api+lms, credentials+lms, xqueue, analyticsapi+insights+lms]
       fail-fast: false # some services can be flaky; let others run to completion even if one fails
 
     steps:
@@ -48,7 +48,7 @@ jobs:
           sudo apt update
           sudo apt install docker-ce containerd.io
           docker version
-          docker-compose --version
+          docker compose --version
 
       - name: free up disk space
         run:  sudo apt remove --purge -y ghc-* azure-cli google-cloud-sdk hhvm llvm-* dotnet-* powershell mono-* php* ruby*

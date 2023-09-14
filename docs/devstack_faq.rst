@@ -54,7 +54,7 @@ starts, you have a few options:
   automatically on a regular basis. See `building images for devstack`_ for more information.
 * You can update your requirements files as appropriate and then build your
   own updated image for the service as described above, tagging it such that
-  ``docker-compose`` will use it instead of the last image you downloaded.
+  ``docker compose`` will use it instead of the last image you downloaded.
   (Alternatively, you can temporarily edit ``docker-compose.yml`` to replace
   the ``image`` entry for that service with the ID of your new image.) You
   should be sure to modify the variable override for the version of the
@@ -145,8 +145,8 @@ Then bring your mysql container down and back up by running:
 
 .. code:: sh
 
-  docker-compose stop mysql57
-  docker-compose up -d mysql57
+  docker compose stop mysql57
+  docker compose up -d mysql57
 
 Then connect using the values below. Note that the username and password will
 vary depending on the database. For all of the options, see ``provision.sql``.

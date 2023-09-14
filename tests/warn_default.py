@@ -14,7 +14,7 @@ def test_warn_default():
     p.expect(r'Are you sure you want to run this command')
 
     p.sendline('')
-    p.expect(r'Pulling lms')
+    p.expect(r'docker compose pull --include-deps')
 
     # Send ^C, don't wait for it to finish
     p.sendintr()
