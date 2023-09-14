@@ -17,6 +17,14 @@ All ``make`` target and ``docker compose`` calls should now use the correct
 images until you change or unset ``OPENEDX_RELEASE`` again.  To work on the
 master branches and ``latest`` images, unset ``OPENEDX_RELEASE`` or set it to
 an empty string.
+Note that older versions of devstack may have different prerequisites. In particular,
+releases before Quince will need support for the ``docker-compose`` syntax as
+well as the newer ``docker compose``. The easiest way to do this is to add
+is to add a shell script with the following and put it on the PATH under the name docker-compose:
+
+    .. code:: sh
+        #!/bin/bash
+        docker compose "$@"
 
 How do I run multiple named Open edX releases on same machine?
 --------------------------------------------------------------
