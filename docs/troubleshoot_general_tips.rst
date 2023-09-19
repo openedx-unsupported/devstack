@@ -274,7 +274,7 @@ During ``make requirements`` there would be an error::
 This was resolved in July 2023 with https://github.com/openedx/edx-platform/pull/32732.
 
 Cannot run ``make upgrade`` in lms shell due to missing wget
-----------------------------------------------------------
+------------------------------------------------------------
 
 ``make upgrade`` or ``make compile-requirements`` in lms-shell would produce an error about wget::
 
