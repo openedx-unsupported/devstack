@@ -282,7 +282,7 @@ Cannot run ``make upgrade`` in lms shell due to missing wget
     /bin/sh: 1: wget: not found
     make[1]: *** [Makefile:115: requirements/common_constraints.txt] Error 127
 
-This error was `introduced <https://github.com/openedx/edx-platform/pull/33271>`_ and `resolved <https://github.com/openedx/edx-platform/pull/33288>`_ in September 2023.
+This error was `introduced <https://github.com/openedx/edx-platform/pull/33271>`_ and `resolved <https://github.com/openedx/edx-platform/pull/33288>`_ in September 2023. While this can be solved by updating your devstack, you can also run ``apt update; apt install wget`` from lms-shell to resolve this temporarily.
 
 .. _update your repos and pull the latest images:
 
