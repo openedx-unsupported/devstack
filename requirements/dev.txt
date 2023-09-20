@@ -4,7 +4,7 @@
 #
 #    make upgrade
 #
-build==1.0.0
+build==1.0.3
     # via
     #   -r requirements/pip-tools.txt
     #   pip-tools
@@ -18,7 +18,7 @@ exceptiongroup==1.1.3
     # via
     #   -r requirements/test.txt
     #   pytest
-filelock==3.12.3
+filelock==3.12.4
     # via
     #   tox
     #   virtualenv
@@ -58,7 +58,7 @@ pyproject-hooks==1.0.0
     # via
     #   -r requirements/pip-tools.txt
     #   build
-pytest==7.4.1
+pytest==7.4.2
     # via -r requirements/test.txt
 pyyaml==6.0.1
     # via
@@ -82,15 +82,13 @@ tox==3.28.0
     #   tox-battery
 tox-battery==0.6.2
     # via -r requirements/dev.in
-typing-extensions==4.7.1
-    # via filelock
-virtualenv==20.24.4
+virtualenv==20.24.5
     # via tox
 wheel==0.41.2
     # via
     #   -r requirements/pip-tools.txt
     #   pip-tools
-zipp==3.16.2
+zipp==3.17.0
     # via
     #   -r requirements/pip-tools.txt
     #   importlib-metadata
