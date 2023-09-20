@@ -273,6 +273,17 @@ During ``make requirements`` there would be an error::
 
 This was resolved in July 2023 with https://github.com/openedx/edx-platform/pull/32732.
 
+Cannot run ``make upgrade`` in lms shell due to missing wget
+------------------------------------------------------------
+
+``make upgrade`` or ``make compile-requirements`` in lms-shell would produce an error about wget::
+
+    wget -O "requirements/common_constraints.txt" https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
+    /bin/sh: 1: wget: not found
+    make[1]: *** [Makefile:115: requirements/common_constraints.txt] Error 127
+
+This error was `introduced <https://github.com/openedx/edx-platform/pull/33271>`_ and `resolved <https://github.com/openedx/edx-platform/pull/33288>`_ in September 2023. While this can be solved by updating your devstack, you can also run ``apt update; apt install wget`` from lms-shell to resolve this temporarily.
+
 .. _update your repos and pull the latest images:
 
 Updating Devstack
