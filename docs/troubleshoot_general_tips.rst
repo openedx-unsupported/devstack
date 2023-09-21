@@ -302,6 +302,11 @@ Like with pulling images, you can also narrow these commands to specific service
 
 Running ``make dev.reset`` will do all the above for all services, which can be useful but takes much more time. It will also run a full ``docker system prune -f`` to get rid of unused images and networks.
 
+Manual Upgrades
+===============
+
+Sometimes there is a change to devstack that requires existing devstack installations to be manually upgraded. See :doc:`manual_upgrades` for recent cases of this.
+
 Starting From Scratch
 =====================
 
