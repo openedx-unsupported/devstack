@@ -26,4 +26,5 @@ Contents
    pycharm_integration
    testing_and_debugging
    troubleshoot_general_tips
+   manual_upgrades
    advanced_configuration
