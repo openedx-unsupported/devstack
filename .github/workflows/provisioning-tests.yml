@@ -51,7 +51,10 @@ jobs:
           docker compose --version
 
       - name: free up disk space
-        run:  sudo apt remove --purge -y ghc-* azure-cli google-cloud-sdk hhvm llvm-* dotnet-* powershell mono-* php* ruby*
+        # 2023-09-28: google-cloud-sdk removed from this list because it was intermittently
+        #   unavailable as an apt package to remove, and might be migrating to snap. If more
+        #   disk space is needed, see if the snap is installed, and remove that.
+        run:  sudo apt remove --purge -y ghc-* azure-cli hhvm llvm-* dotnet-* powershell mono-* php* ruby*
 
       - name: set up requirements
         run:  make requirements
