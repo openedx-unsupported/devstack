@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.30.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: registrar-worker
+  name: registrar-worker
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: registrar-worker
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.30.0 (HEAD)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/devstack-default: "true"
+        io.kompose.service: registrar-worker
+    spec:
+      containers:
+        - args:
+            - bash
+            - -c
+            - cd /edx/app/registrar && celery -A registrar worker -l debug -c 2
+          env:
+            - name: CELERY_BROKER_HOSTNAME
+              value: edx.devstack.redis:6379
+            - name: CELERY_BROKER_PASSWORD
+              value: password
+            - name: CELERY_BROKER_TRANSPORT
+              value: redis
+            - name: CELERY_BROKER_VHOST
+              value: "10"
+            - name: DB_HOST
+              value: edx.devstack.mysql57
+            - name: DB_NAME
+              value: registrar
+            - name: DB_PASSWORD
+              value: password
+            - name: DB_PORT
+              value: "3306"
+            - name: DB_USER
+              value: registrar001
+            - name: DJANGO_SETTINGS_MODULE
+              value: registrar.settings.devstack
+            - name: DJANGO_WATCHMAN_TIMEOUT
+              value: "30"
+            - name: LMS_HOST
+              value: http://localhost:18000
+            - name: MEMCACHE_HOST
+              value: edx.devstack.memcached
+          image: edxops/registrar-dev:latest
+          name: edx.devstack.registrar-worker
+          ports:
+            - containerPort: 18735
+              hostPort: 18735
+              protocol: TCP
+          resources: {}
+          stdin: true
+          tty: true
+          volumeMounts:
+            - mountPath: /edx/var/registrar
+              name: registrar-worker-claim0
+      hostname: registrar-worker.devstack.edx
+      restartPolicy: Always
+      volumes:
+        - name: registrar-worker-claim0
+          persistentVolumeClaim:
+            claimName: registrar-worker-claim0
+status: {}

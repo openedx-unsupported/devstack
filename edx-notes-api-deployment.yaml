@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.30.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: edx-notes-api
+  name: edx-notes-api
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: edx-notes-api
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.30.0 (HEAD)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/devstack-default: "true"
+        io.kompose.service: edx-notes-api
+    spec:
+      containers:
+        - args:
+            - bash
+            - -c
+            - while true; do python /edx/app/notes/manage.py runserver 0.0.0.0:18120 --settings notesserver.settings.devstack; sleep 4; done
+          env:
+            - name: DB_ENGINE
+              value: django.db.backends.mysql
+            - name: DB_HOST
+              value: edx.devstack.mysql57
+            - name: DB_NAME
+              value: notes
+            - name: DB_PASSWORD
+              value: password
+            - name: DB_PORT
+              value: "3306"
+            - name: DB_USER
+              value: notes001
+            - name: DJANGO_WATCHMAN_TIMEOUT
+              value: "30"
+            - name: ELASTICSEARCH_DSL
+              value: http://edx.devstack.elasticsearch710:9200
+            - name: ELASTICSEARCH_URL
+              value: http://edx.devstack.elasticsearch710:9200
+            - name: ENABLE_DJANGO_TOOLBAR
+              value: "1"
+          image: openedx/edx-notes-api-dev:latest
+          name: edx.devstack.edxnotesapi
+          ports:
+            - containerPort: 18120
+              hostPort: 18120
+              protocol: TCP
+          resources: {}
+      hostname: edx_notes_api.devstack.edx
+      restartPolicy: Always
+status: {}

@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.30.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: ecommerce
+  name: ecommerce
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: ecommerce
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.30.0 (HEAD)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/devstack-default: "true"
+        io.kompose.service: ecommerce
+    spec:
+      containers:
+        - args:
+            - bash
+            - -c
+            - source /edx/app/ecommerce/ecommerce_env && while true; do python /edx/app/ecommerce/ecommerce/manage.py runserver 0.0.0.0:18130; sleep 2; done
+          env:
+            - name: DJANGO_WATCHMAN_TIMEOUT
+              value: "30"
+            - name: ENABLE_DJANGO_TOOLBAR
+              value: "1"
+          image: edxops/ecommerce-dev:latest
+          name: edx.devstack.ecommerce
+          ports:
+            - containerPort: 18130
+              hostPort: 18130
+              protocol: TCP
+          resources: {}
+          stdin: true
+          tty: true
+          volumeMounts:
+            - mountPath: /edx/etc/ecommerce.yml
+              name: ecommerce-claim0
+      hostname: ecommerce.devstack.edx
+      restartPolicy: Always
+      volumes:
+        - name: ecommerce-claim0
+          persistentVolumeClaim:
+            claimName: ecommerce-claim0
+status: {}

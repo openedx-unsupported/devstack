@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.30.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: frontend-app-profile
+  name: frontend-app-profile
+  namespace: default
+spec:
+  ports:
+    - name: "1995"
+      port: 1995
+      targetPort: 1995
+  selector:
+    io.kompose.service: frontend-app-profile
+status:
+  loadBalancer: {}

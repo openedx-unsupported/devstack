@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.30.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: registrar
+  name: registrar
+  namespace: default
+spec:
+  ports:
+    - name: "18734"
+      port: 18734
+      targetPort: 18734
+  selector:
+    io.kompose.service: registrar
+status:
+  loadBalancer: {}

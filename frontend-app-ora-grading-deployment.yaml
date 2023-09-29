@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.30.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: frontend-app-ora-grading
+  name: frontend-app-ora-grading
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: frontend-app-ora-grading
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.30.0 (HEAD)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/devstack-default: "true"
+        io.kompose.service: frontend-app-ora-grading
+    spec:
+      containers:
+        - args:
+            - bash
+            - -c
+            - npm ci || exit 1; while true; do npm start; sleep 2; done
+          env:
+            - name: NODE_ENV
+              value: development
+          image: node:16
+          name: edx.devstack.frontend-app-ora-grading
+          ports:
+            - containerPort: 1993
+              hostPort: 1993
+              protocol: TCP
+          resources: {}
+          stdin: true
+          tty: true
+          workingDir: /edx/app/frontend-app-ora-grading
+      restartPolicy: Always
+status: {}

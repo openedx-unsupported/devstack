@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.30.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: frontend-app-publisher
+  name: frontend-app-publisher
+  namespace: default
+spec:
+  ports:
+    - name: "18400"
+      port: 18400
+      targetPort: 18400
+  selector:
+    io.kompose.service: frontend-app-publisher
+status:
+  loadBalancer: {}
