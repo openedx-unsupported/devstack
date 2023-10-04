@@ -8,8 +8,8 @@
 #     make dev.attach.credentials
 #     make dev.pull.registrar+cms
 #     make dev.up.lms
-#     make dev.up.without-deps.lms+forum+discovery+mysql57+elasticsearch710+memcached
-#     make dev.restart-container.mysql57+lms
+#     make dev.up.without-deps.lms+forum+discovery+mysql80+elasticsearch710+memcached
+#     make dev.restart-container.mysql80+lms
 
 # There are also "prefix-form" targets, which are simply an alternate way to spell
 # the 'dev.' targets.
@@ -264,7 +264,7 @@ dev.migrate.%: ## Run migrations on a service.
 dev.drop-db: _expects-database.dev.drop-db
 
 dev.drop-db.%: ## Irreversably drop the contents of a MySQL database in each mysql container.
-	docker compose exec -T mysql57 bash -c "mysql --execute=\"DROP DATABASE $*;\""
+	docker compose exec -T mysql80 bash -c "mysql --execute=\"DROP DATABASE $*;\""
 
 
 ########################################################################################
@@ -457,7 +457,11 @@ dev.shell.%: ## Run a shell on the specified service's container.
 	docker compose exec $* /bin/bash
 
 dev.dbshell:
-	docker compose exec mysql57 bash -c "mysql"
+	docker compose exec mysql80 bash -c "mysql"
+
+DB_NAMES_LIST = credentials discovery ecommerce notes registrar xqueue edxapp edxapp_csmh dashboard analytics-api reports reports_v1
+_db_copy8_targets = $(addprefix dev.dbcopy8.,$(DB_NAMES_LIST))
+dev.dbcopyall8: | $(_db_copy8_targets) ## Copy data from old mysql 5.7 containers into new mysql8 dbs
 
 dev.dbcopy8.%: ## Copy data from old mysql 5.7 container into a new 8 db
 	docker compose exec mysql57 bash -c "mysqldump $*" > .dev/$*.sql
@@ -465,7 +469,7 @@ dev.dbcopy8.%: ## Copy data from old mysql 5.7 container into a new 8 db
 	rm .dev/$*.sql
 
 dev.dbshell.%: ## Run a SQL shell on the given database.
-	docker compose exec mysql57 bash -c "mysql $*"
+	docker compose exec mysql80 bash -c "mysql $*"
 
 # List of Makefile targets to run static asset generation, in the form dev.static.$(service)
 # Services will only have their asset generation added here
