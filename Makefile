@@ -461,11 +461,14 @@ dev.dbshell:
 
 DB_NAMES_LIST = credentials discovery ecommerce notes registrar xqueue edxapp edxapp_csmh dashboard analytics-api reports reports_v1
 _db_copy8_targets = $(addprefix dev.dbcopy8.,$(DB_NAMES_LIST))
-dev.dbcopyall8: | $(_db_copy8_targets) ## Copy data from old mysql 5.7 containers into new mysql8 dbs
+dev.dbcopyall8: ## Copy data from old mysql 5.7 containers into new mysql8 dbs
+	$(MAKE) dev.up.mysql57+mysql80
+	./wait-ready.sh mysql57 mysql80
+	$(MAKE) $(_db_copy8_targets)
 
 dev.dbcopy8.%: ## Copy data from old mysql 5.7 container into a new 8 db
-	docker compose exec mysql57 bash -c "mysqldump $*" > .dev/$*.sql
-	docker compose exec -T mysql80 bash -c "mysql $*" < .dev/$*.sql
+	docker compose exec mysql57 mysqldump "$*" > .dev/$*.sql
+	docker compose exec -T mysql80 mysql "$*" < .dev/$*.sql
 	rm .dev/$*.sql
 
 dev.dbshell.%: ## Run a SQL shell on the given database.
