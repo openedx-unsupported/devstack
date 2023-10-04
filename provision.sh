@@ -130,40 +130,22 @@ fi
 
 # Ensure the MySQL5 server is online and usable
 echo "${GREEN}Waiting for MySQL 5.7.${NC}"
-until docker compose exec -T mysql57 bash -e -c "mysql -uroot -se \"SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = 'root')\"" &> /dev/null
-do
-  printf "."
-  sleep 1
-done
+./wait-ready.sh mysql57
 
 # Ensure the MySQL8 server is online and usable
 echo "${GREEN}Waiting for MySQL 8.0.${NC}"
-until docker compose exec -T mysql80 bash -e -c "mysql -uroot -se \"SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = 'root')\"" &> /dev/null
-do
-  printf "."
-  sleep 1
-done
+./wait-ready.sh mysql80
 
 # In the event of a fresh MySQL container, wait a few seconds for the server to restart
 # See https://github.com/docker-library/mysql/issues/245 for why this is necessary.
 sleep 10
 
 echo "${GREEN}Waiting for MySQL 5.7 to restart.${NC}"
-until docker compose exec -T mysql57 bash -e -c "mysql -uroot -se \"SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = 'root')\"" &> /dev/null
-do
-  printf "."
-  sleep 1
-done
-
+./wait-ready.sh mysql57
 echo -e "${GREEN}MySQL5 ready.${NC}"
 
 echo "${GREEN}Waiting for MySQL 8.0 to restart.${NC}"
-until docker compose exec -T mysql80 bash -e -c "mysql -uroot -se \"SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = 'root')\"" &> /dev/null
-do
-  printf "."
-  sleep 1
-done
-
+./wait-ready.sh mysql80
 echo -e "${GREEN}MySQL8 ready.${NC}"
 
 # Ensure that the MySQL databases and users are created for all IDAs.
