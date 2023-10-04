@@ -31,7 +31,7 @@ You may prefer to use something like "make $target.lms" to
 target a smaller set of services.  Learn more about the commands you
 can run at:
 
-  https://github.com/openedx/devstack/blob/master/docs/devstack_interface.rst
+  https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/devstack_interface.html
 
 Without an explicit list of services, many devstack Make targets pull
 down Docker images you don't need or take up extra memory and CPU. You
