@@ -43,15 +43,38 @@ run_check() {
     local cmd="$3"
     echo "> $cmd"
     set +e  # Disable exit-on-error
-    if $cmd; then  # Run the command itself and check if it succeeded.
+    if bash -c "$cmd"; then  # Run the command itself and check if it succeeded.
         succeeded="$succeeded $check_name"
     else
-        docker compose logs "$service"
+        docker compose logs --tail 30 "$service"  # Just show recent logs, not all history
         failed="$failed $check_name"
     fi
     set -e  # Re-enable exit-on-error
     echo  # Newline
 }
+
+mysql_run_check() {
+    container_name="$1"
+    mysql_probe="SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = 'root')"
+    run_check "${container_name}_query" "$container_name" \
+        "docker compose exec -T $(printf %q "$container_name") mysql -uroot -se $(printf %q "$mysql_probe")"
+}
+
+if should_check mysql57; then
+    echo "Checking MySQL 5.7 query endpoint:"
+    mysql_run_check mysql57
+fi
+
+if should_check mysql80; then
+    echo "Checking MySQL 8.0 query endpoint:"
+    mysql_run_check mysql80
+fi
+
+if should_check mongo; then
+    echo "Checking MongoDB status:"
+    run_check mongo_status mongo \
+        "docker compose exec -T mongo mongo --eval \"db.serverStatus()\""
+fi
 
 if should_check registrar; then
     echo "Checking Registrar heartbeat:"
@@ -64,13 +87,15 @@ if should_check lms; then
     run_check lms_heartbeat lms \
         "curl --fail -L http://localhost:18000/heartbeat"
 
-    echo "Checking CMS heartbeat:"
-    run_check cms_heartbeat lms \
-        "curl --fail -L http://localhost:18010/heartbeat"
-
     echo "Validating LMS volume:"
     run_check lms_volume lms \
         "make validate-lms-volume"
+fi
+
+if should_check cms; then
+    echo "Checking CMS heartbeat:"
+    run_check cms_heartbeat cms \
+        "curl --fail -L http://localhost:18010/heartbeat"
 fi
 
 if should_check ecommerce; then

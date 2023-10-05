@@ -160,11 +160,7 @@ docker compose exec -T mysql80 bash -e -c "mysql -uroot mysql" < provision-mysql
 if needs_mongo "$to_provision_ordered"; then
 	echo -e "${GREEN}Waiting for MongoDB...${NC}"
 	# mongo container and mongo process/shell inside the container
-	until docker compose exec -T mongo mongo --eval "db.serverStatus()" &> /dev/null
-	do
-	  printf "."
-	  sleep 1
-	done
+	./wait-ready.sh mongo
 	echo -e "${GREEN}MongoDB ready.${NC}"
 	echo -e "${GREEN}Creating MongoDB users...${NC}"
     docker compose exec -T mongo bash -e -c "mongo" < mongo-provision.js

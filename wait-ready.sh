@@ -15,26 +15,10 @@ if [[ $# == 0 ]]; then
     exit 0
 fi
 
-function wait_db {
-    container_name="$1"
-    mysql_probe="SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = 'root')"
-    until docker compose exec -T "$container_name" mysql -uroot -se "$mysql_probe" &> /dev/null; do
+for service_name in "$@"; do
+    until ./check.sh "$service_name" >/dev/null 2>&1; do
         printf "." >&2
         sleep 1
     done
-    echo >&2 "$container_name is ready"
-}
-
-
-for service_name in "$@"; do
-    case "$service_name" in
-        mysql*)
-            wait_db "$service_name"
-            ;;
-        # TODO: Add other services...
-        *)
-            echo >&2 "Unknown service: $service_name"
-            exit 1
-            ;;
-    esac
+    echo >&2 "$service_name is ready"
 done
