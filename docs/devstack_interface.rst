@@ -200,6 +200,7 @@ If you want to ensure you are getting the latest listing, simply use ``make help
       dev.up.without-deps.%        Bring up services by themselves.
       dev.up.without-deps.shell.%  Bring up a service by itself + shell into it.
       dev.validate                 Print effective Docker Compose config, validating files in COMPOSE_FILE.
+      dev.wait-for.%               Wait for these services to become ready
       devpi-password               Get the root devpi password for the devpi container.
       docs                         generate Sphinx HTML documentation, including API docs
       hadoop-application-logs-%    View hadoop logs by application Id.
