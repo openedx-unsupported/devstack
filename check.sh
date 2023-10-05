@@ -43,7 +43,7 @@ run_check() {
     local cmd="$3"
     echo "> $cmd"
     set +e  # Disable exit-on-error
-    if $cmd; then  # Run the command itself and check if it succeeded.
+    if bash -c "$cmd"; then  # Run the command itself and check if it succeeded.
         succeeded="$succeeded $check_name"
     else
         docker compose logs --tail 30 "$service"  # Just show recent logs, not all history
