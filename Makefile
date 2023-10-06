@@ -467,7 +467,7 @@ dev.dbcopyall8: ## Copy data from old mysql 5.7 containers into new mysql8 dbs
 	$(MAKE) $(_db_copy8_targets)
 
 dev.dbcopy8.%: ## Copy data from old mysql 5.7 container into a new 8 db
-	docker compose exec mysql57 mysqldump "$*" > .dev/$*.sql
+	docker compose exec mysql57 mysqldump "$*" --ignore-table="$*".django_migrations > .dev/$*.sql
 	docker compose exec -T mysql80 mysql "$*" < .dev/$*.sql
 	rm .dev/$*.sql
 
