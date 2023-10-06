@@ -122,70 +122,48 @@ fi
 echo -e "${GREEN}Will provision the following:\n  ${to_provision_ordered}${NC}"
 
 # Bring the databases online.
-docker-compose up -d mysql57
-docker-compose up -d mysql80
+docker compose up -d mysql57
+docker compose up -d mysql80
 if needs_mongo "$to_provision_ordered"; then
-	docker-compose up -d mongo
+	docker compose up -d mongo
 fi
 
 # Ensure the MySQL5 server is online and usable
 echo "${GREEN}Waiting for MySQL 5.7.${NC}"
-until docker-compose exec -T mysql57 bash -e -c "mysql -uroot -se \"SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = 'root')\"" &> /dev/null
-do
-  printf "."
-  sleep 1
-done
+./wait-ready.sh mysql57
 
 # Ensure the MySQL8 server is online and usable
 echo "${GREEN}Waiting for MySQL 8.0.${NC}"
-until docker-compose exec -T mysql80 bash -e -c "mysql -uroot -se \"SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = 'root')\"" &> /dev/null
-do
-  printf "."
-  sleep 1
-done
+./wait-ready.sh mysql80
 
 # In the event of a fresh MySQL container, wait a few seconds for the server to restart
 # See https://github.com/docker-library/mysql/issues/245 for why this is necessary.
 sleep 10
 
 echo "${GREEN}Waiting for MySQL 5.7 to restart.${NC}"
-until docker-compose exec -T mysql57 bash -e -c "mysql -uroot -se \"SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = 'root')\"" &> /dev/null
-do
-  printf "."
-  sleep 1
-done
-
+./wait-ready.sh mysql57
 echo -e "${GREEN}MySQL5 ready.${NC}"
 
 echo "${GREEN}Waiting for MySQL 8.0 to restart.${NC}"
-until docker-compose exec -T mysql80 bash -e -c "mysql -uroot -se \"SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = 'root')\"" &> /dev/null
-do
-  printf "."
-  sleep 1
-done
-
+./wait-ready.sh mysql80
 echo -e "${GREEN}MySQL8 ready.${NC}"
 
 # Ensure that the MySQL databases and users are created for all IDAs.
 # (A no-op for databases and users that already exist).
 echo -e "${GREEN}Ensuring MySQL 5.7 databases and users exist...${NC}"
-docker-compose exec -T mysql57 bash -e -c "mysql -uroot mysql" < provision.sql
+docker compose exec -T mysql57 bash -e -c "mysql -uroot mysql" < provision.sql
 echo -e "${GREEN}Ensuring MySQL 8.0 databases and users exist...${NC}"
-docker-compose exec -T mysql80 bash -e -c "mysql -uroot mysql" < provision-mysql80.sql
+docker compose exec -T mysql80 bash -e -c "mysql -uroot mysql" < provision-mysql80.sql
 
 # If necessary, ensure the MongoDB server is online and usable
 # and create its users.
 if needs_mongo "$to_provision_ordered"; then
 	echo -e "${GREEN}Waiting for MongoDB...${NC}"
 	# mongo container and mongo process/shell inside the container
-	until docker-compose exec -T mongo mongo --eval "db.serverStatus()" &> /dev/null
-	do
-	  printf "."
-	  sleep 1
-	done
+	./wait-ready.sh mongo
 	echo -e "${GREEN}MongoDB ready.${NC}"
 	echo -e "${GREEN}Creating MongoDB users...${NC}"
-    docker-compose exec -T mongo bash -e -c "mongo" < mongo-provision.js
+    docker compose exec -T mongo bash -e -c "mongo" < mongo-provision.js
 else
 	echo -e "${GREEN}MongoDB preparation not required; skipping.${NC}"
 fi

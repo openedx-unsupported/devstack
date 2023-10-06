@@ -8,21 +8,21 @@ You will need to have the following installed:
 
 - make
 - Python 3.8
-- Docker, including ``docker-compose``
+- Docker, including ``docker compose``
 
-This project requires **Docker 17.06+ CE**.  We recommend Docker Stable, but
+This project requires **Docker 19.03+ CE**.  We recommend Docker Stable, but
 Docker Edge should work as well. Ensure that your Docker installation includes
-``docker-compose``; on some operating systems (e.g. Ubuntu Linux) this may require
+``docker compose``; on some operating systems (e.g. Ubuntu Linux) this may require
 a separate package.
 
 **NOTE:** Switching between Docker Stable and Docker Edge will remove all images and
 settings.  Don't forget to restore your memory setting and be prepared to
 provision.
 
-For macOS users, please use `Docker for Mac`_. Previous Mac-based tools (e.g.
-boot2docker) are *not* supported. Please be aware that the `licensing terms`_ for
-Docker for Mac (aka Docker Desktop) may mean that it is no longer
-free for your organization's use.
+For macOS users, please use `Docker for Mac`_, which comes with ``docker
+compose``. Previous Mac-based tools (e.g. boot2docker) are *not* supported.
+Please be aware that the `licensing terms`_ for Docker for Mac (aka Docker
+Desktop) may mean that it is no longer free for your organization's use.
 
 Since a Docker-based devstack runs many containers,
 you should configure Docker with a sufficient
@@ -32,9 +32,14 @@ does work.
 
 `Docker for Windows`_ may work but has not been tested and is *not* supported.
 
-If you are using Linux, use the ``overlay2`` storage driver, kernel version
-4.0+ and *not* ``overlay``. To check which storage driver your
-``docker-daemon`` uses, run the following command.
+If you are using Linux, developers on Ubuntu (and Debian) should ensure
+they've uninstalled docker.io and docker-compose from the main Ubuntu
+repositories and instead install docker-ce and docker-compose-plugin from the
+official Docker package repository:
+https://docs.docker.com/engine/install/ubuntu/. Also they should use the
+``overlay2`` storage driver, kernel version 4.0+ and *not* ``overlay``. To
+check which storage driver your ``docker-daemon`` uses, run the following
+command.
 
 .. code:: sh
 

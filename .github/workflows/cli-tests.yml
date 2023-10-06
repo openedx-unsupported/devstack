@@ -31,7 +31,7 @@ jobs:
       fail-fast: false
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: setup python
         uses: actions/setup-python@v4
         with:
@@ -48,15 +48,17 @@ jobs:
           sudo apt update
           sudo apt install docker-ce containerd.io
           docker version
-          docker-compose --version
+          docker compose --version
 
       # Note: we cannot use Docker Desktop because it has not been licensed for use in GithubActions
       - name: Docker installation - Mac
         if: ${{ matrix.os.name == 'mac' }}
         run: |
-          brew install lima docker
+          brew install lima docker docker-compose
           limactl start --name=default template://docker
           echo "DOCKER_HOST=unix:///Users/runner/.lima/default/sock/docker.sock" >> $GITHUB_ENV
+          mkdir -p ~/.docker/cli-plugins
+          ln -sfn /usr/local/opt/docker-compose/bin/docker-compose ~/.docker/cli-plugins/docker-compose
 
       - name: Install Python dependencies
         run:  make requirements

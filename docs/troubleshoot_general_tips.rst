@@ -134,7 +134,7 @@ for example:
 
 The most common culprit is an infinite restart loop where an error during
 service startup causes the process to exit, but we've configured
-``docker-compose`` to immediately try starting it again (so the container will
+``docker compose`` to immediately try starting it again (so the container will
 stay running long enough for you to use a shell to investigate and fix the
 problem).  Make sure the set of packages installed in the container matches
 what your current code branch expects; you may need to rerun ``pip`` on a
@@ -273,6 +273,17 @@ During ``make requirements`` there would be an error::
 
 This was resolved in July 2023 with https://github.com/openedx/edx-platform/pull/32732.
 
+Cannot run ``make upgrade`` in lms shell due to missing wget
+------------------------------------------------------------
+
+``make upgrade`` or ``make compile-requirements`` in lms-shell would produce an error about wget::
+
+    wget -O "requirements/common_constraints.txt" https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
+    /bin/sh: 1: wget: not found
+    make[1]: *** [Makefile:115: requirements/common_constraints.txt] Error 127
+
+This error was `introduced <https://github.com/openedx/edx-platform/pull/33271>`_ and `resolved <https://github.com/openedx/edx-platform/pull/33288>`_ in September 2023. While this can be solved by updating your devstack, you can also run ``apt update; apt install wget`` from lms-shell to resolve this temporarily.
+
 .. _update your repos and pull the latest images:
 
 Updating Devstack
@@ -290,6 +301,11 @@ Depending on your needs, you may also want to run ``make dev.migrate.lms`` to ap
 Like with pulling images, you can also narrow these commands to specific services/MFEs with ``make dev.migrate.lms+cms+...,`` or run  ``make dev.migrate`` and ``make dev.static`` (no suffixes) to include everything.
 
 Running ``make dev.reset`` will do all the above for all services, which can be useful but takes much more time. It will also run a full ``docker system prune -f`` to get rid of unused images and networks.
+
+Manual Upgrades
+===============
+
+Sometimes there is a change to devstack that requires existing devstack installations to be manually upgraded. See :doc:`manual_upgrades` for recent cases of this.
 
 Starting From Scratch
 =====================
