@@ -70,11 +70,15 @@ jobs:
       - name: provision
         run:  make dev.provision.${{matrix.services}}
 
-      - name: dev.up
+      - name: "Bring up services"
         run:  make dev.up.${{matrix.services}}
 
-      - name: dev.check
-        run:  make dev.check.${{matrix.services}}
+      - name: "Wait for services to become ready"
+        run: |
+          # Wait a reasonable amount of time for services to come up. If they
+          # don't, then call the checks one more time to ensure that diagnostic
+          # information is printed out. (It's suppressed by wait-for.)
+          timeout 5m make dev.wait-for.${{matrix.services}} || timeout 1m make dev.check.${{matrix.services}}
 
       - name: notify on failure
         if: ${{ failure() && github.ref == 'refs/heads/master' }}
