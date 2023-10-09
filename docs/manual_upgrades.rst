@@ -12,20 +12,17 @@ Please add new instructions to the top, include a date, and make a post in the `
 
 The MySQL service has been upgraded from version 5.7 to 8.0. Developers will need to follow the following instructions.
 
-1. Stop the running containers ::
+1. Take latest ``git pull`` of ``devstack`` and ``edx-platform``.
 
-    make dev.stop
-
-2. Take latest ``git pull`` of ``devstack`` and ``edx-platform``
-3. Take the latest pull of images ::
+2. Take the latest pull of images ::
 
     make dev.pull
 
-4. Run provisioning command ::
+3. Run provisioning command ::
 
     make dev.provision
 
-5. [Optional] Additionally, there is a database copy command to help you transfer data from MySQL 5.7 to 8.0. After provisioning use the following command ::
+4. [Optional] Additionally, there is a database copy command to help you transfer data from MySQL 5.7 to 8.0. After provisioning use the ``dev.dbcopyall8`` command. This command will stop all of your services. Will clean your ``mysql80`` container and copy all of your databases from ``mysql57`` to ``mysql80``. ::
 
     make dev.dbcopyall8
 
@@ -45,6 +42,15 @@ This command copies the following databases:
 - reports_v1
 
 If you prefer not to copy all databases, update ``DB_NAMES_LIST`` in the ``Makefile`` of devstack before running the dbcopy command.
+
+5. Now start your desired services again using ``dev.up`` command. For example running following command will start ``lms``, ``cms`` ::
+
+    make dev.up.lms+cms
+
+6. You might need to apply latest migrations to your ``mysql80`` container for some services. To do that, you can use ``dev.migrate`` command. For example for ``lms`` you can run ::
+
+    make dev.migrate.lms
+
 
 2023-08-02 - Forum upgrade from Ruby 2 to 3
 *******************************************
