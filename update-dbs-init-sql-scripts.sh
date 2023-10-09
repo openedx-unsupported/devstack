@@ -24,7 +24,7 @@ make dev.pull.lms+ecommerce
 make dev.provision.services.lms+ecommerce
 
 # dump schema and data from mysql databases in the mysql docker container and copy them to current directory in docker host
-MYSQL_DOCKER_CONTAINER="$(make --silent --no-print-directory dev.print-container.mysql57)"
+MYSQL_DOCKER_CONTAINER="$(make --silent --no-print-directory dev.print-container.mysql80)"
 for DB_NAME in "${DBS[@]}"; do
     DB_CREATION_SQL_SCRIPT="${DB_NAME}.sql"
     if [[ " ${EDXAPP_DBS[@]} " =~ " ${DB_NAME} " ]]; then

@@ -25,7 +25,7 @@ DATABASES:
         ATOMIC_REQUESTS: true
         CONN_MAX_AGE: 60
         ENGINE: django.db.backends.mysql
-        HOST: edx.devstack.mysql57
+        HOST: edx.devstack.mysql80
         NAME: ecommerce
         OPTIONS:
             connect_timeout: 10
