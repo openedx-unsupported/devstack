@@ -22,7 +22,7 @@ The MySQL service has been upgraded from version 5.7 to 8.0. Developers will nee
 
     make dev.provision
 
-4. [Optional] Additionally, there is a database copy command to help you transfer data from MySQL 5.7 to 8.0. After provisioning use the ``dev.dbcopyall8`` command. This command will stop all of your services. Will clean your ``mysql80`` container and copy all of your databases from ``mysql57`` to ``mysql80``. ::
+4. [Optional] Additionally, there is a database copy command to help you transfer data from MySQL 5.7 to 8.0. After provisioning use the ``dev.dbcopyall8`` command. This command will stop all of your services, clean your ``mysql80`` container, and copy all of your databases from ``mysql57`` to ``mysql80``. ::
 
     make dev.dbcopyall8
 
