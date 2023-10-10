@@ -462,21 +462,16 @@ dev.shell.%: ## Run a shell on the specified service's container.
 dev.dbshell:
 	docker compose exec mysql80 bash -c "mysql"
 
-dev.dbsetupmysql8:
-	docker compose exec -T mysql80 bash -e -c "mysql -uroot mysql" < provision-mysql80.sql
-
-dev.dbcleanmysql8:
-	docker container rm edx.devstack.mysql80
-	docker volume rm devstack_mysql80_data
-
 DB_NAMES_LIST = credentials discovery ecommerce notes registrar xqueue edxapp edxapp_csmh dashboard analytics-api reports reports_v1
 _db_copy8_targets = $(addprefix dev.dbcopy8.,$(DB_NAMES_LIST))
 dev.dbcopyall8: ## Clean mysql80 container and copy data from old mysql 5.7 containers into new mysql8 dbs
 	$(MAKE) stop
-	$(MAKE) dev.dbcleanmysql8
+	$(MAKE) dev.remove-containers.mysql80
+	docker volume rm devstack_mysql80_data
 	$(MAKE) dev.up.mysql57+mysql80
+	sleep 10
 	$(MAKE) dev.wait-for.mysql57+mysql80
-	$(MAKE) dev.dbsetupmysql8
+	docker compose exec -T mysql80 mysql -uroot mysql < provision-mysql80.sql
 	$(MAKE) $(_db_copy8_targets)
 	$(MAKE) stop
 
