@@ -381,6 +381,9 @@ dev.check: dev.check.$(DEFAULT_SERVICES) ## Run checks for the default service s
 dev.check.%:  # Run checks for a given service or set of services.
 	$(WINPTY) bash ./check.sh $*
 
+dev.wait-for.%:  ## Wait for these services to become ready
+	$(WINPTY) bash ./wait-ready.sh $$(echo $* | tr + " ")
+
 dev.validate: ## Print effective Docker Compose config, validating files in COMPOSE_FILE.
 	docker compose config
 
@@ -463,7 +466,7 @@ DB_NAMES_LIST = credentials discovery ecommerce notes registrar xqueue edxapp ed
 _db_copy8_targets = $(addprefix dev.dbcopy8.,$(DB_NAMES_LIST))
 dev.dbcopyall8: ## Copy data from old mysql 5.7 containers into new mysql8 dbs
 	$(MAKE) dev.up.mysql57+mysql80
-	./wait-ready.sh mysql57 mysql80
+	$(MAKE) dev.wait-for.mysql57+mysql80
 	$(MAKE) $(_db_copy8_targets)
 
 dev.dbcopy8.%: ## Copy data from old mysql 5.7 container into a new 8 db
