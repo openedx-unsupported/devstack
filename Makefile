@@ -469,8 +469,8 @@ dev.dbcopyall8: ## Clean mysql80 container and copy data from old mysql 5.7 cont
 	$(MAKE) dev.remove-containers.mysql80
 	docker volume rm devstack_mysql80_data
 	$(MAKE) dev.up.mysql57+mysql80
-	sleep 10
 	$(MAKE) dev.wait-for.mysql57+mysql80
+	sleep 10
 	docker compose exec -T mysql80 mysql -uroot mysql < provision-mysql80.sql
 	$(MAKE) $(_db_copy8_targets)
 	$(MAKE) stop
