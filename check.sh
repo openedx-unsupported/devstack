@@ -56,8 +56,18 @@ run_check() {
 mysql_run_check() {
     container_name="$1"
     mysql_probe="SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = 'root')"
+    # The use of `--protocol tcp` forces MySQL to connect over TCP rather than
+    # via a UNIX socket. This is needed because when MySQL starts for the first
+    # time in a new container, it starts a "temporary server" that runs for a
+    # few seconds and then shuts down before the "real" server starts up. The
+    # temporary server does not listen on the TCP port, but if the mysql
+    # command is not told which server to use, it will first try the UNIX
+    # socket and only after that will it try the default TCP port.
+    #
+    # By specifying that mysql should use TCP, we won't get an early false
+    # positive "ready" response while the temporary server is running.
     run_check "${container_name}_query" "$container_name" \
-        "docker compose exec -T $(printf %q "$container_name") mysql -uroot -se $(printf %q "$mysql_probe")"
+        "docker compose exec -T $(printf %q "$container_name") mysql --protocol tcp -uroot -se $(printf %q "$mysql_probe")"
 }
 
 if should_check mysql57; then

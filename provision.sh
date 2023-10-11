@@ -128,25 +128,10 @@ if needs_mongo "$to_provision_ordered"; then
 	docker compose up -d mongo
 fi
 
-# Ensure the MySQL5 server is online and usable
-echo "${GREEN}Waiting for MySQL 5.7.${NC}"
-make dev.wait-for.mysql57
-
-# Ensure the MySQL8 server is online and usable
-echo "${GREEN}Waiting for MySQL 8.0.${NC}"
-make dev.wait-for.mysql80
-
-# In the event of a fresh MySQL container, wait a few seconds for the server to restart
-# See https://github.com/docker-library/mysql/issues/245 for why this is necessary.
-sleep 10
-
-echo "${GREEN}Waiting for MySQL 5.7 to restart.${NC}"
-make dev.wait-for.mysql57
-echo -e "${GREEN}MySQL5 ready.${NC}"
-
-echo "${GREEN}Waiting for MySQL 8.0 to restart.${NC}"
-make dev.wait-for.mysql80
-echo -e "${GREEN}MySQL8 ready.${NC}"
+# Ensure the MySQL server is online and usable
+echo -e "${GREEN}Waiting for MySQL.${NC}"
+make dev.wait-for.mysql57+mysql80
+echo -e "${GREEN}MySQL is ready.${NC}"
 
 # Ensure that the MySQL databases and users are created for all IDAs.
 # (A no-op for databases and users that already exist).
