@@ -55,19 +55,6 @@ services:
     environment:
       NEO4J_AUTH: "neo4j/edx"  # Initial username/password for Neo4j Web interface.
 
-  devpi:
-    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.devpi"
-    hostname: devpi.devstack.edx
-    image: edxops/devpi:${OPENEDX_RELEASE:-latest}
-    networks:
-      default:
-        aliases:
-          - edx.devstack.devpi
-    ports:
-      - "3141:3141"
-    volumes:
-      - devpi_data:/data
-
   elasticsearch710:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.elasticsearch710"
     hostname: elasticsearch710.devstack.edx
@@ -382,7 +369,6 @@ services:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.edxnotesapi"
     hostname: edx_notes_api.devstack.edx
     depends_on:
-      - devpi
       - elasticsearch710
       - lms
       - mysql80
@@ -430,7 +416,6 @@ services:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.lms"
     hostname: lms.devstack.edx
     depends_on:
-      - devpi
       - discovery
       - elasticsearch710
       - forum
@@ -637,7 +622,6 @@ services:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.cms"
     hostname: cms.devstack.edx
     depends_on:
-      - devpi
       - elasticsearch710
       - lms
       - memcached
@@ -887,7 +871,6 @@ services:
 volumes:
   coursegraph_data:
   discovery_assets:
-  devpi_data:
   edxapp_lms_assets:
   edxapp_cms_assets:
   elasticsearch710_data:
