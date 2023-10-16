@@ -4,10 +4,14 @@ APPLICATION_NAME: Insights
 BACKEND_SERVICE_EDX_OAUTH2_PROVIDER_URL: http://edx.devstack.lms:18000/oauth2
 CACHES:
     default:
-        BACKEND: django.core.cache.backends.memcached.MemcachedCache
+        BACKEND: django.core.cache.backends.memcached.PyMemcacheCache
         KEY_PREFIX: default_env-default_deployment-insights
         LOCATION:
         - edx.devstack.memcached:11211
+        OPTIONS:
+            no_delay: true
+            ignore_exc: true
+            use_pooling: true
 CDN_DOMAIN: null
 CMS_COURSE_SHORTCUT_BASE_URL: http://edx.devstack.lms:18000/course
 COURSE_API_URL: http://edx.devstack.lms:18000/api/courses/v1/
