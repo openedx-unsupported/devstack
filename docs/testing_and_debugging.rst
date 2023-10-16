@@ -96,4 +96,4 @@ Most tests are run in Firefox by default.  To use Chrome for tests that normally
 use Firefox instead, prefix the test command with
 ``SELENIUM_BROWSER=chrome SELENIUM_HOST=edx.devstack.chrome``.
 
-.. _edx-platform testing documentation: https://github.com/openedx/edx-platform/blob/master/docs/guides/testing/testing.rst#running-python-unit-tests
+.. _edx-platform testing documentation: https://docs.openedx.org/projects/edx-platform/en/latest/concepts/testing/testing.html#running-python-unit-tests
