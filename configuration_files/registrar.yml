@@ -4,10 +4,14 @@ BACKEND_SERVICE_EDX_OAUTH2_PROVIDER_URL: http://localhost:18000/oauth2
 BACKEND_SERVICE_EDX_OAUTH2_SECRET: registrar-backend-service-secret
 CACHES:
     default:
-        BACKEND: django.core.cache.backends.memcached.MemcachedCache
+        BACKEND: django.core.cache.backends.memcached.PyMemcacheCache
         KEY_PREFIX: registrar
         LOCATION:
         - edx.devstack.memcached:11211
+        OPTIONS:
+            no_delay: true
+            ignore_exc: true
+            use_pooling: true
 CELERY_ALWAYS_EAGER: false
 CELERY_BROKER_HOSTNAME: ''
 CELERY_BROKER_PASSWORD: ''
