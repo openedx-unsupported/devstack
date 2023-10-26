@@ -16,7 +16,7 @@ beautifulsoup4==4.12.2
     # via pydata-sphinx-theme
 certifi==2023.7.22
     # via requests
-charset-normalizer==3.3.0
+charset-normalizer==3.3.1
     # via requests
 doc8==1.1.1
     # via -r requirements/doc.in
@@ -93,7 +93,7 @@ tomli==2.0.1
     # via doc8
 typing-extensions==4.8.0
     # via pydata-sphinx-theme
-urllib3==2.0.6
+urllib3==2.0.7
     # via requests
 zipp==3.17.0
     # via importlib-metadata
