@@ -428,9 +428,9 @@ services:
     stdin_open: true
     tty: true
     environment:
-      BOK_CHOY_HOSTNAME: edx.devstack.lms
-      BOK_CHOY_LMS_PORT: 18003
-      BOK_CHOY_CMS_PORT: 18031
+      SERVER_HOSTNAME: edx.devstack.lms
+      SERVER_LMS_PORT: 18003
+      SERVER_CMS_PORT: 18031
       EDXAPP_TEST_MONGO_HOST: edx.devstack.mongo
       NO_PYTHON_UNINSTALL: 1
       DJANGO_WATCHMAN_TIMEOUT: 30
@@ -632,9 +632,9 @@ services:
     stdin_open: true
     tty: true
     environment:
-      BOK_CHOY_HOSTNAME: edx.devstack.cms
-      BOK_CHOY_LMS_PORT: 18103
-      BOK_CHOY_CMS_PORT: 18131
+      SERVER_HOSTNAME: edx.devstack.cms
+      SERVER_LMS_PORT: 18103
+      SERVER_CMS_PORT: 18131
       EDXAPP_TEST_MONGO_HOST: edx.devstack.mongo
       VIRTUAL_ENV: "/edx/app/edxapp/venvs/edxapp"
       PATH: "/edx/app/edxapp/venvs/edxapp/bin:/edx/app/edxapp/nodeenv/bin:/edx/app/edxapp/edx-platform/node_modules/.bin:/edx/app/edxapp/edx-platform/bin:${PATH}"
