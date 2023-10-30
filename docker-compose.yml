@@ -422,7 +422,7 @@ services:
     stdin_open: true
     tty: true
     environment:
-      SERVER_HOSTNAME: edx.devstack.lms
+      FRONTEND_TEST_SERVER_HOSTNAME: edx.devstack.lms
       SERVER_LMS_PORT: 18003
       SERVER_CMS_PORT: 18031
       EDXAPP_TEST_MONGO_HOST: edx.devstack.mongo
@@ -599,7 +599,7 @@ services:
     stdin_open: true
     tty: true
     environment:
-      SERVER_HOSTNAME: edx.devstack.cms
+      FRONTEND_TEST_SERVER_HOSTNAME: edx.devstack.cms
       SERVER_LMS_PORT: 18103
       SERVER_CMS_PORT: 18131
       EDXAPP_TEST_MONGO_HOST: edx.devstack.mongo
