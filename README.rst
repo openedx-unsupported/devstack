@@ -85,7 +85,7 @@ People
 Reporting Security Issues
 *************************
 
-Please do not report security issues in public. Please email security@edx.org.
+Please do not report security issues in public. Please email security@openedx.org.
 
 .. |ci-provisioning-badge| image:: https://github.com/openedx/devstack/actions/workflows/provisioning-tests.yml/badge.svg?branch=master
     :target: https://github.com/openedx/devstack/actions/workflows/provisioning-tests.yml
