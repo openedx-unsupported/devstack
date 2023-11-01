@@ -8,7 +8,7 @@ accessible-pygments==0.0.4
     # via pydata-sphinx-theme
 alabaster==0.7.13
     # via sphinx
-babel==2.13.0
+babel==2.13.1
     # via
     #   pydata-sphinx-theme
     #   sphinx
@@ -45,7 +45,7 @@ packaging==23.2
     #   sphinx
 pbr==5.11.1
     # via stevedore
-pydata-sphinx-theme==0.14.1
+pydata-sphinx-theme==0.14.3
     # via sphinx-book-theme
 pygments==2.16.1
     # via
