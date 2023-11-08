@@ -8,7 +8,7 @@ accessible-pygments==0.0.4
     # via pydata-sphinx-theme
 alabaster==0.7.13
     # via sphinx
-babel==2.13.0
+babel==2.13.1
     # via
     #   pydata-sphinx-theme
     #   sphinx
@@ -16,7 +16,7 @@ beautifulsoup4==4.12.2
     # via pydata-sphinx-theme
 certifi==2023.7.22
     # via requests
-charset-normalizer==3.3.1
+charset-normalizer==3.3.2
     # via requests
 doc8==1.1.1
     # via -r requirements/doc.in
@@ -43,9 +43,9 @@ packaging==23.2
     # via
     #   pydata-sphinx-theme
     #   sphinx
-pbr==5.11.1
+pbr==6.0.0
     # via stevedore
-pydata-sphinx-theme==0.14.1
+pydata-sphinx-theme==0.14.3
     # via sphinx-book-theme
 pygments==2.16.1
     # via
