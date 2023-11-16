@@ -64,7 +64,7 @@ Try this first to clean up dangling images:
 
 .. code:: sh
 
-   docker system prune -f  # (This is very safe, so try this first.)
+   make dev.prune  # (This is very safe, so try this first.)
 
 If you are still seeing issues, you can try cleaning up dangling volumes.
 
