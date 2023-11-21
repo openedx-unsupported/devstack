@@ -12,8 +12,8 @@ version: "2.1"
 
 networks:
   default:
-    external:
-      name: "localstack"
+    name: "localstack"
+    external: true
 
 services:
 
