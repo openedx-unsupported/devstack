@@ -44,7 +44,7 @@ packaging==23.2
     #   pyproject-api
     #   pytest
     #   tox
-pexpect==4.8.0
+pexpect==4.9.0
     # via -r requirements/test.txt
 pip-tools==7.3.0
     # via -r requirements/pip-tools.txt
@@ -84,11 +84,11 @@ tomli==2.0.1
     #   pyproject-hooks
     #   pytest
     #   tox
-tox==4.11.3
+tox==4.11.4
     # via -r requirements/dev.in
 virtualenv==20.24.7
     # via tox
-wheel==0.41.3
+wheel==0.42.0
     # via
     #   -r requirements/pip-tools.txt
     #   pip-tools
