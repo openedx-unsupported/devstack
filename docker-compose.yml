@@ -86,6 +86,7 @@ services:
       - discovery.type=single-node
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "plugins.security.disabled=true"
 
   firefox:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.firefox"
