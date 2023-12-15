@@ -110,7 +110,7 @@ PAYMENT_PROCESSOR_CONFIG:
             error_url: /checkout/error/
             mode: sandbox
             receipt_url: /checkout/receipt/
-PLATFORM_NAME: Your Platform Name Here
+PLATFORM_NAME: Dibugsoft
 SAILTHRU_KEY: sailthru key here
 SAILTHRU_SECRET: sailthru secret here
 SECRET_KEY: Your secret key here
