@@ -81,7 +81,7 @@ PARLER_LANGUAGES:
         fallbacks:
         - en
         hide_untranslated: 'False'
-PLATFORM_NAME: Your Platform Name Here
+PLATFORM_NAME: Dibugsoft
 PUBLISHER_FROM_EMAIL: null
 SECRET_KEY: Your secret key here
 SESSION_EXPIRE_AT_BROWSER_CLOSE: false
