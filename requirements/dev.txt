@@ -28,7 +28,7 @@ filelock==3.13.1
     # via
     #   tox
     #   virtualenv
-importlib-metadata==7.0.0
+importlib-metadata==7.0.1
     # via
     #   -r requirements/pip-tools.txt
     #   build
