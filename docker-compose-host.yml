@@ -31,6 +31,9 @@ services:
       - edxapp_tox:/edx/app/edxapp/edx-platform/.tox
       - edxapp_uploads:/edx/var/edxapp/uploads
       - ${DEVSTACK_WORKSPACE}/src:/edx/src
+  lms-worker:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform
   edx_notes_api:
     volumes:
       - ${DEVSTACK_WORKSPACE}/edx-notes-api:/edx/app/notes/

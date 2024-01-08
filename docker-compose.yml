@@ -408,7 +408,8 @@ services:
       - "44567:4567"
 
   lms:
-    command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py lms runserver 0.0.0.0:18000 --settings devstack_docker; sleep 2; done'
+    #command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py lms runserver 0.0.0.0:18000 --settings devstack_docker; sleep 2; done'
+    command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py lms runserver 0.0.0.0:18000 --settings devstack_with_worker; sleep 2; done'
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.lms"
     hostname: lms.devstack.edx
     depends_on:
@@ -423,6 +424,7 @@ services:
     stdin_open: true
     tty: true
     environment:
+      DJANGO_SETTINGS_MODULE: lms.envs.devstack_with_docker
       FRONTEND_TEST_SERVER_HOSTNAME: edx.devstack.lms
       FRONTEND_TEST_SERVER_LMS_PORT: 18003
       FRONTEND_TEST_SERVER_CMS_PORT: 18031
@@ -434,6 +436,7 @@ services:
       CMS_CFG: "/edx/etc/studio.yml"
       PATH: "/edx/app/edxapp/venvs/edxapp/bin:/edx/app/edxapp/nodeenv/bin:/edx/app/edxapp/edx-platform/node_modules/.bin:/edx/app/edxapp/edx-platform/bin:${PATH}"
       SERVICE_VARIANT: lms
+      CELERY_ALWAYS_EAGER: "false"
     image: openedx/lms-dev:${OPENEDX_RELEASE:-latest}
     networks:
       default:
@@ -447,6 +450,22 @@ services:
       # - "18031:18031"
     volumes:
       - edxapp_lms_assets:/edx/var/edxapp/staticfiles/
+
+  lms-worker:
+    command: bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && make requirements && NEW_RELIC_CONFIG_FILE="/edx/app/edxapp/newrelic.ini" newrelic-admin run-program celery --app=lms.celery:APP worker -l debug -c 2'
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.lms-worker"
+    hostname: lms-worker.devstack.edx
+    depends_on:
+      - mysql80
+      - mysql57
+      - redis
+    stdin_open: true
+    tty: true
+    image: edxops/edxapp:${OPENEDX_RELEASE:-latest}
+    environment:
+      DJANGO_SETTINGS_MODULE: lms.envs.devstack_with_worker
+      # big no-no here
+      C_FORCE_ROOT: "true"
 
   insights:
     command: bash -c 'source /edx/app/insights/insights_env && while true; do python /edx/app/insights/insights/manage.py runserver 0.0.0.0:18110 --settings analytics_dashboard.settings.devstack; sleep 2; done'
