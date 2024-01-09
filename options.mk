@@ -30,7 +30,7 @@ DEVSTACK_WORKSPACE ?= $(shell pwd)/..
 # so changing it will give you a separate set of databases.
 # See https://docs.docker.com/compose/reference/envvars/#compose_project_name
 # If OPENEDX_RELAESE is defined, defaults to `devstack-${OPENEDX_RELEASE}`;
-# otherwise, it defaults to `devstack`. Any periods will be replaced with hyphens to comply with docker project naming rules.
+# otherwise, it defaults to `devstack`. Any periods will be replaced with hyphens to comply with docker project naming rules (eg `devstack-quince.master` will become `devstack-quince-master`).
 # Be sure to bring down services before changing the value of `COMPOSE_PROJECT_NAME`.
 ifdef OPENEDX_RELEASE
 	COMPOSE_PROJECT_NAME ?= devstack-$(echo ${OPENEDX_RELEASE} | tr . -)
