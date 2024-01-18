@@ -424,7 +424,7 @@ services:
     stdin_open: true
     tty: true
     environment:
-      DJANGO_SETTINGS_MODULE: lms.envs.devstack_with_docker
+      DJANGO_SETTINGS_MODULE: lms.envs.devstack_with_worker
       FRONTEND_TEST_SERVER_HOSTNAME: edx.devstack.lms
       FRONTEND_TEST_SERVER_LMS_PORT: 18003
       FRONTEND_TEST_SERVER_CMS_PORT: 18031
