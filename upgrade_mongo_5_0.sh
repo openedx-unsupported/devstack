@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -eu -o pipefail
 
-# This script will upgrade a devstack that was previosly running Mongo DB 4.4 to MongoDB 5.0.24
+# This script will upgrade a devstack that was previosly running Mongo DB 4.x to MongoDB 5.x
 
 . scripts/colors.sh
 
