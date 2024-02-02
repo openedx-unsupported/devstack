@@ -75,6 +75,8 @@ non_release_ssh_repos=(
     "git@github.com:openedx/frontend-app-profile.git"
     "git@github.com:openedx/frontend-app-ora-grading.git"
 )
+# Space separated list of repos that use 2u specific branch
+twou_main_repos="ecommerce yourownrepo"
 
 if [ -n "${OPENEDX_RELEASE}" ]; then
     OPENEDX_GIT_BRANCH=open-release/${OPENEDX_RELEASE}
@@ -95,7 +97,7 @@ _checkout ()
         # Results of the match are saved to an array called $BASH_REMATCH.
         [[ $repo =~ $name_pattern ]]
         name="${BASH_REMATCH[1]}"
-
+        echo "$name"
         # If a directory exists and it is nonempty, assume the repo has been cloned.
         if [ -d "$name" ] && [ -n "$(ls -A "$name" 2>/dev/null)" ]; then
             cd "$name"
@@ -133,11 +135,14 @@ _clone ()
             _checkout_and_update_branch
             cd ..
         else
-            if [ -n "${OPENEDX_GIT_BRANCH:-}" ]; then
+            if [ -n "${TWOU_CHECKOUT_BRANCH}" ] && echo "${twou_main_repos}" | grep -o "${name}"; then
+                CLONE_BRANCH="-b ${TWOU_CHECKOUT_BRANCH}"
+            elif [ -n "${OPENEDX_GIT_BRANCH:-}" ]; then
                 CLONE_BRANCH="-b ${OPENEDX_GIT_BRANCH}"
             else
                 CLONE_BRANCH=""
             fi
+            echo "CLONE_BRANCH is ${CLONE_BRANCH}"
             if [ "${SHALLOW_CLONE}" == "1" ]; then
                 git clone ${CLONE_BRANCH} -c core.symlinks=true --depth=1 "${repo}"
             else
@@ -153,13 +158,14 @@ _checkout_and_update_branch ()
     GIT_SYMBOLIC_REF="$(git symbolic-ref HEAD 2>/dev/null)"
     BRANCH_NAME=${GIT_SYMBOLIC_REF##refs/heads/}
 
-    if [ -n "${TWOU_CHECKOUT_BRANCH}" ]; then
+    if [ -n "${TWOU_CHECKOUT_BRANCH}" ] && echo "${twou_main_repos}" | grep -o "${name}"; then
         CHECKOUT_BRANCH="${TWOU_CHECKOUT_BRANCH}"
     elif [ -n "${OPENEDX_GIT_BRANCH}" ]; then
         CHECKOUT_BRANCH=${OPENEDX_GIT_BRANCH}
     else
         CHECKOUT_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')
     fi
+
     echo "Checking out branch ${CHECKOUT_BRANCH}"
     if [ "${BRANCH_NAME}" == "${CHECKOUT_BRANCH}" ]; then
         git pull origin ${CHECKOUT_BRANCH}
