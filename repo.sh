@@ -152,7 +152,10 @@ _checkout_and_update_branch ()
 {
     GIT_SYMBOLIC_REF="$(git symbolic-ref HEAD 2>/dev/null)"
     BRANCH_NAME=${GIT_SYMBOLIC_REF##refs/heads/}
-    if [ -n "${OPENEDX_GIT_BRANCH}" ]; then
+
+    if [ -n "${TWOU_CHECKOUT_BRANCH}" ]; then
+        CHECKOUT_BRANCH="${TWOU_CHECKOUT_BRANCH}"
+    elif [ -n "${OPENEDX_GIT_BRANCH}" ]; then
         CHECKOUT_BRANCH=${OPENEDX_GIT_BRANCH}
     else
         CHECKOUT_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')
