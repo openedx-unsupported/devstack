@@ -104,7 +104,7 @@ _checkout ()
         # Results of the match are saved to an array called $BASH_REMATCH.
         [[ $repo =~ $name_pattern ]]
         name="${BASH_REMATCH[1]}"
-        echo "$name"
+
         # If a directory exists and it is nonempty, assume the repo has been cloned.
         if [ -d "$name" ] && [ -n "$(ls -A "$name" 2>/dev/null)" ]; then
             cd "$name"
