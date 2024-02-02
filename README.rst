@@ -1,14 +1,21 @@
-Open edX Devstack
+Devstack
 #################
 
 |ci-provisioning-badge| |ci-cli-badge| |doc-badge| |license-badge|
 |status-badge|
 
-Purpose
-*******
 
-Devstack is a local Docker-based environment for developing in the Open edX
-platform.  Use it to get up and running quickly with Open edX services.
+DEPRECATION NOTICE
+******************
+
+Going forward, devstack will be primarily used for development by 2U. To do development
+on Open edX, it is recommended that `Tutor`_ be used instead.
+
+For more information on this deprecation, please visit the `associated deprecation ticket`_.
+
+.. _Tutor: https://docs.tutor.edly.io/
+.. _associated deprecation ticket: https://github.com/openedx/devstack/issues/907
+
 
 Getting Started
 ***************
