@@ -284,6 +284,17 @@ Cannot run ``make upgrade`` in lms shell due to missing wget
 
 This error was `introduced <https://github.com/openedx/edx-platform/pull/33271>`_ and `resolved <https://github.com/openedx/edx-platform/pull/33288>`_ in September 2023. While this can be solved by updating your devstack, you can also run ``apt update; apt install wget`` from lms-shell to resolve this temporarily.
 
+CSRF errors with MFEs after Django 4.2 upgrade
+----------------------------------------------
+
+When using an MFE in devstack, a call to a service fails with 403 Forbidden and these log messages::
+
+   CSRF verification failed. Request aborted.
+
+   Origin checking failed - http://localhost/:{your MFE / service port} does not match any trusted origins.
+
+This may be caused by an upgrade to Django 4.2, which has changes to CSRF checking. The upgrade occurred in early February 2024 in edx-platform, but may occur at other times in IDAs. In edx-platform, this was fixed by `setting CSRF trusted origins in devstack.py <https://github.com/openedx/edx-platform/pull/34192/files>`_.
+
 .. _update your repos and pull the latest images:
 
 Updating Devstack
