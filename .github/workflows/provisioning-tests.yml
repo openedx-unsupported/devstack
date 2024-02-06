@@ -92,7 +92,8 @@ jobs:
            to: devstack-provisioning-tests@2u-internal.opsgenie.net
            from: github-actions <github-actions@edx.org>
            body: |
-             Devstack provisioning tests in ${{github.repository}} for ${{matrix.services}} failed! For details see <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}>.
+             Devstack provisioning tests in ${{github.repository}} for ${{matrix.services}} failed!
+             For details, see https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
              Runbook url: https://2u-internal.atlassian.net/wiki/spaces/AT/pages/16384920/Failure+Devstack+provisioning+tests+-+Runbook
 
       - name: close alerts on success
