@@ -51,8 +51,8 @@ if [[ ${DEVSTACK_SKIP_DEMO-false} == "true" ]]
 then
     echo "Skipping import of demo course. DEVSTACK_SKIP_DEMO is set to true"
 else
-    docker compose exec -T lms bash -e -c 'git clone https://github.com/openedx/edx-demo-course.git /tmp/edx-demo-course'
-    docker compose exec -T lms bash -e -c 'source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py cms --settings=devstack_docker import /edx/var/edxapp/data /tmp/edx-demo-course && rm -rf /tmp/edx-demo-course'
+    docker compose exec -T lms bash -e -c 'git clone https://github.com/openedx/openedx-demo-course.git /tmp/openedx-demo-course'
+    docker compose exec -T lms bash -e -c 'source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py cms --settings=devstack_docker import /edx/var/edxapp/data /tmp/openedx-demo-course/demo-course/course && rm -rf /tmp/openedx-demo-course'
 fi
 
 demo_hashed_password='pbkdf2_sha256$20000$TjE34FJjc3vv$0B7GUmH8RwrOc/BvMoxjb5j8EgnWTt3sxorDANeF7Qw='
@@ -67,7 +67,7 @@ for user in honor audit verified staff ; do
   if [[ "${DEVSTACK_SKIP_DEMO-false}" != "true" ]]
   then
   # Enroll users in the demo course
-      docker compose exec -T lms bash -e -c "source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack_docker --service-variant lms enroll_user_in_course -e $email -c course-v1:edX+DemoX+Demo_Course"
+      docker compose exec -T lms bash -e -c "source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack_docker --service-variant lms enroll_user_in_course -e $email -c course-v1:Axim+DemoX+demo_course"
   fi
 done
 
