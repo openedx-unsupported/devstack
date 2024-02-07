@@ -8,7 +8,7 @@ from course_discovery.apps.course_metadata.models import (
     Course, CourseRun, Organization, Program, ProgramType, SeatType
 )
 
-DEMO_IMAGE_URL = 'http://edx.devstack.lms:18000/asset-v1:edX+DemoX+Demo_Course+type@asset+block@images_course_image.jpg'
+DEMO_IMAGE_URL = 'http://edx.devstack.lms:18000/asset-v1:Axim+DemoX+demo_course+type@asset+block@images_course_image.jpg'
 
 
 # Make sure micromasters type exists
@@ -39,12 +39,12 @@ program, _ = Program.objects.update_or_create(
 
 # Now, after an ID has been created, connect the program to other models
 
-course = Course.objects.get(key='edX+DemoX')
+course = Course.objects.get(key='Axim+DemoX')
 program.courses.set([course])
 
 try:
     # This run causes run-time exceptions, because it uses old style key.
-    deprecated_run = CourseRun.objects.get(key='edX/DemoX/Demo_Course')
+    deprecated_run = CourseRun.objects.get(key='Axim/DemoX/demo_course')
     program.excluded_course_runs = [deprecated_run]
 except CourseRun.DoesNotExist:
     # This key only seems to be in some existing devstacks, don't worry if it doesn't exist
