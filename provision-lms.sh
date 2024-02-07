@@ -51,7 +51,9 @@ if [[ ${DEVSTACK_SKIP_DEMO-false} == "true" ]]
 then
     echo "Skipping import of demo course. DEVSTACK_SKIP_DEMO is set to true"
 else
-    docker compose exec -T lms bash -e -c 'git clone https://github.com/openedx/edx-demo-course.git /tmp/edx-demo-course'
+    # FIXME: Using old version of demo course (open-release/quince.1) until we can
+    # update devstack and other repos to match: https://github.com/openedx/devstack/issues/1273
+    docker compose exec -T lms bash -e -c 'git clone https://github.com/openedx/edx-demo-course.git --branch open-release/quince.1 /tmp/edx-demo-course'
     docker compose exec -T lms bash -e -c 'source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py cms --settings=devstack_docker import /edx/var/edxapp/data /tmp/edx-demo-course && rm -rf /tmp/edx-demo-course'
 fi
 
