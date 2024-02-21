@@ -93,7 +93,7 @@ tomli==2.0.1
     # via doc8
 typing-extensions==4.9.0
     # via pydata-sphinx-theme
-urllib3==2.2.0
+urllib3==2.2.1
     # via requests
 zipp==3.17.0
     # via importlib-metadata
