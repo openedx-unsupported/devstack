@@ -46,7 +46,7 @@ packaging==23.2
     #   tox
 pexpect==4.9.0
     # via -r requirements/test.txt
-pip-tools==7.3.0
+pip-tools==7.4.0
     # via -r requirements/pip-tools.txt
 platformdirs==4.2.0
     # via
@@ -67,7 +67,8 @@ pyproject-hooks==1.0.0
     # via
     #   -r requirements/pip-tools.txt
     #   build
-pytest==8.0.0
+    #   pip-tools
+pytest==8.0.1
     # via -r requirements/test.txt
 pyyaml==6.0.1
     # via
@@ -83,7 +84,7 @@ tomli==2.0.1
     #   pyproject-hooks
     #   pytest
     #   tox
-tox==4.12.1
+tox==4.13.0
     # via -r requirements/dev.in
 virtualenv==20.25.0
     # via tox
