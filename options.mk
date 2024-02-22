@@ -67,7 +67,7 @@ credentials+discovery+ecommerce+edx_notes_api+forum+frontend-app-authn+frontend-
 # Separated by plus signs.
 # Separated by plus signs. Listed in alphabetical order for clarity.
 EDX_SERVICES ?= \
-analyticsapi+credentials+discovery+ecommerce+edx_notes_api+forum+frontend-app-account+frontend-app-profile+frontend-app-authn+frontend-app-course-authoring+frontend-app-gradebook+frontend-app-ora-grading+frontend-app-learning+frontend-app-library-authoring+frontend-app-payment+frontend-app-program-console+frontend-app-publisher+insights+lms+lms_watcher+registrar+registrar-worker+cms+cms_watcher+xqueue+xqueue_consumer
+analyticsapi+credentials+discovery+ecommerce+edx_notes_api+forum+frontend-app-account+frontend-app-learner-dashboard+frontend-app-learner-record+frontend-app-profile+frontend-app-authn+frontend-app-course-authoring+frontend-app-gradebook+frontend-app-ora-grading+frontend-app-learning+frontend-app-library-authoring+frontend-app-payment+frontend-app-program-console+frontend-app-publisher+insights+lms+lms_watcher+registrar+registrar-worker+cms+cms_watcher+xqueue+xqueue_consumer
 
 # Services with database migrations.
 # Should be a subset of $(EDX_SERVICES).
