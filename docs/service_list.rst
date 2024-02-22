@@ -27,6 +27,10 @@ Instead of a service name or list, you can also run commands like ``make dev.pro
 +------------------------------------+-------------------------------------+----------------+--------------+
 | `edx_notes_api`_                   | http://localhost:18120/api/v1/      | Python/Django  | Default      |
 +------------------------------------+-------------------------------------+----------------+--------------+
+| `frontend-app-learner-dashboard`_  | http://localhost:1996/              | MFE (React.js) | Default      |
++------------------------------------+-------------------------------------+----------------+--------------+
+| `frontend-app-learner-record`_     | http://localhost:1990/              | MFE (React.js) | Default      |
++------------------------------------+-------------------------------------+----------------+--------------+
 | `frontend-app-learning`_           | http://localhost:2000/              | MFE (React.js) | Default      |
 +------------------------------------+-------------------------------------+----------------+--------------+
 | `frontend-app-payment`_            | http://localhost:1998/              | MFE (React.js) | Default      |
@@ -78,6 +82,8 @@ Some common service combinations include:
 .. _frontend-app-program-console: https://github.com/openedx/frontend-app-program-console
 .. _registrar: https://github.com/openedx/registrar
 .. _cms: https://github.com/openedx/edx-platform
+.. _frontend-app-learner-dashboard: https://github.com/openedx/frontend-app-learner-dashboard
+.. _frontend-app-learner-record: https://github.com/openedx/frontend-app-learner-record
 .. _frontend-app-learning: https://github.com/openedx/frontend-app-learning
 .. _frontend-app-library-authoring: https://github.com/openedx/frontend-app-library-authoring
 .. _frontend-app-course-authoring: https://github.com/openedx/frontend-app-course-authoring

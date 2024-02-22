@@ -759,6 +759,36 @@ services:
     depends_on:
       - lms
 
+  frontend-app-learner-dashboard:
+    extends:
+      file: microfrontend.yml
+      service: microfrontend
+    working_dir: '/edx/app/frontend-app-learner-dashboard'
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-learner-dashboard"
+    networks:
+      default:
+        aliases:
+          - edx.devstack.frontend-app-learner-dashboard
+    ports:
+      - "1996:1996"
+    depends_on:
+      - lms
+
+  frontend-app-learner-record:
+    extends:
+      file: microfrontend.yml
+      service: microfrontend
+    working_dir: '/edx/app/frontend-app-learner-record'
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-learner-record"
+    networks:
+      default:
+        aliases:
+          - edx.devstack.frontend-app-learner-record
+    ports:
+      - "1990:1990"
+    depends_on:
+      - lms
+
   frontend-app-learning:
     extends:
       file: microfrontend.yml
