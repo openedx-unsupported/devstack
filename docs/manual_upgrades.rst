@@ -7,6 +7,22 @@ Please add new instructions to the top, include a date, and make a post in the `
 
 (If you just need to update your devstack to the latest version of everything, see :doc:`updating_devstack`.)
 
+
+2024-02-25 - Mongo upgrade from version 4.4 to 5.0
+**************************************************
+
+As mongo 4.4 is reaching EOL, we have upgraded mongo version 4.4 to mongo version 5.0. Developers will need to follow the following instructions.
+
+1. Take latest ``git pull`` of ``devstack``
+
+2. Take the latest pull of images ::
+
+    make dev.pull
+
+3. Run mongo5 upgrade script, already added to devstack repo ::
+
+    ./upgrade_mongo_5_0.sh
+
 2023-10-05 - MySQL upgrade from version 5.7 to 8.0
 **************************************************
 
