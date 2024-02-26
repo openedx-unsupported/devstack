@@ -480,7 +480,14 @@ dev.dbcopy8.%: ## Copy data from old mysql 5.7 container into a new 8 db
 	rm .dev/$*.sql
 
 dev.dbshell.%: ## Run a SQL shell on the given database.
-	docker compose exec mysql80 bash -c "mysql $*"
+	docker compose exec mysql80 bash -c "pmysql $*"
+
+dev.mysqldumpall:
+	docker compose exec mysql80 mysqldump --all-databases > .dev/devstackall.sql
+
+dev.mysqlrestoredump: dev.up.mysql80
+	sleep 10 # give it time
+	docker compose exec -T mysql80 mysql < .dev/devstackall.sql
 
 # List of Makefile targets to run static asset generation, in the form dev.static.$(service)
 # Services will only have their asset generation added here
