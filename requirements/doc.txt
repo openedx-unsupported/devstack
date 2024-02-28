@@ -58,7 +58,7 @@ pytz==2024.1
     # via babel
 pyyaml==6.0.1
     # via -r requirements/base.txt
-readme-renderer==42.0
+readme-renderer==43.0
     # via -r requirements/doc.in
 requests==2.31.0
     # via sphinx
@@ -87,11 +87,11 @@ sphinxcontrib-qthelp==1.0.3
     # via sphinx
 sphinxcontrib-serializinghtml==1.1.5
     # via sphinx
-stevedore==5.1.0
+stevedore==5.2.0
     # via doc8
 tomli==2.0.1
     # via doc8
-typing-extensions==4.9.0
+typing-extensions==4.10.0
     # via pydata-sphinx-theme
 urllib3==2.2.1
     # via requests
