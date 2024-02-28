@@ -8,7 +8,7 @@ build==1.0.3
     # via
     #   -r requirements/pip-tools.txt
     #   pip-tools
-cachetools==5.3.2
+cachetools==5.3.3
     # via tox
 chardet==5.2.0
     # via tox
@@ -68,7 +68,7 @@ pyproject-hooks==1.0.0
     #   -r requirements/pip-tools.txt
     #   build
     #   pip-tools
-pytest==8.0.1
+pytest==8.0.2
     # via -r requirements/test.txt
 pyyaml==6.0.1
     # via
@@ -86,7 +86,7 @@ tomli==2.0.1
     #   tox
 tox==4.13.0
     # via -r requirements/dev.in
-virtualenv==20.25.0
+virtualenv==20.25.1
     # via tox
 wheel==0.42.0
     # via
