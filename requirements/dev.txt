@@ -4,7 +4,7 @@
 #
 #    make upgrade
 #
-build==1.0.3
+build==1.1.1
     # via
     #   -r requirements/pip-tools.txt
     #   pip-tools
@@ -84,7 +84,7 @@ tomli==2.0.1
     #   pyproject-hooks
     #   pytest
     #   tox
-tox==4.13.0
+tox==4.14.0
     # via -r requirements/dev.in
 virtualenv==20.25.1
     # via tox
