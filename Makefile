@@ -236,17 +236,17 @@ dev.mysqlrestoredump: dev.up.mysql80
 
  ## Write all data volumes to the host, except for mysql, just use mysqldump
 dev.backup: dev.up.mongo+elasticsearch710+opensearch12+coursegraph dev.mysqldumpall
-	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.mongo) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/mongo.tar.gz /data/db
-	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.elasticsearch710) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/elasticsearch710.tar.gz /usr/share/elasticsearch/data
-	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.opensearch12) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/opensearch12.tar.gz /usr/share/opensearch/data
-	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.coursegraph) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/coursegraph.tar.gz /data
+	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.mongo) -v $$(pwd)/.dev/backups:/backup arm64v8/debian:latest tar zcvf /backup/mongo.tar.gz /data/db
+	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.elasticsearch710) -v $$(pwd)/.dev/backups:/backup arm64v8/debian:latest tar zcvf /backup/elasticsearch710.tar.gz /usr/share/elasticsearch/data
+	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.opensearch12) -v $$(pwd)/.dev/backups:/backup arm64v8/debian:latest tar zcvf /backup/opensearch12.tar.gz /usr/share/opensearch/data
+	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.coursegraph) -v $$(pwd)/.dev/backups:/backup arm64v8/debian:latest tar zcvf /backup/coursegraph.tar.gz /data
 
  ## Restore all data volumes from the host. WILL OVERWRITE ALL EXISTING DATA!
 dev.restore: dev.up.mongo+elasticsearch710+opensearch12+coursegraph dev.mysqlrestoredump
-	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.mongo) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/mongo.tar.gz
-	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.elasticsearch710) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/elasticsearch710.tar.gz
-	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.opensearch12) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/opensearch12.tar.gz
-	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.coursegraph) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/coursegraph.tar.gz
+	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.mongo) -v $$(pwd)/.dev/backups:/backup arm64v8/debian:latest tar zxvf /backup/mongo.tar.gz
+	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.elasticsearch710) -v $$(pwd)/.dev/backups:/backup arm64v8/debian:latest tar zxvf /backup/elasticsearch710.tar.gz
+	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.opensearch12) -v $$(pwd)/.dev/backups:/backup arm64v8/debian:latest tar zxvf /backup/opensearch12.tar.gz
+	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.coursegraph) -v $$(pwd)/.dev/backups:/backup arm64v8/debian:latest tar zxvf /backup/coursegraph.tar.gz
 
 # List of Makefile targets to run database migrations, in the form dev.migrate.$(service)
 # Services will only have their migrations added here
