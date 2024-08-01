@@ -165,6 +165,7 @@ html_theme = 'sphinx_book_theme'
 # documentation.
 #
 html_theme_options = {
+    "announcement": "Devstack is no longer supported by the Open edX community. See <a href='https://docs.tutor.edly.io/index.html'>Tutor</a> for the community-supported developer and installation environment.",
     "repository_url": "https://github.com/openedx/devstack",
     "repository_branch": "master",
     "path_to_docs": "docs/",
